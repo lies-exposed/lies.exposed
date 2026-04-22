@@ -53,7 +53,7 @@ describe("AreaIO", () => {
     it("should return Left since encode is not implemented", () => {
       const area = fc.sample(AreaArb, 1)[0];
       const entity = toAreaEntity(area);
-      const result = AreaIO.encodeSingle(entity as never);
+      const result = AreaIO.encodeSingle(entity);
       expect(E.isLeft(result)).toBe(true);
     });
   });

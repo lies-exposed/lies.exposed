@@ -32,7 +32,7 @@ export const toWorkerError = (e: unknown): WorkerError => {
         status: "500",
         meta: e.stack,
       },
-    } as IOError;
+    };
   }
 
   // For unknown types, create a generic error
@@ -45,7 +45,7 @@ export const toWorkerError = (e: unknown): WorkerError => {
       status: "500",
       meta: String(e),
     },
-  } as IOError;
+  };
 };
 
 export const report = (e: WorkerError): string => {

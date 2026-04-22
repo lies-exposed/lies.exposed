@@ -33,7 +33,7 @@ import { Equal, In, type FindOptionsWhere } from "typeorm";
 import { type RTE } from "../types.js";
 import { type CronJobTE } from "./cron-task.type.js";
 import { type WorkerContext } from "#context/context.js";
-import { type WorkerError, toWorkerError } from "#io/worker.error.js";
+import { toWorkerError } from "#io/worker.error.js";
 
 const processDoneJobBlockNoteResult =
   <E extends ActorEntity | GroupEntity | StoryEntity | EventV2Entity>(
@@ -103,12 +103,10 @@ const resolveToGroupIds = (values: unknown[]): RTE<UUID[]> =>
   );
 
 const normalizeEventPayload = (result: unknown): RTE<unknown> => {
-  if (!result || typeof result !== "object")
-    return fp.RTE.of(result) as RTE<unknown>;
+  if (!result || typeof result !== "object") return fp.RTE.of(result);
   const r = result as Record<string, unknown>;
   const payload = r.payload;
-  if (!payload || typeof payload !== "object")
-    return fp.RTE.of(result) as RTE<unknown>;
+  if (!payload || typeof payload !== "object") return fp.RTE.of(result);
   const p = payload as Record<string, unknown>;
 
   const actorValues: unknown[] = Array.isArray(p.actors) ? p.actors : [];
@@ -118,7 +116,7 @@ const normalizeEventPayload = (result: unknown): RTE<unknown> => {
     actorValues.some((v) => !Schema.is(UUID)(v)) ||
     groupValues.some((v) => !Schema.is(UUID)(v));
 
-  if (!needsResolution) return fp.RTE.of(result) as RTE<unknown>;
+  if (!needsResolution) return fp.RTE.of(result);
 
   return pipe(
     resolveToActorIds(actorValues),
@@ -141,9 +139,7 @@ const processDoneJobEventResult =
           (_ctx) => {
             const decoded = Schema.decodeUnknownEither(Event)(normalizedResult);
             if (fp.E.isLeft(decoded)) {
-              return fp.TE.left(
-                DecodeError.of("Event", decoded.left) as WorkerError,
-              );
+              return fp.TE.left(DecodeError.of("Event", decoded.left));
             }
             return fp.TE.right(decoded.right);
           },

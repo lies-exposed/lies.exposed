@@ -353,7 +353,7 @@ describe("Chat Controller E2E", () => {
               try {
                 await stopAppServer(server);
                 resolve();
-              } catch (err) {
+              } catch (err: any) {
                 await stopAppServer(server);
                 reject(err as Error);
               }

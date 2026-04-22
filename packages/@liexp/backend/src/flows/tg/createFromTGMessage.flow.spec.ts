@@ -118,7 +118,7 @@ describe(createFromTGMessage.name, () => {
       fp.TE.right(mockPage),
     );
 
-    vi.mocked(MessageParser).mockReturnValue(makeParser() as any);
+    vi.mocked(MessageParser).mockReturnValue(makeParser());
 
     const result = await pipe(
       createFromTGMessage(message, mockMetadata)(appTest.ctx),
@@ -150,7 +150,7 @@ describe(createFromTGMessage.name, () => {
       fp.TE.right(mockPage),
     );
 
-    vi.mocked(MessageParser).mockReturnValue(makeParser() as any);
+    vi.mocked(MessageParser).mockReturnValue(makeParser());
 
     const result = await pipe(
       createFromTGMessage(message, mockMetadata)(appTest.ctx),
@@ -185,7 +185,7 @@ describe(createFromTGMessage.name, () => {
         parseVideo: () => fp.TE.right([mediaId2]),
         parsePDFURLs: () => () => fp.TE.right([pdfId]),
         parsePlatformMedia: () => () => fp.TE.right([platformId]),
-      }) as any,
+      }),
     );
 
     const result = await pipe(
@@ -215,7 +215,7 @@ describe(createFromTGMessage.name, () => {
       fp.TE.right(mockPage),
     );
 
-    vi.mocked(MessageParser).mockReturnValue(makeParser() as any);
+    vi.mocked(MessageParser).mockReturnValue(makeParser());
 
     const result = await pipe(
       createFromTGMessage(message, mockMetadata)(appTest.ctx),
@@ -288,7 +288,7 @@ describe(createFromTGMessage.name, () => {
       makeParser({
         parseURLs: () => () =>
           fp.TE.left({ name: "TGError", message: "parse error" } as any),
-      }) as any,
+      }),
     );
 
     const te = createFromTGMessage(message, mockMetadata)(appTest.ctx);

@@ -34,7 +34,7 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "effect": "^3.21.1",
-    "eslint": "^10.2.0",
+    "eslint": "^10.2.1",
     "fp-ts": "^2.16.10",
     "typescript": "^5.9.3",
     "vitest": "^4.1.4"

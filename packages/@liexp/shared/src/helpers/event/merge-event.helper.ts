@@ -1,7 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { type BookPayload } from "@liexp/io/lib/http/Events/Book.js";
 import { type DeathPayload } from "@liexp/io/lib/http/Events/Death.js";
 import { type DocumentaryPayload } from "@liexp/io/lib/http/Events/Documentary.js";
 import {
@@ -97,7 +96,7 @@ const mergeEntitiesIntoPayloadByType = (
         authors: actors.map((a) => makeBySubjectId("Actor", a)),
         publisher: undefined,
         media: { pdf: media[0], audio: undefined },
-      } as BookPayload;
+      };
     default:
       return basePayload as unknown as Event["payload"];
   }

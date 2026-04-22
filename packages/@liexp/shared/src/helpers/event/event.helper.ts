@@ -541,7 +541,7 @@ export const transform = (
       return {
         ...e,
         ...event,
-      } as Events.Event;
+      };
     }),
   );
 };

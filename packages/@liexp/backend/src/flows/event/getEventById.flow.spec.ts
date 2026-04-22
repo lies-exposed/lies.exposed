@@ -98,9 +98,9 @@ describe(getEventById.name, () => {
     const eventWithRelations = new EventV2Entity();
     eventWithRelations.id = eventId;
     eventWithRelations.type = "Uncategorized";
-    eventWithRelations.links = [linkId] as any;
-    eventWithRelations.media = [mediaId] as any;
-    eventWithRelations.keywords = [keywordId] as any;
+    eventWithRelations.links = [linkId];
+    eventWithRelations.media = [mediaId];
+    eventWithRelations.keywords = [keywordId];
 
     mockTERightOnce(appTest.ctx.db.findOneOrFail, () => eventWithRelations);
 

@@ -3,7 +3,6 @@ import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import fc from "fast-check";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
-import type { ActorRelationEntity } from "../../entities/ActorRelation.entity.js";
 import { toActorEntity } from "../../test/utils/entities/index.js";
 import { ActorRelationIO } from "../actorRelation.io.js";
 
@@ -40,18 +39,14 @@ describe("ActorRelationIO", () => {
   describe("decodeSingle", () => {
     it("should decode an actor relation entity to ActorRelation HTTP type", () => {
       const entity = makeActorRelationEntity();
-      const result = ActorRelationIO.decodeSingle(
-        entity as unknown as ActorRelationEntity,
-      );
+      const result = ActorRelationIO.decodeSingle(entity);
       expect(E.isRight(result)).toBe(true);
     });
 
     it("should preserve actor relation id in decoded result", () => {
       const id = uuid();
       const entity = makeActorRelationEntity({ id });
-      const result = ActorRelationIO.decodeSingle(
-        entity as unknown as ActorRelationEntity,
-      );
+      const result = ActorRelationIO.decodeSingle(entity);
       expect(E.isRight(result)).toBe(true);
       if (E.isRight(result)) {
         expect(result.right.id).toBe(id);
@@ -60,33 +55,25 @@ describe("ActorRelationIO", () => {
 
     it("should decode actor relation with SPOUSE type", () => {
       const entity = makeActorRelationEntity({ type: "SPOUSE" });
-      const result = ActorRelationIO.decodeSingle(
-        entity as unknown as ActorRelationEntity,
-      );
+      const result = ActorRelationIO.decodeSingle(entity);
       expect(E.isRight(result)).toBe(true);
     });
 
     it("should decode actor relation with PARTNER type", () => {
       const entity = makeActorRelationEntity({ type: "PARTNER" });
-      const result = ActorRelationIO.decodeSingle(
-        entity as unknown as ActorRelationEntity,
-      );
+      const result = ActorRelationIO.decodeSingle(entity);
       expect(E.isRight(result)).toBe(true);
     });
 
     it("should decode actor relation with null endDate", () => {
       const entity = makeActorRelationEntity({ endDate: null });
-      const result = ActorRelationIO.decodeSingle(
-        entity as unknown as ActorRelationEntity,
-      );
+      const result = ActorRelationIO.decodeSingle(entity);
       expect(E.isRight(result)).toBe(true);
     });
 
     it("should decode multiple actor relations via decodeMany", () => {
       const entities = [makeActorRelationEntity(), makeActorRelationEntity()];
-      const result = ActorRelationIO.decodeMany(
-        entities as unknown as ActorRelationEntity[],
-      );
+      const result = ActorRelationIO.decodeMany(entities);
       expect(E.isRight(result)).toBe(true);
       if (E.isRight(result)) {
         expect(result.right.length).toBe(2);
@@ -97,7 +84,7 @@ describe("ActorRelationIO", () => {
   describe("encodeSingle", () => {
     it("should return Left since encode is not implemented", () => {
       const entity = makeActorRelationEntity();
-      const result = ActorRelationIO.encodeSingle(entity as never);
+      const result = ActorRelationIO.encodeSingle(entity);
       expect(E.isLeft(result)).toBe(true);
     });
   });

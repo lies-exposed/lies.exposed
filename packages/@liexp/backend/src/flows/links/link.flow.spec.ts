@@ -44,7 +44,7 @@ describe("link.flow", () => {
         fp.TE.right({
           title,
           description,
-          url: url as string,
+          url: url,
           image: null,
           keywords: ["test", "keyword"],
           icon: "",
@@ -82,7 +82,7 @@ describe("link.flow", () => {
         fp.TE.right({
           title: "Fetched Title",
           description: "Fetched Description",
-          url: url as string,
+          url: url,
           image: null,
           keywords: [],
         }),
@@ -131,7 +131,7 @@ describe("link.flow", () => {
         fp.TE.right({
           title,
           description: "Description",
-          url: url as string,
+          url: url,
           image: imageUrl,
           keywords: [],
         }),
@@ -165,7 +165,7 @@ describe("link.flow", () => {
         fp.TE.right({
           title,
           description: "Description",
-          url: url as string,
+          url: url,
           image: imageUrl,
           keywords: [],
         }),
@@ -196,7 +196,7 @@ describe("link.flow", () => {
         fp.TE.right({
           title: "Article Title",
           description: "Description",
-          url: url as string,
+          url: url,
           image: null,
           date: publishDate,
           keywords: [],
@@ -252,7 +252,7 @@ describe("link.flow", () => {
         fp.TE.right({
           title,
           description: "New link description",
-          url: url as string,
+          url: url,
           image: null,
           keywords: [],
           icon: "",

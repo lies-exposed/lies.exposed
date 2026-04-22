@@ -81,7 +81,7 @@ describe("Create Media", () => {
     Test.mocks.axios.get.mockResolvedValueOnce({
       status: 200,
       data: {},
-    } as any);
+    });
 
     Test.mocks.redis.publish.mockResolvedValue(1);
 
@@ -144,7 +144,7 @@ describe("Create Media", () => {
     Test.mocks.axios.get.mockResolvedValueOnce({
       status: 200,
       data: {},
-    } as any);
+    });
 
     Test.mocks.redis.publish.mockResolvedValue(1);
 
@@ -203,7 +203,7 @@ describe("Create Media", () => {
     Test.mocks.axios.get.mockResolvedValueOnce({
       status: 200,
       data: {},
-    } as any);
+    });
 
     Test.mocks.redis.publish.mockResolvedValue(1);
 

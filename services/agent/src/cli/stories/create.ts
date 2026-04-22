@@ -17,7 +17,7 @@ export const storyCreate = makeCommand(
         draft: input.draft ?? true,
         creator: input.creator ?? null,
         featuredImage: input.featuredImage ?? null,
-        body: [] as any,
+        body: [],
         keywords: input.keywords ?? [],
         actors: input.actors ?? [],
         groups: input.groups ?? [],

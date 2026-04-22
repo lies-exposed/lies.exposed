@@ -166,7 +166,7 @@ export const effectToZod = <A>(schema: Schema.Schema<A>): z.ZodType<A> => {
             const elements = ast.elements.map((type) =>
               convert(type as AnySchema),
             );
-            const rest = ast.rest ? convert(ast.rest as AnySchema) : [];
+            const rest = ast.rest ? convert(ast.rest) : [];
             const arrayRest = Array.isArray(rest) ? rest : [];
 
             return z.tuple([...elements, ...arrayRest] as [

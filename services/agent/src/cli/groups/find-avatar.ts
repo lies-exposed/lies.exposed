@@ -1,5 +1,4 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type MediaType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
@@ -38,7 +37,7 @@ Output: JSON created media object (use .data.id as the avatar UUID)
           Body: {
             id: undefined,
             location: imageUrl,
-            type: "image/jpg" as MediaType,
+            type: "image/jpg",
             label: `${name} Avatar`,
             description: `Logo/image for ${name} from Wikipedia`,
             thumbnail: undefined,

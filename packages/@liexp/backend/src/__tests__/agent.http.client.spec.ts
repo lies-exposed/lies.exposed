@@ -21,7 +21,7 @@ describe("agent.http.client", () => {
     signUser: vi.fn(),
     verifyClient: vi.fn(),
     verifyUser: vi.fn(),
-  } as any;
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();

@@ -48,7 +48,7 @@ describe("LinkIO", () => {
     it("should return Left since encode is not implemented", () => {
       const link = fc.sample(LinkArb, 1)[0];
       const entity = toLinkEntity(link);
-      const result = LinkIO.encodeSingle(entity as never);
+      const result = LinkIO.encodeSingle(entity);
       expect(E.isLeft(result)).toBe(true);
     });
   });

@@ -35,7 +35,7 @@ describe("authAxios.client", () => {
     signUser: vi.fn((_payload: any) => () => "user-token-456"),
     verifyClient: vi.fn(),
     verifyUser: vi.fn(),
-  } as any;
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();

@@ -22,7 +22,7 @@ export const MakeQueueCreateRoute: Route = (r, ctx) => {
           error: null,
           status: PendingStatus.literals[0],
           result: fp.O.toNullable(result),
-        } as Omit<Queue, "createdAt" | "updatedAt" | "deletedAt">),
+        }),
         LoggerService.RTE.debug((job) => [
           "Create queue ( %s %s) => %O",
           resource,

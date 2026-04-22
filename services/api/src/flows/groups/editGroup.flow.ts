@@ -60,23 +60,20 @@ export const editGroup = (input: EditGroupInput): TEReader<Group> => {
         (m): m is Exclude<(typeof memberList)[number], typeof UUID.Type> =>
           typeof m !== "string",
       );
-      const newEntities = newStructs.map(
-        (member) =>
-          ({
-            id: uuid(),
-            ...member,
-            body: O.getOrNull(member.body),
-            startDate: member.startDate,
-            events: [],
-            deletedAt: null,
-            updatedAt: new Date(),
-            createdAt: new Date(),
-            excerpt: O.getOrNull(member.body),
-            endDate: O.getOrNull(member.endDate),
-            actor: { id: member.actor } as ActorEntity,
-            group: { id } as GroupEntity,
-          }) as GroupMemberEntity,
-      );
+      const newEntities = newStructs.map((member) => ({
+        id: uuid(),
+        ...member,
+        body: O.getOrNull(member.body),
+        startDate: member.startDate,
+        events: [],
+        deletedAt: null,
+        updatedAt: new Date(),
+        createdAt: new Date(),
+        excerpt: O.getOrNull(member.body),
+        endDate: O.getOrNull(member.endDate),
+        actor: { id: member.actor } as ActorEntity,
+        group: { id } as GroupEntity,
+      }));
 
       const loadExisting =
         stringIds.length > 0

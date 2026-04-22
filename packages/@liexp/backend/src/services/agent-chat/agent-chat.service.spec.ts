@@ -28,7 +28,7 @@ const createMockContext = (): AgentChatServiceTestContext => {
 
   return {
     logger: logger as any,
-    agent: agent as any,
+    agent: agent,
   };
 };
 

@@ -60,7 +60,7 @@ const mapStatusToAPIStatusCode = (
 
 export const fromIOError = (e: IOError): APIError => {
   return {
-    status: mapStatusToAPIStatusCode(e.status, e.details.kind as ErrorKind),
+    status: mapStatusToAPIStatusCode(e.status, e.details.kind),
     name: "APIError",
     message: e.message,
     details: detailsToStrings(e.details),

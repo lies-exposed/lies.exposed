@@ -54,7 +54,7 @@ export const fromURL =
       TE.orElse((_e) =>
         TE.right<ServerError, Partial<Metadata>>({
           keywords: [],
-          url: url as string,
+          url: url,
         }),
       ),
       TE.map((m) => ({

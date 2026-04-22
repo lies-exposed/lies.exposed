@@ -96,7 +96,7 @@ describe(buildActorRelationTree.name, () => {
 
     // PARENT_CHILD: actor = parent, relatedActor = child
     const relation = new ActorRelationEntity();
-    relation.type = "PARENT_CHILD" as any;
+    relation.type = "PARENT_CHILD";
     relation.actor = parent;
     relation.relatedActor = child;
 
@@ -141,7 +141,7 @@ describe(buildActorRelationTree.name, () => {
 
     // PARENT_CHILD: actor = parent, relatedActor = actor(child)
     const relation = new ActorRelationEntity();
-    relation.type = "PARENT_CHILD" as any;
+    relation.type = "PARENT_CHILD";
     relation.actor = parent;
     relation.relatedActor = actor;
 
@@ -179,7 +179,7 @@ describe(buildActorRelationTree.name, () => {
     actor2.fullName = "Spouse Two";
 
     const relation = new ActorRelationEntity();
-    relation.type = "SPOUSE" as any;
+    relation.type = "SPOUSE";
     relation.actor = actor1;
     relation.relatedActor = actor2;
 
@@ -242,13 +242,13 @@ describe(buildActorRelationTree.name, () => {
 
     // GP → P: grandparent is parent of parent
     const rel1 = new ActorRelationEntity();
-    rel1.type = "PARENT_CHILD" as any;
+    rel1.type = "PARENT_CHILD";
     rel1.actor = grandparent;
     rel1.relatedActor = parent;
 
     // P → C: parent is parent of child
     const rel2 = new ActorRelationEntity();
-    rel2.type = "PARENT_CHILD" as any;
+    rel2.type = "PARENT_CHILD";
     rel2.actor = parent;
     rel2.relatedActor = child;
 

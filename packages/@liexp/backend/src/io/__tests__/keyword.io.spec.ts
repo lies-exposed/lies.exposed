@@ -71,7 +71,7 @@ describe("KeywordIO", () => {
     it("should return Left since encode is not implemented", () => {
       const keyword = fc.sample(KeywordArb, 1)[0];
       const entity = toKeywordEntity(keyword);
-      const result = KeywordIO.encodeSingle(entity as never);
+      const result = KeywordIO.encodeSingle(entity);
       expect(E.isLeft(result)).toBe(true);
     });
   });

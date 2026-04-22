@@ -45,7 +45,7 @@ export const mockedContext = <C extends Record<string, any>>(
   ConfigContext &
   ENVContext<any> => ({
   ...ctx,
-  env: process.env as any,
+  env: process.env,
   logger: GetLogger("test"),
   config: testConfig,
 });
