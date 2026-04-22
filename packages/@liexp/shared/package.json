@@ -16,12 +16,12 @@
     "assets"
   ],
   "scripts": {
-    "typecheck": "tsc",
-    "build": "tsc -b tsconfig.build.json",
+    "typecheck": "tsgo",
+    "build": "tsgo -b tsconfig.build.json",
     "clean": "rm -rf lib",
     "lint": "eslint --cache src",
     "test": "vitest",
-    "watch": "tsc -b -w"
+    "watch": "tsgo -b -w"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
@@ -46,6 +46,7 @@
     "@types/lodash": "^4.17.24",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
+    "@typescript/native-preview": "7.0.0-dev.20260430.1",
     "axios": "^1.15.2",
     "effect": "^3.21.2",
     "eslint": "^10.4.0",
@@ -53,7 +54,6 @@
     "fp-ts": "^2.16.10",
     "pdfjs-dist": "^5.7.284",
     "react-admin": "^5.14.6",
-    "typescript": "^6.0.3",
     "vitest": "^4.1.7",
     "vitest-mock-extended": "^4.0.0"
   },

@@ -102,14 +102,14 @@ The most common missing build that causes lint/typecheck failures is:
 pnpm --filter @liexp/eslint-config build
 ```
 
-This package must be built before `tsc -b` can resolve it from tsconfig `references`.
+This package must be built before `tsgo -b` can resolve it from tsconfig `references`.
 All packages and services that have an `eslint.config.js` importing from `@liexp/eslint-config`
 need this to be present.
 
 ## What you CAN do in a worktree without `.env.local`
 
 - Edit source files
-- Run `pnpm typecheck` (uses tsc, no runtime env needed)
+- Run `pnpm typecheck` (uses tsgo, no runtime env needed)
 - Run `pnpm lint` / `pnpm lint --fix` (after building `@liexp/eslint-config`)
 - Run pure unit tests that mock all external dependencies
 - Commit and push

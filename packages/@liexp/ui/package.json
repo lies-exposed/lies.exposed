@@ -17,12 +17,12 @@
     "assets"
   ],
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "build": "tsc -b tsconfig.build.json",
+    "typecheck": "tsgo --noEmit",
+    "build": "tsgo -b tsconfig.build.json",
     "clean": "rm -rf lib",
     "lint": "eslint --cache src",
     "test": "vitest",
-    "watch": "tsc -b -w"
+    "watch": "tsgo -b -w"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
@@ -125,13 +125,13 @@
     "@types/throttle-debounce": "^5.0.2",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
+    "@typescript/native-preview": "7.0.0-dev.20260430.1",
     "axios": "^1.15.2",
     "effect": "^3.21.2",
     "eslint": "^10.4.0",
     "fp-ts": "^2.16.10",
     "jsdom": "^29.1.1",
     "openai": "^6.36.0",
-    "typescript": "^6.0.3",
     "vite": "^8.0.14",
     "vitest": "^4.1.7"
   },

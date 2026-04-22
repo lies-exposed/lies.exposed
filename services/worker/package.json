@@ -21,8 +21,8 @@
     "config"
   ],
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "build": "tsc -b tsconfig.build.json",
+    "typecheck": "tsgo --noEmit",
+    "build": "tsgo -b tsconfig.build.json",
     "clean": "rm -rf build",
     "dev": "node --watch build/run.js",
     "docker:dev": "node --watch build/run.js",
@@ -34,8 +34,8 @@
     "test": "vitest",
     "test:e2e": "vitest --project worker-e2e",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",
-    "watch": "tsc -b ./tsconfig.build.json --watch",
-    "watch:dev": "tsc -b --watch",
+    "watch": "tsgo -b ./tsconfig.build.json --watch",
+    "watch:dev": "tsgo -b --watch",
     "pkg": "./scripts/pkg.sh"
   },
   "lint-staged": {
@@ -81,8 +81,8 @@
     "@types/lodash": "^4.17.24",
     "@types/node-telegram-bot-api": "^0.64.14",
     "@types/prompts": "^2.4.9",
+    "@typescript/native-preview": "7.0.0-dev.20260430.1",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.3",
     "vitest": "^4.1.7"
   },
   "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"

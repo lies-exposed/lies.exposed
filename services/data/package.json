@@ -6,7 +6,7 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "scripts": {
     "bucket:pull": "aws s3 sync s3://econnessione-alpha/public ./buckets/public --endpoint https://fra1.digitaloceanspaces.com/",
-    "build": "tsc -b",
+    "build": "tsgo -b",
     "clean": "rm -rf build",
     "clean:data": "rm -rf ./public/media/actors ./public/media/groups ./public/media/images",
     "develop": "DOTENV_CONFIG_PATH=../../.env.local node --import tsx/esm -r dotenv/config src/serve.ts",
@@ -17,7 +17,7 @@
     "tsx:dev": "DOTENV_CONFIG_PATH=../../.env.local node -r tsx/cjs -r dotenv/config",
     "vaccines:download": "pnpm tsx:dev ./src/vaccines/download",
     "vaccines:parse": "pnpm tsx:dev ./src/vaccines/parse",
-    "watch": "tsc -b --watch"
+    "watch": "tsgo -b --watch"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
