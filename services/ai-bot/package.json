@@ -52,11 +52,11 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "devDependencies": {
-    "@liexp/eslint-config": "workspace:*",
     "@esbuild/aix-ppc64": "^0.28.0",
+    "@liexp/eslint-config": "workspace:*",
     "@types/node": "^24.12.2",
     "esbuild": "^0.27.4",
-    "eslint": "^10.2.0",
+    "eslint": "^10.2.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
