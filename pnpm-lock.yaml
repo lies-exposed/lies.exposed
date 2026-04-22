@@ -35,8 +35,8 @@ importers:
         specifier: ^4.1.4
         version: 4.1.4(vitest@4.1.4)
       corepack:
-        specifier: ^0.34.5
-        version: 0.34.5
+        specifier: ^0.34.7
+        version: 0.34.7
       eslint:
         specifier: ^10.2.0
         version: 10.2.0(jiti@2.6.1)
@@ -6095,8 +6095,8 @@ packages:
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
-  corepack@0.34.5:
-    resolution: {integrity: sha512-G+ui7ZUxTzgwRc45pi7OhOybKFnGpxVDp0khf+eFdw/gcQmZfme4nUh4Z4URY9YPoaZYP86zNZmqV/T2Bf5/rA==}
+  corepack@0.34.7:
+    resolution: {integrity: sha512-d5OLuTNh4zeJK8+u+G10KScqrnHKNNm6NvR4XO28FZyBFMGE60SNCrBetJLyKR9H1xGCG6U2LyswsyPNdO6kxw==}
     engines: {node: ^20.10.0 || ^22.11.0 || >=24.0.0}
     hasBin: true
 
@@ -16069,7 +16069,7 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  corepack@0.34.5: {}
+  corepack@0.34.7: {}
 
   cors@2.8.6:
     dependencies:

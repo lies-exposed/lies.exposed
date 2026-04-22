@@ -47,7 +47,7 @@
     "@commitlint/config-conventional": "^20.5.0",
     "@types/node": "^24.12.2",
     "@vitest/coverage-v8": "^4.1.4",
-    "corepack": "^0.34.5",
+    "corepack": "^0.34.7",
     "eslint": "^10.2.0",
     "husky": "^9.1.7",
     "knip": "^6.6.0",
