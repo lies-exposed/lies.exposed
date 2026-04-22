@@ -55,7 +55,7 @@
     "@esbuild/aix-ppc64": "^0.28.0",
     "@liexp/eslint-config": "workspace:*",
     "@types/node": "^24.12.2",
-    "esbuild": "^0.27.4",
+    "esbuild": "^0.28.0",
     "eslint": "^10.2.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
