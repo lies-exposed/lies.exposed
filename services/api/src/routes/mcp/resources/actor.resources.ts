@@ -8,7 +8,7 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import {
   ResourceTemplate,
   type McpServer,
-} from "@modelcontextprotocol/sdk/server/mcp.js";
+} from "@modelcontextprotocol/sdk/server/mcp";
 import * as O from "effect/Option";
 import { type ServerContext } from "../../../context/context.type.js";
 

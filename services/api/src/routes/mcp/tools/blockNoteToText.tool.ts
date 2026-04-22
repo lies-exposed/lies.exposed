@@ -3,7 +3,7 @@ import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.j
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
-import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp";
 import { Schema } from "effect";
 
 export const registerBlockNoteTools = (server: McpServer) => {
