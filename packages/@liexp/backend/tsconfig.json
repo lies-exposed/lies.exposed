@@ -1,7 +1,10 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "lib": ["DOM", "ESNext"],
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
     "noEmit": false,
     "composite": true,
     "incremental": true,
@@ -14,15 +17,22 @@
     "strictPropertyInitialization": false,
     "outDir": "./lib",
     "rootDir": "./src",
-    "tsBuildInfoFile": "lib/.tsbuildinfo",
-    "paths": {
-      "*": ["./src/*"]
-    }
+    "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
-  "include": ["./src", "./typings", "../shared/typings", "./src/**/*.json"],
-  "exclude": ["node_modules", "lib"],
+  "include": [
+    "./src",
+    "./typings",
+    "../shared/typings",
+    "./src/**/*.json"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib"
+  ],
   "references": [
-    { "path": "../eslint-config" },
+    {
+      "path": "../eslint-config"
+    },
     {
       "path": "../core"
     },

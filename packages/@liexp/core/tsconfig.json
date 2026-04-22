@@ -7,7 +7,10 @@
     "allowSyntheticDefaultImports": true,
     "importHelpers": false,
     "moduleResolution": "bundler",
-    "lib": ["DOM", "ESNext"],
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
     "jsx": "react-jsx",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
@@ -15,14 +18,21 @@
     "outDir": "./lib",
     "rootDir": "./src",
     "tsBuildInfoFile": "lib/.tsbuildinfo",
-    "typeRoots": ["../../../node_modules/@types"],
-    "paths": {
-      "*": ["./src/*"]
-    }
+    "typeRoots": [
+      "../../../node_modules/@types"
+    ]
   },
-  "include": ["./src", "./typings"],
-  "exclude": ["node_modules", "lib"],
+  "include": [
+    "./src",
+    "./typings"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib"
+  ],
   "references": [
-    { "path": "../eslint-config" }
+    {
+      "path": "../eslint-config"
+    }
   ]
 }

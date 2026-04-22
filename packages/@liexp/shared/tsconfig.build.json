@@ -8,12 +8,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "rootDir": "./src",
-    "tsBuildInfoFile": "lib/.build.tsbuildinfo",
-    "paths": {
-      "*": [
-        "./src/*"
-      ],
-    }
+    "tsBuildInfoFile": "lib/.build.tsbuildinfo"
   },
   "include": [
     "./src",
