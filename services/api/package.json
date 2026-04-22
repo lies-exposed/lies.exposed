@@ -49,7 +49,7 @@
     "test:e2e": "vitest --project api-e2e",
     "test:spec": "vitest --project api-spec",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",
-    "typeorm-ts": "TSX_TSCONFIG_PATH=tsconfig.build.json node --require tsx/cjs --require dotenv/config ../../node_modules/typeorm/cli.js",
+    "typeorm-ts": "TSX_TSCONFIG_PATH=tsconfig.build.json node --require tsx/cjs --require dotenv/config ../../node_modules/.bin/typeorm",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "watch:dev": "tsc -b --watch"
   },
