@@ -213,7 +213,7 @@ export const MessageParser = <C extends MessageParserContext>(
     parsePDFURLs: (_creator) => (ctx) =>
       pipe(
         parsePDFURLs<C>(pdfURLs)(ctx),
-        TE.mapLeft((e) => e as unknown as TGError),
+        TE.mapLeft((e) => e),
       ),
     parsePlatformMedia: (p, creator) =>
       pipe(

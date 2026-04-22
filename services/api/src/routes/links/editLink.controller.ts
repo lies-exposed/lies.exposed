@@ -97,7 +97,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
             ...body,
             url: pipe(url, O.map(sanitizeURL), O.toUndefined),
             title: O.toUndefined(title),
-            description: O.toUndefined(description as O.Option<string>),
+            description: O.toUndefined(description),
             publishDate: O.toUndefined(publishDate),
             provider: O.toUndefined(provider),
             image: O.isNone(image)
@@ -195,7 +195,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                     image: (linkUpdate.image !== undefined
                       ? linkUpdate.image
                       : l.image) as MediaEntity | UUID | null,
-                  } as unknown as LinkEntity),
+                  }),
                 ),
               );
             }),

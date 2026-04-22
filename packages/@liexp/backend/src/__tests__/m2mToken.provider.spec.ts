@@ -20,7 +20,7 @@ describe("m2mToken.provider", () => {
     signUser: vi.fn(),
     verifyClient: vi.fn(),
     verifyUser: vi.fn(),
-  } as any;
+  };
 
   const mockConfig = {
     id: "service-client-id-123" as any,

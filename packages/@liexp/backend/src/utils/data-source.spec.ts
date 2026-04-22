@@ -55,8 +55,8 @@ describe("data-source", () => {
 
     it("should allow overrides to take precedence over base config", () => {
       const config = createORMConfig(
-        { type: "postgres", host: "original-host" } as DataSourceOptions,
-        { host: "override-host" } as Partial<DataSourceOptions>,
+        { type: "postgres", host: "original-host" },
+        { host: "override-host" },
       ) as { host?: string };
       expect(config.host).toBe("override-host");
     });

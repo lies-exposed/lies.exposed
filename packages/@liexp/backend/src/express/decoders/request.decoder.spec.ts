@@ -1,6 +1,5 @@
 import * as logger from "@liexp/core/lib/logger/index.js";
 import type { UserEncoded } from "@liexp/io/lib/http/User.js";
-import type { AuthPermission } from "@liexp/io/lib/http/auth/permissions/index.js";
 import type { ServiceClient } from "@liexp/io/lib/http/auth/service-client/ServiceClient.js";
 import type { Request } from "express";
 import * as E from "fp-ts/lib/Either.js";
@@ -90,7 +89,7 @@ describe("RequestDecoder", () => {
       const ctx = makeCtx();
 
       const result = RequestDecoder.decodeUserFromRequest(req, [
-        "admin:create" as AuthPermission,
+        "admin:create",
       ])(ctx)();
       expect(E.isRight(result)).toBe(true);
     });
@@ -101,7 +100,7 @@ describe("RequestDecoder", () => {
       const ctx = makeCtx();
 
       const result = RequestDecoder.decodeUserFromRequest(req, [
-        "admin:delete" as AuthPermission,
+        "admin:delete",
       ])(ctx)();
       expect(E.isLeft(result)).toBe(true);
     });

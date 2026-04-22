@@ -159,7 +159,7 @@ describe("imgproc.provider", () => {
         const client = MakeImgProcClient({
           logger: mockLogger as any,
           client: mockClient as any,
-          exifR: mockExifR as any,
+          exifR: mockExifR,
         });
 
         const result = await client.run((_s) =>
@@ -174,7 +174,7 @@ describe("imgproc.provider", () => {
         const client = MakeImgProcClient({
           logger: mockLogger as any,
           client: mockClient as any,
-          exifR: mockExifR as any,
+          exifR: mockExifR,
         });
 
         const result = await client.run(() => {
@@ -197,7 +197,7 @@ describe("imgproc.provider", () => {
         const client = MakeImgProcClient({
           logger: mockLogger as any,
           client: mockClient as any,
-          exifR: mockExifR as any,
+          exifR: mockExifR,
         });
 
         const result = await client.readExif("test.jpg", {})();
@@ -215,7 +215,7 @@ describe("imgproc.provider", () => {
         const client = MakeImgProcClient({
           logger: mockLogger as any,
           client: mockClient as any,
-          exifR: mockExifR as any,
+          exifR: mockExifR,
         });
 
         const result = await client.readExif("invalid.jpg", {})();

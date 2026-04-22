@@ -18,7 +18,7 @@ describe("redis.provider", () => {
       mockRedis.connect.mockResolvedValue(undefined);
 
       const result = await GetRedisClient({
-        client: () => mockRedis as Redis,
+        client: () => mockRedis,
         connect: true,
       })();
 
@@ -34,7 +34,7 @@ describe("redis.provider", () => {
       const mockRedis = mockDeep<Redis>();
 
       const result = await GetRedisClient({
-        client: () => mockRedis as Redis,
+        client: () => mockRedis,
         connect: false,
       })();
 
@@ -50,7 +50,7 @@ describe("redis.provider", () => {
       );
 
       const result = await GetRedisClient({
-        client: () => mockRedis as Redis,
+        client: () => mockRedis,
         connect: false,
       })();
 
@@ -69,7 +69,7 @@ describe("redis.provider", () => {
       );
 
       const result = await GetRedisClient({
-        client: () => mockRedis as Redis,
+        client: () => mockRedis,
         connect: false,
       })();
 
@@ -86,7 +86,7 @@ describe("redis.provider", () => {
       mockRedis.get.mockResolvedValue("test-value");
 
       const result = await GetRedisClient({
-        client: () => mockRedis as Redis,
+        client: () => mockRedis,
         connect: false,
       })();
 
@@ -106,7 +106,7 @@ describe("redis.provider", () => {
       mockRedis.set.mockResolvedValue("OK");
 
       const result = await GetRedisClient({
-        client: () => mockRedis as Redis,
+        client: () => mockRedis,
         connect: false,
       })();
 
@@ -126,7 +126,7 @@ describe("redis.provider", () => {
       mockRedis.get.mockResolvedValue(null);
 
       const result = await GetRedisClient({
-        client: () => mockRedis as Redis,
+        client: () => mockRedis,
         connect: false,
       })();
 
@@ -149,7 +149,7 @@ describe("redis.provider", () => {
       mockRedis.set.mockResolvedValue("OK");
 
       const result = await GetRedisClient({
-        client: () => mockRedis as Redis,
+        client: () => mockRedis,
         connect: false,
       })();
 

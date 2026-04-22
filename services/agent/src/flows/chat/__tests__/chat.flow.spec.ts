@@ -279,11 +279,7 @@ describe("processStreamEvent", () => {
 
   test("on_chat_model_stream emits content_delta for string content", () => {
     const event = chatModelEvent("hello");
-    const [events, nextState] = processStreamEvent(
-      event as any,
-      state(),
-      "msg-1",
-    );
+    const [events, nextState] = processStreamEvent(event, state(), "msg-1");
     expect(events).toHaveLength(1);
     expect(events[0].type).toBe("content_delta");
     expect(events[0].content).toBe("hello");
@@ -292,7 +288,7 @@ describe("processStreamEvent", () => {
 
   test("on_chat_model_stream skips supervisor events", () => {
     const event = chatModelEvent("platform", { supervisorNode: true });
-    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    const [events] = processStreamEvent(event, state(), "msg-1");
     expect(events).toHaveLength(0);
   });
 
@@ -300,14 +296,14 @@ describe("processStreamEvent", () => {
     const event = chatModelEvent("hi", {
       usageMeta: { input_tokens: 10, output_tokens: 5 },
     });
-    const [, nextState] = processStreamEvent(event as any, state(), "msg-1");
+    const [, nextState] = processStreamEvent(event, state(), "msg-1");
     expect(nextState.tokens.promptTokens).toBe(10);
     expect(nextState.tokens.completionTokens).toBe(5);
   });
 
   test("on_chat_model_stream ignores empty string content", () => {
     const event = chatModelEvent("");
-    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    const [events] = processStreamEvent(event, state(), "msg-1");
     expect(events).toHaveLength(0);
   });
 
@@ -315,7 +311,7 @@ describe("processStreamEvent", () => {
     const event = toolStartEvent("liexp_cli", {
       command: "actor list --_start 0",
     });
-    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    const [events] = processStreamEvent(event, state(), "msg-1");
     expect(events).toHaveLength(1);
     expect(events[0].type).toBe("tool_call_start");
     expect(events[0].tool_call?.name).toBe("liexp_cli");
@@ -325,7 +321,7 @@ describe("processStreamEvent", () => {
 
   test("on_tool_end emits tool_call_end with string output", () => {
     const event = toolEndEvent("liexp_cli", "actor results here");
-    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    const [events] = processStreamEvent(event, state(), "msg-1");
     expect(events).toHaveLength(1);
     expect(events[0].type).toBe("tool_call_end");
     expect(events[0].tool_call?.result).toBe("actor results here");
@@ -333,7 +329,7 @@ describe("processStreamEvent", () => {
 
   test("on_tool_end serializes non-string output", () => {
     const event = toolEndEvent("liexp_cli", [{ id: "1", name: "Actor A" }]);
-    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    const [events] = processStreamEvent(event, state(), "msg-1");
     expect(typeof events[0].tool_call?.result).toBe("string");
     expect(events[0].tool_call?.result).toContain("Actor A");
   });
@@ -346,7 +342,7 @@ describe("processStreamEvent", () => {
       data: {},
       metadata: {},
     };
-    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    const [events] = processStreamEvent(event, state(), "msg-1");
     expect(events).toHaveLength(0);
   });
 });
@@ -784,7 +780,7 @@ describe("chat.flow", () => {
       for await (const e of sendChatMessageStream({
         message: "test",
         conversation_id: null,
-        agent_type: "platform" as any,
+        agent_type: "platform",
       })(ctx)) {
         events.push(e);
       }

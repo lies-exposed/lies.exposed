@@ -36,7 +36,7 @@ const transform = <EE extends SearchEvent.SearchEvent>(
 
   return pipe(
     transformedEvent,
-    fp.O.map((te) => ({ ...event, ...te }) as SearchEvent.SearchEvent),
+    fp.O.map((te) => ({ ...event, ...te })),
   );
 };
 

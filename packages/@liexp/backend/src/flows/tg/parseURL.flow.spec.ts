@@ -115,7 +115,7 @@ describe(parseURLs.name, () => {
     const existingLink = new LinkEntity();
     existingLink.id = linkId;
     existingLink.url = "https://example.com/article" as any;
-    existingLink.image = null as any;
+    existingLink.image = null;
 
     const validUrl = "https://example.com/article" as any;
 
@@ -219,7 +219,7 @@ describe(parseURLs.name, () => {
     const newLink = new LinkEntity();
     newLink.id = linkId;
     newLink.url = "https://example.com/screenshot-fail" as any;
-    newLink.image = null as any;
+    newLink.image = null;
 
     const validUrl = "https://example.com/screenshot-fail" as any;
 

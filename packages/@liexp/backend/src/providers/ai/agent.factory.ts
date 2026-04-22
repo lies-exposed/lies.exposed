@@ -445,8 +445,7 @@ export const GetAgentFactory =
         },
         options: {
           chat: (mergedConfig.options ?? {}) as never,
-          embeddings: (ctx.langchain.options.options?.embeddings ??
-            {}) as never,
+          embeddings: ctx.langchain.options.options?.embeddings ?? {},
         },
       });
     };

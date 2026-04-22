@@ -170,7 +170,7 @@ export const mergeActor = (input: MergeActorInput): TEReader<Actor> => {
                       ...target,
                       nationalities: [
                         ...(target.nationalities ?? []),
-                        ...newNationIds.map((id) => ({ id }) as { id: UUID }),
+                        ...newNationIds.map((id) => ({ id })),
                       ],
                     },
                   ]);

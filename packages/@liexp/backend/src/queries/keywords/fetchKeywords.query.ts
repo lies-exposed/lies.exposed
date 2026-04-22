@@ -1,6 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/io/lib/index.js";
-import { type Schema } from "effect";
 import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -18,8 +17,8 @@ const defaultQuery: http.Keyword.GetKeywordListQuery = {
   ids: O.none(),
   q: O.none(),
   events: O.none(),
-  _end: O.some(20 as typeof Schema.Int.Type),
-  _start: O.some(0 as typeof Schema.Int.Type),
+  _end: O.some(20),
+  _start: O.some(0),
   _order: O.some("DESC"),
   _sort: O.some("createdAt"),
 };

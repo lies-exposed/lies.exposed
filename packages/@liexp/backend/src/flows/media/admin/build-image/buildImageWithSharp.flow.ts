@@ -130,7 +130,7 @@ const addMediaImageLayer =
         return [
           {
             blend: layer.blend as Blend,
-            gravity: layer.gravity as Gravity,
+            gravity: layer.gravity,
             input: buf,
             left: 0,
             top: 0,

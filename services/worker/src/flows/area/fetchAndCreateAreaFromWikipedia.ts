@@ -62,7 +62,7 @@ export const fetchAndCreateAreaFromWikipedia = (
           updatedAt: new Date(),
         } as NewAreaData,
         media: featuredMedia
-          ? ({
+          ? {
               thumbnail: undefined,
               type: contentTypeFromFileExt(featuredMedia),
               location: featuredMedia,
@@ -76,7 +76,7 @@ export const fetchAndCreateAreaFromWikipedia = (
               deletedAt: undefined,
               createdAt: new Date(),
               updatedAt: new Date(),
-            } as DeepPartial<MediaEntity>)
+            }
           : undefined,
       };
     }),

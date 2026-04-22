@@ -103,7 +103,7 @@ const inlineRelationsPluginSerializer = (
       return pipe(
         pp.props?.id,
         fp.O.fromNullable,
-        fp.O.map((id) => [{ id, type: "event" as InlineRelation["type"] }]),
+        fp.O.map((id) => [{ id, type: "event" }]),
       );
     }
     case "numberedListItem":

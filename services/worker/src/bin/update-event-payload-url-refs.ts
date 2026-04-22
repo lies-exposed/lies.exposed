@@ -57,15 +57,15 @@ export const updateEventPayloadURLRefs: CommandFlow = async (ctx) => {
               switch (e.type) {
                 case "ScientificStudy": {
                   const payload = e.payload as ScientificStudyPayload;
-                  return payload.url as unknown as string | undefined;
+                  return payload.url;
                 }
                 case "Patent": {
                   const payload = e.payload as PatentPayload;
-                  return payload.source as unknown as string | undefined;
+                  return payload.source;
                 }
                 case "Documentary": {
                   const payload = e.payload as DocumentaryPayload;
-                  return payload.website as unknown as string | undefined;
+                  return payload.website;
                 }
                 default: {
                   return undefined;
