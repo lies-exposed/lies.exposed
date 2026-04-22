@@ -24,15 +24,16 @@
       "../../packages/@liexp/shared/typings",
       "../../packages/@liexp/ui/typings",
       "../../packages/@liexp/backend/typings",
+      "../../node_modules/@types",
     ],
-    "baseUrl": "./src",
     "rootDir": "./",
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
     "paths": {
+      "*": ["./src/*"],
       "@client/*": [
-        "./client/*"
+        "./src/client/*"
       ]
     }
   },

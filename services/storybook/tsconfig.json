@@ -13,22 +13,47 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "lib": ["dom", "ES2023", "DOM.Iterable"],
+    "lib": [
+      "dom",
+      "ES2023",
+      "DOM.Iterable"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "typeRoots": ["../../node_modules/@types", "./node_modules/@types", "./typings"],
-    "baseUrl": "./",
+    "typeRoots": [
+      "../../node_modules/@types",
+      "./node_modules/@types",
+      "./typings"
+    ],
     "rootDir": "./",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "*": [
+        "./src/*"
+      ]
+    }
   },
-  "include": [".storybook/*", "src", "typings"],
-  "exclude": ["./node_modules", "build", "public", "eslint.config.js"],
+  "include": [
+    ".storybook/*",
+    "src",
+    "typings"
+  ],
+  "exclude": [
+    "./node_modules",
+    "build",
+    "public",
+    "eslint.config.js"
+  ],
   "references": [
-    { "path": "../../packages/@liexp/eslint-config" },
+    {
+      "path": "../../packages/@liexp/eslint-config"
+    },
     {
       "path": "../../packages/@liexp/core"
     },
-    { "path": "../../packages/@liexp/io" },
+    {
+      "path": "../../packages/@liexp/io"
+    },
     {
       "path": "../../packages/@liexp/shared"
     },

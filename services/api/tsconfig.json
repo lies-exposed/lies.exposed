@@ -3,7 +3,6 @@
   "compilerOptions": {
     "noEmit": false,
     "outDir": "./build",
-    "baseUrl": "./src",
     "jsx": "react-jsx",
     "rootDir": "./",
     "lib": [
@@ -20,40 +19,45 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
-    "allowSyntheticDefaultImports": false,
+    "typeRoots": [
+      "../../node_modules/@types",
+      "../../packages/@liexp/shared/typings",
+      "../../packages/@liexp/backend/typings",
+    ],
     "paths": {
+      "*": ["./src/*"],
       "#app/*": [
-        "./app/*"
+        "./src/app/*"
       ],
       "#context/*": [
-        "./context/*"
+        "./src/context/*"
       ],
       "#flows/*": [
-        "./flows/*"
+        "./src/flows/*"
       ],
       "#io/*": [
-        "./io/*"
+        "./src/io/*"
       ],
       "#jobs/*": [
-        "./jobs/*"
+        "./src/jobs/*"
       ],
       "#providers/*": [
-        "providers/*"
+        "./src/providers/*"
       ],
       "#queries/*": [
-        "queries/*"
+        "./src/queries/*"
       ],
       "#routes/*": [
-        "./routes/*"
+        "./src/routes/*"
       ],
       "#services/*": [
-        "./services/*"
+        "./src/services/*"
       ],
       "#types/*": [
-        "./types/*"
+        "./src/types/*"
       ],
       "#utils/*": [
-        "./utils/*"
+        "./src/utils/*"
       ]
     }
   },

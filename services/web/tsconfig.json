@@ -10,7 +10,10 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "lib": ["DOM", "EsNext"],
+    "lib": [
+      "DOM",
+      "EsNext"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "typeRoots": [
@@ -20,19 +23,33 @@
     ],
     "importHelpers": false,
     "tsBuildInfoFile": "build/.tsbuildinfo",
-    "baseUrl": "./src",
     "rootDir": "./",
     "paths": {
-      "@containers/*": ["./client/containers/*"]
+      "*": [
+        "./src/*"
+      ],
+      "@containers/*": [
+        "./src/client/containers/*"
+      ]
     }
   },
-  "include": ["./src", "./test", "./typings", "eslint.config.js", "vite.config.ts"],
+  "include": [
+    "./src",
+    "./test",
+    "./typings",
+    "eslint.config.js",
+    "vite.config.ts"
+  ],
   "references": [
-    { "path": "../../packages/@liexp/eslint-config" },
+    {
+      "path": "../../packages/@liexp/eslint-config"
+    },
     {
       "path": "../../packages/@liexp/core"
     },
-    { "path": "../../packages/@liexp/io" },
+    {
+      "path": "../../packages/@liexp/io"
+    },
     {
       "path": "../../packages/@liexp/shared"
     },

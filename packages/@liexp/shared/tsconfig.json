@@ -13,9 +13,11 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "outDir": "./lib",
-    "baseUrl": "./src",
     "rootDir": "./",
-    "tsBuildInfoFile": "lib/.tsbuildinfo"
+    "tsBuildInfoFile": "lib/.tsbuildinfo",
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
   "references": [
     { "path": "../eslint-config" },

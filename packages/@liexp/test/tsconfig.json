@@ -4,21 +4,30 @@
     "composite": true,
     "incremental": true,
     "noEmit": false,
-    "lib": ["DOM", "ESNext"],
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
     "jsx": "react-jsx",
     "target": "es6",
     "module": "ESNext",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "outDir": "./lib",
-    "baseUrl": "./src",
     "rootDir": "./src",
     "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
-  "include": ["./src"],
-  "exclude": ["node_modules", "lib"],
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib"
+  ],
   "references": [
-    { "path": "../eslint-config" },
+    {
+      "path": "../eslint-config"
+    },
     {
       "path": "../core"
     },

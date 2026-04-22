@@ -1,7 +1,10 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "lib": ["DOM", "ESNext"],
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
     "jsx": "react-jsx",
     "target": "esnext",
     "moduleResolution": "bundler",
@@ -12,13 +15,22 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "outDir": "./lib",
-    "baseUrl": "./src",
-    "rootDir": "./src",
-    "typeRoots": ["../shared/typings", "./typings"],
-    "tsBuildInfoFile": "lib/.tsbuildinfo"
+    "rootDir": "./",
+    "typeRoots": [
+      "../shared/typings",
+      "./typings"
+    ],
+    "tsBuildInfoFile": "lib/.tsbuildinfo",
+    "paths": {
+      "*": [
+        "./src/*"
+      ]
+    }
   },
   "references": [
-    { "path": "../eslint-config" },
+    {
+      "path": "../eslint-config"
+    },
     {
       "path": "../core"
     },
@@ -36,5 +48,8 @@
     "./src/**/*.json",
     "eslint.config.js"
   ],
-  "exclude": ["node_modules", "lib"]
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
 }

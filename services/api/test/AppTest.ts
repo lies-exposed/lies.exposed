@@ -2,10 +2,9 @@ import * as path from "path";
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
-import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
+import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
-
 import {
   type DatabaseClient,
   GetTypeORMClient,
@@ -36,7 +35,7 @@ export interface AppTest {
   req: TestAgent<supertest.Test>;
 }
 
-const loadAppContext = async (
+const loadAppContext = (
   logger: Logger,
   database: string,
   dbOverride?: DatabaseClient,

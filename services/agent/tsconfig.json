@@ -3,18 +3,18 @@
   "compilerOptions": {
     "outDir": "./build",
     "rootDir": "./",
-    "baseUrl": "./src",
     "moduleResolution": "bundler",
     "module": "ESNext",
     "target": "ES2022",
     "skipLibCheck": true,
     "paths": {
-      "#context/*": ["./context/*"],
-      "#flows/*": ["./flows/*"],
-      "#io/*": ["./io/*"],
-      "#routes/*": ["./routes/*"],
-      "#cli/*": ["./cli/*"],
-      "#tools/*": ["./tools/*"]
+      "*": ["./src/*"],
+      "#context/*": ["./src/context/*"],
+      "#flows/*": ["./src/flows/*"],
+      "#io/*": ["./src/io/*"],
+      "#routes/*": ["./src/routes/*"],
+      "#cli/*": ["./src/cli/*"],
+      "#tools/*": ["./src/tools/*"]
     }
   },
   "include": ["src/**/*", "test/**/*"],
