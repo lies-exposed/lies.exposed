@@ -880,8 +880,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
       '@sentry/react':
-        specifier: ^10.47.0
-        version: 10.47.0(react@18.3.1)
+        specifier: ^10.50.0
+        version: 10.50.0(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.99.2
         version: 5.99.2(react@18.3.1)
@@ -1491,8 +1491,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
       '@sentry/react':
-        specifier: ^10.47.0
-        version: 10.47.0(react@18.3.1)
+        specifier: ^10.50.0
+        version: 10.50.0(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.99.2
         version: 5.99.2(react@18.3.1)
@@ -4404,32 +4404,32 @@ packages:
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
-  '@sentry-internal/browser-utils@10.47.0':
-    resolution: {integrity: sha512-bVFRAeJWMBcBCvJKIFCMJ1/yQToL4vPGqfmlnDZeypcxkqUDKQ/Y3ziLHXoDL2sx0lagcgU2vH1QhCQ67Aujjw==}
+  '@sentry-internal/browser-utils@10.50.0':
+    resolution: {integrity: sha512-42bxyRTxnCmYlWnvz4CxikuQNanw8UNma2WJrtxJ0f1MAJV2GhQGSHDLnA+lvFlmiz6qct3pfen/NXGyOTegTA==}
     engines: {node: '>=18'}
 
-  '@sentry-internal/feedback@10.47.0':
-    resolution: {integrity: sha512-pdvMmi4dQpX5S/vAAzrhHPIw3T3HjUgDNgUiCBrlp7N9/6zGO2gNPhUnNekP+CjgI/z0rvf49RLqlDenpNrMOg==}
+  '@sentry-internal/feedback@10.50.0':
+    resolution: {integrity: sha512-0k9XZF0wn86f77mIO2U3gNNyDZooy139CnEanRzHinrN106vVzvBZ6TUEQoHtoO1fqQxr+nWWVrqV/PXUqk47w==}
     engines: {node: '>=18'}
 
-  '@sentry-internal/replay-canvas@10.47.0':
-    resolution: {integrity: sha512-A5OY8friSe6g8WAK4L8IeOPiEd9D3Ps40DzRH5j2f6SUja0t90mKMvHRcRf8zq0d4BkdB+JM7tjOkwxpuv8heA==}
+  '@sentry-internal/replay-canvas@10.50.0':
+    resolution: {integrity: sha512-jx6RKBmcJSWdI92qDGS/sBv1w+7Cww879Z/moX7bw7ipHa/Ts3iDcB3rgZwvhmi17U+mvYsbJeL2DXkPo3TjPw==}
     engines: {node: '>=18'}
 
-  '@sentry-internal/replay@10.47.0':
-    resolution: {integrity: sha512-ScdovxP7hJxgMt70+7hFvwT02GIaIUAxdEM/YPsayZBeCoAukPW8WiwztJfoKtsfPyKJ5A6f0H3PIxTPcA9Row==}
+  '@sentry-internal/replay@10.50.0':
+    resolution: {integrity: sha512-51FYNfnvVLAWw1rrEWPFfwHuMRb9mkVCFGA4J9/un7SpeGBsQDziGB0Di4fsCxI7+EdSBpfLHPF0csKtCCw0oQ==}
     engines: {node: '>=18'}
 
-  '@sentry/browser@10.47.0':
-    resolution: {integrity: sha512-rC0agZdxKA5XWfL4VwPOr/rJMogXDqZgnVzr93YWpFn9DMZT/7LzxSJVPIJwRUjx3bFEby3PcTa3YaX7pxm1AA==}
+  '@sentry/browser@10.50.0':
+    resolution: {integrity: sha512-1f6rAvET6myiTaSeYqvaaBwvq1LfxqWjAPIoAW/NVC9bPMkeEcuvgDajHrnZMrBeWoJ81NMyoLkyX+iOc7MoFA==}
     engines: {node: '>=18'}
 
   '@sentry/core@10.43.0':
     resolution: {integrity: sha512-l0SszQAPiQGWl/ferw8GP3ALyHXiGiRKJaOvNmhGO+PrTQyZTZ6OYyPnGijAFRg58dE1V3RCH/zw5d2xSUIiNg==}
     engines: {node: '>=18'}
 
-  '@sentry/core@10.47.0':
-    resolution: {integrity: sha512-nsYRAx3EWezDut+Zl+UwwP07thh9uY7CfSAi2whTdcJl5hu1nSp2z8bba7Vq/MGbNLnazkd3A+GITBEML924JA==}
+  '@sentry/core@10.50.0':
+    resolution: {integrity: sha512-J4A+vzUO3adl0TkFCjaN1+4miamrjHiEIYuLHiuu1lmAjq5WIVw32ObvAh4yMwNtxyaEMosTrrh5M6f12XSJFg==}
     engines: {node: '>=18'}
 
   '@sentry/node-core@10.43.0':
@@ -4473,8 +4473,8 @@ packages:
       '@opentelemetry/sdk-trace-base': ^1.30.1 || ^2.1.0
       '@opentelemetry/semantic-conventions': ^1.39.0
 
-  '@sentry/react@10.47.0':
-    resolution: {integrity: sha512-ZtJV6xxF8jUVE9e3YQUG3Do0XapG1GjniyLyqMPgN6cNvs/HaRJODf7m60By+VGqcl5XArEjEPTvx8CdPUXDfA==}
+  '@sentry/react@10.50.0':
+    resolution: {integrity: sha512-MZHYjEZAtFIa4zPrWS4oXlo+gMppRvfETqUqF920Sj2jN2U7WjboU03lDmjfDqEcH7QiwjQyl13jHd2nwAyrrw==}
     engines: {node: '>=18'}
     peerDependencies:
       react: ^16.14.0 || 17.x || 18.x || 19.x
@@ -14110,35 +14110,35 @@ snapshots:
   '@rtsao/scc@1.1.0':
     optional: true
 
-  '@sentry-internal/browser-utils@10.47.0':
+  '@sentry-internal/browser-utils@10.50.0':
     dependencies:
-      '@sentry/core': 10.47.0
+      '@sentry/core': 10.50.0
 
-  '@sentry-internal/feedback@10.47.0':
+  '@sentry-internal/feedback@10.50.0':
     dependencies:
-      '@sentry/core': 10.47.0
+      '@sentry/core': 10.50.0
 
-  '@sentry-internal/replay-canvas@10.47.0':
+  '@sentry-internal/replay-canvas@10.50.0':
     dependencies:
-      '@sentry-internal/replay': 10.47.0
-      '@sentry/core': 10.47.0
+      '@sentry-internal/replay': 10.50.0
+      '@sentry/core': 10.50.0
 
-  '@sentry-internal/replay@10.47.0':
+  '@sentry-internal/replay@10.50.0':
     dependencies:
-      '@sentry-internal/browser-utils': 10.47.0
-      '@sentry/core': 10.47.0
+      '@sentry-internal/browser-utils': 10.50.0
+      '@sentry/core': 10.50.0
 
-  '@sentry/browser@10.47.0':
+  '@sentry/browser@10.50.0':
     dependencies:
-      '@sentry-internal/browser-utils': 10.47.0
-      '@sentry-internal/feedback': 10.47.0
-      '@sentry-internal/replay': 10.47.0
-      '@sentry-internal/replay-canvas': 10.47.0
-      '@sentry/core': 10.47.0
+      '@sentry-internal/browser-utils': 10.50.0
+      '@sentry-internal/feedback': 10.50.0
+      '@sentry-internal/replay': 10.50.0
+      '@sentry-internal/replay-canvas': 10.50.0
+      '@sentry/core': 10.50.0
 
   '@sentry/core@10.43.0': {}
 
-  '@sentry/core@10.47.0': {}
+  '@sentry/core@10.50.0': {}
 
   '@sentry/node-core@10.43.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.6.0(@opentelemetry/api@1.9.0))(@opentelemetry/core@2.6.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.211.0(@opentelemetry/api@1.9.0))(@opentelemetry/resources@2.6.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.6.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.40.0)':
     dependencies:
@@ -14203,10 +14203,10 @@ snapshots:
       '@opentelemetry/semantic-conventions': 1.40.0
       '@sentry/core': 10.43.0
 
-  '@sentry/react@10.47.0(react@18.3.1)':
+  '@sentry/react@10.50.0(react@18.3.1)':
     dependencies:
-      '@sentry/browser': 10.47.0
-      '@sentry/core': 10.47.0
+      '@sentry/browser': 10.50.0
+      '@sentry/core': 10.50.0
       react: 18.3.1
 
   '@shikijs/types@4.0.2':
