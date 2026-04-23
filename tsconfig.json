@@ -25,6 +25,7 @@
       "node_modules/vitest/globals",
       "packages/@liexp/*/typings",
     ],
+    "rootDir": "./",
     "paths": {
       "@liexp/core/*": [
         "./packages/@liexp/core/src/*"

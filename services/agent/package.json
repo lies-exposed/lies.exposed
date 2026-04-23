@@ -65,7 +65,7 @@
     "prompts": "^2.4.2",
     "puppeteer-core": "^24.42.0",
     "puppeteer-extra": "^3.3.6",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",

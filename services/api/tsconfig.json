@@ -22,44 +22,8 @@
     "typeRoots": [
       "../../node_modules/@types",
       "../../packages/@liexp/shared/typings",
-      "../../packages/@liexp/backend/typings",
-    ],
-    "paths": {
-      "*": ["./src/*"],
-      "#app/*": [
-        "./src/app/*"
-      ],
-      "#context/*": [
-        "./src/context/*"
-      ],
-      "#flows/*": [
-        "./src/flows/*"
-      ],
-      "#io/*": [
-        "./src/io/*"
-      ],
-      "#jobs/*": [
-        "./src/jobs/*"
-      ],
-      "#providers/*": [
-        "./src/providers/*"
-      ],
-      "#queries/*": [
-        "./src/queries/*"
-      ],
-      "#routes/*": [
-        "./src/routes/*"
-      ],
-      "#services/*": [
-        "./src/services/*"
-      ],
-      "#types/*": [
-        "./src/types/*"
-      ],
-      "#utils/*": [
-        "./src/utils/*"
-      ]
-    }
+      "../../packages/@liexp/backend/typings"
+    ]
   },
   "include": [
     "./src",
@@ -73,7 +37,9 @@
     "**/lib"
   ],
   "references": [
-    { "path": "../../packages/@liexp/eslint-config" },
+    {
+      "path": "../../packages/@liexp/eslint-config"
+    },
     {
       "path": "../../packages/@liexp/core"
     },
