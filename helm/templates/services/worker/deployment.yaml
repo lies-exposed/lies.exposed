@@ -36,10 +36,10 @@ spec:
           name: worker
           resources:
             limits:
-              memory: 768Mi
+              memory: 512Mi
               cpu: 500m
             requests:
-              memory: 384Mi
+              memory: 256Mi
               cpu: 200m
           volumeMounts:
             - name: db-ca-certificate-crt

@@ -91,10 +91,6 @@ storybook:
   minioBucket: storybook
   nginxLogVolumePath: /home/node/storybook/logs
 
-localai:
-  modelsHostPath: /home/node/localai-models
-  openAIApiKey: no-key-is-a-good-key
-
 bugsink:
   enabled: true
   domain: "bugsink.liexp.dev"

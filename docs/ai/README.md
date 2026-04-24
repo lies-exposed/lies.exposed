@@ -37,7 +37,7 @@ See [Agent Service](../services/agent.md) for details.
 | **OpenAI** | Primary LLM processing | `OPENAI_API_KEY` |
 | **Anthropic** | Claude model support | `ANTHROPIC_API_KEY` |
 | **xAI** | Grok model support | `XAI_API_KEY` |
-| **LocalAI** | Local model deployment | Service URL in config |
+| **LocalAI** | Self-hosted model deployment (external, `ai.ascariandrea.it`) | `OPENAI_BASE_URL` + `OPENAI_API_KEY` |
 
 ## MCP Integration
 

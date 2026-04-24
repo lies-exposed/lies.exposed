@@ -7,7 +7,7 @@
     "url": "http://agent.liexp.dev/v1"
   },
   "localAi": {
-    "url": "https://ai.lies.exposed/v1",
+    "url": "https://ai.ascariandrea.it/v1",
     "apiKey": "no-key-is-a-good-key",
     "models": {
       "summarize": "gpt-4o",

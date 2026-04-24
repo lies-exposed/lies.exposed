@@ -227,8 +227,6 @@ services:
       timeout: 20s
       retries: 10
       start_period: 15s
-    # depends_on:
-    #   - localai.liexp.dev
     volumes:
       - agent-node-modules:/usr/src/app/node_modules
       - ./tsconfig.json:/usr/src/app/tsconfig.json
@@ -239,49 +237,6 @@ services:
       - reverseproxy
     depends_on:
       - api.liexp.dev
-
-  localai.liexp.dev:
-    # CPU-only (no GPU acceleration):
-    image: localai/localai:latest
-    # Intel GPU (SYCL-enabled llama-cpp + diffusers):
-    # image: localai/localai:master-gpu-intel
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/readyz"]
-      interval: 1m
-      timeout: 20m
-      retries: 5
-    tty: true
-    environment:
-      DEBUG: true
-      REBUILD: true
-      VIRTUAL_HOST: localai.liexp.dev
-      VIRTUAL_PORT: 80
-      LOCALAI_ADDRESS: ":80"
-      LOCALAI_API_KEY: no-key-is-a-good-key
-      # LOCALAI_CORS: 0
-      LOCALAI_SINGLE_ACTIVE_BACKEND: "true"
-      # Intel GPU optimization settings
-      SYCL_DEVICE_FILTER: level_zero
-      NEOReadDebugKeys: 1
-      ClDeviceGlobalMemCacheType: 1
-    env_file:
-      - ./services/agent/.env
-      - ./services/agent/.env.local
-    volumes:
-      - ./localai/models:/models:cached
-      # Don't mount local backends - let the image use its own SYCL-compiled backends
-      # - ./localai/backends:/backends:cached
-      - localai-backends:/backends
-    devices:
-      # Intel GPU device access - required for hardware acceleration
-      - /dev/dri/card1:/dev/dri/card1
-      - /dev/dri/renderD128:/dev/dri/renderD128
-    networks:
-      - reverseproxy
-    cpu_count: 4
-    # gpus: all
-    # Increase memory limit for GPU workloads
-    mem_limit: 16G
 
   playwright-mcp.liexp.dev:
     image: mcr.microsoft.com/playwright:v1.58.2-noble
@@ -307,7 +262,6 @@ volumes:
   agent-node-modules: {}
   space-data: {}
   redis-data: {}
-  localai-backends: {}
 
 networks:
   reverseproxy:

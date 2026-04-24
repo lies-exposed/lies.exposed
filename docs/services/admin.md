@@ -151,7 +151,7 @@ VITE_PUBLIC_URL=http://admin.liexp.dev
 VITE_API_URL=http://api.liexp.dev/v1
 VITE_WEB_URL=http://liexp.dev
 VITE_AGENT_URL=http://agent.liexp.dev/v1
-VITE_OPENAI_URL=https://ai.lies.exposed/v1
+VITE_OPENAI_URL=https://ai.ascariandrea.it/v1
 ```
 
 ### Server Environment (`.env.server`)
