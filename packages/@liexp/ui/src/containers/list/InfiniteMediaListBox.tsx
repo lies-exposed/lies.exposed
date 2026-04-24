@@ -5,25 +5,36 @@ import MediaElement from "../../components/Media/MediaElement.js";
 import {
   InfiniteListBox,
   type InfiniteListBoxProps,
-  type ListType,
 } from "./InfiniteListBox/InfiniteListBox.js";
-import { type CellRendererProps } from "./InfiniteListBox/InfiniteMasonry.js";
+import {
+  type CellRendererProps,
+  type InfiniteMasonryProps,
+} from "./InfiniteListBox/InfiniteMasonry.js";
 
 type InfiniteMediaListBoxProps = Omit<
-  InfiniteListBoxProps<ListType, typeof Endpoints.Media.List>,
-  "useListQuery" | "toItems"
+  InfiniteListBoxProps<"masonry", typeof Endpoints.Media.List>,
+  "useListQuery" | "toItems" | "listProps"
 > & {
+  listProps?:
+    Partial<
+      Omit<
+        InfiniteMasonryProps,
+        "width" | "height" | "items" | "getItem" | "CellRenderer"
+      >
+    > & {
+      getItem?: (data: any[], index: number) => any;
+    };
   onMediaClick?: (media: Media.Media) => void;
 };
 
 export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
-  listProps,
+  listProps = {},
   onMediaClick,
   filter,
   ...props
 }) => {
   return (
-    <InfiniteListBox<typeof listProps.type, typeof Endpoints.Media.List>
+    <InfiniteListBox<"masonry", typeof Endpoints.Media.List>
       {...{
         filter,
         useListQuery: (Q) => Q.Media.list,

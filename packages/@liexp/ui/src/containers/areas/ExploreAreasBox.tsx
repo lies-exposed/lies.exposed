@@ -1,6 +1,6 @@
 import { type Area } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
-import { AutoSizer } from "react-virtualized";
+import { AutoSizer } from "../../components/utils/AutoSizer.js";
 import QueriesRenderer from "../../components/QueriesRenderer.js";
 import AreasMap from "../../components/area/AreasMap.js";
 import { AreaList } from "../../components/lists/AreaList.js";

@@ -2,7 +2,7 @@ import type * as io from "@liexp/io/lib/http/index.js";
 import { Masonry } from "@mui/lab";
 import { clsx } from "clsx";
 import * as React from "react";
-import { AutoSizer } from "react-virtualized";
+import { AutoSizer } from "../utils/AutoSizer.js";
 import { styled } from "../../theme/index.js";
 import { type ListItemProps } from "../Common/List.js";
 import MediaElement, { type MediaElementProps } from "../Media/MediaElement.js";

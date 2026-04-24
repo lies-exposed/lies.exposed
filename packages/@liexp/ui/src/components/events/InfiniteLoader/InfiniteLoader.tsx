@@ -1,12 +1,6 @@
 import { EventTotalsMonoid } from "@liexp/io/lib/http/Events/EventTotals.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import * as React from "react";
-import {
-  AutoSizer,
-  InfiniteLoader,
-  type Index,
-  type IndexRange,
-} from "react-virtualized";
 import { useAPI } from "../../../hooks/useAPI.js";
 import {
   searchEventsInfiniteQuery,
@@ -16,6 +10,7 @@ import { FullSizeLoader } from "../../Common/FullSizeLoader.js";
 import { type EventListItemProps } from "../../lists/EventList/EventListItem.js";
 import { type EventsTimelineListProps } from "../../lists/EventList/EventsTimelineList.js";
 import { Box } from "../../mui/index.js";
+import { AutoSizer } from "../../utils/AutoSizer.js";
 
 export interface EventsInfiniteLoaderProps extends Omit<
   EventListItemProps,
@@ -100,20 +95,27 @@ export const EventsInfiniteLoader: React.FC<EventsInfiniteLoaderProps> = (
     [searchEvents?.totals ?? {}],
   );
 
-  const isRowLoaded = (params: Index): boolean => {
-    const rowLoaded = searchEvents?.events[params.index] !== undefined;
-    return rowLoaded;
-  };
+  const maybeLoadMore = React.useCallback(
+    async ({ stopIndex }: { startIndex: number; stopIndex: number }) => {
+      if (!hasNextPage || isFetchingNextPage || isFetching || isRefetching) {
+        return;
+      }
 
-  const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
-    if (hasNextPage && !isFetchingNextPage && !isFetching) {
       const cacheSize = searchEvents?.events.length ?? 0;
-      if (params.startIndex >= cacheSize || params.stopIndex > cacheSize) {
+      const threshold = Math.max(cacheSize - 10, 0);
+      if (stopIndex >= threshold) {
         await fetchNextPage({});
       }
-    }
-    await Promise.resolve(undefined);
-  };
+    },
+    [
+      fetchNextPage,
+      hasNextPage,
+      isFetching,
+      isFetchingNextPage,
+      isRefetching,
+      searchEvents?.events.length,
+    ],
+  );
 
   React.useEffect(() => {
     void refetch({});
@@ -133,30 +135,22 @@ export const EventsInfiniteLoader: React.FC<EventsInfiniteLoaderProps> = (
         height: "100%",
       }}
     >
-      <InfiniteLoader
-        isRowLoaded={isRowLoaded}
-        loadMoreRows={handleLoadMoreRows}
-        rowCount={totalEvents}
-        minimumBatchSize={20}
-      >
-        {({ onRowsRendered, registerChild }) => (
-          <AutoSizer style={{ height: "100%" }}>
-            {({ width, height }) => {
-              return (
-                <List
-                  {...listProps}
-                  width={width}
-                  height={height}
-                  total={totalEvents}
-                  events={searchEvents}
-                  ref={registerChild}
-                  onRowsRendered={onRowsRendered}
-                />
-              );
-            }}
-          </AutoSizer>
-        )}
-      </InfiniteLoader>
+      <AutoSizer style={{ height: "100%" }}>
+        {({ width, height }) => {
+          return (
+            <List
+              {...listProps}
+              width={width}
+              height={height}
+              total={totalEvents}
+              events={searchEvents}
+              onRowsRendered={(range) => {
+                void maybeLoadMore(range);
+              }}
+            />
+          );
+        }}
+      </AutoSizer>
     </Box>
   );
 };

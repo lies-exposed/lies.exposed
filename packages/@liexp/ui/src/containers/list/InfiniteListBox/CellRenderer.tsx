@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { CellRendererProps } from "./InfiniteMasonry";
+import { type CellRendererProps } from "./InfiniteMasonry.js";
 
 export const CellRenderer = (
   children: (props: CellRendererProps) => React.JSX.Element,

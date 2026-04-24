@@ -5,7 +5,7 @@ import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
 import Feature from "ol/Feature.js";
 import * as React from "react";
-import { AutoSizer } from "react-virtualized";
+import { AutoSizer } from "../components/utils/AutoSizer.js";
 import Map from "../components/Map.js";
 import MediaElement from "../components/Media/MediaElement.js";
 import { AreaPageContent } from "../components/area/AreaPageContent.js";

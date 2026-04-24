@@ -1,7 +1,7 @@
 import { type Area } from "@liexp/io/lib/http/index.js";
 import Feature from "ol/Feature.js";
 import * as React from "react";
-import { AutoSizer } from "react-virtualized";
+import { AutoSizer } from "../utils/AutoSizer.js";
 import { geoJSONFormat } from "../../utils/map.utils.js";
 import Map, { type MapProps } from "../Map.js";
 

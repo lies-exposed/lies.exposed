@@ -3,26 +3,20 @@ import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import {
-  type EndpointParamsType,
+  type EndpointDataOutputType,
   type EndpointOutputType,
+  type EndpointParamsType,
   type EndpointQueryType,
   type MinimalEndpointInstance,
-  type EndpointDataOutputType,
 } from "@ts-endpoint/core";
 import {
   type EndpointsQueryProvider,
   type ResourceQuery,
 } from "@ts-endpoint/tanstack-query";
 import * as React from "react";
-import {
-  AutoSizer,
-  type CellMeasurerCache,
-  type Index,
-  InfiniteLoader,
-  type Masonry,
-} from "react-virtualized";
 import { ErrorBox } from "../../../components/Common/ErrorBox.js";
 import { FullSizeLoader } from "../../../components/Common/FullSizeLoader.js";
+import { AutoSizer } from "../../../components/utils/AutoSizer.js";
 import { useEndpointQueries } from "../../../hooks/useEndpointQueriesProvider.js";
 import { InfiniteList, type InfiniteListProps } from "./InfiniteList.js";
 import {
@@ -35,7 +29,7 @@ export type ListType = "masonry" | "list";
 type ListProps<T extends ListType> = T extends "masonry"
   ? { type: "masonry" } & Omit<
       InfiniteMasonryProps,
-      "width" | "height" | "items" | "cellMeasureCache"
+      "width" | "height" | "items"
     >
   : { type: "list" } & Omit<
       InfiniteListProps,
@@ -74,21 +68,12 @@ export const InfiniteListBox = <
   listProps,
   toItems = (r: EndpointDataOutputType<E>) => r.data,
   getTotal = (r: EndpointDataOutputType<E>) => r.total,
-  ..._rest
 }: InfiniteListBoxProps<T, E>): React.ReactElement => {
-  const [{ masonryRef, cellCache }, setMasonryRef] = React.useState<{
-    masonryRef: Masonry | null;
-    cellCache: CellMeasurerCache | null;
-  }>({
-    masonryRef: null,
-    cellCache: null,
-  });
-
   const Q = useEndpointQueries();
 
   const query = React.useMemo(() => {
     return useListQuery(Q);
-  }, [useListQuery]);
+  }, [Q, useListQuery]);
 
   const queryKey = query.getKey(params, filter, false, "infinite-list");
 
@@ -124,44 +109,42 @@ export const InfiniteListBox = <
         false,
       );
     },
-    getNextPageParam: (lastPage, allPages, lastPageParam, _allPageParams) => {
-      // console.log("get next params", {
-      //   lastPage,
-      //   allPages,
-      //   lastPageParam,
-      //   allPageParams,
-      // });
+    getNextPageParam: (_lastPage, _allPages, lastPageParam) => {
       return { _start: lastPageParam._end, _end: lastPageParam._end + 20 };
     },
   });
 
-  const isRowLoaded = (params: Index): boolean => {
-    const rowLoaded = items[params.index] !== undefined;
-    return rowLoaded;
-  };
-
   const { items, total } = React.useMemo(() => {
-    const items = (data?.pages ?? []).flatMap((p) => toItems(p));
-    const total = data?.pages?.[0] ? getTotal(data.pages[0]) : 0;
-    return { items, total };
-  }, [data, filter]);
+    const currentItems = (data?.pages ?? []).flatMap((p) => toItems(p));
+    const currentTotal = data?.pages?.[0] ? getTotal(data.pages[0]) : 0;
+    return { items: currentItems, total: currentTotal };
+  }, [data, getTotal, toItems]);
 
-  const handleLoadMoreRows = React.useCallback(async () => {
-    if (hasNextPage && !isFetchingNextPage) {
-      if (!isRefetching) {
+  const maybeLoadMore = React.useCallback(
+    async ({ stopIndex }: { startIndex: number; stopIndex: number }) => {
+      if (!hasNextPage || isFetchingNextPage || isFetching || isRefetching) {
+        return;
+      }
+
+      if (total > 0 && items.length >= total) {
+        return;
+      }
+
+      const threshold = Math.max(items.length - 10, 0);
+      if (stopIndex >= threshold) {
         await fetchNextPage({ cancelRefetch: true });
       }
-    }
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage, isRefetching]);
-
-  React.useEffect(() => {
-    if (masonryRef && cellCache && !(isFetching || isRefetching)) {
-      cellCache.clearAll();
-      masonryRef.clearCellPositions();
-      masonryRef.recomputeCellPositions();
-      masonryRef.forceUpdate();
-    }
-  }, [filter, total]);
+    },
+    [
+      fetchNextPage,
+      hasNextPage,
+      isFetching,
+      isFetchingNextPage,
+      isRefetching,
+      items.length,
+      total,
+    ],
+  );
 
   if (isError || error) {
     return <ErrorBox error={error} resetErrorBoundary={() => {}} />;
@@ -172,44 +155,34 @@ export const InfiniteListBox = <
   }
 
   return (
-    <InfiniteLoader
-      isRowLoaded={isRowLoaded}
-      loadMoreRows={handleLoadMoreRows}
-      rowCount={total}
-      minimumBatchSize={20}
-    >
-      {({ onRowsRendered, registerChild }) => (
-        <AutoSizer style={{ height: "100%", width: "100%" }}>
-          {({ width, height }) => {
-            if (listProps.type === "masonry") {
-              return (
-                <InfiniteMasonry
-                  {...listProps}
-                  width={width}
-                  height={height}
-                  total={total}
-                  items={items}
-                  ref={registerChild}
-                  onMasonryRef={(r: Masonry, cellCache: CellMeasurerCache) => {
-                    setMasonryRef({ masonryRef: r, cellCache });
-                  }}
-                  onCellsRendered={onRowsRendered}
-                />
-              );
-            }
-            return (
-              <InfiniteList
-                ref={registerChild}
-                width={width}
-                height={height}
-                onRowsRendered={onRowsRendered}
-                items={items}
-                {...listProps}
-              />
-            );
-          }}
-        </AutoSizer>
-      )}
-    </InfiniteLoader>
+    <AutoSizer style={{ height: "100%", width: "100%" }}>
+      {({ width, height }) => {
+        if (listProps.type === "masonry") {
+          return (
+            <InfiniteMasonry
+              {...listProps}
+              width={width}
+              height={height}
+              items={items}
+              onCellsRendered={(range) => {
+                void maybeLoadMore(range);
+              }}
+            />
+          );
+        }
+
+        return (
+          <InfiniteList
+            {...listProps}
+            width={width}
+            height={height}
+            items={items}
+            onRowsRendered={(range) => {
+              void maybeLoadMore(range);
+            }}
+          />
+        );
+      }}
+    </AutoSizer>
   );
 };

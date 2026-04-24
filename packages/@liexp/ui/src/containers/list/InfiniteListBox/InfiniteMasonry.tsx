@@ -1,23 +1,13 @@
+import { Masonry } from "@mui/lab";
 import * as React from "react";
-import {
-  CellMeasurer,
-  CellMeasurerCache,
-  Masonry,
-  createMasonryCellPositioner,
-  type MasonryCellProps,
-  type MasonryProps,
-} from "react-virtualized";
-import { throttle } from "throttle-debounce";
 import { useMuiMediaQuery } from "../../../components/mui/index.js";
-import useWindowDimensions from "../../../hooks/useWindowsDimensions.js";
 import { styled, useTheme } from "../../../theme/index.js";
 import { type InfiniteListBaseProps } from "./types.js";
 
-export interface CellRendererProps extends Omit<
-  MasonryCellProps,
-  "key" | "parent"
-> {
+export interface CellRendererProps {
   item: any;
+  index: number;
+  style: React.CSSProperties;
   isLast: boolean;
   measure: () => void;
   onRowInvalidate?: () => void;
@@ -26,185 +16,93 @@ export interface CellRendererProps extends Omit<
 
 type CellRenderer = React.ForwardRefExoticComponent<CellRendererProps>;
 
-export type InfiniteMasonryCellProps<P> = MasonryCellProps &
-  Omit<P, "onLoad" | "onRowInvalidate"> &
-  Omit<CellRendererProps, "measure"> & {
-    CellRenderer: CellRenderer;
-    k: string;
-  };
-
-const Cell: React.FC<InfiniteMasonryCellProps<unknown>> = (props) => {
-  const {
-    isLast,
-    style,
-    parent,
-    index,
-    k: key,
-    CellRenderer,
-    item,
-    onRowInvalidate,
-    ...rest
-  } = props;
-
-  return (
-    <CellMeasurer key={key} cache={cellCache} index={index} parent={parent}>
-      {({ registerChild, measure }) => {
-        const cellRendererProps = {
-          ref: registerChild as React.Ref<any>,
-          isLast,
-          style,
-          index,
-          item,
-          measure,
-          onRowInvalidate: () => {
-            cellCache.clear(index, 0);
-            onRowInvalidate?.();
-            setTimeout(() => {
-              measure();
-            }, 300);
-          },
-          ...rest,
-        };
-
-        // console.log(rowRendererProps);
-
-        return <CellRenderer {...cellRendererProps} />;
-      }}
-    </CellMeasurer>
-  );
-};
-
-const PREFIX = "InfiniteList";
+const PREFIX = "InfiniteMasonry";
 const classes = {
-  root: `${PREFIX}-timeline`,
-  listSubheader: `${PREFIX}-listSubheader`,
-  listItemUList: `${PREFIX}-listItemUList`,
+  root: `${PREFIX}-root`,
 };
 
-const StyledMasonry = styled(Masonry)(({ theme: _theme }) => ({
+const StyledMasonry = styled(Masonry)(() => ({
   [`&.${classes.root}`]: {
-    // padding: 0,
-    // paddingTop: 20,
-    // width: "100%",
+    width: "100%",
   },
-
-  [`& .${classes.listSubheader}`]: {},
-
-  [`& .${classes.listItemUList}`]: {},
 }));
 
-const cellCache = new CellMeasurerCache({
-  fixedWidth: true,
-  fixedHeight: false,
-  defaultWidth: 200,
-});
+export interface InfiniteMasonryProps extends InfiniteListBaseProps {
+  CellRenderer: CellRenderer;
+  columnCount?: number;
+  onMasonryRef?: (_r: unknown, _cellCache: unknown) => void;
+  onCellsRendered?: (range: { startIndex: number; stopIndex: number }) => void;
+}
 
-type InfiniteMasonryProps = MasonryProps &
-  InfiniteListBaseProps & {
-    CellRenderer: CellRenderer;
-    columnCount?: number;
-    onMasonryRef?: (r: Masonry | null, cellCache: CellMeasurerCache) => void;
-  };
-
-let masonryRef: Masonry | null = null;
 const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
-  Masonry,
+  unknown,
   React.PropsWithoutRef<InfiniteMasonryProps>
 > = (
   {
     columnCount: defaultColumnCount,
     items,
     getItem,
-    cellRenderer: _cellRenderer,
     width,
     CellRenderer,
     onMasonryRef,
-    autoHeight,
-    height,
+    onCellsRendered,
     ...props
   },
-  _ref,
+  ref,
 ) => {
   const theme = useTheme();
   const isDownMD = useMuiMediaQuery(theme.breakpoints.down("md"));
   const isDownSM = useMuiMediaQuery(theme.breakpoints.down("sm"));
 
   const columnCount = (defaultColumnCount ?? isDownMD) ? (isDownSM ? 1 : 3) : 4;
-
-  const { columnWidth, positionerCache } = React.useMemo(() => {
-    const columnWidth = width / columnCount;
-    return {
-      columnWidth,
-      positionerCache: createMasonryCellPositioner({
-        cellMeasurerCache: cellCache,
-        columnCount,
-        columnWidth,
-        spacer: 2,
-      }),
-    };
-  }, [width, columnCount]);
-
-  useWindowDimensions({
-    onResize: throttle(300, () => {
-      // setTimeout(() => {
-      const newColumnCount = isDownMD ? (isDownSM ? 1 : 3) : 4;
-      if (newColumnCount !== columnCount) {
-        positionerCache.reset({
-          columnCount: newColumnCount,
-          columnWidth: width / newColumnCount,
-        });
-      }
-      masonryRef?.recomputeCellPositions();
-      // }, 300);
-    }),
-  });
+  const columnWidth = width / columnCount;
 
   React.useEffect(() => {
-    onMasonryRef?.(masonryRef, cellCache);
-  }, []);
+    onMasonryRef?.(null, null);
+  }, [onMasonryRef]);
+
+  React.useEffect(() => {
+    if (items.length === 0) {
+      return;
+    }
+
+    onCellsRendered?.({ startIndex: 0, stopIndex: items.length - 1 });
+  }, [items.length, onCellsRendered]);
 
   return (
-    <StyledMasonry
-      ref={(r) => {
-        masonryRef = r;
-        // r = ref as any;
+    <div
+      ref={ref as React.Ref<HTMLDivElement>}
+      style={{
+        width,
+        height: props.height,
+        overflow: "auto",
       }}
-      {...props}
-      width={width}
-      height={height}
-      autoHeight={autoHeight}
-      cellCount={items.length}
-      cellMeasurerCache={cellCache}
-      cellPositioner={positionerCache}
-      overscanByPixels={400}
-      onCellsRendered={({ startIndex, stopIndex }) => {
-        props.onCellsRendered?.({ startIndex, stopIndex });
-      }}
-      cellRenderer={({ key: _key, index, ...rest }) => {
-        const item = getItem(items, index);
-        const isLast = items.length === index + 1;
-        return (
-          <Cell
-            {...rest}
-            index={index}
-            key={item.id}
-            k={item.id}
-            item={item}
-            isLast={isLast}
-            CellRenderer={CellRenderer}
-            columnWidth={columnWidth}
-            onRowInvalidate={() => {
-              cellCache.clear(index, 0);
-            }}
-          />
-        );
-      }}
-    />
+    >
+      <StyledMasonry className={classes.root} columns={columnCount} spacing={1}>
+        {items.map((datum, index) => {
+          const item = getItem(items, index) ?? datum;
+          const isLast = index === items.length - 1;
+
+          return (
+            <CellRenderer
+              key={String(item?.id ?? index)}
+              item={item}
+              index={index}
+              isLast={isLast}
+              style={{ width: columnWidth }}
+              columnWidth={columnWidth}
+              measure={() => {}}
+              onRowInvalidate={() => {}}
+            />
+          );
+        })}
+      </StyledMasonry>
+    </div>
   );
 };
 
-const InfiniteMasonry = React.forwardRef<Masonry, InfiniteMasonryProps>(
+const InfiniteMasonry = React.forwardRef<unknown, InfiniteMasonryProps>(
   InfiniteMasonryForwardRef,
 );
 
-export { InfiniteMasonry, type InfiniteMasonryProps };
+export { InfiniteMasonry };

@@ -47,7 +47,6 @@
     "fp-ts": "^2.16.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-virtualized": "^9.22.6",
     "storybook": "^10.3.5",
     "vite": "^8.0.9"
   },
@@ -55,7 +54,6 @@
     "@liexp/eslint-config": "workspace:*",
     "@types/d3": "^7.4.3",
     "@types/react": "^18.3.27",
-    "@types/react-virtualized": "^9.22.3",
     "eslint": "^10.2.1",
     "eslint-plugin-storybook": "^10.3.5",
     "prettier": "^3.8.3",

@@ -1,124 +1,24 @@
+import { useVirtualizer } from "@tanstack/react-virtual";
 import * as React from "react";
-import {
-  CellMeasurer,
-  CellMeasurerCache,
-  List,
-  type ListRowProps,
-} from "react-virtualized";
-import { type RenderedRows } from "react-virtualized/dist/es/List.js";
 import { type SearchEventQueryResult } from "../../../state/queries/SearchEventsQuery.js";
 import { styled } from "../../../theme/index.js";
 import { type EventListItemProps } from "./EventListItem.js";
-import EventTimelineItem, {
-  type EventTimelineItemProps,
-} from "./EventTimelineItem.js";
+import EventTimelineItem from "./EventTimelineItem.js";
 
 const PREFIX = "EventsTimeline";
 
 const classes = {
   timeline: `${PREFIX}-timeline`,
-  listSubheader: `${PREFIX}-listSubheader`,
-  listItemUList: `${PREFIX}-listItemUList`,
 };
 
-const StyledList = styled(List)(({ theme }) => ({
+const StyledList = styled("div")(() => ({
   [`&.${classes.timeline}`]: {
-    padding: 0,
+    width: "100%",
+    height: "100%",
+    overflow: "auto",
     paddingTop: 20,
-    width: "100%",
-  },
-
-  [`& .${classes.listSubheader}`]: {
-    backgroundColor: theme.palette.common.white,
-  },
-
-  [`& .${classes.listItemUList}`]: {
-    padding: 0,
-    width: "100%",
   },
 }));
-
-const cellCache = new CellMeasurerCache({
-  fixedWidth: true,
-  minWidth: 200,
-});
-
-const Row: React.FC<
-  ListRowProps &
-    Omit<EventTimelineItemProps, "onLoad" | "onRowInvalidate"> & { k: string }
-> = (props) => {
-  const {
-    event,
-    onClick,
-    onKeywordClick,
-    onActorClick,
-    onGroupClick,
-    onGroupMemberClick,
-    isVisible,
-    isLast,
-    style,
-    parent,
-    index,
-    k: key,
-    condensed,
-  } = props;
-
-  return (
-    <CellMeasurer
-      key={key}
-      cache={cellCache}
-      columnIndex={0}
-      rowIndex={index}
-      parent={parent}
-    >
-      {({ registerChild, measure }) => {
-        if (!event) {
-          return (
-            <div ref={registerChild as any} key={key} style={{ height: 100 }} />
-          );
-        }
-
-        if (!isVisible) {
-          return (
-            <div
-              key={key}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: 100,
-                width: "100%",
-                ...props.style,
-              }}
-            />
-          );
-        }
-
-        return (
-          <EventTimelineItem
-            ref={registerChild}
-            isLast={isLast}
-            event={event}
-            style={style}
-            onClick={onClick}
-            condensed={condensed}
-            onKeywordClick={onKeywordClick}
-            onActorClick={onActorClick}
-            onGroupClick={onGroupClick}
-            onGroupMemberClick={onGroupMemberClick}
-            onRowInvalidate={() => {
-              cellCache.clear(index, 0);
-              setTimeout(() => {
-                measure();
-              }, 300);
-            }}
-            onLoad={measure}
-          />
-        );
-      }}
-    </CellMeasurer>
-  );
-};
 
 export interface EventsTimelineListProps extends Omit<
   EventListItemProps,
@@ -128,7 +28,9 @@ export interface EventsTimelineListProps extends Omit<
   width: number;
   height: number;
   total: number;
-  onRowsRendered: ((info: RenderedRows) => void) | undefined;
+  onRowsRendered:
+    | ((info: { startIndex: number; stopIndex: number }) => void)
+    | undefined;
 }
 
 const EventsTimelineList: React.ForwardRefRenderFunction<
@@ -137,7 +39,6 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
 > = (props, ref) => {
   const {
     height,
-    width,
     events,
     total: _total,
     onRowsRendered,
@@ -150,46 +51,104 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
     ...listProps
   } = props;
 
-  // const isDownSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const scrollRef = React.useRef<HTMLDivElement | null>(null);
 
-  const rowProps = {
-    condensed,
-    onClick,
-    onActorClick,
-    onGroupClick,
-    onGroupMemberClick,
-    onKeywordClick,
-  };
+  const virtualizer = useVirtualizer({
+    count: events.events.length,
+    getScrollElement: () => scrollRef.current,
+    estimateSize: () => 300,
+    overscan: 5,
+  });
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      scrollToIndex: (index: number) => {
+        virtualizer.scrollToIndex(index);
+      },
+    }),
+    [virtualizer],
+  );
+
+  const virtualItems = virtualizer.getVirtualItems();
+
+  React.useEffect(() => {
+    if (!onRowsRendered || virtualItems.length === 0) {
+      return;
+    }
+
+    onRowsRendered({
+      startIndex: virtualItems[0]?.index ?? 0,
+      stopIndex: virtualItems[virtualItems.length - 1]?.index ?? 0,
+    });
+  }, [onRowsRendered, virtualItems]);
 
   return (
     <StyledList
       {...listProps}
       className={classes.timeline}
-      ref={ref}
-      width={width}
-      height={height}
-      estimatedRowSize={300}
-      overscanRowCount={5}
-      onRowsRendered={onRowsRendered}
-      rowRenderer={({ key, ...props }) => {
-        const event = events?.events[props.index];
-        const isLast = events?.events[props.index + 1] === undefined;
+      ref={scrollRef}
+      style={{ height }}
+    >
+      <div style={{ position: "relative", width: "100%", height: virtualizer.getTotalSize() }}>
+        {virtualItems.map((virtualItem) => {
+          const event = events?.events[virtualItem.index];
+          const isLast = events?.events[virtualItem.index + 1] === undefined;
 
-        return (
-          <Row
-            {...rowProps}
-            {...props}
-            key={key}
-            k={key}
-            event={event}
-            isLast={isLast}
-          />
-        );
-      }}
-      rowCount={events.events.length}
-      rowHeight={cellCache.rowHeight}
-      deferredMeasurementCache={cellCache}
-    />
+          const commonStyle: React.CSSProperties = {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            transform: `translateY(${virtualItem.start}px)`,
+          };
+
+          if (!event) {
+            return (
+              <div
+                key={`event-empty-${virtualItem.index}`}
+                ref={(node) => {
+                  if (node) {
+                    virtualizer.measureElement(node);
+                  }
+                }}
+                style={{ ...commonStyle, minHeight: 100 }}
+              />
+            );
+          }
+
+          return (
+            <div
+              key={event.id}
+              ref={(node) => {
+                if (node) {
+                  virtualizer.measureElement(node);
+                }
+              }}
+              style={commonStyle}
+            >
+              <EventTimelineItem
+                isLast={isLast}
+                event={event}
+                style={{ width: "100%" }}
+                onClick={onClick}
+                condensed={condensed}
+                onKeywordClick={onKeywordClick}
+                onActorClick={onActorClick}
+                onGroupClick={onGroupClick}
+                onGroupMemberClick={onGroupMemberClick}
+                onRowInvalidate={() => {
+                  virtualizer.measure();
+                }}
+                onLoad={() => {
+                  virtualizer.measure();
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </StyledList>
   );
 };
 

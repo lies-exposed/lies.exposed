@@ -76,7 +76,7 @@ importers:
         version: 8.59.0(eslint@10.2.1(jiti@2.6.1))(typescript@5.9.3)
       vitest:
         specifier: ^4.1.5
-        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
 
   packages/@liexp/backend:
     dependencies:
@@ -281,10 +281,10 @@ importers:
         version: 8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)
       vitest:
         specifier: ^4.1.5
-        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
       vitest-mock-extended:
         specifier: ^4.0.0
-        version: 4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)))
+        version: 4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)))
 
   packages/@liexp/core:
     dependencies:
@@ -401,7 +401,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.1.5
-        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
 
   packages/@liexp/shared:
     dependencies:
@@ -428,7 +428,7 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
         version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
@@ -507,10 +507,10 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.1.5
-        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@2.11.2))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@2.11.2))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
       vitest-mock-extended:
         specifier: ^4.0.0
-        version: 4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@2.11.2))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)))
+        version: 4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@2.11.2))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)))
 
   packages/@liexp/test:
     dependencies:
@@ -605,12 +605,15 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.99.2
         version: 5.99.2(react@18.3.1)
+      '@tanstack/react-virtual':
+        specifier: ^3.13.24
+        version: 3.13.24(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@ts-endpoint/core':
         specifier: file:../../../patches/ts-endpoint-core-0.1.0.tgz
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
@@ -761,9 +764,6 @@ importers:
       react-toc:
         specifier: ^3.1.0
         version: 3.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-virtualized:
-        specifier: ^9.22.6
-        version: 9.22.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       remark-gfm:
         specifier: ^4.0.1
         version: 4.0.1
@@ -819,9 +819,6 @@ importers:
       '@types/react-slick':
         specifier: ^0.23.13
         version: 0.23.13
-      '@types/react-virtualized':
-        specifier: ^9.22.3
-        version: 9.22.3
       '@types/throttle-debounce':
         specifier: ^5.0.2
         version: 5.0.2
@@ -857,7 +854,7 @@ importers:
         version: 8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)
       vitest:
         specifier: ^4.1.5
-        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
 
   services/admin:
     dependencies:
@@ -890,7 +887,7 @@ importers:
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
@@ -987,10 +984,10 @@ importers:
         version: 1.4.3
       vitest:
         specifier: ^4.1.5
-        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
       vitest-mock-extended:
         specifier: ^4.0.0
-        version: 4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)))
+        version: 4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)))
 
   services/agent:
     dependencies:
@@ -1102,7 +1099,7 @@ importers:
         version: 4.21.0
       vitest:
         specifier: ^4.1.5
-        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
 
   services/ai-bot:
     dependencies:
@@ -1344,10 +1341,10 @@ importers:
         version: 0.3.4(@electric-sql/pglite@0.4.4)
       vitest:
         specifier: ^4.1.5
-        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
       vitest-mock-extended:
         specifier: ^4.0.0
-        version: 4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)))
+        version: 4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)))
       wink-nlp:
         specifier: ^2.3.0
         version: 2.4.0
@@ -1395,7 +1392,7 @@ importers:
         version: 5.99.2(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))
       '@visx/gradient':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -1426,9 +1423,6 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
-      react-virtualized:
-        specifier: ^9.22.6
-        version: 9.22.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       storybook:
         specifier: ^10.3.5
         version: 10.3.5(@testing-library/dom@10.4.1)(prettier@3.8.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1445,9 +1439,6 @@ importers:
       '@types/react':
         specifier: ^18.3.27
         version: 18.3.27
-      '@types/react-virtualized':
-        specifier: ^9.22.3
-        version: 9.22.3
       eslint:
         specifier: ^10.2.1
         version: 10.2.1(jiti@2.6.1)
@@ -1498,7 +1489,7 @@ importers:
         version: 5.99.2(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
@@ -1595,7 +1586,7 @@ importers:
         version: 1.4.3
       vitest:
         specifier: ^4.1.5
-        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
 
   services/worker:
     dependencies:
@@ -1719,7 +1710,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.1.5
-        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
 
 packages:
 
@@ -4866,8 +4857,17 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
+  '@tanstack/react-virtual@3.13.24':
+    resolution: {integrity: sha512-aIJvz5OSkhNIhZIpYivrxrPTKYsjW9Uzy+sP/mx0S3sev2HyvPb7xmjbYvokzEpfgYHy/HjzJ2zFAETuUfgCpg==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   '@tanstack/store@0.7.7':
     resolution: {integrity: sha512-xa6pTan1bcaqYDS9BDpSiS63qa6EoDkPN9RsRaxHuDdVDNntzq3xNwR5YKTU/V3SkSyC9T4YVOPh2zRQN0nhIQ==}
+
+  '@tanstack/virtual-core@3.14.0':
+    resolution: {integrity: sha512-JLANqGy/D6k4Ujmh8Tr25lGimuOXNiaVyXaCAZS0W+1390sADdGnyUdSWNIfd49gebtIxGMij4IktRVzrdr12Q==}
 
   '@testing-library/dom@10.4.1':
     resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
@@ -5325,9 +5325,6 @@ packages:
     resolution: {integrity: sha512-8TV6R3h2j7a91c+1DXdJi3Syo69zzIZbz7Lg5tORM5LEJG7X/E6a1V3drRyBRZq7/utz7A+c4OgYLiLcYGHG6w==}
     peerDependencies:
       '@types/react': '*'
-
-  '@types/react-virtualized@9.22.3':
-    resolution: {integrity: sha512-UKRWeBIrECaKhE4O//TSFhlgwntMwyiEIOA7WZoVkr52Jahv0dH6YIOorqc358N2V3oKFclsq5XxPmx2PiYB5A==}
 
   '@types/react@18.3.27':
     resolution: {integrity: sha512-cisd7gxkzjBKU2GgdYrTdtQx1SORymWyaAFhaxQPK9bYO9ot3Y5OikQRvY0VYQtvwjeQnizCINJAenh/V7MK2w==}
@@ -6252,10 +6249,6 @@ packages:
   clone-deep@0.2.4:
     resolution: {integrity: sha512-we+NuQo2DHhSl+DP6jlUiAhyAjBQrYnpOk15rN6c6JSPScjiCLh8IbSU+VTcph6YS3o7mASE8a0+gbZ7ChLpgg==}
     engines: {node: '>=0.10.0'}
-
-  clsx@1.2.1:
-    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
-    engines: {node: '>=6'}
 
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
@@ -9542,9 +9535,6 @@ packages:
   react-is@19.2.4:
     resolution: {integrity: sha512-W+EWGn2v0ApPKgKKCy/7s7WHXkboGcsrXE+2joLyVxkbyVQfO3MUEaUQDHoSmb8TFFrSKYa9mw64WZHNHSDzYA==}
 
-  react-lifecycles-compat@3.0.4:
-    resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
-
   react-markdown@10.1.0:
     resolution: {integrity: sha512-qKxVopLT/TyA6BX3Ue5NwabOsAzm0Q7kAPwq6L+wWDwisYs7R8vZ0nRXqq6rkueboxpkjvLGU9fWifiX/ZZFxQ==}
     peerDependencies:
@@ -9652,12 +9642,6 @@ packages:
     peerDependenciesMeta:
       react-dom:
         optional: true
-
-  react-virtualized@9.22.6:
-    resolution: {integrity: sha512-U5j7KuUQt3AaMatlMJ0UJddqSiX+Km0YJxSqbAzIiGw5EmNz0khMyqP2hzgu4+QUtm+QPIrxzUX4raJxmVJnHg==}
-    peerDependencies:
-      react: ^16.3.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^16.3.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
@@ -14710,7 +14694,15 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       use-sync-external-store: 1.6.0(react@18.3.1)
 
+  '@tanstack/react-virtual@3.13.24(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/virtual-core': 3.14.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
   '@tanstack/store@0.7.7': {}
+
+  '@tanstack/virtual-core@3.14.0': {}
 
   '@testing-library/dom@10.4.1':
     dependencies:
@@ -14858,7 +14850,7 @@ snapshots:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       fp-ts: 2.16.11
 
-  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))':
+  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1))':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       axios: 1.15.2(debug@4.4.3)
@@ -15228,11 +15220,6 @@ snapshots:
 
   '@types/react-transition-group@4.4.12(@types/react@18.3.27)':
     dependencies:
-      '@types/react': 18.3.27
-
-  '@types/react-virtualized@9.22.3':
-    dependencies:
-      '@types/prop-types': 15.7.15
       '@types/react': 18.3.27
 
   '@types/react@18.3.27':
@@ -15692,7 +15679,7 @@ snapshots:
       obug: 2.1.1
       std-env: 4.0.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+      vitest: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
 
   '@vitest/expect@3.2.4':
     dependencies:
@@ -16319,8 +16306,6 @@ snapshots:
       kind-of: 3.2.2
       lazy-cache: 1.0.4
       shallow-clone: 0.1.2
-
-  clsx@1.2.1: {}
 
   clsx@2.1.1: {}
 
@@ -20408,8 +20393,6 @@ snapshots:
 
   react-is@19.2.4: {}
 
-  react-lifecycles-compat@3.0.4: {}
-
   react-markdown@10.1.0(@types/react@18.3.27)(react@18.3.1):
     dependencies:
       '@types/hast': 3.0.4
@@ -20527,17 +20510,6 @@ snapshots:
       react: 18.3.1
     optionalDependencies:
       react-dom: 18.3.1(react@18.3.1)
-
-  react-virtualized@9.22.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      '@babel/runtime': 7.29.2
-      clsx: 1.2.1
-      dom-helpers: 5.2.1
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-lifecycles-compat: 3.0.4
 
   react@18.3.1:
     dependencies:
@@ -22018,25 +21990,25 @@ snapshots:
       tsx: 4.21.0
       yaml: 2.8.3
 
-  vitest-mock-extended@4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))):
+  vitest-mock-extended@4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))):
     dependencies:
       ts-essentials: 10.0.4(typescript@5.9.3)
       typescript: 5.9.3
-      vitest: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+      vitest: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
 
-  vitest-mock-extended@4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@2.11.2))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))):
+  vitest-mock-extended@4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@2.11.2))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))):
     dependencies:
       ts-essentials: 10.0.4(typescript@5.9.3)
       typescript: 5.9.3
-      vitest: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@2.11.2))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+      vitest: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@2.11.2))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
 
-  vitest-mock-extended@4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))):
+  vitest-mock-extended@4.0.0(typescript@5.9.3)(vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))):
     dependencies:
       ts-essentials: 10.0.4(typescript@5.9.3)
       typescript: 5.9.3
-      vitest: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
+      vitest: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
 
-  vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)):
+  vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)):
     dependencies:
       '@vitest/expect': 4.1.5
       '@vitest/mocker': 4.1.5(msw@2.13.4(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.9(@types/node@24.12.2)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
@@ -22066,7 +22038,7 @@ snapshots:
     transitivePeerDependencies:
       - msw
 
-  vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@2.11.2))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)):
+  vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@2.11.2))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)):
     dependencies:
       '@vitest/expect': 4.1.5
       '@vitest/mocker': 4.1.5(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
@@ -22096,7 +22068,7 @@ snapshots:
     transitivePeerDependencies:
       - msw
 
-  vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)):
+  vitest@4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4(vitest@4.1.5))(jsdom@29.0.2(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3)):
     dependencies:
       '@vitest/expect': 4.1.5
       '@vitest/mocker': 4.1.5(msw@2.13.4(@types/node@25.6.0)(typescript@5.9.3))(vite@8.0.9(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
