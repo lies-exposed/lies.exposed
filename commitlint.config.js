@@ -22,7 +22,6 @@ export default {
         "ai-bot",
         "agent",
         "storybook",
-        "localai",
         // used by Dependabot
         "deps",
         "deps-dev",
