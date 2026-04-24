@@ -37,10 +37,10 @@ spec:
           name: ai-bot
           resources:
             limits:
-              memory: 768Mi
+              memory: 512Mi
               cpu: 800m
             requests:
-              memory: 256Mi
+              memory: 192Mi
               cpu: 200m
           volumeMounts:
             - name: ai-bot-config-storage
