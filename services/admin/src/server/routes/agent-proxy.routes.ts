@@ -435,7 +435,6 @@ export const registerAgentProxyRoutes = (
         const agentUrl = `${env.AGENT_API_URL}/chat/message/stream`;
 
         // Set up abort controller with 5-minute timeout for streaming responses.
-        // LocalAI on CPU can take several minutes for prompt processing alone.
         const abortController = new AbortController();
         const timeoutId = setTimeout(
           () => {

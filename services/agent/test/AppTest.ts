@@ -87,7 +87,7 @@ export const loadAgentContext = async (
       OPENAI_BASE_URL: "http://test-localai.liexp.test",
       LOCALAI_MAX_RETRIES: 3,
       API_TOKEN: "my-token",
-      API_BASE_URL: "https://ai.lies.exposed",
+      API_BASE_URL: "http://api.liexp.test/v1",
       MCP_URL: "https://api.liexp.test/mcp",
       BRAVE_API_KEY: "null",
       SENTRY_DSN: null,

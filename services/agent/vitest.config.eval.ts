@@ -28,7 +28,6 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     pool: "forks",
     reporters: ["verbose", new EvalCacheReporter()],
     // Env vars are loaded from .env.local in evalSetup.ts.
-    // AI_PROVIDER stays "openai" since LocalAI exposes an OpenAI-compatible API.
     env: {
       NODE_ENV: "test",
       NODE_TLS_REJECT_UNAUTHORIZED: "0",
