@@ -37,7 +37,10 @@ export interface InfiniteListProps extends InfiniteListBaseProps {
 const InfiniteListForwardRef: React.ForwardRefRenderFunction<
   unknown,
   InfiniteListProps
-> = ({ height, onRowsRendered, items, getItem, RowRenderer, ...rest }, listRef) => {
+> = (
+  { height, onRowsRendered, items, getItem, RowRenderer, ...rest },
+  listRef,
+) => {
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
 
   const virtualizer = useVirtualizer({
@@ -71,7 +74,13 @@ const InfiniteListForwardRef: React.ForwardRefRenderFunction<
 
   return (
     <StyledList ref={scrollRef} className={classes.timeline} style={{ height }}>
-      <div style={{ position: "relative", width: "100%", height: virtualizer.getTotalSize() }}>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          height: virtualizer.getTotalSize(),
+        }}
+      >
         {virtualItems.map((virtualItem) => {
           const item = getItem(items, virtualItem.index);
           const isLast = items.length === virtualItem.index + 1;

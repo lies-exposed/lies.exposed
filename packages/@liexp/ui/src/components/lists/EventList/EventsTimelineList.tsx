@@ -90,7 +90,13 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
       ref={scrollRef}
       style={{ height }}
     >
-      <div style={{ position: "relative", width: "100%", height: virtualizer.getTotalSize() }}>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          height: virtualizer.getTotalSize(),
+        }}
+      >
         {virtualItems.map((virtualItem) => {
           const event = events?.events[virtualItem.index];
           const isLast = events?.events[virtualItem.index + 1] === undefined;

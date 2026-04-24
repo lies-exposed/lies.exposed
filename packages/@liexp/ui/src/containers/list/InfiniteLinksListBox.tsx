@@ -15,15 +15,15 @@ type InfiniteLinksListBoxProps = Omit<
   InfiniteListBoxProps<"masonry", typeof Endpoints.Link.List>,
   "useListQuery" | "listProps"
 > & {
-  listProps?:
-    Partial<
-      Omit<
-        InfiniteMasonryProps,
-        "width" | "height" | "items" | "getItem" | "CellRenderer"
-      >
-    > & {
-      getItem?: (data: any[], index: number) => any;
-    };
+  listProps?: Partial<
+    Omit<
+      InfiniteMasonryProps,
+      "width" | "height" | "items" | "getItem" | "CellRenderer"
+    >
+  > & {
+    type?: "masonry";
+    getItem?: (data: any[], index: number) => any;
+  };
   onLinkClick?: (media: Link.Link) => void;
 };
 
@@ -58,6 +58,10 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
               ref,
             ) => {
               // console.log("row render", columnWidth, index, style);
+              const link = {
+                ...(item as Link.Link),
+                selected: true,
+              };
 
               React.useEffect(() => {
                 measure();
@@ -70,13 +74,13 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
               return (
                 <div ref={ref} style={style}>
                   <LinkCard
-                    link={item}
+                    link={link}
                     style={{
                       width: columnWidth,
                       // width: "100%",
                       height: "auto",
                     }}
-                    onClick={() => onLinkClick?.(item)}
+                    onClick={() => onLinkClick?.(link)}
                   />
                 </div>
               );

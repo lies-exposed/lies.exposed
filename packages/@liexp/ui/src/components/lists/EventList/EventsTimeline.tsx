@@ -1,7 +1,6 @@
 import { EventTotalsMonoid } from "@liexp/io/lib/http/Events/EventTotals.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import * as React from "react";
-import { AutoSizer } from "../../utils/AutoSizer.js";
 import { useAPI } from "../../../hooks/useAPI.js";
 import {
   searchEventsInfiniteQuery,
@@ -9,6 +8,7 @@ import {
 } from "../../../state/queries/SearchEventsQuery.js";
 import { FullSizeLoader } from "../../Common/FullSizeLoader.js";
 import { Box } from "../../mui/index.js";
+import { AutoSizer } from "../../utils/AutoSizer.js";
 import { type EventListItemProps } from "./EventListItem.js";
 import EventsTimelineList from "./EventsTimelineList.js";
 

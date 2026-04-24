@@ -1,11 +1,11 @@
-import { Masonry } from "@mui/lab";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import * as React from "react";
 import { useMuiMediaQuery } from "../../../components/mui/index.js";
-import { styled, useTheme } from "../../../theme/index.js";
+import { useTheme } from "../../../theme/index.js";
 import { type InfiniteListBaseProps } from "./types.js";
 
 export interface CellRendererProps {
-  item: any;
+  item: unknown;
   index: number;
   style: React.CSSProperties;
   isLast: boolean;
@@ -15,17 +15,6 @@ export interface CellRendererProps {
 }
 
 type CellRenderer = React.ForwardRefExoticComponent<CellRendererProps>;
-
-const PREFIX = "InfiniteMasonry";
-const classes = {
-  root: `${PREFIX}-root`,
-};
-
-const StyledMasonry = styled(Masonry)(() => ({
-  [`&.${classes.root}`]: {
-    width: "100%",
-  },
-}));
 
 export interface InfiniteMasonryProps extends InfiniteListBaseProps {
   CellRenderer: CellRenderer;
@@ -43,10 +32,10 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
     items,
     getItem,
     width,
+    height,
     CellRenderer,
     onMasonryRef,
     onCellsRendered,
-    ...props
   },
   ref,
 ) => {
@@ -55,48 +44,115 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
   const isDownSM = useMuiMediaQuery(theme.breakpoints.down("sm"));
 
   const columnCount = (defaultColumnCount ?? isDownMD) ? (isDownSM ? 1 : 3) : 4;
-  const columnWidth = width / columnCount;
+  const gap = 8;
+  const scrollRef = React.useRef<HTMLDivElement | null>(null);
+  const columnWidth = Math.max(
+    1,
+    (width - gap * (columnCount - 1)) / columnCount,
+  );
+
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => scrollRef.current,
+    estimateSize: () => 300,
+    overscan: 8,
+    gap,
+    lanes: columnCount,
+    laneAssignmentMode: "measured",
+    getItemKey: (index: number) => String(getItem(items, index)?.id ?? index),
+  });
+
+  const triggerMeasure = React.useCallback(() => {
+    virtualizer.measure();
+  }, [virtualizer]);
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      scrollToIndex: (index: number) => {
+        virtualizer.scrollToIndex(index);
+      },
+      recomputeCellPositions: () => {
+        triggerMeasure();
+      },
+      clearCellPositions: () => {
+        triggerMeasure();
+      },
+      forceUpdate: () => {
+        triggerMeasure();
+      },
+    }),
+    [triggerMeasure, virtualizer],
+  );
 
   React.useEffect(() => {
-    onMasonryRef?.(null, null);
-  }, [onMasonryRef]);
+    onMasonryRef?.(virtualizer, null);
+  }, [onMasonryRef, virtualizer]);
+
+  const virtualItems = virtualizer.getVirtualItems();
 
   React.useEffect(() => {
-    if (items.length === 0) {
+    if (virtualItems.length === 0) {
       return;
     }
 
-    onCellsRendered?.({ startIndex: 0, stopIndex: items.length - 1 });
-  }, [items.length, onCellsRendered]);
+    onCellsRendered?.({
+      startIndex: virtualItems[0]?.index ?? 0,
+      stopIndex: virtualItems[virtualItems.length - 1]?.index ?? 0,
+    });
+  }, [onCellsRendered, virtualItems]);
 
   return (
     <div
-      ref={ref as React.Ref<HTMLDivElement>}
+      ref={scrollRef}
       style={{
         width,
-        height: props.height,
+        height,
         overflow: "auto",
       }}
     >
-      <StyledMasonry className={classes.root} columns={columnCount} spacing={1}>
-        {items.map((datum, index) => {
-          const item = getItem(items, index) ?? datum;
-          const isLast = index === items.length - 1;
+      <div
+        style={{
+          width,
+          height: virtualizer.getTotalSize(),
+          position: "relative",
+        }}
+      >
+        {virtualItems.map((virtualItem: (typeof virtualItems)[number]) => {
+          const item =
+            getItem(items, virtualItem.index) ?? items[virtualItem.index];
+          const isLast = virtualItem.index === items.length - 1;
+          const left = virtualItem.lane * (columnWidth + gap);
 
           return (
-            <CellRenderer
-              key={String(item?.id ?? index)}
-              item={item}
-              index={index}
-              isLast={isLast}
-              style={{ width: columnWidth }}
-              columnWidth={columnWidth}
-              measure={() => {}}
-              onRowInvalidate={() => {}}
-            />
+            <div
+              key={String(virtualItem.key)}
+              ref={(node) => {
+                if (node) {
+                  virtualizer.measureElement(node);
+                }
+              }}
+              style={{
+                position: "absolute",
+                top: 0,
+                left,
+                width: columnWidth,
+                transform: `translateY(${virtualItem.start}px)`,
+              }}
+            >
+              <CellRenderer
+                item={item}
+                index={virtualItem.index}
+                isLast={isLast}
+                style={{ width: columnWidth, height: virtualItem.size }}
+                columnWidth={columnWidth}
+                measure={triggerMeasure}
+                onRowInvalidate={triggerMeasure}
+              />
+            </div>
           );
         })}
-      </StyledMasonry>
+      </div>
     </div>
   );
 };

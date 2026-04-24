@@ -3,7 +3,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    name: "io",
+    name: "@liexp/io",
     root: __dirname,
     globals: true,
     pool: "vmForks",

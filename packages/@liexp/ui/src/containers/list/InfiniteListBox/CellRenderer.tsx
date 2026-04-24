@@ -6,29 +6,26 @@ export const CellRenderer = (
 ) =>
   React.forwardRef<any, CellRendererProps>(
     (
-      {
-        item,
-        measure,
-        index,
-        style,
-        columnWidth,
-        onRowInvalidate: _onRowInvalidate,
-        ...others
-      },
+      { item, measure, index, style, columnWidth, onRowInvalidate, ...others },
       ref,
     ) => {
-      // console.log("cell renderer", index, item, columnWidth, style);
       React.useEffect(() => {
         measure();
         return () => {
-          // console.log("should call on row invalidate");
-          // onRowInvalidate?.();
+          onRowInvalidate?.();
         };
-      }, [style?.width, style?.height]);
+      }, [measure, onRowInvalidate, style?.width, style?.height]);
 
       return (
         <div ref={ref} style={{ ...style, overflow: "hidden" }}>
-          {children({ item, measure, index, columnWidth, ...others })}
+          {children({
+            item,
+            measure,
+            index,
+            columnWidth,
+            style,
+            ...others,
+          })}
         </div>
       );
     },
