@@ -127,6 +127,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
           return (
             <div
               key={String(virtualItem.key)}
+              data-index={virtualItem.index}
               ref={(node) => {
                 if (node) {
                   virtualizer.measureElement(node);
