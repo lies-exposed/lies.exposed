@@ -17,6 +17,7 @@ interface MasonryStoryProps {
   itemCount: number;
   columnCount?: number;
   containerHeight: number;
+  layoutMode: 'stable' | 'optimal';
 }
 
 const colors = [
@@ -50,9 +51,23 @@ const MasonryCell = React.forwardRef<HTMLDivElement, CellRendererProps>(
     const card = item as MockMasonryItem;
     const [expanded, setExpanded] = React.useState(false);
 
-    React.useEffect(() => {
-      measure();
+    // Call measure when expanded state changes to ensure layout updates
+    React.useLayoutEffect(() => {
+      // Small delay to ensure the DOM has updated with new height
+      const timeoutId = window.setTimeout(() => {
+        measure();
+      }, 150); // Wait for CSS transition to complete
+
+      return () => clearTimeout(timeoutId);
     }, [expanded, measure]);
+
+    const toggleExpanded = React.useCallback(() => {
+      setExpanded((current) => !current);
+    }, []);
+
+    // Calculate column for visual indicator
+    const column = index % 4; // Assuming 4 columns for demo
+    const columnColors = ['🔵', '🟢', '🟡', '🟣'];
 
     return (
       <div
@@ -71,35 +86,64 @@ const MasonryCell = React.forwardRef<HTMLDivElement, CellRendererProps>(
             borderRadius: 10,
             background: card.color,
             color: "#0b1f2a",
-            boxShadow: "0 8px 20px rgba(5, 20, 28, 0.15)",
-            border: "1px solid rgba(8, 30, 41, 0.15)",
+            boxShadow: expanded 
+              ? "0 12px 24px rgba(5, 20, 28, 0.25)" 
+              : "0 8px 20px rgba(5, 20, 28, 0.15)",
+            border: expanded
+              ? "2px solid rgba(8, 30, 41, 0.3)"
+              : "1px solid rgba(8, 30, 41, 0.15)",
             overflow: "hidden",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
+            transform: expanded ? "scale(1.02)" : "scale(1)",
           }}
         >
           <div style={{ padding: 12 }}>
-            <div style={{ fontSize: 12, opacity: 0.85 }}>#{index + 1}</div>
+            <div style={{ 
+              fontSize: 12, 
+              opacity: 0.85,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <span>#{index + 1}</span>
+              <span title={`Column ${column + 1}`}>{columnColors[column]}</span>
+            </div>
             <h3 style={{ margin: "6px 0 0", fontSize: 16 }}>{card.title}</h3>
+            {expanded && (
+              <div style={{ marginTop: 12, fontSize: 13, opacity: 0.9 }}>
+                <p style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>
+                  🎯 Notice: Cards below should move DOWN, not sideways!
+                </p>
+                <p style={{ margin: '0 0 8px 0' }}>
+                  This expanded content demonstrates the stable layout behavior where cards maintain their column assignments.
+                </p>
+                <p style={{ margin: '0', fontSize: 12, opacity: 0.7 }}>
+                  Column indicator: {columnColors[column]} (Column {column + 1})
+                </p>
+              </div>
+            )}
           </div>
           <div style={{ padding: 12 }}>
             <button
               type="button"
-              onClick={() => {
-                setExpanded((current) => !current);
-              }}
+              onClick={toggleExpanded}
               style={{
                 border: 0,
                 borderRadius: 6,
-                padding: "6px 10px",
+                padding: "8px 12px",
                 cursor: "pointer",
-                background: "rgba(6, 17, 24, 0.8)",
+                background: expanded 
+                  ? "rgba(220, 38, 38, 0.8)" 
+                  : "rgba(6, 17, 24, 0.8)",
                 color: "#ecf8ff",
                 fontSize: 12,
+                fontWeight: expanded ? "bold" : "normal",
+                transition: "all 140ms ease",
               }}
             >
-              {expanded ? "Collapse" : "Expand"}
+              {expanded ? "🔽 Collapse" : "🔼 Expand"}
             </button>
           </div>
         </article>
@@ -114,6 +158,7 @@ const MasonryPlayground: React.FC<MasonryStoryProps> = ({
   itemCount,
   columnCount,
   containerHeight,
+  layoutMode,
 }) => {
   const items = React.useMemo(() => createItems(itemCount), [itemCount]);
 
@@ -130,7 +175,19 @@ const MasonryPlayground: React.FC<MasonryStoryProps> = ({
         overflow: "hidden",
       }}
     >
-      <AutoSizer style={{ height: "100%", width: "100%" }}>
+      <div
+        style={{
+          padding: "8px 12px",
+          fontSize: "12px",
+          fontWeight: "bold",
+          color: "#0b1f2a",
+          backgroundColor: "rgba(255, 255, 255, 0.8)",
+          borderBottom: "1px solid rgba(20, 50, 70, 0.12)",
+        }}
+      >
+        Layout Mode: {layoutMode === 'stable' ? 'Stable (cards stay in columns)' : 'Optimal (cards can move between columns)'}
+      </div>
+      <AutoSizer style={{ height: "calc(100% - 32px)", width: "100%" }}>
         {({ width, height }) => {
           return (
             <InfiniteMasonry
@@ -138,6 +195,7 @@ const MasonryPlayground: React.FC<MasonryStoryProps> = ({
               height={height}
               items={items}
               columnCount={columnCount}
+              layoutMode={layoutMode}
               getItem={(list, index) => list[index]}
               CellRenderer={MasonryCell}
             />
@@ -158,12 +216,18 @@ const meta: Meta<typeof MasonryPlayground> = {
     itemCount: 400,
     columnCount: 4,
     containerHeight: 760,
+    layoutMode: 'stable' as const,
   },
   argTypes: {
     itemCount: { control: { type: "range", min: 50, max: 1500, step: 50 } },
     columnCount: { control: { type: "number", min: 1, max: 8, step: 1 } },
     containerHeight: {
       control: { type: "range", min: 320, max: 1200, step: 20 },
+    },
+    layoutMode: {
+      control: { type: "select" },
+      options: ['stable', 'optimal'],
+      description: "Layout behavior: 'stable' keeps cards in columns (better UX), 'optimal' allows column switching (better space usage)",
     },
   },
 };

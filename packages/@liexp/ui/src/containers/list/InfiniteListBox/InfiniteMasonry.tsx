@@ -1,18 +1,16 @@
-import { useVirtualizer } from "@tanstack/react-virtual";
 import * as React from "react";
 import { useMuiMediaQuery } from "../../../components/mui/index.js";
+import { useMasonryLayout } from "../../../hooks/useMasonryLayout.js";
+import { useWindowVirtualization } from "../../../hooks/useWindowVirtualization.js";
 import { useTheme } from "../../../theme/index.js";
-import { type InfiniteListBaseProps } from "./types.js";
+import {
+  type InfiniteListBaseProps,
+  type CellRendererProps,
+  type MasonryImperativeHandle,
+} from "./types.js";
 
-export interface CellRendererProps {
-  item: unknown;
-  index: number;
-  style: React.CSSProperties;
-  isLast: boolean;
-  measure: () => void;
-  onRowInvalidate?: () => void;
-  columnWidth: number;
-}
+// Re-export for external use
+export { type CellRendererProps };
 
 type CellRenderer = React.ForwardRefExoticComponent<CellRendererProps>;
 
@@ -21,10 +19,16 @@ export interface InfiniteMasonryProps extends InfiniteListBaseProps {
   columnCount?: number;
   onMasonryRef?: (_r: unknown, _cellCache: unknown) => void;
   onCellsRendered?: (range: { startIndex: number; stopIndex: number }) => void;
+  /**
+   * Layout mode for masonry positioning:
+   * - 'stable': Cards maintain their column assignments, only move vertically (better UX for expand/collapse)
+   * - 'optimal': Cards can move between columns for optimal space usage
+   */
+  layoutMode?: "stable" | "optimal";
 }
 
 const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
-  unknown,
+  MasonryImperativeHandle,
   React.PropsWithoutRef<InfiniteMasonryProps>
 > = (
   {
@@ -36,6 +40,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
     CellRenderer,
     onMasonryRef,
     onCellsRendered,
+    layoutMode = "stable", // Default to stable layout for better UX
   },
   ref,
 ) => {
@@ -46,65 +51,175 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
   const columnCount = defaultColumnCount ?? (isDownMD ? (isDownSM ? 1 : 3) : 4);
   const gap = 8;
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
+  const [scrollTop, setScrollTop] = React.useState(0);
+
   const columnWidth = Math.max(
     1,
     (width - gap * (columnCount - 1)) / columnCount,
   );
 
-  const virtualizer = useVirtualizer({
-    count: items.length,
-    getScrollElement: () => scrollRef.current,
-    estimateSize: () => 300,
-    overscan: 8,
+  // Use custom masonry layout hook
+  const masonryLayout = useMasonryLayout({
+    items,
+    columnCount,
+    columnWidth,
     gap,
-    lanes: columnCount,
-    laneAssignmentMode: "estimate",
-    getItemKey: (index: number) => String(getItem(items, index)?.id ?? index),
+    defaultItemHeight: 300,
+    useStableLayout: layoutMode === "stable",
   });
 
-  const triggerMeasure = React.useCallback(() => {
-    virtualizer.measure();
-  }, [virtualizer]);
+  // Use window-based virtualization for masonry
+  const virtualItems = useWindowVirtualization({
+    items,
+    masonryLayout,
+    containerHeight: height,
+    scrollTop,
+    overscan: 300,
+  });
 
+  // Handle scroll events with throttling to prevent excessive updates
+  const scrollTimeoutRef = React.useRef<number | null>(null);
+
+  const handleScroll = React.useCallback(
+    (event: React.UIEvent<HTMLDivElement>) => {
+      const newScrollTop = event.currentTarget.scrollTop;
+
+      // Throttle scroll updates to improve performance
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        setScrollTop(newScrollTop);
+      }, 16); // ~60fps
+    },
+    [],
+  );
+
+  // Cleanup scroll timeout
+  React.useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Track element refs for resize observation
+  const elementRefs = React.useRef<Map<number, Element>>(new Map());
+
+  // Measure element callback - prevent infinite loops but track elements
+  const measureElement = React.useCallback(
+    (element: Element | null, index: number) => {
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const currentHeight = masonryLayout.itemPositions.get(index)?.height;
+
+        // Only update if height has actually changed significantly
+        if (!currentHeight || Math.abs(rect.height - currentHeight) > 1) {
+          masonryLayout.updateItemHeight(index, rect.height);
+        }
+
+        // Store element reference for resize observation
+        elementRefs.current.set(index, element);
+      } else {
+        // Clean up reference when element is removed
+        elementRefs.current.delete(index);
+      }
+    },
+    [masonryLayout.updateItemHeight, masonryLayout.itemPositions],
+  );
+
+  // Set up ResizeObserver for automatic resize detection of currently visible items
+  React.useEffect(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        const element = entry.target;
+        const indexAttr = element.getAttribute("data-index");
+        if (indexAttr) {
+          const index = parseInt(indexAttr, 10);
+          const newHeight = entry.contentRect.height;
+          const currentHeight = masonryLayout.itemPositions.get(index)?.height;
+
+          // Update layout when size changes significantly (like expand/collapse)
+          if (!currentHeight || Math.abs(newHeight - currentHeight) > 2) {
+            masonryLayout.updateItemHeight(index, newHeight);
+          }
+        }
+      });
+    });
+
+    // Observe elements that are currently rendered
+    virtualItems.forEach(({ index }) => {
+      const element = elementRefs.current.get(index);
+      if (element) {
+        resizeObserver.observe(element);
+      }
+    });
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [virtualItems, masonryLayout.updateItemHeight]);
+
+  // Measure callback for CellRenderer - triggers explicit re-measurement
+  const triggerMeasure = React.useCallback(() => {
+    // Force remeasurement of all visible items
+    // This is safe because it's triggered by user actions (expand/collapse)
+    elementRefs.current.forEach((element, index) => {
+      const rect = element.getBoundingClientRect();
+      masonryLayout.updateItemHeight(index, rect.height);
+    });
+  }, [masonryLayout.updateItemHeight]);
+
+  // Imperative handle for external control
   React.useImperativeHandle(
     ref,
     () => ({
       scrollToIndex: (index: number) => {
-        virtualizer.scrollToIndex(index);
+        const position = masonryLayout.itemPositions.get(index);
+        if (position && scrollRef.current) {
+          scrollRef.current.scrollTo({
+            top: position.y,
+            behavior: "smooth",
+          });
+        }
       },
       recomputeCellPositions: () => {
-        triggerMeasure();
+        masonryLayout.resetLayout();
       },
       clearCellPositions: () => {
-        triggerMeasure();
+        masonryLayout.resetLayout();
       },
       forceUpdate: () => {
-        triggerMeasure();
+        masonryLayout.resetLayout();
       },
     }),
-    [triggerMeasure, virtualizer],
+    [masonryLayout],
   );
 
+  // Notify parent of rendered cell range
   React.useEffect(() => {
-    onMasonryRef?.(virtualizer, null);
-  }, [onMasonryRef, virtualizer]);
+    if (virtualItems.length === 0) return;
 
-  const virtualItems = virtualizer.getVirtualItems();
-
-  React.useEffect(() => {
-    if (virtualItems.length === 0) {
-      return;
-    }
-
+    const indices = virtualItems
+      .map((item) => item.index)
+      .sort((a, b) => a - b);
     onCellsRendered?.({
-      startIndex: virtualItems[0]?.index ?? 0,
-      stopIndex: virtualItems[virtualItems.length - 1]?.index ?? 0,
+      startIndex: indices[0] ?? 0,
+      stopIndex: indices[indices.length - 1] ?? 0,
     });
-  }, [onCellsRendered, virtualItems]);
+  }, [virtualItems, onCellsRendered]);
+
+  // Notify parent of masonry ref
+  React.useEffect(() => {
+    onMasonryRef?.(ref, null);
+  }, [onMasonryRef, ref]);
 
   return (
     <div
       ref={scrollRef}
+      onScroll={handleScroll}
       style={{
         width,
         height,
@@ -115,32 +230,32 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
       <div
         style={{
           width,
-          height: virtualizer.getTotalSize(),
+          height: masonryLayout.totalHeight,
           position: "relative",
         }}
       >
-        {virtualItems.map((virtualItem: (typeof virtualItems)[number]) => {
-          const item =
-            getItem(items, virtualItem.index) ?? items[virtualItem.index];
-          const isLast = virtualItem.index === items.length - 1;
-          const left = virtualItem.lane * (columnWidth + gap);
+        {virtualItems.map(({ item, index, key }) => {
+          const actualItem = getItem(items, index) ?? item;
+          const isLast = index === items.length - 1;
+          const position = masonryLayout.itemPositions.get(index);
+
+          if (!position) return null;
 
           return (
             <div
-              key={String(virtualItem.key)}
-              data-index={virtualItem.index}
-              ref={virtualizer.measureElement}
+              key={key}
+              data-index={index}
+              ref={(el) => measureElement(el, index)}
               style={{
                 position: "absolute",
-                top: 0,
-                left,
+                top: position.y,
+                left: position.x,
                 width: columnWidth,
-                transform: `translateY(${virtualItem.start}px)`,
               }}
             >
               <CellRenderer
-                item={item}
-                index={virtualItem.index}
+                item={actualItem}
+                index={index}
                 isLast={isLast}
                 style={{ width: columnWidth }}
                 columnWidth={columnWidth}
@@ -155,8 +270,9 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
   );
 };
 
-const InfiniteMasonry = React.forwardRef<unknown, InfiniteMasonryProps>(
-  InfiniteMasonryForwardRef,
-);
+const InfiniteMasonry = React.forwardRef<
+  MasonryImperativeHandle,
+  InfiniteMasonryProps
+>(InfiniteMasonryForwardRef);
 
 export { InfiniteMasonry };
