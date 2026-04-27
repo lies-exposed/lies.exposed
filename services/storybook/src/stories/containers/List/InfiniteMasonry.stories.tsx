@@ -162,7 +162,9 @@ const meta: Meta<typeof MasonryPlayground> = {
   argTypes: {
     itemCount: { control: { type: "range", min: 50, max: 1500, step: 50 } },
     columnCount: { control: { type: "number", min: 1, max: 8, step: 1 } },
-    containerHeight: { control: { type: "range", min: 320, max: 1200, step: 20 } },
+    containerHeight: {
+      control: { type: "range", min: 320, max: 1200, step: 20 },
+    },
   },
 };
 

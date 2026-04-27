@@ -43,7 +43,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
   const isDownMD = useMuiMediaQuery(theme.breakpoints.down("md"));
   const isDownSM = useMuiMediaQuery(theme.breakpoints.down("sm"));
 
-  const columnCount = (defaultColumnCount ?? isDownMD) ? (isDownSM ? 1 : 3) : 4;
+  const columnCount = defaultColumnCount ?? (isDownMD ? (isDownSM ? 1 : 3) : 4);
   const gap = 8;
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   const columnWidth = Math.max(
@@ -58,7 +58,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
     overscan: 8,
     gap,
     lanes: columnCount,
-    laneAssignmentMode: "measured",
+    laneAssignmentMode: "estimate",
     getItemKey: (index: number) => String(getItem(items, index)?.id ?? index),
   });
 
@@ -108,7 +108,8 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
       style={{
         width,
         height,
-        overflow: "auto",
+        overflowY: "auto",
+        overflowX: "hidden",
       }}
     >
       <div
@@ -128,11 +129,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
             <div
               key={String(virtualItem.key)}
               data-index={virtualItem.index}
-              ref={(node) => {
-                if (node) {
-                  virtualizer.measureElement(node);
-                }
-              }}
+              ref={virtualizer.measureElement}
               style={{
                 position: "absolute",
                 top: 0,
@@ -145,7 +142,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
                 item={item}
                 index={virtualItem.index}
                 isLast={isLast}
-                style={{ width: columnWidth, height: virtualItem.size }}
+                style={{ width: columnWidth }}
                 columnWidth={columnWidth}
                 measure={triggerMeasure}
                 onRowInvalidate={triggerMeasure}
