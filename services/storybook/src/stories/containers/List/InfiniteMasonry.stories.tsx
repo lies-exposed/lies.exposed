@@ -17,7 +17,7 @@ interface MasonryStoryProps {
   itemCount: number;
   columnCount?: number;
   containerHeight: number;
-  layoutMode: 'stable' | 'optimal';
+  layoutMode: "stable" | "optimal";
 }
 
 const colors = [
@@ -67,7 +67,7 @@ const MasonryCell = React.forwardRef<HTMLDivElement, CellRendererProps>(
 
     // Calculate column for visual indicator
     const column = index % 4; // Assuming 4 columns for demo
-    const columnColors = ['🔵', '🟢', '🟡', '🟣'];
+    const columnColors = ["🔵", "🟢", "🟡", "🟣"];
 
     return (
       <div
@@ -86,8 +86,8 @@ const MasonryCell = React.forwardRef<HTMLDivElement, CellRendererProps>(
             borderRadius: 10,
             background: card.color,
             color: "#0b1f2a",
-            boxShadow: expanded 
-              ? "0 12px 24px rgba(5, 20, 28, 0.25)" 
+            boxShadow: expanded
+              ? "0 12px 24px rgba(5, 20, 28, 0.25)"
               : "0 8px 20px rgba(5, 20, 28, 0.15)",
             border: expanded
               ? "2px solid rgba(8, 30, 41, 0.3)"
@@ -100,26 +100,29 @@ const MasonryCell = React.forwardRef<HTMLDivElement, CellRendererProps>(
           }}
         >
           <div style={{ padding: 12 }}>
-            <div style={{ 
-              fontSize: 12, 
-              opacity: 0.85,
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}>
+            <div
+              style={{
+                fontSize: 12,
+                opacity: 0.85,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <span>#{index + 1}</span>
               <span title={`Column ${column + 1}`}>{columnColors[column]}</span>
             </div>
             <h3 style={{ margin: "6px 0 0", fontSize: 16 }}>{card.title}</h3>
             {expanded && (
               <div style={{ marginTop: 12, fontSize: 13, opacity: 0.9 }}>
-                <p style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>
+                <p style={{ margin: "0 0 8px 0", fontWeight: "bold" }}>
                   🎯 Notice: Cards below should move DOWN, not sideways!
                 </p>
-                <p style={{ margin: '0 0 8px 0' }}>
-                  This expanded content demonstrates the stable layout behavior where cards maintain their column assignments.
+                <p style={{ margin: "0 0 8px 0" }}>
+                  This expanded content demonstrates the stable layout behavior
+                  where cards maintain their column assignments.
                 </p>
-                <p style={{ margin: '0', fontSize: 12, opacity: 0.7 }}>
+                <p style={{ margin: "0", fontSize: 12, opacity: 0.7 }}>
                   Column indicator: {columnColors[column]} (Column {column + 1})
                 </p>
               </div>
@@ -134,8 +137,8 @@ const MasonryCell = React.forwardRef<HTMLDivElement, CellRendererProps>(
                 borderRadius: 6,
                 padding: "8px 12px",
                 cursor: "pointer",
-                background: expanded 
-                  ? "rgba(220, 38, 38, 0.8)" 
+                background: expanded
+                  ? "rgba(220, 38, 38, 0.8)"
                   : "rgba(6, 17, 24, 0.8)",
                 color: "#ecf8ff",
                 fontSize: 12,
@@ -185,7 +188,10 @@ const MasonryPlayground: React.FC<MasonryStoryProps> = ({
           borderBottom: "1px solid rgba(20, 50, 70, 0.12)",
         }}
       >
-        Layout Mode: {layoutMode === 'stable' ? 'Stable (cards stay in columns)' : 'Optimal (cards can move between columns)'}
+        Layout Mode:{" "}
+        {layoutMode === "stable"
+          ? "Stable (cards stay in columns)"
+          : "Optimal (cards can move between columns)"}
       </div>
       <AutoSizer style={{ height: "calc(100% - 32px)", width: "100%" }}>
         {({ width, height }) => {
@@ -216,7 +222,7 @@ const meta: Meta<typeof MasonryPlayground> = {
     itemCount: 400,
     columnCount: 4,
     containerHeight: 760,
-    layoutMode: 'stable' as const,
+    layoutMode: "stable" as const,
   },
   argTypes: {
     itemCount: { control: { type: "range", min: 50, max: 1500, step: 50 } },
@@ -226,8 +232,9 @@ const meta: Meta<typeof MasonryPlayground> = {
     },
     layoutMode: {
       control: { type: "select" },
-      options: ['stable', 'optimal'],
-      description: "Layout behavior: 'stable' keeps cards in columns (better UX), 'optimal' allows column switching (better space usage)",
+      options: ["stable", "optimal"],
+      description:
+        "Layout behavior: 'stable' keeps cards in columns (better UX), 'optimal' allows column switching (better space usage)",
     },
   },
 };
