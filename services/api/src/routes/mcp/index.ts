@@ -4,8 +4,8 @@ import {
   AdminRead,
   MCPToolsAccess,
 } from "@liexp/io/lib/http/auth/permissions/index.js";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp";
-import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import type express from "express";
 import { type Route } from "../route.types.js";
 import { registerResources } from "./resources/index.js";

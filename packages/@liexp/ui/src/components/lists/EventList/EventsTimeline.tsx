@@ -1,12 +1,6 @@
 import { EventTotalsMonoid } from "@liexp/io/lib/http/Events/EventTotals.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import * as React from "react";
-import {
-  AutoSizer,
-  type Index,
-  type IndexRange,
-  InfiniteLoader,
-} from "react-virtualized";
 import { useAPI } from "../../../hooks/useAPI.js";
 import {
   searchEventsInfiniteQuery,
@@ -14,6 +8,7 @@ import {
 } from "../../../state/queries/SearchEventsQuery.js";
 import { FullSizeLoader } from "../../Common/FullSizeLoader.js";
 import { Box } from "../../mui/index.js";
+import { AutoSizer } from "../../utils/AutoSizer.js";
 import { type EventListItemProps } from "./EventListItem.js";
 import EventsTimelineList from "./EventsTimelineList.js";
 
@@ -95,20 +90,27 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     [searchEvents?.totals ?? {}],
   );
 
-  const isRowLoaded = (params: Index): boolean => {
-    const rowLoaded = searchEvents?.events[params.index] !== undefined;
-    return rowLoaded;
-  };
+  const maybeLoadMore = React.useCallback(
+    async ({ stopIndex }: { startIndex: number; stopIndex: number }) => {
+      if (!hasNextPage || isFetchingNextPage || isFetching || isRefetching) {
+        return;
+      }
 
-  const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
-    if (hasNextPage && !isFetchingNextPage && !isFetching) {
       const cacheSize = searchEvents?.events.length ?? 0;
-      if (params.startIndex >= cacheSize || params.stopIndex > cacheSize) {
+      const threshold = Math.max(cacheSize - 10, 0);
+      if (stopIndex >= threshold) {
         await fetchNextPage({});
       }
-    }
-    await Promise.resolve(undefined);
-  };
+    },
+    [
+      fetchNextPage,
+      hasNextPage,
+      isFetching,
+      isFetchingNextPage,
+      isRefetching,
+      searchEvents?.events.length,
+    ],
+  );
 
   React.useEffect(() => {
     void refetch({});
@@ -128,30 +130,22 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
         height: "100%",
       }}
     >
-      <InfiniteLoader
-        isRowLoaded={isRowLoaded}
-        loadMoreRows={handleLoadMoreRows}
-        rowCount={totalEvents}
-        minimumBatchSize={20}
-      >
-        {({ onRowsRendered, registerChild }) => (
-          <AutoSizer style={{ height: "100%" }}>
-            {({ width, height }) => {
-              return (
-                <EventsTimelineList
-                  {...listProps}
-                  width={width}
-                  height={height}
-                  total={totalEvents}
-                  events={searchEvents}
-                  ref={registerChild}
-                  onRowsRendered={onRowsRendered}
-                />
-              );
-            }}
-          </AutoSizer>
-        )}
-      </InfiniteLoader>
+      <AutoSizer style={{ height: "100%" }}>
+        {({ width, height }) => {
+          return (
+            <EventsTimelineList
+              {...listProps}
+              width={width}
+              height={height}
+              total={totalEvents}
+              events={searchEvents}
+              onRowsRendered={(range) => {
+                void maybeLoadMore(range);
+              }}
+            />
+          );
+        }}
+      </AutoSizer>
     </Box>
   );
 };

@@ -1,9 +1,9 @@
 import { type Area } from "@liexp/io/lib/http/index.js";
 import Feature from "ol/Feature.js";
 import * as React from "react";
-import { AutoSizer } from "react-virtualized";
 import { geoJSONFormat } from "../../utils/map.utils.js";
 import Map, { type MapProps } from "../Map.js";
+import { AutoSizer } from "../utils/AutoSizer.js";
 
 export interface AreasMapProps extends Pick<MapProps<any>, "onMapClick"> {
   center?: [number, number];

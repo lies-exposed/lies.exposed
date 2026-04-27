@@ -1,4 +1,4 @@
-import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp";
+import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { type ServerContext } from "../../../context/context.type.js";
 import { registerActorkResources } from "./actor.resources.js";
 import { registerEventResources } from "./event.resources.js";

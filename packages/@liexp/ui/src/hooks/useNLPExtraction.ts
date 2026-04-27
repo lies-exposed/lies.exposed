@@ -30,7 +30,7 @@ export const useNLPExtraction = ({
   );
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string | null>(null);
-  const pollingRef = React.useRef<NodeJS.Timeout | null>(null);
+  const pollingRef = React.useRef<number | null>(null);
 
   const fetchExistingData = React.useCallback(async () => {
     if (!input) return;

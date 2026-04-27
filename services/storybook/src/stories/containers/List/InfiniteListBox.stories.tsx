@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { type Actor, type Area, type Media } from "@liexp/io/lib/http/index.js";
 import MediaElement from "@liexp/ui/lib/components/Media/MediaElement.js";
 import { ActorListItem } from "@liexp/ui/lib/components/lists/ActorList.js";
 import { AreaListItem } from "@liexp/ui/lib/components/lists/AreaList.js";
@@ -40,12 +41,13 @@ const args: InfiniteListBoxProps<"masonry", typeof Endpoints.Media.List> = {
     },
 
     CellRenderer: React.forwardRef<any, CellRendererProps>(
-      ({ item, measure, index, style, columnWidth, isLast, isScrolling, onRowInvalidate, ...others }, ref) => {
+      ({ item, measure, style, columnWidth, ...others }, ref) => {
+        const media = item as Media.Media;
 
         return (
           <div ref={ref} style={{ ...style, width: columnWidth, height: '100%' }}>
             <MediaElement
-              media={item}
+              media={media}
               style={{ maxWidth: columnWidth, maxHeight: style?.height ?? 300, height: '100%' }}
               itemStyle={{ maxWidth: "100%", maxHeight: "100%" }}
               onLoad={measure}
@@ -77,12 +79,13 @@ const infiniteAreaListBoxExampleArgs: InfiniteListBoxProps<
 
     CellRenderer: React.forwardRef<any, CellRendererProps>(
       ({ item, measure, index, style, columnWidth, ...others }, ref) => {
+        const area = item as Area.Area;
         // console.log("row render", others);
 
         return (
           <div ref={ref} style={{ ...style, width: columnWidth }}>
             <AreaListItem
-              item={item}
+              item={{ ...area, selected: true }}
               style={{ height: 300 }}
               defaultImage="https://placekitten.com/600/500"
               onLoad={measure}
@@ -111,12 +114,13 @@ const infiniteActorListBoxArgs: InfiniteListBoxProps<
 
     CellRenderer: React.forwardRef<any, CellRendererProps>(
       ({ item, measure, index, style, columnWidth, ...others }, ref) => {
+        const actor = item as Actor.Actor;
         // console.log("row render", others);
 
         return (
           <div ref={ref} style={{ ...style, width: columnWidth }}>
             <ActorListItem
-              item={{ ...item, selected: true }}
+              item={{ ...actor, selected: true }}
               displayFullName
               avatarSize="large"
               onClick={() => {}}

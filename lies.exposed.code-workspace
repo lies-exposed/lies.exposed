@@ -115,16 +115,6 @@
                 "github-mcp": {
                     "url": "https://api.githubcopilot.com/mcp/",
                     "type": "http"
-                },
-                "basic-memory": {
-                    "type": "stdio",
-                    "command": "uvx",
-                    "args": [
-                        "basic-memory",
-                        "mcp",
-                        "--project",
-                        "lies-exposed"
-                    ]
                 }
             },
             "inputs": []

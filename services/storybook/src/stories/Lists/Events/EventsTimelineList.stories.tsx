@@ -9,10 +9,10 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventsTimelineList, {
   type EventsTimelineListProps,
 } from "@liexp/ui/lib/components/lists/EventList/EventsTimelineList.js";
+import { AutoSizer } from "@liexp/ui/lib/components/utils/AutoSizer.js";
 import { type Meta, type StoryFn } from "@storybook/react-vite";
 import fc from "fast-check";
 import * as React from "react";
-import { AutoSizer } from "react-virtualized";
 
 const meta: Meta = {
   title: "Components/Lists/Events/EventTimelineList",

@@ -5,25 +5,36 @@ import MediaElement from "../../components/Media/MediaElement.js";
 import {
   InfiniteListBox,
   type InfiniteListBoxProps,
-  type ListType,
 } from "./InfiniteListBox/InfiniteListBox.js";
-import { type CellRendererProps } from "./InfiniteListBox/InfiniteMasonry.js";
+import {
+  type CellRendererProps,
+  type InfiniteMasonryProps,
+} from "./InfiniteListBox/InfiniteMasonry.js";
 
 type InfiniteMediaListBoxProps = Omit<
-  InfiniteListBoxProps<ListType, typeof Endpoints.Media.List>,
-  "useListQuery" | "toItems"
+  InfiniteListBoxProps<"masonry", typeof Endpoints.Media.List>,
+  "useListQuery" | "toItems" | "listProps"
 > & {
+  listProps?: Partial<
+    Omit<
+      InfiniteMasonryProps,
+      "width" | "height" | "items" | "getItem" | "CellRenderer"
+    >
+  > & {
+    type?: "masonry";
+    getItem?: (data: any[], index: number) => any;
+  };
   onMediaClick?: (media: Media.Media) => void;
 };
 
 export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
-  listProps,
+  listProps = {},
   onMediaClick,
   filter,
   ...props
 }) => {
   return (
-    <InfiniteListBox<typeof listProps.type, typeof Endpoints.Media.List>
+    <InfiniteListBox<"masonry", typeof Endpoints.Media.List>
       {...{
         filter,
         useListQuery: (Q) => Q.Media.list,
@@ -47,18 +58,19 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
               ref,
             ) => {
               // console.log("row render", columnWidth, index, style);
+              const media = item as Media.Media;
 
               return (
                 <div ref={ref} style={{ ...style, width: columnWidth }}>
                   <MediaElement
-                    media={item}
+                    media={media}
                     style={{
                       maxWidth: columnWidth,
                       maxHeight: style?.height ?? 300,
                     }}
                     itemStyle={{ maxWidth: "100%", maxHeight: "100%" }}
                     disableZoom
-                    onClick={() => onMediaClick?.(item)}
+                    onClick={() => onMediaClick?.(media)}
                     onLoad={measure}
                   />
                 </div>

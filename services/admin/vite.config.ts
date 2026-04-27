@@ -2,7 +2,6 @@ import { defineEnv } from "@liexp/core/lib/frontend/defineEnv.js";
 import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
 import { getGitInfo } from "@liexp/core/lib/git/info.js";
 import { generateChunkConfig } from "@liexp/core/lib/frontend/vite/chunk-config.js";
-import { reactVirtualized } from "@liexp/ui/lib/vite/plugins/react-virtualized.js";
 import * as path from "path";
 
 // Set version env vars if not already set
@@ -80,7 +79,6 @@ const config = defineViteConfig({
     process.env.VITE_NODE_ENV === "production"
       ? "tsconfig.build.json"
       : "tsconfig.json",
-  plugins: [reactVirtualized()],
   rolldownOptions: getRollupOptions(),
   // Monorepo HMR is auto-detected and enabled by default in development
   // Set to false to disable: monorepoHmr: false

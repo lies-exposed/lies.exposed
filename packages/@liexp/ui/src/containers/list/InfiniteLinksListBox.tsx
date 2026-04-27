@@ -5,19 +5,30 @@ import LinkCard from "../../components/Cards/LinkCard.js";
 import {
   InfiniteListBox,
   type InfiniteListBoxProps,
-  type ListType,
 } from "./InfiniteListBox/InfiniteListBox.js";
-import { type CellRendererProps } from "./InfiniteListBox/InfiniteMasonry.js";
+import {
+  type CellRendererProps,
+  type InfiniteMasonryProps,
+} from "./InfiniteListBox/InfiniteMasonry.js";
 
 type InfiniteLinksListBoxProps = Omit<
-  InfiniteListBoxProps<ListType, typeof Endpoints.Link.List>,
-  "useListQuery"
+  InfiniteListBoxProps<"masonry", typeof Endpoints.Link.List>,
+  "useListQuery" | "listProps"
 > & {
+  listProps?: Partial<
+    Omit<
+      InfiniteMasonryProps,
+      "width" | "height" | "items" | "getItem" | "CellRenderer"
+    >
+  > & {
+    type?: "masonry";
+    getItem?: (data: any[], index: number) => any;
+  };
   onLinkClick?: (media: Link.Link) => void;
 };
 
 export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
-  listProps: { getItem, type: _type, ...listProps },
+  listProps: { getItem, ...listProps } = {},
   onLinkClick,
   filter,
   ...props
@@ -47,6 +58,10 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
               ref,
             ) => {
               // console.log("row render", columnWidth, index, style);
+              const link = {
+                ...(item as Link.Link),
+                selected: true,
+              };
 
               React.useEffect(() => {
                 measure();
@@ -59,13 +74,13 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
               return (
                 <div ref={ref} style={style}>
                   <LinkCard
-                    link={item}
+                    link={link}
                     style={{
                       width: columnWidth,
                       // width: "100%",
                       height: "auto",
                     }}
-                    onClick={() => onLinkClick?.(item)}
+                    onClick={() => onLinkClick?.(link)}
                   />
                 </div>
               );

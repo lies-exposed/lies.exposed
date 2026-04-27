@@ -1,127 +1,31 @@
+import { useVirtualizer } from "@tanstack/react-virtual";
 import * as React from "react";
-import {
-  CellMeasurer,
-  CellMeasurerCache,
-  List,
-  type ListRowProps,
-} from "react-virtualized";
 import { styled } from "../../../theme/index.js";
 import { type InfiniteListBaseProps } from "./types.js";
 
-export interface RowRendererProps extends Omit<ListRowProps, "parent"> {
+export interface RowRendererProps extends Record<string, unknown> {
+  index: number;
   item: any;
   isLast: boolean;
+  isVisible: boolean;
+  style: React.CSSProperties;
   measure: () => void;
   onRowInvalidate?: () => void;
 }
 
 type RowRenderer = React.ForwardRefExoticComponent<RowRendererProps>;
 
-type InfiniteListRowProps<P> = ListRowProps &
-  Omit<P, "onLoad" | "onRowInvalidate"> &
-  Omit<RowRendererProps, "measure"> & {
-    RowRenderer: RowRenderer;
-    k: string;
-  };
-
-const Row: React.FC<InfiniteListRowProps<unknown>> = (props) => {
-  const {
-    isVisible,
-    isLast,
-    style,
-    parent,
-    index,
-    k: key,
-    RowRenderer,
-    item,
-    onRowInvalidate,
-    ...rest
-  } = props;
-
-  return (
-    <CellMeasurer
-      key={key}
-      cache={cellCache}
-      columnIndex={0}
-      rowIndex={index}
-      parent={parent}
-    >
-      {({ registerChild, measure }) => {
-        if (!item) {
-          return (
-            <div
-              ref={registerChild as React.Ref<any>}
-              key={key}
-              style={{ height: 300 }}
-            />
-          );
-        }
-
-        if (!isVisible) {
-          // console.log("no visible", index);
-          return (
-            <div
-              key={key}
-              ref={registerChild as React.Ref<any>}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: 300,
-                width: "100%",
-                ...props.style,
-              }}
-            />
-          );
-        }
-
-        const rowRendererProps = {
-          ref: registerChild as React.Ref<any>,
-          isVisible,
-          isLast,
-          style,
-          index,
-          item,
-          measure,
-          onRowInvalidate: () => {
-            cellCache.clear(index, 0);
-            onRowInvalidate?.();
-            setTimeout(() => {
-              measure();
-            }, 300);
-          },
-          ...rest,
-        };
-
-        // console.log(rowRendererProps);
-
-        return <RowRenderer {...rowRendererProps} />;
-      }}
-    </CellMeasurer>
-  );
-};
-
 const PREFIX = "InfiniteList";
 const classes = {
   timeline: `${PREFIX}-timeline`,
-  listSubheader: `${PREFIX}-listSubheader`,
-  listItemUList: `${PREFIX}-listItemUList`,
 };
 
-const StyledList = styled(List)(({ theme }) => ({
+const StyledList = styled("div")(() => ({
   [`&.${classes.timeline}`]: {
-    padding: 0,
+    width: "100%",
+    height: "100%",
+    overflow: "auto",
     paddingTop: 20,
-    width: "100%",
-  },
-
-  [`& .${classes.listSubheader}`]: {
-    backgroundColor: theme.palette.common.white,
-  },
-
-  [`& .${classes.listItemUList}`]: {
-    padding: 0,
-    width: "100%",
   },
 }));
 
@@ -130,45 +34,108 @@ export interface InfiniteListProps extends InfiniteListBaseProps {
   RowRenderer: RowRenderer;
 }
 
-const cellCache = new CellMeasurerCache({
-  fixedWidth: true,
-  minWidth: 200,
-  fixedHeight: false,
-  defaultHeight: 300,
-});
-
 const InfiniteListForwardRef: React.ForwardRefRenderFunction<
   unknown,
   InfiniteListProps
-> = ({ width, height, onRowsRendered, items, getItem, ...rest }, listRef) => {
-  // console.log("items", items.length);
+> = (
+  { height, onRowsRendered, items, getItem, RowRenderer, ...rest },
+  listRef,
+) => {
+  const scrollRef = React.useRef<HTMLDivElement | null>(null);
+
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => scrollRef.current,
+    estimateSize: () => 300,
+    overscan: 10,
+  });
+
+  React.useImperativeHandle(
+    listRef,
+    () => ({
+      scrollToIndex: (index: number) => {
+        virtualizer.scrollToIndex(index);
+      },
+    }),
+    [virtualizer],
+  );
+
+  const virtualItems = virtualizer.getVirtualItems();
+
+  React.useEffect(() => {
+    if (virtualItems.length === 0) {
+      return;
+    }
+
+    const start = virtualItems[0]?.index ?? 0;
+    const stop = virtualItems[virtualItems.length - 1]?.index ?? 0;
+    onRowsRendered({ startIndex: start, stopIndex: stop });
+  }, [onRowsRendered, virtualItems]);
+
   return (
-    <StyledList
-      ref={listRef}
-      width={width}
-      height={height}
-      estimatedRowSize={300}
-      overscanRowCount={10}
-      onRowsRendered={onRowsRendered}
-      rowRenderer={({ key, ...props }) => {
-        const item = getItem(items, props.index);
-        const isLast = items.length === props.index + 1;
-        // console.log({ item: item.id, isLast, isVisible: props.isVisible });
-        return (
-          <Row
-            {...rest}
-            {...props}
-            k={key}
-            key={key}
-            item={item}
-            isLast={isLast}
-          />
-        );
-      }}
-      rowCount={items.length}
-      rowHeight={cellCache.rowHeight}
-      deferredMeasurementCache={cellCache}
-    />
+    <StyledList ref={scrollRef} className={classes.timeline} style={{ height }}>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          height: virtualizer.getTotalSize(),
+        }}
+      >
+        {virtualItems.map((virtualItem) => {
+          const item = getItem(items, virtualItem.index);
+          const isLast = items.length === virtualItem.index + 1;
+
+          const commonStyle: React.CSSProperties = {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            transform: `translateY(${virtualItem.start}px)`,
+          };
+
+          if (!item) {
+            return (
+              <div
+                key={`empty-${virtualItem.index}`}
+                ref={(node) => {
+                  if (node) {
+                    virtualizer.measureElement(node);
+                  }
+                }}
+                style={{ ...commonStyle, minHeight: 300 }}
+              />
+            );
+          }
+
+          return (
+            <div
+              key={String(item.id ?? virtualItem.index)}
+              ref={(node) => {
+                if (node) {
+                  virtualizer.measureElement(node);
+                }
+              }}
+              style={commonStyle}
+            >
+              <RowRenderer
+                {...rest}
+                index={virtualItem.index}
+                item={item}
+                isVisible={true}
+                isLast={isLast}
+                style={{ width: "100%" }}
+                measure={() => {
+                  virtualizer.measure();
+                }}
+                onRowInvalidate={() => {
+                  virtualizer.measure();
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </StyledList>
   );
 };
 

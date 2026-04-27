@@ -9,6 +9,14 @@ const eslintConfig = defineConfig(...baseConfig, {
       tsconfigRootDir: import.meta.dirname,
     },
   },
+  rules: {
+    "import-x/no-unresolved": [
+      "error",
+      {
+        ignore: ["^@modelcontextprotocol/sdk/server/.*\\.js$"],
+      },
+    ],
+  },
 });
 
 export default eslintConfig;
