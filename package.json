@@ -43,7 +43,7 @@
     "knip": "VITE_VALIDATE_ENV=false knip"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.5.0",
+    "@commitlint/cli": "^20.5.2",
     "@commitlint/config-conventional": "^20.5.0",
     "@types/node": "^24.12.2",
     "@vitest/coverage-v8": "^4.1.4",
