@@ -7,10 +7,7 @@
     "tsBuildInfoFile": "build/.build.tsbuildinfo",
     "declaration": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
-    "paths": {
-      "*": ["./src/*"]
-    }
+    "strictPropertyInitialization": false
   },
   "include": [
     "./src",

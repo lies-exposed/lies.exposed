@@ -86,7 +86,7 @@
     "sharp": "^0.34.5",
     "tsx": "^4.21.0",
     "typeorm": "^0.3.28",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.4.4",
