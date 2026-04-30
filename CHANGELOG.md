@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.5.14](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.13...lies.exposed@0.5.14) (2026-04-30)
+
+
+### Bug Fixes
+
+* **admin:** remove qs dep, inline bracket params serializer ([#3533](https://github.com/lies-exposed/lies.exposed/issues/3533)) ([75b36b6](https://github.com/lies-exposed/lies.exposed/commit/75b36b61d09ed5d6cd143abccc1d311c60312a57))
+* replaced outdated react-virtualized with @tanstack/react-virtual ([#3584](https://github.com/lies-exposed/lies.exposed/issues/3584)) ([faea031](https://github.com/lies-exposed/lies.exposed/commit/faea0318d4b18cdffb01404161367042333b4205))
+
+
+### Miscellaneous
+
+* bump eslint to 10.2.1, prettier to 3.8.3 and typescript-eslint to 8.59.0 ([#3576](https://github.com/lies-exposed/lies.exposed/issues/3576)) ([4f39ac5](https://github.com/lies-exposed/lies.exposed/commit/4f39ac53113d22fef6c3076d8e659f94e4b2c605))
+* **core:** pin vite-plugin-css-injected-by-js@^4 as peerDep ([#3514](https://github.com/lies-exposed/lies.exposed/issues/3514)) ([f22011a](https://github.com/lies-exposed/lies.exposed/commit/f22011ac1b7a63f7484ecb118148d6f153664d41))
+* disable typescript@6 updates ([#3561](https://github.com/lies-exposed/lies.exposed/issues/3561)) ([bb574ee](https://github.com/lies-exposed/lies.exposed/commit/bb574ee0d523789efe5f1ec0a639de5a05ca1a25))
+* group dependabot updated for devDeps in one group ([#3549](https://github.com/lies-exposed/lies.exposed/issues/3549)) ([8ae3ce5](https://github.com/lies-exposed/lies.exposed/commit/8ae3ce5ca6439d0e51460194b50387a06e4a9a28))
+* migrate to typescript 6 ([#3599](https://github.com/lies-exposed/lies.exposed/issues/3599)) ([9391d22](https://github.com/lies-exposed/lies.exposed/commit/9391d225cda12ada602cf80b4b7592150cff15ac))
+* pnpm audit fix ([#3562](https://github.com/lies-exposed/lies.exposed/issues/3562)) ([7415f4b](https://github.com/lies-exposed/lies.exposed/commit/7415f4bfea19f8b8ec2a68652191de811141fc09))
+* remove localai service ([#3560](https://github.com/lies-exposed/lies.exposed/issues/3560)) ([bfa4bae](https://github.com/lies-exposed/lies.exposed/commit/bfa4bae9cbcd4f0ed58a4405687b4e8ff2355d63))
+* typescript v6 compatibility steps ([#3555](https://github.com/lies-exposed/lies.exposed/issues/3555)) ([d52a4e8](https://github.com/lies-exposed/lies.exposed/commit/d52a4e8080f1b33aee2cc74f26c286c790a78e3d))
+* update kubeconfig for helm scripts ([#3516](https://github.com/lies-exposed/lies.exposed/issues/3516)) ([d483a36](https://github.com/lies-exposed/lies.exposed/commit/d483a36028ece02f0769458a831bcf1147844acf))
+* update pnpm from 10.32.1 to 10.33.0 ([#3534](https://github.com/lies-exposed/lies.exposed/issues/3534)) ([c7b1438](https://github.com/lies-exposed/lies.exposed/commit/c7b1438a4045d8ba222bec8a1103f96986b00817))
+
 ## [0.5.13](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.12...lies.exposed@0.5.13) (2026-04-13)
 
 
