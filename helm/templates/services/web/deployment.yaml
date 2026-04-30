@@ -37,10 +37,10 @@ spec:
             timeoutSeconds: 20
           resources:
             limits:
-              memory: 512Mi
+              memory: 1024Mi
               cpu: 300m
             requests:
-              memory: 256Mi
+              memory: 512Mi
               cpu: 150m
           tty: true
       restartPolicy: Always
