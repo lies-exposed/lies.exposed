@@ -81,10 +81,11 @@ jobs:
 
       - name: Install MinIO Client
         if: needs.release-please.outputs.releases_created == 'true'
+        uses: hostwithquantum/setup-mc@v1.1.1
+
+      - name: Sync Storybook to MinIO
+        if: needs.release-please.outputs.releases_created == 'true'
         run: |
-          curl -fsSL https://dl.min.io/client/mc/release/linux-amd64/mc -o mc
-          chmod +x mc
-          sudo mv mc /usr/local/bin/
           mc alias set lies-exposed-space \
             https://space.lies.exposed \
             ${{ secrets.MINIO_ACCESS_KEY }} \
