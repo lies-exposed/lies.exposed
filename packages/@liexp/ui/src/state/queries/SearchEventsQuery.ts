@@ -173,9 +173,10 @@ export const searchEventsInfiniteQuery =
     { pages: SearchEventQueryResult[]; lastPage: SearchEventQueryResult },
     APIError
   > => {
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps
     return useInfiniteQuery({
       initialPageParam: { _start: 0, _end: 20 },
-      queryKey: [...getSearchEventsInfiniteQueryKey(input), api],
+      queryKey: getSearchEventsInfiniteQueryKey(input),
       queryFn: ({ queryKey, pageParam }) =>
         pipe(
           api.Event.Custom.SearchEvents({
