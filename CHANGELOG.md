@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.15](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.14...lies.exposed@0.5.15) (2026-04-30)
+
+
+### Miscellaneous
+
+* **ai-bot:** restore esbuild for SEA ([#3600](https://github.com/lies-exposed/lies.exposed/issues/3600)) ([b72f805](https://github.com/lies-exposed/lies.exposed/commit/b72f805b14ea2e6e9f4e2d5211350aae2024008f))
+
 ## [0.5.14](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.13...lies.exposed@0.5.14) (2026-04-30)
 
 
