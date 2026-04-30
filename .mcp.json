@@ -1,34 +1,34 @@
 {
   "mcpServers": {
-    "context7": {
-      "type": "http",
-      "url": "https://mcp.context7.com/mcp"
-    },
     "api-liexp-dev-db": {
-      "type":"stdio",
-      "command": "npx",
       "args": [
         "-y",
         "@modelcontextprotocol/server-postgres",
         "postgresql://liexp:liexp-password@localhost:8432/liexp"
-      ]
-    },
-    "playwright": {
-      "type":"stdio",
+      ],
       "command": "npx",
-      "args": [
-        "@playwright/mcp@latest"
-      ]
+      "type": "stdio"
     },
     "basic-memory": {
-      "type": "stdio",
-      "command": "uvx",
       "args": [
         "basic-memory",
         "mcp",
         "--project",
         "lies-exposed"
-      ]
+      ],
+      "command": "uvx",
+      "type": "stdio"
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "playwright": {
+      "args": [
+        "@playwright/mcp@latest"
+      ],
+      "command": "npx",
+      "type": "stdio"
     }
   }
 }
