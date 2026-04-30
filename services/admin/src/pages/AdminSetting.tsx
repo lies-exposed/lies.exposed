@@ -12,6 +12,7 @@ import {
   TextField,
   FunctionField,
   type TransformData,
+  type EditProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import * as React from "react";
 
@@ -36,7 +37,7 @@ const transformSetting: TransformData = (data) => ({
     typeof data.value === "string" ? data.value : JSON.stringify(data.value),
 });
 
-export const SettingEdit: React.FC<CreateProps> = (props) => (
+export const SettingEdit: React.FC<EditProps> = (props) => (
   <Edit {...props} title="Create a custom setting" transform={transformSetting}>
     <SimpleForm>
       <SlugInput source="id" />
