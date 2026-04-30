@@ -11,10 +11,6 @@
           "postgresql://liexp:liexp-password@localhost:8432/liexp"
         ]
     },
-    "api-liexp-dev": {
-      "url": "http://api.liexp.dev/mcp",
-      "type": "http"
-    },
     "playwright": {
       "command": "npx",
       "args": [

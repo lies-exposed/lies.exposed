@@ -54,6 +54,7 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@types/node": "^24.12.2",
+    "esbuild": "^0.28.0",
     "eslint": "^10.2.1",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3"
