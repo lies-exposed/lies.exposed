@@ -175,7 +175,7 @@ export const searchEventsInfiniteQuery =
   > => {
     return useInfiniteQuery({
       initialPageParam: { _start: 0, _end: 20 },
-      queryKey: getSearchEventsInfiniteQueryKey(input),
+      queryKey: [...getSearchEventsInfiniteQueryKey(input), api],
       queryFn: ({ queryKey, pageParam }) =>
         pipe(
           api.Event.Custom.SearchEvents({
@@ -208,7 +208,7 @@ export const getEventsFromLinkQuery =
   (api: API<Endpoints>) =>
   ({ url }: { url: string }): UseQueryResult<any, IOError> => {
     return useQuery({
-      queryKey: ["events-from-link", url],
+      queryKey: ["events-from-link", url, api],
       queryFn: async () => {
         return pipe(
           api.Event.Custom.GetFromLink({
