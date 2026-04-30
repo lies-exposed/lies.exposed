@@ -138,8 +138,8 @@ importers:
         specifier: ^1.46.1
         version: 1.46.1
       ip-address:
-        specifier: ^10.1.0
-        version: 10.1.0
+        specifier: ^10.1.1
+        version: 10.1.1
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.3
@@ -7624,6 +7624,10 @@ packages:
 
   ip-address@10.1.0:
     resolution: {integrity: sha512-XXADHxXmvT9+CRxhXg56LJovE+bmWnEWB78LB83VZTprKTmaC5QfruXocxzTZ2Kl0DNwKuBdlIhjL8LeY8Sf8Q==}
+    engines: {node: '>= 12'}
+
+  ip-address@10.1.1:
+    resolution: {integrity: sha512-1FMu8/N15Ck1BL551Jf42NYIoin2unWjLQ2Fze/DXryJRl5twqtwNHlO39qERGbIOcKYWHdgRryhOC+NG4eaLw==}
     engines: {node: '>= 12'}
 
   ip-regex@4.3.0:
@@ -17996,6 +18000,8 @@ snapshots:
 
   ip-address@10.1.0: {}
 
+  ip-address@10.1.1: {}
+
   ip-regex@4.3.0: {}
 
   ipaddr.js@1.9.1: {}
@@ -20863,7 +20869,7 @@ snapshots:
 
   socks@2.8.7:
     dependencies:
-      ip-address: 10.1.0
+      ip-address: 10.1.1
       smart-buffer: 4.2.0
 
   source-map-js@1.2.1: {}
