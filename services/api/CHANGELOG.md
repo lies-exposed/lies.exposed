@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.5.14](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.13...api@0.5.14) (2026-04-30)
+
+
+### Bug Fixes
+
+* **io:** video extra includes image extra ([#3557](https://github.com/lies-exposed/lies.exposed/issues/3557)) ([039cd7f](https://github.com/lies-exposed/lies.exposed/commit/039cd7facf96ee8f1bf35a2edc5cb645b9120ff1))
+* replaced outdated react-virtualized with @tanstack/react-virtual ([#3584](https://github.com/lies-exposed/lies.exposed/issues/3584)) ([faea031](https://github.com/lies-exposed/lies.exposed/commit/faea0318d4b18cdffb01404161367042333b4205))
+* use .bin/typeorm for robust path resolution in pnpm monorepo ([#3559](https://github.com/lies-exposed/lies.exposed/issues/3559)) ([0ec6233](https://github.com/lies-exposed/lies.exposed/commit/0ec62336107d8ca71cdbaadec2119dc72e0b754c))
+
+
+### Miscellaneous
+
+* **backend:** augment typings of express-serve-static-core instead express ([#3556](https://github.com/lies-exposed/lies.exposed/issues/3556)) ([a8ca309](https://github.com/lies-exposed/lies.exposed/commit/a8ca309ea829fb39f53a203de798f410636c2761))
+* bump eslint to 10.2.1, prettier to 3.8.3 and typescript-eslint to 8.59.0 ([#3576](https://github.com/lies-exposed/lies.exposed/issues/3576)) ([4f39ac5](https://github.com/lies-exposed/lies.exposed/commit/4f39ac53113d22fef6c3076d8e659f94e4b2c605))
+* migrate to typescript 6 ([#3599](https://github.com/lies-exposed/lies.exposed/issues/3599)) ([9391d22](https://github.com/lies-exposed/lies.exposed/commit/9391d225cda12ada602cf80b4b7592150cff15ac))
+* typescript v6 compatibility steps ([#3555](https://github.com/lies-exposed/lies.exposed/issues/3555)) ([d52a4e8](https://github.com/lies-exposed/lies.exposed/commit/d52a4e8080f1b33aee2cc74f26c286c790a78e3d))
+* update pnpm from 10.32.1 to 10.33.0 ([#3534](https://github.com/lies-exposed/lies.exposed/issues/3534)) ([c7b1438](https://github.com/lies-exposed/lies.exposed/commit/c7b1438a4045d8ba222bec8a1103f96986b00817))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.14
+    * @liexp/core bumped to 0.5.14
+    * @liexp/io bumped to 0.5.14
+    * @liexp/shared bumped to 0.5.14
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.14
+    * @liexp/test bumped to 0.5.14
+
 ## [0.5.13](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.12...api@0.5.13) (2026-04-13)
 
 
