@@ -120,7 +120,8 @@
             "inputs": []
         },
         "chat.tools.terminal.autoApprove": {
-            "gh": true
+            "gh": true,
+            "git commit": true
         }
     }
 }
