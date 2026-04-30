@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
-  "main": "build/run.js",
+  "main": "build/run-esbuild.cjs",
   "type": "module",
   "imports": {
     "#common/*": "./build/common/*",
@@ -18,7 +18,8 @@
     "clean": "rm -rf build/.build.* && rm -rf build/*",
     "typecheck": "tsc --noEmit",
     "build:tsc": "tsc -b tsconfig.build.json",
-    "build": "pnpm build:tsc",
+    "build:es": "node --import tsx/esm ./esbuild.config.mjs",
+    "build": "pnpm build:tsc && pnpm build:es",
     "dev": "node --watch ./build/run.js --trace-warnings",
     "docker:dev": "pnpm dev",
     "cli:dev": "node --import tsx/esm src/cli/index.ts",
