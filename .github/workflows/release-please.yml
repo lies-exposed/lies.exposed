@@ -81,14 +81,16 @@ jobs:
 
       - name: Install MinIO Client
         if: needs.release-please.outputs.releases_created == 'true'
+        uses: hostwithquantum/setup-mc@v1.1.1
+        with:
+          alias-name: lies-exposed-space
+          alias-url: https://space.lies.exposed
+          alias-access-key: ${{ secrets.MINIO_ACCESS_KEY }}
+          alias-secret-key: ${{ secrets.MINIO_SECRET_KEY }}
+
+      - name: Sync Storybook to MinIO
+        if: needs.release-please.outputs.releases_created == 'true'
         run: |
-          curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
-          chmod +x mc
-          sudo mv mc /usr/local/bin/
-          mc alias set lies-exposed-space \
-            https://space.lies.exposed \
-            ${{ secrets.MINIO_ACCESS_KEY }} \
-            ${{ secrets.MINIO_SECRET_KEY }}
           mc mirror --overwrite --remove \
             services/storybook/build \
             lies-exposed-space/storybook

@@ -118,6 +118,10 @@
                 }
             },
             "inputs": []
+        },
+        "chat.tools.terminal.autoApprove": {
+            "gh": true,
+            "git commit": true
         }
     }
 }
