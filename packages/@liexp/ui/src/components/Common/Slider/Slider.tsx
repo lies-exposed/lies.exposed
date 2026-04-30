@@ -1,4 +1,3 @@
-import { importDefault } from "@liexp/core/lib/esm/import-default.js";
 import { clsx } from "clsx";
 import * as React from "react";
 import _SlickSlider, { type Settings } from "react-slick";
@@ -7,6 +6,30 @@ import { styled, useTheme } from "../../../theme/index.js";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+type ModuleDefault<T> = T & {
+  default?: T | { default?: T };
+};
+
+const unwrapModuleDefault = <T,>(mod: ModuleDefault<T>): T => {
+  if (mod.default === undefined) {
+    return mod;
+  }
+
+  const maybeDefault = mod.default as T | { default?: T };
+  if (
+    typeof maybeDefault === "object" &&
+    maybeDefault !== null &&
+    "default" in maybeDefault &&
+    maybeDefault.default !== undefined
+  ) {
+    return maybeDefault.default;
+  }
+
+  return maybeDefault as T;
+};
+
+const SlickSlider = unwrapModuleDefault(_SlickSlider);
+
 const PREFIX = "Slider";
 
 const classes = {
@@ -14,8 +37,6 @@ const classes = {
   mediaSliderDownMD: `${PREFIX}-mediaSliderDownMD`,
   item: `${PREFIX}-item`,
 };
-
-const SlickSlider = importDefault(_SlickSlider).default;
 
 const StyledSlickSlider = styled(SlickSlider)(({ theme }) => ({
   [`.${classes.root}`]: {
