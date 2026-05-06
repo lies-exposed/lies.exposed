@@ -75,7 +75,7 @@ export type AvailableModels = typeof AvailableModels.Type;
 // AI Configuration override for per-request provider selection
 export const AIConfig = Schema.Struct({
   provider: AIProvider,
-  model: Schema.optional(AvailableModels),
+  model: Schema.optional(Schema.String),
   options: Schema.optional(
     Schema.Struct({
       temperature: Schema.optional(Schema.Number),
@@ -199,7 +199,7 @@ export const ChatResponse = Schema.Struct({
   usedProvider: Schema.optional(
     Schema.Struct({
       provider: AIProvider,
-      model: AvailableModels,
+      model: Schema.String,
     }),
   ),
 }).annotations({
@@ -283,7 +283,7 @@ export const ChatStreamEvent = Schema.Struct({
   usedProvider: Schema.optional(
     Schema.Struct({
       provider: AIProvider,
-      model: AvailableModels,
+      model: Schema.String,
     }),
   ),
   // Context information (sent at stream start)
@@ -307,8 +307,8 @@ export const ProviderInfo = Schema.Struct({
   name: AIProvider,
   description: Schema.String,
   available: Schema.Boolean,
-  models: Schema.Array(AvailableModels),
-  defaultModel: AvailableModels,
+  models: Schema.Array(Schema.String),
+  defaultModel: Schema.String,
 }).annotations({
   title: "ProviderInfo",
   description: "Information about an AI provider and its available models",
