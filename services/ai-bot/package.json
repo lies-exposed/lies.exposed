@@ -45,7 +45,7 @@
     "debug": "^4.4.0",
     "effect": "^3.21.2",
     "fp-ts": "^2.16.10",
-    "openai": "^6.34.0",
+    "openai": "^6.36.0",
     "pdfjs-dist": "^5.7.284",
     "puppeteer-core": "^24.42.0",
     "puppeteer-extra": "^3.3.6",
