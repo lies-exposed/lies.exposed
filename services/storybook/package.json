@@ -54,7 +54,7 @@
     "@liexp/eslint-config": "workspace:*",
     "@types/d3": "^7.4.3",
     "@types/react": "^18.3.27",
-    "eslint": "^10.2.1",
+    "eslint": "^10.3.0",
     "eslint-plugin-storybook": "^10.3.5",
     "prettier": "^3.8.3",
     "typescript": "^6.0.3"
