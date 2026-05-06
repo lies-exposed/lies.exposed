@@ -42,8 +42,8 @@ export interface LangchainProviderOptions<Provider extends AIProvider> {
   maxRetries?: number;
   provider: Provider;
   models?: {
-    chat?: AvailableModels;
-    embeddings?: AvailableModels;
+    chat?: string;
+    embeddings?: string;
   };
   options?: {
     chat: Provider extends "anthropic"
@@ -69,7 +69,7 @@ export interface LangchainProvider<Provider extends AIProvider> {
   queryDocument: <Args extends { text: string; question?: string }>(
     docs: LangchainDocument[],
     question: string,
-    options?: { model?: AvailableModels; prompt?: PromptFn<Args> },
+    options?: { model?: string; prompt?: PromptFn<Args> },
   ) => Promise<string>;
 }
 
