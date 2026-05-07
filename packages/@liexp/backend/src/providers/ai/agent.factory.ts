@@ -31,10 +31,7 @@ import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { ServerError } from "../../errors/index.js";
-import {
-  GetLangchainProvider,
-  type AIProvider,
-} from "./langchain.provider.js";
+import { GetLangchainProvider, type AIProvider } from "./langchain.provider.js";
 import { createReadDocumentationTool } from "./tools/readDocumentation.tool.js";
 import { createSearchWebTool } from "./tools/searchWeb.tools.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";

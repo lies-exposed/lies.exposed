@@ -187,7 +187,7 @@ async function fetchOpenAIModels(
     headers: { Authorization: `Bearer ${apiKey}` },
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  const data = (await response.json()) as { data: Array<{ id: string }> };
+  const data = (await response.json()) as { data: { id: string }[] };
   return data.data.map((m) => m.id).sort();
 }
 
@@ -199,7 +199,7 @@ async function fetchAnthropicModels(apiKey: string): Promise<string[]> {
     },
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  const data = (await response.json()) as { data: Array<{ id: string }> };
+  const data = (await response.json()) as { data: { id: string }[] };
   return data.data.map((m) => m.id);
 }
 
@@ -208,7 +208,7 @@ async function fetchXAIModels(apiKey: string): Promise<string[]> {
     headers: { Authorization: `Bearer ${apiKey}` },
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  const data = (await response.json()) as { data: Array<{ id: string }> };
+  const data = (await response.json()) as { data: { id: string }[] };
   return data.data.map((m) => m.id);
 }
 
