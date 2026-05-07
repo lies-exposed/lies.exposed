@@ -89,7 +89,7 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.4.4",
+    "@electric-sql/pglite": "^0.4.5",
     "@liexp/eslint-config": "workspace:*",
     "@liexp/test": "workspace:*",
     "@types/cors": "^2.8.18",
@@ -103,7 +103,7 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
     "@types/supertest": "^7.2.0",
-    "dotenv": "^17.4.2",
+    "dotenv": "^17.3.1",
     "eslint": "^10.3.0",
     "fast-check": "^3.23.2",
     "supertest": "^7.2.2",

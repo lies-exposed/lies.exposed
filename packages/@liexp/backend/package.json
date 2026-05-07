@@ -66,7 +66,7 @@
     "@types/node-telegram-bot-api": "^0.64.14",
     "axios": "^1.15.2",
     "debug": "^4.4.0",
-    "dotenv": "^17.4.2",
+    "dotenv": "^17.3.1",
     "effect": "^3.21.2",
     "eslint": "^10.3.0",
     "exifreader": "^4.38.1",
