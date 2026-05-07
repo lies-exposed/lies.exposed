@@ -68,7 +68,7 @@
     "debug": "^4.4.0",
     "dotenv": "^17.4.2",
     "effect": "^3.21.2",
-    "eslint": "^10.2.1",
+    "eslint": "^10.3.0",
     "exifreader": "^4.38.1",
     "express-rate-limit": "^8.4.1",
     "fast-check": "^3.23.2",
@@ -85,7 +85,7 @@
     "react-helmet-async": "^3.0.0",
     "sharp": "^0.34.5",
     "typescript": "^6.0.3",
-    "vite": "^8.0.10",
+    "vite": "^8.0.11",
     "vitest": "^4.1.5",
     "vitest-mock-extended": "^4.0.0"
   },

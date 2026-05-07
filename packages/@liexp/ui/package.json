@@ -127,12 +127,12 @@
     "@types/topojson-specification": "^1.0.5",
     "axios": "^1.15.2",
     "effect": "^3.21.2",
-    "eslint": "^10.2.1",
+    "eslint": "^10.3.0",
     "fp-ts": "^2.16.10",
     "jsdom": "^29.0.2",
     "openai": "^6.36.0",
     "typescript": "^6.0.3",
-    "vite": "^8.0.10",
+    "vite": "^8.0.11",
     "vitest": "^4.1.5"
   },
   "peerDependencies": {
