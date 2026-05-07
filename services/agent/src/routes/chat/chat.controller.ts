@@ -6,7 +6,6 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type AgentInfo,
   type AIProvider,
-  type AvailableModels,
   type ProviderInfo,
 } from "@liexp/io/lib/http/Chat.js";
 import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
@@ -151,16 +150,12 @@ export const MakeSendChatMessageStreamRoute: Route = (r, ctx) => {
 };
 
 /**
- * Provider-to-models mapping — single source of truth for provider discovery.
- * The agent knows which providers exist and what models they support.
+ * Static fallback metadata — descriptions and default models per provider.
+ * Dynamic model lists are fetched from provider APIs at runtime.
  */
 const PROVIDER_MODELS: Record<
   AIProvider,
-  {
-    description: string;
-    models: AvailableModels[];
-    defaultModel: AvailableModels;
-  }
+  { description: string; models: string[]; defaultModel: string }
 > = {
   openai: {
     description: "OpenAI GPT models (or LocalAI-compatible)",
@@ -183,34 +178,99 @@ const PROVIDER_MODELS: Record<
   },
 };
 
+async function fetchOpenAIModels(
+  baseURL: string | undefined,
+  apiKey: string,
+): Promise<string[]> {
+  const url = `${baseURL ?? "https://api.openai.com/v1"}/models`;
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${apiKey}` },
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const data = (await response.json()) as { data: { id: string }[] };
+  return data.data.map((m) => m.id).sort();
+}
+
+async function fetchAnthropicModels(apiKey: string): Promise<string[]> {
+  const response = await fetch("https://api.anthropic.com/v1/models", {
+    headers: {
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+    },
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const data = (await response.json()) as { data: { id: string }[] };
+  return data.data.map((m) => m.id);
+}
+
+async function fetchXAIModels(apiKey: string): Promise<string[]> {
+  const response = await fetch("https://api.x.ai/v1/models", {
+    headers: { Authorization: `Bearer ${apiKey}` },
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const data = (await response.json()) as { data: { id: string }[] };
+  return data.data.map((m) => m.id);
+}
+
 export const MakeListProvidersRoute: Route = (r, ctx) => {
   AddEndpoint(r)(AgentEndpoints.Chat.Custom.ListProviders, () => {
-    const providers: ProviderInfo[] = (
-      Object.keys(PROVIDER_MODELS) as AIProvider[]
-    ).map((name) => {
-      const meta = PROVIDER_MODELS[name];
-      // Check if provider has API key configured
-      const hasApiKey = checkProviderApiKey(name, ctx.env);
-      return {
-        name,
-        description: meta.description,
-        available: hasApiKey,
-        models: meta.models,
-        // Use the provider's default model
-        defaultModel: meta.defaultModel,
-      };
-    });
+    return pipe(
+      TE.tryCatch(async () => {
+        const providers: ProviderInfo[] = await Promise.all(
+          (Object.keys(PROVIDER_MODELS) as AIProvider[]).map(async (name) => {
+            const meta = PROVIDER_MODELS[name];
+            const hasApiKey = checkProviderApiKey(name, ctx.env);
+            let models: string[] = meta.models;
 
-    return TE.right({
-      body: {
-        data: {
-          providers,
-          count: providers.length,
-          timestamp: new Date().toISOString(),
+            if (hasApiKey) {
+              try {
+                switch (name) {
+                  case "openai":
+                    models = await fetchOpenAIModels(
+                      ctx.env.OPENAI_BASE_URL,
+                      ctx.env.OPENAI_API_KEY!,
+                    );
+                    break;
+                  case "anthropic":
+                    models = await fetchAnthropicModels(
+                      ctx.env.ANTHROPIC_API_KEY!,
+                    );
+                    break;
+                  case "xai":
+                    models = await fetchXAIModels(ctx.env.XAI_API_KEY!);
+                    break;
+                }
+              } catch (err) {
+                ctx.logger.warn.log(
+                  "Failed to fetch dynamic models for %s, using static list: %O",
+                  name,
+                  err,
+                );
+              }
+            }
+
+            return {
+              name,
+              description: meta.description,
+              available: hasApiKey,
+              models,
+              defaultModel: meta.defaultModel,
+            };
+          }),
+        );
+        return providers;
+      }, ServerError.fromUnknown),
+      TE.map((providers) => ({
+        body: {
+          data: {
+            providers,
+            count: providers.length,
+            timestamp: new Date().toISOString(),
+          },
         },
-      },
-      statusCode: 200 as const,
-    });
+        statusCode: 200 as const,
+      })),
+    );
   });
 };
 
