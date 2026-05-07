@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.16](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.15...@liexp/backend@0.5.16) (2026-05-07)
+
+
+### Bug Fixes
+
+* **agent:** read models from LocalAI api ([#3622](https://github.com/lies-exposed/lies.exposed/issues/3622)) ([a7f0e69](https://github.com/lies-exposed/lies.exposed/commit/a7f0e694dd14920eaace6225f13f39608088070d))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.16
+    * @liexp/io bumped to 0.5.16
+    * @liexp/shared bumped to 0.5.16
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.16
+    * @liexp/test bumped to 0.5.16
+
 ## [0.5.15](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.14...@liexp/backend@0.5.15) (2026-04-30)
 
 

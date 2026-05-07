@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.5.16](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.15...@liexp/core@0.5.16) (2026-05-07)
+
+
+### Bug Fixes
+
+* **ui:** handle SlickSlider default import ([#3605](https://github.com/lies-exposed/lies.exposed/issues/3605)) ([d8da8f7](https://github.com/lies-exposed/lies.exposed/commit/d8da8f7ea01dd6d54b6bf2c4e9a695964490e5f3))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.16
+
 ## [0.5.15](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.14...@liexp/core@0.5.15) (2026-04-30)
 
 

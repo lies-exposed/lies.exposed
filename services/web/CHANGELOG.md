@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.5.16](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.15...web@0.5.16) (2026-05-07)
+
+
+### Miscellaneous
+
+* **web:** Synchronize monorepo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.16
+    * @liexp/core bumped to 0.5.16
+    * @liexp/io bumped to 0.5.16
+    * @liexp/shared bumped to 0.5.16
+    * @liexp/ui bumped to 0.5.16
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.16
+    * @liexp/test bumped to 0.5.16
+
 ## [0.5.15](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.14...web@0.5.15) (2026-04-30)
 
 

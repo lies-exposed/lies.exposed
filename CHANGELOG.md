@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.5.16](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.15...lies.exposed@0.5.16) (2026-05-07)
+
+
+### Bug Fixes
+
+* **ui:** handle SlickSlider default import ([#3605](https://github.com/lies-exposed/lies.exposed/issues/3605)) ([d8da8f7](https://github.com/lies-exposed/lies.exposed/commit/d8da8f7ea01dd6d54b6bf2c4e9a695964490e5f3))
+
+
+### Miscellaneous
+
+* minio client download from correct url ([#3602](https://github.com/lies-exposed/lies.exposed/issues/3602)) ([b4aeef9](https://github.com/lies-exposed/lies.exposed/commit/b4aeef92093d10da1d0af8076f04a16955417543))
+* **web:** increased pod memory resources ([#3604](https://github.com/lies-exposed/lies.exposed/issues/3604)) ([ec9069c](https://github.com/lies-exposed/lies.exposed/commit/ec9069cc34c036b1c43fa74e6718e79953fe10d8))
+
 ## [0.5.15](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.14...lies.exposed@0.5.15) (2026-04-30)
 
 
