@@ -45,12 +45,13 @@ const ProcessQueueJobButton: React.FC<ButtonProps> = () => {
 
     e.preventDefault();
 
-    void apiProvider.create(
-      `queues/${record.type}/${record.resource}/${record.id}/process`,
-      {
+    apiProvider
+      .create(`queues/${record.type}/${record.resource}/${record.id}/process`, {
         data: record.data,
-      },
-    );
+      })
+      .catch((err) => {
+        console.error("Failed to process queue job:", err);
+      });
   };
 
   return (
@@ -215,7 +216,7 @@ const RetryQueueJobButton: React.FC<{
   const record = useRecordContext<Queue.Queue>();
 
   const onClick = () => {
-    void api
+    api
       .put(`queues/${type}/${resource}/${id}`, {
         ...record,
         status: "pending",
@@ -223,8 +224,9 @@ const RetryQueueJobButton: React.FC<{
         error: null,
         id,
       })
-      .finally(() => {
-        refresh();
+      .then(() => refresh())
+      .catch((err) => {
+        console.error("Failed to retry queue job:", err);
       });
   };
 

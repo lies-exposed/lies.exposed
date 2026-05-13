@@ -165,7 +165,12 @@ const transformGroup =
           ]);
         }
 
-        if (!Schema.is(UUID)(restData.avatar)) {
+        if (
+          restData.avatar &&
+          typeof restData.avatar === "object" &&
+          "id" in restData.avatar &&
+          !Schema.is(UUID)(restData.avatar)
+        ) {
           return TE.right([
             {
               id: restData.avatar.id,
