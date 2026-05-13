@@ -184,8 +184,10 @@ const processStream = async (
 
         try {
           const event: ChatStreamEvent = JSON.parse(data);
-          // eslint-disable-next-line no-console
-          console.log("Received SSE event:", event.type, event);
+          if (process.env.NODE_ENV === "development") {
+            // eslint-disable-next-line no-console
+            console.log("Received SSE event:", event.type, event);
+          }
           setState((prev) =>
             applySseEvent(prev, event, currentMessageIdRef, request, (err) => {
               streamError = err;

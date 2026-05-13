@@ -414,9 +414,6 @@ export const registerAgentProxyRoutes = (
         res.setHeader("Connection", "keep-alive");
         res.setHeader("X-Accel-Buffering", "no");
 
-        // Send initial comment to establish connection
-        res.write(": proxy connected\n\n");
-
         // Handle client disconnect
         req.on("close", () => {
           logger.info.log(
@@ -496,6 +493,9 @@ export const registerAgentProxyRoutes = (
 
         // Flush headers immediately to establish the SSE connection
         res.flushHeaders();
+
+        // Send initial comment to establish connection after headers are flushed
+        res.write(": proxy connected\n\n");
 
         // Read from agent stream using getReader() for explicit flow control,
         // allowing keepalive writes to interleave properly
