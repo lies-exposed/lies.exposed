@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.17](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.16...lies.exposed@0.5.17) (2026-05-13)
+
+
+### Bug Fixes
+
+* **admin:** fix 5 bugs in admin service ([#3625](https://github.com/lies-exposed/lies.exposed/issues/3625)) ([430af2a](https://github.com/lies-exposed/lies.exposed/commit/430af2a841a74926cb3de66f09f8ff71f03ca433))
+
 ## [0.5.16](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.15...lies.exposed@0.5.16) (2026-05-07)
 
 
