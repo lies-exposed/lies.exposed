@@ -1,6 +1,7 @@
 import { OpenAICreateEventFromTextType } from "@liexp/io/lib/http/Queue/event/CreateEventFromTextQueueData.js";
 import { OpenAICreateEventFromURLType } from "@liexp/io/lib/http/Queue/event/CreateEventFromURLQueue.js";
 import * as Queue from "@liexp/io/lib/http/Queue/index.js";
+import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import JSONInput from "@liexp/ui/lib/components/Common/JSON/JSONInput.js";
 import { Loader } from "@liexp/ui/lib/components/Common/Loader.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
@@ -29,13 +30,26 @@ import {
   useRecordContext,
   useRefresh,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
-import { Box, Stack } from "@liexp/ui/lib/components/mui/index.js";
+import {
+  Box,
+  Popover,
+  Stack,
+  Typography,
+} from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { colors } from "@liexp/ui/lib/theme/index.js";
 import { getBorderLeftStyle } from "@liexp/ui/lib/utils/style.utils.js";
 import { Schema } from "effect";
 import * as React from "react";
 import { useLocation, useNavigate } from "react-router";
+
+interface ProviderInfo {
+  name: string;
+  description: string;
+  available: boolean;
+  models: string[];
+  defaultModel: string;
+}
 
 const ProcessQueueJobButton: React.FC<ButtonProps> = () => {
   const apiProvider = useDataProvider();
@@ -126,6 +140,117 @@ const SelectQueueStatusArrayInput: React.FC<SelectArrayInputProps> = ({
         name: resource.literals[0],
       }))}
     />
+  );
+};
+
+const ModelSelector: React.FC<{
+  source: string;
+  providersUrl?: string;
+}> = ({ source: _source, providersUrl = "/api/proxy/agent/providers" }) => {
+  const [providers, setProviders] = React.useState<ProviderInfo[]>([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const [modelAnchor, setModelAnchor] = React.useState<HTMLElement | null>(
+    null,
+  );
+  const [selectedModel, setSelectedModel] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    const fetchProviders = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const headers: HeadersInit = {};
+        const authToken = getAuthFromLocalStorage();
+        if (authToken) headers.Authorization = authToken;
+        const response = await fetch(providersUrl, { headers });
+        if (cancelled) return;
+        if (!response.ok)
+          throw new Error(`Failed to fetch providers: ${response.status}`);
+        const rawData = await response.json();
+        if (cancelled) return;
+        const data = rawData.body?.data ?? rawData.data ?? rawData;
+        setProviders(data.providers ?? []);
+      } catch (err) {
+        if (cancelled) return;
+        setError(
+          err instanceof Error ? err.message : "Failed to load providers",
+        );
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    };
+    void fetchProviders();
+    return () => {
+      cancelled = true;
+    };
+  }, [providersUrl]);
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, py: 0.5 }}>
+        <Loader />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ color: "text.secondary", fontSize: "0.75rem" }}>{error}</Box>
+    );
+  }
+
+  if (providers.length === 0) {
+    return null;
+  }
+
+  const allModels = providers.flatMap((p) => p.models);
+  const activeModel = selectedModel ?? providers[0]?.defaultModel;
+
+  return (
+    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+      <Typography
+        variant="caption"
+        sx={{ color: "text.secondary", fontSize: "0.75rem" }}
+      >
+        Model:
+      </Typography>
+      <Button
+        label={activeModel ?? "No models"}
+        onClick={(e) => setModelAnchor(e.currentTarget)}
+        variant="outlined"
+        size="small"
+      />
+      <Popover
+        open={Boolean(modelAnchor)}
+        anchorEl={modelAnchor}
+        onClose={() => setModelAnchor(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "left" }}
+        slotProps={{
+          paper: {
+            sx: { borderRadius: 2, boxShadow: 3, p: 0.5, minWidth: 140 },
+          },
+        }}
+      >
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
+          {allModels.map((model) => (
+            <Button
+              key={model}
+              label={model}
+              onClick={() => {
+                setSelectedModel(model);
+                setModelAnchor(null);
+              }}
+              variant={model === activeModel ? "contained" : "text"}
+              size="small"
+              sx={{ textTransform: "none", justifyContent: "flex-start" }}
+            />
+          ))}
+        </Box>
+      </Popover>
+    </Box>
   );
 };
 
@@ -300,6 +425,15 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
           <SelectQueueStatusInput size="small" />
           <SelectQueueTypeInput size="small" />
           <RetryQueueJobButton resource={resource} type={type} id={id} />
+        </Stack>
+
+        <Stack
+          spacing={1}
+          direction="row"
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <ModelSelector source="model" />
         </Stack>
 
         <JSONInput source="data" />
