@@ -11,18 +11,6 @@ export const checkBucketOrCreate = <
 >(
   ctx: C,
 ): TaskEither<ControllerError, void> => {
-  const bucketPolicy = {
-    Version: "2012-10-17",
-    Statement: [
-      {
-        Effect: "Allow",
-        Principal: "*",
-        Action: ["s3:GetObject"],
-        Resource: [`arn:aws:s3:::${ctx.env.SPACE_BUCKET}/*`],
-      },
-    ],
-  };
-
   return pipe(
     ctx.s3.getBucket(ctx.env.SPACE_BUCKET),
     fp.TE.chain(
@@ -33,19 +21,23 @@ export const checkBucketOrCreate = <
               Bucket: ctx.env.SPACE_BUCKET,
             }),
             LoggerService.TE.debug(ctx, `Bucket %O created`),
-            fp.TE.map((output) => output.BucketArn),
+            fp.TE.mapLeft((err) => {
+              const message =
+                err instanceof Error ? err.message : JSON.stringify(err);
+              if (
+                message.includes("BucketAlreadyOwnedByYou") ||
+                message.includes("BucketExists")
+              ) {
+                return { message: "Bucket already exists" } as ControllerError;
+              }
+              return err;
+            }),
+            fp.TE.chain((output) => fp.TE.right(output.BucketArn)),
           ),
         (bucket) => fp.TE.right(bucket.Name),
       ),
     ),
     LoggerService.TE.debug(ctx, `Bucket %s exists`),
-    fp.TE.chainFirst((name) =>
-      ctx.s3.putBucketPolicy({
-        Bucket: name,
-        Policy: JSON.stringify(bucketPolicy),
-      }),
-    ),
-
     fp.TE.map(() => undefined),
   );
 };
