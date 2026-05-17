@@ -122,6 +122,7 @@ export const createEventFromLinksFlow: JobProcessRTE<
               context: buildLinksContext(links),
             },
           })}\n\n${job.question ?? defaultQuestion}`,
+          model: job.model ?? undefined,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),

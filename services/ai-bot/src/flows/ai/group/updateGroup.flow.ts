@@ -37,6 +37,7 @@ export const updateGroupFlow: JobProcessRTE<
               text: JSON.stringify(job.data),
             },
           })}\n\n${job.question ?? defaultQuestion}`,
+          model: job.model ?? undefined,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),

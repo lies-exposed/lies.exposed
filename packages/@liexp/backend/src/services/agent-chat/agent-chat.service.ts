@@ -47,6 +47,10 @@ interface StructuredOutputOptions<T> {
    */
   conversationId?: string | null;
   /**
+   * Optional model override for the AI request
+   */
+  model?: string | null;
+  /**
    * Optional schema for validation (currently used for documentation only)
    */
   schema?: Schema.Schema<T, unknown, never>;
@@ -159,6 +163,7 @@ export const AgentChatService = {
           Body: {
             message: options.message,
             conversation_id: options.conversationId ?? null,
+            model: options.model ?? undefined,
           },
         }),
         fp.TE.chainEitherK((response) => {

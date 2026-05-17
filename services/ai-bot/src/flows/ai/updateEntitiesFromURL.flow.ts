@@ -178,6 +178,7 @@ export const updateEntitiesFromURLFlow: JobProcessRTE<
         >({
           message: `Extract all mentioned actors and groups from the following URL: ${link.url}\n\n${job.question ?? defaultQuestion}`,
           conversationId: null,
+          model: job.model ?? undefined,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),
