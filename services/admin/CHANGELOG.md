@@ -1,26 +1,5 @@
 # Changelog
 
-## [0.5.17](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.16...admin@0.5.17) (2026-05-13)
-
-
-### Bug Fixes
-
-* **admin:** fix 5 bugs in admin service ([#3625](https://github.com/lies-exposed/lies.exposed/issues/3625)) ([430af2a](https://github.com/lies-exposed/lies.exposed/commit/430af2a841a74926cb3de66f09f8ff71f03ca433))
-
-
-### Dependencies
-
-* The following workspace dependencies were updated
-  * dependencies
-    * @liexp/backend bumped to 0.5.17
-    * @liexp/core bumped to 0.5.17
-    * @liexp/io bumped to 0.5.17
-    * @liexp/shared bumped to 0.5.17
-    * @liexp/ui bumped to 0.5.17
-  * devDependencies
-    * @liexp/eslint-config bumped to 0.5.17
-    * @liexp/test bumped to 0.5.17
-
 ## [0.5.16](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.15...admin@0.5.16) (2026-05-07)
 
 

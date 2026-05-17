@@ -69,6 +69,7 @@ export const createEventFromURLFlow: JobProcessRTE<
               question: job.question ?? defaultQuestion,
             },
           })}\n\n${job.question ?? defaultQuestion}`,
+          model: job.model ?? undefined,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),

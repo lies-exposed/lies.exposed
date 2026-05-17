@@ -45,6 +45,7 @@ export const createEventFromTextFlow: JobProcessRTE<
             },
           })}\n\nExtract event information from the text and return it as a JSON object following the provided schema.`,
           extractFromMarkdown: true,
+          model: job.model ?? undefined,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),

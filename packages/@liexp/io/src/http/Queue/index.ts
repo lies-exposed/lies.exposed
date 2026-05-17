@@ -180,6 +180,7 @@ export const Queue = Schema.extend(
     id: UUID,
     result: Schema.Union(Schema.String, Schema.Null, Schema.Any),
     prompt: Schema.Union(Schema.String, Schema.Null),
+    model: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
     resource: QueueResourceNames,
     status: Status,
     error: Schema.Union(Schema.Object, Schema.Null),

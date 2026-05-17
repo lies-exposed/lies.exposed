@@ -108,6 +108,7 @@ export const parseURLs =
                   error: null,
                   result: null,
                   prompt: null,
+                  model: null,
                   data: {
                     url: l.url,
                     type: "link",

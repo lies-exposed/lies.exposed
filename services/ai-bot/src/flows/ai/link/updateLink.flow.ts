@@ -52,6 +52,7 @@ export const updateLinkFlow: JobProcessRTE<
               text: (job.data as any).url,
             },
           })}\n\n${job.question ?? defaultQuestion}`,
+          model: job.model ?? undefined,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),

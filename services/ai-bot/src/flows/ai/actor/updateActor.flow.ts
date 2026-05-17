@@ -69,6 +69,7 @@ export const updateActorFlow: JobProcessRTE<
               ? defaultQuestion(job.data.text)
               : "Extract the information from the text. Return in JSON format.")
           }`,
+          model: job.model ?? undefined,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),

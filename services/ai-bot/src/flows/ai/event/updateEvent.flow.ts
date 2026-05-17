@@ -43,6 +43,7 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
             },
           })}\n\n${job.question ?? defaultQuestion}`,
           conversationId: null,
+          model: job.model ?? undefined,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),
