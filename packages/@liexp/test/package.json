@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@liexp/io": "workspace:*",
-    "date-fns": "^4.1.0",
+    "date-fns": "^4.2.1",
     "fast-check": "^3.23.1"
   },
   "devDependencies": {

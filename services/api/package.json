@@ -67,7 +67,7 @@
     "axios": "^1.15.2",
     "body-parser": "^2.2.2",
     "cors": "^2.8.5",
-    "date-fns": "^4.1.0",
+    "date-fns": "^4.2.1",
     "debug": "^4.4.0",
     "effect": "^3.21.2",
     "exifreader": "^4.38.1",
