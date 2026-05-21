@@ -60,7 +60,7 @@
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
     "@ts-endpoint/tanstack-query": "file:patches/ts-endpoint-tanstack-query-0.1.0.tgz",
-    "date-fns": "^4.1.0",
+    "date-fns": "^4.2.1",
     "debug": "^4.4.0",
     "effect": "^3.21.2",
     "express": "^5.2.1",
