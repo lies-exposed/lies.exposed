@@ -95,6 +95,12 @@ updates:
           - "husky"
           - "lint-staged"
           - "nodemon"
+      sentry:
+        patterns:
+          - "@sentry/*"
+      tanstack:
+        patterns:
+          - "@tanstack/*"
       visx:
         patterns:
           - "*visx*"
