@@ -125,7 +125,7 @@
     "@types/throttle-debounce": "^5.0.2",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
-    "@typescript/native-preview": "7.0.0-dev.20260430.1",
+    "@typescript/native-preview": "7.0.0-dev.20260527.2",
     "axios": "^1.15.2",
     "effect": "^3.21.2",
     "eslint": "^10.4.0",
