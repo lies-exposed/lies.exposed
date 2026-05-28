@@ -8,10 +8,10 @@
     "public"
   ],
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "build": "tsc -b tsconfig.build.json",
+    "typecheck": "tsgo --noEmit",
+    "build": "tsgo -b tsconfig.build.json",
     "build:app": "vite build",
-    "build:server": "tsc -p tsconfig.server.json",
+    "build:server": "tsgo -p tsconfig.server.json",
     "build:app-server": "pnpm build:app && pnpm build:server",
     "clean": "rm -rf build",
     "dev": "vite dev",
@@ -24,7 +24,7 @@
     "test:spec": "vitest --project admin-spec",
     "test:coverage": "vitest --run --coverage --project admin-spec",
     "test:e2e": "vitest --project e2e",
-    "watch": "tsc -b --watch"
+    "watch": "tsgo -b --watch"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
@@ -76,12 +76,12 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
     "@types/supertest": "^7.2.0",
+    "@typescript/native-preview": "7.0.0-dev.20260527.2",
     "eslint": "^10.4.0",
     "jsdom": "^29.1.1",
     "msw": "^2.14.6",
     "supertest": "^7.2.2",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.3",
     "vite": "^8.0.14",
     "vite-plugin-css-injected-by-js": "^5.0.1",
     "vite-plugin-optimizer": "^1.4.3",

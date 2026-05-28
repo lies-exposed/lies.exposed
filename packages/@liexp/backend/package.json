@@ -16,12 +16,12 @@
     "typings"
   ],
   "scripts": {
-    "typecheck": "tsc",
-    "build": "tsc -b tsconfig.build.json",
+    "typecheck": "tsgo",
+    "build": "tsgo -b tsconfig.build.json",
     "clean": "rm -rf lib",
     "lint": "eslint --cache src",
     "test": "vitest",
-    "watch": "tsc -b -w"
+    "watch": "tsgo -b -w"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
@@ -64,9 +64,10 @@
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node-telegram-bot-api": "^0.64.14",
+    "@typescript/native-preview": "7.0.0-dev.20260527.2",
     "axios": "^1.15.2",
     "debug": "^4.4.0",
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.4.2",
     "effect": "^3.21.2",
     "eslint": "^10.4.0",
     "exifreader": "^4.38.1",
@@ -84,7 +85,6 @@
     "react-dom": "^18.3.1",
     "react-helmet-async": "^3.0.0",
     "sharp": "^0.34.5",
-    "typescript": "^6.0.3",
     "vite": "^8.0.14",
     "vitest": "^4.1.7",
     "vitest-mock-extended": "^4.0.0"

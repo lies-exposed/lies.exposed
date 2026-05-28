@@ -12,11 +12,11 @@
     "public"
   ],
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "build": "tsc -b tsconfig.build.json",
+    "typecheck": "tsgo --noEmit",
+    "build": "tsgo -b tsconfig.build.json",
     "build:app-server": "pnpm build:client && pnpm build:server-ssr && pnpm build:server",
     "build:client": "vite build --outDir build/client",
-    "build:server": "tsc -p tsconfig.server.json",
+    "build:server": "tsgo -p tsconfig.server.json",
     "build:server-ssr": "vite build --outDir build/server --ssr src/server/entry.tsx",
     "clean": "rm -rf build",
     "dev": "DOTENV_CONFIG_PATH=.env node --import tsx/esm -r dotenv/config --watch-path=./src ./src/server/server.tsx",
@@ -27,7 +27,7 @@
     "test": "vitest",
     "test:e2e": "vitest --project=web-e2e",
     "test:spec": "vitest --project=web-spec",
-    "watch": "tsc -b --watch",
+    "watch": "tsgo -b --watch",
     "watch:client": "DOTENV_CONFIG_PATH=.env.development vite dev"
   },
   "lint-staged": {
@@ -82,12 +82,12 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
     "@types/supertest": "^7.2.0",
-    "dotenv": "^17.3.1",
+    "@typescript/native-preview": "7.0.0-dev.20260527.2",
+    "dotenv": "^17.4.2",
     "eslint": "^10.4.0",
     "msw": "^2.14.6",
     "supertest": "^7.2.2",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.3",
     "vite": "^8.0.14",
     "vite-plugin-css-injected-by-js": "^5.0.1",
     "vite-plugin-optimizer": "^1.4.3",

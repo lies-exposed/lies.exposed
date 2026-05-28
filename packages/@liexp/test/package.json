@@ -11,11 +11,11 @@
   "main": "lib/index.js",
   "module": "lib/index.js",
   "scripts": {
-    "build": "tsc -b tsconfig.build.json",
+    "build": "tsgo -b tsconfig.build.json",
     "clean": "rm -rf lib",
     "lint": "eslint --cache src",
     "test": "echo 'No tests configured for @liexp/test'",
-    "watch": "tsc -b -w"
+    "watch": "tsgo -b -w"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
@@ -27,10 +27,10 @@
   },
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
+    "@typescript/native-preview": "7.0.0-dev.20260527.2",
     "effect": "^3.21.2",
     "eslint": "^10.4.0",
-    "fp-ts": "^2.16.10",
-    "typescript": "^6.0.3"
+    "fp-ts": "^2.16.10"
   },
   "peerDependencies": {
     "effect": "^3",

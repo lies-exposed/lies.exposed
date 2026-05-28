@@ -26,8 +26,8 @@
     "ormconfig.js"
   ],
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "build": "tsc -b tsconfig.build.json",
+    "typecheck": "tsgo --noEmit",
+    "build": "tsgo -b tsconfig.build.json",
     "clean": "rm -rf build deploy",
     "db:diagram": "node -r tsx/cjs -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "db:dump": "tsx ./src/scripts/database.dump.ts",
@@ -50,8 +50,8 @@
     "test:spec": "vitest --project api-spec",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",
     "typeorm-ts": "TSX_TSCONFIG_PATH=tsconfig.build.json node --require tsx/cjs --require dotenv/config ../../node_modules/.bin/typeorm",
-    "watch": "tsc -b ./tsconfig.build.json --watch",
-    "watch:dev": "tsc -b --watch"
+    "watch": "tsgo -b ./tsconfig.build.json --watch",
+    "watch:dev": "tsgo -b --watch"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
@@ -85,8 +85,7 @@
     "react-dom": "^18.3.1",
     "sharp": "^0.34.5",
     "tsx": "^4.21.0",
-    "typeorm": "^0.3.28",
-    "typescript": "^6.0.3"
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.4.5",
@@ -103,7 +102,8 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
     "@types/supertest": "^7.2.0",
-    "dotenv": "^17.3.1",
+    "@typescript/native-preview": "7.0.0-dev.20260527.2",
+    "dotenv": "^17.4.2",
     "eslint": "^10.4.0",
     "fast-check": "^3.23.2",
     "supertest": "^7.2.2",
