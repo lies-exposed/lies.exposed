@@ -81,7 +81,7 @@
     "@types/lodash": "^4.17.24",
     "@types/node-telegram-bot-api": "^0.64.14",
     "@types/prompts": "^2.4.9",
-    "@typescript/native-preview": "7.0.0-dev.20260527.2",
+    "@typescript/native-preview": "7.0.0-dev.20260603.1",
     "tsx": "^4.21.0",
     "vitest": "^4.1.7"
   },

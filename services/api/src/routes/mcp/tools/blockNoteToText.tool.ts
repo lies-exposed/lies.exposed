@@ -22,7 +22,8 @@ export const registerBlockNoteTools = (server: McpServer) => {
       title: "Convert BlockNote to text",
       description: "Convert BlockNote JSON to plain text.",
       annotations: { title: "Convert BlockNote to text" },
-      inputSchema: inputSchema,
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
+      inputSchema: inputSchema as unknown as { blocknote?: any },
     },
     (opts) => {
       const { blocknote } = opts ?? {};

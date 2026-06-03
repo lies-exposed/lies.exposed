@@ -29,7 +29,7 @@
     "@liexp/eslint-config": "workspace:*",
     "@rollup/plugin-image": "^3.0.3",
     "@types/debug": "^4.1.13",
-    "@typescript/native-preview": "7.0.0-dev.20260527.2",
+    "@typescript/native-preview": "7.0.0-dev.20260603.1",
     "@vitejs/plugin-react": "^6.0.2",
     "debug": "^4.4.0",
     "effect": "^3.21.2",

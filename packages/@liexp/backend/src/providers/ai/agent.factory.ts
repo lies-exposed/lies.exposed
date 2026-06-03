@@ -15,9 +15,6 @@ import {
   START,
   StateGraph,
 } from "@langchain/langgraph";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore — package exports subpath not recognised by node10 moduleResolution
-import { createReactAgent as createLangGraphReactAgent } from "@langchain/langgraph/prebuilt";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import type { AgentType, AIConfig } from "@liexp/io/lib/http/Chat.js";
@@ -220,16 +217,24 @@ const createMultiAgentGraph = (
 
   // Subagents: create working React agents (same as single-agent setup)
   // Remove individual checkpointers - outer graph manages state
-  const platformAgentImpl = createLangGraphReactAgent({
-    llm: chat,
-    tools: [...platformTools, transferToResearcher],
-    prompt: platformPrompt,
+  const platformAgentImpl = createReactAgent({
+    model: chat,
+    tools: [
+      ...platformTools,
+      transferToResearcher,
+    ] as StructuredToolInterface[],
+    systemPrompt: platformPrompt,
+    checkpointer: false,
   });
 
-  const researcherAgentImpl = createLangGraphReactAgent({
-    llm: chat,
-    tools: [...researcherTools, transferToPlatform],
-    prompt: researcherPrompt,
+  const researcherAgentImpl = createReactAgent({
+    model: chat,
+    tools: [
+      ...researcherTools,
+      transferToPlatform,
+    ] as StructuredToolInterface[],
+    systemPrompt: researcherPrompt,
+    checkpointer: false,
   });
 
   // Wrapper nodes that delegate to the working React agents
