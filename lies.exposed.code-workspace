@@ -78,7 +78,6 @@
             "coverage/**": true,
             "lib/**": true
         },
-        "typescript.format.enable": true,
         "eslint.codeActionsOnSave.mode": "problems",
         "eslint.workingDirectories": [
             "./"
@@ -95,7 +94,7 @@
         },
         "editor.codeActionsOnSave": {
             "source.organizeImports": "never",
-            "source.fixAll.eslint": "explicit"
+            "source.fixAll.eslint": "never"
         },
         "explorer.autoRevealExclude": {
             "**/node_modules": true,
@@ -103,13 +102,11 @@
             "**/lib": true,
             "**/build": true
         },
-        "typescript.preferences.importModuleSpecifier": "project-relative",
         "yaml.maxItemsComputed": 500,
         "helm-intellisense.customValueFileNames": [
             "helm/values.yaml",
             "helm/values.dev.yaml"
         ],
-        "typescript.experimental.useTsgo": false,
         "mcp": {
             "servers": {
                 "github-mcp": {
@@ -122,6 +119,7 @@
         "chat.tools.terminal.autoApprove": {
             "gh": true,
             "git commit": true
-        }
+        },
+        "js/ts.experimental.useTsgo": true
     }
 }

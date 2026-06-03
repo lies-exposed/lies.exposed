@@ -75,7 +75,7 @@
     "@types/node": "^24.12.4",
     "@types/prompts": "^2.4.9",
     "@types/supertest": "^7.2.0",
-    "@typescript/native-preview": "7.0.0-dev.20260527.2",
+    "@typescript/native-preview": "7.0.0-dev.20260603.1",
     "eslint": "^10.4.0",
     "msw": "^2.14.6",
     "supertest": "^7.1.0",

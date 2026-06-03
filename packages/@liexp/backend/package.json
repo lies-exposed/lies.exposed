@@ -64,7 +64,7 @@
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node-telegram-bot-api": "^0.64.14",
-    "@typescript/native-preview": "7.0.0-dev.20260527.2",
+    "@typescript/native-preview": "7.0.0-dev.20260603.1",
     "axios": "^1.15.2",
     "debug": "^4.4.0",
     "dotenv": "^17.4.2",

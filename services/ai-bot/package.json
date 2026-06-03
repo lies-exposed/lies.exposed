@@ -54,7 +54,7 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@types/node": "^24.12.4",
-    "@typescript/native-preview": "7.0.0-dev.20260527.2",
+    "@typescript/native-preview": "7.0.0-dev.20260603.1",
     "esbuild": "^0.28.0",
     "eslint": "^10.4.0",
     "tsx": "^4.21.0"
