@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tanstack/eslint-plugin-query": "^5.100.11",
+    "@tanstack/eslint-plugin-query": "^5.101.0",
     "@typescript/native-preview": "7.0.0-dev.20260603.1",
     "eslint": "^10.4.0",
     "eslint-import-resolver-typescript": "^4.4.2",
