@@ -123,8 +123,8 @@ importers:
         specifier: ^1.8.1
         version: 1.8.1
       date-fns:
-        specifier: ^4.2.1
-        version: 4.2.1
+        specifier: ^4.4.0
+        version: 4.4.0
       express:
         specifier: ^5.1.0
         version: 5.2.1
@@ -436,8 +436,8 @@ importers:
         specifier: ^3
         version: 3.12.0(react@18.3.1)
       date-fns:
-        specifier: ^4.2.1
-        version: 4.2.1
+        specifier: ^4.4.0
+        version: 4.4.0
       debug:
         specifier: ^4
         version: 4.4.3
@@ -518,8 +518,8 @@ importers:
         specifier: workspace:*
         version: link:../io
       date-fns:
-        specifier: ^4.2.1
-        version: 4.2.1
+        specifier: ^4.4.0
+        version: 4.4.0
       fast-check:
         specifier: ^3.23.1
         version: 3.23.2
@@ -696,8 +696,8 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2
       date-fns:
-        specifier: ^4.2.1
-        version: 4.2.1
+        specifier: ^4.4.0
+        version: 4.4.0
       entitree-flex:
         specifier: ^0.4.1
         version: 0.4.1
@@ -1219,8 +1219,8 @@ importers:
         specifier: ^2.8.5
         version: 2.8.6
       date-fns:
-        specifier: ^4.2.1
-        version: 4.2.1
+        specifier: ^4.4.0
+        version: 4.4.0
       debug:
         specifier: ^4.4.0
         version: 4.4.3
@@ -1403,8 +1403,8 @@ importers:
         specifier: ^7.9.0
         version: 7.9.0
       date-fns:
-        specifier: ^4.2.1
-        version: 4.2.1
+        specifier: ^4.4.0
+        version: 4.4.0
       effect:
         specifier: ^3.21.2
         version: 3.21.2
@@ -1494,8 +1494,8 @@ importers:
         specifier: file:../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
         version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
       date-fns:
-        specifier: ^4.2.1
-        version: 4.2.1
+        specifier: ^4.4.0
+        version: 4.4.0
       debug:
         specifier: ^4.4.0
         version: 4.4.3
@@ -6752,8 +6752,8 @@ packages:
   date-fns@3.6.0:
     resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
 
-  date-fns@4.2.1:
-    resolution: {integrity: sha512-37RhSdxaG1suen6VDCza6rNrQfooyQh57HFVPwQGEq2QWliVLzPQZ8Oa017weOu+HZCnzI7N3Pf/wyoBKfEqrA==}
+  date-fns@4.4.0:
+    resolution: {integrity: sha512-+1UMbeh68lH1SegH83CGWwpb6OHHbpSgr3+s5Eww5M4CAgswBpoWS0AjTOfEJ33HiYKz1hdj/KTFprzXHmq/6w==}
 
   dayjs@1.11.19:
     resolution: {integrity: sha512-t5EcLVS6QPBNqM2z8fakk/NKel+Xzshgt8FFKAn+qwlD1pzZWxh0nVCrvFK7ZDb6XucZeF9z8C7CBWTRIVApAw==}
@@ -16921,7 +16921,7 @@ snapshots:
 
   date-fns@3.6.0: {}
 
-  date-fns@4.2.1: {}
+  date-fns@4.4.0: {}
 
   dayjs@1.11.19: {}
 
