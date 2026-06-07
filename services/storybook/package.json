@@ -31,10 +31,10 @@
     "@liexp/test": "workspace:*",
     "@liexp/ui": "workspace:*",
     "@mui/material": "^7.3.9",
-    "@storybook/addon-docs": "^10.4.0",
-    "@storybook/addon-links": "^10.4.0",
-    "@storybook/builder-vite": "^10.4.0",
-    "@storybook/react-vite": "^10.4.0",
+    "@storybook/addon-docs": "^10.4.2",
+    "@storybook/addon-links": "^10.4.2",
+    "@storybook/builder-vite": "^10.4.2",
+    "@storybook/react-vite": "^10.4.2",
     "@tanstack/react-query": "^5.101.0",
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
     "@visx/gradient": "^3.12.0",
@@ -47,7 +47,7 @@
     "fp-ts": "^2.16.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "storybook": "^10.4.0",
+    "storybook": "^10.4.2",
     "vite": "^8.0.14"
   },
   "devDependencies": {
@@ -56,7 +56,7 @@
     "@types/react": "^18.3.27",
     "@typescript/native-preview": "7.0.0-dev.20260603.1",
     "eslint": "^10.4.0",
-    "eslint-plugin-storybook": "^10.4.0",
+    "eslint-plugin-storybook": "^10.4.2",
     "prettier": "^3.8.3"
   },
   "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
