@@ -1,6 +1,6 @@
+import { IOError } from "@ts-endpoint/core";
 import { describe, expect, it, vi } from "vitest";
 import { NERError, toError } from "../ner.provider.js";
-import { IOError } from "@ts-endpoint/core";
 
 describe("NERError", () => {
   it("extends IOError", () => {

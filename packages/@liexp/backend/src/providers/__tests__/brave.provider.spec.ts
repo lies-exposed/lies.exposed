@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { GetBraveProvider } from "../brave.provider.js";
 import { ServerError } from "../../errors/ServerError.js";
+import { GetBraveProvider } from "../brave.provider.js";
 
 describe("GetBraveProvider", () => {
   const mockClient = {
