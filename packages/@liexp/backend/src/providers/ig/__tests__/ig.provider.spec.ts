@@ -51,7 +51,9 @@ describe("IGProvider", () => {
       credentials: mockCredentials,
     });
 
-    const result = await provider.login(async () => ({ code: "123456" }))();
+    const result = await provider.login(async () =>
+      Promise.resolve({ code: "123456" }),
+    )();
     expect(result._tag).toBe("Right");
   });
 
@@ -61,8 +63,8 @@ describe("IGProvider", () => {
       credentials: mockCredentials,
     });
 
-    await provider.login(async () => ({ code: "123456" }))();
-    await provider.login(async () => ({ code: "123456" }))();
+    await provider.login(async () => Promise.resolve({ code: "123456" }))();
+    await provider.login(async () => Promise.resolve({ code: "123456" }))();
 
     expect(mockIg.account.login).toHaveBeenCalledTimes(1);
   });
@@ -110,7 +112,8 @@ describe("IGProvider", () => {
   });
 
   it("login handles two factor authentication", async () => {
-    const { IgLoginTwoFactorRequiredError } = await import("instagram-private-api");
+    const { IgLoginTwoFactorRequiredError } =
+      await import("instagram-private-api");
 
     const mockTwoFactorError = {
       response: {
@@ -147,7 +150,9 @@ describe("IGProvider", () => {
       credentials: mockCredentials,
     });
 
-    const result = await provider.login(async () => ({ code: "123456" }))();
+    const result = await provider.login(async () =>
+      Promise.resolve({ code: "123456" }),
+    )();
     expect(result._tag).toBe("Right");
     expect(mockIg2.account.twoFactorLogin).toHaveBeenCalledWith(
       expect.objectContaining({

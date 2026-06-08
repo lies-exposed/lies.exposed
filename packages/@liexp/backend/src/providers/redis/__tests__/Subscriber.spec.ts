@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { Subscriber } from "../Subscriber.js";
 import { RedisPubSub } from "../RedisPubSub.js";
-import { RedisError } from "../redis.error.js";
+import { Subscriber } from "../Subscriber.js";
 
 describe("Subscriber", () => {
   const mockLogger = {
@@ -41,7 +40,7 @@ describe("Subscriber", () => {
 
   it("subscribe calls redis.client.subscribe", async () => {
     const sub = Subscriber(mockPubSub as any, mockSubscribe);
-    const handler = await sub.subscribe(mockCtx as any)();
+    const handler = await sub.subscribe(mockCtx)();
 
     expect(mockRedis.client.subscribe).toHaveBeenCalledWith("test-channel");
     expect(mockLogger.debug.log).toHaveBeenCalledWith(
@@ -57,9 +56,9 @@ describe("Subscriber", () => {
     });
 
     const sub = Subscriber(mockPubSub as any, handlerFn);
-    const handler = await sub.subscribe(mockCtx as any)();
+    const handler = await sub.subscribe(mockCtx)();
 
-    await handler!(JSON.stringify({ test: "data" }));
+    await handler(JSON.stringify({ test: "data" }));
 
     expect(handlerFn).toHaveBeenCalledWith({ test: "data" });
   });
@@ -71,9 +70,9 @@ describe("Subscriber", () => {
     });
 
     const sub = Subscriber(mockPubSub as any, handlerFn);
-    const handler = await sub.subscribe(mockCtx as any)();
+    const handler = await sub.subscribe(mockCtx)();
 
-    await handler!(JSON.stringify({ test: "data" }));
+    await handler(JSON.stringify({ test: "data" }));
 
     expect(mockLogger.error.log).toHaveBeenCalledWith(
       "Handling message for channel %s failed: %O",
@@ -89,9 +88,9 @@ describe("Subscriber", () => {
     });
 
     const sub = Subscriber(mockPubSub as any, handlerFn);
-    const handler = await sub.subscribe(mockCtx as any)();
+    const handler = await sub.subscribe(mockCtx)();
 
-    await handler!(JSON.stringify({ test: "data" }));
+    await handler(JSON.stringify({ test: "data" }));
 
     expect(mockLogger.debug.log).toHaveBeenCalledWith(
       "Message handled successfully for channel %s: %O",
@@ -109,9 +108,9 @@ describe("Subscriber", () => {
     }));
 
     const sub = Subscriber(pubSub as any, handlerFn);
-    const handler = await sub.subscribe(mockCtx as any)();
+    const handler = await sub.subscribe(mockCtx)();
 
-    await handler!(JSON.stringify({ test: "data" }));
+    await handler(JSON.stringify({ test: "data" }));
 
     expect(handlerFn).not.toHaveBeenCalled();
     expect(mockLogger.error.log).toHaveBeenCalledWith(
