@@ -43,7 +43,7 @@
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
     "axios": "^1.15.2",
     "debug": "^4.4.0",
-    "effect": "^3.21.2",
+    "effect": "^3.21.3",
     "fp-ts": "^2.16.10",
     "openai": "^6.42.0",
     "pdfjs-dist": "^5.7.284",

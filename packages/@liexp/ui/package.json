@@ -127,7 +127,7 @@
     "@types/topojson-specification": "^1.0.5",
     "@typescript/native-preview": "7.0.0-dev.20260603.1",
     "axios": "^1.15.2",
-    "effect": "^3.21.2",
+    "effect": "^3.21.3",
     "eslint": "^10.4.0",
     "fp-ts": "^2.16.10",
     "jsdom": "^29.1.1",
