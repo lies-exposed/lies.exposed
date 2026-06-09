@@ -98,7 +98,7 @@
     "react-helmet-async": "^3.0.0",
     "react-hook-form": "^7.77.0",
     "react-markdown": "^10.1.0",
-    "react-router": "^7.14.2",
+    "react-router": "^7.17.0",
     "react-share": "^5.3.0",
     "react-slick": "^0.31.0",
     "react-toc": "^3.1.0",
