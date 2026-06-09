@@ -226,8 +226,8 @@ importers:
         specifier: ^17.4.2
         version: 17.4.2
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       eslint:
         specifier: ^10.4.0
         version: 10.4.0(jiti@2.6.1)
@@ -317,8 +317,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       eslint:
         specifier: ^10.4.0
         version: 10.4.0(jiti@2.6.1)
@@ -391,8 +391,8 @@ importers:
         specifier: 7.0.0-dev.20260603.1
         version: 7.0.0-dev.20260603.1
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       eslint:
         specifier: ^10.4.0
         version: 10.4.0(jiti@2.6.1)
@@ -488,8 +488,8 @@ importers:
         specifier: ^1.15.2
         version: 1.15.2(debug@4.4.3)
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       eslint:
         specifier: ^10.4.0
         version: 10.4.0(jiti@2.6.1)
@@ -531,8 +531,8 @@ importers:
         specifier: 7.0.0-dev.20260603.1
         version: 7.0.0-dev.20260603.1
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       eslint:
         specifier: ^10.4.0
         version: 10.4.0(jiti@2.6.1)
@@ -835,8 +835,8 @@ importers:
         specifier: ^1.15.2
         version: 1.15.2(debug@4.4.3)
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       eslint:
         specifier: ^10.4.0
         version: 10.4.0(jiti@2.6.1)
@@ -898,8 +898,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       express:
         specifier: ^5.2.1
         version: 5.2.1
@@ -1037,8 +1037,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       express:
         specifier: ^5.2.1
         version: 5.2.1
@@ -1146,8 +1146,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       fp-ts:
         specifier: ^2.16.10
         version: 2.16.11
@@ -1225,8 +1225,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       exifreader:
         specifier: ^4.40.5
         version: 4.40.5
@@ -1406,8 +1406,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       fast-check:
         specifier: ^3.23.2
         version: 3.23.2
@@ -1500,8 +1500,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       express:
         specifier: ^5.2.1
         version: 5.2.1
@@ -1612,8 +1612,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3
       effect:
-        specifier: ^3.21.2
-        version: 3.21.2
+        specifier: ^3.21.3
+        version: 3.21.3
       exifreader:
         specifier: ^4.40.5
         version: 4.40.5
@@ -7070,8 +7070,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  effect@3.21.2:
-    resolution: {integrity: sha512-rXd2FGDM8KdjSIrc+mqEELo7ScW7xTVxEf1iInmPSpIde9/nyGuFM710cjTo7/EreGXiUX2MOonPpprbz2XHCg==}
+  effect@3.21.3:
+    resolution: {integrity: sha512-RqwU7WnJ6CqYhyjpOVJA5vh1Sgkn6eVECO6mnD0EjlbWcC2M3LJaPglXXr13Rdo/Y+B+wTEPzGRYFNL2xKxNeQ==}
 
   electron-to-chromium@1.5.368:
     resolution: {integrity: sha512-7RckJJK4uESJF9PxvfMWd3TGqIiieUTG4HxnKaKuIpGbcr+r2ZEB3g2gAhCP3Fqm42vJSzLfgab9eva/C4/XVw==}
@@ -17228,7 +17228,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  effect@3.21.2:
+  effect@3.21.3:
     dependencies:
       '@standard-schema/spec': 1.1.0
       fast-check: 3.23.2
