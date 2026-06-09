@@ -1277,8 +1277,8 @@ importers:
         version: 0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.10.1)(pg@8.21.0)
     devDependencies:
       '@electric-sql/pglite':
-        specifier: ^0.4.5
-        version: 0.4.5
+        specifier: ^0.5.1
+        version: 0.5.1
       '@liexp/eslint-config':
         specifier: workspace:*
         version: link:../../packages/@liexp/eslint-config
@@ -1335,7 +1335,7 @@ importers:
         version: 7.2.2
       typeorm-pglite:
         specifier: ^0.3.4
-        version: 0.3.4(@electric-sql/pglite@0.4.5)
+        version: 0.3.4(@electric-sql/pglite@0.5.1)
       vitest:
         specifier: ^4.1.7
         version: 4.1.7(@opentelemetry/api@1.9.1)(@types/node@24.12.4)(@vitest/coverage-v8@4.1.7)(jsdom@29.1.1(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.14.6(@types/node@24.12.4)(typescript@6.0.3))(vite@8.0.14(@types/node@24.12.4)(esbuild@0.28.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.9.0))
@@ -2219,8 +2219,8 @@ packages:
   '@databases/validate-unicode@1.0.0':
     resolution: {integrity: sha512-dLKqxGcymeVwEb/6c44KjOnzaAafFf0Wxa8xcfEjx/qOl3rdijsKYBAtIGhtVtOlpPf/PFKfgTuFurSPn/3B/g==}
 
-  '@electric-sql/pglite@0.4.5':
-    resolution: {integrity: sha512-aGG2zGEyZzGWKy8P+9ZoNUV0jxt1+hgbeTf+bVAYyxVZZLXg3/9aFlfLxb08AYZVAfAkQlQIysmWjhc5hwDG8g==}
+  '@electric-sql/pglite@0.5.1':
+    resolution: {integrity: sha512-h2Vc+qkQqsEL5kvyN5nBAxn3Vbyvka7QfDW7Io+CdcwU1+X8JbCAN2og+5dI11S3eJuDfroUCxzJaap6k+ezEw==}
 
   '@emnapi/core@1.10.0':
     resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
@@ -12474,7 +12474,7 @@ snapshots:
 
   '@databases/validate-unicode@1.0.0': {}
 
-  '@electric-sql/pglite@0.4.5': {}
+  '@electric-sql/pglite@0.5.1': {}
 
   '@emnapi/core@1.10.0':
     dependencies:
@@ -21958,9 +21958,9 @@ snapshots:
 
   typelevel-ts@0.4.0: {}
 
-  typeorm-pglite@0.3.4(@electric-sql/pglite@0.4.5):
+  typeorm-pglite@0.3.4(@electric-sql/pglite@0.5.1):
     dependencies:
-      '@electric-sql/pglite': 0.4.5
+      '@electric-sql/pglite': 0.5.1
 
   typeorm@0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.10.1)(pg@8.21.0):
     dependencies:
