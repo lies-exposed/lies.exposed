@@ -232,8 +232,8 @@ importers:
         specifier: ^10.4.0
         version: 10.4.0(jiti@2.6.1)
       exifreader:
-        specifier: ^4.40.5
-        version: 4.40.5
+        specifier: ^4.41.0
+        version: 4.41.0
       express-rate-limit:
         specifier: ^8.5.2
         version: 8.5.2(express@5.2.1)
@@ -1228,8 +1228,8 @@ importers:
         specifier: ^3.21.3
         version: 3.21.3
       exifreader:
-        specifier: ^4.40.5
-        version: 4.40.5
+        specifier: ^4.41.0
+        version: 4.41.0
       express:
         specifier: ^5.2.1
         version: 5.2.1
@@ -1615,8 +1615,8 @@ importers:
         specifier: ^3.21.3
         version: 3.21.3
       exifreader:
-        specifier: ^4.40.5
-        version: 4.40.5
+        specifier: ^4.41.0
+        version: 4.41.0
       fluent-ffmpeg:
         specifier: ^2.1.2
         version: 2.1.3
@@ -7392,8 +7392,9 @@ packages:
     resolution: {integrity: sha512-CRT1WTyuQoD771GW56XEZFQ/ZoSfWid1alKGDYMmkt2yl8UXrVR4pspqWNEcqKvVIzg6PAltWjxcSSPrboA4iA==}
     engines: {node: '>=18.0.0'}
 
-  exifreader@4.40.5:
-    resolution: {integrity: sha512-4mmnzlQ0g1xmBlThXM2L9IkVkN0E6TuSs1rHp68WMkW47q/yyZlbeuwFWJ+OR25mhQ22aBrCNtltDA45Z6Rrxg==}
+  exifreader@4.41.0:
+    resolution: {integrity: sha512-P3nPeh6GWs5D5RZdRZ6q/LorHPmmeDgKsowduqRabtTFiqMD2bc5eTN+Dhq00O9BCuV2eksu3oOJh4ZaZvkK0A==}
+    hasBin: true
 
   expand-template@2.0.3:
     resolution: {integrity: sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==}
@@ -17700,7 +17701,7 @@ snapshots:
     dependencies:
       eventsource-parser: 3.0.8
 
-  exifreader@4.40.5:
+  exifreader@4.41.0:
     optionalDependencies:
       '@xmldom/xmldom': 0.9.10
 
