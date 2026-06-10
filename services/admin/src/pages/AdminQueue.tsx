@@ -27,13 +27,15 @@ import {
   TextField,
   TextInput,
   type TransformData,
+  useInput,
   useRecordContext,
   useRefresh,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import {
+  Autocomplete,
   Box,
-  Popover,
   Stack,
+  TextField as MUITextField,
   Typography,
 } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
@@ -143,17 +145,14 @@ const SelectQueueStatusArrayInput: React.FC<SelectArrayInputProps> = ({
   );
 };
 
-const ModelSelector: React.FC<{
+const ModelSelectorInput: React.FC<{
   source: string;
   providersUrl?: string;
-}> = ({ source: _source, providersUrl = "/api/proxy/agent/providers" }) => {
+}> = ({ source, providersUrl = "/api/proxy/agent/providers" }) => {
+  const input = useInput({ source });
   const [providers, setProviders] = React.useState<ProviderInfo[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [modelAnchor, setModelAnchor] = React.useState<HTMLElement | null>(
-    null,
-  );
-  const [selectedModel, setSelectedModel] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -187,6 +186,13 @@ const ModelSelector: React.FC<{
     };
   }, [providersUrl]);
 
+  const choices = providers.flatMap((p) =>
+    p.models.map((model) => ({
+      id: model,
+      label: `${p.name} - ${model}`,
+    })),
+  );
+
   if (isLoading) {
     return (
       <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, py: 0.5 }}>
@@ -205,9 +211,6 @@ const ModelSelector: React.FC<{
     return null;
   }
 
-  const allModels = providers.flatMap((p) => p.models);
-  const activeModel = selectedModel ?? providers[0]?.defaultModel;
-
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
       <Typography
@@ -216,43 +219,48 @@ const ModelSelector: React.FC<{
       >
         Model:
       </Typography>
-      <Button
-        label={activeModel ?? "No models"}
-        onClick={(e) => setModelAnchor(e.currentTarget)}
-        variant="outlined"
+      <Autocomplete
+        {...input.fieldState}
         size="small"
-      />
-      <Popover
-        open={Boolean(modelAnchor)}
-        anchorEl={modelAnchor}
-        onClose={() => setModelAnchor(null)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-        transformOrigin={{ vertical: "top", horizontal: "left" }}
-        slotProps={{
-          paper: {
-            sx: { borderRadius: 2, boxShadow: 3, p: 0.5, minWidth: 140 },
-          },
+        options={choices}
+        getOptionLabel={(option) => option.label}
+        filterOptions={(options, params) => {
+          const filtered = options.filter((option) => {
+            const { inputValue } = params;
+            const lowerInput = inputValue.toLowerCase();
+            return (
+              option.label.toLowerCase().includes(lowerInput) ??
+              option.id.toLowerCase().includes(lowerInput)
+            );
+          });
+          return filtered;
         }}
-      >
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
-          {allModels.map((model) => (
-            <Button
-              key={model}
-              label={model}
-              onClick={() => {
-                setSelectedModel(model);
-                setModelAnchor(null);
-              }}
-              variant={model === activeModel ? "contained" : "text"}
-              size="small"
-              sx={{ textTransform: "none", justifyContent: "flex-start" }}
-            />
-          ))}
-        </Box>
-      </Popover>
+        renderInput={(params) => (
+          <MUITextField
+            {...params}
+            label="Model"
+            InputProps={{
+              ...params.InputProps,
+              placeholder: "Search models...",
+            }}
+            size="small"
+          />
+        )}
+        value={input.field.value}
+        onChange={(_, v) => input.field.onChange(v?.id)}
+        disablePortal
+        sx={{ minWidth: 200 }}
+      />
     </Box>
   );
 };
+
+const ModelSelector: React.FC<{
+  source: string;
+  providersUrl?: string;
+}> = ({ source, providersUrl }) => (
+  <ModelSelectorInput source={source} providersUrl={providersUrl} />
+);
 
 const filters = [
   <SelectQueueTypeInput key="type" alwaysOn />,
