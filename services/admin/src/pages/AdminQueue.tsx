@@ -35,7 +35,7 @@ import {
   Autocomplete,
   Box,
   Stack,
-  TextField,
+  TextField as MUITextField,
   Typography,
 } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
@@ -229,14 +229,14 @@ const ModelSelectorInput: React.FC<{
             const { inputValue } = params;
             const lowerInput = inputValue.toLowerCase();
             return (
-              option.label.toLowerCase().includes(lowerInput) ||
+              option.label.toLowerCase().includes(lowerInput) ??
               option.id.toLowerCase().includes(lowerInput)
             );
           });
           return filtered;
         }}
-                    renderInput={(params) => (
-          <TextField
+        renderInput={(params) => (
+          <MUITextField
             {...params}
             label="Model"
             InputProps={{
