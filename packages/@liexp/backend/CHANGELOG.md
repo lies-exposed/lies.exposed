@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.5.18](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.17...@liexp/backend@0.5.18) (2026-06-11)
+
+
+### Bug Fixes
+
+* add model override support for queue edit UI ([#3627](https://github.com/lies-exposed/lies.exposed/issues/3627)) ([d17a3b6](https://github.com/lies-exposed/lies.exposed/commit/d17a3b616d596abe50e2fa7edb6d4d2fb07fd503))
+
+
+### Miscellaneous
+
+* migrate to @typescript/native-preview ([#3583](https://github.com/lies-exposed/lies.exposed/issues/3583)) ([21ec836](https://github.com/lies-exposed/lies.exposed/commit/21ec8365943bd5e8b99a858039799d4eb6985b22))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.18
+    * @liexp/io bumped to 0.5.18
+    * @liexp/shared bumped to 0.5.18
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.18
+    * @liexp/test bumped to 0.5.18
+
 ## [0.5.17](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.16...@liexp/backend@0.5.17) (2026-05-13)
 
 
