@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.5.18](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.17...admin@0.5.18) (2026-06-11)
+
+
+### Bug Fixes
+
+* add model override support for queue edit UI ([#3627](https://github.com/lies-exposed/lies.exposed/issues/3627)) ([d17a3b6](https://github.com/lies-exposed/lies.exposed/commit/d17a3b616d596abe50e2fa7edb6d4d2fb07fd503))
+* **ui:** give model selector react-admin style ([#3680](https://github.com/lies-exposed/lies.exposed/issues/3680)) ([2c40a65](https://github.com/lies-exposed/lies.exposed/commit/2c40a65cf9c2df8cfe31fe2332fd10f947303a38))
+
+
+### Miscellaneous
+
+* migrate to @typescript/native-preview ([#3583](https://github.com/lies-exposed/lies.exposed/issues/3583)) ([21ec836](https://github.com/lies-exposed/lies.exposed/commit/21ec8365943bd5e8b99a858039799d4eb6985b22))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.18
+    * @liexp/core bumped to 0.5.18
+    * @liexp/io bumped to 0.5.18
+    * @liexp/shared bumped to 0.5.18
+    * @liexp/ui bumped to 0.5.18
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.18
+    * @liexp/test bumped to 0.5.18
+
 ## [0.5.17](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.16...admin@0.5.17) (2026-05-13)
 
 
