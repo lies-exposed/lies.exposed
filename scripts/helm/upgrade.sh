@@ -5,7 +5,7 @@ set -e -x
 dev=false
 name=lies-exposed
 namespace=prod
-kubeconfig=home-server-local
+kubecontext=home-server-local
 
 cp -f ./services/api/.env.prod ./helm/config/env/api.env
 cp -f ./services/web/.env.prod ./helm/config/env/web.env
@@ -37,9 +37,9 @@ cmd="upgrade $name ./helm \
     --namespace $namespace"
 
 if [ "$dev" = true ]; then
-    cmd="$cmd -f ./helm/values.dev.yaml"
+    cmd="$cmd -f ./helm/values.default.yaml"
 else
     cmd="$cmd -f ./helm/values.prod.yaml"
 fi
 
-helm $cmd --kubeconfig ~/.kube/$kubeconfig "${other_args[@]}"
+helm $cmd --kube-context $kubecontext "${other_args[@]}"
