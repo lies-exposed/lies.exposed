@@ -27,9 +27,9 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1039.0",
-    "@aws-sdk/lib-storage": "^3.1039.0",
-    "@aws-sdk/s3-request-presigner": "^3.1039.0",
+    "@aws-sdk/client-s3": "^3.1068.0",
+    "@aws-sdk/lib-storage": "^3.1068.0",
+    "@aws-sdk/s3-request-presigner": "^3.1068.0",
     "@databases/escape-identifier": "^1.0.3",
     "@databases/sql": "^3.3.0",
     "@liexp/core": "workspace:*",
@@ -50,7 +50,7 @@
     "typeorm": "^0.3.28"
   },
   "devDependencies": {
-    "@aws-sdk/types": "^3.973.8",
+    "@aws-sdk/types": "^3.973.12",
     "@langchain/anthropic": "^1.4.0",
     "@langchain/core": "^1.1.48",
     "@langchain/mcp-adapters": "^1.1.3",
