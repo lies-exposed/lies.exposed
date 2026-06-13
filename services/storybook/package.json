@@ -48,16 +48,16 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "storybook": "^10.4.2",
-    "vite": "^8.0.14"
+    "vite": "^8.0.16"
   },
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@types/d3": "^7.4.3",
     "@types/react": "^18.3.27",
     "@typescript/native-preview": "7.0.0-dev.20260603.1",
-    "eslint": "^10.4.0",
+    "eslint": "^10.5.0",
     "eslint-plugin-storybook": "^10.4.2",
-    "prettier": "^3.8.3"
+    "prettier": "^3.8.4"
   },
   "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
 }
