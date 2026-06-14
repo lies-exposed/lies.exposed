@@ -1,12 +1,14 @@
+import { fetchDomainSpecificMetadata } from "@liexp/backend/lib/providers/URLMetadata.provider.js";
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { URL } from "@liexp/io/lib/http/Common/index.js";
 import {
-  CreateQueueEmbeddingTypeData,
+  type CreateQueueEmbeddingTypeData,
   CreateQueueTextData,
   CreateQueueURLData,
 } from "@liexp/io/lib/http/Queue/index.js";
+import axios from "axios";
 import { Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
@@ -43,59 +45,16 @@ const isTextData = (
 ): data is typeof CreateQueueTextData.Type =>
   Schema.is(CreateQueueTextData)(data);
 
-type PageContent = {
-  content: string;
-  title: string;
-};
-
-const cleanHTML = (html: string): PageContent => {
-  const titleMatch = /<title[^>]*>([^<]+)<\/title>/i.exec(html);
-  const title = titleMatch ? titleMatch[1].trim() : "";
-
-  let cleaned = html
-    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
-    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
-    .replace(/<nav[^>]*>[\s\S]*?<\/nav>/gi, "")
-    .replace(/<footer[^>]*>[\s\S]*?<\/footer>/gi, "")
-    .replace(/<header[^>]*>[\s\S]*?<\/header>/gi, "")
-    .replace(/<aside[^>]*>[\s\S]*?<\/aside>/gi, "")
-    .replace(/<!--[\s\S]*?-->/g, "");
-  cleaned = cleaned.replace(
-    /<h([1-6])[^>]*>([^<]+)<\/h[1-6]>/gi,
-    (_: string, level: string, text: string) =>
-      `\n\n${"#".repeat(parseInt(level, 10))} ${text.trim()}\n\n`,
-  );
-  cleaned = cleaned.replace(/<p[^>]*>([^<]*)<\/p>/gi, "\n\n$1\n\n");
-  cleaned = cleaned.replace(/<br\s*\/?>/gi, "\n");
-  cleaned = cleaned.replace(/<div[^>]*>/gi, "\n");
-  cleaned = cleaned.replace(/<\/div>/gi, "\n");
-  cleaned = cleaned.replace(/<[^>]+>/g, " ");
-  cleaned = cleaned
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&#(39|34);/g, "'")
-    .replace(/\n\s*\n\s*\n/g, "\n\n")
-    .replace(/[ \t]+/g, " ")
-    .trim();
-
-  return {
-    content:
-      cleaned.length > 8000
-        ? cleaned.substring(0, 8000) + "\n\n[Content truncated...]"
-        : cleaned,
-    title,
-  };
-};
-
 const getPageContentRTE = (
   ctx: ClientContext,
   data: (typeof CreateQueueEmbeddingTypeData.Type)["data"],
 ) => {
   if (isURLData(data) && data.url) {
-    return pipe(
-      ctx.puppeteer.getBrowserFirstPage(data.url, {
+    const url = data.url;
+
+    // Fallback: generic puppeteer scrape for pages without a provider API.
+    const fromPuppeteer = pipe(
+      ctx.puppeteer.getBrowserFirstPage(url, {
         defaultViewport: { width: 1280, height: 800 },
       }),
       fp.TE.chain((page) =>
@@ -109,21 +68,116 @@ const getPageContentRTE = (
                 "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
               "Accept-Language": "en-US,en;q=0.9",
             });
-            await page.goto(data.url, {
+            await page.goto(url, {
               waitUntil: "networkidle0",
               timeout: 30000,
             });
             await page
               .waitForSelector("body", { timeout: 2000 })
               .catch(() => {});
-            const html = await page.content();
+            const { title, content } = await page.evaluate(() => {
+              const meta = (sel: string): string =>
+                document.querySelector(sel)?.getAttribute("content")?.trim() ??
+                "";
+              const text = (el: Element | null): string =>
+                el?.textContent?.replace(/\s+/g, " ").trim() ?? "";
+
+              // Title: prefer the article heading / og:title / citation_title
+              // over document.title, which on many platforms is the site name
+              // (e.g. "PubMed") rather than the article title.
+              const siteName = meta("meta[property='og:site_name']");
+              let title =
+                text(document.querySelector("h1")) ||
+                meta("meta[property='og:title']") ||
+                meta("meta[name='citation_title']") ||
+                (document.title || "").trim();
+              // Strip a trailing " - SiteName" / " | SiteName" suffix.
+              if (siteName) {
+                title = title
+                  .replace(new RegExp(`\\s*[-|–—]\\s*${siteName}\\s*$`), "")
+                  .trim();
+              }
+
+              // Description from article-specific meta tags (the real abstract
+              // on academic pages, og:description on articles). This is the
+              // strongest signal and is included up front so the model gets the
+              // article content even when body extraction is weak.
+              const metaDescription =
+                meta("meta[name='citation_abstract']") ||
+                meta("meta[name='description']") ||
+                meta("meta[property='og:description']");
+
+              const body = document.body;
+              let articleText = "";
+              if (body) {
+                // Article-specific containers first, generic page regions last,
+                // so we capture the article rather than the whole page shell.
+                const selectors = [
+                  ".abstract-content",
+                  "#abstract",
+                  ".abstract",
+                  ".abstract-section",
+                  "article",
+                  "[role='main']",
+                  "main",
+                ];
+                for (const sel of selectors) {
+                  const el = body.querySelector(sel);
+                  const t = text(el);
+                  if (t.length > 50) {
+                    articleText = t;
+                    break;
+                  }
+                }
+                if (articleText.length < 50) {
+                  const clone = body.cloneNode(true) as HTMLElement;
+                  for (const el of clone.querySelectorAll(
+                    "nav, footer, header, aside, script, style",
+                  )) {
+                    el.parentNode?.removeChild(el);
+                  }
+                  articleText = text(clone);
+                }
+              }
+
+              const content = [metaDescription, articleText]
+                .filter(Boolean)
+                .join("\n\n");
+              return {
+                title,
+                content:
+                  content.length > 8000
+                    ? content.substring(0, 8000) + "\n\n[Content truncated...]"
+                    : content,
+              };
+            });
             await page.close();
-            return cleanHTML(html);
+            return { title, content, publishDate: null };
           },
           (e) => (e instanceof Error ? e : new Error(String(e))),
         ),
       ),
       fp.TE.mapLeft(toAIBotError),
+    );
+
+    // Provider-specific extraction first: for known providers (PubMed/PMC,
+    // CrossRef DOIs, archive.org) query the authoritative API for title +
+    // abstract instead of scraping a JS app shell that yields the platform
+    // name/blurb. Falls back to puppeteer when no provider matches.
+    return pipe(
+      fp.TE.fromTask(() => fetchDomainSpecificMetadata(axios, url)),
+      fp.TE.mapLeft(toAIBotError),
+      fp.TE.chain((dm) =>
+        dm?.title && dm.description
+          ? fp.TE.right({
+              title: dm.title,
+              content: dm.description,
+              // Authoritative publish date from the provider API — the abstract
+              // text rarely contains it, so the model can't recover it.
+              publishDate: dm.date ? new Date(dm.date) : null,
+            })
+          : fromPuppeteer,
+      ),
       fp.RTE.fromTaskEither,
     );
   }
@@ -131,6 +185,7 @@ const getPageContentRTE = (
     fp.TE.right({
       content: isTextData(data) ? data.text : "",
       title: "",
+      publishDate: null as Date | null,
     }),
     fp.RTE.fromTaskEither,
   );
@@ -167,7 +222,9 @@ export const updateLinkFlow: JobProcessRTE<
         >({
           message: `${prompt({
             vars: {
-              text: pageContent.content ?? "",
+              text: [pageContent.title, pageContent.content]
+                .filter(Boolean)
+                .join("\n\n"),
             },
           })}\n\n${job.question ?? defaultQuestion}`,
           model: job.model ?? undefined,
@@ -176,6 +233,13 @@ export const updateLinkFlow: JobProcessRTE<
       ),
     ),
     LoggerService.RTE.debug("Messages %O"),
-    fp.RTE.map(({ result }) => transformResult(result)),
+    fp.RTE.map(({ result, pageContent }) => {
+      const base = transformResult(result);
+      // Provider-supplied date is authoritative; fall back to the model's.
+      return {
+        ...base,
+        publishDate: pageContent.publishDate ?? base.publishDate,
+      };
+    }),
   );
 };
