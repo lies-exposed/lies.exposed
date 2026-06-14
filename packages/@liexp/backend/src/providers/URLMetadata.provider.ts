@@ -295,7 +295,29 @@ export function extractDateFromNextData(html: string): string | null {
 
 // ---------------------------------------------------------------------------
 // 5. Domain-specific API fetchers (NCBI, CrossRef, Archive.org)
+//    These query authoritative provider APIs to recover title, description and
+//    publish date that generic HTML/og scraping cannot reach (e.g. PubMed
+//    serves a JS app shell whose og:title is just "PubMed").
 // ---------------------------------------------------------------------------
+
+/**
+ * Authoritative metadata recovered from a provider API. Each field is null when
+ * the provider did not supply it.
+ */
+export interface DomainMetadata {
+  title: string | null;
+  description: string | null;
+  date: string | null;
+}
+
+/** Strip XML/HTML tags and collapse whitespace. Returns null when empty. */
+function cleanMarkupText(raw: string): string | null {
+  const text = raw
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.length > 0 ? text : null;
+}
 
 // 5a. NCBI / PubMed E-utils
 const NCBI_PUBMED_RE =
@@ -320,10 +342,10 @@ function parseNCBIPubDate(pubdate: string): string | null {
   return new Date(`${year}-01-01T00:00:00Z`).toISOString();
 }
 
-async function fetchNCBIDate(
+async function fetchNCBIMetadata(
   client: AxiosInstance,
   url: string,
-): Promise<string | null> {
+): Promise<DomainMetadata | null> {
   const pmidMatch = NCBI_PUBMED_RE.exec(url);
   const pmcMatch = NCBI_PMC_RE.exec(url);
   if (!pmidMatch && !pmcMatch) return null;
@@ -331,17 +353,55 @@ async function fetchNCBIDate(
   const db = pmcMatch ? "pmc" : "pubmed";
   const id = (pmcMatch ?? pmidMatch)![1];
 
+  let title: string | null = null;
+  let description: string | null = null;
+  let date: string | null = null;
+
+  // esummary (JSON): authoritative title + publish date.
   try {
     const { data } = await client.get(
       "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
       { timeout: 10_000, params: { db, id, retmode: "json" } },
     );
     const result = data?.result?.[id];
-    if (!result) return null;
-    return parseNCBIPubDate(result.epubdate ?? result.pubdate);
+    if (result) {
+      date = parseNCBIPubDate(result.epubdate ?? result.pubdate);
+      if (typeof result.title === "string") {
+        title = cleanMarkupText(result.title)?.replace(/\.$/, "") ?? null;
+      }
+    }
   } catch {
-    return null;
+    // ignore — fall back to efetch below
   }
+
+  // efetch (XML): abstract text (and title if esummary missed it).
+  try {
+    const { data } = await client.get<string>(
+      "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
+      {
+        timeout: 10_000,
+        responseType: "text",
+        params: { db, id, retmode: "xml" },
+      },
+    );
+    if (typeof data === "string") {
+      const abstractParts = [
+        ...data.matchAll(/<AbstractText[^>]*>([\s\S]*?)<\/AbstractText>/gi),
+      ]
+        .map((m) => cleanMarkupText(m[1]))
+        .filter((t): t is string => t !== null);
+      if (abstractParts.length > 0) description = abstractParts.join(" ");
+      if (!title) {
+        const tm = /<ArticleTitle[^>]*>([\s\S]*?)<\/ArticleTitle>/i.exec(data);
+        if (tm) title = cleanMarkupText(tm[1])?.replace(/\.$/, "") ?? null;
+      }
+    }
+  } catch {
+    // ignore — return whatever esummary provided
+  }
+
+  if (!title && !description && !date) return null;
+  return { title, description, date };
 }
 
 // 5b. CrossRef (doi.org / dx.doi.org and publisher-embedded DOIs)
@@ -364,10 +424,10 @@ function parseCrossRefDateParts(dateParts: unknown): string | null {
   return isNaN(d.getTime()) ? null : d.toISOString();
 }
 
-async function fetchCrossRefDate(
+async function fetchCrossRefMetadata(
   client: AxiosInstance,
   url: string,
-): Promise<string | null> {
+): Promise<DomainMetadata | null> {
   const doi = extractDOIFromURL(url);
   if (!doi) return null;
   try {
@@ -379,11 +439,21 @@ async function fetchCrossRefDate(
     });
     const msg = data?.message;
     if (!msg) return null;
-    return (
+    const title =
+      Array.isArray(msg.title) && typeof msg.title[0] === "string"
+        ? cleanMarkupText(msg.title[0])
+        : null;
+    // CrossRef abstracts are JATS XML and often prefixed with "Abstract".
+    const description =
+      typeof msg.abstract === "string"
+        ? (cleanMarkupText(msg.abstract)?.replace(/^Abstract\s*/i, "") ?? null)
+        : null;
+    const date =
       parseCrossRefDateParts(msg["published-print"]?.["date-parts"]) ??
       parseCrossRefDateParts(msg["published-online"]?.["date-parts"]) ??
-      parseCrossRefDateParts(msg.created?.["date-parts"])
-    );
+      parseCrossRefDateParts(msg.created?.["date-parts"]);
+    if (!title && !description && !date) return null;
+    return { title, description, date };
   } catch {
     return null;
   }
@@ -392,41 +462,60 @@ async function fetchCrossRefDate(
 // 5c. Internet Archive metadata API
 const ARCHIVE_ORG_RE = /^https?:\/\/archive\.org\/details\/([^/?#]+)/i;
 
-async function fetchArchiveOrgDate(
+async function fetchArchiveOrgMetadata(
   client: AxiosInstance,
   url: string,
-): Promise<string | null> {
+): Promise<DomainMetadata | null> {
   const m = ARCHIVE_ORG_RE.exec(url);
   if (!m) return null;
   try {
     const { data } = await client.get(`https://archive.org/metadata/${m[1]}`, {
       timeout: 10_000,
     });
-    const dateStr: string | undefined =
-      data?.metadata?.date ?? data?.metadata?.year;
-    if (!dateStr) return null;
-    const iso = dateStr.length === 4 ? `${dateStr}-01-01T00:00:00Z` : dateStr;
-    const d = new Date(iso);
-    return isNaN(d.getTime()) ? null : d.toISOString();
+    const meta = data?.metadata;
+    if (!meta) return null;
+    const title =
+      typeof meta.title === "string" ? cleanMarkupText(meta.title) : null;
+    const description =
+      typeof meta.description === "string"
+        ? cleanMarkupText(meta.description)
+        : null;
+    const dateStr: string | undefined = meta.date ?? meta.year;
+    let date: string | null = null;
+    if (dateStr) {
+      const iso = dateStr.length === 4 ? `${dateStr}-01-01T00:00:00Z` : dateStr;
+      const d = new Date(iso);
+      date = isNaN(d.getTime()) ? null : d.toISOString();
+    }
+    if (!title && !description && !date) return null;
+    return { title, description, date };
   } catch {
     return null;
   }
 }
 
 /**
- * Run all domain-specific API fetchers in parallel and return the first date found.
- * Returns null when no API matches the URL or all calls fail.
+ * Run all domain-specific provider API fetchers in parallel and merge their
+ * results, taking the first non-null value for each field. Returns null when no
+ * provider matches the URL (regex-guarded — no network cost for normal pages).
  */
-async function fetchDomainSpecificDate(
+export async function fetchDomainSpecificMetadata(
   client: AxiosInstance,
   url: string,
-): Promise<string | null> {
-  const results = await Promise.all([
-    fetchNCBIDate(client, url),
-    fetchCrossRefDate(client, url),
-    fetchArchiveOrgDate(client, url),
-  ]);
-  return results.find((r) => r !== null) ?? null;
+): Promise<DomainMetadata | null> {
+  const results = (
+    await Promise.all([
+      fetchNCBIMetadata(client, url),
+      fetchCrossRefMetadata(client, url),
+      fetchArchiveOrgMetadata(client, url),
+    ])
+  ).filter((r): r is DomainMetadata => r !== null);
+  if (results.length === 0) return null;
+  return {
+    title: results.find((r) => r.title)?.title ?? null,
+    description: results.find((r) => r.description)?.description ?? null,
+    date: results.find((r) => r.date)?.date ?? null,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -627,27 +716,29 @@ export const MakeURLMetadata = (
         meta.date ??= urlDate ?? undefined;
         return meta;
       }),
-      // 6. Domain-specific APIs: NCBI, CrossRef, Archive.org (run in parallel)
-      TE.chain((meta) => {
-        if (meta.date !== undefined) return TE.right(meta);
-        ctx.logger?.info.log(
-          "[URLMetadata] No date found via HTML/URL for %s — trying domain-specific APIs",
-          url,
-        );
-        return pipe(
-          TE.fromTask(() => fetchDomainSpecificDate(ctx.client, url)),
-          TE.map((date) => {
-            if (date) {
-              ctx.logger?.info.log(
-                "[URLMetadata] Domain API resolved date for %s → %s",
-                url,
-                date,
-              );
-            }
-            return { ...meta, date: date ?? undefined };
+      // 6. Domain-specific APIs: NCBI, CrossRef, Archive.org (run in parallel).
+      //    These return authoritative title/description/date for known
+      //    providers and take precedence over generic og/HTML scraping, which
+      //    on app-shell pages (e.g. PubMed) yields the platform name/blurb.
+      TE.chainW((meta) =>
+        pipe(
+          TE.fromTask(() => fetchDomainSpecificMetadata(ctx.client, url)),
+          TE.map((dm): Metadata => {
+            if (!dm) return meta;
+            ctx.logger?.info.log(
+              "[URLMetadata] Domain API resolved metadata for %s → %O",
+              url,
+              dm,
+            );
+            return {
+              ...meta,
+              title: dm.title ?? meta.title,
+              description: dm.description ?? meta.description,
+              date: meta.date ?? dm.date ?? undefined,
+            };
           }),
-        );
-      }),
+        ),
+      ),
       // 7. Wayback Machine CDX API (last resort)
       TE.chain((meta) => {
         if (meta.date !== undefined) return TE.right(meta);

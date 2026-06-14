@@ -38,4 +38,7 @@ export class QueueEntity extends DeletableEntity {
 
   @Column({ type: "jsonb", nullable: true })
   error: Queue.Queue["error"] | null;
+
+  @Column({ type: "varchar", nullable: true })
+  model: string | null;
 }

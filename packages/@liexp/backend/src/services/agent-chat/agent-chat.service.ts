@@ -185,7 +185,7 @@ export const AgentChatService = {
               : defaultParser<T>(
                   message.content,
                   message.structured_output,
-                  options.extractFromMarkdown ?? false,
+                  options.extractFromMarkdown ?? true,
                 );
 
             ctx.logger.debug.log(

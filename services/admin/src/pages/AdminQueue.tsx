@@ -211,6 +211,11 @@ const ModelSelectorInput: React.FC<{
     return null;
   }
 
+  const selectedOption =
+    input.field.value && choices.length
+      ? (choices.find((c) => c.id === input.field.value) ?? null)
+      : null;
+
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
       <Typography
@@ -223,14 +228,18 @@ const ModelSelectorInput: React.FC<{
         {...input.fieldState}
         size="small"
         options={choices}
-        getOptionLabel={(option) => option.label}
+        getOptionLabel={(option) =>
+          typeof option === "string" ? option : (option?.label ?? "")
+        }
         filterOptions={(options, params) => {
           const filtered = options.filter((option) => {
             const { inputValue } = params;
             const lowerInput = inputValue.toLowerCase();
+            const label = typeof option === "string" ? option : option.label;
+            const id = typeof option === "string" ? option : option.id;
             return (
-              option.label.toLowerCase().includes(lowerInput) ??
-              option.id.toLowerCase().includes(lowerInput)
+              label.toLowerCase().includes(lowerInput) ??
+              id.toLowerCase().includes(lowerInput)
             );
           });
           return filtered;
@@ -246,8 +255,8 @@ const ModelSelectorInput: React.FC<{
             size="small"
           />
         )}
-        value={input.field.value}
-        onChange={(_, v) => input.field.onChange(v?.id)}
+        value={selectedOption}
+        onChange={(_, v) => input.field.onChange(v != null ? v.id : null)}
         disablePortal
         sx={{ minWidth: 200 }}
       />

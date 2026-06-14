@@ -20,7 +20,7 @@
     "build:tsc": "tsgo -b tsconfig.build.json",
     "build:es": "node --import tsx/esm ./esbuild.config.mjs",
     "build": "pnpm build:tsc && pnpm build:es",
-    "dev": "node --watch ./build/run.js --trace-warnings",
+    "dev": "node --watch ./build/run-esbuild.cjs --trace-warnings",
     "docker:dev": "pnpm dev",
     "cli:dev": "node --import tsx/esm src/cli/index.ts",
     "lint": "eslint --cache src",
