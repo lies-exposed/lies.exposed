@@ -454,8 +454,8 @@ importers:
         specifier: ^1.1.4
         version: 1.1.4
       query-string:
-        specifier: ^9.3.1
-        version: 9.3.1
+        specifier: ^9.4.0
+        version: 9.4.0
       react:
         specifier: ^18
         version: 18.3.1
@@ -708,8 +708,8 @@ importers:
         specifier: ^10.9.0
         version: 10.9.0
       query-string:
-        specifier: ^9.3.1
-        version: 9.3.1
+        specifier: ^9.4.0
+        version: 9.4.0
       ra-core:
         specifier: ^5.14.7
         version: 5.14.7(@tanstack/react-query@5.101.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.77.0(react@18.3.1))(react-router-dom@7.16.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.14.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
@@ -9375,6 +9375,10 @@ packages:
 
   query-string@9.3.1:
     resolution: {integrity: sha512-5fBfMOcDi5SA9qj5jZhWAcTtDfKF5WFdd2uD9nVNlbxVv1baq65aALy6qofpNEGELHvisjjasxQp7BlM9gvMzw==}
+    engines: {node: '>=18'}
+
+  query-string@9.4.0:
+    resolution: {integrity: sha512-ivvWyHqU9K1Log4hJFhqVIIMoEi0nzmlRhvk2pPcTuQH/Y0K5iTTMxEx7R0PRHD2Z1hMVbWnjfsEWbIKIK+3IA==}
     engines: {node: '>=18'}
 
   querystringify@2.2.0:
@@ -19587,6 +19591,12 @@ snapshots:
       strict-uri-encode: 2.0.0
 
   query-string@9.3.1:
+    dependencies:
+      decode-uri-component: 0.4.1
+      filter-obj: 5.1.0
+      split-on-first: 3.0.0
+
+  query-string@9.4.0:
     dependencies:
       decode-uri-component: 0.4.1
       filter-obj: 5.1.0
