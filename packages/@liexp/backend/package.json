@@ -65,7 +65,7 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node-telegram-bot-api": "^0.64.14",
     "@typescript/native-preview": "7.0.0-dev.20260603.1",
-    "axios": "^1.15.2",
+    "axios": "^1.16.0",
     "debug": "^4.4.0",
     "dotenv": "^17.4.2",
     "effect": "^3.21.3",

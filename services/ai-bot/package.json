@@ -41,7 +41,7 @@
     "@napi-rs/canvas": "^1.0.0",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
-    "axios": "^1.15.2",
+    "axios": "^1.16.0",
     "debug": "^4.4.0",
     "effect": "^3.21.3",
     "fp-ts": "^2.16.10",
@@ -55,7 +55,7 @@
     "@liexp/eslint-config": "workspace:*",
     "@types/node": "^24.12.4",
     "@typescript/native-preview": "7.0.0-dev.20260603.1",
-    "esbuild": "^0.28.0",
+    "esbuild": "^0.28.1",
     "eslint": "^10.4.0",
     "tsx": "^4.21.0"
   },
