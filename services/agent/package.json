@@ -72,15 +72,15 @@
     "@types/cors": "^2.8.18",
     "@types/debug": "^4.1.13",
     "@types/express": "^5.0.6",
-    "@types/node": "^24.12.4",
+    "@types/node": "^26.0.0",
     "@types/prompts": "^2.4.9",
     "@types/supertest": "^7.2.0",
     "@typescript/native-preview": "7.0.0-dev.20260603.1",
-    "eslint": "^10.4.0",
+    "eslint": "^10.5.0",
     "msw": "^2.14.6",
     "supertest": "^7.1.0",
     "tsx": "^4.21.0",
-    "vitest": "^4.1.7"
+    "vitest": "^4.1.9"
   },
   "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
 }
