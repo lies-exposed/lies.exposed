@@ -1,0 +1,16 @@
+environments:
+  default:
+  prod:
+
+releases:
+  - name: lies-exposed
+    namespace: "prod"
+    kubeContext: "home-server-local"
+    chart: ../helm
+    missingFileHandler: Warn
+    values:
+      - ../helm/values.yaml
+      - ../helm/values.{{ .Environment.Name }}.yaml
+    cleanupOnFail: true
+    atomic: false
+    timeout: 600
