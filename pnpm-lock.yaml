@@ -600,8 +600,8 @@ importers:
         specifier: ^8.28.0
         version: 8.28.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/material@7.3.10(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@7.3.10(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@react-spring/web':
-        specifier: ^10.0.3
-        version: 10.0.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^10.1.1
+        version: 10.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.101.0
         version: 5.101.0(react@18.3.1)
@@ -4283,29 +4283,29 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@react-spring/animated@10.0.3':
-    resolution: {integrity: sha512-7MrxADV3vaUADn2V9iYhaIL6iOWRx9nCJjYrsk2AHD2kwPr6fg7Pt0v+deX5RnCDmCKNnD6W5fasiyM8D+wzJQ==}
+  '@react-spring/animated@10.1.1':
+    resolution: {integrity: sha512-kqdtIzr1GfBmbojnYhNdEhgu23f1rQ9H98K6KGmWHpNBP0gGZWN8KEIzGYwCAon7Q8ktGmsR1dCyy6QTI4egug==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@react-spring/core@10.0.3':
-    resolution: {integrity: sha512-D4DwNO68oohDf/0HG2G0Uragzb9IA1oXblxrd6MZAcBcUQG2EHUWXewjdECMPLNmQvlYVyyBRH6gPxXM5DX7DQ==}
+  '@react-spring/core@10.1.1':
+    resolution: {integrity: sha512-eCxEJuJzNxbfFXEr+BuMqp+LYv0fdvIO/lk6B+A/aUDxD4M4EBKizPqhCkMz/B+U12d99KTAUSmWaGul/Lly+w==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@react-spring/rafz@10.0.3':
-    resolution: {integrity: sha512-Ri2/xqt8OnQ2iFKkxKMSF4Nqv0LSWnxXT4jXFzBDsHgeeH/cHxTLupAWUwmV9hAGgmEhBmh5aONtj3J6R/18wg==}
+  '@react-spring/rafz@10.1.1':
+    resolution: {integrity: sha512-F7n2fU8EO8OokBkUHivU/tJ9HnL/QTIgd8V/2BhHFSrszt+OaLUoqEinomNeedLPIs24skiXQtki4APJHxghDQ==}
 
-  '@react-spring/shared@10.0.3':
-    resolution: {integrity: sha512-geCal66nrkaQzUVhPkGomylo+Jpd5VPK8tPMEDevQEfNSWAQP15swHm+MCRG4wVQrQlTi9lOzKzpRoTL3CA84Q==}
+  '@react-spring/shared@10.1.1':
+    resolution: {integrity: sha512-pOoQPoOa+EPWrRndqIYlIms71fNB1p0IQVJcCi5xHtErqL8N0+jS1V9pExHfryqn9aUhHv0+7kMiVrcb6U+IBQ==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@react-spring/types@10.0.3':
-    resolution: {integrity: sha512-H5Ixkd2OuSIgHtxuHLTt7aJYfhMXKXT/rK32HPD/kSrOB6q6ooeiWAXkBy7L8F3ZxdkBb9ini9zP9UwnEFzWgQ==}
+  '@react-spring/types@10.1.1':
+    resolution: {integrity: sha512-C35b9XigBnwv1fZsUGR/lWzAKBskGhdAmf0LIBvqhwwHTYMtat4DXHZEnFyJQvfCAmpVc/d9Yug7j2Lbv2GDEA==}
 
-  '@react-spring/web@10.0.3':
-    resolution: {integrity: sha512-ndU+kWY81rHsT7gTFtCJ6mrVhaJ6grFmgTnENipzmKqot4HGf5smPNK+cZZJqoGeDsj9ZsiWPW4geT/NyD484A==}
+  '@react-spring/web@10.1.1':
+    resolution: {integrity: sha512-G8jVDH8YPAo9ALWio0YcpwvZjXIt6LFwSKZtS4XeTNWIMNUH+sTm2Uy8dxEobTqyzQ5kvKwnMfS3LsOpKrVOag==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -13891,35 +13891,36 @@ snapshots:
       - react-native-b4a
       - supports-color
 
-  '@react-spring/animated@10.0.3(react@18.3.1)':
+  '@react-spring/animated@10.1.1(react@18.3.1)':
     dependencies:
-      '@react-spring/shared': 10.0.3(react@18.3.1)
-      '@react-spring/types': 10.0.3
+      '@react-spring/shared': 10.1.1(react@18.3.1)
+      '@react-spring/types': 10.1.1
       react: 18.3.1
 
-  '@react-spring/core@10.0.3(react@18.3.1)':
+  '@react-spring/core@10.1.1(react@18.3.1)':
     dependencies:
-      '@react-spring/animated': 10.0.3(react@18.3.1)
-      '@react-spring/shared': 10.0.3(react@18.3.1)
-      '@react-spring/types': 10.0.3
+      '@react-spring/animated': 10.1.1(react@18.3.1)
+      '@react-spring/shared': 10.1.1(react@18.3.1)
+      '@react-spring/types': 10.1.1
       react: 18.3.1
 
-  '@react-spring/rafz@10.0.3': {}
+  '@react-spring/rafz@10.1.1': {}
 
-  '@react-spring/shared@10.0.3(react@18.3.1)':
+  '@react-spring/shared@10.1.1(react@18.3.1)':
     dependencies:
-      '@react-spring/rafz': 10.0.3
-      '@react-spring/types': 10.0.3
+      '@react-spring/rafz': 10.1.1
+      '@react-spring/types': 10.1.1
       react: 18.3.1
 
-  '@react-spring/types@10.0.3': {}
+  '@react-spring/types@10.1.1': {}
 
-  '@react-spring/web@10.0.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@react-spring/web@10.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@react-spring/animated': 10.0.3(react@18.3.1)
-      '@react-spring/core': 10.0.3(react@18.3.1)
-      '@react-spring/shared': 10.0.3(react@18.3.1)
-      '@react-spring/types': 10.0.3
+      '@react-spring/animated': 10.1.1(react@18.3.1)
+      '@react-spring/core': 10.1.1(react@18.3.1)
+      '@react-spring/shared': 10.1.1(react@18.3.1)
+      '@react-spring/types': 10.1.1
+      csstype: 3.2.3
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
