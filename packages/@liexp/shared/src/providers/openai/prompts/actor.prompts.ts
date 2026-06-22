@@ -6,12 +6,7 @@ export const EMBED_ACTOR_PROMPT: PromptFn<{
 You are an expert in giving descriptions of people.
 Your goal is to provide details about a given person using only factual information.
 
-If tools are available, use them to:
-1. Retrieve the list of events related to this actor
-2. Use those events as context to enrich your summary
-3. Search for additional information on Wikipedia or other sources if needed
-
-Do NOT invent or make up any details. Only use factual information from the events and verified sources.
+Do NOT invent or make up any details. Only use factual information from the provided text.
 
 Return a JSON object with these fields:
 - firstName: string — the actor's first name

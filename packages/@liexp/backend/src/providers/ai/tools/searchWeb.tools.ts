@@ -49,7 +49,8 @@ export const createSearchWebTool = <
 
     ctx.logger.debug.log("Searching in the web with query: %s", query);
 
-    const finalQuery = query + keywords.join(" ");
+    const finalQuery =
+      keywords.length > 0 ? query + " " + keywords.join(" ") : query;
 
     const task = pipe(
       ctx.brave.webSearch(finalQuery, {
