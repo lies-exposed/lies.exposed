@@ -57,7 +57,7 @@ describe("createSearchWebTool", () => {
     });
 
     expect(ctx.brave.webSearch).toHaveBeenCalledWith(
-      "climate changeglobal warming",
+      "climate change global warming",
       expect.any(Object),
     );
   });
