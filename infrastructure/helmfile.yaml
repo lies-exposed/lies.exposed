@@ -4,7 +4,7 @@ environments:
 
 releases:
   - name: lies-exposed
-    namespace: "{{ if eq .Environment.Name \"prod\" }}prod{{ else }}liexp-dev{{ end }}"
+    namespace: "prod"
     kubeContext: "home-server-local"
     chart: ../helm
     missingFileHandler: Warn
