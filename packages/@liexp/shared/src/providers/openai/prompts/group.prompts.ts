@@ -8,11 +8,6 @@ The group can be either a company, a website entity, a group of people, a family
 
 Your task is to write a factual summary about a group using verified sources.
 
-If tools are available, use them to:
-1. Retrieve the list of events related to this group
-2. Use those events as context to understand the group's activities and significance
-3. Search for additional information on Wikipedia or RationalWiki if needed
-
 Do NOT invent or make up any details. If information is not available, omit it or mark it as "unknown".
 
 Return a JSON object with these fields:
