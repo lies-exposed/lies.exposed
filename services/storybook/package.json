@@ -55,7 +55,7 @@
     "@types/d3": "^7.4.3",
     "@types/react": "^18.3.27",
     "@typescript/native-preview": "7.0.0-dev.20260623.1",
-    "eslint": "^10.4.0",
+    "eslint": "^10.5.0",
     "eslint-plugin-storybook": "^10.4.6",
     "prettier": "^3.8.4"
   },
