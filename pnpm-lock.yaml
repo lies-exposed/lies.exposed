@@ -48,8 +48,8 @@ importers:
         specifier: ^24.12.4
         version: 24.12.4
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       '@vitest/coverage-v8':
         specifier: ^4.1.7
         version: 4.1.7(vitest@4.1.7)
@@ -214,8 +214,8 @@ importers:
         specifier: ^0.64.14
         version: 0.64.14
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       axios:
         specifier: ^1.15.2
         version: 1.15.2(debug@4.4.3)
@@ -308,8 +308,8 @@ importers:
         specifier: ^4.1.13
         version: 4.1.13
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       '@vitejs/plugin-react':
         specifier: ^6.0.2
         version: 6.0.2(vite@8.0.14(@types/node@25.9.1)(esbuild@0.28.1)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.9.0))
@@ -348,8 +348,8 @@ importers:
         specifier: ^5.101.0
         version: 5.101.0(eslint@10.4.0(jiti@2.6.1))(typescript@6.0.3)
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       eslint:
         specifier: ^10.4.0
         version: 10.4.0(jiti@2.6.1)
@@ -388,8 +388,8 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       effect:
         specifier: ^3.21.3
         version: 3.21.3
@@ -428,10 +428,10 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1))
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)
       '@visx/network':
         specifier: ^3
         version: 3.12.0(react@18.3.1)
@@ -482,8 +482,8 @@ importers:
         specifier: ^18.3.6
         version: 18.3.7(@types/react@18.3.27)
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       axios:
         specifier: ^1.15.2
         version: 1.15.2(debug@4.4.3)
@@ -528,8 +528,8 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       effect:
         specifier: ^3.21.3
         version: 3.21.3
@@ -619,7 +619,7 @@ importers:
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)
       '@visx/axis':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -829,8 +829,8 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       axios:
         specifier: ^1.15.2
         version: 1.15.2(debug@4.4.3)
@@ -887,7 +887,7 @@ importers:
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
@@ -956,8 +956,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       eslint:
         specifier: ^10.4.0
         version: 10.4.0(jiti@2.6.1)
@@ -1083,8 +1083,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       eslint:
         specifier: ^10.4.0
         version: 10.4.0(jiti@2.6.1)
@@ -1174,8 +1174,8 @@ importers:
         specifier: ^24.12.4
         version: 24.12.4
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       esbuild:
         specifier: ^0.28.0
         version: 0.28.0
@@ -1319,8 +1319,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -1389,7 +1389,7 @@ importers:
         version: 5.101.0(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1))
       '@visx/gradient':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -1437,8 +1437,8 @@ importers:
         specifier: ^18.3.27
         version: 18.3.27
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       eslint:
         specifier: ^10.4.0
         version: 10.4.0(jiti@2.6.1)
@@ -1486,13 +1486,13 @@ importers:
         version: 5.101.0(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
       '@ts-endpoint/tanstack-query':
         specifier: file:../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)
       date-fns:
         specifier: ^4.4.0
         version: 4.4.0
@@ -1555,8 +1555,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -1700,8 +1700,8 @@ importers:
         specifier: ^2.4.9
         version: 2.4.9
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260603.1
-        version: 7.0.0-dev.20260603.1
+        specifier: 7.0.0-dev.20260623.1
+        version: 7.0.0-dev.20260623.1
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -5593,50 +5593,50 @@ packages:
     resolution: {integrity: sha512-6fJ9MHWtK14C1DSkiMlHUSOmrVebL7150xZJBlJiL62jjhIA4JmOq6flwBgDxIdBKKdoiZRel+dfPD5MLfny3w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260603.1':
-    resolution: {integrity: sha512-BvaaQAHWaHA0nl26DsWTsXsKkCHqUTm7f5FMuNDyCU83Hvo7zHx0vpSTrzL+1KEWeWLUVVGA7U224dk+3yIosQ==}
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260623.1':
+    resolution: {integrity: sha512-8AX9NwC+G6Sbh5hNLnx8YgxoRV/8BH8FQRtZ86OTtUQfESMRvwszOGTtfcC32g86O5jsEQPDHXKVSnsIzWh6lg==}
     engines: {node: '>=16.20.0'}
     cpu: [arm64]
     os: [darwin]
 
-  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260603.1':
-    resolution: {integrity: sha512-a2JJezvJAqWXgTAD1tKdWs7iA/4s3EakLcCYx4rg3ptEbBF6ADWv7A9ySHxT/+CQWYCD0DYIb9du1JUWL85fRw==}
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260623.1':
+    resolution: {integrity: sha512-ef+JmOjtTu0BRdhAq69WbzCWjZsG6gqS8xDI4fKABdWXlrVojPkrD2OObog3PC7Qte8us6QspQvvnKTf7yKFSQ==}
     engines: {node: '>=16.20.0'}
     cpu: [x64]
     os: [darwin]
 
-  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260603.1':
-    resolution: {integrity: sha512-MQ0JcRucLdcR6MT14wlrGNz9HaxJrFF8Axmo0IN6e5gSou2UrKKUvvAH1i8zU5Gm7jl8CWCLzzX/qGCi1TsinA==}
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260623.1':
+    resolution: {integrity: sha512-xb9m0WXvIPHOogGTC02iBv3cwRJ7q+Ql2ABcsu4kHYc1p02JSbIBEfu3g58TpcFZyODsO+8WaDylx/hBiGzlVw==}
     engines: {node: '>=16.20.0'}
     cpu: [arm64]
     os: [linux]
 
-  '@typescript/native-preview-linux-arm@7.0.0-dev.20260603.1':
-    resolution: {integrity: sha512-GLsTfJQiGfTN+r1ezlxMcTd5MNYRB/tADD6Y1j1jfLjZsFYSVkNfCnDQA/jwUG6GddBBF+0Um7tBUP16emej9w==}
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20260623.1':
+    resolution: {integrity: sha512-8f9dT1RaOK3Wy/puboAcCik4HBX6mfWt5hOMipWehDfInNFI6XP3ZYErShowBQ0Tkln5qdGqDIoq452PO/ZwCA==}
     engines: {node: '>=16.20.0'}
     cpu: [arm]
     os: [linux]
 
-  '@typescript/native-preview-linux-x64@7.0.0-dev.20260603.1':
-    resolution: {integrity: sha512-u6gvCiVGSDagdR2+GI5VJLPxJbGevATJgjZ2QFLKBLWI3re7liTGlPAuaINNDq/r0m9rUPj2rEn0zwqtcLK0nQ==}
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20260623.1':
+    resolution: {integrity: sha512-AZRp6q0SyVw9xe9kpyfTmavqkQKizDhmOLglDHbxAu4Y3inL6r2GSE7q3w/eO4R259dIwl5TM52DZKK8onoT6Q==}
     engines: {node: '>=16.20.0'}
     cpu: [x64]
     os: [linux]
 
-  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260603.1':
-    resolution: {integrity: sha512-slxm6HBYs+jk0GpIBC2o03uY5qHgW7wIH+OTjK8JHbd2sUCgYV7P7bfZHUVZYi/cJZcVrnDW6MxXx734TuFn+w==}
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260623.1':
+    resolution: {integrity: sha512-DXRMXOe/JEmf2CULZZn1xvRuJrnZ9DxzDubxtW85pE0aSLgl+VuplWCsZrBxaCZDrWMRIfMDV8Y0y+Yftx/jeQ==}
     engines: {node: '>=16.20.0'}
     cpu: [arm64]
     os: [win32]
 
-  '@typescript/native-preview-win32-x64@7.0.0-dev.20260603.1':
-    resolution: {integrity: sha512-G7SDZJn2Z9+c1qsAFzI/JL0OsRjJ18diQ39ycWKmJikilZZeL7iS7j933bemWY4ODaLTfxhMRKPMHf9292gpDA==}
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20260623.1':
+    resolution: {integrity: sha512-kYB1I6tdxWHjhSt8B2v9CHmpOJwJvD88LUCxiBS9C59pwrGe+LAwZvbTTJxvULNaUEjxdiMomYerWWhD/09Y3g==}
     engines: {node: '>=16.20.0'}
     cpu: [x64]
     os: [win32]
 
-  '@typescript/native-preview@7.0.0-dev.20260603.1':
-    resolution: {integrity: sha512-CO519Ccw5rji4JIG0DGVMR5owraCeQhm94jM53eRhMdlzz0nAJcAZ63Y6m1u3dUwqGssqlYxh4CcwTFPxTpMYw==}
+  '@typescript/native-preview@7.0.0-dev.20260623.1':
+    resolution: {integrity: sha512-33AkAhmRu1/w4nRFLnJ9lic7FSzW4zWfU1u5DP7A2+j1445SSNvf3Q4WGtDzdAR5HSlk8vXEa0B4xUHR5vM1tg==}
     engines: {node: '>=16.20.0'}
     hasBin: true
 
@@ -7854,8 +7854,8 @@ packages:
   immutable-json-patch@6.0.2:
     resolution: {integrity: sha512-KwCA5DXJiyldda8SPha1zB+6+vbEi5/jRRcYii/6yFXlyu9ZjiSH/wPq8Ri2Hk8iGjjTMcHW3Z21S4MOpl7sOw==}
 
-  immutable@5.1.6:
-    resolution: {integrity: sha512-q1swsS8K7L8usSHuOqF2TAoCCkonYz0SG38wLAggaa4Wml70zixIvt2ql4coQ2C2B3hTjltJry4r6bULwgAXLQ==}
+  immutable@5.1.7:
+    resolution: {integrity: sha512-47Xb+LFbZ/ZIjQMj6Q5J3IfK7PJFuqRdFOC9FpGgRTK6U2dAEVmkR9hp58qU4FpYux5YXpneDwkj2EP6lppzFA==}
 
   import-fresh@3.3.1:
     resolution: {integrity: sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==}
@@ -10084,6 +10084,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.8.5:
+    resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   send@1.2.1:
     resolution: {integrity: sha512-1gnZf7DFcoIcajTjTwjwuDjzuz4PPcY2StKPlsGAQ1+YH20IRVrBaXSWmdjowTJ6u8Rc01PoYOGHXfP1mYcZNQ==}
     engines: {node: '>= 18'}
@@ -10453,6 +10458,9 @@ packages:
 
   tabbable@6.4.0:
     resolution: {integrity: sha512-05PUHKSNE8ou2dwIxTngl4EzcnsCDZGJ/iCLtDflR/SHB/ny14rXc+qU5P4mG9JkusiV7EivzY9Mhm55AzAvCg==}
+
+  tabbable@6.5.0:
+    resolution: {integrity: sha512-wieBHXygIm7OyQOu5hQlkk62/WyCFYGlWg7L6/ZCUZwx0o398Zkn4pVmMyfYhfMG8kGrj/Krt8eIk6UKC6VzwA==}
 
   tagged-tag@1.0.0:
     resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
@@ -12623,7 +12631,7 @@ snapshots:
       '@floating-ui/utils': 0.2.11
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      tabbable: 6.4.0
+      tabbable: 6.5.0
 
   '@floating-ui/react@0.27.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -13077,7 +13085,7 @@ snapshots:
       nopt: 5.0.0
       npmlog: 5.0.1
       rimraf: 3.0.2
-      semver: 7.8.4
+      semver: 7.8.5
       tar: 7.5.16
     transitivePeerDependencies:
       - encoding
@@ -14576,19 +14584,19 @@ snapshots:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       fp-ts: 2.16.11
 
+  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1))':
+    dependencies:
+      '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
+      axios: 1.15.2(debug@4.4.3)
+      fp-ts: 2.16.11
+      react-admin: 5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1)
+
   '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.7(@mui/system@7.3.10(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1))':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       axios: 1.15.2(debug@4.4.3)
       fp-ts: 2.16.11
       react-admin: 5.14.7(@mui/system@7.3.10(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1)
-
-  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)(react-admin@5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1))':
-    dependencies:
-      '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
-      axios: 1.15.2(debug@4.4.3)
-      fp-ts: 2.16.11
-      react-admin: 5.14.7(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1)
 
   '@ts-endpoint/resource-client@file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)':
     dependencies:
@@ -14597,7 +14605,7 @@ snapshots:
       axios: 1.15.2(debug@4.4.3)
       fp-ts: 2.16.11
 
-  '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)':
+  '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.15.2(debug@4.4.3))(fp-ts@2.16.11)':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/resource-client': file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.15.2)(fp-ts@2.16.11)
@@ -15263,36 +15271,36 @@ snapshots:
       '@typescript-eslint/types': 8.61.1
       eslint-visitor-keys: 5.0.1
 
-  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260603.1':
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260623.1':
     optional: true
 
-  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260603.1':
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260623.1':
     optional: true
 
-  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260603.1':
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260623.1':
     optional: true
 
-  '@typescript/native-preview-linux-arm@7.0.0-dev.20260603.1':
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20260623.1':
     optional: true
 
-  '@typescript/native-preview-linux-x64@7.0.0-dev.20260603.1':
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20260623.1':
     optional: true
 
-  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260603.1':
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260623.1':
     optional: true
 
-  '@typescript/native-preview-win32-x64@7.0.0-dev.20260603.1':
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20260623.1':
     optional: true
 
-  '@typescript/native-preview@7.0.0-dev.20260603.1':
+  '@typescript/native-preview@7.0.0-dev.20260623.1':
     optionalDependencies:
-      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20260603.1
-      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20260603.1
-      '@typescript/native-preview-linux-arm': 7.0.0-dev.20260603.1
-      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20260603.1
-      '@typescript/native-preview-linux-x64': 7.0.0-dev.20260603.1
-      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20260603.1
-      '@typescript/native-preview-win32-x64': 7.0.0-dev.20260603.1
+      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20260623.1
+      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20260623.1
+      '@typescript/native-preview-linux-arm': 7.0.0-dev.20260623.1
+      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20260623.1
+      '@typescript/native-preview-linux-x64': 7.0.0-dev.20260623.1
+      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20260623.1
+      '@typescript/native-preview-win32-x64': 7.0.0-dev.20260623.1
 
   '@ungap/structured-clone@1.3.0': {}
 
@@ -17858,7 +17866,7 @@ snapshots:
 
   immutable-json-patch@6.0.2: {}
 
-  immutable@5.1.6:
+  immutable@5.1.7:
     optional: true
 
   import-fresh@3.3.1:
@@ -19222,7 +19230,7 @@ snapshots:
 
   node-abi@3.92.0:
     dependencies:
-      semver: 7.8.4
+      semver: 7.8.5
     optional: true
 
   node-addon-api@7.1.1:
@@ -20755,7 +20763,7 @@ snapshots:
   sass@1.82.0:
     dependencies:
       chokidar: 4.0.3
-      immutable: 5.1.6
+      immutable: 5.1.7
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.5.6
@@ -20774,6 +20782,9 @@ snapshots:
   semver@7.8.1: {}
 
   semver@7.8.4: {}
+
+  semver@7.8.5:
+    optional: true
 
   send@1.2.1:
     dependencies:
@@ -21278,6 +21289,8 @@ snapshots:
       '@pkgr/core': 0.3.6
 
   tabbable@6.4.0: {}
+
+  tabbable@6.5.0: {}
 
   tagged-tag@1.0.0: {}
 
