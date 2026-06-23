@@ -14,7 +14,7 @@ jobs:
       needs-install: ${{ steps.filter.outputs.needs-install }}
       any-code: ${{ steps.filter.outputs.any-code }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: dorny/paths-filter@v4
         id: filter
@@ -140,7 +140,7 @@ jobs:
     if: needs.detect-changes.outputs.needs-install == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/install-deps
         with:
@@ -185,7 +185,7 @@ jobs:
     name: CI ${{ matrix.service }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/setup-workspace
         with:
@@ -239,7 +239,7 @@ jobs:
       needs.detect-changes.outputs.any-code == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/setup-workspace
         with:

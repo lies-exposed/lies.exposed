@@ -39,7 +39,7 @@ jobs:
     needs: [release-please]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/install-deps
         with:
@@ -62,7 +62,7 @@ jobs:
     needs: [release-please, setup]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/install-deps
         with:
@@ -131,7 +131,7 @@ jobs:
     name: Deploy ${{ matrix.service }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         if: ${{ matrix.enabled }}
 
       - name: Get version from package.json
