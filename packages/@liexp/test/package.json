@@ -29,7 +29,7 @@
     "@liexp/eslint-config": "workspace:*",
     "@typescript/native-preview": "7.0.0-dev.20260623.1",
     "effect": "^3.21.3",
-    "eslint": "^10.4.0",
+    "eslint": "^10.5.0",
     "fp-ts": "^2.16.10"
   },
   "peerDependencies": {
