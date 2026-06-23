@@ -11,10 +11,7 @@ export interface CLIContext extends APIContext {
   logger: Logger;
 }
 
-export type CommandFlow = (
-  ctx: CLIContext,
-  args: string[],
-) => Promise<void> | void;
+type CommandFlow = (ctx: CLIContext, args: string[]) => Promise<void> | void;
 
 export interface CommandModule {
   run: CommandFlow;
