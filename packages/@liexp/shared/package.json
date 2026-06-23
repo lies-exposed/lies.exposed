@@ -46,7 +46,7 @@
     "@types/lodash": "^4.17.24",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
-    "@typescript/native-preview": "7.0.0-dev.20260603.1",
+    "@typescript/native-preview": "7.0.0-dev.20260623.1",
     "axios": "^1.15.2",
     "effect": "^3.21.3",
     "eslint": "^10.4.0",
