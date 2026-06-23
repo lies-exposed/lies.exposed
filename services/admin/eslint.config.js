@@ -1,16 +1,12 @@
-// @ts-check
 import { reactConfig } from "@liexp/eslint-config";
 import { defineConfig } from "eslint/config";
-import tseslint from "typescript-eslint";
 
 export default defineConfig(...reactConfig, {
   files: ["src/**/*.ts", "src/**/*.tsx"],
   languageOptions: {
     parserOptions: {
+      projectService: true,
       tsconfigRootDir: import.meta.dirname,
-      parser: tseslint.parser,
-      ecmaVersion: "latest",
-      sourceType: "module",
     },
   },
   rules: {

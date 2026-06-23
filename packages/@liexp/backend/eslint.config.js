@@ -9,10 +9,8 @@ export default defineConfig(
     ignores: ["**/*.d.ts"],
     languageOptions: {
       parserOptions: {
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
-        parser: tseslint.parser,
-        ecmaVersion: "latest",
-        sourceType: "module",
       },
     },
   },

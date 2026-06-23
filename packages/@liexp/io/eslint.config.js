@@ -7,6 +7,7 @@ export default defineConfig(...baseConfig, {
   ignores: ["eslint.config.js", "vitest.config.ts"],
   languageOptions: {
     parserOptions: {
+      projectService: true,
       tsconfigRootDir: import.meta.dirname,
     },
   },

@@ -32,12 +32,6 @@ const config = defineConfig(
         projectService: true,
       },
     },
-    // settings: {
-    //   "import-x/resolver": {
-    //     typescript: true,
-    //     node: true,
-    //   },
-    // },
     rules: {
       // fp-ts plugin rules
       "fp-ts/no-lib-imports": "off",
