@@ -223,13 +223,34 @@ export const processStreamEvent = (
     const rawChunk = (event.data as { chunk?: Record<string, unknown> }).chunk;
     if (!rawChunk) return [[], state];
     const chunk = rawChunk as unknown as AIMessage;
-    const content: string =
-      typeof rawChunk.content === "string"
-        ? rawChunk.content
-        : typeof (rawChunk.kwargs as Record<string, unknown> | undefined)
-              ?.content === "string"
-          ? ((rawChunk.kwargs as Record<string, unknown>).content as string)
-          : "";
+
+    // Extract text content from the chunk, handling multiple formats:
+    // - raw string content
+    // - array of content parts [{type: 'text', text: '...'}]
+    // - serialized form via kwargs
+    const content: string = (() => {
+      if (typeof rawChunk.content === "string") {
+        return rawChunk.content;
+      }
+      if (Array.isArray(rawChunk.content)) {
+        return rawChunk.content
+          .filter((part: any) => part.type === "text")
+          .map((part: any) => String(part.text ?? ""))
+          .join("");
+      }
+      const kwContent = (rawChunk.kwargs as Record<string, unknown> | undefined)
+        ?.content;
+      if (typeof kwContent === "string") {
+        return kwContent;
+      }
+      if (Array.isArray(kwContent)) {
+        return kwContent
+          .filter((part: any) => part.type === "text")
+          .map((part: any) => String(part.text ?? ""))
+          .join("");
+      }
+      return "";
+    })();
 
     const tokenUpdate = extractTokenUsage(chunk);
     const tokens = tokenUpdate
