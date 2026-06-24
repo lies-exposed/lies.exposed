@@ -1,0 +1,24 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "watcher": {
+    "ignore": [
+      "node_modules/**",
+      "lib/**",
+      "build/**",
+      ".git/**"
+    ]
+  },
+  "model": "localai/qwen3.6-35b-a3b",
+  "instructions": [
+    "./AGENTS.md"
+  ],
+  "mcp": {
+    "graymatter": {
+      "type": "local",
+      "command": [
+        "graymatter", "mcp", "serve"
+      ],
+      "enabled": true
+    }
+  }
+}

@@ -80,7 +80,6 @@ localai/models/.*.yaml
 # Aider configuration
 .aider.*
 .aider*
-.opencode
 
 # Git worktrees
 .worktrees
@@ -95,3 +94,7 @@ services/data
 # Eval test result cache
 services/agent/.eval-cache.json
 services/agent/.eval-debug/
+
+
+# Graymatter
+.graymatter

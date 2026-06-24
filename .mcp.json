@@ -29,6 +29,11 @@
       ],
       "command": "npx",
       "type": "stdio"
+    },
+    "graymatter": {
+      "args": ["mcp", "serve"],
+      "command": "graymatter",
+      "type": "stdio"
     }
   }
 }
