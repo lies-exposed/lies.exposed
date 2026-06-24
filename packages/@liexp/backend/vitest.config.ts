@@ -2,7 +2,7 @@ import { extendBaseConfig } from "./src/test/vitest.base-config";
 
 export default extendBaseConfig(import.meta.url, (toAlias) => ({
   test: {
-    name: "@liexp/backend",
+    name: "@liexp/backend-spec",
     globals: true,
     include: [toAlias("src/**/*.spec.ts")],
     watch: false,
