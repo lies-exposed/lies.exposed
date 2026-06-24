@@ -1,6 +1,5 @@
 import { baseConfig } from "@liexp/eslint-config";
 import { defineConfig } from "eslint/config";
-import tseslint from "typescript-eslint";
 
 const eslintConfig = defineConfig(
   ...baseConfig,
@@ -9,10 +8,8 @@ const eslintConfig = defineConfig(
     ignores: ["**/*.d.ts"],
     languageOptions: {
       parserOptions: {
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
-        parser: tseslint.parser,
-        ecmaVersion: "latest",
-        sourceType: "module",
       },
     },
   }

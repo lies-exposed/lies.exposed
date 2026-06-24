@@ -84,7 +84,7 @@
     "@types/supertest": "^7.2.0",
     "@typescript/native-preview": "7.0.0-dev.20260623.1",
     "dotenv": "^17.4.2",
-    "eslint": "^10.4.0",
+    "eslint": "^10.5.0",
     "msw": "^2.14.6",
     "supertest": "^7.2.2",
     "tsx": "^4.21.0",
