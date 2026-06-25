@@ -41,4 +41,7 @@ WORKDIR /prod/api
 
 COPY --from=pruned /prod/api .
 
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD wget -qO/dev/null http://localhost:${SERVER_PORT:-4010}/v1/healthcheck || exit 1
+
 CMD ["node", "build/run.js"]

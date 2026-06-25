@@ -51,4 +51,7 @@ WORKDIR /prod/web
 
 COPY --from=pruned /prod/web ./
 
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD wget -qO/dev/null http://localhost:${VIRTUAL_PORT:-80}/healthcheck || exit 1
+
 CMD ["node", "./build/server/server.js"]
