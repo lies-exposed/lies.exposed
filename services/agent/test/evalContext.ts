@@ -2,7 +2,6 @@ import * as fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { GetAgentFactory } from "@liexp/backend/lib/providers/ai/agent.factory.js";
-import { type AgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
 import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { GetBraveProvider } from "@liexp/backend/lib/providers/brave.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
@@ -11,7 +10,6 @@ import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.pro
 import * as logger from "@liexp/core/lib/logger/index.js";
 import { type AvailableModels } from "@liexp/io/lib/http/Chat.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import axios from "axios";
 import { BraveSearch } from "brave-search";
 import * as puppeteer from "puppeteer-core";
@@ -25,7 +23,7 @@ import { makeDebugFetch, makeReplayFetch } from "./evalDebug.js";
  *
  * Differences from production `makeAgentContext`:
  * - MCP client is omitted (skips connection overhead; CLI tool still works)
- * - Agent factory pre-creates a default platform agent for ctx.agent.agent
+ * - Agents are created on-demand (and cached) by the factory per type/config
  */
 // Resolve service root from this file's location so paths are correct
 // regardless of where vitest is invoked from.
@@ -127,21 +125,6 @@ export const loadEvalContext = async (): Promise<AgentContext> => {
     },
   })(factoryCtx);
 
-  // Pre-create a default auto agent for ctx.agent.agent (routes to multi-agent graph)
-  const defaultAgent = await throwTE(agentFactory("auto"));
-
-  const agentProvider: AgentProvider = {
-    agent: defaultAgent,
-    tools: [],
-    createAgent: () => defaultAgent,
-    invoke: () => {
-      throw new Error("use sendChatMessageStream in eval tests");
-    },
-    stream: () => {
-      throw new Error("use sendChatMessageStream in eval tests");
-    },
-  };
-
   return {
     env: {
       NODE_ENV: "test",
@@ -164,7 +147,6 @@ export const loadEvalContext = async (): Promise<AgentContext> => {
     langchain,
     puppeteer: puppeteerProvider,
     fs: fsClient,
-    agent: agentProvider,
     agentFactory,
   };
 };

@@ -3,7 +3,6 @@ import path from "path";
 import { MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { GetAgentFactory } from "@liexp/backend/lib/providers/ai/agent.factory.js";
-import { GetAgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
 import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { GetBraveProvider } from "@liexp/backend/lib/providers/brave.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
@@ -271,30 +270,13 @@ export const makeAgentContext = (
             }),
           ),
         ),
-        TE.chain((mcpClient) =>
-          pipe(
-            GetAgentProvider({
-              mcpClient,
-              extraTools: [
-                createCliExecutorTool(
-                  path.resolve(process.cwd(), "build/cli/cli.js"),
-                ),
-              ],
-            })({
-              langchain,
-              logger: agentLogger,
-              puppeteer: puppeteerProvider,
-              brave: braveProvider,
-            }),
-            TE.map((agentProvider) => ({ agentProvider, mcpClient })),
-          ),
-        ),
-        TE.map(({ agentProvider, mcpClient }) => {
-          agentLogger.info.log("Agent provider initialized successfully");
+        TE.map((mcpClient) => {
+          agentLogger.info.log("MCP client ready, creating agent factory");
 
           const fsClient = GetFSClient({ client: fs });
 
-          // Create the agent factory for on-demand agent creation
+          // Single source for agents: the factory creates and caches agents
+          // on-demand per type + provider config (default "auto" included).
           const agentFactory = GetAgentFactory({
             mcpClient,
             cliTool: createCliExecutorTool(
@@ -322,7 +304,6 @@ export const makeAgentContext = (
             puppeteer: puppeteerProvider,
             brave: braveProvider,
             fs: fsClient,
-            agent: agentProvider,
             agentFactory,
           };
         }),

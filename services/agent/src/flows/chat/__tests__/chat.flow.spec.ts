@@ -77,17 +77,6 @@ function* asyncEvents<T>(items: T[]): Generator<T> {
 const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
   const logger = GetLogger("test-chat-flow");
 
-  const defaultAgent = {
-    invoke: vi.fn().mockResolvedValue({
-      messages: [{ id: "msg-123", content: "This is a test response" }],
-    }),
-    streamEvents: vi
-      .fn()
-      .mockImplementation(() =>
-        asyncEvents([chatModelEvent("Test streaming response")]),
-      ),
-  };
-
   return {
     env: {
       NODE_ENV: "test",
@@ -112,14 +101,6 @@ const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
     ),
     fs: {
       getObject: vi.fn().mockReturnValue(TE.right("# Mock AGENTS.md")),
-    } as any,
-    agent: {
-      invoke: vi
-        .fn()
-        .mockReturnValue(
-          TE.right({ messages: [{ id: "msg-123", content: "Test response" }] }),
-        ),
-      agent: defaultAgent,
     } as any,
     ...overrides,
   };
@@ -373,7 +354,7 @@ describe("chat.flow", () => {
       if (result._tag === "Right") {
         expect(result.right.conversationId).toHaveLength(36);
         expect(result.right.message.role).toBe("assistant");
-        expect(result.right.message.content).toBe("This is a test response");
+        expect(result.right.message.content).toBe("Factory response");
       }
     });
 
@@ -392,12 +373,12 @@ describe("chat.flow", () => {
 
     test("returns Left when agent invoke fails", async () => {
       ctx = createMockContext({
-        agent: {
-          invoke: vi.fn().mockReturnValue(TE.left(new Error("Agent error"))),
-          agent: {
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
             invoke: vi.fn().mockRejectedValue(new Error("Agent error")),
-          } as any,
-        } as any,
+            streamEvents: vi.fn(),
+          }),
+        ),
       });
 
       const result = await pipe(
@@ -589,8 +570,8 @@ describe("chat.flow", () => {
 
     test("emits content_delta for on_chat_model_stream events", async () => {
       ctx = createMockContext({
-        agent: {
-          agent: {
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
             invoke: vi.fn(),
             streamEvents: vi
               .fn()
@@ -600,8 +581,8 @@ describe("chat.flow", () => {
                   chatModelEvent("world"),
                 ]),
               ),
-          },
-        } as any,
+          }),
+        ),
       });
 
       const events = await collect(ctx);
@@ -612,8 +593,8 @@ describe("chat.flow", () => {
 
     test("supervisor node events are not emitted as content_delta", async () => {
       ctx = createMockContext({
-        agent: {
-          agent: {
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
             invoke: vi.fn(),
             streamEvents: vi
               .fn()
@@ -623,8 +604,8 @@ describe("chat.flow", () => {
                   chatModelEvent("Real answer"),
                 ]),
               ),
-          },
-        } as any,
+          }),
+        ),
       });
 
       const events = await collect(ctx);
@@ -635,8 +616,8 @@ describe("chat.flow", () => {
 
     test("on_tool_start emits tool_call_start with arguments", async () => {
       ctx = createMockContext({
-        agent: {
-          agent: {
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
             invoke: vi.fn(),
             streamEvents: vi.fn().mockImplementation(() =>
               asyncEvents([
@@ -646,8 +627,8 @@ describe("chat.flow", () => {
                 chatModelEvent("Here are the actors."),
               ]),
             ),
-          },
-        } as any,
+          }),
+        ),
       });
 
       const events = await collect(ctx);
@@ -659,8 +640,8 @@ describe("chat.flow", () => {
 
     test("on_tool_end emits tool_call_end with result", async () => {
       ctx = createMockContext({
-        agent: {
-          agent: {
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
             invoke: vi.fn(),
             streamEvents: vi
               .fn()
@@ -674,8 +655,8 @@ describe("chat.flow", () => {
                   chatModelEvent("Found the actor."),
                 ]),
               ),
-          },
-        } as any,
+          }),
+        ),
       });
 
       const events = await collect(ctx);
@@ -687,8 +668,8 @@ describe("chat.flow", () => {
 
     test("think tags produce thinking content_delta events", async () => {
       ctx = createMockContext({
-        agent: {
-          agent: {
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
             invoke: vi.fn(),
             streamEvents: vi
               .fn()
@@ -699,8 +680,8 @@ describe("chat.flow", () => {
                   ),
                 ]),
               ),
-          },
-        } as any,
+          }),
+        ),
       });
 
       const events = await collect(ctx);
@@ -718,8 +699,8 @@ describe("chat.flow", () => {
 
     test("think tags spanning chunks are parsed correctly", async () => {
       ctx = createMockContext({
-        agent: {
-          agent: {
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
             invoke: vi.fn(),
             streamEvents: vi
               .fn()
@@ -729,8 +710,8 @@ describe("chat.flow", () => {
                   chatModelEvent(" second chunk</think>conclusion"),
                 ]),
               ),
-          },
-        } as any,
+          }),
+        ),
       });
 
       const events = await collect(ctx);
@@ -748,8 +729,8 @@ describe("chat.flow", () => {
 
     test("token usage from usage_metadata is reflected in message_end", async () => {
       ctx = createMockContext({
-        agent: {
-          agent: {
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
             invoke: vi.fn(),
             streamEvents: vi.fn().mockImplementation(() =>
               asyncEvents([
@@ -758,8 +739,8 @@ describe("chat.flow", () => {
                 }),
               ]),
             ),
-          },
-        } as any,
+          }),
+        ),
       });
 
       const events = await collect(ctx);
@@ -793,15 +774,15 @@ describe("chat.flow", () => {
 
     test("yields error event when streamEvents throws", async () => {
       ctx = createMockContext({
-        agent: {
-          agent: {
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
             invoke: vi.fn(),
             streamEvents: vi.fn().mockImplementation(function* () {
               yield;
               throw new Error("Stream error");
             }),
-          },
-        } as any,
+          }),
+        ),
       });
 
       const events = await collect(ctx);

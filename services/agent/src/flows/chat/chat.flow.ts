@@ -18,39 +18,6 @@ import { type AgentContext } from "../../context/context.type.js";
 // Types
 // ---------------------------------------------------------------------------
 
-interface LangChainToolCall {
-  id: string;
-  type?: string;
-  function: {
-    name: string;
-    arguments: string;
-  };
-}
-
-interface ModelRequestMessage {
-  additional_kwargs?: {
-    tool_calls?: LangChainToolCall[];
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Model context limits
-// ---------------------------------------------------------------------------
-
-const MODEL_CONTEXT_LIMITS: Record<string, number> = {
-  "gpt-4o": 128000,
-  "gemma-4-e4b-it": 32768,
-  "gemma-4-e2b-it": 32768,
-  "qwen3.5-4b": 32768,
-  "grok-4-fast": 200000,
-  "claude-sonnet-4-20250514": 200000,
-  "claude-3-7-sonnet-latest": 200000,
-  "claude-3-5-haiku-latest": 200000,
-};
-
-const getModelContextLimit = (model?: string): number | undefined =>
-  model ? MODEL_CONTEXT_LIMITS[model] : undefined;
-
 // ---------------------------------------------------------------------------
 // In-memory conversation store
 // ---------------------------------------------------------------------------
@@ -224,33 +191,17 @@ export const processStreamEvent = (
     if (!rawChunk) return [[], state];
     const chunk = rawChunk as unknown as AIMessage;
 
-    // Extract text content from the chunk, handling multiple formats:
-    // - raw string content
-    // - array of content parts [{type: 'text', text: '...'}]
-    // - serialized form via kwargs
-    const content: string = (() => {
-      if (typeof rawChunk.content === "string") {
-        return rawChunk.content;
-      }
-      if (Array.isArray(rawChunk.content)) {
-        return rawChunk.content
-          .filter((part: any) => part.type === "text")
-          .map((part: any) => String(part.text ?? ""))
-          .join("");
-      }
-      const kwContent = (rawChunk.kwargs as Record<string, unknown> | undefined)
-        ?.content;
-      if (typeof kwContent === "string") {
-        return kwContent;
-      }
-      if (Array.isArray(kwContent)) {
-        return kwContent
-          .filter((part: any) => part.type === "text")
-          .map((part: any) => String(part.text ?? ""))
-          .join("");
-      }
-      return "";
-    })();
+    // Native streaming yields real AIMessageChunks: content is a string or an
+    // array of content parts ([{ type: "text", text: "..." }]).
+    const content: string =
+      typeof rawChunk.content === "string"
+        ? rawChunk.content
+        : Array.isArray(rawChunk.content)
+          ? rawChunk.content
+              .filter((part: any) => part.type === "text")
+              .map((part: any) => String(part.text ?? ""))
+              .join("")
+          : "";
 
     const tokenUpdate = extractTokenUsage(chunk);
     const tokens = tokenUpdate
@@ -278,51 +229,6 @@ export const processStreamEvent = (
         think: nextThink,
       },
     ];
-  }
-
-  if (event.event === "on_chain_stream") {
-    try {
-      const chunk = event.data as {
-        chunk: Record<string, { messages?: ModelRequestMessage[] }>;
-      };
-
-      // Handle both single-agent format (model_request) and multi-agent format (node names)
-      let messages: ModelRequestMessage[] | undefined;
-      if (chunk?.chunk?.model_request?.messages) {
-        messages = chunk.chunk.model_request.messages;
-      } else {
-        // Check for messages in any node (platform, researcher, etc.)
-        for (const nodeData of Object.values(chunk?.chunk || {})) {
-          if (nodeData?.messages) {
-            messages = nodeData.messages;
-            break;
-          }
-        }
-      }
-
-      if (!messages) return [[], state];
-
-      const events: ChatStreamEvent[] = [];
-      for (const msg of messages) {
-        const toolCalls = msg.additional_kwargs?.tool_calls;
-        if (toolCalls) {
-          for (const tc of toolCalls) {
-            events.push({
-              type: "tool_call_start",
-              timestamp: new Date().toISOString(),
-              tool_call: {
-                id: tc.id,
-                name: tc.function.name,
-                arguments: tc.function.arguments,
-              },
-            } satisfies ChatStreamEvent);
-          }
-        }
-      }
-      return [events, state];
-    } catch {
-      return [[], state];
-    }
   }
 
   if (event.event === "on_tool_start") {
@@ -378,54 +284,6 @@ export const processStreamEvent = (
     ];
   }
 
-  if (event.event === "on_chain_end") {
-    try {
-      // Check for ToolMessage results in LangGraph chain end events
-      const data = event.data as {
-        output?: {
-          messages?: {
-            lc?: number;
-            type?: string;
-            id?: string[];
-            kwargs?: {
-              content?: string;
-              tool_call_id?: string;
-              name?: string;
-            };
-          }[];
-        };
-      };
-
-      const messages = data?.output?.messages;
-      if (!messages) return [[], state];
-
-      const events: ChatStreamEvent[] = [];
-      for (const msg of messages) {
-        // Look for ToolMessage objects
-        if (
-          msg.lc === 1 &&
-          msg.type === "constructor" &&
-          msg.id?.[msg.id.length - 1] === "ToolMessage" &&
-          msg.kwargs?.tool_call_id &&
-          msg.kwargs?.name
-        ) {
-          events.push({
-            type: "tool_call_end",
-            timestamp: new Date().toISOString(),
-            tool_call: {
-              id: msg.kwargs.tool_call_id,
-              name: msg.kwargs.name,
-              result: msg.kwargs.content ?? "",
-            },
-          } satisfies ChatStreamEvent);
-        }
-      }
-      return [events, state];
-    } catch {
-      return [[], state];
-    }
-  }
-
   return [[], state];
 };
 
@@ -435,9 +293,9 @@ export const processStreamEvent = (
 
 const getOrCreateAgent =
   (agentType?: AgentType, aiConfig?: AIConfig) => (ctx: AgentContext) => {
-    if (!agentType && !aiConfig) {
-      return TE.right(ctx.agent.agent);
-    }
+    // Everything routes through the factory. With no type/config it resolves the
+    // default "auto" supervisor agent; the factory caches compiled agents so the
+    // checkpointer (conversation history) persists across requests.
     const override = aiConfig
       ? aiConfigToProviderOverride(aiConfig)
       : undefined;
@@ -598,8 +456,6 @@ export const sendChatMessageStream = (payload: {
       }
 
       const agent = agentResult.right;
-      const model = payload.aiConfig?.model ?? "gpt-4o";
-      const contextTotal = getModelContextLimit(model);
 
       yield {
         type: "message_start",
@@ -612,7 +468,6 @@ export const sendChatMessageStream = (payload: {
               model: payload.aiConfig.model ?? "gpt-4o",
             }
           : undefined,
-        context: contextTotal ? { total: contextTotal } : undefined,
       } satisfies ChatStreamEvent;
 
       let state = initialStreamState();
@@ -680,9 +535,6 @@ export const sendChatMessageStream = (payload: {
         },
       ]);
 
-      const modelLimit = getModelContextLimit(
-        payload.aiConfig?.model ?? "gpt-4o",
-      );
       const { promptTokens, completionTokens } = state.tokens;
 
       yield {
@@ -701,9 +553,6 @@ export const sendChatMessageStream = (payload: {
           completion_tokens: completionTokens,
           total_tokens: promptTokens + completionTokens,
         },
-        context: modelLimit
-          ? { total: modelLimit, used: promptTokens + completionTokens }
-          : undefined,
       } satisfies ChatStreamEvent;
     } catch (error) {
       ctx.logger.error.log("stream error: %O", error);
