@@ -8,7 +8,6 @@
 import path from "path";
 import { type StructuredToolInterface } from "@langchain/core/tools";
 import { MemorySaver } from "@langchain/langgraph";
-import { createSupervisor } from "@langchain/langgraph-supervisor";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import type { AgentType, AIConfig } from "@liexp/io/lib/http/Chat.js";
@@ -113,8 +112,8 @@ export const AGENT_CONFIGS: Record<
   auto: {
     label: "Auto",
     description:
-      "Automatically routes to the best agent — Platform Manager or Researcher — based on your request",
-    systemPromptFile: "AGENTS.md", // unused for auto, supervisor decides routing
+      "Full-capability assistant — manages platform resources and researches the web, loading skills on demand",
+    systemPromptFile: "AGENTS.md",
   },
   platform: {
     label: "Platform Manager",
@@ -129,19 +128,6 @@ export const AGENT_CONFIGS: Record<
     systemPromptFile: "RESEARCHER.md",
   },
 };
-
-/**
- * Supervisor routing prompt for the multi-agent ("auto") graph.
- */
-const SUPERVISOR_PROMPT = [
-  "You are the supervisor of a fact-checking platform assistant.",
-  "Delegate each request to the right specialist agent, one at a time:",
-  '- "platform": create, edit, list, or manage platform resources (actors, events, groups, links, keywords, stories) via the CLI.',
-  '- "researcher": find information online, web research, fact-checking, searching for people/organizations/events.',
-  "",
-  "Wait for the delegated agent to finish before routing again.",
-  "When the request is fully handled, respond to the user directly with the final answer.",
-].join("\n");
 
 interface AgentFactoryOptions {
   mcpClient: MultiServerMCPClient | null;
@@ -178,54 +164,6 @@ const createAgentWithProvider = (
   );
 
   return agent;
-};
-
-/**
- * Create a multi-agent supervisor graph.
- *
- * Architecture:
- *   START → supervisor → (platform | researcher) → supervisor → END
- *
- * Uses the `@langchain/langgraph-supervisor` prebuilt: the supervisor LLM owns
- * routing and auto-generates the handoff tools, and the compiled graph owns the
- * MemorySaver so conversation history is shared across the sub-agents. Sub-agents
- * run as nodes inside this graph (no separate thread / no buffered `.invoke`), so
- * their tokens stream through the parent graph's event stream.
- */
-const createMultiAgentGraph = (
-  platformTools: StructuredToolInterface[],
-  researcherTools: StructuredToolInterface[],
-  platformPrompt: string,
-  researcherPrompt: string,
-  chat: LangchainContext["langchain"]["chat"],
-  logger: LoggerContext["logger"],
-): Agent => {
-  const platformAgent = createReactAgent({
-    model: chat,
-    tools: platformTools,
-    systemPrompt: platformPrompt,
-    name: "platform",
-    // Expose the agent name inline so non-OpenAI providers can route correctly.
-    includeAgentName: "inline",
-  });
-
-  const researcherAgent = createReactAgent({
-    model: chat,
-    tools: researcherTools,
-    systemPrompt: researcherPrompt,
-    name: "researcher",
-    includeAgentName: "inline",
-  });
-
-  const supervisor = createSupervisor({
-    agents: [platformAgent.graph, researcherAgent.graph],
-    llm: chat,
-    prompt: SUPERVISOR_PROMPT,
-    outputMode: "full_history",
-  }).compile({ checkpointer: new MemorySaver() });
-
-  logger.debug.log("Multi-agent supervisor graph created");
-  return supervisor as unknown as Agent;
 };
 
 /**
@@ -410,51 +348,7 @@ export const GetAgentFactory =
       return `${type}|${m.provider}|${m.model}|${JSON.stringify(m.options ?? {})}`;
     };
 
-    /** Build the multi-agent ("auto") supervisor graph. */
-    const buildAutoAgent = (
-      override?: ProviderConfigOverride,
-    ): TaskEither<ServerError, Agent> =>
-      pipe(
-        fp.TE.Do,
-        fp.TE.bind("platformTools", () => getOrInitializeTools("platform")),
-        fp.TE.bind("researcherTools", () => getOrInitializeTools("researcher")),
-        fp.TE.bind("platformPrompt", () => getOrReadSystemPrompt("platform")),
-        fp.TE.bind("researcherPrompt", () =>
-          getOrReadSystemPrompt("researcher"),
-        ),
-        fp.TE.chain(
-          ({
-            platformTools,
-            researcherTools,
-            platformPrompt,
-            researcherPrompt,
-          }) =>
-            fp.TE.fromEither(
-              fp.E.tryCatch(() => {
-                const { chat } = resolveChatModel(override);
-                ctx.logger.info.log(
-                  "Creating auto multi-agent graph with provider config: %O",
-                  {
-                    provider: mergeProviderConfig(
-                      ctx.langchain.options,
-                      override,
-                    ).provider,
-                  },
-                );
-                return createMultiAgentGraph(
-                  platformTools,
-                  researcherTools,
-                  platformPrompt,
-                  researcherPrompt,
-                  chat,
-                  ctx.logger,
-                );
-              }, toAgentError),
-            ),
-        ),
-      );
-
-    /** Build a single-agent (platform or researcher) React agent. */
+    /** Build a single-agent React agent for the given type. */
     const buildSingleAgent = (
       type: AgentType,
       override?: ProviderConfigOverride,
@@ -490,7 +384,11 @@ export const GetAgentFactory =
 
     /**
      * Create (or return the cached) agent for the given type and provider override.
-     * When agentType is "auto", builds a multi-agent supervisor graph.
+     *
+     * There is a single full-capability agent (tools: CLI + MCP + web + docs +
+     * skills) used for "auto" and "platform". "researcher" is an optional
+     * read-only variant (web + skills, no CLI) selected explicitly by the user.
+     * Domain workflows live in skills (loaded on demand), not the base prompt.
      */
     return (agentType?: AgentType, override?: ProviderConfigOverride) => {
       const type: AgentType = agentType ?? "auto";
@@ -499,13 +397,8 @@ export const GetAgentFactory =
       const cached = agentCache.get(key);
       if (cached) return fp.TE.right(cached);
 
-      const build =
-        type === "auto"
-          ? buildAutoAgent(override)
-          : buildSingleAgent(type, override);
-
       return pipe(
-        build,
+        buildSingleAgent(type, override),
         fp.TE.map((agent) => {
           agentCache.set(key, agent);
           return agent;

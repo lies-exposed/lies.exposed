@@ -114,5 +114,5 @@ export function buildSkillsAddendum(skills: Skill[]): string {
     .map((s) => `- **${s.name}**: ${s.description}`)
     .join("\n");
 
-  return `\n\n## Available Skills\n\n${skillsList}\n\nUse the load_skill tool when you need detailed information about handling a specific type of request.`;
+  return `\n\n## Available Skills\n\n${skillsList}\n\nWhen a request matches one of these skills, call \`load_skill(name)\` to read its full workflow BEFORE acting — do not improvise a workflow a skill already defines.`;
 }

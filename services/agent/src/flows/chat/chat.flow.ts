@@ -33,10 +33,24 @@ export const buildEnhancedMessage = (
   resource_context?: ResourceContext,
 ): string => {
   if (!resource_context) return message;
-  const idPart = resource_context.recordId
-    ? ` with ID ${resource_context.recordId}`
-    : "";
-  return `${message}\n\n[Context: User is currently ${resource_context.action ?? "viewing"} ${resource_context.resource}${idPart}]`;
+  const action = resource_context.action ?? "viewing";
+  const { resource, recordId } = resource_context;
+
+  if (!recordId) {
+    return `${message}\n\n[Context: User is currently ${action} ${resource}]`;
+  }
+
+  // The user is acting on a specific record. Spell out that references like
+  // "the given article", "this link", or "the current record" point to it, and
+  // that the agent must fetch the record itself rather than asking the user for
+  // data it can resolve via the CLI / scraper.
+  return [
+    message,
+    "",
+    `[Context: User is currently ${action} ${resource} with ID ${recordId}.`,
+    `References such as "the given/current record", "this ${resource}", "the article", "the link", or "it" mean ${resource} record ${recordId}.`,
+    `Resolve it yourself with liexp_cli ("${resource} get --id=${recordId}") — and for links, scrape the URL it returns — instead of asking the user to paste the content.]`,
+  ].join("\n");
 };
 
 const makeContentDelta = (
