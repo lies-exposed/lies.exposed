@@ -678,8 +678,8 @@ importers:
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
       '@xyflow/react':
-        specifier: ^12.10.2
-        version: 12.10.2(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^12.11.1
+        version: 12.11.1(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
@@ -5480,14 +5480,21 @@ packages:
     resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
     engines: {node: '>=14.6'}
 
-  '@xyflow/react@12.10.2':
-    resolution: {integrity: sha512-CgIi6HwlcHXwlkTpr0fxLv/0sRVNZ8IdwKLzzeCscaYBwpvfcH1QFOCeaTCuEn1FQEs/B8CjnTSjhs8udgmBgQ==}
+  '@xyflow/react@12.11.1':
+    resolution: {integrity: sha512-L+zBoLGSXham0MnlY8QqjfR7/C5JNw0zxkaey5aZ5XmCgJBAdH4+WRIu8CR40d3l/BdU635V6YbhBK1jMo8/6Q==}
     peerDependencies:
+      '@types/react': '>=17'
+      '@types/react-dom': '>=17'
       react: '>=17'
       react-dom: '>=17'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
 
-  '@xyflow/system@0.0.76':
-    resolution: {integrity: sha512-hvwvnRS1B3REwVDlWexsq7YQaPZeG3/mKo1jv38UmnpWmxihp14bW6VtEOuHEwJX2FvzFw8k77LyKSk/wiZVNA==}
+  '@xyflow/system@0.0.78':
+    resolution: {integrity: sha512-lY0z2qP33fUhTva9Vaxrk0lqZta2pkbxB1trHAx1omnJqRtPvDlAQYV2r5fhS6AdpkulYmbNW0svy+A4/t4B/g==}
 
   '@zarrita/storage@0.2.0':
     resolution: {integrity: sha512-855ZXqtnds7spnT8vNvD+MXa3QExP1m2GqShe8yt7uZXHnQLgJHgkpVwFjE1B0KDDRO0ki09hmk6OboTaIfPsQ==}
@@ -7393,8 +7400,8 @@ packages:
   immutable-json-patch@6.0.2:
     resolution: {integrity: sha512-KwCA5DXJiyldda8SPha1zB+6+vbEi5/jRRcYii/6yFXlyu9ZjiSH/wPq8Ri2Hk8iGjjTMcHW3Z21S4MOpl7sOw==}
 
-  immutable@5.1.7:
-    resolution: {integrity: sha512-47Xb+LFbZ/ZIjQMj6Q5J3IfK7PJFuqRdFOC9FpGgRTK6U2dAEVmkR9hp58qU4FpYux5YXpneDwkj2EP6lppzFA==}
+  immutable@5.1.9:
+    resolution: {integrity: sha512-m8nVez3rwrgmWxtLMt1ZYXB2Lv7OKYn/disyxAlSDYAlKSlFoPPfIAmAM/M5xqL4m4C/wAPw7S2/CNaUii1Hxg==}
 
   import-fresh@3.3.1:
     resolution: {integrity: sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==}
@@ -8429,8 +8436,8 @@ packages:
     resolution: {integrity: sha512-dkEJPVvun4FryqBmZ5KhDo0K9iDXAwn08tMLDinNdRBNPcYEDiWYysLcc6k3mjTMlbP9KyylvRpd4wFtwrT9rw==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  nan@2.27.0:
-    resolution: {integrity: sha512-hC+0LidcL3XE4rp1C4H54KujgXKzbfyTngZTwBByQxsOxCEKZT0MPQ4hOKUH2jU1OYstqdDH4onyHPDzcV0XdQ==}
+  nan@2.28.0:
+    resolution: {integrity: sha512-fTsDz99OTq2sVePhGdp4qQhggZFtKr64ZNVyVajRKtMOkJxYekplBh577PiJB12v/D3s2E5cGtOI45LWp6rnLQ==}
 
   nanoid@3.3.12:
     resolution: {integrity: sha512-ZB9RH/39qpq5Vu6Y+NmUaFhQR6pp+M2Xt76XBnEwDaGcVAqhlvxrl3B2bKS5D3NH3QR76v3aSrKaF/Kiy7lEtQ==}
@@ -9912,8 +9919,8 @@ packages:
     resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
     engines: {node: '>=20'}
 
-  tar-fs@2.1.4:
-    resolution: {integrity: sha512-mDAjwmZdh7LTT6pNleZ05Yt65HC3E+NiQzl672vQG38jIrehtJk/J3mNwIg+vShQPcLF/LV7CMnDW6vjj6sfYQ==}
+  tar-fs@2.1.5:
+    resolution: {integrity: sha512-OboTd8mmMhZDNPV+UjQcK9yKAatXu2aJ+r1w4im1Otd4M4fl2hwvdoXUxIYHFTHWK/3y3FarBP70v3vwmGlOxw==}
 
   tar-fs@3.1.2:
     resolution: {integrity: sha512-QGxxTxxyleAdyM3kpFs14ymbYmNFrfY+pHj7Z8FgtbZ7w2//VAgLMac7sT6nRpIHjppXO2AwwEOg0bPFVRcmXw==}
@@ -9925,8 +9932,8 @@ packages:
   tar-stream@3.1.8:
     resolution: {integrity: sha512-U6QpVRyCGHva435KoNWy9PRoi2IFYCgtEhq9nmrPPpbRacPs9IH4aJ3gbrFC8dPcXvdSZ4XXfXT5Fshbp2MtlQ==}
 
-  tar@7.5.16:
-    resolution: {integrity: sha512-56adEpPMouktRlBLXiaYFFzZ/3+JXa8P9n7WbR+ibIjtviN55mEaOkiysCnPnWm+7kkui1Dn8J9l+g6zV8731w==}
+  tar@7.5.19:
+    resolution: {integrity: sha512-4LeEWl96twnS2Q7Bz4MGqgazLqO+hJN63GZxXoIqh1T3VweYD997gbU1ItNsQafqqXTXd5WFyFdReLtwvRBNiw==}
     engines: {node: '>=18'}
 
   teex@1.0.1:
@@ -12382,7 +12389,7 @@ snapshots:
       npmlog: 5.0.1
       rimraf: 3.0.2
       semver: 7.8.5
-      tar: 7.5.16
+      tar: 7.5.19
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -13857,7 +13864,7 @@ snapshots:
 
   '@types/d3-interpolate@3.0.1':
     dependencies:
-      '@types/d3-color': 3.1.3
+      '@types/d3-color': 3.1.0
 
   '@types/d3-interpolate@3.0.4':
     dependencies:
@@ -14690,18 +14697,20 @@ snapshots:
 
   '@xmldom/xmldom@0.9.10': {}
 
-  '@xyflow/react@12.10.2(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@xyflow/react@12.11.1(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@xyflow/system': 0.0.76
+      '@xyflow/system': 0.0.78
       classcat: 5.0.5
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       zustand: 4.5.7(@types/react@18.3.27)(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.27
+      '@types/react-dom': 18.3.7(@types/react@18.3.27)
     transitivePeerDependencies:
-      - '@types/react'
       - immer
 
-  '@xyflow/system@0.0.76':
+  '@xyflow/system@0.0.78':
     dependencies:
       '@types/d3-drag': 3.0.7
       '@types/d3-interpolate': 3.0.4
@@ -15137,7 +15146,7 @@ snapshots:
   canvas@2.11.2:
     dependencies:
       '@mapbox/node-pre-gyp': 1.0.11
-      nan: 2.27.0
+      nan: 2.28.0
       simple-get: 3.1.1
     transitivePeerDependencies:
       - encoding
@@ -16855,7 +16864,7 @@ snapshots:
 
   immutable-json-patch@6.0.2: {}
 
-  immutable@5.1.7:
+  immutable@5.1.9:
     optional: true
 
   import-fresh@3.3.1:
@@ -18151,7 +18160,7 @@ snapshots:
 
   mute-stream@3.0.0: {}
 
-  nan@2.27.0:
+  nan@2.28.0:
     optional: true
 
   nanoid@3.3.12: {}
@@ -18634,7 +18643,7 @@ snapshots:
       pump: 3.0.4
       rc: 1.2.8
       simple-get: 4.0.1
-      tar-fs: 2.1.4
+      tar-fs: 2.1.5
       tunnel-agent: 0.6.0
     optional: true
 
@@ -19530,7 +19539,7 @@ snapshots:
   sass@1.82.0:
     dependencies:
       chokidar: 4.0.3
-      immutable: 5.1.7
+      immutable: 5.1.9
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.5.6
@@ -20046,7 +20055,7 @@ snapshots:
 
   tagged-tag@1.0.0: {}
 
-  tar-fs@2.1.4:
+  tar-fs@2.1.5:
     dependencies:
       chownr: 1.1.4
       mkdirp-classic: 0.5.3
@@ -20086,7 +20095,7 @@ snapshots:
       - bare-buffer
       - react-native-b4a
 
-  tar@7.5.16:
+  tar@7.5.19:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
