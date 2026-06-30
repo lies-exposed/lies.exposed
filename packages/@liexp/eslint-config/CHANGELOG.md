@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.19](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.18...@liexp/eslint-config@0.5.19) (2026-06-30)
+
+
+### Miscellaneous
+
+* bump @typescript/native-preview to 7.0.0-dev.20260623.1 ([#3701](https://github.com/lies-exposed/lies.exposed/issues/3701)) ([4dcad02](https://github.com/lies-exposed/lies.exposed/commit/4dcad0282789c7dc00eb0cea9d9dbd4e4695a4ca))
+
 ## [0.5.18](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.17...@liexp/eslint-config@0.5.18) (2026-06-11)
 
 
