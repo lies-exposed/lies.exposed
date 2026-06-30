@@ -27,7 +27,7 @@ runs:
         COMBINED="${SERVICE_HASH:0:8}-${PACKAGES_HASH:0:8}"
         echo "service_hash=${COMBINED}" >> $GITHUB_OUTPUT
 
-    - uses: actions/cache@v5
+    - uses: actions/cache@v6
       id: service-build
       with:
         path: services/${{ inputs.service }}/build
