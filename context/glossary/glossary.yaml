@@ -1,0 +1,61 @@
+# Domain glossary for lies.exposed
+# Format: term: { definition, aliases?, see? }
+
+Actor:
+  definition: A named entity (person, organization) that appears in events and relationships. Has avatar, bio, and relation links. Admin path: /actors.
+  aliases: [actors]
+
+Event:
+  definition: A fact-checked occurrence in time. Has 8 types — Uncategorized, Death, Quote, Transaction, ScientificStudy, Book, Patent, Documentary. Core domain object.
+  aliases: [events]
+
+Group:
+  definition: An organization or collective. Can have members (GroupMember) and links to events. Admin path: /groups.
+  aliases: [groups]
+
+Keyword:
+  definition: A tag used to classify events and actors. Flat taxonomy.
+  aliases: [keywords, tags]
+
+Link:
+  definition: An external URL with metadata (title, description, publishDate, image). Can be attached to events as sources.
+  aliases: [links]
+
+Media:
+  definition: An uploaded media asset (image, video, document). Has thumbnail generation via Worker service.
+  aliases: [media]
+
+Area:
+  definition: A geographic or conceptual area that can be associated with events.
+  aliases: [areas]
+
+Story:
+  definition: A curated narrative that groups related events. Editorial content.
+  aliases: [stories]
+
+Queue:
+  definition: A processing job for AI operations. Types include openai-embedding, openai-summarize, openai-create-event-from-url, openai-create-event-from-text, openai-create-event-from-links, openai-update-event.
+  aliases: [queue, queues, QueueJob]
+
+IOError:
+  definition: Base error type for all internal errors. Extends IOError from @ts-endpoint/core. Used throughout the fp-ts pipeline.
+
+ReaderTaskEither:
+  definition: Main effect type for backend flows. Injects Context dependency, handles async, propagates typed errors. Alias in codebase — fp.RTE.
+  aliases: [RTE, fp.RTE]
+
+TaskEither:
+  definition: Async computation that can fail with typed error. Used where no dependency injection needed. Alias — fp.TE.
+  aliases: [TE, fp.TE]
+
+OptionFromNullishToNull:
+  definition: Effect/Schema codec that decodes nullable DB values into effect/Option. Must use O.getOrNull() from effect/Option — NOT fp-ts toNullable() — or TypeORM will serialize the wrapper object.
+
+AddEndpoint:
+  definition: Helper that registers a typed endpoint handler in the Express router, binding the @ts-endpoint schema to a ReaderTaskEither flow.
+
+liexp.dev:
+  definition: Local Docker Compose development environment.
+
+lies.exposed:
+  definition: Production Kubernetes environment.

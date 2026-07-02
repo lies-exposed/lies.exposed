@@ -122,7 +122,19 @@ export const makeAgentContext = (
         provider: langchainConfig.provider,
         models: langchainConfig.models,
         options: {
-          chat: {},
+          // Disable token streaming for the chat model. Reasoning models served
+          // via LocalAI (e.g. qwen3.6-35b-a3b) stream their leading <think> tokens
+          // as roleless `reasoning` deltas. @langchain/openai parses a delta with
+          // no `role` as a generic ChatMessageChunk; once the accumulator is a
+          // ChatMessageChunk, concatenating the later assistant AIMessageChunks
+          // silently drops their `tool_call_chunks`, so the React agent sees no
+          // tool call, routes straight to END, and returns "No response generated".
+          // The non-streaming response is a standard assistant message with intact
+          // role + tool_calls, which langchain parses correctly. We can't disable
+          // thinking on qwen3.6 when tools are present, so this is the robust fix.
+          chat: {
+            streaming: false,
+          },
           embeddings: {},
         },
       });

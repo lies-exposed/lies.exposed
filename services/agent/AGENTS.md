@@ -56,6 +56,10 @@ Present results as:
 - Brief confirmations for creates/edits
 - Concise summaries for reads
 
+### Ask for Missing Required Fields
+
+If a user request requires creating or editing a resource but omits **required fields** (e.g. `fromType`, `fromId`, `toType`, `toId`, `total`, `currency` for transaction events), **ask the user to provide the missing values** instead of guessing or retrying with incomplete data. Do not invent UUIDs, amounts, or types.
+
 ## CLI Command Reference
 
 Use `read_documentation("docs/cli-reference.md")` to fetch the full command reference (flags, options, and examples for all resources).

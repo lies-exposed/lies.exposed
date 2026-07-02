@@ -69,21 +69,13 @@ export const mergeProviderConfig = (
     | Record<string, unknown>
     | undefined;
 
-  if (!override) {
-    return {
-      provider: defaultOptions.provider,
-      model: defaultOptions.models?.chat ?? "gpt-4o",
-      options: chatOptions,
-    };
-  }
+  const provider = override?.provider ?? defaultOptions.provider;
+  const model = override?.model ?? defaultOptions.models?.chat ?? "gpt-4o";
+  const mergedOptions = override?.options
+    ? { ...chatOptions, ...override.options }
+    : chatOptions;
 
-  return {
-    provider: override.provider ?? defaultOptions.provider,
-    model: override.model ?? defaultOptions.models?.chat ?? "gpt-4o",
-    options: override.options
-      ? { ...chatOptions, ...override.options }
-      : chatOptions,
-  };
+  return { provider, model, options: mergedOptions };
 };
 
 /**

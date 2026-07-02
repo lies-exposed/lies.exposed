@@ -23,6 +23,13 @@
       "type": "http",
       "url": "https://mcp.context7.com/mcp"
     },
+    "graymatter": {
+      "args": [
+        "mcp",
+        "serve"
+      ],
+      "command": "graymatter"
+    },
     "playwright": {
       "args": [
         "@playwright/mcp@latest"

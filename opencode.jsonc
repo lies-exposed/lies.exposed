@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "graymatter": {
+      "command": [
+        "graymatter",
+        "mcp",
+        "serve"
+      ],
+      "enabled": true,
+      "type": "local"
+    }
+  }
+}

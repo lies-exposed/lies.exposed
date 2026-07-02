@@ -156,13 +156,32 @@ interface StreamState {
   contentAccumulator: string;
   tokens: TokenUsage;
   think: ThinkState;
+  /**
+   * Whether the current model turn emitted token-by-token content via
+   * `on_chat_model_stream`. Used to avoid re-emitting the full message at
+   * `on_chat_model_end` for providers that genuinely stream. Reset at each
+   * `on_chat_model_end`.
+   */
+  sawStreamDelta: boolean;
 }
 
 const initialStreamState = (): StreamState => ({
   contentAccumulator: "",
   tokens: { promptTokens: 0, completionTokens: 0 },
   think: emptyThinkState(),
+  sawStreamDelta: false,
 });
+
+/** Extract plain text from a message-like object's `content` (string or parts). */
+const extractContentText = (raw: { content?: unknown }): string =>
+  typeof raw.content === "string"
+    ? raw.content
+    : Array.isArray(raw.content)
+      ? raw.content
+          .filter((part: any) => part.type === "text")
+          .map((part: any) => String(part.text ?? ""))
+          .join("")
+      : "";
 
 const extractTokenUsage = (chunk: AIMessage): TokenUsage | null => {
   const meta = (chunk as unknown as { usage_metadata?: unknown })
@@ -217,6 +236,19 @@ export const processStreamEvent = (
               .join("")
           : "";
 
+    // Some models (e.g. qwen3.6-35b-a3b) stream all tokens into `reasoning`
+    // and leave `content` empty. Fall back to reasoning when content is empty.
+    const effectiveContent =
+      content ||
+      (typeof rawChunk.reasoning === "string"
+        ? rawChunk.reasoning
+        : Array.isArray(rawChunk.reasoning)
+          ? rawChunk.reasoning
+              .filter((part: any) => part.type === "text")
+              .map((part: any) => String(part.text ?? ""))
+              .join("")
+          : "");
+
     const tokenUpdate = extractTokenUsage(chunk);
     const tokens = tokenUpdate
       ? {
@@ -225,12 +257,12 @@ export const processStreamEvent = (
         }
       : state.tokens;
 
-    if (!content) {
+    if (!effectiveContent) {
       return [[], { ...state, tokens }];
     }
 
     const [deltaEvents, nextThink] = parseThinkContent(
-      content,
+      effectiveContent,
       state.think,
       messageId,
     );
@@ -238,9 +270,50 @@ export const processStreamEvent = (
     return [
       deltaEvents,
       {
+        ...state,
+        contentAccumulator: state.contentAccumulator + effectiveContent,
+        tokens,
+        think: nextThink,
+        sawStreamDelta: true,
+      },
+    ];
+  }
+
+  // When the chat model does not stream token-by-token (streaming: false — the
+  // mode we use so LocalAI reasoning models don't corrupt tool-call routing),
+  // the full assistant message arrives here instead of via on_chat_model_stream.
+  // Emit its visible content as a single content_delta. Skip turns whose content
+  // is empty (e.g. a tool-call-only turn) and skip when this turn already
+  // streamed deltas, to avoid duplicating content for genuine streaming providers.
+  if (event.event === "on_chat_model_end") {
+    const output = (event.data as { output?: unknown }).output;
+    const tokenUpdate = output
+      ? extractTokenUsage(output as AIMessage)
+      : null;
+    const tokens = tokenUpdate ?? state.tokens;
+
+    if (state.sawStreamDelta || !output) {
+      return [[], { ...state, tokens, sawStreamDelta: false }];
+    }
+
+    const content = extractContentText(output as { content?: unknown });
+    if (!content) {
+      return [[], { ...state, tokens, sawStreamDelta: false }];
+    }
+
+    const [deltaEvents, nextThink] = parseThinkContent(
+      content,
+      state.think,
+      messageId,
+    );
+    return [
+      deltaEvents,
+      {
+        ...state,
         contentAccumulator: state.contentAccumulator + content,
         tokens,
         think: nextThink,
+        sawStreamDelta: false,
       },
     ];
   }

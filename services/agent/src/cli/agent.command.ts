@@ -9,7 +9,7 @@ import { sendChatMessageStream } from "../flows/chat/chat.flow.js";
 
 export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
   const conversationId = uuid();
-  const defaultQuestion = _args[1];
+  const defaultQuestion = _args[0];
 
   const ask = async (message: string): Promise<string> => {
     const streamGenerator = sendChatMessageStream({
@@ -60,7 +60,9 @@ export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
       process.exit(0);
     } else {
       await ask(question);
-      await chat();
+      if (!defaultQuestion) {
+        await chat();
+      }
     }
   };
 

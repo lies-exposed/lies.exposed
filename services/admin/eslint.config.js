@@ -1,4 +1,3 @@
-// @ts-check
 import { reactConfig } from "@liexp/eslint-config";
 import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";

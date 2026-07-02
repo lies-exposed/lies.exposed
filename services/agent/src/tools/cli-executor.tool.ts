@@ -91,17 +91,35 @@ Groups and subcommands:
   nation list        [--name=<text>] [--start=N] [--end=N]
   nation get         --id=<uuid>
 
-  event list         [--query=<text>] [--actors=<uuid>] [--groups=<uuid>] [--type=Death|ScientificStudy|Patent|Documentary|Transaction|Book|Quote|Uncategorized] [--startDate=YYYY-MM-DD] [--endDate=YYYY-MM-DD] [--start=N] [--end=N]
+  event list         [--query=<text>] [--actors=<uuid>] [--groups=<uuid>] [--type=Death|ScientificStudy|Patent|Documentary|Book|Quote|Uncategorized|Transaction] [--startDate=YYYY-MM-DD] [--endDate=YYYY-MM-DD] [--start=N] [--end=N]
   event get          --id=<uuid>
-  event create       --type=<type> --date=YYYY-MM-DD [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-                     type-specific flags: --title, --victim, --actor, --quote, --total, --currency,
-                       --fromType/--fromId/--toType/--toId (Transaction), --studyUrl, --pdf, --audio,
-                       --authors, --publisher (ScientificStudy/Book), --ownerActors/--ownerGroups (Patent),
-                       --source, --documentaryMedia (Documentary), --website (Book),
-                       --authorActors/--authorGroups/--subjectActors/--subjectGroups (Quote)
-  event edit         --id=<uuid> --type=<type> --date=YYYY-MM-DD [same optional flags as event create]
 
-Examples: "actor list --fullName=Obama --end=5", "event list --query=vaccine --end=10", "link create --url=https://example.com", "actor find-avatar --fullName=Elon Musk", "event create --type=Death --date=2024-01-15 --victim=<actor-uuid>"`,
+  Event creation/editing uses type-specific subcommands:
+  event death create       --victim=<uuid> --date=YYYY-MM-DD [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+  event death edit         --id=<uuid> --victim=<uuid> --date=YYYY-MM-DD [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+
+  event transaction create --title=<text> --total=<number> --currency=<currency> --fromType=<type> --fromId=<uuid> --toType=<type> --toId=<uuid> --date=YYYY-MM-DD [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+  event transaction edit   --id=<uuid> --title=<text> --total=<number> --currency=<currency> --fromType=<type> --fromId=<uuid> --toType=<type> --toId=<uuid> --date=YYYY-MM-DD [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+
+  event quote create       --actor=<uuid> --quote=<text> --date=YYYY-MM-DD [--details=<text>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+  event quote edit         --id=<uuid> --actor=<uuid> --quote=<text> --date=YYYY-MM-DD [--details=<text>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+
+  event scientific-study create --title=<text> --studyUrl=<url> --date=YYYY-MM-DD [--image=<url>] [--publisher=<text>] [--authors=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+  event scientific-study edit   --id=<uuid> --title=<text> --studyUrl=<url> --date=YYYY-MM-DD [--image=<url>] [--publisher=<text>] [--authors=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+
+  event book create        --title=<text> --date=YYYY-MM-DD [--pdf=<url>] [--audio=<url>] [--authors=<uuid,...>] [--publisher=<uuid>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+  event book edit          --id=<uuid> --title=<text> --date=YYYY-MM-DD [--pdf=<url>] [--audio=<url>] [--authors=<uuid,...>] [--publisher=<uuid>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+
+  event patent create      --title=<text> --source=<text> --date=YYYY-MM-DD [--ownerActors=<uuid,...>] [--ownerGroups=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+  event patent edit        --id=<uuid> --title=<text> --source=<text> --date=YYYY-MM-DD [--ownerActors=<uuid,...>] [--ownerGroups=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+
+  event documentary create --title=<text> --date=YYYY-MM-DD [--documentaryMedia=<uuid,...>] [--website=<url>] [--authorActors=<uuid,...>] [--authorGroups=<uuid,...>] [--subjectActors=<uuid,...>] [--subjectGroups=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+  event documentary edit   --id=<uuid> --title=<text> --date=YYYY-MM-DD [--documentaryMedia=<uuid,...>] [--website=<url>] [--authorActors=<uuid,...>] [--authorGroups=<uuid,...>] [--subjectActors=<uuid,...>] [--subjectGroups=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+
+  event uncategorized create --title=<text> --date=YYYY-MM-DD [--actors=<uuid,...>] [--groups=<uuid,...>] [--groupsMembers=<uuid,...>] [--location=<text>] [--endDate=YYYY-MM-DD] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+  event uncategorized edit   --id=<uuid> --title=<text> --date=YYYY-MM-DD [--actors=<uuid,...>] [--groups=<uuid,...>] [--groupsMembers=<uuid,...>] [--location=<text>] [--endDate=YYYY-MM-DD] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+
+Examples: "actor list --fullName=Obama --end=5", "event list --query=vaccine --end=10", "link create --url=https://example.com", "actor find-avatar --fullName=Elon Musk", "event death create --victim=<actor-uuid> --date=2024-01-15"`,
   }),
 });
 

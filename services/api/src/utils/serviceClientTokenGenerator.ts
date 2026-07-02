@@ -31,6 +31,29 @@ export const createServiceClientToken =
     );
   };
 
+export const createServiceClientTokenWithUserId =
+  <C extends JWTProviderContext>(
+    serviceName: string,
+    permissions: AuthPermission[],
+    userId: string,
+  ) =>
+  (ctx: C): IO.IO<{ serviceClient: ServiceClient; token: string }> => {
+    return pipe(
+      IO.of({
+        id: uuid(),
+        userId: userId as any,
+        email: `${serviceName}@lies.exposed`,
+        permissions,
+      } as ServiceClient),
+      IO.chain((serviceClient) =>
+        pipe(
+          ctx.jwt.signClient(serviceClient),
+          IO.map((token) => ({ serviceClient, token })),
+        ),
+      ),
+    );
+  };
+
 // Utility function to create a service client for agent service
 export const createAgentServiceClient = (ctx: JWTProviderContext) =>
   createServiceClientToken("agent", [
