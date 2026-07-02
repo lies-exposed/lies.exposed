@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.5.19](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.18...@liexp/shared@0.5.19) (2026-06-30)
+
+
+### Bug Fixes
+
+* **api:** added model to Queue entity ([#3683](https://github.com/lies-exposed/lies.exposed/issues/3683)) ([43800ab](https://github.com/lies-exposed/lies.exposed/commit/43800ab64e5e6cb5119a4fc87cbf49cd54276cbd))
+* optimize agent prompts and tools ([#3698](https://github.com/lies-exposed/lies.exposed/issues/3698)) ([54d739e](https://github.com/lies-exposed/lies.exposed/commit/54d739e1f9769708cda68f213174d2f68d8fe1b7))
+
+
+### Miscellaneous
+
+* bump @typescript/native-preview to 7.0.0-dev.20260623.1 ([#3701](https://github.com/lies-exposed/lies.exposed/issues/3701)) ([4dcad02](https://github.com/lies-exposed/lies.exposed/commit/4dcad0282789c7dc00eb0cea9d9dbd4e4695a4ca))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.19
+    * @liexp/io bumped to 0.5.19
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.19
+    * @liexp/test bumped to 0.5.19
+
 ## [0.5.18](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.17...@liexp/shared@0.5.18) (2026-06-11)
 
 

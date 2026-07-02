@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.5.19](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.18...lies.exposed@0.5.19) (2026-06-30)
+
+
+### Miscellaneous
+
+* added write permissions to pull-requests for dependabot validate ([#3702](https://github.com/lies-exposed/lies.exposed/issues/3702)) ([618b071](https://github.com/lies-exposed/lies.exposed/commit/618b0717990aa4c4384cf4c15e727aac4d69c272))
+* bump @typescript/native-preview to 7.0.0-dev.20260623.1 ([#3701](https://github.com/lies-exposed/lies.exposed/issues/3701)) ([4dcad02](https://github.com/lies-exposed/lies.exposed/commit/4dcad0282789c7dc00eb0cea9d9dbd4e4695a4ca))
+* deploy via helmfile ([#3681](https://github.com/lies-exposed/lies.exposed/issues/3681)) ([4741d4f](https://github.com/lies-exposed/lies.exposed/commit/4741d4f6f416e6e205b83d02e62372e42cb2048a))
+* opencode sub agents ([#3704](https://github.com/lies-exposed/lies.exposed/issues/3704)) ([631e3fb](https://github.com/lies-exposed/lies.exposed/commit/631e3fb95f8d48a7a0d080b5ad85ab14f9d51c42))
+
 ## [0.5.18](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.17...lies.exposed@0.5.18) (2026-06-11)
 
 

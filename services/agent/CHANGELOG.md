@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.5.19](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.18...agent@0.5.19) (2026-06-30)
+
+
+### Bug Fixes
+
+* optimize agent prompts and tools ([#3698](https://github.com/lies-exposed/lies.exposed/issues/3698)) ([54d739e](https://github.com/lies-exposed/lies.exposed/commit/54d739e1f9769708cda68f213174d2f68d8fe1b7))
+
+
+### Miscellaneous
+
+* bump @typescript/native-preview to 7.0.0-dev.20260623.1 ([#3701](https://github.com/lies-exposed/lies.exposed/issues/3701)) ([4dcad02](https://github.com/lies-exposed/lies.exposed/commit/4dcad0282789c7dc00eb0cea9d9dbd4e4695a4ca))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.19
+    * @liexp/core bumped to 0.5.19
+    * @liexp/io bumped to 0.5.19
+    * @liexp/shared bumped to 0.5.19
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.19
+    * @liexp/test bumped to 0.5.19
+
 ## [0.5.18](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.17...agent@0.5.18) (2026-06-11)
 
 
