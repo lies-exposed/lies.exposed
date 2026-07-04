@@ -73,6 +73,16 @@ export const SendMessageStream = Endpoint({
   Output: StreamOutput(ChatStreamEvent),
 });
 
+export const SendMessageAISTream = Endpoint({
+  Method: "POST",
+  getPath: () => "/chat/message/ai-stream",
+  Input: {
+    Body: ChatRequest,
+  },
+  // Output is a stream of UIMessageChunk via AI SDK TextStream format
+  Output: StreamOutput(ChatStreamEvent),
+});
+
 export const ListProviders = Endpoint({
   Method: "GET",
   getPath: () => "/providers",
@@ -115,6 +125,7 @@ export const chat = ResourceEndpoints({
   Delete: DeleteConversation,
   Custom: {
     Stream: SendMessageStream,
+    AISTream: SendMessageAISTream,
     ListProviders,
     ListAgents,
     Compact: CompactConversation,

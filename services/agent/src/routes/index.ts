@@ -5,6 +5,7 @@ import {
   MakeGetChatConversationRoute,
   MakeDeleteChatConversationRoute,
   MakeSendChatMessageStreamRoute,
+  MakeSendChatMessageAISTreamRoute,
   MakeListProvidersRoute,
   MakeListAgentsRoute,
   MakeCompactConversationRoute,
@@ -17,6 +18,7 @@ export const createRoutes = (ctx: AgentContext) => {
   // Chat routes
   MakeSendChatMessageRoute(router, ctx);
   MakeSendChatMessageStreamRoute(router, ctx);
+  MakeSendChatMessageAISTreamRoute(router, ctx);
   MakeListChatConversationsRoute(router, ctx);
   MakeGetChatConversationRoute(router, ctx);
   MakeDeleteChatConversationRoute(router, ctx);

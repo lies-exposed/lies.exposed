@@ -5,7 +5,7 @@ import {
   useRecordContext,
   useResourceContext,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useLocation } from "react-router";
 import {
   useChatConversations,
@@ -72,50 +72,38 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   );
 
   const location = useLocation();
-  const streamingStartTimeRef = useRef<string | null>(null);
 
-  // Use streaming chat hook
   const {
     messages,
     isLoading,
     error,
     conversationId,
-    streamingContent,
-    thinkingContent,
-    activeToolCalls,
-    tokenUsage,
-    usedProvider,
-    context: contextInfo,
     sendMessage,
     loadConversation,
     compact,
     autoCompact,
     toggleAutoCompact,
+    streamingMessage,
   } = useStreamingChat({
     initialAutoCompact: initialSettings.autoCompact,
     onAutoCompactChange: (value) => saveSettings({ autoCompact: value }),
   });
 
-  // Track which past conversation is being loaded
   const [pendingConversationId, setPendingConversationId] = useState<
     string | null
   >(null);
 
-  // Get conversations for history
   const { conversations: chatConversations } = useChatConversations();
 
-  // Fetch the selected conversation's messages
   const { messages: conversationMessages, loading: conversationLoading } =
     useChatConversation(pendingConversationId);
 
-  // Once messages arrive, restore the conversation in the streaming state
   useEffect(() => {
     if (
       pendingConversationId &&
       !conversationLoading &&
       conversationMessages.length > 0
     ) {
-      // Filter out system messages — they're internal LangChain prompts
       const visibleMessages = conversationMessages.filter(
         (m) => m.role !== "system",
       );
@@ -130,7 +118,6 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     loadConversation,
   ]);
 
-  // Map conversations to ChatUI format
   const mappedConversations = useMemo(
     () =>
       chatConversations.map((conv) => ({
@@ -148,11 +135,9 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     setPendingConversationId(id);
   };
 
-  // Use react-admin hooks to get resource context
   const hookResource = useResourceContext();
   const hookRecord = useRecordContext();
 
-  // Extract resource context from hooks or fallback to URL parsing
   const context = useMemo(():
     | {
         resource: string;
@@ -220,7 +205,6 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     setIsContextEnabled(!isContextEnabled);
   };
 
-  // Generate context label for display
   const contextLabel = useMemo(() => {
     if (!context) return undefined;
 
@@ -233,15 +217,12 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   const handleSendMessage = async (): Promise<void> => {
     if (!inputValue.trim() || isLoading) return;
 
-    streamingStartTimeRef.current = new Date().toISOString();
-
     const request = {
       message: inputValue.trim(),
       conversation_id: conversationId,
       resource_context: isContextEnabled ? context : undefined,
     };
 
-    // Create aiConfig if provider is selected
     const aiConfig = selectedProvider
       ? {
           provider: selectedProvider,
@@ -259,32 +240,6 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       void handleSendMessage();
     }
   };
-
-  // Create streaming message object if there's content or thinking
-  const streamingMessage = useMemo(() => {
-    if (!streamingContent && !thinkingContent) return null;
-
-    // Convert activeToolCalls Map to array of ToolCall objects
-    const toolCalls = Array.from(activeToolCalls.entries()).map(
-      ([id, { name, args }]) => ({
-        id,
-        type: "function" as const,
-        function: {
-          name,
-          arguments: args ?? "",
-        },
-      }),
-    );
-
-    // Use the timestamp captured when the message was sent (stable for entire stream)
-    return {
-      content: streamingContent,
-      tool_calls: toolCalls.length > 0 ? toolCalls : undefined,
-      timestamp: streamingStartTimeRef.current ?? new Date().toISOString(),
-      tokenUsage: tokenUsage,
-      thinkingContent: thinkingContent || undefined,
-    };
-  }, [streamingContent, activeToolCalls, tokenUsage, thinkingContent]);
 
   return (
     <ChatUI
@@ -311,8 +266,6 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       isCompacting={isLoading}
       autoCompact={autoCompact}
       onToggleAutoCompact={toggleAutoCompact}
-      tokenUsage={tokenUsage}
-      context={contextInfo ?? undefined}
       conversations={mappedConversations}
       onSelectConversation={handleSelectConversation}
       providerSelector={{
@@ -328,7 +281,6 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
         },
         getAuthToken: getAuthFromLocalStorage,
       }}
-      usedProvider={usedProvider}
     />
   );
 };

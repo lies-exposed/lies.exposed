@@ -10,6 +10,7 @@ import {
 } from "@liexp/io/lib/http/Chat.js";
 import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
+import { createUIMessageStream } from "ai";
 import { type HTTPStreamResponse } from "@ts-endpoint/express/lib/HTTPResponse.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import {
@@ -144,6 +145,98 @@ export const MakeSendChatMessageStreamRoute: Route = (r, ctx) => {
             "Content-Type": "text/event-stream",
           },
         } satisfies HTTPStreamResponse);
+      }, ServerError.fromUnknown);
+    },
+  );
+};
+
+export const MakeSendChatMessageAISTreamRoute: Route = (r, ctx) => {
+  AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
+    AgentEndpoints.Chat.Custom.AISTream,
+    ({ body }) => {
+      return TE.tryCatch(async () => {
+        ctx.logger.info.log(
+          "Starting AI stream chat for message: %s",
+          body.message.substring(0, 50),
+        );
+
+        const streamGenerator = sendChatMessageStream(body)(ctx);
+
+        const uiStream = createUIMessageStream({
+          execute: async ({ writer }) => {
+            try {
+              for await (const event of streamGenerator) {
+                ctx.logger.debug.log("Sent AI stream event: %s", event.type);
+                switch (event.type) {
+                  case "message_start": {
+                    writer.write({ type: "start" });
+                    break;
+                  }
+                  case "content_delta": {
+                    writer.write({
+                      type: "text-delta",
+                      id: event.message_id ?? "msg",
+                      delta: event.content ?? "",
+                    });
+                    break;
+                  }
+                  case "tool_call_start": {
+                    writer.write({
+                      type: "tool-input-start",
+                      toolCallId: event.tool_call?.id ?? "tool",
+                      toolName: event.tool_call?.name ?? "unknown",
+                    });
+                    break;
+                  }
+                  case "tool_call_end": {
+                    writer.write({
+                      type: "tool-input-available",
+                      toolCallId: event.tool_call?.id ?? "tool",
+                      toolName: event.tool_call?.name ?? "unknown",
+                      input: event.tool_call?.arguments ? JSON.parse(event.tool_call.arguments) : undefined,
+                    });
+                    break;
+                  }
+                  case "message_end": {
+                    writer.write({
+                      type: "finish",
+                      finishReason: "stop",
+                    });
+                    break;
+                  }
+                  case "error": {
+                    writer.write({
+                      type: "error",
+                      errorText: event.error ?? "Unknown error",
+                    });
+                    break;
+                  }
+                  default:
+                    break;
+                }
+              }
+            } catch (error) {
+              ctx.logger.error.log("AI streaming error: %O", error);
+              writer.write({
+                type: "error",
+                errorText: error instanceof Error ? error.message : "Unknown error",
+              });
+            }
+          },
+          onError: (error) => {
+            ctx.logger.error.log("AI stream error callback: %O", error);
+            return "error";
+          },
+        });
+
+        return {
+          statusCode: 200,
+          stream: Readable.from(uiStream),
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "x-vercel-ai-data-stream": "1",
+          },
+        } satisfies HTTPStreamResponse;
       }, ServerError.fromUnknown);
     },
   );

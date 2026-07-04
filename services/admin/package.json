@@ -42,6 +42,7 @@
     ]
   },
   "dependencies": {
+    "@ai-sdk/react": "^4.0.16",
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
@@ -53,6 +54,7 @@
     "@testing-library/react": "^16.3.2",
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
+    "ai": "^7.0.15",
     "cors": "^2.8.5",
     "debug": "^4.4.0",
     "effect": "^3.21.3",
