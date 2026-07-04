@@ -86,10 +86,3 @@ services/data
 # Eval test result cache
 services/agent/.eval-cache.json
 services/agent/.eval-debug/
-
-
-<<<<<<< HEAD
-# Graymatter
-.graymatter
-=======
->>>>>>> 4d6c1b994 (fix: resolve streaming chat failure and JWT auth issues)
