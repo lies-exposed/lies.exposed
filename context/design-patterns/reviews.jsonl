@@ -1,0 +1,1 @@
+{"_schema":"review","_version":1,"_description":"PR review findings that surfaced bugs or near-misses in lies.exposed","_fields":{"id":"string — {type}_{YYYYMMDD}_{HHMMSS}_{4hex}","title":"string","finding":"string — what was wrong","fix":"string — what to do instead","area":"string — which part of the codebase","status":"string — active|archived"}}

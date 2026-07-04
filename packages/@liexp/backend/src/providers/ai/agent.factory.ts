@@ -6,20 +6,11 @@
  */
 
 import path from "path";
-import { type BaseChatModel } from "@langchain/core/language_models/chat_models";
-import { tool, type StructuredToolInterface } from "@langchain/core/tools";
-import {
-  Command,
-  MemorySaver,
-  MessagesAnnotation,
-  START,
-  StateGraph,
-} from "@langchain/langgraph";
+import { type StructuredToolInterface } from "@langchain/core/tools";
+import { MemorySaver } from "@langchain/langgraph";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import type { AgentType, AIConfig } from "@liexp/io/lib/http/Chat.js";
-import { effectToZod } from "@liexp/shared/lib/utils/schema.utils.js";
-import { Schema } from "effect";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { createAgent as createReactAgent, type ReactAgent } from "langchain";
 import { type BraveProviderContext } from "../../context/brave.context.js";
@@ -31,6 +22,12 @@ import { ServerError } from "../../errors/index.js";
 import { GetLangchainProvider, type AIProvider } from "./langchain.provider.js";
 import { createReadDocumentationTool } from "./tools/readDocumentation.tool.js";
 import { createSearchWebTool } from "./tools/searchWeb.tools.js";
+import {
+  buildSkillsAddendum,
+  createLoadSkillTool,
+  loadSkills,
+  type Skill,
+} from "./tools/skills.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
 export type Agent = ReactAgent;
@@ -72,21 +69,13 @@ export const mergeProviderConfig = (
     | Record<string, unknown>
     | undefined;
 
-  if (!override) {
-    return {
-      provider: defaultOptions.provider,
-      model: defaultOptions.models?.chat ?? "gpt-4o",
-      options: chatOptions,
-    };
-  }
+  const provider = override?.provider ?? defaultOptions.provider;
+  const model = override?.model ?? defaultOptions.models?.chat ?? "gpt-4o";
+  const mergedOptions = override?.options
+    ? { ...chatOptions, ...override.options }
+    : chatOptions;
 
-  return {
-    provider: override.provider ?? defaultOptions.provider,
-    model: override.model ?? defaultOptions.models?.chat ?? "gpt-4o",
-    options: override.options
-      ? { ...chatOptions, ...override.options }
-      : chatOptions,
-  };
+  return { provider, model, options: mergedOptions };
 };
 
 /**
@@ -115,8 +104,8 @@ export const AGENT_CONFIGS: Record<
   auto: {
     label: "Auto",
     description:
-      "Automatically routes to the best agent — Platform Manager or Researcher — based on your request",
-    systemPromptFile: "AGENTS.md", // unused for auto, supervisor decides routing
+      "Full-capability assistant — manages platform resources and researches the web, loading skills on demand",
+    systemPromptFile: "AGENTS.md",
   },
   platform: {
     label: "Platform Manager",
@@ -138,11 +127,14 @@ interface AgentFactoryOptions {
   cliTool: StructuredToolInterface;
   /** Per-provider API keys — used when an override switches to a different provider */
   apiKeys?: Partial<Record<AIProvider, string>>;
+  /** Path to the skills directory (defaults to <cwd>/skills) */
+  skillsDir?: string;
 }
 
 /**
- * Create an agent with a specific Langchain provider
- * Used internally by the factory to construct agents
+ * Create a single-agent React agent with a specific Langchain provider.
+ * Each agent owns a MemorySaver checkpointer so conversation history persists
+ * across requests (the factory caches the compiled agent, see GetAgentFactory).
  */
 const createAgentWithProvider = (
   systemPrompt: string,
@@ -150,12 +142,10 @@ const createAgentWithProvider = (
   tools: StructuredToolInterface[],
   logger: LoggerContext["logger"],
 ): Agent => {
-  const agentCheckpointer = new MemorySaver();
-
   const agent = createReactAgent({
     model: chat,
     tools,
-    checkpointer: agentCheckpointer,
+    checkpointer: new MemorySaver(),
     systemPrompt,
     description: "A React agent for handling user queries",
   });
@@ -169,163 +159,12 @@ const createAgentWithProvider = (
 };
 
 /**
- * Create a multi-agent orchestrator graph.
- *
- * Architecture:
- *   START → supervisor → platform ⇄ researcher → END
- *
- * The supervisor LLM classifies the user's message and routes to the appropriate
- * subagent. Each subagent has a handoff tool to transfer control to the other.
- * The outer graph owns the MemorySaver, so conversation history is shared.
- */
-const createMultiAgentGraph = (
-  platformTools: StructuredToolInterface[],
-  researcherTools: StructuredToolInterface[],
-  platformPrompt: string,
-  researcherPrompt: string,
-  chat: LangchainContext["langchain"]["chat"],
-  logger: LoggerContext["logger"],
-): Agent => {
-  // Handoff tools — return a Command to route to the target node
-  const transferToResearcher = tool(
-    () =>
-      new Command({
-        goto: "researcher",
-      }),
-    {
-      name: "transfer_to_researcher",
-      description:
-        "Delegate to the Researcher agent for web research, fact-checking, or finding information online. Use this when you need current information from the web.",
-      schema: effectToZod(Schema.Struct({})),
-      returnDirect: true,
-    },
-  );
-
-  const transferToPlatform = tool(
-    () =>
-      new Command({
-        goto: "platform",
-      }),
-    {
-      name: "transfer_to_platform",
-      description:
-        "Transfer back to the Platform Manager after completing research so it can act on the findings.",
-      schema: effectToZod(Schema.Struct({})),
-      returnDirect: true,
-    },
-  );
-
-  // Subagents: create working React agents (same as single-agent setup)
-  // Remove individual checkpointers - outer graph manages state
-  const platformAgentImpl = createReactAgent({
-    model: chat,
-    tools: [
-      ...platformTools,
-      transferToResearcher,
-    ] as StructuredToolInterface[],
-    systemPrompt: platformPrompt,
-    checkpointer: false,
-  });
-
-  const researcherAgentImpl = createReactAgent({
-    model: chat,
-    tools: [
-      ...researcherTools,
-      transferToPlatform,
-    ] as StructuredToolInterface[],
-    systemPrompt: researcherPrompt,
-    checkpointer: false,
-  });
-
-  // Wrapper nodes that delegate to the working React agents
-  const platformAgent = async (
-    state: typeof MessagesAnnotation.State,
-    config?: { configurable?: { thread_id?: string } },
-  ): Promise<typeof MessagesAnnotation.State> => {
-    const threadId = config?.configurable?.thread_id ?? "default";
-    const result = await platformAgentImpl.invoke(
-      { messages: state.messages },
-      { configurable: { thread_id: `${threadId}-platform` } },
-    );
-    return { messages: result.messages };
-  };
-
-  const researcherAgent = async (
-    state: typeof MessagesAnnotation.State,
-    config?: { configurable?: { thread_id?: string } },
-  ): Promise<typeof MessagesAnnotation.State> => {
-    const threadId = config?.configurable?.thread_id ?? "default";
-    const result = await researcherAgentImpl.invoke(
-      { messages: state.messages },
-      { configurable: { thread_id: `${threadId}-researcher` } },
-    );
-    return { messages: result.messages };
-  };
-
-  // Supervisor: one LLM call to classify and route the initial message
-  const supervisorNode = async (
-    state: typeof MessagesAnnotation.State,
-  ): Promise<Command> => {
-    const lastMessage = state.messages.at(-1);
-    const content =
-      typeof lastMessage?.content === "string"
-        ? lastMessage.content
-        : JSON.stringify(lastMessage?.content ?? "");
-
-    try {
-      const response = await (chat as BaseChatModel).invoke([
-        {
-          role: "system",
-          content: [
-            "You are a router for a fact-checking platform assistant.",
-            "Choose which specialized agent handles this request:",
-            '- "platform": create, edit, list, or manage platform resources (actors, events, groups, links, keywords, stories)',
-            '- "researcher": find information online, web research, fact-checking, search for people/organizations/events',
-            "",
-            "Examples:",
-            '"Create a new actor named X" → platform',
-            '"List all events from 2024" → platform',
-            '"Research the claim that Z did X" → researcher',
-            '"Find recent news about Y" → researcher',
-            "",
-            'Reply with ONLY the agent name: "platform" or "researcher".',
-          ].join("\n"),
-        },
-        { role: "user", content },
-      ]);
-
-      const text = (
-        typeof response.content === "string" ? response.content : "platform"
-      )
-        .trim()
-        .toLowerCase();
-
-      const next = text.includes("researcher") ? "researcher" : "platform";
-      logger.info.log("Supervisor routing to: %s (from: %s)", next, text);
-      return new Command({ goto: next });
-    } catch (error) {
-      logger.error.log("Supervisor error, defaulting to platform: %O", error);
-      return new Command({ goto: "platform" });
-    }
-  };
-
-  const graph = new StateGraph(MessagesAnnotation)
-    .addNode("supervisor", supervisorNode, {
-      ends: ["platform", "researcher"],
-    })
-    .addNode("platform", platformAgent)
-    .addNode("researcher", researcherAgent)
-    .addEdge(START, "supervisor")
-    .compile({ checkpointer: new MemorySaver() });
-
-  logger.debug.log("Multi-agent graph created");
-  return graph as unknown as Agent;
-};
-
-/**
  * Agent Factory: Creates agents on-demand with optional provider overrides
  *
- * Caches MCP tools to avoid re-fetching on every agent creation.
+ * Caches MCP tools, system prompts, and compiled agents to avoid re-fetching /
+ * rebuilding on every request. Caching the compiled agent is what keeps each
+ * agent's MemorySaver checkpointer alive across requests so conversation history
+ * persists (keyed by agent type + resolved provider/model/options).
  */
 export const GetAgentFactory =
   (opts: AgentFactoryOptions) =>
@@ -348,6 +187,23 @@ export const GetAgentFactory =
       TaskEither<ServerError, StructuredToolInterface[]>
     >();
     const promptCache = new Map<AgentType, string>();
+    // Compiled-agent cache keyed by type + resolved provider config. Keeps the
+    // checkpointer alive across requests so conversation history persists.
+    const agentCache = new Map<string, Agent>();
+
+    /**
+     * Load skills from the skills directory (cached).
+     */
+    const skillsDir = opts.skillsDir ?? path.resolve(process.cwd(), "skills");
+    ctx.logger.debug.log("Loading skills from: %s", skillsDir);
+    const skillsTask: TaskEither<ServerError, Skill[]> = pipe(
+      loadSkills(skillsDir),
+      fp.TE.tap((skills) =>
+        fp.TE.fromIO(() => {
+          ctx.logger.info.log("Loaded %d skills", skills.length);
+        }),
+      ),
+    );
 
     /**
      * Initialize tools for a specific agent type, cached per type.
@@ -362,46 +218,54 @@ export const GetAgentFactory =
       if (inFlight) return inFlight;
 
       const task: TaskEither<ServerError, StructuredToolInterface[]> = pipe(
-        fp.TE.tryCatch(async () => {
-          ctx.logger.debug.log("Initializing tools for agent type: %s", type);
+        skillsTask,
+        fp.TE.chain((skills) =>
+          fp.TE.tryCatch(async () => {
+            ctx.logger.debug.log("Initializing tools for agent type: %s", type);
 
-          const webScraping = createWebScrapingTool(ctx);
-          const searchWeb = createSearchWebTool(ctx);
+            const webScraping = createWebScrapingTool(ctx);
+            const searchWeb = createSearchWebTool(ctx);
+            const loadSkill = createLoadSkillTool(skills);
 
-          let tools: StructuredToolInterface[];
+            let tools: StructuredToolInterface[];
 
-          if (type === "researcher") {
-            // Researcher: web tools only — no MCP, no CLI
-            tools = [searchWeb, webScraping];
-          } else {
-            // Platform (default): CLI + MCP + web tools + documentation reader
-            let mcpTools: StructuredToolInterface[] = [];
-            if (opts.mcpClient) {
-              mcpTools = await opts.mcpClient.getTools();
-              ctx.logger.info.log("Loaded %d MCP tools", mcpTools.length);
+            if (type === "researcher") {
+              // Researcher: web tools + skills only — no MCP, no CLI
+              tools = [searchWeb, webScraping, loadSkill];
             } else {
-              ctx.logger.warn.log("MCP client not available");
+              // Platform (default): CLI + MCP + web tools + skills + documentation reader
+              let mcpTools: StructuredToolInterface[] = [];
+              if (opts.mcpClient) {
+                mcpTools = await opts.mcpClient.getTools();
+                ctx.logger.info.log("Loaded %d MCP tools", mcpTools.length);
+              } else {
+                ctx.logger.warn.log("MCP client not available");
+              }
+              const readDoc = createReadDocumentationTool(ctx, process.cwd());
+              tools = [
+                opts.cliTool,
+                readDoc,
+                loadSkill,
+                ...mcpTools,
+                webScraping,
+                searchWeb,
+              ];
             }
-            const readDoc = createReadDocumentationTool(ctx, process.cwd());
-            tools = [
-              opts.cliTool,
-              readDoc,
-              ...mcpTools,
-              webScraping,
-              searchWeb,
-            ];
-          }
 
-          ctx.logger.debug.log(
-            "Tools ready for %s (%d): %O",
-            type,
-            tools.length,
-            tools.reduce((acc, t) => ({ ...acc, [t.name]: t.description }), {}),
-          );
+            ctx.logger.debug.log(
+              "Tools ready for %s (%d): %O",
+              type,
+              tools.length,
+              tools.reduce(
+                (acc, t) => ({ ...acc, [t.name]: t.description }),
+                {},
+              ),
+            );
 
-          toolsCache.set(type, tools);
-          return tools;
-        }, toAgentError),
+            toolsCache.set(type, tools);
+            return tools;
+          }, toAgentError),
+        ),
         fp.TE.orElse((error) => {
           toolsTaskCache.delete(type);
           return fp.TE.left(error);
@@ -414,6 +278,8 @@ export const GetAgentFactory =
 
     /**
      * Read the system prompt file for a specific agent type, cached per type.
+     * Appends skills descriptions (not full content) to the system prompt.
+     * Full skill content is loaded on-demand via the load_skill tool.
      */
     const getOrReadSystemPrompt = (
       type: AgentType,
@@ -423,11 +289,18 @@ export const GetAgentFactory =
 
       const promptFile = AGENT_CONFIGS[type].systemPromptFile;
       return pipe(
-        ctx.fs.getObject(path.resolve(process.cwd(), promptFile)),
-        fp.TE.mapLeft(ServerError.fromUnknown),
-        fp.TE.tap((prompt) =>
+        fp.TE.Do,
+        fp.TE.bind("prompt", () =>
+          pipe(
+            ctx.fs.getObject(path.resolve(process.cwd(), promptFile)),
+            fp.TE.mapLeft(ServerError.fromUnknown),
+          ),
+        ),
+        fp.TE.bind("skills", () => skillsTask),
+        fp.TE.map(({ prompt, skills }) => prompt + buildSkillsAddendum(skills)),
+        fp.TE.tap((systemPrompt) =>
           fp.TE.fromIO(() => {
-            promptCache.set(type, prompt);
+            promptCache.set(type, systemPrompt);
           }),
         ),
       );
@@ -458,60 +331,21 @@ export const GetAgentFactory =
       });
     };
 
-    /**
-     * Create an agent with optional agent type and provider override.
-     * When agentType is "auto", builds a multi-agent orchestrator graph.
-     */
-    return (agentType?: AgentType, override?: ProviderConfigOverride) => {
-      const type: AgentType = agentType ?? "auto";
+    /** Cache key for a compiled agent — agent type + resolved provider config. */
+    const agentCacheKey = (
+      type: AgentType,
+      override?: ProviderConfigOverride,
+    ): string => {
+      const m = mergeProviderConfig(ctx.langchain.options, override);
+      return `${type}|${m.provider}|${m.model}|${JSON.stringify(m.options ?? {})}`;
+    };
 
-      // Multi-agent orchestrator
-      if (type === "auto") {
-        return pipe(
-          fp.TE.Do,
-          fp.TE.bind("platformTools", () => getOrInitializeTools("platform")),
-          fp.TE.bind("researcherTools", () =>
-            getOrInitializeTools("researcher"),
-          ),
-          fp.TE.bind("platformPrompt", () => getOrReadSystemPrompt("platform")),
-          fp.TE.bind("researcherPrompt", () =>
-            getOrReadSystemPrompt("researcher"),
-          ),
-          fp.TE.chain(
-            ({
-              platformTools,
-              researcherTools,
-              platformPrompt,
-              researcherPrompt,
-            }) =>
-              fp.TE.fromEither(
-                fp.E.tryCatch(() => {
-                  const { chat } = resolveChatModel(override);
-                  ctx.logger.info.log(
-                    "Creating auto multi-agent graph with provider config: %O",
-                    {
-                      provider: mergeProviderConfig(
-                        ctx.langchain.options,
-                        override,
-                      ).provider,
-                    },
-                  );
-                  return createMultiAgentGraph(
-                    platformTools,
-                    researcherTools,
-                    platformPrompt,
-                    researcherPrompt,
-                    chat,
-                    ctx.logger,
-                  );
-                }, toAgentError),
-              ),
-          ),
-        );
-      }
-
-      // Single-agent (platform or researcher)
-      return pipe(
+    /** Build a single-agent React agent for the given type. */
+    const buildSingleAgent = (
+      type: AgentType,
+      override?: ProviderConfigOverride,
+    ): TaskEither<ServerError, Agent> =>
+      pipe(
         fp.TE.Do,
         fp.TE.bind("tools", () => getOrInitializeTools(type)),
         fp.TE.bind("systemPrompt", () => getOrReadSystemPrompt(type)),
@@ -538,6 +372,29 @@ export const GetAgentFactory =
             }, toAgentError),
           ),
         ),
+      );
+
+    /**
+     * Create (or return the cached) agent for the given type and provider override.
+     *
+     * There is a single full-capability agent (tools: CLI + MCP + web + docs +
+     * skills) used for "auto" and "platform". "researcher" is an optional
+     * read-only variant (web + skills, no CLI) selected explicitly by the user.
+     * Domain workflows live in skills (loaded on demand), not the base prompt.
+     */
+    return (agentType?: AgentType, override?: ProviderConfigOverride) => {
+      const type: AgentType = agentType ?? "auto";
+      const key = agentCacheKey(type, override);
+
+      const cached = agentCache.get(key);
+      if (cached) return fp.TE.right(cached);
+
+      return pipe(
+        buildSingleAgent(type, override),
+        fp.TE.map((agent) => {
+          agentCache.set(key, agent);
+          return agent;
+        }),
       );
     };
   };

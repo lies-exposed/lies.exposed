@@ -1,0 +1,28 @@
+# Environment-specific differences for lies.exposed
+# Format: env: { description, differences: [{area, value, note}] }
+
+liexp.dev:
+  description: Local Docker Compose development environment
+  differences:
+    - area: database
+      value: "mcp__api-liexp-dev-db__query MCP tool available"
+      note: Dev DB only — never use for production data queries
+    - area: localai
+      value: "http://localai:8080/v1 (internal Docker network)"
+      note: Agent service resolves Docker DNS; needs restart after LocalAI container restarts
+    - area: redis
+      value: "redis:6379 (internal Docker network)"
+      note: ""
+
+lies.exposed:
+  description: Production Kubernetes environment (Helm releases)
+  differences:
+    - area: localai
+      value: "https://ai.lies.exposed/v1"
+      note: Root-owned model files — update via API POST /models/edit/<name>, not SSH/scp
+    - area: database
+      value: "No direct MCP access — use kubectl port-forward or Admin UI"
+      note: ""
+    - area: agent-dns
+      value: "Agent service needs restart after LocalAI pod restart"
+      note: Docker/K8s DNS re-resolution issue

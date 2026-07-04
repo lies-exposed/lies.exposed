@@ -15,7 +15,10 @@ import {
   type AuthPermission,
 } from "@liexp/io/lib/http/auth/permissions/index.js";
 import dotenv from "dotenv";
-import { createServiceClientToken } from "../utils/serviceClientTokenGenerator.js";
+import {
+  createServiceClientToken,
+  createServiceClientTokenWithUserId,
+} from "../utils/serviceClientTokenGenerator.js";
 
 // Load environment variables
 dotenv.config();
@@ -42,6 +45,7 @@ Usage: pnpm tsx src/bin/generate-service-token.ts [options]
 
 Options:
   --permission <permission>  Add permission to the token (can be used multiple times)
+  --user-id <userId>         Use a specific user ID in the token
   --help                     Show this help message
 
 Available permissions:
@@ -64,6 +68,9 @@ Examples:
   # Generate token for agent service (recommended default)
   pnpm tsx src/bin/generate-service-token.ts --permission mcp:tools --permission admin:read
 
+  # Generate token for a specific user
+  pnpm tsx src/bin/generate-service-token.ts --permission mcp:tools --user-id <uuid>
+
 Environment Variables:
   JWT_SECRET                 Required. JWT signing secret from .env file
 `);
@@ -73,6 +80,7 @@ const parseArgs = () => {
   const args = process.argv.slice(2);
   const permissions: AuthPermission[] = [];
   let showHelpFlag = false;
+  let userId: string | undefined;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -97,6 +105,13 @@ const parseArgs = () => {
 
       permissions.push(AVAILABLE_PERMISSIONS[permission]);
       i++; // Skip next argument as it's the permission value
+    } else if (arg === "--user-id") {
+      userId = args[i + 1];
+      if (!userId) {
+        console.error("Error: --user-id requires a value");
+        process.exit(1);
+      }
+      i++;
     } else {
       console.error(`Error: Unknown option "${arg}"`);
       showHelp();
@@ -104,11 +119,11 @@ const parseArgs = () => {
     }
   }
 
-  return { permissions, showHelpFlag };
+  return { permissions, showHelpFlag, userId };
 };
 
 const generateServiceToken = () => {
-  const { permissions, showHelpFlag } = parseArgs();
+  const { permissions, showHelpFlag, userId } = parseArgs();
 
   if (showHelpFlag) {
     showHelp();
@@ -139,7 +154,9 @@ const generateServiceToken = () => {
 
   logger.info.log("JWT provider initialized successfully");
 
-  const result = createServiceClientToken("api", permissions)(ctx)();
+  const result = userId
+    ? createServiceClientTokenWithUserId("api", permissions, userId)(ctx)()
+    : createServiceClientToken("api", permissions)(ctx)();
 
   logger.info.log("Generated service client:");
   logger.info.log("ID:", result.serviceClient.id);

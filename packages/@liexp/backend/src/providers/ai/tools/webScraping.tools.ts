@@ -2,12 +2,20 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { effectToZod } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect/index";
 import { tool } from "langchain";
+import { parseHTML } from "linkedom";
 import { type LoggerContext } from "../../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../../context/puppeteer.context.js";
 import { toPuppeteerError } from "../../puppeteer.provider.js";
 
+const collapseWhitespace = (text: string): string =>
+  text
+    .replace(/\n\s*\n\s*\n/g, "\n\n") // collapse 3+ newlines to a paragraph break
+    .replace(/[ \t]+/g, " ")
+    .trim();
+
 /**
- * Enhanced content extraction optimized for LLM consumption
+ * Enhanced content extraction optimized for LLM consumption.
+ * Uses linkedom for a real DOM parse — textContent decodes entities natively.
  */
 const extractStructuredContentFromHTML = (
   html: string,
@@ -18,116 +26,44 @@ const extractStructuredContentFromHTML = (
   links: { text: string; href: string }[];
   listItems: string[];
 } => {
-  // Remove script and style elements completely
-  let cleanedHtml = html.replace(
-    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-    "",
-  );
-  cleanedHtml = cleanedHtml.replace(
-    /<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi,
-    "",
-  );
+  const { document } = parseHTML(html);
 
-  // Extract title
-  const titleMatch = /<title[^>]*>([^<]+)<\/title>/i.exec(cleanedHtml);
-  const title = titleMatch ? titleMatch[1].trim() : "";
+  document
+    .querySelectorAll("script, style, noscript")
+    .forEach((el) => el.remove());
 
-  // Extract headings with hierarchy
-  const headings: { level: number; text: string }[] = [];
-  const headingRegex = /<h([1-6])[^>]*>([^<]+)<\/h[1-6]>/gi;
-  let headingMatch;
-  while ((headingMatch = headingRegex.exec(cleanedHtml)) !== null) {
-    headings.push({
-      level: parseInt(headingMatch[1], 10),
-      text: decodeHtmlEntities(headingMatch[2].trim()),
-    });
-  }
+  const title = document.querySelector("title")?.textContent?.trim() ?? "";
 
-  // Extract links
-  const links: { text: string; href: string }[] = [];
-  const linkRegex = /<a[^>]+href=["']([^"']+)["'][^>]*>([^<]+)<\/a>/gi;
-  let linkMatch;
-  while ((linkMatch = linkRegex.exec(cleanedHtml)) !== null) {
-    links.push({
-      href: linkMatch[1],
-      text: decodeHtmlEntities(linkMatch[2].trim()),
-    });
-  }
+  const headings = Array.from(
+    document.querySelectorAll("h1, h2, h3, h4, h5, h6"),
+  )
+    .map((el) => ({
+      level: Number(el.tagName[1]),
+      text: (el.textContent ?? "").trim(),
+    }))
+    .filter((h) => h.text);
 
-  // Extract list items
-  const listItems: string[] = [];
-  const listItemRegex =
-    /<li[^>]*>([^<]+(?:<[^>]+>[^<]*<\/[^>]+>[^<]*)*)<\/li>/gi;
-  let listMatch;
-  while ((listMatch = listItemRegex.exec(cleanedHtml)) !== null) {
-    const itemText = listMatch[1].replace(/<[^>]+>/g, " ").trim();
-    if (itemText) {
-      listItems.push(decodeHtmlEntities(itemText));
-    }
-  }
+  const links = Array.from(document.querySelectorAll("a[href]"))
+    .map((el) => ({
+      href: el.getAttribute("href") ?? "",
+      text: (el.textContent ?? "").trim(),
+    }))
+    .filter((l) => l.text && l.href);
 
-  // Convert to structured text preserving hierarchy
-  let structuredContent = cleanedHtml;
+  const listItems = Array.from(document.querySelectorAll("li"))
+    .map((el) => (el.textContent ?? "").replace(/\s+/g, " ").trim())
+    .filter(Boolean);
 
-  // Replace headings with markdown-style formatting
-  structuredContent = structuredContent.replace(
-    /<h([1-6])[^>]*>([^<]+)<\/h[1-6]>/gi,
-    (_, level, text) => {
-      const hashes = "#".repeat(parseInt(level, 10));
-      return `\n\n${hashes} ${text.trim()}\n\n`;
-    },
-  );
+  // Mark up headings inline so the flat textContent keeps hierarchy.
+  document.querySelectorAll("h1, h2, h3, h4, h5, h6").forEach((el) => {
+    const hashes = "#".repeat(Number(el.tagName[1]));
+    el.textContent = `\n\n${hashes} ${(el.textContent ?? "").trim()}\n\n`;
+  });
 
-  // Replace paragraphs with proper spacing
-  structuredContent = structuredContent.replace(
-    /<p[^>]*>([^<]+(?:<[^>]+>[^<]*<\/[^>]+>[^<]*)*)<\/p>/gi,
-    "\n\n$1\n\n",
-  );
+  const body = document.querySelector("body") ?? document;
+  const content = collapseWhitespace(body.textContent ?? "");
 
-  // Replace line breaks
-  structuredContent = structuredContent.replace(/<br\s*\/?>/gi, "\n");
-
-  // Replace divs with spacing
-  structuredContent = structuredContent.replace(/<div[^>]*>/gi, "\n");
-  structuredContent = structuredContent.replace(/<\/div>/gi, "\n");
-
-  // Remove remaining HTML tags
-  structuredContent = structuredContent.replace(/<[^>]+>/g, " ");
-
-  // Decode HTML entities
-  structuredContent = decodeHtmlEntities(structuredContent);
-
-  // Clean up whitespace while preserving structure
-  structuredContent = structuredContent
-    .replace(/\n\s*\n\s*\n/g, "\n\n") // Reduce multiple newlines to double
-    .replace(/[ \t]+/g, " ") // Normalize spaces and tabs
-    .trim();
-
-  return {
-    title,
-    headings,
-    content: structuredContent,
-    links,
-    listItems,
-  };
-};
-
-/**
- * Decode HTML entities
- */
-const decodeHtmlEntities = (text: string): string => {
-  return text
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&apos;/g, "'")
-    .replace(/&#(\d+);/g, (_, num) => String.fromCharCode(parseInt(num, 10)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, hex) =>
-      String.fromCharCode(parseInt(hex, 16)),
-    );
+  return { title, headings, content, links, listItems };
 };
 
 /**
@@ -143,66 +79,48 @@ const extractComprehensiveMetadata = (
   lang: string;
   canonicalUrl?: string;
 } => {
+  const { document } = parseHTML(html);
+
   const basic: Record<string, string> = {};
   const openGraph: Record<string, string> = {};
   const twitterCard: Record<string, string> = {};
   const jsonLd: any[] = [];
 
-  // Extract title
-  const titleMatch = /<title[^>]*>([^<]+)<\/title>/i.exec(html);
-  if (titleMatch) {
-    basic.title = decodeHtmlEntities(titleMatch[1].trim());
-  }
+  const title = document.querySelector("title")?.textContent?.trim();
+  if (title) basic.title = title;
 
-  // Extract language
-  const langMatch = /<html[^>]+lang=["']([^"']+)["']/i.exec(html);
-  const lang = langMatch ? langMatch[1] : "en";
+  const lang =
+    document.querySelector("html")?.getAttribute("lang")?.trim() ?? "en";
 
-  // Extract canonical URL
-  const canonicalMatch =
-    /<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i.exec(html);
-  const canonicalUrl = canonicalMatch ? canonicalMatch[1] : undefined;
+  const canonicalUrl =
+    document.querySelector('link[rel="canonical"]')?.getAttribute("href") ??
+    undefined;
 
-  // Extract meta tags
-  const metaRegex = /<meta\s+([^>]+)>/gi;
-  let metaMatch;
+  document.querySelectorAll("meta").forEach((el) => {
+    const name = (
+      el.getAttribute("name") ?? el.getAttribute("property")
+    )?.toLowerCase();
+    const content = el.getAttribute("content");
+    if (!name || content == null) return;
 
-  while ((metaMatch = metaRegex.exec(html)) !== null) {
-    const metaAttributes = metaMatch[1];
+    if (name.startsWith("og:")) {
+      openGraph[name] = content;
+    } else if (name.startsWith("twitter:")) {
+      twitterCard[name] = content;
+    } else {
+      basic[name] = content;
+    }
+  });
 
-    // Extract name/property and content
-    const nameMatch = /(?:name|property)=["']([^"']+)["']/i.exec(
-      metaAttributes,
-    );
-    const contentMatch = /content=["']([^"']+)["']/i.exec(metaAttributes);
-
-    if (nameMatch && contentMatch) {
-      const name = nameMatch[1].toLowerCase();
-      const content = decodeHtmlEntities(contentMatch[1]);
-
-      if (name.startsWith("og:")) {
-        openGraph[name] = content;
-      } else if (name.startsWith("twitter:")) {
-        twitterCard[name] = content;
-      } else {
-        basic[name] = content;
+  document
+    .querySelectorAll('script[type="application/ld+json"]')
+    .forEach((el) => {
+      try {
+        jsonLd.push(JSON.parse(el.textContent ?? ""));
+      } catch {
+        // Skip invalid JSON-LD
       }
-    }
-  }
-
-  // Extract JSON-LD structured data
-  const jsonLdRegex =
-    /<script[^>]+type=["']application\/ld\+json["'][^>]*>([^<]+)<\/script>/gi;
-  let jsonLdMatch;
-
-  while ((jsonLdMatch = jsonLdRegex.exec(html)) !== null) {
-    try {
-      const jsonData = JSON.parse(jsonLdMatch[1]);
-      jsonLd.push(jsonData);
-    } catch (_e) {
-      // Skip invalid JSON-LD
-    }
-  }
+    });
 
   return {
     basic,

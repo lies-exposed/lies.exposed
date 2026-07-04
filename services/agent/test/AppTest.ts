@@ -21,9 +21,9 @@ export interface AgentAppTest {
 }
 
 /**
- * Creates a mock agent provider for testing
+ * Creates a mock compiled agent for testing (the shape the factory returns).
  */
-const createMockAgentProvider = () => ({
+const createMockAgent = () => ({
   invoke: () =>
     Promise.resolve({
       messages: [
@@ -33,42 +33,26 @@ const createMockAgentProvider = () => ({
         },
       ],
     }),
-  agent: {
-    invoke: () =>
-      Promise.resolve({
-        messages: [
-          {
-            id: "test-msg-id",
-            content: "This is a test response from the agent",
-          },
-        ],
-      }),
-    stream: function* () {
-      yield [
-        "messages",
-        [
-          {
-            content: "Test streaming response",
-          },
-        ],
-      ];
-    },
-    *streamEvents() {
-      yield {
-        event: "on_chat_model_stream",
-        run_id: "mock-run-1",
-        name: "ChatOpenAI",
-        data: {
-          chunk: {
-            lc: 1,
-            type: "constructor",
-            id: ["langchain_core", "messages", "AIMessageChunk"],
-            kwargs: { content: "Test streaming response" },
-          },
+  stream: function* () {
+    yield [
+      "messages",
+      [
+        {
+          content: "Test streaming response",
         },
-        metadata: {},
-      };
-    },
+      ],
+    ];
+  },
+  *streamEvents() {
+    yield {
+      event: "on_chat_model_stream",
+      run_id: "mock-run-1",
+      name: "ChatOpenAI",
+      data: {
+        chunk: { content: "Test streaming response" },
+      },
+      metadata: { langgraph_node: "platform" },
+    };
   },
 });
 
@@ -104,9 +88,8 @@ export const loadAgentContext = async (
     fs: {
       getObject: (_path: string) => TE.right("# Mock AGENTS.md"),
     } as any,
-    agentFactory: ((_override?: ProviderConfigOverride) =>
-      TE.right(createMockAgentProvider().agent)) as any,
-    agent: createMockAgentProvider() as any,
+    agentFactory: ((_type?: string, _override?: ProviderConfigOverride) =>
+      TE.right(createMockAgent())) as any,
   };
 
   return Promise.resolve(ctx);

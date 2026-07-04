@@ -3,7 +3,6 @@ import path from "path";
 import { MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { GetAgentFactory } from "@liexp/backend/lib/providers/ai/agent.factory.js";
-import { GetAgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
 import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { GetBraveProvider } from "@liexp/backend/lib/providers/brave.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
@@ -123,7 +122,19 @@ export const makeAgentContext = (
         provider: langchainConfig.provider,
         models: langchainConfig.models,
         options: {
-          chat: {},
+          // Disable token streaming for the chat model. Reasoning models served
+          // via LocalAI (e.g. qwen3.6-35b-a3b) stream their leading <think> tokens
+          // as roleless `reasoning` deltas. @langchain/openai parses a delta with
+          // no `role` as a generic ChatMessageChunk; once the accumulator is a
+          // ChatMessageChunk, concatenating the later assistant AIMessageChunks
+          // silently drops their `tool_call_chunks`, so the React agent sees no
+          // tool call, routes straight to END, and returns "No response generated".
+          // The non-streaming response is a standard assistant message with intact
+          // role + tool_calls, which langchain parses correctly. We can't disable
+          // thinking on qwen3.6 when tools are present, so this is the robust fix.
+          chat: {
+            streaming: false,
+          },
           embeddings: {},
         },
       });
@@ -271,30 +282,13 @@ export const makeAgentContext = (
             }),
           ),
         ),
-        TE.chain((mcpClient) =>
-          pipe(
-            GetAgentProvider({
-              mcpClient,
-              extraTools: [
-                createCliExecutorTool(
-                  path.resolve(process.cwd(), "build/cli/cli.js"),
-                ),
-              ],
-            })({
-              langchain,
-              logger: agentLogger,
-              puppeteer: puppeteerProvider,
-              brave: braveProvider,
-            }),
-            TE.map((agentProvider) => ({ agentProvider, mcpClient })),
-          ),
-        ),
-        TE.map(({ agentProvider, mcpClient }) => {
-          agentLogger.info.log("Agent provider initialized successfully");
+        TE.map((mcpClient) => {
+          agentLogger.info.log("MCP client ready, creating agent factory");
 
           const fsClient = GetFSClient({ client: fs });
 
-          // Create the agent factory for on-demand agent creation
+          // Single source for agents: the factory creates and caches agents
+          // on-demand per type + provider config (default "auto" included).
           const agentFactory = GetAgentFactory({
             mcpClient,
             cliTool: createCliExecutorTool(
@@ -322,7 +316,6 @@ export const makeAgentContext = (
             puppeteer: puppeteerProvider,
             brave: braveProvider,
             fs: fsClient,
-            agent: agentProvider,
             agentFactory,
           };
         }),

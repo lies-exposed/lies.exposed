@@ -69,17 +69,9 @@ helm/values.*.yaml
 helm/config/cloudflare
 helm/config/env
 
-# LocalAI
-localai/backends
-localai/models/*
-!localai/models/*.yaml
-localai/models/.yaml
-localai/models/.*.yaml
-
-
-# Aider configuration
-.aider.*
-.aider*
+# AI
+.opencode
+.graymatter
 
 # Git worktrees
 .worktrees
@@ -94,7 +86,3 @@ services/data
 # Eval test result cache
 services/agent/.eval-cache.json
 services/agent/.eval-debug/
-
-
-# Graymatter
-.graymatter

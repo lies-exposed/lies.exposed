@@ -18,39 +18,6 @@ import { type AgentContext } from "../../context/context.type.js";
 // Types
 // ---------------------------------------------------------------------------
 
-interface LangChainToolCall {
-  id: string;
-  type?: string;
-  function: {
-    name: string;
-    arguments: string;
-  };
-}
-
-interface ModelRequestMessage {
-  additional_kwargs?: {
-    tool_calls?: LangChainToolCall[];
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Model context limits
-// ---------------------------------------------------------------------------
-
-const MODEL_CONTEXT_LIMITS: Record<string, number> = {
-  "gpt-4o": 128000,
-  "gemma-4-e4b-it": 32768,
-  "gemma-4-e2b-it": 32768,
-  "qwen3.5-4b": 32768,
-  "grok-4-fast": 200000,
-  "claude-sonnet-4-20250514": 200000,
-  "claude-3-7-sonnet-latest": 200000,
-  "claude-3-5-haiku-latest": 200000,
-};
-
-const getModelContextLimit = (model?: string): number | undefined =>
-  model ? MODEL_CONTEXT_LIMITS[model] : undefined;
-
 // ---------------------------------------------------------------------------
 // In-memory conversation store
 // ---------------------------------------------------------------------------
@@ -66,10 +33,24 @@ export const buildEnhancedMessage = (
   resource_context?: ResourceContext,
 ): string => {
   if (!resource_context) return message;
-  const idPart = resource_context.recordId
-    ? ` with ID ${resource_context.recordId}`
-    : "";
-  return `${message}\n\n[Context: User is currently ${resource_context.action ?? "viewing"} ${resource_context.resource}${idPart}]`;
+  const action = resource_context.action ?? "viewing";
+  const { resource, recordId } = resource_context;
+
+  if (!recordId) {
+    return `${message}\n\n[Context: User is currently ${action} ${resource}]`;
+  }
+
+  // The user is acting on a specific record. Spell out that references like
+  // "the given article", "this link", or "the current record" point to it, and
+  // that the agent must fetch the record itself rather than asking the user for
+  // data it can resolve via the CLI / scraper.
+  return [
+    message,
+    "",
+    `[Context: User is currently ${action} ${resource} with ID ${recordId}.`,
+    `References such as "the given/current record", "this ${resource}", "the article", "the link", or "it" mean ${resource} record ${recordId}.`,
+    `Resolve it yourself with liexp_cli ("${resource} get --id=${recordId}") — and for links, scrape the URL it returns — instead of asking the user to paste the content.]`,
+  ].join("\n");
 };
 
 const makeContentDelta = (
@@ -175,13 +156,32 @@ interface StreamState {
   contentAccumulator: string;
   tokens: TokenUsage;
   think: ThinkState;
+  /**
+   * Whether the current model turn emitted token-by-token content via
+   * `on_chat_model_stream`. Used to avoid re-emitting the full message at
+   * `on_chat_model_end` for providers that genuinely stream. Reset at each
+   * `on_chat_model_end`.
+   */
+  sawStreamDelta: boolean;
 }
 
 const initialStreamState = (): StreamState => ({
   contentAccumulator: "",
   tokens: { promptTokens: 0, completionTokens: 0 },
   think: emptyThinkState(),
+  sawStreamDelta: false,
 });
+
+/** Extract plain text from a message-like object's `content` (string or parts). */
+const extractContentText = (raw: { content?: unknown }): string =>
+  typeof raw.content === "string"
+    ? raw.content
+    : Array.isArray(raw.content)
+      ? raw.content
+          .filter((part: any) => part.type === "text")
+          .map((part: any) => String(part.text ?? ""))
+          .join("")
+      : "";
 
 const extractTokenUsage = (chunk: AIMessage): TokenUsage | null => {
   const meta = (chunk as unknown as { usage_metadata?: unknown })
@@ -223,13 +223,31 @@ export const processStreamEvent = (
     const rawChunk = (event.data as { chunk?: Record<string, unknown> }).chunk;
     if (!rawChunk) return [[], state];
     const chunk = rawChunk as unknown as AIMessage;
+
+    // Native streaming yields real AIMessageChunks: content is a string or an
+    // array of content parts ([{ type: "text", text: "..." }]).
     const content: string =
       typeof rawChunk.content === "string"
         ? rawChunk.content
-        : typeof (rawChunk.kwargs as Record<string, unknown> | undefined)
-              ?.content === "string"
-          ? ((rawChunk.kwargs as Record<string, unknown>).content as string)
+        : Array.isArray(rawChunk.content)
+          ? rawChunk.content
+              .filter((part: any) => part.type === "text")
+              .map((part: any) => String(part.text ?? ""))
+              .join("")
           : "";
+
+    // Some models (e.g. qwen3.6-35b-a3b) stream all tokens into `reasoning`
+    // and leave `content` empty. Fall back to reasoning when content is empty.
+    const effectiveContent =
+      content ||
+      (typeof rawChunk.reasoning === "string"
+        ? rawChunk.reasoning
+        : Array.isArray(rawChunk.reasoning)
+          ? rawChunk.reasoning
+              .filter((part: any) => part.type === "text")
+              .map((part: any) => String(part.text ?? ""))
+              .join("")
+          : "");
 
     const tokenUpdate = extractTokenUsage(chunk);
     const tokens = tokenUpdate
@@ -239,12 +257,12 @@ export const processStreamEvent = (
         }
       : state.tokens;
 
-    if (!content) {
+    if (!effectiveContent) {
       return [[], { ...state, tokens }];
     }
 
     const [deltaEvents, nextThink] = parseThinkContent(
-      content,
+      effectiveContent,
       state.think,
       messageId,
     );
@@ -252,56 +270,50 @@ export const processStreamEvent = (
     return [
       deltaEvents,
       {
-        contentAccumulator: state.contentAccumulator + content,
+        ...state,
+        contentAccumulator: state.contentAccumulator + effectiveContent,
         tokens,
         think: nextThink,
+        sawStreamDelta: true,
       },
     ];
   }
 
-  if (event.event === "on_chain_stream") {
-    try {
-      const chunk = event.data as {
-        chunk: Record<string, { messages?: ModelRequestMessage[] }>;
-      };
+  // When the chat model does not stream token-by-token (streaming: false — the
+  // mode we use so LocalAI reasoning models don't corrupt tool-call routing),
+  // the full assistant message arrives here instead of via on_chat_model_stream.
+  // Emit its visible content as a single content_delta. Skip turns whose content
+  // is empty (e.g. a tool-call-only turn) and skip when this turn already
+  // streamed deltas, to avoid duplicating content for genuine streaming providers.
+  if (event.event === "on_chat_model_end") {
+    const output = (event.data as { output?: unknown }).output;
+    const tokenUpdate = output ? extractTokenUsage(output as AIMessage) : null;
+    const tokens = tokenUpdate ?? state.tokens;
 
-      // Handle both single-agent format (model_request) and multi-agent format (node names)
-      let messages: ModelRequestMessage[] | undefined;
-      if (chunk?.chunk?.model_request?.messages) {
-        messages = chunk.chunk.model_request.messages;
-      } else {
-        // Check for messages in any node (platform, researcher, etc.)
-        for (const nodeData of Object.values(chunk?.chunk || {})) {
-          if (nodeData?.messages) {
-            messages = nodeData.messages;
-            break;
-          }
-        }
-      }
-
-      if (!messages) return [[], state];
-
-      const events: ChatStreamEvent[] = [];
-      for (const msg of messages) {
-        const toolCalls = msg.additional_kwargs?.tool_calls;
-        if (toolCalls) {
-          for (const tc of toolCalls) {
-            events.push({
-              type: "tool_call_start",
-              timestamp: new Date().toISOString(),
-              tool_call: {
-                id: tc.id,
-                name: tc.function.name,
-                arguments: tc.function.arguments,
-              },
-            } satisfies ChatStreamEvent);
-          }
-        }
-      }
-      return [events, state];
-    } catch {
-      return [[], state];
+    if (state.sawStreamDelta || !output) {
+      return [[], { ...state, tokens, sawStreamDelta: false }];
     }
+
+    const content = extractContentText(output);
+    if (!content) {
+      return [[], { ...state, tokens, sawStreamDelta: false }];
+    }
+
+    const [deltaEvents, nextThink] = parseThinkContent(
+      content,
+      state.think,
+      messageId,
+    );
+    return [
+      deltaEvents,
+      {
+        ...state,
+        contentAccumulator: state.contentAccumulator + content,
+        tokens,
+        think: nextThink,
+        sawStreamDelta: false,
+      },
+    ];
   }
 
   if (event.event === "on_tool_start") {
@@ -357,54 +369,6 @@ export const processStreamEvent = (
     ];
   }
 
-  if (event.event === "on_chain_end") {
-    try {
-      // Check for ToolMessage results in LangGraph chain end events
-      const data = event.data as {
-        output?: {
-          messages?: {
-            lc?: number;
-            type?: string;
-            id?: string[];
-            kwargs?: {
-              content?: string;
-              tool_call_id?: string;
-              name?: string;
-            };
-          }[];
-        };
-      };
-
-      const messages = data?.output?.messages;
-      if (!messages) return [[], state];
-
-      const events: ChatStreamEvent[] = [];
-      for (const msg of messages) {
-        // Look for ToolMessage objects
-        if (
-          msg.lc === 1 &&
-          msg.type === "constructor" &&
-          msg.id?.[msg.id.length - 1] === "ToolMessage" &&
-          msg.kwargs?.tool_call_id &&
-          msg.kwargs?.name
-        ) {
-          events.push({
-            type: "tool_call_end",
-            timestamp: new Date().toISOString(),
-            tool_call: {
-              id: msg.kwargs.tool_call_id,
-              name: msg.kwargs.name,
-              result: msg.kwargs.content ?? "",
-            },
-          } satisfies ChatStreamEvent);
-        }
-      }
-      return [events, state];
-    } catch {
-      return [[], state];
-    }
-  }
-
   return [[], state];
 };
 
@@ -414,9 +378,9 @@ export const processStreamEvent = (
 
 const getOrCreateAgent =
   (agentType?: AgentType, aiConfig?: AIConfig) => (ctx: AgentContext) => {
-    if (!agentType && !aiConfig) {
-      return TE.right(ctx.agent.agent);
-    }
+    // Everything routes through the factory. With no type/config it resolves the
+    // default "auto" supervisor agent; the factory caches compiled agents so the
+    // checkpointer (conversation history) persists across requests.
     const override = aiConfig
       ? aiConfigToProviderOverride(aiConfig)
       : undefined;
@@ -577,8 +541,6 @@ export const sendChatMessageStream = (payload: {
       }
 
       const agent = agentResult.right;
-      const model = payload.aiConfig?.model ?? "gpt-4o";
-      const contextTotal = getModelContextLimit(model);
 
       yield {
         type: "message_start",
@@ -591,7 +553,6 @@ export const sendChatMessageStream = (payload: {
               model: payload.aiConfig.model ?? "gpt-4o",
             }
           : undefined,
-        context: contextTotal ? { total: contextTotal } : undefined,
       } satisfies ChatStreamEvent;
 
       let state = initialStreamState();
@@ -659,9 +620,6 @@ export const sendChatMessageStream = (payload: {
         },
       ]);
 
-      const modelLimit = getModelContextLimit(
-        payload.aiConfig?.model ?? "gpt-4o",
-      );
       const { promptTokens, completionTokens } = state.tokens;
 
       yield {
@@ -680,9 +638,6 @@ export const sendChatMessageStream = (payload: {
           completion_tokens: completionTokens,
           total_tokens: promptTokens + completionTokens,
         },
-        context: modelLimit
-          ? { total: modelLimit, used: promptTokens + completionTokens }
-          : undefined,
       } satisfies ChatStreamEvent;
     } catch (error) {
       ctx.logger.error.log("stream error: %O", error);
