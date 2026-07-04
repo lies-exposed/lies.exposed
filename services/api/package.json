@@ -64,7 +64,7 @@
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
-    "axios": "^1.15.2",
+    "axios": "^1.16.0",
     "body-parser": "^2.2.2",
     "cors": "^2.8.5",
     "date-fns": "^4.4.0",
@@ -77,15 +77,15 @@
     "fp-ts": "^2.16.10",
     "ioredis": "^5.10.1",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^2.1.1",
+    "multer": "^2.2.0",
     "page-metadata-parser": "^1.1.4",
     "pg": "^8.21.0",
-    "qs": "^6.15.2",
+    "qs": "^6.15.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sharp": "^0.34.5",
     "tsx": "^4.21.0",
-    "typeorm": "^0.3.28"
+    "typeorm": "^0.3.29"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.1",

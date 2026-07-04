@@ -82,7 +82,7 @@
     "msw": "^2.14.6",
     "supertest": "^7.2.2",
     "tsx": "^4.21.0",
-    "vite": "^8.0.14",
+    "vite": "^8.0.16",
     "vite-plugin-css-injected-by-js": "^5.0.1",
     "vite-plugin-optimizer": "^1.4.3",
     "vitest": "^4.1.7",
