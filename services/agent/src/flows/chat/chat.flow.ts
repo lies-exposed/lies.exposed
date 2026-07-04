@@ -287,16 +287,14 @@ export const processStreamEvent = (
   // streamed deltas, to avoid duplicating content for genuine streaming providers.
   if (event.event === "on_chat_model_end") {
     const output = (event.data as { output?: unknown }).output;
-    const tokenUpdate = output
-      ? extractTokenUsage(output as AIMessage)
-      : null;
+    const tokenUpdate = output ? extractTokenUsage(output as AIMessage) : null;
     const tokens = tokenUpdate ?? state.tokens;
 
     if (state.sawStreamDelta || !output) {
       return [[], { ...state, tokens, sawStreamDelta: false }];
     }
 
-    const content = extractContentText(output as { content?: unknown });
+    const content = extractContentText(output);
     if (!content) {
       return [[], { ...state, tokens, sawStreamDelta: false }];
     }

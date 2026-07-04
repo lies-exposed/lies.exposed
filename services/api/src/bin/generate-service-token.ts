@@ -15,7 +15,10 @@ import {
   type AuthPermission,
 } from "@liexp/io/lib/http/auth/permissions/index.js";
 import dotenv from "dotenv";
-import { createServiceClientToken, createServiceClientTokenWithUserId } from "../utils/serviceClientTokenGenerator.js";
+import {
+  createServiceClientToken,
+  createServiceClientTokenWithUserId,
+} from "../utils/serviceClientTokenGenerator.js";
 
 // Load environment variables
 dotenv.config();
