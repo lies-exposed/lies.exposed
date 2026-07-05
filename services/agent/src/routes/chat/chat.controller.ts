@@ -229,12 +229,32 @@ export const MakeSendChatMessageAISTreamRoute: Route = (r, ctx) => {
           },
         });
 
+        // Convert binary UIMessageChunk stream to SSE format for DefaultChatTransport
+        const sseStream = new ReadableStream({
+          async start(controller) {
+            const reader = uiStream.getReader();
+            try {
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) {
+                  controller.enqueue(new TextEncoder().encode("data: [DONE]\n\n"));
+                  controller.close();
+                  return;
+                }
+                const json = JSON.stringify(value);
+                controller.enqueue(new TextEncoder().encode(`data: ${json}\n\n`));
+              }
+            } catch (error) {
+              controller.error(error);
+            }
+          },
+        });
+
         return {
           statusCode: 200,
-          stream: Readable.from(uiStream),
+          stream: Readable.from(sseStream),
           headers: {
-            "Content-Type": "text/plain; charset=utf-8",
-            "x-vercel-ai-data-stream": "1",
+            "Content-Type": "text/event-stream",
           },
         } satisfies HTTPStreamResponse;
       }, ServerError.fromUnknown);
