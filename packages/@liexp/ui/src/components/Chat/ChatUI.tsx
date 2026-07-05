@@ -220,7 +220,6 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   isContextEnabled = false,
   onToggleContext,
   contextLabel,
-  streamingMessage,
   agentSelector,
   providerSelector,
   usedProvider,
@@ -237,7 +236,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, streamingMessage]);
+  }, [messages]);
 
   return (
     <div className={className}>
