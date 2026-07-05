@@ -10,8 +10,6 @@ import {
   afterAll,
   afterEach,
 } from "vitest";
-import type { StreamingChatState } from "./types.js";
-import { INITIAL_STATE } from "./types.js";
 import { useChatCompact, callCompactApi } from "./useChatCompact.js";
 
 // Mock getAuthFromLocalStorage
@@ -71,31 +69,52 @@ describe("useChatCompact", () => {
 
   describe("useChatCompact hook", () => {
     it("returns a compact function", () => {
-      const setState = vi.fn();
+      const setMessages = vi.fn();
       const { result } = renderHook(() =>
         useChatCompact({
-          conversationId: "conv-1",
           baseUrl: BASE_URL,
-          setState,
+          messages: [{ id: "conv-1", role: "user" as any, parts: [] }],
+          setMessages,
         }),
       );
       expect(typeof result.current.compact).toBe("function");
     });
 
-    it("does nothing when conversationId is null", async () => {
-      const setState = vi.fn();
+    it("does nothing when messages array is empty", async () => {
+      const setMessages = vi.fn();
       const { result } = renderHook(() =>
-        useChatCompact({ conversationId: null, baseUrl: BASE_URL, setState }),
+        useChatCompact({
+          baseUrl: BASE_URL,
+          messages: [],
+          setMessages,
+        }),
       );
 
       await act(async () => {
         await result.current.compact();
       });
 
-      expect(setState).not.toHaveBeenCalled();
+      expect(setMessages).not.toHaveBeenCalled();
     });
 
-    it("sets loading, then resets state with summary message on success", async () => {
+    it("does nothing when last message has no id", async () => {
+      const setMessages = vi.fn();
+      const { result } = renderHook(() =>
+        useChatCompact({
+          baseUrl: BASE_URL,
+          messages: [{ id: undefined, role: "user" as any, parts: [] }],
+          setMessages,
+        }),
+      );
+
+      await act(async () => {
+        await result.current.compact();
+      });
+
+      expect(setMessages).not.toHaveBeenCalled();
+    });
+
+    it("replaces messages with compacted summary on success", async () => {
       mswServer.use(
         http.post(COMPACT_URL, () =>
           HttpResponse.json({
@@ -107,18 +126,12 @@ describe("useChatCompact", () => {
         ),
       );
 
-      const states: Parameters<typeof setState>[0][] = [];
-      const setState = vi.fn(
-        (updater: React.SetStateAction<StreamingChatState>) => {
-          states.push(updater);
-        },
-      );
-
+      const setMessages = vi.fn();
       const { result } = renderHook(() =>
         useChatCompact({
-          conversationId: "conv-abc",
           baseUrl: BASE_URL,
-          setState,
+          messages: [{ id: "conv-abc", role: "user" as any, parts: [] }],
+          setMessages,
         }),
       );
 
@@ -126,41 +139,28 @@ describe("useChatCompact", () => {
         await result.current.compact();
       });
 
-      // First call: sets isLoading: true
-      const firstUpdate = (
-        states[0] as (prev: StreamingChatState) => StreamingChatState
-      )(INITIAL_STATE);
-      expect(firstUpdate.isLoading).toBe(true);
-      expect(firstUpdate.error).toBeNull();
-
-      // Second call: final compacted state
-      const finalUpdate = (
-        states[1] as (prev: StreamingChatState) => StreamingChatState
-      )(INITIAL_STATE);
-      expect(finalUpdate.conversationId).toBe("new-conv-99");
-      expect(finalUpdate.messages).toHaveLength(1);
-      expect(finalUpdate.messages[0].role).toBe("system");
-      expect(finalUpdate.messages[0].content).toContain("This is the summary.");
-      expect(finalUpdate.isLoading).toBe(false);
+      expect(setMessages).toHaveBeenCalledTimes(1);
+      const calledMessages = setMessages.mock.calls[0][0];
+      expect(calledMessages).toHaveLength(1);
+      expect(calledMessages[0].id).toMatch(/^compact-/);
+      expect(calledMessages[0].role).toBe("system");
+      const textPart = calledMessages[0].parts[0] as { type: string; text: string };
+      expect(textPart.type).toBe("text");
+      expect(textPart.text).toContain("This is the summary.");
     });
 
-    it("sets error state when compact fails", async () => {
+    it("keeps existing messages when compact fails", async () => {
       mswServer.use(
         http.post(COMPACT_URL, () => HttpResponse.json({}, { status: 503 })),
       );
 
-      const states: Parameters<typeof setState>[0][] = [];
-      const setState = vi.fn(
-        (updater: React.SetStateAction<StreamingChatState>) => {
-          states.push(updater);
-        },
-      );
-
+      const setMessages = vi.fn();
+      const originalMessages = [{ id: "conv-fail", role: "user" as any, parts: [] }];
       const { result } = renderHook(() =>
         useChatCompact({
-          conversationId: "conv-fail",
           baseUrl: BASE_URL,
-          setState,
+          messages: originalMessages,
+          setMessages,
         }),
       );
 
@@ -168,11 +168,7 @@ describe("useChatCompact", () => {
         await result.current.compact();
       });
 
-      const errorUpdate = (
-        states[1] as (prev: StreamingChatState) => StreamingChatState
-      )(INITIAL_STATE);
-      expect(errorUpdate.error).toContain("Compact failed");
-      expect(errorUpdate.isLoading).toBe(false);
+      expect(setMessages).not.toHaveBeenCalled();
     });
   });
 });

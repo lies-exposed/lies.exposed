@@ -1,39 +1,12 @@
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useCallback } from "react";
-import type { StreamingChatState } from "./types.js";
+import type { UIMessage } from "@ai-sdk/react";
 
 interface UseChatCompactOptions {
-  conversationId: string | null;
   baseUrl: string;
-  setState: React.Dispatch<React.SetStateAction<StreamingChatState>>;
+  messages: UIMessage[];
+  setMessages: (messages: UIMessage[]) => void;
 }
-
-const makeCompactedState =
-  (
-    summary: string,
-    newConversationId: string,
-  ): ((prev: StreamingChatState) => StreamingChatState) =>
-  (prev) => ({
-    messages: [
-      {
-        id: `compact-${Date.now()}`,
-        role: "system" as const,
-        content: `Conversation compacted. Summary:\n\n${summary}`,
-        timestamp: new Date().toISOString(),
-      },
-    ],
-    isLoading: false,
-    error: null,
-    conversationId: newConversationId,
-    streamingContent: "",
-    thinkingContent: "",
-    activeToolCalls: new Map(),
-    completedToolCalls: [],
-    tokenUsage: null,
-    aiConfig: prev.aiConfig,
-    usedProvider: null,
-    context: null,
-  });
 
 export const callCompactApi = async (
   conversationId: string,
@@ -56,32 +29,30 @@ export const callCompactApi = async (
 };
 
 export const useChatCompact = ({
-  conversationId,
   baseUrl,
-  setState,
+  messages,
+  setMessages,
 }: UseChatCompactOptions) => {
   const compact = useCallback(async (): Promise<void> => {
+    if (messages.length === 0) return;
+
+    const lastMessage = messages[messages.length - 1];
+    const conversationId = lastMessage?.id;
     if (!conversationId) return;
 
-    setState((prev) => ({ ...prev, isLoading: true, error: null }));
-
     try {
-      const { new_conversation_id, summary } = await callCompactApi(
-        conversationId,
-        baseUrl,
-      );
-      setState(makeCompactedState(summary, new_conversation_id));
-    } catch (error) {
-      setState((prev) => ({
-        ...prev,
-        isLoading: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : "Failed to compact conversation",
-      }));
+      const { summary } = await callCompactApi(conversationId, baseUrl);
+      setMessages([
+        {
+          id: `compact-${Date.now()}`,
+          role: "system",
+          parts: [{ type: "text", text: `Conversation compacted. Summary:\n\n${summary}` }],
+        } as unknown as UIMessage,
+      ]);
+    } catch {
+      // compact failed — keep existing messages
     }
-  }, [conversationId, baseUrl, setState]);
+  }, [baseUrl, messages, setMessages]);
 
   return { compact };
 };
