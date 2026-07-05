@@ -83,7 +83,6 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     compact,
     autoCompact,
     toggleAutoCompact,
-    streamingMessage,
   } = useStreamingChat({
     initialAutoCompact: initialSettings.autoCompact,
     onAutoCompactChange: (value) => saveSettings({ autoCompact: value }),
@@ -261,7 +260,6 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       isContextEnabled={isContextEnabled}
       onToggleContext={handleToggleContext}
       contextLabel={contextLabel}
-      streamingMessage={streamingMessage}
       onCompact={conversationId ? () => void compact() : undefined}
       isCompacting={isLoading}
       autoCompact={autoCompact}

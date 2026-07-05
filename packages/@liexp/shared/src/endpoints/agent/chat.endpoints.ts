@@ -79,8 +79,8 @@ export const SendMessageAISTream = Endpoint({
   Input: {
     Body: ChatRequest,
   },
-  // Output is a stream of UIMessageChunk via AI SDK TextStream format
-  Output: StreamOutput(ChatStreamEvent),
+  // Output is an AI SDK UI stream protocol payload (not ChatStreamEvent).
+  Output: StreamOutput(Schema.Unknown),
 });
 
 export const ListProviders = Endpoint({

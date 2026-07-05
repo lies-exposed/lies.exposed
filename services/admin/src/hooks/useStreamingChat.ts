@@ -1,8 +1,8 @@
 import type { ChatMessage } from "@liexp/io/lib/http/Chat.js";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useConfiguration } from "@liexp/ui/lib/context/ConfigurationContext.js";
-import { useCallback, useMemo, useRef } from "react";
-import { DefaultChatTransport } from "ai";
+import { DefaultChatTransport, type UIMessage } from "ai";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Chat, useChat } from "@ai-sdk/react";
 import { useChatAutoCompact } from "./chat/useChatAutoCompact.js";
 import { useChatCompact } from "./chat/useChatCompact.js";
@@ -13,88 +13,73 @@ interface UseStreamingChatOptions {
   onAutoCompactChange?: (value: boolean) => void;
 }
 
-const transformPartToToolCall = (
-  part: any,
-): { id: string; type: "function"; function: { name: string; arguments: string } } | undefined => {
-  if (part.type !== "tool-call") return undefined;
-  const argsStr = typeof part.args === "string" ? part.args : JSON.stringify(part.args ?? {});
-  return {
-    id: part.toolCallId,
-    type: "function" as const,
-    function: {
-      name: part.toolName,
-      arguments: argsStr,
-    },
-  };
+const buildConversationId = (): string => {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `conv-${Date.now()}`;
 };
 
-const transformUIMessageToChatMessage = (
-  uiMsg: any,
-  index: number,
-): ChatMessage[] => {
-  const result: ChatMessage[] = [];
-  const timestamp = new Date().toISOString();
-
-  if (uiMsg.role === "user") {
-    const content = uiMsg.parts
-      ?.filter((p: any) => p.type === "text")
-      .map((p: any) => p.text)
-      .join("")
-      .trim();
-    if (content) {
-      result.push({
-        id: uiMsg.id || `msg-${index}`,
-        role: "user",
-        content,
-        timestamp,
-      });
-    }
-  } else if (uiMsg.role === "assistant") {
-    const textParts = uiMsg.parts?.filter((p: any) => p.type === "text") ?? [];
-    const toolCallParts = uiMsg.parts?.filter((p: any) => p.type === "tool-call") ?? [];
-    const toolResultParts = uiMsg.parts?.filter((p: any) => p.type === "tool-result") ?? [];
-    const reasoningParts = uiMsg.parts?.filter((p: any) => p.type === "reasoning") ?? [];
-
-    const content = textParts.map((p: any) => p.text).join("").trim();
-    const toolCalls = toolCallParts.map(transformPartToToolCall).filter(Boolean) as any[];
-    const reasoningContent = reasoningParts.map((p: any) => p.text || p.recommendation || "").join("\n");
-
-    if (content || toolCalls.length > 0) {
-      result.push({
-        id: uiMsg.id || `msg-${index}`,
-        role: "assistant",
-        content: content || undefined,
-        timestamp,
-        tool_calls: toolCalls.length > 0 ? toolCalls : undefined,
-        ...(reasoningContent ? { structured_output: { thinking: reasoningContent } } : {}),
-      });
-    }
-
-    for (const part of toolResultParts) {
-      if (part.type === "tool-result" && part.result) {
-        const toolResponseContent = typeof part.result === "string" ? part.result : JSON.stringify(part.result);
-        result.push({
-          id: `msg-${index}-tool-${part.toolCallId}`,
-          role: "tool",
-          content: toolResponseContent,
-          timestamp,
-          tool_call_id: part.toolCallId,
-        });
-      }
-    }
-  } else if (uiMsg.role === "system") {
-    const content = uiMsg.parts?.filter((p: any) => p.type === "text").map((p: any) => p.text).join("").trim();
-    if (content) {
-      result.push({
-        id: uiMsg.id || `msg-${index}`,
-        role: "system",
-        content,
-        timestamp,
-      });
-    }
+const parseToolPayload = (
+  content: string | undefined,
+): { toolName: string; input: unknown; output: unknown } => {
+  if (!content) {
+    return { toolName: "tool", input: {}, output: {} };
   }
 
-  return result;
+  try {
+    const parsed = JSON.parse(content) as {
+      tool?: string;
+      arguments?: string;
+      result?: string;
+    };
+    const input = parsed.arguments ? JSON.parse(parsed.arguments) : {};
+    const output = parsed.result ? JSON.parse(parsed.result) : {};
+    return {
+      toolName: parsed.tool ?? "tool",
+      input,
+      output,
+    };
+  } catch {
+    return {
+      toolName: "tool",
+      input: {},
+      output: content,
+    };
+  }
+};
+
+const transformChatMessageToUIMessage = (msg: ChatMessage): UIMessage => {
+  const timestamp =
+    typeof msg.timestamp === "string"
+      ? msg.timestamp
+      : new Date().toISOString();
+
+  if (msg.role === "tool") {
+    const payload = parseToolPayload(msg.content);
+    return {
+      id: msg.id,
+      role: "assistant",
+      metadata: { timestamp },
+      parts: [
+        {
+          type: "dynamic-tool",
+          toolName: payload.toolName,
+          toolCallId: msg.tool_call_id ?? `tool-${msg.id}`,
+          state: "output-available",
+          input: payload.input,
+          output: payload.output,
+        },
+      ],
+    };
+  }
+
+  return {
+    id: msg.id,
+    role: msg.role as "user" | "assistant" | "system",
+    metadata: { timestamp },
+    parts: [{ type: "text", text: msg.content || "" }],
+  };
 };
 
 const createChatInstance = (proxyUrl: string) => {
@@ -119,12 +104,15 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
   const config = useConfiguration();
   const baseUrl = config.platforms.admin.url;
 
-  const { autoCompact, toggleAutoCompact } = useChatAutoCompact({
+  const { autoCompact, autoCompactRef, toggleAutoCompact } = useChatAutoCompact({
     initialValue: initialAutoCompact,
     onChange: onAutoCompactChange,
   });
 
   const chatRef = useRef(createChatInstance(proxyUrl));
+  const conversationIdRef = useRef<string | null>(null);
+  const compactingRef = useRef(false);
+  const [conversationId, setConversationId] = useState<string | null>(null);
 
   const {
     messages: uiMessages,
@@ -136,100 +124,92 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
     chat: chatRef.current,
   });
 
-  const messages = useMemo(
-    () =>
-      uiMessages.flatMap((msg, idx) => transformUIMessageToChatMessage(msg, idx)),
-    [uiMessages],
-  );
-
   const { compact } = useChatCompact({
     baseUrl,
-    messages: uiMessages,
+    conversationId,
     setMessages,
+    onConversationIdChange: (nextConversationId) => {
+      conversationIdRef.current = nextConversationId;
+      setConversationId(nextConversationId);
+    },
   });
 
   const clearMessages = useCallback(() => {
     setMessages([]);
+    conversationIdRef.current = null;
+    setConversationId(null);
   }, [setMessages]);
 
   const loadConversation = useCallback(
-    (_conversationId: string, chatMessages: ChatMessage[]) => {
-      const uiMessages = chatMessages.map((msg) => ({
-        id: msg.id,
-        role: msg.role as "user" | "assistant" | "system",
-        parts: [{ type: "text" as const, text: msg.content || "" }],
-      }));
-      (setMessages as (msgs: any) => void)(uiMessages);
+    (nextConversationId: string, chatMessages: ChatMessage[]) => {
+      const transformed = chatMessages.map(transformChatMessageToUIMessage);
+      setMessages(transformed);
+      conversationIdRef.current = nextConversationId;
+      setConversationId(nextConversationId);
     },
     [setMessages],
   );
 
-const sendMessageWrapped = useCallback(
-  async (
-    request: { message: string; conversation_id?: string | null },
-    aiConfig?: { provider: string; model?: string },
-  ) => {
-    await sendMessage(
-      {
-        text: request.message,
-      },
-      {
-        body: {
-          ...request,
-          aiConfig,
-        },
-      },
-    );
-  },
-  [sendMessage],
-);
+  const sendMessageWrapped = useCallback(
+    async (
+      request: { message: string; conversation_id?: string | null },
+      aiConfig?: { provider: string; model?: string },
+    ) => {
+      const activeConversationId =
+        request.conversation_id ?? conversationIdRef.current ?? buildConversationId();
 
-  const streamingMessage = useMemo(() => {
-    if (status !== "streaming" || uiMessages.length === 0) return null;
-    const lastMsg = uiMessages[uiMessages.length - 1];
-    if (!lastMsg || lastMsg.role !== "assistant") return null;
+      conversationIdRef.current = activeConversationId;
+      setConversationId(activeConversationId);
 
-    const textContent = lastMsg.parts
-      ?.filter((p: any) => p.type === "text")
-      .map((p: any) => p.text)
-      .join("")
-      .trim();
+      try {
+        await sendMessage(
+          {
+            text: request.message,
+          },
+          {
+            body: {
+              ...request,
+              conversation_id: activeConversationId,
+              aiConfig,
+            },
+          },
+        );
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        if (
+          autoCompactRef.current &&
+          /token|context|limit|exceed/i.test(message)
+        ) {
+          compactingRef.current = true;
+          await compact();
+          compactingRef.current = false;
+        }
+      }
+    },
+    [autoCompactRef, compact, sendMessage],
+  );
 
-    const toolCalls = lastMsg.parts
-      ?.filter((p: any) => p.type === "tool-call")
-      .map((p: any) => ({
-        id: p.toolCallId,
-        type: "function" as const,
-        function: {
-          name: p.toolName,
-          arguments: typeof p.args === "string" ? p.args : JSON.stringify(p.args ?? {}),
-        },
-      }));
+  useEffect(() => {
+    if (!rawError || !autoCompactRef.current || !conversationId) return;
+    if (!/token|context|limit|exceed/i.test(rawError.message)) return;
+    if (compactingRef.current) return;
 
-    const thinkingContent = lastMsg.parts
-      ?.filter((p: any) => p.type === "reasoning")
-      .map((p: any) => p.text || p.recommendation || "")
-      .join("\n");
-
-    return {
-      content: textContent || "",
-      tool_calls: toolCalls?.length ? toolCalls : undefined,
-      timestamp: new Date().toISOString(),
-      thinkingContent: thinkingContent || undefined,
-    };
-  }, [uiMessages, status]);
+    compactingRef.current = true;
+    void compact().finally(() => {
+      compactingRef.current = false;
+    });
+  }, [autoCompactRef, compact, conversationId, rawError]);
 
   return {
-    messages,
+    messages: uiMessages,
     isLoading: status === "streaming" || status === "submitted",
     error: rawError?.message ?? null,
-    conversationId: uiMessages.length > 0 ? uiMessages[uiMessages.length - 1]?.id ?? null : null,
+    conversationId,
     sendMessage: sendMessageWrapped,
     clearMessages,
     loadConversation,
     compact,
     autoCompact,
     toggleAutoCompact,
-    streamingMessage,
   };
 };

@@ -10,7 +10,6 @@ import {
 } from "@liexp/io/lib/http/Chat.js";
 import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
-import { createUIMessageStream } from "ai";
 import { type HTTPStreamResponse } from "@ts-endpoint/express/lib/HTTPResponse.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import {
@@ -162,56 +161,82 @@ export const MakeSendChatMessageAISTreamRoute: Route = (r, ctx) => {
 
         const streamGenerator = sendChatMessageStream(body)(ctx);
 
-        const uiStream = createUIMessageStream({
-          execute: async ({ writer }) => {
+        const parseJSONOrText = (value: string | undefined): unknown => {
+          if (!value) return {};
+          try {
+            return JSON.parse(value);
+          } catch {
+            return value;
+          }
+        };
+
+        const stream = Readable.from(
+          (async function* () {
             try {
               let messageId: string | undefined;
+              let textStarted = false;
               for await (const event of streamGenerator) {
                 ctx.logger.debug.log("Sent AI stream event: %s", event.type);
                 switch (event.type) {
                   case "message_start": {
-                    writer.write({ type: "start" });
                     messageId = event.message_id ?? `msg-${Date.now()}`;
-                    writer.write({ type: "text-start", id: messageId });
+                    yield `data: ${JSON.stringify({ type: "start", messageId })}\n\n`;
+                    // Don't emit text-start here — delay until first content_delta
+                    // so tool parts are registered first and render above the text.
                     break;
                   }
                   case "content_delta": {
-                    writer.write({
+                    if (!textStarted) {
+                      textStarted = true;
+                      yield `data: ${JSON.stringify({ type: "text-start", id: messageId ?? "msg" })}\n\n`;
+                    }
+                    yield `data: ${JSON.stringify({
                       type: "text-delta",
                       id: messageId ?? "msg",
                       delta: event.content ?? "",
-                    });
+                    })}\n\n`;
                     break;
                   }
                   case "tool_call_start": {
-                    writer.write({
+                    yield `data: ${JSON.stringify({
                       type: "tool-input-start",
                       toolCallId: event.tool_call?.id ?? "tool",
                       toolName: event.tool_call?.name ?? "unknown",
-                    });
+                    })}\n\n`;
                     break;
                   }
                   case "tool_call_end": {
-                    writer.write({
+                    const input = parseJSONOrText(event.tool_call?.arguments);
+                    yield `data: ${JSON.stringify({
                       type: "tool-input-available",
                       toolCallId: event.tool_call?.id ?? "tool",
                       toolName: event.tool_call?.name ?? "unknown",
-                      input: event.tool_call?.arguments ? JSON.parse(event.tool_call.arguments) : undefined,
-                    });
+                      input,
+                    })}\n\n`;
+                    if (event.tool_call?.result) {
+                      yield `data: ${JSON.stringify({
+                        type: "tool-output-available",
+                        toolCallId: event.tool_call.id,
+                        output: parseJSONOrText(event.tool_call.result),
+                      })}\n\n`;
+                    }
                     break;
                   }
                   case "message_end": {
-                    writer.write({
+                    if (textStarted) {
+                      yield `data: ${JSON.stringify({ type: "text-end", id: messageId ?? "msg" })}\n\n`;
+                    }
+                    yield `data: ${JSON.stringify({
                       type: "finish",
                       finishReason: "stop",
-                    });
+                    })}\n\n`;
                     break;
                   }
                   case "error": {
-                    writer.write({
+                    yield `data: ${JSON.stringify({
                       type: "error",
                       errorText: event.error ?? "Unknown error",
-                    });
+                    })}\n\n`;
                     break;
                   }
                   default:
@@ -220,42 +245,18 @@ export const MakeSendChatMessageAISTreamRoute: Route = (r, ctx) => {
               }
             } catch (error) {
               ctx.logger.error.log("AI streaming error: %O", error);
-              writer.write({
+              yield `data: ${JSON.stringify({
                 type: "error",
                 errorText: error instanceof Error ? error.message : "Unknown error",
-              });
+              })}\n\n`;
             }
-          },
-          onError: (error) => {
-            ctx.logger.error.log("AI stream error callback: %O", error);
-            return "error";
-          },
-        });
-
-        // Convert binary UIMessageChunk stream to SSE format for DefaultChatTransport
-        const sseStream = new ReadableStream({
-          async start(controller) {
-            const reader = uiStream.getReader();
-            try {
-              while (true) {
-                const { done, value } = await reader.read();
-                if (done) {
-                  controller.enqueue(new TextEncoder().encode("data: [DONE]\n\n"));
-                  controller.close();
-                  return;
-                }
-                const json = JSON.stringify(value);
-                controller.enqueue(new TextEncoder().encode(`data: ${json}\n\n`));
-              }
-            } catch (error) {
-              controller.error(error);
-            }
-          },
-        });
+          })(),
+          { encoding: "utf8" },
+        );
 
         return {
           statusCode: 200,
-          stream: Readable.from(sseStream),
+          stream,
           headers: {
             "Content-Type": "text/event-stream",
           },

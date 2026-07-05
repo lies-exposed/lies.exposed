@@ -1,10 +1,8 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.decoder.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.query.js";
-import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
@@ -15,7 +13,6 @@ import {
 } from "@liexp/io/lib/http/Events/index.js";
 import { OpenAICreateEventFromURLType } from "@liexp/io/lib/http/Queue/event/CreateEventFromURLQueue.js";
 import { PendingStatus } from "@liexp/io/lib/http/Queue/index.js";
-import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -27,17 +24,11 @@ import { type Route } from "#routes/route.types.js";
 export const CreateEventRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Event.Create,
-    ({ body }, req) => {
+    ({ body }) => {
       return pipe(
-        RequestDecoder.decodeUserFromRequest(req, [AdminCreate.literals[0]])(
-          ctx,
-        ),
-        TE.fromIOEither,
-        TE.chain((u) =>
-          UserRepository.findOneOrFail({ where: { id: Equal(u.id) } })(ctx),
-        ),
+        TE.of(undefined),
         TE.chain(
-          (_user): TE.TaskEither<ControllerError, { success: true } | Event> =>
+          (): TE.TaskEither<ControllerError, { success: true } | Event> =>
             Schema.is(EventFromURLBody)(body)
               ? pipe(
                   uuid(),

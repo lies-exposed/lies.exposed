@@ -1,4 +1,4 @@
-import { type ChatMessage } from "@liexp/io/lib/http/Chat.js";
+import { type UIMessage } from "ai";
 import { ChatUI } from "@liexp/ui/lib/components/Chat/ChatUI.js";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useState } from "react";
@@ -15,21 +15,55 @@ const meta: Meta<typeof ChatUI> = {
 export default meta;
 type Story = StoryObj<typeof ChatUI>;
 
+const msg = (
+  id: string,
+  role: "user" | "assistant" | "system",
+  text: string,
+  timestamp: string,
+): UIMessage => ({
+  id,
+  role,
+  metadata: { timestamp },
+  parts: [{ type: "text", text }],
+});
+
+const toolMsg = (
+  id: string,
+  toolName: string,
+  input: unknown,
+  output: unknown,
+  timestamp: string,
+): UIMessage => ({
+  id,
+  role: "assistant",
+  metadata: { timestamp },
+  parts: [
+    {
+      type: "dynamic-tool",
+      toolName,
+      toolCallId: `tool-${id}`,
+      state: "output-available",
+      input,
+      output,
+    },
+  ],
+});
+
 // Interactive wrapper component to handle state
-const InteractiveChatUI = (args: typeof ChatUI.arguments) => {
+const InteractiveChatUI = (args: React.ComponentProps<typeof ChatUI>) => {
   const [isOpen, setIsOpen] = useState(args.isOpen ?? false);
   const [inputValue, setInputValue] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>(args.messages ?? []);
+  const [messages, setMessages] = useState<UIMessage[]>(args.messages ?? []);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSendMessage = () => {
     if (!inputValue.trim()) return;
 
-    const newMessage: ChatMessage = {
+    const newMessage: UIMessage = {
       id: Date.now().toString(),
       role: "user",
-      content: inputValue,
-      timestamp: new Date().toISOString(),
+      metadata: { timestamp: new Date().toISOString() },
+      parts: [{ type: "text", text: inputValue }],
     };
 
     setMessages([...messages, newMessage]);
@@ -38,11 +72,16 @@ const InteractiveChatUI = (args: typeof ChatUI.arguments) => {
 
     // Simulate AI response
     setTimeout(() => {
-      const aiResponse: ChatMessage = {
+      const aiResponse: UIMessage = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "This is a simulated response from the AI assistant.",
-        timestamp: new Date().toISOString(),
+        metadata: { timestamp: new Date().toISOString() },
+        parts: [
+          {
+            type: "text",
+            text: "This is a simulated response from the AI assistant.",
+          },
+        ],
       };
       setMessages((prev) => [...prev, aiResponse]);
       setIsLoading(false);
@@ -505,13 +544,12 @@ Key findings:
 
 Would you like me to create an event or link entry for this?`;
 
-// Simulated streaming with the real streamingMessage prop
+// Simulated streaming using assistant text part state
 const StreamingChatUI = (args: typeof ChatUI.arguments) => {
   const [isOpen, setIsOpen] = useState(args.isOpen ?? false);
   const [inputValue, setInputValue] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<UIMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [streamingContent, setStreamingContent] = useState("");
   const streamTimestamp = React.useRef(new Date().toISOString());
 
   const runScenario = React.useCallback(() => {
@@ -520,12 +558,16 @@ const StreamingChatUI = (args: typeof ChatUI.arguments) => {
     setIsLoading(true);
     streamTimestamp.current = new Date().toISOString();
 
-    const userMsg: ChatMessage = {
+    const userMsg: UIMessage = {
       id: "user-1",
       role: "user",
-      content:
-        "Check this link: https://okaythennews.substack.com/p/half-science-confirms-covid-deaths-greatly-exaggerated-new-study",
-      timestamp: streamTimestamp.current,
+      metadata: { timestamp: streamTimestamp.current },
+      parts: [
+        {
+          type: "text",
+          text: "Check this link: https://okaythennews.substack.com/p/half-science-confirms-covid-deaths-greatly-exaggerated-new-study",
+        },
+      ],
     };
     setMessages([userMsg]);
 
@@ -543,8 +585,8 @@ const StreamingChatUI = (args: typeof ChatUI.arguments) => {
             {
               id: "assistant-1",
               role: "assistant",
-              content: STREAMING_RESPONSE,
-              timestamp: new Date().toISOString(),
+              metadata: { timestamp: new Date().toISOString() },
+              parts: [{ type: "text", text: STREAMING_RESPONSE }],
             },
           ]);
           setIsLoading(false);
@@ -553,7 +595,22 @@ const StreamingChatUI = (args: typeof ChatUI.arguments) => {
         // Drip 3 chars at a time so it's fast but visible
         const chunk = chars.slice(charIndex, charIndex + 3).join("");
         charIndex += 3;
-        setStreamingContent((prev) => prev + chunk);
+        setMessages((prevMessages) => {
+          const previous =
+            prevMessages[1]?.parts[0]?.type === "text"
+              ? prevMessages[1].parts[0].text
+              : "";
+          const next = previous + chunk;
+          return [
+            userMsg,
+            {
+              id: "assistant-streaming",
+              role: "assistant",
+              metadata: { timestamp: streamTimestamp.current },
+              parts: [{ type: "text", text: next, state: "streaming" }],
+            },
+          ];
+        });
         setTimeout(tick, 18);
       };
       tick();
@@ -566,13 +623,6 @@ const StreamingChatUI = (args: typeof ChatUI.arguments) => {
     }
   }, [isOpen]);
 
-  const streamingMessage = streamingContent
-    ? {
-        content: streamingContent,
-        timestamp: streamTimestamp.current,
-      }
-    : null;
-
   return (
     <ChatUI
       {...args}
@@ -580,7 +630,6 @@ const StreamingChatUI = (args: typeof ChatUI.arguments) => {
       messages={messages}
       inputValue={inputValue}
       isLoading={isLoading}
-      streamingMessage={streamingMessage}
       onToggle={() => setIsOpen(!isOpen)}
       onInputChange={setInputValue}
       onSendMessage={() => {}}

@@ -1,4 +1,4 @@
-import { type ChatMessage } from "@liexp/io/lib/http/Chat.js";
+import { type UIMessage } from "ai";
 import React, { useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { styled } from "../../theme/index.js";
@@ -17,7 +17,6 @@ import { ContentMessage } from "./ContentMessage.js";
 import { ErrorDisplay } from "./ErrorDisplay.js";
 import { LoadingMessage } from "./LoadingMessage.js";
 import { ProviderSelector } from "./ProviderSelector.js";
-import { StreamingMessage } from "./StreamingMessage.js";
 import { SystemMessage } from "./SystemMessage.js";
 import { ToolMessage } from "./ToolMessage.js";
 import { WelcomeMessage } from "./WelcomeMessage.js";
@@ -86,8 +85,8 @@ interface ToolCall {
 export interface ChatUIProps {
   /** Whether the chat is open */
   isOpen: boolean;
-  /** Array of chat messages */
-  messages: ChatMessage[];
+  /** Array of AI SDK UI messages */
+  messages: UIMessage[];
   /** Current input value */
   inputValue: string;
   /** Whether a message is being sent */
@@ -130,33 +129,8 @@ export interface ChatUIProps {
   autoCompact?: boolean;
   /** Callback to toggle auto-compact */
   onToggleAutoCompact?: () => void;
-  /** Token usage from the last completed message */
-  tokenUsage?: {
-    promptTokens: number;
-    completionTokens: number;
-    totalTokens: number;
-    isEstimated: boolean;
-  } | null;
-  /** Context window info (total and used tokens) */
-  context?: {
-    total: number;
-    used: number;
-  } | null;
   /** Label to display for current context (e.g., "actors #123") */
   contextLabel?: string;
-  /** Streaming message content (content_delta accumulation) */
-  streamingMessage?: {
-    content: string;
-    tool_calls?: ToolCall[];
-    timestamp: string;
-    tokenUsage?: {
-      promptTokens: number;
-      completionTokens: number;
-      totalTokens: number;
-      isEstimated: boolean;
-    } | null;
-    thinkingContent?: string;
-  } | null;
   /** Agent selector configuration */
   agentSelector?: {
     selectedAgent: AgentType | null;
@@ -227,11 +201,8 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   isCompacting,
   autoCompact,
   onToggleAutoCompact,
-  tokenUsage,
-  context,
   conversations,
   onSelectConversation,
-  streamingMessage,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -268,87 +239,154 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                 <WelcomeMessage message={welcomeMessage} />
               )}
 
-              {messages.flatMap((message) => {
+              {messages.flatMap((message, messageIndex) => {
                 const messageComponents: React.ReactElement[] = [];
+                const timestamp =
+                  typeof (message.metadata as { timestamp?: unknown } | undefined)
+                    ?.timestamp === "string"
+                    ? String((message.metadata as { timestamp?: string }).timestamp)
+                    : new Date().toISOString();
 
-                if (message.role === "tool") {
-                  // Tool messages are standalone
-                  messageComponents.push(
-                    <ToolMessage
-                      key={message.id}
-                      message={message}
-                      formatTime={formatTime}
-                    />,
-                  );
-                } else if (message.role === "system") {
-                  // System messages rendered as centered notifications
-                  messageComponents.push(
-                    <SystemMessage
-                      key={message.id}
-                      message={message}
-                      formatTime={formatTime}
-                    />,
-                  );
-                } else {
-                  // User or assistant messages
-                  if (message.content) {
+                const toolMessageIds = new Set<string>();
+
+                for (const [partIndex, part] of message.parts.entries()) {
+                  if (part.type === "text") {
+                    if (!part.text) continue;
                     messageComponents.push(
                       <ContentMessage
-                        key={message.id}
-                        message={message}
+                        key={`${message.id}-text-${partIndex}`}
+                        message={{
+                          id: `${message.id}-text-${partIndex}`,
+                          role: message.role,
+                          content: part.text,
+                          timestamp,
+                        }}
+                        formatTime={formatTime}
+                      />,
+                    );
+                    continue;
+                  }
+
+                  if (part.type === "reasoning") {
+                    if (!part.text) continue;
+                    messageComponents.push(
+                      <SystemMessage
+                        key={`${message.id}-reasoning-${partIndex}`}
+                        message={{
+                          id: `${message.id}-reasoning-${partIndex}`,
+                          role: "system",
+                          content: part.text,
+                          timestamp,
+                        }}
+                        formatTime={formatTime}
+                      />,
+                    );
+                    continue;
+                  }
+
+                  if (part.type === "dynamic-tool") {
+                    const args =
+                      part.state === "input-available" ||
+                      part.state === "output-available" ||
+                      part.state === "approval-requested" ||
+                      part.state === "approval-responded"
+                        ? part.input
+                        : {};
+                    const result =
+                      part.state === "output-available" ? part.output : undefined;
+                    toolMessageIds.add(part.toolCallId);
+                    messageComponents.push(
+                      <ToolMessage
+                        key={`${message.id}-dyn-tool-${part.toolCallId}-${partIndex}`}
+                        message={{
+                          id: `${message.id}-dyn-tool-${part.toolCallId}`,
+                          role: "tool",
+                          content: JSON.stringify(
+                            {
+                              tool: part.toolName,
+                              arguments: JSON.stringify(args ?? {}),
+                              result: result
+                                ? JSON.stringify(result)
+                                : undefined,
+                            },
+                            null,
+                            2,
+                          ),
+                          timestamp,
+                          tool_call_id: part.toolCallId,
+                        }}
+                        formatTime={formatTime}
+                      />,
+                    );
+                    continue;
+                  }
+
+                  if (part.type.startsWith("tool-")) {
+                    const toolName = part.type.replace(/^tool-/, "");
+                    const toolCallId =
+                      (part as { toolCallId?: string }).toolCallId ??
+                      `${message.id}-${partIndex}`;
+                    const input =
+                      (part as { input?: unknown; args?: unknown }).input ??
+                      (part as { input?: unknown; args?: unknown }).args ??
+                      {};
+                    const output = (part as { output?: unknown }).output;
+
+                    toolMessageIds.add(toolCallId);
+                    messageComponents.push(
+                      <ToolMessage
+                        key={`${message.id}-tool-${toolCallId}-${partIndex}`}
+                        message={{
+                          id: `${message.id}-tool-${toolCallId}`,
+                          role: "tool",
+                          content: JSON.stringify(
+                            {
+                              tool: toolName,
+                              arguments: JSON.stringify(input ?? {}),
+                              result: output ? JSON.stringify(output) : undefined,
+                            },
+                            null,
+                            2,
+                          ),
+                          timestamp,
+                          tool_call_id: toolCallId,
+                          tool_calls: [
+                            {
+                              id: toolCallId,
+                              type: "function",
+                              function: {
+                                name: toolName,
+                                arguments: JSON.stringify(input ?? {}),
+                              },
+                            } as ToolCall,
+                          ],
+                        }}
                         formatTime={formatTime}
                       />,
                     );
                   }
+                }
 
-                  // Add separate message bubbles for each tool call (only when
-                  // there are no corresponding role:"tool" messages in the list,
-                  // i.e. assistant messages loaded from history that include
-                  // tool_calls but no separate tool result messages)
-                  if (
-                    message.role === "assistant" &&
-                    message.tool_calls &&
-                    message.tool_calls.length > 0
-                  ) {
-                    const toolMessageIds = new Set(
-                      messages
-                        .filter((m) => m.role === "tool" && m.tool_call_id)
-                        .map((m) => m.tool_call_id),
-                    );
-                    message.tool_calls.forEach((toolCall, index) => {
-                      // Skip if there's already a dedicated tool result message
-                      if (toolMessageIds.has(toolCall.id)) return;
-                      messageComponents.push(
-                        <ToolMessage
-                          key={`${message.id}-tool-${toolCall.id}-${index}`}
-                          message={{
-                            id: toolCall.id,
-                            role: "tool",
-                            content: JSON.stringify({
-                              tool: toolCall.function.name,
-                              arguments: toolCall.function.arguments,
-                            }),
-                            timestamp: message.timestamp,
-                            tool_calls: [toolCall],
-                          }}
-                          formatTime={formatTime}
-                        />,
-                      );
-                    });
-                  }
+                // Show message-only system placeholder if no renderable parts.
+                if (messageComponents.length === 0 && message.role === "system") {
+                  messageComponents.push(
+                    <SystemMessage
+                      key={`${message.id}-system-empty-${messageIndex}`}
+                      message={{
+                        id: `${message.id}-system-empty`,
+                        role: "system",
+                        content: "System message",
+                        timestamp,
+                      }}
+                      formatTime={formatTime}
+                    />,
+                  );
                 }
 
                 return messageComponents;
               })}
 
-              {streamingMessage && (
-                <StreamingMessage
-                  streamingMessage={streamingMessage}
-                  formatTime={formatTime}
-                />
-              )}
-
-              {isLoading && !streamingMessage?.content && <LoadingMessage />}
+              {isLoading && <LoadingMessage />}
 
               <div ref={messagesEndRef} />
             </MessagesContainer>
@@ -367,10 +405,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               onToggleContext={onToggleContext}
             />
 
-            {(agentSelector ??
-              providerSelector ??
-              onToggleAutoCompact ??
-              tokenUsage) && (
+            {(agentSelector ?? providerSelector ?? onToggleAutoCompact) && (
               <Box
                 sx={{
                   px: 1.5,
@@ -398,7 +433,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                     usedProvider={usedProvider}
                   />
                 )}
-                {(onToggleAutoCompact ?? tokenUsage) && (
+                {onToggleAutoCompact && (
                   <Box
                     sx={{
                       display: "flex",
@@ -410,7 +445,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                     }}
                   >
                     <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                      {onToggleAutoCompact && (
+                      {
                         <FormControlLabel
                           control={
                             <Switch
@@ -429,26 +464,8 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                           }
                           sx={{ m: 0 }}
                         />
-                      )}
+                      }
                     </Box>
-                    {tokenUsage && (
-                      <Typography
-                        variant="caption"
-                        sx={{ fontSize: "0.65rem", opacity: 0.7 }}
-                      >
-                        {tokenUsage.totalTokens.toLocaleString()} tokens
-                        {tokenUsage.isEstimated ? " (est.)" : ""}
-                      </Typography>
-                    )}
-                    {context && context.total > 0 && (
-                      <Typography
-                        variant="caption"
-                        sx={{ fontSize: "0.65rem", opacity: 0.7, ml: 1 }}
-                      >
-                        / {context.used.toLocaleString()} /{" "}
-                        {context.total.toLocaleString()} (context)
-                      </Typography>
-                    )}
                   </Box>
                 )}
               </Box>

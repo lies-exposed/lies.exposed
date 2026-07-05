@@ -4,8 +4,9 @@ import type { UIMessage } from "@ai-sdk/react";
 
 interface UseChatCompactOptions {
   baseUrl: string;
-  messages: UIMessage[];
+  conversationId: string | null;
   setMessages: (messages: UIMessage[]) => void;
+  onConversationIdChange?: (conversationId: string | null) => void;
 }
 
 export const callCompactApi = async (
@@ -30,18 +31,18 @@ export const callCompactApi = async (
 
 export const useChatCompact = ({
   baseUrl,
-  messages,
+  conversationId,
   setMessages,
+  onConversationIdChange,
 }: UseChatCompactOptions) => {
   const compact = useCallback(async (): Promise<void> => {
-    if (messages.length === 0) return;
-
-    const lastMessage = messages[messages.length - 1];
-    const conversationId = lastMessage?.id;
     if (!conversationId) return;
 
     try {
-      const { summary } = await callCompactApi(conversationId, baseUrl);
+      const { summary, new_conversation_id } = await callCompactApi(
+        conversationId,
+        baseUrl,
+      );
       setMessages([
         {
           id: `compact-${Date.now()}`,
@@ -49,10 +50,11 @@ export const useChatCompact = ({
           parts: [{ type: "text", text: `Conversation compacted. Summary:\n\n${summary}` }],
         } as unknown as UIMessage,
       ]);
+      onConversationIdChange?.(new_conversation_id);
     } catch {
       // compact failed — keep existing messages
     }
-  }, [baseUrl, messages, setMessages]);
+  }, [baseUrl, conversationId, onConversationIdChange, setMessages]);
 
   return { compact };
 };

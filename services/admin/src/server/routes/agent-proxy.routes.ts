@@ -788,6 +788,17 @@ export const registerAgentProxyRoutes = (
     });
   });
 
+  /**
+   * Reject unsupported HTTP methods for /chat/message/ai-stream
+   * POST only is supported
+   */
+  router.all("/chat/message/ai-stream", (_req: Request, res: Response) => {
+    res.status(405).json({
+      error: "Method not allowed",
+      message: "POST requests only",
+    });
+  });
+
   // Health check for proxy
   router.get("/health", (_req, res) => {
     res.status(200).json({

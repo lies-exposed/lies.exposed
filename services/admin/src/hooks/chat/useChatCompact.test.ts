@@ -73,36 +73,19 @@ describe("useChatCompact", () => {
       const { result } = renderHook(() =>
         useChatCompact({
           baseUrl: BASE_URL,
-          messages: [{ id: "conv-1", role: "user" as any, parts: [] }],
+          conversationId: "conv-1",
           setMessages,
         }),
       );
       expect(typeof result.current.compact).toBe("function");
     });
 
-    it("does nothing when messages array is empty", async () => {
+    it("does nothing when conversation id is null", async () => {
       const setMessages = vi.fn();
       const { result } = renderHook(() =>
         useChatCompact({
           baseUrl: BASE_URL,
-          messages: [],
-          setMessages,
-        }),
-      );
-
-      await act(async () => {
-        await result.current.compact();
-      });
-
-      expect(setMessages).not.toHaveBeenCalled();
-    });
-
-    it("does nothing when last message has no id", async () => {
-      const setMessages = vi.fn();
-      const { result } = renderHook(() =>
-        useChatCompact({
-          baseUrl: BASE_URL,
-          messages: [{ id: undefined, role: "user" as any, parts: [] }],
+          conversationId: null,
           setMessages,
         }),
       );
@@ -127,11 +110,13 @@ describe("useChatCompact", () => {
       );
 
       const setMessages = vi.fn();
+      const onConversationIdChange = vi.fn();
       const { result } = renderHook(() =>
         useChatCompact({
           baseUrl: BASE_URL,
-          messages: [{ id: "conv-abc", role: "user" as any, parts: [] }],
+          conversationId: "conv-abc",
           setMessages,
+          onConversationIdChange,
         }),
       );
 
@@ -147,6 +132,7 @@ describe("useChatCompact", () => {
       const textPart = calledMessages[0].parts[0] as { type: string; text: string };
       expect(textPart.type).toBe("text");
       expect(textPart.text).toContain("This is the summary.");
+      expect(onConversationIdChange).toHaveBeenCalledWith("new-conv-99");
     });
 
     it("keeps existing messages when compact fails", async () => {
@@ -155,11 +141,10 @@ describe("useChatCompact", () => {
       );
 
       const setMessages = vi.fn();
-      const originalMessages = [{ id: "conv-fail", role: "user" as any, parts: [] }];
       const { result } = renderHook(() =>
         useChatCompact({
           baseUrl: BASE_URL,
-          messages: originalMessages,
+          conversationId: "conv-fail",
           setMessages,
         }),
       );
