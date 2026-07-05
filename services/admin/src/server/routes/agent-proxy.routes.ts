@@ -379,220 +379,392 @@ export const registerAgentProxyRoutes = (
   );
 
   /**
-   * POST /api/proxy/agent/chat/message/stream
-   *
-   * Proxy streaming chat messages to agent service with M2M authentication.
-   * Returns Server-Sent Events (SSE) stream with tool calls and responses.
-   * - Requires authentication (AdminRead permission)
-   * - Rate limited per authenticated user
-   * - Audited with correlation ID
-   * - Streams events in real-time to client
-   */
-  router.post(
-    "/chat/message/stream",
-    authenticationHandler([AdminRead.literals[0]])(ctx),
-    chatRateLimiter,
-    auditMiddleware,
-    async (req: Request, res: Response) => {
-      const correlationId = generateCorrelationId();
+    * POST /api/proxy/agent/chat/message/stream
+    *
+    * Proxy streaming chat messages to agent service with M2M authentication.
+    * Returns Server-Sent Events (SSE) stream with tool calls and responses.
+    * - Requires authentication (AdminRead permission)
+    * - Rate limited per authenticated user
+    * - Audited with correlation ID
+    * - Streams events in real-time to client
+    */
+   router.post(
+     "/chat/message/stream",
+     authenticationHandler([AdminRead.literals[0]])(ctx),
+     chatRateLimiter,
+     auditMiddleware,
+     async (req: Request, res: Response) => {
+       const correlationId = generateCorrelationId();
 
-      logger.info.log(
-        "Proxying streaming chat request (correlation: %s, user: %s, ip: %s, provider: %s)",
-        correlationId,
-        req.user?.id ?? "unknown",
-        req.ip,
-        req.body.aiConfig?.provider ?? "default",
-      );
+       logger.info.log(
+         "Proxying streaming chat request (correlation: %s, user: %s, ip: %s, provider: %s)",
+         correlationId,
+         req.user?.id ?? "unknown",
+         req.ip,
+         req.body.aiConfig?.provider ?? "default",
+       );
 
-      try {
-        // Get M2M token
-        const token = m2m.getToken()();
+       try {
+         // Get M2M token
+         const token = m2m.getToken()();
 
-        // Set headers for Server-Sent Events
-        res.setHeader("Content-Type", "text/event-stream");
-        res.setHeader("Cache-Control", "no-cache");
-        res.setHeader("Connection", "keep-alive");
-        res.setHeader("X-Accel-Buffering", "no");
+         // Set headers for Server-Sent Events
+         res.setHeader("Content-Type", "text/event-stream");
+         res.setHeader("Cache-Control", "no-cache");
+         res.setHeader("Connection", "keep-alive");
+         res.setHeader("X-Accel-Buffering", "no");
 
-        // Handle client disconnect
-        req.on("close", () => {
-          logger.info.log(
-            "Client disconnected, cleaning up stream (correlation: %s)",
-            correlationId,
-          );
-        });
+         // Handle client disconnect
+         req.on("close", () => {
+           logger.info.log(
+             "Client disconnected, cleaning up stream (correlation: %s)",
+             correlationId,
+           );
+         });
 
-        logger.debug.log(
-          "Calling agent streaming endpoint with M2M token (correlation: %s, provider: %s)",
-          correlationId,
-          req.body.aiConfig?.provider ?? "default",
-        );
+         logger.debug.log(
+           "Calling agent streaming endpoint with M2M token (correlation: %s, provider: %s)",
+           correlationId,
+           req.body.aiConfig?.provider ?? "default",
+         );
 
-        // Make streaming request to agent service
-        const agentUrl = `${env.AGENT_API_URL}/chat/message/stream`;
+         // Make streaming request to agent service
+         const agentUrl = `${env.AGENT_API_URL}/chat/message/stream`;
 
-        // Set up abort controller with 5-minute timeout for streaming responses.
-        const abortController = new AbortController();
-        const timeoutId = setTimeout(
-          () => {
-            logger.warn.log(
-              "Streaming request timeout after 5 minutes (correlation: %s)",
-              correlationId,
-            );
-            abortController.abort();
-          },
-          300000, // 5 minutes
-        );
+         // Set up abort controller with 5-minute timeout for streaming responses.
+         const abortController = new AbortController();
+         const timeoutId = setTimeout(
+           () => {
+             logger.warn.log(
+               "Streaming request timeout after 5 minutes (correlation: %s)",
+               correlationId,
+             );
+             abortController.abort();
+           },
+           300000, // 5 minutes
+         );
 
-        const response = await fetch(agentUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            "x-correlation-id": correlationId,
-          },
-          body: JSON.stringify(req.body),
-          signal: abortController.signal,
-        });
+         const response = await fetch(agentUrl, {
+           method: "POST",
+           headers: {
+             "Content-Type": "application/json",
+             Authorization: `Bearer ${token}`,
+             "x-correlation-id": correlationId,
+           },
+           body: JSON.stringify(req.body),
+           signal: abortController.signal,
+         });
 
-        if (!response.ok) {
-          logger.error.log(
-            "Agent streaming request failed: %d (correlation: %s)",
-            response.status,
-            correlationId,
-          );
+         if (!response.ok) {
+           logger.error.log(
+             "Agent streaming request failed: %d (correlation: %s)",
+             response.status,
+             correlationId,
+           );
 
-          res.write(
-            `data: ${JSON.stringify({
-              type: "error",
-              timestamp: new Date().toISOString(),
-              error: `Agent service returned ${response.status}`,
-            })}\n\n`,
-          );
-          res.end();
-          clearTimeout(timeoutId);
-          return;
-        }
+           res.write(
+             `data: ${JSON.stringify({
+               type: "error",
+               timestamp: new Date().toISOString(),
+               error: `Agent service returned ${response.status}`,
+             })}\n\n`,
+           );
+           res.end();
+           clearTimeout(timeoutId);
+           return;
+         }
 
-        if (!response.body) {
-          logger.error.log(
-            "Agent response has no body (correlation: %s)",
-            correlationId,
-          );
-          res.write(
-            `data: ${JSON.stringify({
-              type: "error",
-              timestamp: new Date().toISOString(),
-              error: "No response body from agent service",
-            })}\n\n`,
-          );
-          res.end();
-          clearTimeout(timeoutId);
-          return;
-        }
+         if (!response.body) {
+           logger.error.log(
+             "Agent response has no body (correlation: %s)",
+             correlationId,
+           );
+           res.write(
+             `data: ${JSON.stringify({
+               type: "error",
+               timestamp: new Date().toISOString(),
+               error: "No response body from agent service",
+             })}\n\n`,
+           );
+           res.end();
+           clearTimeout(timeoutId);
+           return;
+         }
 
-        // Flush headers immediately to establish the SSE connection
-        res.flushHeaders();
+         // Flush headers immediately to establish the SSE connection
+         res.flushHeaders();
 
-        // Send initial comment to establish connection after headers are flushed
-        res.write(": proxy connected\n\n");
+         // Send initial comment to establish connection after headers are flushed
+         res.write(": proxy connected\n\n");
 
-        // Read from agent stream using getReader() for explicit flow control,
-        // allowing keepalive writes to interleave properly
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let keepaliveInterval: NodeJS.Timeout | null = null;
-        let streamDone = false;
+         // Read from agent stream using getReader() for explicit flow control,
+         // allowing keepalive writes to interleave properly
+         const reader = response.body.getReader();
+         const decoder = new TextDecoder();
+         let keepaliveInterval: NodeJS.Timeout | null = null;
+         let streamDone = false;
 
-        // Helper to write and flush — ensures data reaches the client immediately
-        const writeAndFlush = (data: string | Uint8Array): boolean => {
-          if (res.writableEnded) return false;
-          res.write(data);
-          // flush() is added by compression middleware to force-flush buffered data
-          if (typeof (res as any).flush === "function") {
-            (res as any).flush();
-          }
-          return true;
-        };
+         // Helper to write and flush — ensures data reaches the client immediately
+         const writeAndFlush = (data: string | Uint8Array): boolean => {
+           if (res.writableEnded) return false;
+           res.write(data);
+           // flush() is added by compression middleware to force-flush buffered data
+           if (typeof (res as any).flush === "function") {
+             (res as any).flush();
+           }
+           return true;
+         };
 
-        try {
-          // Keepalive timer to prevent socket/proxy timeouts during long waits
-          keepaliveInterval = setInterval(() => {
-            if (!streamDone && !res.writableEnded) {
-              writeAndFlush(": keepalive\n\n");
-              logger.debug.log(
-                "Sent keepalive comment to client (correlation: %s)",
-                correlationId,
-              );
-            }
-          }, 15000); // Every 15 seconds (well within typical 60s proxy timeouts)
+         try {
+           // Keepalive timer to prevent socket/proxy timeouts during long waits
+           keepaliveInterval = setInterval(() => {
+             if (!streamDone && !res.writableEnded) {
+               writeAndFlush(": keepalive\n\n");
+               logger.debug.log(
+                 "Sent keepalive comment to client (correlation: %s)",
+                 correlationId,
+               );
+             }
+           }, 15000); // Every 15 seconds (well within typical 60s proxy timeouts)
 
-          // Read loop — pull chunks from agent and forward to client
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) {
-              logger.info.log(
-                "Streaming completed successfully (correlation: %s)",
-                correlationId,
-              );
-              break;
-            }
+           // Read loop — pull chunks from agent and forward to client
+           while (true) {
+             const { done, value } = await reader.read();
+             if (done) {
+               logger.info.log(
+                 "Streaming completed successfully (correlation: %s)",
+                 correlationId,
+               );
+               break;
+             }
 
-            if (!writeAndFlush(value)) {
-              logger.warn.log(
-                "Client disconnected during streaming (correlation: %s)",
-                correlationId,
-              );
-              break;
-            }
+             if (!writeAndFlush(value)) {
+               logger.warn.log(
+                 "Client disconnected during streaming (correlation: %s)",
+                 correlationId,
+               );
+               break;
+             }
 
-            // Log forwarded events for debugging
-            const chunkStr = decoder.decode(value, { stream: true });
-            if (chunkStr.includes("data: ")) {
-              logger.debug.log(
-                "Forwarded SSE event (correlation: %s): %s",
-                correlationId,
-                chunkStr.substring(0, 200),
-              );
-            }
-          }
-        } finally {
-          streamDone = true;
-          if (keepaliveInterval) {
-            clearInterval(keepaliveInterval);
-          }
-          clearTimeout(timeoutId);
-          reader.releaseLock();
-          if (!res.writableEnded) {
-            res.end();
-          }
-        }
-      } catch (error) {
-        logger.error.log(
-          "Streaming proxy error: %O (correlation: %s)",
-          error,
-          correlationId,
-        );
+             // Log forwarded events for debugging
+             const chunkStr = decoder.decode(value, { stream: true });
+             if (chunkStr.includes("data: ")) {
+               logger.debug.log(
+                 "Forwarded SSE event (correlation: %s): %s",
+                 correlationId,
+                 chunkStr.substring(0, 200),
+               );
+             }
+           }
+         } finally {
+           streamDone = true;
+           if (keepaliveInterval) {
+             clearInterval(keepaliveInterval);
+           }
+           clearTimeout(timeoutId);
+           reader.releaseLock();
+           if (!res.writableEnded) {
+             res.end();
+           }
+         }
+       } catch (error) {
+         logger.error.log(
+           "Streaming proxy error: %O (correlation: %s)",
+           error,
+           correlationId,
+         );
 
-        // Send error event if possible
-        if (!res.headersSent) {
-          res.status(500).json({
-            error: "Streaming failed",
-            message: error instanceof Error ? error.message : "Unknown error",
-          });
-        } else {
-          res.write(
-            `data: ${JSON.stringify({
-              type: "error",
-              timestamp: new Date().toISOString(),
-              error: error instanceof Error ? error.message : "Unknown error",
-            })}\n\n`,
-          );
-          res.end();
-        }
-      }
-    },
-  );
+         // Send error event if possible
+         if (!res.headersSent) {
+           res.status(500).json({
+             error: "Streaming failed",
+             message: error instanceof Error ? error.message : "Unknown error",
+           });
+         } else {
+           res.write(
+             `data: ${JSON.stringify({
+               type: "error",
+               timestamp: new Date().toISOString(),
+               error: error instanceof Error ? error.message : "Unknown error",
+             })}\n\n`,
+           );
+           res.end();
+         }
+       }
+     },
+   );
+
+   /**
+    * POST /api/proxy/agent/chat/message/ai-stream
+    *
+    * Proxy AI SDK v7 stream to agent service with M2M authentication.
+    * Returns AI SDK DataStream (SSE-formatted JSON) for @ai-sdk/react.
+    * - Requires authentication (AdminRead permission)
+    * - Rate limited per authenticated user
+    * - Audited with correlation ID
+    */
+   router.post(
+     "/chat/message/ai-stream",
+     authenticationHandler([AdminRead.literals[0]])(ctx),
+     chatRateLimiter,
+     auditMiddleware,
+     async (req: Request, res: Response) => {
+       const correlationId = generateCorrelationId();
+
+       logger.info.log(
+         "Proxying AI stream chat request (correlation: %s, user: %s, ip: %s, provider: %s)",
+         correlationId,
+         req.user?.id ?? "unknown",
+         req.ip,
+         req.body.aiConfig?.provider ?? "default",
+       );
+
+       try {
+         const token = m2m.getToken()();
+
+         res.setHeader("Content-Type", "text/event-stream");
+         res.setHeader("Cache-Control", "no-cache");
+         res.setHeader("Connection", "keep-alive");
+         res.setHeader("X-Accel-Buffering", "no");
+
+         const agentUrl = `${env.AGENT_API_URL}/chat/message/ai-stream`;
+
+         const abortController = new AbortController();
+         const timeoutId = setTimeout(
+           () => {
+             logger.warn.log(
+               "AI stream request timeout after 5 minutes (correlation: %s)",
+               correlationId,
+             );
+             abortController.abort();
+           },
+           300000,
+         );
+
+         const response = await fetch(agentUrl, {
+           method: "POST",
+           headers: {
+             "Content-Type": "application/json",
+             Authorization: `Bearer ${token}`,
+             "x-correlation-id": correlationId,
+           },
+           body: JSON.stringify(req.body),
+           signal: abortController.signal,
+         });
+
+         if (!response.ok) {
+           logger.error.log(
+             "Agent AI stream request failed: %d (correlation: %s)",
+             response.status,
+             correlationId,
+           );
+
+           res.write(
+             `data: ${JSON.stringify({
+               type: "error",
+               errorText: `Agent service returned ${response.status}`,
+             })}\n\n`,
+           );
+           res.end();
+           clearTimeout(timeoutId);
+           return;
+         }
+
+         if (!response.body) {
+           logger.error.log(
+             "Agent AI stream response has no body (correlation: %s)",
+             correlationId,
+           );
+           res.write(
+             `data: ${JSON.stringify({
+               type: "error",
+               errorText: "No response body from agent service",
+             })}\n\n`,
+           );
+           res.end();
+           clearTimeout(timeoutId);
+           return;
+         }
+
+         res.flushHeaders();
+
+         const reader = response.body.getReader();
+         let keepaliveInterval: NodeJS.Timeout | null = null;
+         let streamDone = false;
+
+         const writeAndFlush = (data: string | Uint8Array): boolean => {
+           if (res.writableEnded) return false;
+           res.write(data);
+           if (typeof (res as any).flush === "function") {
+             (res as any).flush();
+           }
+           return true;
+         };
+
+         try {
+           keepaliveInterval = setInterval(() => {
+             if (!streamDone && !res.writableEnded) {
+               writeAndFlush(": keepalive\n\n");
+               logger.debug.log(
+                 "Sent keepalive comment to client (correlation: %s)",
+                 correlationId,
+               );
+             }
+           }, 15000);
+
+           while (true) {
+             const { done, value } = await reader.read();
+             if (done) {
+               logger.info.log(
+                 "AI streaming completed successfully (correlation: %s)",
+                 correlationId,
+               );
+               break;
+             }
+
+             if (!writeAndFlush(value)) {
+               logger.warn.log(
+                 "Client disconnected during AI streaming (correlation: %s)",
+                 correlationId,
+               );
+               break;
+             }
+           }
+         } finally {
+           streamDone = true;
+           if (keepaliveInterval) {
+             clearInterval(keepaliveInterval);
+           }
+           clearTimeout(timeoutId);
+           reader.releaseLock();
+           if (!res.writableEnded) {
+             res.end();
+           }
+         }
+       } catch (error) {
+         logger.error.log(
+           "AI stream proxy error: %O (correlation: %s)",
+           error,
+           correlationId,
+         );
+
+         if (!res.headersSent) {
+           res.status(500).json({
+             error: "AI stream failed",
+             message: error instanceof Error ? error.message : "Unknown error",
+           });
+         } else {
+           res.write(
+             `data: ${JSON.stringify({
+               type: "error",
+               errorText: error instanceof Error ? error.message : "Unknown error",
+             })}\n\n`,
+           );
+           res.end();
+         }
+       }
+     },
+   );
 
   /**
    * Reject unsupported HTTP methods for /chat/message

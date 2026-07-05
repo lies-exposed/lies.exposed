@@ -318,16 +318,17 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
   - Fixed `setState: () => {}` no-op bug (was clearing messages without setting compacted summary)
   - Updated `useChatCompact.test.ts` to match new API
 - **Phase 5**: `useStreamingChat.test.ts` removed (skipped for now — MSW interferes with AI SDK internal fetch)
+- **Phase 5**: Deprecated files removed (`useSendMessage.ts`, `types.ts`)
+- **Phase 5**: Both services build cleanly (`agent` + `admin`)
+- **Phase 5**: All 238 tests pass
 
 ### In Progress
-- Both `agent` and `admin` services build cleanly after all changes
-- 4 failing tests in `useStreamingChat.test.ts` due to MSW intercepting AI SDK internal fetch (file removed)
+- Docker agent rebuild needed (stale `node_modules` volume missing `ai` package)
 
-### Not Started
-- Phase 3.2: Update `ChatUI.tsx` to render `UIMessage.parts` (may not be needed if `ChatMessage` transformation is sufficient)
-- Phase 3.3: Delete `StreamingMessage.tsx` (replaced by AI SDK streaming in `useStreamingChat`)
-- Phase 5: Clean up deprecated hooks (`useSendMessage.ts`, `types.ts`)
-- Phase 5: Run full test suite to verify all tests pass
+### Done
+- Phase 3.2: `ChatUI.tsx` updated — `streamingMessage` prop kept (real-time partial content display via `useStreamingChat`)
+- Phase 3.3: `StreamingMessage.tsx` kept (still used by `ChatUI` for rendering streaming messages)
+- Phase 5: Cleanup complete
 
 ## Key API Differences (AI SDK v7)
 

@@ -231,6 +231,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   context,
   conversations,
   onSelectConversation,
+  streamingMessage,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
