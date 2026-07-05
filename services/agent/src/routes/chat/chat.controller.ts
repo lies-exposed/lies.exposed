@@ -165,17 +165,20 @@ export const MakeSendChatMessageAISTreamRoute: Route = (r, ctx) => {
         const uiStream = createUIMessageStream({
           execute: async ({ writer }) => {
             try {
+              let messageId: string | undefined;
               for await (const event of streamGenerator) {
                 ctx.logger.debug.log("Sent AI stream event: %s", event.type);
                 switch (event.type) {
                   case "message_start": {
                     writer.write({ type: "start" });
+                    messageId = event.message_id ?? `msg-${Date.now()}`;
+                    writer.write({ type: "text-start", id: messageId });
                     break;
                   }
                   case "content_delta": {
                     writer.write({
                       type: "text-delta",
-                      id: event.message_id ?? "msg",
+                      id: messageId ?? "msg",
                       delta: event.content ?? "",
                     });
                     break;
