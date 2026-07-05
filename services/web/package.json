@@ -82,7 +82,7 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
     "@types/supertest": "^7.2.0",
-    "@typescript/native-preview": "7.0.0-dev.20260623.1",
+    "@typescript/native-preview": "7.0.0-dev.20260705.1",
     "dotenv": "^17.4.2",
     "eslint": "^10.4.0",
     "msw": "^2.14.6",
