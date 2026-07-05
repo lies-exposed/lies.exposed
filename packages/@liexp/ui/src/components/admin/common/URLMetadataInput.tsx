@@ -29,6 +29,7 @@ const URLMetadataInput = React.forwardRef<
     fieldState: _fieldState,
     ...rest
   } = useInput(props);
+  const { inputRef, ...inputRestWithoutRef } = inputRest;
   const dataProvider = useDataProvider();
   const { setValue, getValues } = useFormContext();
 
