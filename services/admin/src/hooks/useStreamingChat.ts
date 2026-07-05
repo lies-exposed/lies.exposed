@@ -1,4 +1,5 @@
 import type { ChatMessage } from "@liexp/io/lib/http/Chat.js";
+import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useConfiguration } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { useCallback, useMemo, useRef } from "react";
 import { DefaultChatTransport } from "ai";
@@ -100,6 +101,10 @@ const createChatInstance = (proxyUrl: string) => {
   return new Chat({
     transport: new DefaultChatTransport({
       api: proxyUrl,
+      headers: () => {
+        const token = getAuthFromLocalStorage();
+        return token ? { Authorization: token } : Object.create({});
+      },
     }),
   });
 };
@@ -138,9 +143,9 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
   );
 
   const { compact } = useChatCompact({
-    conversationId: uiMessages.length > 0 ? uiMessages[uiMessages.length - 1]?.id ?? null : null,
     baseUrl,
-    setState: () => {},
+    messages: uiMessages,
+    setMessages,
   });
 
   const clearMessages = useCallback(() => {
@@ -159,17 +164,25 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
     [setMessages],
   );
 
-  const sendMessageWrapped = useCallback(
-    async (
-      request: { message: string; conversation_id?: string | null },
-      aiConfig?: { provider: string; model?: string },
-    ) => {
-      await sendMessage({
+const sendMessageWrapped = useCallback(
+  async (
+    request: { message: string; conversation_id?: string | null },
+    aiConfig?: { provider: string; model?: string },
+  ) => {
+    await sendMessage(
+      {
         text: request.message,
-      });
-    },
-    [sendMessage],
-  );
+      },
+      {
+        body: {
+          ...request,
+          aiConfig,
+        },
+      },
+    );
+  },
+  [sendMessage],
+);
 
   const streamingMessage = useMemo(() => {
     if (status !== "streaming" || uiMessages.length === 0) return null;
