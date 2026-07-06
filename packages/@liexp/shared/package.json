@@ -49,12 +49,12 @@
     "@typescript/native-preview": "7.0.0-dev.20260705.1",
     "axios": "^1.16.0",
     "effect": "^3.21.3",
-    "eslint": "^10.4.0",
+    "eslint": "^10.6.0",
     "fast-check": "^3.23.2",
     "fp-ts": "^2.16.10",
     "pdfjs-dist": "^5.7.284",
     "react-admin": "^5.15.1",
-    "vitest": "^4.1.7",
+    "vitest": "^4.1.10",
     "vitest-mock-extended": "^4.0.0"
   },
   "peerDependencies": {
