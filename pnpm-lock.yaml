@@ -1103,6 +1103,9 @@ importers:
       '@types/node':
         specifier: ^24.12.4
         version: 24.12.4
+      '@types/pg':
+        specifier: ^8.20.0
+        version: 8.20.0
       '@types/prompts':
         specifier: ^2.4.9
         version: 2.4.9
