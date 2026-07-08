@@ -100,7 +100,8 @@ services/agent/
   src/flows/chat/__tests__/
     chat.flow.spec.ts                ← Spec tests for chat flow
     agent-pipeline.eval.ts           ← Eval tests for prompt behavior (shared dev DB)
-    link-ingestion.eval-db.ts        ← Eval-DB test: URL → liexp_cli → verified in Postgres
+    link-ingestion.eval-db.ts        ← Eval-DB test: URL → liexp_cli link create → verified in Postgres
+    link-to-event.eval-db.ts         ← Eval-DB test: 2-turn conversation, URL → link → event, cross-entity join verified
   src/routes/chat/__tests__/
     chat.controller.e2e.ts           ← E2E tests for HTTP endpoints
   test/
