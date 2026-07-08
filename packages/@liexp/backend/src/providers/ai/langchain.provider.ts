@@ -112,7 +112,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
     if (provider === "openai") {
       const openAIChatOpts = (opts.options?.chat ?? {}) as ChatOpenAIFields;
       const openAIChatOptions = chatOptions as ChatOpenAIFields;
-      return new ChatOpenAI({
+      const openAIChat = new ChatOpenAI({
         model,
         temperature: 0,
         apiKey: opts.apiKey,
@@ -127,7 +127,21 @@ export const GetLangchainProvider = <P extends AIProvider>(
           ...openAIChatOpts.configuration,
           ...openAIChatOptions.configuration,
         },
-      }) as ChatModel<P>;
+      });
+      // Some OpenAI-compatible backends (observed with LocalAI serving
+      // qwen3.6-35b-a3b) mis-merge interleaved streaming chunks when the
+      // model emits 2+ tool calls in one turn: additional_kwargs.tool_calls
+      // ends up populated but the normalized top-level AIMessage.tool_calls
+      // — the field LangGraph's routing condition actually checks — stays
+      // empty, so the graph falls through to __end__ without ever invoking
+      // a tool. Forcing one-tool-call-per-turn via parallel_tool_calls
+      // sidesteps the chunk-merge bug entirely. withConfig (not bindTools,
+      // which createAgent would reject as pre-bound tools) is preserved
+      // because createAgent's own bindTools() merges config from an
+      // existing RunnableBinding.
+      return openAIChat.withConfig({
+        parallel_tool_calls: false,
+      }) as unknown as ChatModel<P>;
     }
 
     // XAI provider

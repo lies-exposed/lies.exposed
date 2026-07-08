@@ -30,18 +30,18 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     testTimeout: 360_000,
     hookTimeout: 60_000,
     pool: "forks",
-    // Every test file shares one api-test server + one liexp_test DB for the
-    // whole run — don't run test files in parallel against it.
-    poolOptions: {
-      forks: {
-        singleFork: true,
-      },
-    },
     reporters: ["verbose", new EvalCacheReporter()],
     env: {
       NODE_ENV: "test",
       NODE_TLS_REJECT_UNAUTHORIZED: "0",
-      LOCALAI_MODEL: "gemma-4-e4b-it",
+      LOCALAI_MODEL: "qwen3.6-35b-a3b",
     },
   },
+  // Every test file shares one api-test server + one liexp_test DB for the
+  // whole run — don't run test files in parallel against it.
+  poolOptions: {
+      forks: {
+        singleFork: true,
+      },
+    },
 }));
