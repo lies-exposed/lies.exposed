@@ -57,9 +57,17 @@ depend on exact DB state, and cleanup after a failed test is on you.
 ### Eval-DB tests — `*.eval-db.ts`
 Use when a test needs to prove `liexp_cli` actually **persisted** something — the DB-verified
 equivalent of the eval tier's "full flow" tests:
-- User gives a URL + instructions → agent scrapes it, calls `liexp_cli link create` / `actor create` /
+- User gives a bare URL, no instructions on *how* to handle it → agent must call `load_skill` on its
+  own, follow `skills/link_handling.md`, scrape it, call `liexp_cli link create` / `actor create` /
   etc. → test queries Postgres directly (not the tool result, not the model's summary) to confirm the
   row exists → test deletes what it created.
+
+These tests deliberately avoid telling the agent which tool to call or which steps to follow — that
+would just be testing `liexp_cli` in isolation again. The prompt is close to what a real user would
+type ("check this out, might be worth adding"); the test then asserts a `load_skill(link_handling)`
+tool call happened before asserting anything about `liexp_cli`, so a pass actually proves the
+input → load skills → call tools → persisted result pipeline, not a scripted tool call the test
+dictated.
 
 Unlike the `eval` tier, this does **not** touch the shared dev DB. `test/evalDbGlobalSetup.ts`
 (vitest `globalSetup`, runs once per `vitest run`) does the following before any test file runs:
@@ -100,8 +108,8 @@ services/agent/
   src/flows/chat/__tests__/
     chat.flow.spec.ts                ← Spec tests for chat flow
     agent-pipeline.eval.ts           ← Eval tests for prompt behavior (shared dev DB)
-    link-ingestion.eval-db.ts        ← Eval-DB test: URL → liexp_cli link create → verified in Postgres
-    link-to-event.eval-db.ts         ← Eval-DB test: 2-turn conversation, URL → link → event, cross-entity join verified
+    link-ingestion.eval-db.ts        ← Eval-DB test: bare URL → skill-driven link create → verified in Postgres
+    link-to-event.eval-db.ts         ← Eval-DB test: 2-turn, skill-driven URL → link → event, cross-entity join verified
   src/routes/chat/__tests__/
     chat.controller.e2e.ts           ← E2E tests for HTTP endpoints
   test/

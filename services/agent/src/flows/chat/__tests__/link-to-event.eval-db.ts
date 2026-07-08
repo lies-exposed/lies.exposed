@@ -9,10 +9,14 @@ import { type AgentContext } from "../../../context/context.type.js";
 import { sendChatMessageStream } from "../chat.flow.js";
 
 /**
- * Two-turn round trip, verified in Postgres: extract a LinkEntity from a real
- * article, then have the agent create an EventEntity from that link — the
- * actual `link_handling` skill workflow (skills/link_handling.md), not just
- * a single tool call in isolation.
+ * Two-turn round trip, verified in Postgres: hand the agent a real article
+ * URL with no instructions on *how* to handle it, then ask it to turn that
+ * into a platform event. Neither turn names a tool or a workflow step — the
+ * only thing that can get from "here's a link" to a persisted `link` row and
+ * then a persisted `event` row linked to it is the agent itself loading
+ * skills/link_handling.md via `load_skill` and following it. That's the
+ * thing under test: input -> load skills -> call tools -> final response,
+ * not a scripted sequence of liexp_cli calls dictated by the test.
  *
  * Both turns share one conversation_id so the second message can refer to
  * "the link you just created" — agent.factory.ts caches the compiled agent
@@ -76,7 +80,8 @@ const toolArgs = (event: ToolCallStartEvent): string =>
 const liexpCliCalls = (events: ChatStreamEvent[]): ToolCallStartEvent[] =>
   toolCallStarts(events).filter((e) => e.tool_call.name === "liexp_cli");
 
-const EVENT_SUBCOMMAND = /event\s+(death|transaction|quote|scientific-study|book|patent|documentary|uncategorized)\s+create/;
+const EVENT_SUBCOMMAND =
+  /event\s+(death|transaction|quote|scientific-study|book|patent|documentary|uncategorized)\s+create/;
 
 /**
  * TypeORM's default @JoinTable() naming isn't hardcoded anywhere we can
@@ -151,20 +156,30 @@ afterAll(async () => {
 // Full flow — extract link, then create an event from it, verified in Postgres
 // ---------------------------------------------------------------------------
 
-describe("link-to-event — verified in Postgres", () => {
+describe("link-to-event (skill-driven) — verified in Postgres", () => {
   cachedTest(
-    "link-to-event > extracting a link then creating an event from it persists both, linked",
+    "link-to-event > a bare URL plus a follow-up persists a link and a linked event",
     async () => {
       const conversationId = uuid();
 
-      // --- Turn 1: extract the article into a LinkEntity ------------------
+      // --- Turn 1: no instructions beyond "here's a link" -------------------
       const linkTurnEvents = await collectEvents(
         ctx,
-        `Read ${TEST_URL} and create a link record for it. ` +
-          `Extract the real title and a short description from the article content — ` +
-          `do not just use the URL as the title.`,
+        `Found this, can you check it out and see what's worth adding to the platform? ${TEST_URL}`,
         conversationId,
       );
+
+      // Proves the link_handling skill actually ran, not that the model
+      // happened to guess the right liexp_cli invocation on its own.
+      const skillLoad = toolCallStarts(linkTurnEvents).find(
+        (e) =>
+          e.tool_call.name === "load_skill" &&
+          /link_handling/.test(toolArgs(e)),
+      );
+      expect(
+        skillLoad,
+        "expected the agent to call load_skill(link_handling) for a bare URL",
+      ).toBeDefined();
 
       const linkCreateStart = liexpCliCalls(linkTurnEvents).find((e) =>
         /link\s+create/.test(toolArgs(e)),
@@ -202,13 +217,12 @@ describe("link-to-event — verified in Postgres", () => {
       ).toBeTruthy();
       expect(link.title?.trim().toLowerCase()).not.toBe(TEST_URL.toLowerCase());
 
-      // --- Turn 2: create an EventEntity from that link --------------------
+      // --- Turn 2: a follow-up expressing intent, not a recipe -------------
       const beforeEventCreation = new Date().toISOString();
 
       const eventTurnEvents = await collectEvents(
         ctx,
-        `Now create an event based on the information in the link you just created, ` +
-          `and link the event to it.`,
+        `Nice — go ahead and turn that into an event on the platform, linked back to the source.`,
         conversationId,
       );
 
@@ -234,7 +248,7 @@ describe("link-to-event — verified in Postgres", () => {
       );
       expect(
         newEventRows.length,
-        "expected a new \"event\" row created in Postgres after turn 2",
+        'expected a new "event" row created in Postgres after turn 2',
       ).toBeGreaterThan(0);
       const event = newEventRows[0];
       createdEventIds.push(...newEventRows.map((r) => r.id));

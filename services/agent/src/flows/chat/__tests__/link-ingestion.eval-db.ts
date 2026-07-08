@@ -10,6 +10,16 @@ import { sendChatMessageStream } from "../chat.flow.js";
 /**
  * Full round trip verified in Postgres, not just in the tool call output.
  *
+ * The user message here is deliberately vague — it does not say "call
+ * liexp_cli", "create a link record", or anything about how to do the work.
+ * It only hands the agent a URL, the same way a real user would. Getting
+ * from that to a persisted `link` row depends entirely on the agent (a) loading
+ * the `link_handling` skill (skills/link_handling.md) via the `load_skill`
+ * tool and (b) following its workflow. That's what's under test here, not
+ * whether liexp_cli works — the earlier version of this test told the agent
+ * exactly which tool to call, which meant it never actually exercised skill
+ * discovery.
+ *
  * Runs against the throwaway liexp_test DB + api-test server that
  * test/evalDbGlobalSetup.ts spins up for this project (vitest.config.eval-db.ts).
  * See skills/agent_testing.md for the four test tiers.
@@ -72,6 +82,11 @@ const TEST_URL = "https://en.wikipedia.org/wiki/Alan_Turing";
 interface LinkRow {
   id: string;
   url: string;
+  title: string | null;
+}
+
+interface ActorRow {
+  id: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -80,6 +95,7 @@ interface LinkRow {
 
 let ctx: AgentContext;
 const createdLinkIds: string[] = [];
+const createdActorIds: string[] = [];
 
 beforeAll(async () => {
   ctx = await loadEvalContext();
@@ -87,6 +103,11 @@ beforeAll(async () => {
 
 afterAll(async () => {
   // Safety net in case a test threw before its own cleanup ran.
+  if (createdActorIds.length > 0) {
+    await queryDb(`DELETE FROM actor WHERE id = ANY($1::uuid[])`, [
+      createdActorIds,
+    ]);
+  }
   if (createdLinkIds.length > 0) {
     await queryDb(`DELETE FROM link WHERE id = ANY($1::uuid[])`, [
       createdLinkIds,
@@ -99,14 +120,28 @@ afterAll(async () => {
 // Full flow — verified directly in Postgres
 // ---------------------------------------------------------------------------
 
-describe("link ingestion — verified in Postgres", () => {
+describe("link ingestion (skill-driven) — verified in Postgres", () => {
   cachedTest(
-    "link ingestion > reading a URL and creating a link persists the row",
+    "link ingestion > a bare URL triggers the link_handling skill and persists a link",
     async () => {
+      const beforeRun = new Date().toISOString();
+
       const events = await collectEvents(
         ctx,
-        `Read ${TEST_URL} and create a link record for it with liexp_cli. Do not create any other entities, just the link.`,
+        `Take a look at this, might be worth adding to the platform: ${TEST_URL}`,
       );
+
+      // Proves the skill actually drove this, rather than the model
+      // improvising a plausible-looking tool call on its own.
+      const skillLoad = toolCallStarts(events).find(
+        (e) =>
+          e.tool_call.name === "load_skill" &&
+          /link_handling/.test(toolArgs(e)),
+      );
+      expect(
+        skillLoad,
+        "expected the agent to call load_skill(link_handling) for a bare URL",
+      ).toBeDefined();
 
       const linkCreateStart = toolCallStarts(events).find(
         (e) =>
@@ -129,20 +164,46 @@ describe("link ingestion — verified in Postgres", () => {
 
       // The real assertion: query Postgres directly, independent of what the
       // tool result / model summary claims happened.
-      const rows = await queryDb<LinkRow>(
-        `SELECT id, url FROM link WHERE url = $1`,
+      const linkRows = await queryDb<LinkRow>(
+        `SELECT id, url, title FROM link WHERE url = $1`,
         [TEST_URL],
       );
       expect(
-        rows.length,
+        linkRows.length,
         `expected a "link" row with url=${TEST_URL} in Postgres`,
       ).toBeGreaterThan(0);
-      createdLinkIds.push(...rows.map((r) => r.id));
+      const link = linkRows[0];
+      createdLinkIds.push(link.id);
+
+      // Proves the skill's scrape-then-extract step ran, not just a bare
+      // `link create --url=...` with no content read.
+      expect(
+        link.title,
+        "expected the link's title to be extracted from the page, not left empty",
+      ).toBeTruthy();
+      expect(link.title?.trim().toLowerCase()).not.toBe(TEST_URL.toLowerCase());
+
+      // The skill's step 5 says to create entities extracted from the page
+      // (e.g. the article's subject) if they don't already exist in the
+      // (empty, throwaway) test DB — track anything it created for cleanup.
+      // This isn't asserted on: whether the model chooses to do this for a
+      // single bare URL is a model-quality question, not a plumbing one.
+      const actorRows = await queryDb<ActorRow>(
+        `SELECT id FROM actor WHERE "createdAt" > $1`,
+        [beforeRun],
+      );
+      createdActorIds.push(...actorRows.map((r) => r.id));
 
       await queryDb(`DELETE FROM link WHERE id = ANY($1::uuid[])`, [
-        rows.map((r) => r.id),
+        [link.id],
       ]);
       createdLinkIds.length = 0;
+      if (createdActorIds.length > 0) {
+        await queryDb(`DELETE FROM actor WHERE id = ANY($1::uuid[])`, [
+          createdActorIds,
+        ]);
+        createdActorIds.length = 0;
+      }
     },
   );
 });
