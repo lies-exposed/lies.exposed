@@ -206,6 +206,11 @@ export const MakeSendChatMessageAISTreamRoute: Route = (r, ctx) => {
                     break;
                   }
                   case "tool_call_end": {
+                    yield `data: ${JSON.stringify({
+                      type: "tool-input-start",
+                      toolCallId: event.tool_call?.id ?? "tool",
+                      toolName: event.tool_call?.name ?? "unknown",
+                    })}\n\n`;
                     const input = parseJSONOrText(event.tool_call?.arguments);
                     yield `data: ${JSON.stringify({
                       type: "tool-input-available",
@@ -223,7 +228,10 @@ export const MakeSendChatMessageAISTreamRoute: Route = (r, ctx) => {
                     break;
                   }
                   case "message_end": {
-                    if (textStarted) {
+                    if (!textStarted) {
+                      yield `data: ${JSON.stringify({ type: "text-start", id: messageId ?? "msg" })}\n\n`;
+                      yield `data: ${JSON.stringify({ type: "text-end", id: messageId ?? "msg" })}\n\n`;
+                    } else {
                       yield `data: ${JSON.stringify({ type: "text-end", id: messageId ?? "msg" })}\n\n`;
                     }
                     yield `data: ${JSON.stringify({
@@ -247,7 +255,8 @@ export const MakeSendChatMessageAISTreamRoute: Route = (r, ctx) => {
               ctx.logger.error.log("AI streaming error: %O", error);
               yield `data: ${JSON.stringify({
                 type: "error",
-                errorText: error instanceof Error ? error.message : "Unknown error",
+                errorText:
+                  error instanceof Error ? error.message : "Unknown error",
               })}\n\n`;
             }
           })(),

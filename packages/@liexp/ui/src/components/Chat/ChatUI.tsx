@@ -242,12 +242,13 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               {messages.flatMap((message, messageIndex) => {
                 const messageComponents: React.ReactElement[] = [];
                 const timestamp =
-                  typeof (message.metadata as { timestamp?: unknown } | undefined)
-                    ?.timestamp === "string"
-                    ? String((message.metadata as { timestamp?: string }).timestamp)
+                  typeof (
+                    message.metadata as { timestamp?: unknown } | undefined
+                  )?.timestamp === "string"
+                    ? String(
+                        (message.metadata as { timestamp?: string }).timestamp,
+                      )
                     : new Date().toISOString();
-
-                const toolMessageIds = new Set<string>();
 
                 for (const [partIndex, part] of message.parts.entries()) {
                   if (part.type === "text") {
@@ -293,8 +294,9 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                         ? part.input
                         : {};
                     const result =
-                      part.state === "output-available" ? part.output : undefined;
-                    toolMessageIds.add(part.toolCallId);
+                      part.state === "output-available"
+                        ? part.output
+                        : undefined;
                     messageComponents.push(
                       <ToolMessage
                         key={`${message.id}-dyn-tool-${part.toolCallId}-${partIndex}`}
@@ -332,7 +334,6 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                       {};
                     const output = (part as { output?: unknown }).output;
 
-                    toolMessageIds.add(toolCallId);
                     messageComponents.push(
                       <ToolMessage
                         key={`${message.id}-tool-${toolCallId}-${partIndex}`}
@@ -343,7 +344,9 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                             {
                               tool: toolName,
                               arguments: JSON.stringify(input ?? {}),
-                              result: output ? JSON.stringify(output) : undefined,
+                              result: output
+                                ? JSON.stringify(output)
+                                : undefined,
                             },
                             null,
                             2,
@@ -368,7 +371,10 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                 }
 
                 // Show message-only system placeholder if no renderable parts.
-                if (messageComponents.length === 0 && message.role === "system") {
+                if (
+                  messageComponents.length === 0 &&
+                  message.role === "system"
+                ) {
                   messageComponents.push(
                     <SystemMessage
                       key={`${message.id}-system-empty-${messageIndex}`}

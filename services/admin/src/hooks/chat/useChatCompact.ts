@@ -1,6 +1,6 @@
+import type { UIMessage } from "@ai-sdk/react";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useCallback } from "react";
-import type { UIMessage } from "@ai-sdk/react";
 
 interface UseChatCompactOptions {
   baseUrl: string;
@@ -47,12 +47,28 @@ export const useChatCompact = ({
         {
           id: `compact-${Date.now()}`,
           role: "system",
-          parts: [{ type: "text", text: `Conversation compacted. Summary:\n\n${summary}` }],
-        } as unknown as UIMessage,
+          parts: [
+            {
+              type: "text",
+              text: `Conversation compacted. Summary:\n\n${summary}`,
+            },
+          ],
+        },
       ]);
       onConversationIdChange?.(new_conversation_id);
-    } catch {
-      // compact failed — keep existing messages
+    } catch (error) {
+      setMessages([
+        {
+          id: `compact-error-${Date.now()}`,
+          role: "system",
+          parts: [
+            {
+              type: "text",
+              text: `Compact failed: ${error instanceof Error ? error.message : String(error)}`,
+            },
+          ],
+        },
+      ]);
     }
   }, [baseUrl, conversationId, onConversationIdChange, setMessages]);
 

@@ -1,9 +1,9 @@
+import { Chat, useChat } from "@ai-sdk/react";
 import type { ChatMessage } from "@liexp/io/lib/http/Chat.js";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useConfiguration } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Chat, useChat } from "@ai-sdk/react";
 import { useChatAutoCompact } from "./chat/useChatAutoCompact.js";
 import { useChatCompact } from "./chat/useChatCompact.js";
 
@@ -14,7 +14,10 @@ interface UseStreamingChatOptions {
 }
 
 const buildConversationId = (): string => {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+  if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.randomUUID === "function"
+  ) {
     return crypto.randomUUID();
   }
   return `conv-${Date.now()}`;
@@ -104,14 +107,17 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
   const config = useConfiguration();
   const baseUrl = config.platforms.admin.url;
 
-  const { autoCompact, autoCompactRef, toggleAutoCompact } = useChatAutoCompact({
-    initialValue: initialAutoCompact,
-    onChange: onAutoCompactChange,
-  });
+  const { autoCompact, autoCompactRef, toggleAutoCompact } = useChatAutoCompact(
+    {
+      initialValue: initialAutoCompact,
+      onChange: onAutoCompactChange,
+    },
+  );
 
   const chatRef = useRef(createChatInstance(proxyUrl));
   const conversationIdRef = useRef<string | null>(null);
   const compactingRef = useRef(false);
+  const justCompactedRef = useRef(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
 
   const {
@@ -156,7 +162,9 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
       aiConfig?: { provider: string; model?: string },
     ) => {
       const activeConversationId =
-        request.conversation_id ?? conversationIdRef.current ?? buildConversationId();
+        request.conversation_id ??
+        conversationIdRef.current ??
+        buildConversationId();
 
       conversationIdRef.current = activeConversationId;
       setConversationId(activeConversationId);
@@ -178,9 +186,11 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         const message = error instanceof Error ? error.message : String(error);
         if (
           autoCompactRef.current &&
-          /token|context|limit|exceed/i.test(message)
+          /token|context|limit|exceed/i.test(message) &&
+          !compactingRef.current
         ) {
           compactingRef.current = true;
+          justCompactedRef.current = true;
           await compact();
           compactingRef.current = false;
         }
@@ -191,6 +201,10 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
 
   useEffect(() => {
     if (!rawError || !autoCompactRef.current || !conversationId) return;
+    if (justCompactedRef.current) {
+      justCompactedRef.current = false;
+      return;
+    }
     if (!/token|context|limit|exceed/i.test(rawError.message)) return;
     if (compactingRef.current) return;
 
