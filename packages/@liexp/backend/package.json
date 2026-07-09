@@ -73,7 +73,7 @@
     "exifreader": "^4.41.0",
     "express-rate-limit": "^8.5.2",
     "fast-check": "^3.23.2",
-    "fast-csv": "^5.0.2",
+    "fast-csv": "^5.0.7",
     "fp-ts": "^2.16.10",
     "ioredis": "^5.10.1",
     "langchain": "^1.5.2",
