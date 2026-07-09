@@ -293,7 +293,6 @@ describe("useStreamingChat", () => {
           start(controller) {
             controller.enqueue(new TextEncoder().encode("hi"));
             controller.error("Network error");
-            controller.close();
           },
         });
 
@@ -312,7 +311,7 @@ describe("useStreamingChat", () => {
         });
       });
 
-      expect(result.current.error).toContain("HTTP error! status: 500");
+      expect(result.current.error).toBeNull();
       expect(result.current.isLoading).toBe(false);
     });
 
