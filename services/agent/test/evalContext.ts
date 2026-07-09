@@ -59,6 +59,14 @@ export const loadEvalContext = async (): Promise<AgentContext> => {
     options: {
       chat: {
         maxRetries: 0,
+        // Reasoning models served via LocalAI (e.g. qwen3.6-35b-a3b) stream
+        // their leading <think> tokens as roleless `reasoning` deltas, which
+        // @langchain/openai parses as a generic ChatMessageChunk — once the
+        // accumulator becomes one, concatenating the later assistant
+        // AIMessageChunks silently drops their tool_call_chunks, so the
+        // agent sees no tool call and routes straight to END. Same fix as
+        // src/context/load.ts's production context builder.
+        streaming: false,
         configuration: {
           // DEBUG_EVAL=1  → record real traffic to .eval-debug/http/
           // REPLAY_EVAL=1 → replay recorded fixtures, no real LLM calls
