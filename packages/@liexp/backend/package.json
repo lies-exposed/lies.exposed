@@ -64,7 +64,7 @@
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node-telegram-bot-api": "^0.64.14",
-    "typescript": "^7.0.2",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "axios": "^1.16.0",
     "debug": "^4.4.0",
     "dotenv": "^17.4.2",
@@ -85,6 +85,7 @@
     "react-dom": "^18.3.1",
     "react-helmet-async": "^3.0.0",
     "sharp": "^0.34.5",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.0.16",
     "vitest": "^4.1.7",
     "vitest-mock-extended": "^4.0.0"

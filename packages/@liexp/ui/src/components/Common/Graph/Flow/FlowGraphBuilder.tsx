@@ -4,7 +4,7 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import {
   type Connection,
   type Node,
-  type NodeMouseHandler,
+  type OnNodeDrag,
   type ReactFlowProps,
   addEdge,
   useEdgesState,
@@ -216,11 +216,11 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
     [nodes],
   );
 
-  const onNodeDragStart: NodeMouseHandler<NodeType> = (evt, node) => {
+  const onNodeDragStart: OnNodeDrag<NodeType> = (evt, node) => {
     dragRef.current = node;
   };
 
-  const onNodeDrag: NodeMouseHandler<NodeType> = (evt, node) => {
+  const onNodeDrag: OnNodeDrag<NodeType> = (evt, node) => {
     if (!node.width || !node.height) {
       return;
     }
@@ -250,7 +250,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
     setTarget(targetNode);
   };
 
-  const onNodeDragStop: NodeMouseHandler = (evt, node) => {
+  const onNodeDragStop: OnNodeDrag<NodeType> = (evt, node) => {
     // on drag stop, we swap the colors of the nodes
     // const nodeColor = node.data.label;
     // const targetColor = target?.data.label;
