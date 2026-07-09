@@ -6,8 +6,7 @@
       "ignoreDependencies": [
         "husky",
         "lint-staged",
-        "corepack",
-        "@typescript/native-preview"
+        "corepack"
       ]
     },
     "packages/@liexp/shared": {

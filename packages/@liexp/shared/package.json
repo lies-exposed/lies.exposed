@@ -16,12 +16,12 @@
     "assets"
   ],
   "scripts": {
-    "typecheck": "tsgo",
-    "build": "tsgo -b tsconfig.build.json",
+    "typecheck": "tsc",
+    "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf lib",
     "lint": "eslint --cache src",
     "test": "vitest",
-    "watch": "tsgo -b -w"
+    "watch": "tsc -b -w"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
@@ -46,7 +46,7 @@
     "@types/lodash": "^4.17.24",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
-    "@typescript/native-preview": "7.0.0-dev.20260707.2",
+    "typescript": "^7.0.2",
     "axios": "^1.16.0",
     "effect": "^3.21.3",
     "eslint": "^10.4.0",

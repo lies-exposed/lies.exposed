@@ -245,7 +245,7 @@ Use this matrix to track the status of each component across key dimensions:
 - **Dark Mode**: Switch theme in app, check contrast with axe
 - **Accessibility**: Use axe DevTools browser extension
 - **Responsive**: Chrome DevTools device emulation
-- **TypeScript**: `tsgo --noEmit` for type checking
+- **TypeScript**: `tsc --noEmit` for type checking
 - **Storybook**: Run `pnpm storybook` locally
 - **JSDoc**: Check in code editor via hover
 

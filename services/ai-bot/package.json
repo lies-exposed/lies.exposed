@@ -16,8 +16,8 @@
   ],
   "scripts": {
     "clean": "rm -rf build/.build.* && rm -rf build/*",
-    "typecheck": "tsgo --noEmit",
-    "build:tsc": "tsgo -b tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "build:tsc": "tsc -b tsconfig.build.json",
     "build:es": "node --import tsx/esm ./esbuild.config.mjs",
     "build": "pnpm build:tsc && pnpm build:es",
     "dev": "node --watch ./build/run-esbuild.cjs --trace-warnings",
@@ -54,7 +54,7 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@types/node": "^24.12.4",
-    "@typescript/native-preview": "7.0.0-dev.20260707.2",
+    "typescript": "^7.0.2",
     "esbuild": "^0.28.0",
     "eslint": "^10.4.0",
     "tsx": "^4.21.0"

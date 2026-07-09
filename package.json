@@ -46,7 +46,7 @@
     "@commitlint/cli": "^20.5.2",
     "@commitlint/config-conventional": "^21.2.0",
     "@types/node": "^24.12.4",
-    "@typescript/native-preview": "7.0.0-dev.20260707.2",
+    "typescript": "^7.0.2",
     "@vitest/coverage-v8": "^4.1.7",
     "corepack": "^0.34.7",
     "eslint": "^10.4.0",

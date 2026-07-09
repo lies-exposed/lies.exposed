@@ -10,8 +10,8 @@
     "build"
   ],
   "scripts": {
-    "typecheck": "tsgo -b tsconfig.build.json --noEmit",
-    "build": "tsgo -b tsconfig.build.json",
+    "typecheck": "tsc -b tsconfig.build.json --noEmit",
+    "build": "tsc -b tsconfig.build.json",
     "build:app": "storybook build -o build",
     "clean": "rm -rf build && rm -rf node_modules/.cache/storybook",
     "dev": "storybook dev -p 6006 --host storybook.liexp.dev",
@@ -54,7 +54,7 @@
     "@liexp/eslint-config": "workspace:*",
     "@types/d3": "^7.4.3",
     "@types/react": "^18.3.27",
-    "@typescript/native-preview": "7.0.0-dev.20260707.2",
+    "typescript": "^7.0.2",
     "eslint": "^10.4.0",
     "eslint-plugin-storybook": "^10.4.6",
     "prettier": "^3.8.3"
