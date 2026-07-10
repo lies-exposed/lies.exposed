@@ -35,10 +35,10 @@
     "@liexp/eslint-config": "workspace:*",
     "@typescript/native": "npm:typescript@^7.0.2",
     "effect": "^3.21.3",
-    "eslint": "^10.4.0",
+    "eslint": "^10.6.0",
     "fp-ts": "^2.16.10",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vitest": "^4.1.7"
+    "vitest": "^4.1.10"
   },
   "peerDependencies": {
     "effect": "^3",
