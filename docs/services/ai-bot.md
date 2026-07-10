@@ -121,7 +121,7 @@ The service uses a JSON configuration file (`AIBotConfig`):
 ```bash
 # From repo root
 pnpm --filter ai-bot dev        # Start development with watch
-pnpm --filter ai-bot build      # Build (tsgo + esbuild)
+pnpm --filter ai-bot build      # Build (tsc + esbuild)
 pnpm --filter ai-bot cli:dev    # Run CLI commands
 
 # From services/ai-bot directory

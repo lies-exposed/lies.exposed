@@ -37,9 +37,9 @@ injectWorkspacePackages: false
 
 supportedArchitectures:
   os:
-    - current
+    - linux
   cpu:
-    - current
+    - x64
   libc:
-    - current
+    - glibc
 

@@ -7,7 +7,8 @@
         "husky",
         "lint-staged",
         "corepack",
-        "@typescript/native-preview"
+        "@typescript/native",
+        "eslint-plugin-fp-ts"
       ]
     },
     "packages/@liexp/shared": {

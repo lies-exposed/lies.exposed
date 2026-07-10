@@ -1,6 +1,6 @@
 import eslint from "@eslint/js";
 import { defineConfig } from "eslint/config";
-import fpTS from "eslint-plugin-fp-ts";
+// import fpTS from "eslint-plugin-fp-ts"; // Disabled to avoid TS 7 crash
 import { importX } from "eslint-plugin-import-x";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
@@ -20,7 +20,7 @@ const config = defineConfig(
   {
     plugins: {
       "@typescript-eslint": tseslint.plugin,
-      "fp-ts": fpTS,
+      // "fp-ts": fpTS, // Disabled to avoid TS 7 crash
       "import-x": importX,
     },
     extends: ["import-x/flat/recommended", "import-x/flat/typescript"],

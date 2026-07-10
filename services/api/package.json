@@ -26,8 +26,8 @@
     "ormconfig.js"
   ],
   "scripts": {
-    "typecheck": "tsgo --noEmit",
-    "build": "tsgo -b tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf build deploy",
     "db:diagram": "node -r tsx/cjs -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "db:dump": "tsx ./src/scripts/database.dump.ts",
@@ -50,8 +50,8 @@
     "test:spec": "vitest --project api-spec",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",
     "typeorm-ts": "TSX_TSCONFIG_PATH=tsconfig.build.json node --require tsx/cjs --require dotenv/config ../../node_modules/.bin/typeorm",
-    "watch": "tsgo -b ./tsconfig.build.json --watch",
-    "watch:dev": "tsgo -b --watch"
+    "watch": "tsc -b ./tsconfig.build.json --watch",
+    "watch:dev": "tsc -b --watch"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
@@ -102,12 +102,13 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
     "@types/supertest": "^7.2.0",
-    "@typescript/native-preview": "7.0.0-dev.20260707.2",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "dotenv": "^17.4.2",
     "eslint": "^10.4.0",
     "fast-check": "^3.23.2",
     "supertest": "^7.2.2",
     "typeorm-pglite": "^0.3.4",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "^4.1.7",
     "vitest-mock-extended": "^4.0.0",
     "wink-nlp": "^2.3.0"
