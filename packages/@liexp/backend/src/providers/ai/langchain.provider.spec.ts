@@ -10,6 +10,7 @@ vi.mock("@langchain/openai", () => {
     opts: any,
   ) {
     this.model = opts?.model;
+    this.withConfig = vi.fn().mockReturnValue(this);
     this.stream = vi
       .fn()
       .mockResolvedValue({ [Symbol.asyncIterator]: async function* () {} });
