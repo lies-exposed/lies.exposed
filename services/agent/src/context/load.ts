@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import path from "path";
-import { MultiServerMCPClient } from "@langchain/mcp-adapters";
+import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { GetAgentFactory } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
@@ -20,6 +20,7 @@ import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
+import { createMcpClient } from "../mcp/mcp.client.js";
 import { type AgentContext } from "./context.type.js";
 import { ENV } from "#io/ENV.js";
 import { createCliExecutorTool } from "#tools/cli-executor.tool.js";
@@ -231,37 +232,8 @@ export const makeAgentContext = (
           ),
         );
 
-      // Initialize real MCP client to connect to API service
-      const createMcpClient = (): MultiServerMCPClient => {
-        const mcpBaseUrl = env.MCP_URL;
-        agentLogger.debug.log("Connecting to MCP at:", mcpBaseUrl);
-        agentLogger.debug.log(
-          "Using API token:",
-          env.API_TOKEN ? "***provided***" : "MISSING",
-        );
-
-        return new MultiServerMCPClient({
-          api: {
-            transport: "http",
-            url: mcpBaseUrl,
-            headers: {
-              Authorization: `Bearer ${env.API_TOKEN}`,
-            },
-            // Enable automatic reconnection when API restarts or session expires.
-            // This handles runtime disconnections (e.g., API restarts, session expiry).
-            // For initial startup failures, the retryConnect function below provides
-            // exponential backoff with more attempts.
-            reconnect: {
-              enabled: true,
-              maxAttempts: 5,
-              delayMs: 10_000,
-            },
-          },
-        });
-      };
-
       return pipe(
-        TE.right(createMcpClient()),
+        TE.right(createMcpClient(env)),
         TE.chain((mcpClient) =>
           pipe(
             retryConnect(mcpClient),

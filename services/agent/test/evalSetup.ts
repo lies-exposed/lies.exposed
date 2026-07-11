@@ -1,6 +1,14 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import { GetLogger } from "@liexp/core";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
+import * as D from "debug";
+import { beforeAll, beforeEach, vi } from "vitest";
+import {
+  type AgentEvalTest,
+  initAgentTest,
+  loadAgentContext,
+} from "./AgentEvalTest";
 
 /**
  * Global setup for agent eval tests.
@@ -18,3 +26,30 @@ const SERVICE_ROOT = path.resolve(fileURLToPath(import.meta.url), "../..");
 
 loadENV(SERVICE_ROOT, ".env.local");
 loadENV(SERVICE_ROOT, ".env");
+
+// Agent-specific mocks - must be at top level for vitest hoisting
+vi.mock("puppeteer-core", () => ({ KnownDevices: {} }));
+
+const logger = GetLogger("agent-eval-testSetup");
+
+const g = global as unknown as {
+  agentContext: any;
+  agentEvalTest?: AgentEvalTest;
+};
+
+beforeAll(async () => {
+  D.enable(process.env.DEBUG ?? "-");
+
+  if (!g.agentContext) {
+    logger.debug.log("loading agent context");
+    g.agentContext = await loadAgentContext(logger);
+  }
+
+  logger.debug.log("agent context initialized", !!g.agentContext);
+
+  g.agentEvalTest = await initAgentTest(g.agentContext);
+});
+
+beforeEach(() => {
+  vi.clearAllMocks();
+});

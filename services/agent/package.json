@@ -10,7 +10,7 @@
     "#context/*": "./build/context/*",
     "#flows/*": "./build/flows/*",
     "#io/*": "./build/io/*",
-    "#providers/*": "./build/providers/*",
+    "#mcp/*": "./build/mcp/*",
     "#routes/*": "./build/routes/*",
     "#tools/*": "./build/tools/*"
   },
@@ -37,6 +37,9 @@
     "test:eval": "DEBUG='@liexp:*' vitest --config vitest.config.eval.ts --run",
     "test:eval:record": "DEBUG_EVAL=1 DEBUG='@liexp:*' vitest --config vitest.config.eval.ts --run",
     "test:eval:replay": "REPLAY_EVAL=1 vitest --config vitest.config.eval.ts --run",
+    "test:eval-db": "vitest --config vitest.config.eval-db.ts --run",
+    "test:eval-db:record": "DEBUG_EVAL=1 vitest --config vitest.config.eval-db.ts --run",
+    "test:eval-db:replay": "REPLAY_EVAL=1 vitest --config vitest.config.eval-db.ts --run",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "watch:dev": "tsc -b --watch"
   },
