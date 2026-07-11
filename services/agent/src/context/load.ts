@@ -50,7 +50,7 @@ const getDefaultProvider = (env: ENV): "openai" | "anthropic" | "xai" => {
 
 // Initialize Langchain provider with the default available provider
 // Provider can be overridden per-message via aiConfig in chat flow
-export const getLangchainConfig = (env: ENV) => {
+const getLangchainConfig = (env: ENV) => {
   const provider = getDefaultProvider(env);
   agentLogger.debug.log(
     `Initializing Langchain with default provider: ${provider}`,

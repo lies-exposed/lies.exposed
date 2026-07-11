@@ -35,7 +35,7 @@ interface HttpFixture {
  *
  * Only active when DEBUG_EVAL=1; otherwise returns native fetch unchanged.
  */
-export const makeDebugFetch = (): typeof globalThis.fetch => {
+const makeDebugFetch = (): typeof globalThis.fetch => {
   if (!process.env.DEBUG_EVAL) return globalThis.fetch;
 
   let seq = 0;
@@ -105,7 +105,7 @@ export const makeDebugFetch = (): typeof globalThis.fetch => {
  * Requests are matched by URL; multiple calls to the same URL are served
  * in the order they were recorded.
  */
-export const makeReplayFetch = (): typeof globalThis.fetch => {
+const makeReplayFetch = (): typeof globalThis.fetch => {
   // Load fixtures grouped by URL in recorded order
   const fixtures: HttpFixture[] = fs
     .readdirSync(HTTP_DIR)
