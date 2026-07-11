@@ -20,7 +20,7 @@ import { makeCLIContext } from "#cli/make-cli-context.js";
 import { mediaGroup } from "#cli/media/index.js";
 import { nationGroup } from "#cli/nations/index.js";
 import { storyGroup } from "#cli/stories/index.js";
-import { makeAgentContext } from "#context/load.js";
+import { loadAgentContext } from "#context/load.js";
 
 const cliLogger = GetLogger("agent-cli");
 
@@ -112,7 +112,7 @@ const main = async () => {
 
   // Full agent path: MCP + LangChain
   if (groupName === "agent") {
-    const ctx = await throwTE(makeAgentContext("agent-cli"));
+    const ctx = await throwTE(loadAgentContext("agent-cli"));
     await agentCommand(ctx, [subcommand, ...args]);
     return;
   }

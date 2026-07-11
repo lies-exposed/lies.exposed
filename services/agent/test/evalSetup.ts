@@ -7,7 +7,7 @@ import { beforeAll, beforeEach, vi } from "vitest";
 import {
   type AgentEvalTest,
   initAgentTest,
-  loadAgentContext,
+  loadAgentEvalTestContext,
 } from "./AgentEvalTest";
 
 /**
@@ -42,7 +42,7 @@ beforeAll(async () => {
 
   if (!g.agentContext) {
     logger.debug.log("loading agent context");
-    g.agentContext = await loadAgentContext(logger);
+    g.agentContext = await loadAgentEvalTestContext(logger);
   }
 
   logger.debug.log("agent context initialized", !!g.agentContext);

@@ -6,7 +6,7 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import D from "debug";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { makeApp } from "./app/make.js";
-import { makeAgentContext } from "#context/load.js";
+import { loadAgentContext } from "#context/load.js";
 
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
@@ -22,7 +22,7 @@ const run = (): Promise<void> => {
 
   return pipe(
     TE.Do,
-    TE.apS("ctx", makeAgentContext("agent-service")),
+    TE.apS("ctx", loadAgentContext("agent-service")),
     TE.chainFirstW(({ ctx }) =>
       TE.fromIOEither(initSentry(ctx.env.SENTRY_DSN)),
     ),
