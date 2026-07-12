@@ -23,7 +23,7 @@ import { sendChatMessageStream } from "../chat.flow.js";
  * discovery.
  *
  * Runs against the throwaway liexp_test DB + api-test server that
- * test/evalDbGlobalSetup.ts spins up for this project (vitest.config.eval-db.ts).
+ * test/evalDbGlobalSetup.ts spins up for this project (vitest.config.eval.ts).
  * See skills/agent_testing.md for the four test tiers.
  */
 

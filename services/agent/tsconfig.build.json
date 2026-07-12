@@ -7,5 +7,5 @@
     "declarationMap": false,
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/*.e2e.ts", "**/*.spec.ts", "**/*.test.ts", "**/*.eval.ts", "**/*.eval-db.ts"]
+  "exclude": ["node_modules", "**/*.e2e.ts", "**/*.spec.ts", "**/*.test.ts", "**/*.eval.ts"]
 }

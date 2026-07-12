@@ -1,28 +1,26 @@
 ---
 name: agent-test
-description: How to test agent responses when editing prompts or logic in services/agent. Covers the four test tiers (spec, e2e, eval, eval-db), when to use each, and the full workflow for editing prompts, running tests, and recording eval fixtures.
+description: How to test agent responses when editing prompts or logic in services/agent. Covers the three test tiers (spec, e2e, eval), when to use each, and the full workflow for editing prompts, running tests, and recording eval fixtures.
 ---
 
 # Agent Testing Guide
 
-The agent service has **four test tiers** that serve different purposes. Use the right tier for the change you're making.
+The agent service has **three test tiers** that serve different purposes. Use the right tier for the change you're making.
 
-## Four Test Tiers
+## Three Test Tiers
 
 | Tier | Config | Pattern | When to use |
 |------|--------|---------|-------------|
 | **Spec** | `vitest.config.spec.ts` | Unit tests with MSW mocks | Testing pure functions, flow logic, error paths |
 | **E2E** | `vitest.config.e2e.ts` | Integration tests with real context | Testing HTTP endpoints, auth, SSE streaming |
 | **Eval** | `vitest.config.eval.ts` | LLM-backed tests with caching | Testing actual prompt behavior, tool calls, agent responses (hits the shared dev API/DB via `.env.local`) |
-| **Eval-DB** | `vitest.config.eval-db.ts` | LLM-backed, full round trip | Verifying `liexp_cli` actually **persisted** data — asserts against Postgres directly, not just the tool call/response shape |
 
-Run all four after editing prompts or logic that touches data persistence:
+Run all three after editing prompts or logic that touches data persistence:
 
 ```bash
 pnpm --filter agent test:spec      # Unit tests
 pnpm --filter agent test:e2e       # Integration tests
 pnpm --filter agent test:eval      # LLM eval tests (shared dev DB)
-pnpm --filter agent test:eval-db   # LLM eval tests (throwaway test DB, DB-verified)
 ```
 
 ## When to Use Each Tier
@@ -54,50 +52,6 @@ Note: the existing `agent-pipeline.eval.ts` tests write through `liexp_cli` to t
 (`api.liexp.dev`) — fine for asserting tool-call shape, but not a place to add assertions that
 depend on exact DB state, and cleanup after a failed test is on you.
 
-### Eval-DB tests — `*.eval-db.ts`
-Use when a test needs to prove `liexp_cli` actually **persisted** something — the DB-verified
-equivalent of the eval tier's "full flow" tests:
-- User gives a bare URL, no instructions on *how* to handle it → agent must call `load_skill` on its
-  own, follow `skills/link_handling.md`, scrape it, call `liexp_cli link create` / `actor create` /
-  etc. → test queries Postgres directly (not the tool result, not the model's summary) to confirm the
-  row exists → test deletes what it created.
-
-These tests deliberately avoid telling the agent which tool to call or which steps to follow — that
-would just be testing `liexp_cli` in isolation again. The prompt is close to what a real user would
-type ("check this out, might be worth adding"); the test then asserts a `load_skill(link_handling)`
-tool call happened before asserting anything about `liexp_cli`, so a pass actually proves the
-input → load skills → call tools → persisted result pipeline, not a scripted tool call the test
-dictated.
-
-Unlike the `eval` tier, this does **not** touch the shared dev DB. `test/evalDbGlobalSetup.ts`
-(vitest `globalSetup`, runs once per `vitest run`) does the following before any test file runs:
-1. Drops and recreates a throwaway Postgres database, `liexp_test`, on the same local Postgres
-   server as dev (`127.0.0.1:8432`).
-2. Spawns a real `services/api` server (`tsx src/run.ts`) pointed at `liexp_test` on port 4010.
-   `NODE_ENV=test` makes TypeORM auto-`synchronize` the schema — no migrations to run.
-3. Mints a JWT locally (same shape as `services/api/src/bin/generate-service-token.ts`) and writes
-   `{ apiBaseUrl, apiToken, dbHost, dbPort, ... }` to `.eval-db-runtime.json`.
-
-`test/evalDbSetup.ts` (a per-worker `setupFiles` entry) reads that JSON and overrides
-`process.env.API_BASE_URL` / `API_TOKEN` / `DB_*` before the test file runs. `liexp_cli` is a child
-process spawned by `createCliExecutorTool` with no explicit `env` override, so it **inherits** these
-vars automatically — no code changes needed in the CLI or agent factory. LLM provider credentials
-(`OPENAI_*`, `BRAVE_API_KEY`, ...) still come from `.env.local`, same as the `eval` tier.
-
-Use `test/evalDbClient.ts`'s `queryDb()` / `closeDb()` for direct Postgres assertions and cleanup —
-delete rows a test created at the end of the test body, plus an `afterAll` safety net in case an
-assertion throws first. See `src/flows/chat/__tests__/link-ingestion.eval-db.ts` for the pattern.
-
-Run with:
-```bash
-pnpm --filter agent test:eval-db          # normal run, real LLM
-pnpm --filter agent test:eval-db:record   # DEBUG_EVAL=1, records LLM HTTP fixtures
-pnpm --filter agent test:eval-db:replay   # REPLAY_EVAL=1, replays LLM fixtures — liexp_cli/DB still real
-```
-`pool.forks.singleFork: true` is set in `vitest.config.eval-db.ts` because every test file in this
-project shares one `api-test` server and one `liexp_test` DB for the run — don't parallelize test
-files against it.
-
 ## File Locations
 
 ```
@@ -108,8 +62,8 @@ services/agent/
   src/flows/chat/__tests__/
     chat.flow.spec.ts                ← Spec tests for chat flow
     agent-pipeline.eval.ts           ← Eval tests for prompt behavior (shared dev DB)
-    link-ingestion.eval-db.ts        ← Eval-DB test: bare URL → skill-driven link create → verified in Postgres
-    link-to-event.eval-db.ts         ← Eval-DB test: 2-turn, skill-driven URL → link → event, cross-entity join verified
+    link-ingestion.eval.ts           ← Eval test: bare URL → skill-driven link create
+    link-to-event.eval.ts            ← Eval test: 2-turn, skill-driven URL → link → event
   src/routes/chat/__tests__/
     chat.controller.e2e.ts           ← E2E tests for HTTP endpoints
   test/
@@ -121,7 +75,6 @@ services/agent/
     evalSetup.ts                     ← Loads .env.local for eval tests
     evalDbGlobalSetup.ts             ← Once-per-run: throwaway liexp_test DB + api-test server
     evalDbSetup.ts                   ← Per-worker: injects API_BASE_URL/API_TOKEN/DB_* from runtime JSON
-    evalDbClient.ts                  ← Direct Postgres queryDb()/closeDb() for eval-db tests
     specSetup.ts                     ← MSW lifecycle for spec tests
 ```
 
@@ -283,11 +236,11 @@ message_start → content_delta* → tool_call_start → tool_call_end* → mess
 
 6. **"No response generated" — reasoning mode mismatch** — Some models (e.g. `qwen3.6-35b-a3b`) stream all tokens into `delta.reasoning` (thinking mode) and leave `delta.content` null. LangChain's `delta.content` reader sees empty content → agent returns "No response generated". This is a model/server-side issue, not a code bug. Fix: disable reasoning mode on the model config, or pick a non-reasoning model. Eval tests can catch this — check that `content_delta` events have non-null `content`.
 
-7. **Port 4010 already in use** — `evalDbGlobalSetup.ts` starts `api-test` on port 4010, same port `services/api/.env.test` uses for its own e2e tests. Don't run `pnpm --filter agent test:eval-db` at the same time as `pnpm --filter api test:e2e` locally.
+ 7. **Port 4010 already in use** — `evalDbGlobalSetup.ts` starts `api-test` on port 4010, same port `services/api/.env.test` uses for its own e2e tests. Don't run `pnpm --filter agent test:eval` at the same time as `pnpm --filter api test:e2e` locally.
 
-8. **`liexp_test` DB drop hangs** — `recreateTestDatabase()` terminates other backends on `liexp_test` before dropping it, but if a previous `test:eval-db` run was killed (not stopped cleanly) its `api-test` process may still hold connections. Check `ps aux | grep 'tsx src/run.ts'` and kill any orphaned process, then rerun.
+ 8. **`liexp_test` DB drop hangs** — `recreateTestDatabase()` terminates other backends on `liexp_test` before dropping it, but if a previous eval run was killed (not stopped cleanly) its `api-test` process may still hold connections. Check `ps aux | grep 'tsx src/run.ts'` and kill any orphaned process, then rerun.
 
-9. **Eval-db test hangs waiting for healthcheck** — Usually means `services/api` failed to boot against `liexp_test` (bad env, port conflict, or the local Postgres at `127.0.0.1:8432` isn't running — the `db.liexp.dev` compose service must be up). Rerun with `DEBUG_EVAL=1` to inherit the api-test process's stdout instead of swallowing it (`evalDbGlobalSetup.ts` sets `stdio: "inherit"` only in that mode).
+ 9. **Eval test hangs waiting for healthcheck** — Usually means `services/api` failed to boot against `liexp_test` (bad env, port conflict, or the local Postgres at `127.0.0.1:8432` isn't running — the `db.liexp.dev` compose service must be up). Rerun with `DEBUG_EVAL=1` to inherit the api-test process's stdout instead of swallowing it (`evalDbGlobalSetup.ts` sets `stdio: "inherit"` only in that mode).
 
 ## Running All Tests
 
@@ -296,7 +249,6 @@ pnpm --filter agent test          # Runs all three projects (spec + e2e + eval)
 pnpm --filter agent test:spec     # Spec only
 pnpm --filter agent test:e2e      # E2E only
 pnpm --filter agent test:eval     # Eval only (requires API keys)
-pnpm --filter agent test:eval-db  # Eval-DB only (requires API keys + local Postgres on :8432)
 pnpm --filter agent test:coverage # Coverage for spec tests
 ```
 
@@ -307,4 +259,3 @@ pnpm --filter agent test:coverage # Coverage for spec tests
 - Check `.eval-debug/<test-name>.json` for processed event sequences
 - Check `.eval-debug/<test-name>-raw.json` for raw LangGraph stream events
 - Check `.eval-debug/http/` for HTTP request/response pairs
-- `.eval-db-runtime.json` (eval-db tier only, gitignored) — inspect to get the live `apiBaseUrl`/`apiToken` for a run in progress; e.g. `curl -H "Authorization: Bearer $(jq -r .apiToken .eval-db-runtime.json)" $(jq -r .apiBaseUrl .eval-db-runtime.json)/link` to poke the test API by hand while a test is paused mid-debug

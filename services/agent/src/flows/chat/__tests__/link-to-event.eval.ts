@@ -27,11 +27,11 @@ import { sendChatMessageStream } from "../chat.flow.js";
  * the same way it would across two HTTP requests in production.
  *
  * Runs against the throwaway liexp_test DB + api-test server from
- * test/evalDbGlobalSetup.ts (vitest.config.eval-db.ts). See skills/agent_testing.md.
+ * test/evalDbGlobalSetup.ts (vitest.config.eval.ts). See skills/agent_testing.md.
  */
 
 // ---------------------------------------------------------------------------
-// Helpers (same shape as link-ingestion.eval-db.ts)
+// Helpers (same shape as link-ingestion.eval.ts)
 // ---------------------------------------------------------------------------
 
 const collectEvents = async (
