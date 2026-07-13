@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.5.19](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.18...agent@0.5.19) (2026-07-13)
+
+
+### Bug Fixes
+
+* **agent:** eval tests refactor and link-to-event round trip ([#3734](https://github.com/lies-exposed/lies.exposed/issues/3734)) ([6c76139](https://github.com/lies-exposed/lies.exposed/commit/6c76139f3dc60d752d61ef65e3c7c0d5c7cb07d6))
+* optimize agent prompts and tools ([#3698](https://github.com/lies-exposed/lies.exposed/issues/3698)) ([54d739e](https://github.com/lies-exposed/lies.exposed/commit/54d739e1f9769708cda68f213174d2f68d8fe1b7))
+
+
+### Miscellaneous
+
+* bump @typescript/native-preview to 7.0.0-dev.20260623.1 ([#3701](https://github.com/lies-exposed/lies.exposed/issues/3701)) ([4dcad02](https://github.com/lies-exposed/lies.exposed/commit/4dcad0282789c7dc00eb0cea9d9dbd4e4695a4ca))
+* bump tsgo to latest dev tag ([#3724](https://github.com/lies-exposed/lies.exposed/issues/3724)) ([3ae249e](https://github.com/lies-exposed/lies.exposed/commit/3ae249e491a9141651efe3e1ec14edf1eb1947a2))
+* migrate to TypeScript 7 and disable eslint-plugin-fp-ts ([#3733](https://github.com/lies-exposed/lies.exposed/issues/3733)) ([28b6f6b](https://github.com/lies-exposed/lies.exposed/commit/28b6f6b097d9c1c4b39cc691992a4ad65e930a2a))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.19
+    * @liexp/core bumped to 0.5.19
+    * @liexp/io bumped to 0.5.19
+    * @liexp/shared bumped to 0.5.19
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.19
+    * @liexp/test bumped to 0.5.19
+
 ## [0.5.18](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.17...agent@0.5.18) (2026-06-11)
 
 
