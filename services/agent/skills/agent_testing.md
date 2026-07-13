@@ -13,14 +13,14 @@ The agent service has **three test tiers** that serve different purposes. Use th
 |------|--------|---------|-------------|
 | **Spec** | `vitest.config.spec.ts` | Unit tests with MSW mocks | Testing pure functions, flow logic, error paths |
 | **E2E** | `vitest.config.e2e.ts` | Integration tests with real context | Testing HTTP endpoints, auth, SSE streaming |
-| **Eval** | `vitest.config.eval.ts` | LLM-backed tests with caching | Testing actual prompt behavior, tool calls, agent responses |
+| **Eval** | `vitest.config.eval.ts` | LLM-backed tests with caching | Testing actual prompt behavior, tool calls, agent responses (hits the shared dev API/DB via `.env.local`) |
 
-Run all three after editing prompts or logic:
+Run all three after editing prompts or logic that touches data persistence:
 
 ```bash
-pnpm --filter agent test:spec    # Unit tests
-pnpm --filter agent test:e2e     # Integration tests
-pnpm --filter agent test:eval    # LLM eval tests
+pnpm --filter agent test:spec      # Unit tests
+pnpm --filter agent test:e2e       # Integration tests
+pnpm --filter agent test:eval      # LLM eval tests (shared dev DB)
 ```
 
 ## When to Use Each Tier
@@ -48,6 +48,9 @@ Use when testing **actual LLM behavior** — what the agent does with real promp
 - Does the stream shape match expectations?
 
 These hit a real LLM (via `.env.local` credentials) but cache results so passing tests skip on re-run.
+Note: the existing `agent-pipeline.eval.ts` tests write through `liexp_cli` to the **shared dev API/DB**
+(`api.liexp.dev`) — fine for asserting tool-call shape, but not a place to add assertions that
+depend on exact DB state, and cleanup after a failed test is on you.
 
 ## File Locations
 
@@ -58,7 +61,9 @@ services/agent/
   skills/*.md                        ← Skill files (appended to system prompt)
   src/flows/chat/__tests__/
     chat.flow.spec.ts                ← Spec tests for chat flow
-    agent-pipeline.eval.ts           ← Eval tests for prompt behavior
+    agent-pipeline.eval.ts           ← Eval tests for prompt behavior (shared dev DB)
+    link-ingestion.eval.ts           ← Eval test: bare URL → skill-driven link create
+    link-to-event.eval.ts            ← Eval test: 2-turn, skill-driven URL → link → event
   src/routes/chat/__tests__/
     chat.controller.e2e.ts           ← E2E tests for HTTP endpoints
   test/
@@ -68,6 +73,8 @@ services/agent/
     evalDebug.ts                     ← HTTP traffic recording/replay
     evalCacheReporter.ts             ← Vitest reporter for cache persistence
     evalSetup.ts                     ← Loads .env.local for eval tests
+    evalDbGlobalSetup.ts             ← Once-per-run: throwaway liexp_test DB + api-test server
+    evalDbSetup.ts                   ← Per-worker: injects API_BASE_URL/API_TOKEN/DB_* from runtime JSON
     specSetup.ts                     ← MSW lifecycle for spec tests
 ```
 
@@ -228,6 +235,12 @@ message_start → content_delta* → tool_call_start → tool_call_end* → mess
 5. **Tool results in eval tests** — LangGraph's `createReactAgent` may not emit `on_tool_end` events in all configurations. The `agent-pipeline.eval.ts` has a documented bug about this.
 
 6. **"No response generated" — reasoning mode mismatch** — Some models (e.g. `qwen3.6-35b-a3b`) stream all tokens into `delta.reasoning` (thinking mode) and leave `delta.content` null. LangChain's `delta.content` reader sees empty content → agent returns "No response generated". This is a model/server-side issue, not a code bug. Fix: disable reasoning mode on the model config, or pick a non-reasoning model. Eval tests can catch this — check that `content_delta` events have non-null `content`.
+
+ 7. **Port 4010 already in use** — `evalDbGlobalSetup.ts` starts `api-test` on port 4010, same port `services/api/.env.test` uses for its own e2e tests. Don't run `pnpm --filter agent test:eval` at the same time as `pnpm --filter api test:e2e` locally.
+
+ 8. **`liexp_test` DB drop hangs** — `recreateTestDatabase()` terminates other backends on `liexp_test` before dropping it, but if a previous eval run was killed (not stopped cleanly) its `api-test` process may still hold connections. Check `ps aux | grep 'tsx src/run.ts'` and kill any orphaned process, then rerun.
+
+ 9. **Eval test hangs waiting for healthcheck** — Usually means `services/api` failed to boot against `liexp_test` (bad env, port conflict, or the local Postgres at `127.0.0.1:8432` isn't running — the `db.liexp.dev` compose service must be up). Rerun with `DEBUG_EVAL=1` to inherit the api-test process's stdout instead of swallowing it (`evalDbGlobalSetup.ts` sets `stdio: "inherit"` only in that mode).
 
 ## Running All Tests
 

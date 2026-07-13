@@ -1,7 +1,10 @@
 import { type ChatStreamEvent } from "@liexp/io/lib/http/Chat.js";
 import { beforeAll, describe, expect } from "vitest";
+import {
+  type AgentEvalTest,
+  GetAgentEvalTest,
+} from "../../../../test/AgentEvalTest.js";
 import { cachedTest } from "../../../../test/evalCache.js";
-import { loadEvalContext } from "../../../../test/evalContext.js";
 import { debugEvents, debugRawEvents } from "../../../../test/evalDebug.js";
 import { type AgentContext } from "../../../context/context.type.js";
 import { sendChatMessageStream } from "../chat.flow.js";
@@ -81,10 +84,10 @@ const ACTOR_FIXTURE = {
 // Context — shared across all tests in this file
 // ---------------------------------------------------------------------------
 
-let ctx: AgentContext;
+let ctx: AgentEvalTest;
 
 beforeAll(async () => {
-  ctx = await loadEvalContext();
+  ctx = await GetAgentEvalTest();
 });
 
 // ---------------------------------------------------------------------------
@@ -95,7 +98,10 @@ describe("actor operations", () => {
   cachedTest(
     "actor operations > listing actors calls liexp_cli with actor list",
     async () => {
-      const events = await collectEvents(ctx, "list the most recent actors");
+      const events = await collectEvents(
+        ctx.ctx,
+        "list the most recent actors",
+      );
       const calls = toolCallStarts(events);
 
       const cliCall = calls.find((e) => e.tool_call.name === "liexp_cli");
@@ -110,7 +116,7 @@ describe("actor operations", () => {
       const actorId = ACTOR_FIXTURE.id;
 
       const events = await collectEvents(
-        ctx,
+        ctx.ctx,
         `get the actor with id ${actorId}`,
       );
       const calls = toolCallStarts(events);
@@ -131,7 +137,7 @@ describe("event operations", () => {
   cachedTest(
     "event operations > listing events calls liexp_cli with event list",
     async () => {
-      const events = await collectEvents(ctx, "show me the latest events");
+      const events = await collectEvents(ctx.ctx, "show me the latest events");
       const calls = toolCallStarts(events);
 
       const cliCall = calls.find((e) => e.tool_call.name === "liexp_cli");
@@ -149,7 +155,7 @@ describe("group operations", () => {
   cachedTest(
     "group operations > listing groups calls liexp_cli with group list",
     async () => {
-      const events = await collectEvents(ctx, "list all groups");
+      const events = await collectEvents(ctx.ctx, "list all groups");
       const calls = toolCallStarts(events);
 
       const cliCall = calls.find((e) => e.tool_call.name === "liexp_cli");
@@ -168,7 +174,7 @@ describe("multi-agent routing", () => {
     "multi-agent routing > a platform management request does not leak the supervisor routing word",
     async () => {
       const events = await collectEvents(
-        ctx,
+        ctx.ctx,
         "list actors sorted by creation date",
       );
 
@@ -190,7 +196,7 @@ describe("multi-agent routing", () => {
     "multi-agent routing > a web research request does not emit a liexp_cli tool call",
     async () => {
       const events = await collectEvents(
-        ctx,
+        ctx.ctx,
         "search the web for recent news about climate change",
       );
 
@@ -210,7 +216,7 @@ describe("stream shape", () => {
   cachedTest(
     "stream shape > every response starts with message_start and ends with message_end",
     async () => {
-      const events = await collectEvents(ctx, "list actors");
+      const events = await collectEvents(ctx.ctx, "list actors");
 
       expect(events[0].type).toBe("message_start");
       expect(events[events.length - 1].type).toBe("message_end");
@@ -220,7 +226,7 @@ describe("stream shape", () => {
   cachedTest(
     "stream shape > no error event is emitted on a successful request",
     async () => {
-      const events = await collectEvents(ctx, "list actors");
+      const events = await collectEvents(ctx.ctx, "list actors");
       expect(events.find((e) => e.type === "error")).toBeUndefined();
     },
   );
@@ -249,7 +255,7 @@ describe.only("full flow with tool execution", () => {
     "full flow > querying last actor executes tool and returns response",
     async () => {
       const events = await collectEvents(
-        ctx,
+        ctx.ctx,
         "What is the last created actor?",
       );
 

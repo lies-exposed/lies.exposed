@@ -7,7 +7,7 @@ import {
   type AgentAppTest,
   startAppServer,
   stopAppServer,
-} from "../../../../test/AppTest.js";
+} from "../../../../test/AgentTest.js";
 
 /**
  * E2E tests for chat controller routes

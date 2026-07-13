@@ -10,7 +10,7 @@
     "#context/*": "./build/context/*",
     "#flows/*": "./build/flows/*",
     "#io/*": "./build/io/*",
-    "#providers/*": "./build/providers/*",
+    "#mcp/*": "./build/mcp/*",
     "#routes/*": "./build/routes/*",
     "#tools/*": "./build/tools/*"
   },

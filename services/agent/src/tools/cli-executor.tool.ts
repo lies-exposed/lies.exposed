@@ -60,6 +60,8 @@ const CliInputSchema = Schema.Struct({
   command: Schema.String.annotations({
     description: `CLI command to run. Format: <group> <subcommand> [--flag=value]
 
+Wrap any flag value containing spaces in double quotes, e.g. --fullName="Alan Turing" — unquoted multi-word values are silently truncated at the first space.
+
 Groups and subcommands:
   actor list         [--fullName=<name>] [--memberIn=<uuid>] [--start=N] [--end=N] [--sort=createdAt|updatedAt|username] [--order=ASC|DESC]
   actor get          --id=<uuid>
@@ -133,10 +135,19 @@ export const createCliExecutorTool = (cliBinPath: string) =>
         const { stdout, stderr } = await execFileAsync(
           "node",
           [cliBinPath, ...args],
-          { timeout: 30_000 },
+          // Dev-API calls are network-bound and can be slow, especially when
+          // this process is concurrently running a puppeteer scrape — 30s
+          // was tight enough to false-positive as a "command failed" with no
+          // diagnostic (execFile SIGTERMs the child, which yields empty
+          // stderr, so the model saw a bare "Command failed" and just
+          // retried the same doomed call in a loop).
+          { timeout: 60_000 },
         );
         return stdout || stderr || "(no output)";
       } catch (err: any) {
+        if (err.killed && err.signal === "SIGTERM") {
+          return `ERROR: command timed out after 60s: ${input.command}\nTry a narrower query (lower --end, more specific filters) rather than repeating the same command.`;
+        }
         // err.message from execFile just repeats the full command — not useful.
         // The CLI writes structured errors to stderr. Take all content from
         // the first error-looking line onward (includes tree-formatted parse

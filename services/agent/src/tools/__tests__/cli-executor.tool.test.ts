@@ -42,7 +42,7 @@ describe("createCliExecutorTool", () => {
     expect(mockExecAsync).toHaveBeenCalledWith(
       "node",
       [BIN_PATH, "actor", "list", "--end=10"],
-      { timeout: 30_000 },
+      { timeout: 60_000 },
     );
     expect(result).toBe(json);
   });
@@ -106,7 +106,7 @@ describe("createCliExecutorTool", () => {
     expect(mockExecAsync).toHaveBeenCalledWith(
       "node",
       [BIN_PATH, "event", "list", "--query=vaccine", "--start=0", "--end=5"],
-      { timeout: 30_000 },
+      { timeout: 60_000 },
     );
   });
 
@@ -118,7 +118,7 @@ describe("createCliExecutorTool", () => {
     expect(mockExecAsync).toHaveBeenCalledWith(
       "node",
       [BIN_PATH, "event", "list", "--title=Hello World"],
-      { timeout: 30_000 },
+      { timeout: 60_000 },
     );
   });
 
@@ -130,7 +130,7 @@ describe("createCliExecutorTool", () => {
     expect(mockExecAsync).toHaveBeenCalledWith(
       "node",
       [BIN_PATH, "actor", "list", "--fullName=John Doe"],
-      { timeout: 30_000 },
+      { timeout: 60_000 },
     );
   });
 
@@ -144,7 +144,7 @@ describe("createCliExecutorTool", () => {
     expect(mockExecAsync).toHaveBeenCalledWith(
       "node",
       [BIN_PATH, "actor", "list", '--fullName=John "Nickname" Doe'],
-      { timeout: 30_000 },
+      { timeout: 60_000 },
     );
   });
 

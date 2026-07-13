@@ -1,7 +1,11 @@
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
 import D from "debug";
 import { beforeAll, beforeEach, vi } from "vitest";
-import { type AgentAppTest, loadAgentContext, initAgentTest } from "./AppTest.js";
+import {
+  type AgentAppTest,
+  loadAgentContext,
+  initAgentTest,
+} from "./AgentTest.js";
 
 // Agent-specific mocks - must be at top level for vitest hoisting
 vi.mock("puppeteer-core", () => ({ KnownDevices: {} }));
