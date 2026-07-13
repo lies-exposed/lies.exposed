@@ -1,12 +1,12 @@
 import { type ChatStreamEvent } from "@liexp/io/lib/http/Chat.js";
 import { beforeAll, describe, expect } from "vitest";
+import { type AgentContext } from "../../../src/context/context.type.js";
 import {
   type AgentEvalTest,
   GetAgentEvalTest,
 } from "../../../test/AgentEvalTest.js";
 import { cachedTest } from "../../../test/evalCache.js";
 import { debugEvents, debugRawEvents } from "../../../test/evalDebug.js";
-import { type AgentContext } from "../../../context/context.type.js";
 import { sendChatMessageStream } from "../../flows/chat/chat.flow.js";
 
 // ---------------------------------------------------------------------------
@@ -111,8 +111,13 @@ describe("atomic event create (agent-driven)", () => {
       const cliCall = liexpCliCalls(events).find((e) =>
         /event\s+death\s+create/.test(toolArgs(e)),
       );
-      expect(cliCall, "expected a liexp_cli event death create tool call").toBeDefined();
-      expect(toolArgs(cliCall!)).toContain("00000000-0000-0000-0000-000000000000");
+      expect(
+        cliCall,
+        "expected a liexp_cli event death create tool call",
+      ).toBeDefined();
+      expect(toolArgs(cliCall!)).toContain(
+        "00000000-0000-0000-0000-000000000000",
+      );
 
       const cliEnd = toolCallEnds(events).find(
         (e) => e.tool_call.name === "liexp_cli",
@@ -121,26 +126,26 @@ describe("atomic event create (agent-driven)", () => {
     },
   );
 
-  cachedTest(
-    "agent > 'create a quote' calls event quote create",
-    async () => {
-      const events = await collectEvents(
-        ctx.ctx,
-        "Create a quote event for actor 00000000-0000-0000-0000-000000000000 saying Hello world dated 2026-05-20",
-      );
+  cachedTest("agent > 'create a quote' calls event quote create", async () => {
+    const events = await collectEvents(
+      ctx.ctx,
+      "Create a quote event for actor 00000000-0000-0000-0000-000000000000 saying Hello world dated 2026-05-20",
+    );
 
-      const cliCall = liexpCliCalls(events).find((e) =>
-        /event\s+quote\s+create/.test(toolArgs(e)),
-      );
-      expect(cliCall, "expected a liexp_cli event quote create tool call").toBeDefined();
-      expect(toolArgs(cliCall!)).toContain("Hello world");
+    const cliCall = liexpCliCalls(events).find((e) =>
+      /event\s+quote\s+create/.test(toolArgs(e)),
+    );
+    expect(
+      cliCall,
+      "expected a liexp_cli event quote create tool call",
+    ).toBeDefined();
+    expect(toolArgs(cliCall!)).toContain("Hello world");
 
-      const cliEnd = toolCallEnds(events).find(
-        (e) => e.tool_call.name === "liexp_cli",
-      );
-      expect(cliEnd, "expected the liexp_cli call to finish").toBeDefined();
-    },
-  );
+    const cliEnd = toolCallEnds(events).find(
+      (e) => e.tool_call.name === "liexp_cli",
+    );
+    expect(cliEnd, "expected the liexp_cli call to finish").toBeDefined();
+  });
 
   cachedTest(
     "agent > 'create a transaction' calls event transaction create",
@@ -191,26 +196,26 @@ describe("atomic event create (agent-driven)", () => {
     },
   );
 
-  cachedTest(
-    "agent > 'create a book' calls event book create",
-    async () => {
-      const events = await collectEvents(
-        ctx.ctx,
-        "Create a book event titled My Book dated 2026-02-14",
-      );
+  cachedTest("agent > 'create a book' calls event book create", async () => {
+    const events = await collectEvents(
+      ctx.ctx,
+      "Create a book event titled My Book dated 2026-02-14",
+    );
 
-      const cliCall = liexpCliCalls(events).find((e) =>
-        /event\s+book\s+create/.test(toolArgs(e)),
-      );
-      expect(cliCall, "expected a liexp_cli event book create tool call").toBeDefined();
-      expect(toolArgs(cliCall!)).toContain("My Book");
+    const cliCall = liexpCliCalls(events).find((e) =>
+      /event\s+book\s+create/.test(toolArgs(e)),
+    );
+    expect(
+      cliCall,
+      "expected a liexp_cli event book create tool call",
+    ).toBeDefined();
+    expect(toolArgs(cliCall!)).toContain("My Book");
 
-      const cliEnd = toolCallEnds(events).find(
-        (e) => e.tool_call.name === "liexp_cli",
-      );
-      expect(cliEnd, "expected the liexp_cli call to finish").toBeDefined();
-    },
-  );
+    const cliEnd = toolCallEnds(events).find(
+      (e) => e.tool_call.name === "liexp_cli",
+    );
+    expect(cliEnd, "expected the liexp_cli call to finish").toBeDefined();
+  });
 
   cachedTest(
     "agent > 'create a patent' calls event patent create",
@@ -223,7 +228,10 @@ describe("atomic event create (agent-driven)", () => {
       const cliCall = liexpCliCalls(events).find((e) =>
         /event\s+patent\s+create/.test(toolArgs(e)),
       );
-      expect(cliCall, "expected a liexp_cli event patent create tool call").toBeDefined();
+      expect(
+        cliCall,
+        "expected a liexp_cli event patent create tool call",
+      ).toBeDefined();
       expect(toolArgs(cliCall!)).toContain("Patent 12345");
 
       const cliEnd = toolCallEnds(events).find(
