@@ -17,6 +17,11 @@ import { type JobProcessRTE } from "#services/job-processor/job-processor.servic
 
 const defaultQuestion = `Return the requested information in JSON format with fields: title (string), description (string), publishDate (string in 'YYYY-MM-DD' format or empty string if not published).`;
 
+// Below this, scraped title+content is treated as a failed fetch (bot-block /
+// error page) rather than real article content, so the job fails visibly
+// instead of silently completing with empty metadata.
+const MIN_SCRAPED_CONTENT_LENGTH = 50;
+
 const UpdateLinkStructuredResponse = Schema.Struct({
   title: Schema.String.annotations({
     description: "The title of the link",
@@ -60,9 +65,11 @@ const getPageContentRTE = (
       fp.TE.chain((page) =>
         fp.TE.tryCatch(
           async () => {
-            await page.setUserAgent(
-              "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            );
+            // No manual UA override here: the stealth plugin (see
+            // puppeteer.load.ts) already sets a UA consistent with the real
+            // Chromium build's Client Hints headers (Sec-CH-UA-*). Overriding
+            // it with a hardcoded string desyncs navigator.userAgent from
+            // those headers, which is itself a bot-detection signal.
             await page.setExtraHTTPHeaders({
               Accept:
                 "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
@@ -157,6 +164,16 @@ const getPageContentRTE = (
           (e) => (e instanceof Error ? e : new Error(String(e))),
         ),
       ),
+      fp.TE.chain(({ title, content, publishDate }) => {
+        const scraped = (title + content).trim();
+        return scraped.length < MIN_SCRAPED_CONTENT_LENGTH
+          ? fp.TE.left(
+              new Error(
+                `Scraped content too short (${String(scraped.length)} chars) for ${url} — likely a bot-block or error page rather than the real article`,
+              ),
+            )
+          : fp.TE.right({ title, content, publishDate });
+      }),
       fp.TE.mapLeft(toAIBotError),
     );
 
