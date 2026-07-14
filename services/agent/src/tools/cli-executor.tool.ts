@@ -3,6 +3,7 @@ import { promisify } from "node:util";
 import { effectToZod } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect";
 import { tool } from "langchain";
+import { describeCommandTree } from "../cli/groups.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -56,70 +57,23 @@ function parseCommandArgs(command: string): string[] {
   return args;
 }
 
+// Generated once at module load from the CLI's own command schemas (see
+// #cli/groups.js) — never hand-maintained, so it cannot drift from the
+// actual flags each command accepts. Run "<command> --help" for full flag
+// descriptions, types, and formats (dates, UUIDs, enums, etc.) beyond the
+// required/optional shape shown here.
+const COMMAND_REFERENCE = describeCommandTree();
+
 const CliInputSchema = Schema.Struct({
   command: Schema.String.annotations({
     description: `CLI command to run. Format: <group> <subcommand> [--flag=value]
 
 Wrap any flag value containing spaces in double quotes, e.g. --fullName="Alan Turing" — unquoted multi-word values are silently truncated at the first space.
 
+Run "<group> <subcommand> --help" (e.g. "actor create --help") for a command's full flag descriptions, value formats (dates, UUIDs, enums), and required/optional status — the table below only shows flag names.
+
 Groups and subcommands:
-  actor list         [--fullName=<name>] [--memberIn=<uuid>] [--start=N] [--end=N] [--sort=createdAt|updatedAt|username] [--order=ASC|DESC]
-  actor get          --id=<uuid>
-  actor create       --username=<slug> --fullName=<name> [--excerpt=<text>] [--avatar=<uuid>] [--bornOn=YYYY-MM-DD] [--diedOn=YYYY-MM-DD] [--color=<hex>]
-  actor edit         --id=<uuid> [--fullName=<name>] [--excerpt=<text>] [--avatar=<uuid>] [--bornOn=YYYY-MM-DD] [--diedOn=YYYY-MM-DD] [--memberIn=<uuid>]
-  actor find-avatar  --fullName=<name>  (search Wikipedia for avatar image and save to platform)
-
-  group list         [--query=<name>] [--start=N] [--end=N] [--sort=createdAt|name] [--order=ASC|DESC]
-  group get          --id=<uuid>
-  group create       --name=<name> --username=<slug> --kind=<Public|Private> [--excerpt=<text>] [--avatar=<uuid>] [--startDate=YYYY-MM-DD] [--endDate=YYYY-MM-DD] [--color=<hex>]
-  group edit         --id=<uuid> [--name=<name>] [--kind=<Public|Private>] [--excerpt=<text>] [--members=<actor-uuid>]
-  group find-avatar  --name=<name>  (search Wikipedia for avatar image and save to platform)
-
-  area list          [--query=<label>] [--start=N] [--end=N] [--sort=createdAt|label] [--order=ASC|DESC]
-  area get           --id=<uuid>
-  area create        --label=<name> --slug=<slug> [--draft=true|false] [--geometry=<geojson>]
-  area edit          --id=<uuid> [--label=<name>] [--slug=<slug>] [--draft=true|false] [--geometry=<geojson>] [--featuredImage=<uuid>] [--media=<uuid,...>] [--events=<uuid,...>]
-
-  link list          [--query=<text>] [--start=N] [--end=N] [--sort=createdAt|title|url] [--order=ASC|DESC]
-  link get           --id=<uuid>
-  link create        --url=<url>
-  link edit          --id=<uuid> [--title=<text>] [--description=<text>] [--url=<url>] [--status=DRAFT|APPROVED|UNAPPROVED] [--publishDate=YYYY-MM-DD] [--events=<uuid,...>] [--keywords=<uuid,...>]
-
-  media list         [--query=<text>] [--start=N] [--end=N] [--sort=createdAt|label] [--order=ASC|DESC]
-  media get          --id=<uuid>
-  media create       --location=<url> --type=<mime> [--label=<text>] [--description=<text>] [--thumbnail=<url>] [--events=<uuid,...>] [--links=<uuid,...>] [--keywords=<uuid,...>] [--areas=<uuid,...>]
-  media edit         --id=<uuid> --location=<url> --type=<mime> --label=<text> [--description=<text>] [--thumbnail=<url>] [--events=<uuid,...>] [--links=<uuid,...>] [--keywords=<uuid,...>] [--areas=<uuid,...>]
-
-  nation list        [--name=<text>] [--start=N] [--end=N]
-  nation get         --id=<uuid>
-
-  event list         [--query=<text>] [--actors=<uuid>] [--groups=<uuid>] [--type=Death|ScientificStudy|Patent|Documentary|Book|Quote|Uncategorized|Transaction] [--startDate=YYYY-MM-DD] [--endDate=YYYY-MM-DD] [--start=N] [--end=N]
-  event get          --id=<uuid>
-
-  Event creation/editing uses type-specific subcommands:
-  event death create       --victim=<uuid> --date=YYYY-MM-DD [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-  event death edit         --id=<uuid> --victim=<uuid> --date=YYYY-MM-DD [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-
-  event transaction create --title=<text> --total=<number> --currency=<currency> --fromType=<type> --fromId=<uuid> --toType=<type> --toId=<uuid> --date=YYYY-MM-DD [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-  event transaction edit   --id=<uuid> --title=<text> --total=<number> --currency=<currency> --fromType=<type> --fromId=<uuid> --toType=<type> --toId=<uuid> --date=YYYY-MM-DD [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-
-  event quote create       --actor=<uuid> --quote=<text> --date=YYYY-MM-DD [--details=<text>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-  event quote edit         --id=<uuid> --actor=<uuid> --quote=<text> --date=YYYY-MM-DD [--details=<text>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-
-  event scientific-study create --title=<text> --studyUrl=<url> --date=YYYY-MM-DD [--image=<url>] [--publisher=<text>] [--authors=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-  event scientific-study edit   --id=<uuid> --title=<text> --studyUrl=<url> --date=YYYY-MM-DD [--image=<url>] [--publisher=<text>] [--authors=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-
-  event book create        --title=<text> --date=YYYY-MM-DD [--pdf=<url>] [--audio=<url>] [--authors=<uuid,...>] [--publisher=<uuid>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-  event book edit          --id=<uuid> --title=<text> --date=YYYY-MM-DD [--pdf=<url>] [--audio=<url>] [--authors=<uuid,...>] [--publisher=<uuid>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-
-  event patent create      --title=<text> --source=<text> --date=YYYY-MM-DD [--ownerActors=<uuid,...>] [--ownerGroups=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-  event patent edit        --id=<uuid> --title=<text> --source=<text> --date=YYYY-MM-DD [--ownerActors=<uuid,...>] [--ownerGroups=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-
-  event documentary create --title=<text> --date=YYYY-MM-DD [--documentaryMedia=<uuid,...>] [--website=<url>] [--authorActors=<uuid,...>] [--authorGroups=<uuid,...>] [--subjectActors=<uuid,...>] [--subjectGroups=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-  event documentary edit   --id=<uuid> --title=<text> --date=YYYY-MM-DD [--documentaryMedia=<uuid,...>] [--website=<url>] [--authorActors=<uuid,...>] [--authorGroups=<uuid,...>] [--subjectActors=<uuid,...>] [--subjectGroups=<uuid,...>] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-
-  event uncategorized create --title=<text> --date=YYYY-MM-DD [--actors=<uuid,...>] [--groups=<uuid,...>] [--groupsMembers=<uuid,...>] [--location=<text>] [--endDate=YYYY-MM-DD] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
-  event uncategorized edit   --id=<uuid> --title=<text> --date=YYYY-MM-DD [--actors=<uuid,...>] [--groups=<uuid,...>] [--groupsMembers=<uuid,...>] [--location=<text>] [--endDate=YYYY-MM-DD] [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+${COMMAND_REFERENCE}
 
 Examples: "actor list --fullName=Obama --end=5", "event list --query=vaccine --end=10", "link create --url=https://example.com", "actor find-avatar --fullName=Elon Musk", "event death create --victim=<actor-uuid> --date=2024-01-15"`,
   }),

@@ -17,6 +17,7 @@ Options:
 
 Output: JSON created media object (use .data.id as the avatar UUID)
 `,
+  summary: "actor find-avatar         --fullName",
   run: async (ctx, args) => {
     const fullName = getArg(args, "fullName");
     if (!fullName) {

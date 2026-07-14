@@ -4,7 +4,12 @@ import { type IOError } from "@ts-endpoint/core";
 import { ParseResult, Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { helpFromSchema, parseArgsFromSchema, type HelpMeta } from "./args.js";
+import {
+  helpFromSchema,
+  parseArgsFromSchema,
+  summaryFromSchema,
+  type HelpMeta,
+} from "./args.js";
 import { type CLIContext, type CommandModule } from "./command.type.js";
 
 type CommandError = IOError | Error;
@@ -89,5 +94,6 @@ export const makeCommand = <Fields extends Schema.Struct.Fields>(
   ) => TaskEither<CommandError, unknown>,
 ): CommandModule => ({
   help: helpFromSchema(schema, meta),
+  summary: summaryFromSchema(schema, meta),
   run: runCliCommand(schema, handler),
 });
