@@ -603,6 +603,95 @@ async function fetchWaybackDate(
   }
 }
 
+/**
+ * Title + text content recovered from a Wayback Machine snapshot.
+ */
+export interface WaybackSnapshotContent {
+  title: string;
+  content: string;
+  timestamp: string;
+}
+
+/**
+ * Fetch the raw HTML of the latest successful Wayback Machine snapshot of
+ * `url` and extract title/description/body text from it. Used as a fallback
+ * when a live scrape is bot-blocked (e.g. Akamai/PerimeterX-protected news
+ * sites) — the archived snapshot was fetched by the Internet Archive's own
+ * crawler, not our infra, so it bypasses the live bot-detection entirely.
+ * Returns null when no snapshot exists or it yields no usable content. Never
+ * propagates errors.
+ */
+export async function fetchWaybackSnapshotContent(
+  client: AxiosInstance,
+  url: string,
+): Promise<WaybackSnapshotContent | null> {
+  const timestamp = await (async (): Promise<string | null> => {
+    try {
+      const { data } = await client.get<string[][]>(WAYBACK_CDX_BASE, {
+        timeout: 10_000,
+        params: {
+          url,
+          output: "json",
+          limit: 1,
+          fl: "timestamp",
+          filter: "statuscode:200",
+          matchType: "exact",
+          collapse: "urlkey",
+        },
+      });
+      const row = data[1];
+      return Array.isArray(row) && typeof row[0] === "string" ? row[0] : null;
+    } catch {
+      return null;
+    }
+  })();
+  if (!timestamp) return null;
+
+  try {
+    // "id_" modifier returns the raw archived resource, unmodified by
+    // Wayback's toolbar/link-rewriting, so the markup matches what the
+    // publisher served at crawl time.
+    const snapshotUrl = `https://web.archive.org/web/${timestamp}id_/${url}`;
+    const { data: html } = await client.get<string>(snapshotUrl, {
+      timeout: 15_000,
+      responseType: "text",
+    });
+    if (typeof html !== "string") return null;
+
+    const { parseHTML } = await import("linkedom");
+    const dom = parseHTML(html).document;
+    const meta = (sel: string): string =>
+      dom.querySelector(sel)?.getAttribute("content")?.trim() ?? "";
+    const firstNonEmpty = (...vals: (string | undefined)[]): string =>
+      vals.find((v) => v) ?? "";
+    const title = firstNonEmpty(
+      meta("meta[property='og:title']"),
+      dom.querySelector("h1")?.textContent?.replace(/\s+/g, " ").trim(),
+      dom.querySelector("title")?.textContent?.replace(/\s+/g, " ").trim(),
+    );
+    const description = firstNonEmpty(
+      meta("meta[property='og:description']"),
+      meta("meta[name='description']"),
+    );
+    const bodyText = firstNonEmpty(
+      dom.querySelector("article")?.textContent?.replace(/\s+/g, " ").trim(),
+      dom.body?.textContent?.replace(/\s+/g, " ").trim(),
+    );
+    const content = [description, bodyText].filter(Boolean).join("\n\n");
+    if (!title && !content) return null;
+    return {
+      title,
+      content:
+        content.length > 8000
+          ? content.substring(0, 8000) + "\n\n[Content truncated...]"
+          : content,
+      timestamp,
+    };
+  } catch {
+    return null;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Provider interfaces & factory
 // ---------------------------------------------------------------------------
