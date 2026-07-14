@@ -1,4 +1,7 @@
-import { fetchDomainSpecificMetadata } from "@liexp/backend/lib/providers/URLMetadata.provider.js";
+import {
+  fetchDomainSpecificMetadata,
+  fetchWaybackSnapshotContent,
+} from "@liexp/backend/lib/providers/URLMetadata.provider.js";
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
@@ -56,6 +59,33 @@ const getPageContentRTE = (
 ) => {
   if (isURLData(data) && data.url) {
     const url = data.url;
+
+    // Last-resort fallback: fetch the latest Wayback Machine snapshot of the
+    // page. The Internet Archive's crawler fetched it, not our infra, so it
+    // sidesteps live bot-detection (Akamai/PerimeterX) entirely. Used when
+    // the live puppeteer scrape errors out or comes back too short/blocked.
+    const fromWayback = pipe(
+      fp.TE.fromTask(() => fetchWaybackSnapshotContent(axios, url)),
+      fp.TE.chain((snap) => {
+        if (!snap) {
+          return fp.TE.left(
+            new Error(`No Wayback Machine snapshot available for ${url}`),
+          );
+        }
+        const scraped = (snap.title + snap.content).trim();
+        return scraped.length < MIN_SCRAPED_CONTENT_LENGTH
+          ? fp.TE.left(
+              new Error(
+                `Wayback snapshot content also too short (${String(scraped.length)} chars) for ${url}`,
+              ),
+            )
+          : fp.TE.right({
+              title: snap.title,
+              content: snap.content,
+              publishDate: null,
+            });
+      }),
+    );
 
     // Fallback: generic puppeteer scrape for pages without a provider API.
     const fromPuppeteer = pipe(
@@ -174,6 +204,9 @@ const getPageContentRTE = (
             )
           : fp.TE.right({ title, content, publishDate });
       }),
+      // Live scrape failed outright (nav error/timeout) or was bot-blocked
+      // (guard above) — try a Wayback Machine snapshot before giving up.
+      fp.TE.orElse(() => fromWayback),
       fp.TE.mapLeft(toAIBotError),
     );
 
