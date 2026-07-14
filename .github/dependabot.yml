@@ -46,6 +46,19 @@ updates:
         versions: ["19.x"]
       - dependency-name: "@types/react-dom"
         versions: ["19.x"]
+      # MUI v9 dropped Box/Stack/Grid system-prop shorthands (display, width,
+      # padding, alignItems, etc. as direct props) in favor of sx-only — a
+      # breaking change that broke the @liexp/ui build across 100+ call
+      # sites (see PR reverting #3710). Pin below v8 until that migration
+      # is done deliberately.
+      - dependency-name: "@mui/material"
+        versions: ["8.x", "9.x"]
+      - dependency-name: "@mui/system"
+        versions: ["8.x", "9.x"]
+      - dependency-name: "@mui/icons-material"
+        versions: ["8.x", "9.x"]
+      - dependency-name: "@mui/x-data-grid"
+        versions: ["9.x"]
     groups:
       aws-sdk:
         patterns:
