@@ -171,3 +171,28 @@ ${lines.join("\n")}${notes}
 Output: ${output}
 `;
 };
+
+/**
+ * Generates a compact, single-line summary of a command's usage and flags
+ * from its Effect Schema definition — e.g.
+ * "actor create --username --fullName [--excerpt] [--avatar]".
+ * Required flags are bare, optional flags are bracketed. Derived from the
+ * same schema as helpFromSchema, so the summary can never drift from the
+ * full --help text or from the command's actual accepted flags.
+ *
+ * Used to build the aggregate command-reference table fed to the AI agent's
+ * CLI tool description (see tools/cli-executor.tool.ts) without hand-typing
+ * and re-maintaining it separately from each command's schema.
+ */
+export const summaryFromSchema = <Fields extends Schema.Struct.Fields>(
+  schema: Schema.Struct<Fields>,
+  meta: Pick<HelpMeta, "usage">,
+): string => {
+  const flags = Object.entries(schema.fields).map(([key, fieldSchema]) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ast = (fieldSchema as Schema.Schema<any>).ast;
+    const flag = `--${key}`;
+    return isOptionalField(ast) ? `[${flag}]` : flag;
+  });
+  return `${meta.usage.padEnd(26)} ${flags.join(" ")}`.trimEnd();
+};

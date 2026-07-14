@@ -17,6 +17,7 @@ Options:
 
 Output: JSON created media object (use .data.id as the avatar UUID)
 `,
+  summary: "group find-avatar         --name",
   run: async (ctx, args) => {
     const name = getArg(args, "name");
     if (!name) {

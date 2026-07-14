@@ -5,21 +5,14 @@ import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { IOError } from "@ts-endpoint/core";
 import { ParseResult } from "effect";
-import { actorGroup } from "#cli/actors/index.js";
 import { agentCommand } from "#cli/agent.command.js";
-import { areaGroup } from "#cli/areas/index.js";
 import {
+  type CommandGroup,
   type CommandModule,
   isCommandGroup,
-  type CommandGroup,
 } from "#cli/command.type.js";
-import { eventGroup } from "#cli/events/index.js";
-import { groupGroup } from "#cli/groups/index.js";
-import { linkGroup } from "#cli/links/index.js";
+import { groups } from "#cli/groups.js";
 import { makeCLIContext } from "#cli/make-cli-context.js";
-import { mediaGroup } from "#cli/media/index.js";
-import { nationGroup } from "#cli/nations/index.js";
-import { storyGroup } from "#cli/stories/index.js";
 import { loadAgentContext } from "#context/load.js";
 
 const cliLogger = GetLogger("agent-cli");
@@ -53,22 +46,6 @@ const formatError = (error: unknown): string => {
     return error.message;
   }
   return String(error);
-};
-
-/**
- * Command groups that only need the lightweight CLI context (HTTP + env).
- * Usage: cli <group> <subcommand> [--flags]
- * Example: cli actor list --fullName=Obama
- */
-const groups: Record<string, CommandGroup> = {
-  actor: actorGroup,
-  group: groupGroup,
-  area: areaGroup,
-  link: linkGroup,
-  media: mediaGroup,
-  nation: nationGroup,
-  event: eventGroup,
-  story: storyGroup,
 };
 
 const formatGroupHelp = (name: string, group: CommandGroup): string => {
