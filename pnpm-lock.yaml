@@ -40,13 +40,13 @@ importers:
     devDependencies:
       '@commitlint/cli':
         specifier: ^20.5.2
-        version: 20.5.2(@types/node@24.12.4)(@typescript/typescript6@6.0.2)(conventional-commits-parser@6.4.0)
+        version: 20.5.2(@types/node@26.1.1)(@typescript/typescript6@6.0.2)(conventional-commits-parser@6.4.0)
       '@commitlint/config-conventional':
         specifier: ^21.2.0
         version: 21.2.0
       '@types/node':
-        specifier: ^24.12.4
-        version: 24.12.4
+        specifier: ^26.1.1
+        version: 26.1.1
       '@typescript/native':
         specifier: npm:typescript@^7.0.2
         version: typescript@7.0.2
@@ -79,7 +79,7 @@ importers:
         version: 8.60.0(@typescript/typescript6@6.0.2)(eslint@10.4.0(jiti@2.7.0))
       vitest:
         specifier: ^4.1.7
-        version: 4.1.7(@opentelemetry/api@1.9.1)(@types/node@24.12.4)(@vitest/coverage-v8@4.1.7)(jsdom@29.1.1(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.14.6(@types/node@24.12.4)(@typescript/typescript6@6.0.2))(vite@8.0.16(@types/node@24.12.4)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.9.0))
+        version: 4.1.7(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/coverage-v8@4.1.7)(jsdom@29.1.1(@noble/hashes@1.8.0)(canvas@3.0.1))(msw@2.14.6(@types/node@26.1.1)(@typescript/typescript6@6.0.2))(vite@8.0.16(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.9.0))
 
   packages/@liexp/backend:
     dependencies:
@@ -154,7 +154,7 @@ importers:
         version: 0.66.0(request@2.88.2)
       query-string:
         specifier: ^9.1.1
-        version: 9.4.0
+        version: 9.4.1
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -9161,10 +9161,6 @@ packages:
     resolution: {integrity: sha512-hh2WYhq4fi8+b+/2Kg9CEge4fDPvHS534aOOvOZeQ3+Vf2mCFsaFBYj0i+iXcAq6I9Vzp5fjMFBlONvayDC1qg==}
     engines: {node: '>=6'}
 
-  query-string@9.4.0:
-    resolution: {integrity: sha512-ivvWyHqU9K1Log4hJFhqVIIMoEi0nzmlRhvk2pPcTuQH/Y0K5iTTMxEx7R0PRHD2Z1hMVbWnjfsEWbIKIK+3IA==}
-    engines: {node: '>=18'}
-
   query-string@9.4.1:
     resolution: {integrity: sha512-lSyJeN3RuaG7DZGWThtYRhk96+kEyZ/+doZpERuWbjeFL+Ok3vEat/swU498rAI0NcVt5/RJp8UDuLz7FckxrA==}
     engines: {node: '>=18'}
@@ -11431,11 +11427,11 @@ snapshots:
       style-mod: 4.1.3
       w3c-keyname: 2.2.8
 
-  '@commitlint/cli@20.5.2(@types/node@24.12.4)(@typescript/typescript6@6.0.2)(conventional-commits-parser@6.4.0)':
+  '@commitlint/cli@20.5.2(@types/node@26.1.1)(@typescript/typescript6@6.0.2)(conventional-commits-parser@6.4.0)':
     dependencies:
       '@commitlint/format': 20.5.0
       '@commitlint/lint': 20.5.0
-      '@commitlint/load': 20.5.2(@types/node@24.12.4)(@typescript/typescript6@6.0.2)
+      '@commitlint/load': 20.5.2(@types/node@26.1.1)(@typescript/typescript6@6.0.2)
       '@commitlint/read': 20.5.0(conventional-commits-parser@6.4.0)
       '@commitlint/types': 20.5.0
       tinyexec: 1.1.2
@@ -11484,14 +11480,14 @@ snapshots:
       '@commitlint/rules': 20.5.0
       '@commitlint/types': 20.5.0
 
-  '@commitlint/load@20.5.2(@types/node@24.12.4)(@typescript/typescript6@6.0.2)':
+  '@commitlint/load@20.5.2(@types/node@26.1.1)(@typescript/typescript6@6.0.2)':
     dependencies:
       '@commitlint/config-validator': 20.5.0
       '@commitlint/execute-rule': 20.0.0
       '@commitlint/resolve-extends': 20.5.2
       '@commitlint/types': 20.5.0
       cosmiconfig: 9.0.1(@typescript/typescript6@6.0.2)
-      cosmiconfig-typescript-loader: 6.3.0(@types/node@24.12.4)(@typescript/typescript6@6.0.2)(cosmiconfig@9.0.1(@typescript/typescript6@6.0.2))
+      cosmiconfig-typescript-loader: 6.3.0(@types/node@26.1.1)(@typescript/typescript6@6.0.2)(cosmiconfig@9.0.1(@typescript/typescript6@6.0.2))
       is-plain-obj: 4.1.0
       lodash.mergewith: 4.6.2
       picocolors: 1.1.1
@@ -13920,7 +13916,7 @@ snapshots:
   '@types/body-parser@1.19.6':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/caseless@0.12.5': {}
 
@@ -13934,17 +13930,17 @@ snapshots:
   '@types/compression@1.8.1':
     dependencies:
       '@types/express': 5.0.6
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/cookiejar@2.1.5': {}
 
   '@types/cors@2.8.19':
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/d3-array@3.0.3': {}
 
@@ -14128,7 +14124,7 @@ snapshots:
 
   '@types/express-serve-static-core@5.0.6':
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
       '@types/qs': 6.14.0
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -14141,7 +14137,7 @@ snapshots:
 
   '@types/fluent-ffmpeg@2.1.28':
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/geojson@7946.0.16': {}
 
@@ -14159,7 +14155,7 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/lodash@4.17.24': {}
 
@@ -14196,13 +14192,13 @@ snapshots:
 
   '@types/pg@8.20.0':
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
       pg-protocol: 1.14.0
       pg-types: 2.2.0
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
       kleur: 3.0.3
 
   '@types/prop-types@15.7.15': {}
@@ -14247,16 +14243,16 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/serve-static@2.2.0':
     dependencies:
       '@types/http-errors': 2.0.5
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/set-cookie-parser@2.4.10':
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/statuses@2.0.6': {}
 
@@ -14264,7 +14260,7 @@ snapshots:
     dependencies:
       '@types/cookiejar': 2.1.5
       '@types/methods': 1.1.4
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
       form-data: 4.0.6
 
   '@types/supertest@7.2.1':
@@ -15486,9 +15482,9 @@ snapshots:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  cosmiconfig-typescript-loader@6.3.0(@types/node@24.12.4)(@typescript/typescript6@6.0.2)(cosmiconfig@9.0.1(@typescript/typescript6@6.0.2)):
+  cosmiconfig-typescript-loader@6.3.0(@types/node@26.1.1)(@typescript/typescript6@6.0.2)(cosmiconfig@9.0.1(@typescript/typescript6@6.0.2)):
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
       cosmiconfig: 9.0.1(@typescript/typescript6@6.0.2)
       jiti: 2.6.1
       typescript: '@typescript/typescript6@6.0.2'
@@ -18955,12 +18951,6 @@ snapshots:
       filter-obj: 1.1.0
       split-on-first: 1.1.0
       strict-uri-encode: 2.0.0
-
-  query-string@9.4.0:
-    dependencies:
-      decode-uri-component: 0.4.1
-      filter-obj: 5.1.0
-      split-on-first: 3.0.0
 
   query-string@9.4.1:
     dependencies:

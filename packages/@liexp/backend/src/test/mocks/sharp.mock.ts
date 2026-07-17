@@ -2,7 +2,13 @@ import type sharp from "sharp";
 import { vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 
-export const sharpInstanceMocks = mock<sharp.Sharp>({
+export const sharpInstanceMocks = mock<{
+  keepExif: (...args: unknown[]) => unknown;
+  rotate: (...args: unknown[]) => unknown;
+  resize: (...args: unknown[]) => unknown;
+  toFormat: (...args: unknown[]) => unknown;
+  toBuffer: (...args: unknown[]) => Promise<Buffer>;
+}>({
   keepExif: vi.fn().mockReturnThis(),
   rotate: vi.fn().mockReturnThis(),
   resize: vi.fn().mockReturnThis(),

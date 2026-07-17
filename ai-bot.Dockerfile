@@ -1,4 +1,6 @@
-FROM ghcr.io/lies-exposed/liexp-base:24-latest AS dev
+ARG NODE_VERSION=26
+
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS dev
 
 WORKDIR /home/node
 
@@ -21,7 +23,7 @@ WORKDIR /home/node/services/ai-bot
 
 CMD ["pnpm", "docker:dev"]
 
-FROM ghcr.io/lies-exposed/liexp-base:24-latest AS deps
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS deps
 
 WORKDIR /home/node
 
@@ -33,7 +35,7 @@ RUN pnpm add pdfjs-dist@^5 \
     puppeteer-extra-plugin-stealth@^2
 
 
-FROM ghcr.io/lies-exposed/liexp-base:24-latest AS build
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS build
 
 WORKDIR /home/node
 
@@ -54,7 +56,7 @@ RUN strip ./ai-bot
 RUN npx postject ai-bot NODE_SEA_BLOB ./build/ai-bot.blob \
     --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
 
-FROM ghcr.io/lies-exposed/liexp-base:24-latest AS production
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS production
 
 WORKDIR /home/node
 

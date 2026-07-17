@@ -2,6 +2,8 @@
 
 set -x
 
+NODE_VERSION=26
+
 BASE_IMAGE=liexp-base
 API_IMAGE=liexp-api
 BE_WORKER_IMAGE=liexp-worker
@@ -66,7 +68,7 @@ done
 if [ "$pnpm" = true ]; then
   docker build . --force-rm --pull --file base.Dockerfile \
     --tag $BASE_IMAGE:pnpm-latest \
-    --tag ghcr.io/lies-exposed/$BASE_IMAGE:24-pnpm-latest \
+    --tag ghcr.io/lies-exposed/$BASE_IMAGE:${NODE_VERSION}-pnpm-latest \
     --target=pnpm \
     "${other_args[@]}"
 fi
@@ -74,7 +76,7 @@ fi
 if [ "$base" = true ]; then
   docker build . --force-rm --pull --file base.Dockerfile --no-cache \
     --tag $BASE_IMAGE:latest \
-    --tag ghcr.io/lies-exposed/$BASE_IMAGE:24-latest \
+    --tag ghcr.io/lies-exposed/$BASE_IMAGE:${NODE_VERSION}-latest \
     --target=api-base \
     "${other_args[@]}"
 fi
@@ -82,6 +84,7 @@ fi
 if [ "$admin" = true ]; then
   docker build \
     --build-arg DOTENV_CONFIG_PATH=.env.prod \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --file admin.Dockerfile \
     --target production \
     --tag $ADMIN_WEB_IMAGE:latest \
@@ -92,6 +95,7 @@ fi
 
 if [ "$ai_bot" = true ]; then
   docker build . \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file ai-bot.Dockerfile \
     --target production \
@@ -102,6 +106,7 @@ fi
 
 if [ "$api" = true ]; then
   docker build . \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file api.Dockerfile \
     --target production \
@@ -112,6 +117,7 @@ fi
 
 if [ "$be_worker" = true ]; then
   docker build . \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file worker.Dockerfile \
     --target production \
@@ -122,6 +128,7 @@ fi
 
 if [ "$agent" = true ]; then
   docker build . \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file agent.Dockerfile \
     --target production \
@@ -133,6 +140,7 @@ fi
 if [ "$web" = true ]; then
   docker build . \
     --build-arg DOTENV_CONFIG_PATH=".env.prod" \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file web.Dockerfile \
     --target production \

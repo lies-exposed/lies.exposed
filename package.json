@@ -45,7 +45,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.5.2",
     "@commitlint/config-conventional": "^21.2.0",
-    "@types/node": "^24.12.4",
+    "@types/node": "^26.1.1",
     "@typescript/native": "npm:typescript@^7.0.2",
     "@vitest/coverage-v8": "^4.1.7",
     "corepack": "^0.34.7",
@@ -59,7 +59,7 @@
     "vitest": "^4.1.7"
   },
   "engines": {
-    "node": ">= 24",
+    "node": ">= 26",
     "npm": "please use pnpm >= 10",
     "pnpm": ">= 9",
     "yarn": "please use pnpm >= 10"

@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/lies-exposed/liexp-base:24-pnpm-latest AS base
+ARG NODE_VERSION=26
+
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-pnpm-latest AS base
 
 COPY ./package.json /usr/src/app/package.json
 COPY ./pnpm-lock.yaml /usr/src/app/pnpm-lock.yaml
@@ -40,7 +42,7 @@ RUN pnpm admin --prod deploy --legacy /prod/admin
 
 WORKDIR /prod/admin
 
-FROM node:24-alpine AS production
+FROM node:${NODE_VERSION}-alpine AS production
 
 WORKDIR /prod/admin
 

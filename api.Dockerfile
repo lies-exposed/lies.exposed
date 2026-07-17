@@ -1,4 +1,6 @@
-FROM ghcr.io/lies-exposed/liexp-base:24-latest AS dev
+ARG NODE_VERSION=26
+
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS dev
 
 WORKDIR /usr/src/app
 
@@ -30,7 +32,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm api fetch --prod
 
 RUN pnpm api --prod deploy --legacy /prod/api
 
-FROM node:24-alpine AS production
+FROM node:${NODE_VERSION}-alpine AS production
 
 ARG VERSION
 ARG COMMIT_HASH
