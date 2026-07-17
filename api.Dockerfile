@@ -30,7 +30,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm api fetch --prod
 
 RUN pnpm api --prod deploy --legacy /prod/api
 
-FROM node:26-alpine AS production
+FROM node:24-alpine AS production
 
 ARG VERSION
 ARG COMMIT_HASH

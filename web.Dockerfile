@@ -45,7 +45,7 @@ RUN pnpm web --prod deploy --legacy /prod/web
 
 WORKDIR /prod/web
 
-FROM node:26-alpine AS production
+FROM node:24-alpine AS production
 
 WORKDIR /prod/web
 
