@@ -83,7 +83,7 @@
     "entitree-flex": "^0.4.1",
     "lodash": "^4.18.1",
     "ol": "^10.9.0",
-    "query-string": "^9.4.0",
+    "query-string": "^9.4.1",
     "ra-core": "^5.15.0",
     "ra-i18n-polyglot": "^5.15.0",
     "ra-language-english": "^5.15.0",
