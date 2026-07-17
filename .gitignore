@@ -86,3 +86,5 @@ services/data
 # Eval test result cache
 services/agent/.eval-cache.json
 services/agent/.eval-debug/
+
+graphify-out/*
