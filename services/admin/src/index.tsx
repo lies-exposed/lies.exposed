@@ -58,7 +58,9 @@ root.render(
                   localStorage.removeItem("user");
                   window.location.href = "/#/login";
                 }
-                return Promise.reject(new Error("Unauthorized"));
+                return Promise.reject(
+                  error instanceof Error ? error : new Error(String(error)),
+                );
               },
             );
             client.client.defaults.paramsSerializer = (
