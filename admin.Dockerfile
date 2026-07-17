@@ -40,7 +40,7 @@ RUN pnpm admin --prod deploy --legacy /prod/admin
 
 WORKDIR /prod/admin
 
-FROM node:24-alpine AS production
+FROM node:26-alpine AS production
 
 WORKDIR /prod/admin
 
