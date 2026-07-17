@@ -59,7 +59,7 @@
     "vitest": "^4.1.7"
   },
   "engines": {
-    "node": ">= 24",
+    "node": ">= 26",
     "npm": "please use pnpm >= 10",
     "pnpm": ">= 9",
     "yarn": "please use pnpm >= 10"
