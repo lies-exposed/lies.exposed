@@ -154,7 +154,7 @@ importers:
         version: 0.66.0(request@2.88.2)
       query-string:
         specifier: ^9.1.1
-        version: 9.4.0
+        version: 9.4.1
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -9161,10 +9161,6 @@ packages:
     resolution: {integrity: sha512-hh2WYhq4fi8+b+/2Kg9CEge4fDPvHS534aOOvOZeQ3+Vf2mCFsaFBYj0i+iXcAq6I9Vzp5fjMFBlONvayDC1qg==}
     engines: {node: '>=6'}
 
-  query-string@9.4.0:
-    resolution: {integrity: sha512-ivvWyHqU9K1Log4hJFhqVIIMoEi0nzmlRhvk2pPcTuQH/Y0K5iTTMxEx7R0PRHD2Z1hMVbWnjfsEWbIKIK+3IA==}
-    engines: {node: '>=18'}
-
   query-string@9.4.1:
     resolution: {integrity: sha512-lSyJeN3RuaG7DZGWThtYRhk96+kEyZ/+doZpERuWbjeFL+Ok3vEat/swU498rAI0NcVt5/RJp8UDuLz7FckxrA==}
     engines: {node: '>=18'}
@@ -13934,7 +13930,7 @@ snapshots:
   '@types/compression@1.8.1':
     dependencies:
       '@types/express': 5.0.6
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/connect@3.4.38':
     dependencies:
@@ -13944,7 +13940,7 @@ snapshots:
 
   '@types/cors@2.8.19':
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/d3-array@3.0.3': {}
 
@@ -14141,7 +14137,7 @@ snapshots:
 
   '@types/fluent-ffmpeg@2.1.28':
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/geojson@7946.0.16': {}
 
@@ -14159,7 +14155,7 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
 
   '@types/lodash@4.17.24': {}
 
@@ -14196,13 +14192,13 @@ snapshots:
 
   '@types/pg@8.20.0':
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
       pg-protocol: 1.14.0
       pg-types: 2.2.0
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 24.12.4
+      '@types/node': 26.1.1
       kleur: 3.0.3
 
   '@types/prop-types@15.7.15': {}
@@ -18955,12 +18951,6 @@ snapshots:
       filter-obj: 1.1.0
       split-on-first: 1.1.0
       strict-uri-encode: 2.0.0
-
-  query-string@9.4.0:
-    dependencies:
-      decode-uri-component: 0.4.1
-      filter-obj: 5.1.0
-      split-on-first: 3.0.0
 
   query-string@9.4.1:
     dependencies:
