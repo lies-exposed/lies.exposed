@@ -2,6 +2,8 @@
 
 set -x -e
 
+NODE_VERSION=26
+
 IMAGE_TAG=latest
 BASE_IMAGE=ghcr.io/lies-exposed/liexp-base
 API_IMAGE=ghcr.io/lies-exposed/liexp-api
@@ -66,8 +68,8 @@ done
 
 if [ "$base" = true ]; then
     echo "Pushing image $BASE_IMAGE"
-    docker image push $BASE_IMAGE:24-latest
-    docker image push $BASE_IMAGE:24-pnpm-latest
+    docker image push $BASE_IMAGE:${NODE_VERSION}-latest
+    docker image push $BASE_IMAGE:${NODE_VERSION}-pnpm-latest
     
 fi
 
