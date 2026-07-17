@@ -42,7 +42,7 @@ RUN pnpm admin --prod deploy --legacy /prod/admin
 
 WORKDIR /prod/admin
 
-FROM node:${NODE_VERSION}-alpine AS production
+FROM node:${NODE_VERSION}-bookworm-slim AS production
 
 WORKDIR /prod/admin
 

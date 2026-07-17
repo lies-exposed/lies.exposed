@@ -47,7 +47,7 @@ RUN pnpm web --prod deploy --legacy /prod/web
 
 WORKDIR /prod/web
 
-FROM node:${NODE_VERSION}-alpine AS production
+FROM node:${NODE_VERSION}-bookworm-slim AS production
 
 WORKDIR /prod/web
 
