@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/lies-exposed/liexp-base:24-pnpm-latest AS base
+FROM ghcr.io/lies-exposed/liexp-base:26-pnpm-latest AS base
 
 COPY ./package.json /usr/src/app/package.json
 COPY ./pnpm-lock.yaml /usr/src/app/pnpm-lock.yaml

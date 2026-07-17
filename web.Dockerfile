@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/lies-exposed/liexp-base:24-pnpm-latest AS dev
+FROM ghcr.io/lies-exposed/liexp-base:26-pnpm-latest AS dev
 
 WORKDIR /usr/src/app
 

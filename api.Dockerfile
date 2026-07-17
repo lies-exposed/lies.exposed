@@ -1,4 +1,4 @@
-FROM ghcr.io/lies-exposed/liexp-base:24-latest AS dev
+FROM ghcr.io/lies-exposed/liexp-base:26-latest AS dev
 
 WORKDIR /usr/src/app
 
