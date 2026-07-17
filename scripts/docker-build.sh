@@ -84,6 +84,7 @@ fi
 if [ "$admin" = true ]; then
   docker build \
     --build-arg DOTENV_CONFIG_PATH=.env.prod \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --file admin.Dockerfile \
     --target production \
     --tag $ADMIN_WEB_IMAGE:latest \
@@ -94,6 +95,7 @@ fi
 
 if [ "$ai_bot" = true ]; then
   docker build . \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file ai-bot.Dockerfile \
     --target production \
@@ -104,6 +106,7 @@ fi
 
 if [ "$api" = true ]; then
   docker build . \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file api.Dockerfile \
     --target production \
@@ -114,6 +117,7 @@ fi
 
 if [ "$be_worker" = true ]; then
   docker build . \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file worker.Dockerfile \
     --target production \
@@ -124,6 +128,7 @@ fi
 
 if [ "$agent" = true ]; then
   docker build . \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file agent.Dockerfile \
     --target production \
@@ -135,6 +140,7 @@ fi
 if [ "$web" = true ]; then
   docker build . \
     --build-arg DOTENV_CONFIG_PATH=".env.prod" \
+    --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file web.Dockerfile \
     --target production \

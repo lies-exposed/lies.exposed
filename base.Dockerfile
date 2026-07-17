@@ -1,4 +1,6 @@
-FROM node:26-alpine3.24 AS base
+ARG NODE_VERSION=26
+
+FROM node:${NODE_VERSION}-alpine3.24 AS base
 
 
 FROM base AS pnpm
