@@ -75,7 +75,7 @@
     "@types/node": "^24.12.4",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
-    "@types/supertest": "^7.2.0",
+    "@types/supertest": "^7.2.1",
     "@typescript/native": "npm:typescript@^7.0.2",
     "eslint": "^10.4.0",
     "jsdom": "^29.1.1",
