@@ -50,6 +50,19 @@ root.render(
               url: import.meta.env.VITE_API_URL,
               getAuth: getAuthFromLocalStorage,
             });
+            client.client.interceptors.response.use(
+              (response) => response,
+              (error) => {
+                if (error.response?.status === 401) {
+                  localStorage.removeItem("auth");
+                  localStorage.removeItem("user");
+                  window.location.href = "/#/login";
+                }
+                return Promise.reject(
+                  error instanceof Error ? error : new Error(String(error)),
+                );
+              },
+            );
             client.client.defaults.paramsSerializer = (
               params: Record<string, unknown>,
             ) => {

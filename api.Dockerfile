@@ -32,7 +32,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm api fetch --prod
 
 RUN pnpm api --prod deploy --legacy /prod/api
 
-FROM node:${NODE_VERSION}-alpine AS production
+FROM node:${NODE_VERSION}-bookworm-slim AS production
 
 ARG VERSION
 ARG COMMIT_HASH
