@@ -12,6 +12,10 @@ inputs:
     required: false
     default: "false"
     description: "Whether to push the image to the registry"
+  load:
+    required: false
+    default: "false"
+    description: "Whether to load the image into the local Docker daemon (for smoke tests)"
   registry:
     required: false
     default: "ghcr.io"
@@ -47,6 +51,7 @@ runs:
         context: .
         file: ./${{ inputs.dockerfile }}
         push: ${{ inputs.push }}
+        load: ${{ inputs.load }}
         tags: ${{ inputs.image_name }}
         build-args: ${{ inputs.build-args }}
         platforms: linux/amd64
