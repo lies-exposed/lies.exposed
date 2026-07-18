@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.5.20](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.19...lies.exposed@0.5.20) (2026-07-18)
+
+
+### Bug Fixes
+
+* **deps:** switch from Alpine to Debian Bookworm for rolldown compatibility ([#3758](https://github.com/lies-exposed/lies.exposed/issues/3758)) ([59a9a2b](https://github.com/lies-exposed/lies.exposed/commit/59a9a2b8d10bdd4c091f9d1cdef901d02650c9db))
+
+
+### Miscellaneous
+
+* **deps:** revert MUI v9 bump that broke the build ([#3749](https://github.com/lies-exposed/lies.exposed/issues/3749)) ([ae0d7ca](https://github.com/lies-exposed/lies.exposed/commit/ae0d7ca372c2c24e8e637b6ca399ed0f5a61f59d))
+* setup graphify ([#3752](https://github.com/lies-exposed/lies.exposed/issues/3752)) ([d8e7bfa](https://github.com/lies-exposed/lies.exposed/commit/d8e7bfa3bfc37489fedd2b7f58f330ef471d1c43))
+* update [@types](https://github.com/types) dev deps ([#3754](https://github.com/lies-exposed/lies.exposed/issues/3754)) ([3b90a8a](https://github.com/lies-exposed/lies.exposed/commit/3b90a8a377bff2d81b5e9526274d955315e90fbc))
+* upgrade Node.js from v24 to v26 ([#3756](https://github.com/lies-exposed/lies.exposed/issues/3756)) ([5ee4dba](https://github.com/lies-exposed/lies.exposed/commit/5ee4dba5b4a77a14864ac8670d76ab1bd0695769))
+* **workspace:** add explicit permissions to pull-request workflow ([#3759](https://github.com/lies-exposed/lies.exposed/issues/3759)) ([de795d1](https://github.com/lies-exposed/lies.exposed/commit/de795d1a5fa3e498a02d86cb2b39d07e622fe3ae))
+
 ## [0.5.19](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.18...lies.exposed@0.5.19) (2026-07-13)
 
 
