@@ -25,6 +25,9 @@ inputs:
   build-args:
     required: false
     description: "Docker build args"
+  target:
+    required: false
+    description: "Dockerfile build stage to target (defaults to the last stage)"
 
 runs:
   using: "composite"
@@ -46,6 +49,7 @@ runs:
       with:
         context: .
         file: ./${{ inputs.dockerfile }}
+        target: ${{ inputs.target }}
         push: ${{ inputs.push }}
         tags: ${{ inputs.image_name }}
         build-args: ${{ inputs.build-args }}
