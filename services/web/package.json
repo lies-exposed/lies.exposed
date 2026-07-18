@@ -78,21 +78,21 @@
     "@liexp/test": "workspace:*",
     "@types/debug": "^4.1.13",
     "@types/express": "^5.0.6",
-    "@types/node": "^24.12.4",
+    "@types/node": "^26.1.1",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
     "@types/supertest": "^7.2.1",
     "@typescript/native": "npm:typescript@^7.0.2",
     "dotenv": "^17.4.2",
-    "eslint": "^10.4.0",
-    "msw": "^2.14.6",
+    "eslint": "^10.7.0",
+    "msw": "^2.15.0",
     "supertest": "^7.2.2",
     "tsx": "^4.21.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vite": "^8.0.16",
-    "vite-plugin-css-injected-by-js": "^5.0.1",
+    "vite": "^8.1.5",
+    "vite-plugin-css-injected-by-js": "^5.0.2",
     "vite-plugin-optimizer": "^1.4.3",
-    "vitest": "^4.1.7"
+    "vitest": "^4.1.10"
   },
   "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
 }

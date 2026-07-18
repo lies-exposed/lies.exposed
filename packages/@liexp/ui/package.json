@@ -128,13 +128,13 @@
     "@typescript/native": "npm:typescript@^7.0.2",
     "axios": "^1.16.0",
     "effect": "^3.21.3",
-    "eslint": "^10.4.0",
+    "eslint": "^10.7.0",
     "fp-ts": "^2.16.10",
     "jsdom": "^29.1.1",
     "openai": "^6.45.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vite": "^8.0.16",
-    "vitest": "^4.1.7"
+    "vite": "^8.1.5",
+    "vitest": "^4.1.10"
   },
   "peerDependencies": {
     "axios": "^1",
