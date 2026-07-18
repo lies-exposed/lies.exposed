@@ -34,45 +34,9 @@ jobs:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
-  # Build and push the shared base image (only when release is created).
-  # All service Dockerfiles FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest,
-  # so this must land before any of them build, or they silently reuse whatever
-  # base image tag is already in the registry (see base.Dockerfile history: the
-  # Alpine->Bookworm switch shipped without this and every service kept running
-  # on the stale Alpine base until the mismatch surfaced as native-binding /
-  # libc-detection failures in prod).
-  base-image:
-    needs: [release-please]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-        if: needs.release-please.outputs.releases_created == 'true'
-
-      - name: Docker build base (pnpm stage)
-        if: needs.release-please.outputs.releases_created == 'true'
-        uses: ./.github/actions/docker-build-push
-        with:
-          dockerfile: base.Dockerfile
-          target: pnpm
-          image_name: ghcr.io/lies-exposed/liexp-base:26-pnpm-latest
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          push: ${{ needs.release-please.outputs.releases_created == 'true' }}
-
-      - name: Docker build base (api-base stage)
-        if: needs.release-please.outputs.releases_created == 'true'
-        uses: ./.github/actions/docker-build-push
-        with:
-          dockerfile: base.Dockerfile
-          target: api-base
-          image_name: ghcr.io/lies-exposed/liexp-base:26-latest
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          push: ${{ needs.release-please.outputs.releases_created == 'true' }}
-
   # Setup: Install deps and build (only when release is created)
   setup:
-    needs: [release-please, base-image]
+    needs: [release-please]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -133,7 +97,7 @@ jobs:
 
   # Build and push Docker images in parallel (only when release is created)
   deploy:
-    needs: [release-please, base-image, setup]
+    needs: [release-please, setup]
     runs-on: ubuntu-latest
     strategy:
       matrix:
