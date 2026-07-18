@@ -4,8 +4,12 @@ import { ACTORS } from "@liexp/io/lib/http/Actor.js";
 import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { GROUPS } from "@liexp/io/lib/http/Group.js";
 import { LINKS } from "@liexp/io/lib/http/Link.js";
-import { type CreateQueueEmbeddingTypeData } from "@liexp/io/lib/http/Queue/index.js";
+import {
+  CreateQueueTextData,
+  type CreateQueueEmbeddingTypeData,
+} from "@liexp/io/lib/http/Queue/index.js";
 import { Schema } from "effect";
+import { toAIBotError } from "../../common/error/index.js";
 import { updateActorFlow } from "./actor/updateActor.flow.js";
 import { updateGroupFlow } from "./group/updateGroup.flow.js";
 import { updateLinkFlow } from "./link/updateLink.flow.js";
@@ -18,6 +22,18 @@ const embedAndQuestionCommonFlow: JobProcessRTE<
   CreateQueueEmbeddingTypeData,
   string
 > = (job) => {
+  // Guard against empty/whitespace-only text reaching the agent (mirrors the
+  // scraped-content guard in updateLink.flow.ts). URL-type job data has
+  // nothing to validate here, only text-type does.
+  if (
+    Schema.is(CreateQueueTextData)(job.data) &&
+    job.data.text.trim().length === 0
+  ) {
+    return fp.RTE.left(
+      toAIBotError(new Error("Cannot embed/summarize: job.data.text is empty")),
+    );
+  }
+
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
