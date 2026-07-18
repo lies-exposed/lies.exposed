@@ -25,19 +25,18 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libpango1.0-dev \
     libgif-dev \
-    libcairo-2 \
     libpango-1.0-0 \
     libgif7 \
     chromium \
     fonts-freefont-ttf \
     ffmpeg \
-    nss \
+    libnss3 \
     libfreetype6 \
     libfreetype-dev \
     libharfbuzz-dev \
     ca-certificates
 
-RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
+RUN addgroup --system pptruser && adduser --system --ingroup pptruser pptruser \
     && mkdir -p /home/pptruser/Downloads /prod \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /prod
