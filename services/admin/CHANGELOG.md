@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.5.20](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.19...admin@0.5.20) (2026-07-18)
+
+
+### Bug Fixes
+
+* **admin:** auto-logout on 401 errors via axios interceptor ([#3757](https://github.com/lies-exposed/lies.exposed/issues/3757)) ([3c63eff](https://github.com/lies-exposed/lies.exposed/commit/3c63effd34ef104fd6ca4fc3e596e7d88db3cf1d))
+* **deps:** switch from Alpine to Debian Bookworm for rolldown compatibility ([#3758](https://github.com/lies-exposed/lies.exposed/issues/3758)) ([59a9a2b](https://github.com/lies-exposed/lies.exposed/commit/59a9a2b8d10bdd4c091f9d1cdef901d02650c9db))
+
+
+### Miscellaneous
+
+* update [@types](https://github.com/types) dev deps ([#3754](https://github.com/lies-exposed/lies.exposed/issues/3754)) ([3b90a8a](https://github.com/lies-exposed/lies.exposed/commit/3b90a8a377bff2d81b5e9526274d955315e90fbc))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.20
+    * @liexp/core bumped to 0.5.20
+    * @liexp/io bumped to 0.5.20
+    * @liexp/shared bumped to 0.5.20
+    * @liexp/ui bumped to 0.5.20
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.20
+    * @liexp/test bumped to 0.5.20
+
 ## [0.5.19](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.18...admin@0.5.19) (2026-07-13)
 
 

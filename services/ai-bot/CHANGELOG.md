@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.20](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.19...ai-bot@0.5.20) (2026-07-18)
+
+
+### Bug Fixes
+
+* **ai-bot:** fail link-scrape jobs on bot-block instead of returning empty metadata ([#3748](https://github.com/lies-exposed/lies.exposed/issues/3748)) ([20fa18c](https://github.com/lies-exposed/lies.exposed/commit/20fa18cbc536756828f69291b500f6383d9bc409))
+* **ai-bot:** guard summarize/embed flows against empty content ([#3761](https://github.com/lies-exposed/lies.exposed/issues/3761)) ([319ba25](https://github.com/lies-exposed/lies.exposed/commit/319ba250ccfa95fc4518ef7f378c360439682af0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.20
+    * @liexp/core bumped to 0.5.20
+    * @liexp/io bumped to 0.5.20
+    * @liexp/shared bumped to 0.5.20
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.20
+
 ## [0.5.19](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.18...ai-bot@0.5.19) (2026-07-13)
 
 

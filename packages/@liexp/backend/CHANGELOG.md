@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.5.20](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.19...@liexp/backend@0.5.20) (2026-07-18)
+
+
+### Bug Fixes
+
+* **ai-bot:** fail link-scrape jobs on bot-block instead of returning empty metadata ([#3748](https://github.com/lies-exposed/lies.exposed/issues/3748)) ([20fa18c](https://github.com/lies-exposed/lies.exposed/commit/20fa18cbc536756828f69291b500f6383d9bc409))
+
+
+### Miscellaneous
+
+* update [@types](https://github.com/types) dev deps ([#3754](https://github.com/lies-exposed/lies.exposed/issues/3754)) ([3b90a8a](https://github.com/lies-exposed/lies.exposed/commit/3b90a8a377bff2d81b5e9526274d955315e90fbc))
+* upgrade Node.js from v24 to v26 ([#3756](https://github.com/lies-exposed/lies.exposed/issues/3756)) ([5ee4dba](https://github.com/lies-exposed/lies.exposed/commit/5ee4dba5b4a77a14864ac8670d76ab1bd0695769))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.20
+    * @liexp/io bumped to 0.5.20
+    * @liexp/shared bumped to 0.5.20
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.20
+    * @liexp/test bumped to 0.5.20
+
 ## [0.5.19](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.18...@liexp/backend@0.5.19) (2026-07-13)
 
 

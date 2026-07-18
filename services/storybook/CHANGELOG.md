@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.20](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.19...@liexp/storybook@0.5.20) (2026-07-18)
+
+
+### Miscellaneous
+
+* **deps:** revert MUI v9 bump that broke the build ([#3749](https://github.com/lies-exposed/lies.exposed/issues/3749)) ([ae0d7ca](https://github.com/lies-exposed/lies.exposed/commit/ae0d7ca372c2c24e8e637b6ca399ed0f5a61f59d))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.5.20
+    * @liexp/shared bumped to 0.5.20
+    * @liexp/test bumped to 0.5.20
+    * @liexp/ui bumped to 0.5.20
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.20
+
 ## [0.5.19](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.18...@liexp/storybook@0.5.19) (2026-07-13)
 
 
