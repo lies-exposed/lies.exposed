@@ -24,12 +24,15 @@ Route by task type. Read the relevant L2 module first; load L3 data only when ne
 
 1. **Route first.** Use the Context Router before loading any data file. Never guess; the router exists for that.
 2. **Load lazily.** Never load all L3 files at once. Max 2 hops: router → L2 narrative → (optional) L3 data.
-3. **Edit source only.** Never touch `lib/` or `build/` directories.
+3. **Edit source only.** Never touch `lib/` or `build` directories.
 4. **Read before edit.** Read the file first, follow existing patterns before introducing new ones.
 5. **Delegate exploration.** For tasks touching 3+ files or 2+ directories, delegate to a sub-agent.
 6. **fp-ts everywhere.** Use `pipe` + `TaskEither`/`ReaderTaskEither`. Never mix imperative style.
 7. **pnpm workspace.** Use `pnpm --filter <service> <script>` from repo root.
 8. **Context update as final task.** After completing work, check §Self-Update Rules and append any durable findings.
+9. **Memory first.** At the **start of every session**, call `memory_search` with `agent_id` and a query matching the task. This recalls prior decisions, conventions, and context — never start cold.
+10. **CodeGraph first.** Before any grep/find/read/edit, call `codegraph_explore` with the symbol names, file names, or question. It returns verbatim source plus call paths in one call — replaces the grep+read loop. Pass `projectPath` for monorepo sub-projects.
+11. **Graphify on demand.** Use `skill("graphify")` for any question about architecture, file relationships, or project content — especially when `graphify-out/` already exists.
 
 ---
 
