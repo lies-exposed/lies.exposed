@@ -2,6 +2,7 @@ import eslint from "@eslint/js";
 import { defineConfig } from "eslint/config";
 // import fpTS from "eslint-plugin-fp-ts"; // Disabled to avoid TS 7 crash
 import { importX } from "eslint-plugin-import-x";
+import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
 
@@ -32,12 +33,18 @@ const config = defineConfig(
         projectService: true,
       },
     },
-    // settings: {
-    //   "import-x/resolver": {
-    //     typescript: true,
-    //     node: true,
-    //   },
-    // },
+    settings: {
+      "import-x/resolver-next": [
+        createTypeScriptImportResolver({
+          project: [
+            "./tsconfig.json",
+            "./packages/@liexp/*/tsconfig.json",
+            "./services/*/tsconfig.json",
+          ],
+          noWarnOnMultipleProjects: true,
+        }),
+      ],
+    },
     rules: {
       // fp-ts plugin rules
       "fp-ts/no-lib-imports": "off",
