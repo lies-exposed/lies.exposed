@@ -36,11 +36,6 @@ const config = defineConfig(
     settings: {
       "import-x/resolver-next": [
         createTypeScriptImportResolver({
-          project: [
-            "./tsconfig.json",
-            "./packages/@liexp/*/tsconfig.json",
-            "./services/*/tsconfig.json",
-          ],
           noWarnOnMultipleProjects: true,
         }),
       ],
