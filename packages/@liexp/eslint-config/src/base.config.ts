@@ -1,3 +1,4 @@
+import { existsSync, readdirSync } from "node:fs";
 import eslint from "@eslint/js";
 import { defineConfig } from "eslint/config";
 // import fpTS from "eslint-plugin-fp-ts"; // Disabled to avoid TS 7 crash
@@ -11,6 +12,27 @@ import tseslint from "typescript-eslint";
 // from — createTypeScriptImportResolver() with no `project` falls back to a
 // cwd-based lookup that's cached process-wide, which breaks in some CI setups.
 const REPO_ROOT = new URL("../../../../", import.meta.url).pathname;
+
+// Enumerated (not globbed): tinyglobby's globSync silently drops a match when
+// it equals the resolver's `cwd`, which is set to each service's own directory
+// by `pnpm --filter <service> lint` — so every service was losing its OWN
+// tsconfig.json from the project list, falling back to Node's package.json
+// "imports" resolution (`#alias/* -> ./build/*`), which only "works" if
+// `build/` already exists locally. On a fresh CI checkout `build/` doesn't
+// exist yet (lint runs before build), so resolution failed for every #alias
+// import in every service. Listing tsconfigs ourselves via fs avoids the
+// dynamic-glob code path in the resolver entirely.
+const listTsconfigs = (dir: string): string[] =>
+  readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => `${dir}${entry.name}/tsconfig.json`)
+    .filter((tsconfigPath) => existsSync(tsconfigPath));
+
+const PROJECT_TSCONFIGS = [
+  `${REPO_ROOT}tsconfig.json`,
+  ...listTsconfigs(`${REPO_ROOT}packages/@liexp/`),
+  ...listTsconfigs(`${REPO_ROOT}services/`),
+];
 
 const config = defineConfig(
   // Base ESLint recommended rules
@@ -42,11 +64,7 @@ const config = defineConfig(
     settings: {
       "import-x/resolver-next": [
         createTypeScriptImportResolver({
-          project: [
-            `${REPO_ROOT}tsconfig.json`,
-            `${REPO_ROOT}packages/@liexp/*/tsconfig.json`,
-            `${REPO_ROOT}services/*/tsconfig.json`,
-          ],
+          project: PROJECT_TSCONFIGS,
           noWarnOnMultipleProjects: true,
         }),
       ],
