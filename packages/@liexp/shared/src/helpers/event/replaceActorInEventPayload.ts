@@ -55,8 +55,7 @@ export const replaceActorInEventPayload = <
     case EVENT_TYPES.BOOK: {
       const authors = payload.authors as { type: string; id: UUID }[];
       const publisher = payload.publisher as
-        | { type: string; id: UUID }
-        | undefined;
+        { type: string; id: UUID } | undefined;
       return {
         ...event,
         payload: {

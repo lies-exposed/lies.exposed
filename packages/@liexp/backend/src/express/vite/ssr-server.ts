@@ -56,8 +56,7 @@ export const createSsrProductionTemplateHandlers = (
 ): SsrTemplateHandlers => {
   let serverEntry: (() => Promise<unknown>) | undefined;
   let getTemplate:
-    | ((url: string, originalUrl?: string) => Promise<string>)
-    | undefined;
+    ((url: string, originalUrl?: string) => Promise<string>) | undefined;
 
   // Load the server entry module in production
   if (templateConfig.serverEntry) {
@@ -111,8 +110,7 @@ export const createSsrDevTemplateHandlers = async (
 ): Promise<SsrTemplateHandlers> => {
   let serverEntry: (() => Promise<unknown>) | undefined;
   let getTemplate:
-    | ((url: string, originalUrl?: string) => Promise<string>)
-    | undefined;
+    ((url: string, originalUrl?: string) => Promise<string>) | undefined;
 
   // Resolve the server entry path from configuration
   if (templateConfig.serverEntry) {

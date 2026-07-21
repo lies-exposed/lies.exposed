@@ -125,13 +125,11 @@ export const GetNERProvider = ({
             .out(nlp.its.detail, nlp.as.freqTable) as Detail[];
 
           let uniqueEntities: (Detail & { freq: number })[] = entities
-            .map(
-              (e): UniqueEntity => ({
-                ...e,
-                value: e.type === "keyword" ? e.value.toLowerCase() : e.value,
-                freq: 0,
-              }),
-            )
+            .map((e): UniqueEntity => ({
+              ...e,
+              value: e.type === "keyword" ? e.value.toLowerCase() : e.value,
+              freq: 0,
+            }))
             .reduce<UniqueEntity[]>((acc, n) => {
               const included = acc.findIndex(
                 (i) => i.value === n.value && i.type === n.type,

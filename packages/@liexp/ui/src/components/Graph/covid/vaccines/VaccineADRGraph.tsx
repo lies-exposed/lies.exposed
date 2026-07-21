@@ -307,8 +307,7 @@ const VaccineADRGraphComponent = withTooltip<
   const handleTooltip = React.useCallback(
     (
       event:
-        | React.TouchEvent<SVGRectElement>
-        | React.MouseEvent<SVGRectElement>,
+        React.TouchEvent<SVGRectElement> | React.MouseEvent<SVGRectElement>,
     ) => {
       const { x } = localPoint(event) ?? { x: 0 };
       const x0 = xScale.invert(x);

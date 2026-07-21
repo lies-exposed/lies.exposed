@@ -93,14 +93,12 @@ export const toAPIError = (e: unknown): APIError => {
   return pipe(
     e,
     Schema.decodeUnknownEither(APIError),
-    fp.E.getOrElse(
-      (): APIError => ({
-        message: "Unknown error",
-        name: "APIError",
-        details: [JSON.stringify(e)],
-        status: 500,
-      }),
-    ),
+    fp.E.getOrElse((): APIError => ({
+      message: "Unknown error",
+      name: "APIError",
+      details: [JSON.stringify(e)],
+      status: 500,
+    })),
   );
 };
 

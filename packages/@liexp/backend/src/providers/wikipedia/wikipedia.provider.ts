@@ -93,14 +93,12 @@ export const WikipediaProvider = ({
           toMWError,
         ),
         TE.map(({ data: { pages } }) =>
-          pages.map(
-            (p): SearchResult => ({
-              ns: 0,
-              title: p.title,
-              pageid: p.id,
-              timestamp: new Date().toISOString(),
-            }),
-          ),
+          pages.map((p): SearchResult => ({
+            ns: 0,
+            title: p.title,
+            pageid: p.id,
+            timestamp: new Date().toISOString(),
+          })),
         ),
       );
     },

@@ -64,8 +64,7 @@ export const getServer = ({
         ssrLog.debug.log("r.path %s", r.path);
         try {
           matchResult = pathToRegexp.match(r.path)(pathOnly) as
-            | { params: Record<string, string> }
-            | false;
+            { params: Record<string, string> } | false;
           return matchResult;
         } catch (e) {
           ssrLog.debug.log(

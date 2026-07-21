@@ -63,15 +63,13 @@ export const MakeEditSocialPostRoute: Route = (r, ctx) => {
           pipe(
             fetchSocialPostRelations(socialPost.content)(ctx),
             TE.mapLeft(toControllerError),
-            TE.map(
-              (r): SocialPostEntityWithContent => ({
-                ...socialPost,
-                content: {
-                  ...socialPost.content,
-                  ...r,
-                },
-              }),
-            ),
+            TE.map((r): SocialPostEntityWithContent => ({
+              ...socialPost,
+              content: {
+                ...socialPost.content,
+                ...r,
+              },
+            })),
           ),
         ),
         TE.chainEitherK((post) => SocialPostIO.decodeSingle(post)),

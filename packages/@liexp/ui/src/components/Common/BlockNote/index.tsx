@@ -4,8 +4,7 @@ import * as React from "react";
 import type { BNEditorProps } from "./Editor.js";
 
 let BNEditor:
-  | React.FC<BNEditorProps>
-  | React.LazyExoticComponent<React.FC<BNEditorProps>>;
+  React.FC<BNEditorProps> | React.LazyExoticComponent<React.FC<BNEditorProps>>;
 
 if (typeof window === "undefined") {
   BNEditor = (): React.ReactElement => <div />;

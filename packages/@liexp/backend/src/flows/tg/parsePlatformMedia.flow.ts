@@ -70,15 +70,14 @@ export const parsePlatformMedia =
         }
         return fp.TE.right([]);
       }),
-      fp.TE.chain(
-        ({ media: [media] }): TaskEither<ServerError, MediaEntity> =>
-          pipe(
-            extractMediaExtra(media)(ctx),
-            fp.TE.map((extra) => ({
-              ...media,
-              extra: extra ? { ...media.extra, ...extra } : null,
-            })),
-          ),
+      fp.TE.chain(({ media: [media] }): TaskEither<ServerError, MediaEntity> =>
+        pipe(
+          extractMediaExtra(media)(ctx),
+          fp.TE.map((extra) => ({
+            ...media,
+            extra: extra ? { ...media.extra, ...extra } : null,
+          })),
+        ),
       ),
       fp.TE.chain((media): TaskEither<DBError, MediaEntity[]> => {
         return MediaRepository.save([{ ...media }])(ctx);

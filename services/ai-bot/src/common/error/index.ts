@@ -9,12 +9,7 @@ import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 
 export type AIBotError =
-  | DecodeError
-  | PuppeteerError
-  | PDFError
-  | FSError
-  | APIError
-  | IOError;
+  DecodeError | PuppeteerError | PDFError | FSError | APIError | IOError;
 
 export const toAIBotError = (e: unknown): AIBotError => {
   // Check instanceof first — faster and more reliable than schema decode.

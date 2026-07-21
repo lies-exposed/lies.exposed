@@ -103,9 +103,8 @@ export const extractMediaFromPlatform =
         description: extractDescriptionFromPlatform(m, page),
         thumbnail: pipe(
           extractThumbnailFromVideoPlatform(m, page)(ctx),
-          TE.orElse(
-            (): TE.TaskEither<ServerError, URL | undefined> =>
-              TE.right(undefined),
+          TE.orElse((): TE.TaskEither<ServerError, URL | undefined> =>
+            TE.right(undefined),
           ),
         ),
         type: TE.right(IframeVideoType.literals[0]),
