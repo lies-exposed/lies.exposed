@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.21](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.20...@liexp/eslint-config@0.5.21) (2026-07-21)
+
+
+### Bug Fixes
+
+* **ci:** build services before lint, enumerate resolver tsconfigs ([#3769](https://github.com/lies-exposed/lies.exposed/issues/3769)) ([f25bedd](https://github.com/lies-exposed/lies.exposed/commit/f25bedd2f2149763d454c5fbf582e47c55dac437))
+* use createTypeScriptImportResolver for path alias resolution ([#3766](https://github.com/lies-exposed/lies.exposed/issues/3766)) ([29da395](https://github.com/lies-exposed/lies.exposed/commit/29da39528d3c26368119842f630fa4b4bbdd67cb))
+
 ## [0.5.20](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.19...@liexp/eslint-config@0.5.20) (2026-07-18)
 
 
