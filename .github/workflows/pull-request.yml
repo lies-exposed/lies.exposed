@@ -34,6 +34,8 @@ jobs:
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/ui/src/**"
               - "services/admin/**"
+              - "admin.Dockerfile"
+              - "base.Dockerfile"
             agent:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
@@ -41,6 +43,8 @@ jobs:
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/backend/src/**"
               - "services/agent/**"
+              - "agent.Dockerfile"
+              - "base.Dockerfile"
             ai-bot:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
@@ -48,6 +52,8 @@ jobs:
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/backend/src/**"
               - "services/ai-bot/**"
+              - "ai-bot.Dockerfile"
+              - "base.Dockerfile"
             api:
               - ".github/workflows/**"
               - "packages/@liexp/core/**"
@@ -55,6 +61,8 @@ jobs:
               - "packages/@liexp/shared/**"
               - "packages/@liexp/backend/**"
               - "services/api/**"
+              - "api.Dockerfile"
+              - "base.Dockerfile"
             packages:
               - ".github/workflows/**"
               - "packages/**"
@@ -69,6 +77,8 @@ jobs:
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/ui/src/**"
               - "services/web/**"
+              - "web.Dockerfile"
+              - "base.Dockerfile"
             worker:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
@@ -76,6 +86,8 @@ jobs:
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/backend/src/**"
               - "services/worker/**"
+              - "worker.Dockerfile"
+              - "base.Dockerfile"
             root:
               - ".github/workflows/**"
               - "knip.json"
@@ -91,6 +103,7 @@ jobs:
               - "**/package.json"
               - "pnpm-lock.yaml"
               - "pnpm-workspace.yaml"
+              - "*.Dockerfile"
 
       - name: Build CI matrix
         id: set-matrix
