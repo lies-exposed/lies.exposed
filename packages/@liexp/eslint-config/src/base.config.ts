@@ -1,10 +1,16 @@
 import eslint from "@eslint/js";
 import { defineConfig } from "eslint/config";
 // import fpTS from "eslint-plugin-fp-ts"; // Disabled to avoid TS 7 crash
-import { importX } from "eslint-plugin-import-x";
 import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
+import { importX } from "eslint-plugin-import-x";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
+
+// Anchored to this file's location on disk (not process.cwd()) so the resolver
+// finds the right tsconfig.json regardless of which directory eslint is invoked
+// from — createTypeScriptImportResolver() with no `project` falls back to a
+// cwd-based lookup that's cached process-wide, which breaks in some CI setups.
+const REPO_ROOT = new URL("../../../../", import.meta.url).pathname;
 
 const config = defineConfig(
   // Base ESLint recommended rules
@@ -36,6 +42,11 @@ const config = defineConfig(
     settings: {
       "import-x/resolver-next": [
         createTypeScriptImportResolver({
+          project: [
+            `${REPO_ROOT}tsconfig.json`,
+            `${REPO_ROOT}packages/@liexp/*/tsconfig.json`,
+            `${REPO_ROOT}services/*/tsconfig.json`,
+          ],
           noWarnOnMultipleProjects: true,
         }),
       ],
