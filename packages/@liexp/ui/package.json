@@ -126,7 +126,7 @@
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "axios": "^1.16.0",
+    "axios": "^1.18.0",
     "effect": "^3.21.3",
     "eslint": "^10.7.0",
     "fp-ts": "^2.16.10",
