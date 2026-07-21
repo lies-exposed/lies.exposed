@@ -213,16 +213,16 @@ jobs:
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
-      - name: Lint ${{ matrix.service }}
-        if: ${{ matrix.lint_command }}
-        run: ${{ matrix.lint_command }}
-
       - name: Build ${{ matrix.service }}
         if: ${{ matrix.build_command }}
         uses: ./.github/actions/build-service
         with:
           service: ${{ matrix.service }}
           build_command: ${{ matrix.build_command }}
+
+      - name: Lint ${{ matrix.service }}
+        if: ${{ matrix.lint_command }}
+        run: ${{ matrix.lint_command }}
 
       - name: Build ${{ matrix.service }} app
         if: ${{ matrix.app_command }}
