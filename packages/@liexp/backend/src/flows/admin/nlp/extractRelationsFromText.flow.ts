@@ -61,9 +61,11 @@ export const extractRelationsFromText =
                 actors: pipe(
                   details
                     .filter((d) => d.type === "actor")
-                    .reduce<
-                      string[]
-                    >((acc, a) => (acc.includes(a.value) ? acc : acc.concat(a.value)), []),
+                    .reduce<string[]>(
+                      (acc, a) =>
+                        acc.includes(a.value) ? acc : acc.concat(a.value),
+                      [],
+                    ),
                   O.fromPredicate((ll) => ll.length > 0),
                   O.map((names) =>
                     ctx.db.find(ActorEntity, {
@@ -78,9 +80,11 @@ export const extractRelationsFromText =
                 groups: pipe(
                   details
                     .filter((d) => d.type === "group")
-                    .reduce<
-                      string[]
-                    >((acc, a) => (acc.includes(a.value) ? acc : acc.concat(a.value)), []),
+                    .reduce<string[]>(
+                      (acc, a) =>
+                        acc.includes(a.value) ? acc : acc.concat(a.value),
+                      [],
+                    ),
                   O.fromPredicate((l) => l.length > 0),
                   O.map((names) =>
                     ctx.db.find(GroupEntity, {
@@ -95,9 +99,13 @@ export const extractRelationsFromText =
                 keywords: pipe(
                   details
                     .filter((d) => d.type === "keyword")
-                    .reduce<
-                      string[]
-                    >((acc, a) => (acc.includes(a.value) ? acc : acc.concat(a.value.toLowerCase())), []),
+                    .reduce<string[]>(
+                      (acc, a) =>
+                        acc.includes(a.value)
+                          ? acc
+                          : acc.concat(a.value.toLowerCase()),
+                      [],
+                    ),
                   O.fromPredicate((l) => l.length > 0),
                   O.map((tags) =>
                     ctx.db.find(KeywordEntity, {

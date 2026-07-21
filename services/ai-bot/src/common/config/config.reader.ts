@@ -30,17 +30,14 @@ export const ConfigProviderReader =
       fp.TE.chainEitherK((e) =>
         pipe(
           Schema.decodeUnknownEither(decoder)(e),
-          fp.E.mapLeft(
-            (errors): AIBotError =>
-              DecodeError.of("Can't parse configuration", errors),
+          fp.E.mapLeft((errors): AIBotError =>
+            DecodeError.of("Can't parse configuration", errors),
           ),
         ),
       ),
-      fp.TE.map(
-        (config): ConfigProvider<Schema.Schema.Encoded<C>> => ({
-          config: config,
-          save: (config) => ctx.fs.writeObject(path, JSON.stringify(config)),
-        }),
-      ),
+      fp.TE.map((config): ConfigProvider<Schema.Schema.Encoded<C>> => ({
+        config: config,
+        save: (config) => ctx.fs.writeObject(path, JSON.stringify(config)),
+      })),
     );
   };

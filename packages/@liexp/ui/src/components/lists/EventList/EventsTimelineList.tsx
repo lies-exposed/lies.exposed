@@ -29,8 +29,7 @@ export interface EventsTimelineListProps extends Omit<
   height: number;
   total: number;
   onRowsRendered:
-    | ((info: { startIndex: number; stopIndex: number }) => void)
-    | undefined;
+    ((info: { startIndex: number; stopIndex: number }) => void) | undefined;
 }
 
 const EventsTimelineList: React.ForwardRefRenderFunction<

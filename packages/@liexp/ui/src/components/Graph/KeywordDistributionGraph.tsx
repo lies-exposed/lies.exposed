@@ -23,12 +23,10 @@ const KeywordsDistributionGraphComponent: React.FC<
     const words = data
       .filter((d) => d.events > 0)
       .sort((a, b) => a.events - b.events)
-      .map(
-        (d): KeywordDatum => ({
-          ...d,
-          text: d.tag,
-        }),
-      );
+      .map((d): KeywordDatum => ({
+        ...d,
+        text: d.tag,
+      }));
 
     const wordSizes = words.map((w) => w.events);
 

@@ -23,8 +23,7 @@ export const fetchFromWikipedia: FetchFromWikipediaFlow = (title) => (wp) => {
     fp.TE.map(({ page }) => ({
       slug: getUsernameFromDisplayName(page.titles.canonical),
       featuredMedia: (page.thumbnail?.source ?? page.originalimage?.source) as
-        | URL
-        | undefined,
+        URL | undefined,
       intro: page.extract,
     })),
   );

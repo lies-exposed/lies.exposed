@@ -216,8 +216,7 @@ export interface ActorEncoded extends Schema.Struct.Encoded<
   typeof actorFields
 > {
   readonly memberIn: readonly (
-    | Schema.Schema.Encoded<typeof UUID>
-    | GroupMemberEncoded
+    Schema.Schema.Encoded<typeof UUID> | GroupMemberEncoded
   )[];
   readonly relationsAsSource: readonly Schema.Schema.Encoded<typeof UUID>[];
   readonly relationsAsTarget: readonly Schema.Schema.Encoded<typeof UUID>[];

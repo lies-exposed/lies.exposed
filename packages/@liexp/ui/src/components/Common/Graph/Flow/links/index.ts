@@ -10,5 +10,4 @@ export const edgeTypes = {
 };
 
 export type EdgeType =
-  | ActorLinkType
-  | Edge<{ color: string }, typeof Keyword.Keyword.name>;
+  ActorLinkType | Edge<{ color: string }, typeof Keyword.Keyword.name>;

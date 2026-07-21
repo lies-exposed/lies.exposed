@@ -147,8 +147,7 @@ export const helpFromSchema = <Fields extends Schema.Struct.Fields>(
     const ast = (fieldSchema as Schema.Schema<any>).ast;
     const description =
       (ast.annotations[SchemaAST.DescriptionAnnotationId] as
-        | string
-        | undefined) ?? "";
+        string | undefined) ?? "";
     const optional = isOptionalField(ast);
     const flag = `--${key}=<value>`.padEnd(PAD);
     const suffix = optional ? "" : " (required)";

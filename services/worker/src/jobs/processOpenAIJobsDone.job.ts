@@ -134,16 +134,13 @@ const processDoneJobEventResult =
   (job: Queue.Queue): RTE<Queue.Queue> =>
     pipe(
       normalizeEventPayload({ id: job.id, draft: true, ...job.result }),
-      fp.RTE.chain(
-        (normalizedResult): RTE<Event> =>
-          (_ctx) => {
-            const decoded = Schema.decodeUnknownEither(Event)(normalizedResult);
-            if (fp.E.isLeft(decoded)) {
-              return fp.TE.left(DecodeError.of("Event", decoded.left));
-            }
-            return fp.TE.right(decoded.right);
-          },
-      ),
+      fp.RTE.chain((normalizedResult): RTE<Event> => (_ctx) => {
+        const decoded = Schema.decodeUnknownEither(Event)(normalizedResult);
+        if (fp.E.isLeft(decoded)) {
+          return fp.TE.left(DecodeError.of("Event", decoded.left));
+        }
+        return fp.TE.right(decoded.right);
+      }),
       fp.RTE.chain((event) =>
         dbService.save([
           {
@@ -164,8 +161,7 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
     fp.RTE.chain((job) => {
       if (Schema.is(OpenAIUpdateEntitiesFromURLType)(job.type)) {
         const linkId = (job.data as { linkId?: string }).linkId as
-          | UUID
-          | undefined;
+          UUID | undefined;
         if (!linkId) return fp.RTE.of(job);
         return pipe(
           LinkRepository.findOneOrFail({
@@ -311,17 +307,14 @@ export const processOpenAIJobsDone: CronJobTE = () => {
         fp.A.traverse(fp.RTE.ApplicativePar)((job) =>
           pipe(
             processDoneJob(job),
-            fp.RTE.orElse(
-              (e): RTE<Queue.Queue> =>
-                (ctx) => {
-                  ctx.logger.error.log(
-                    "Error processing done job %s: %O",
-                    job.id,
-                    e,
-                  );
-                  return fp.TE.right(job);
-                },
-            ),
+            fp.RTE.orElse((e): RTE<Queue.Queue> => (ctx) => {
+              ctx.logger.error.log(
+                "Error processing done job %s: %O",
+                job.id,
+                e,
+              );
+              return fp.TE.right(job);
+            }),
           ),
         ),
       );

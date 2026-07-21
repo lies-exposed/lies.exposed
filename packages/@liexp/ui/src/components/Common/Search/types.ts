@@ -23,13 +23,7 @@ import {
 // ---------------------------------------------------------------------------
 
 export type SearchResourceType =
-  | "actor"
-  | "group"
-  | "keyword"
-  | "area"
-  | "event"
-  | "link"
-  | "media";
+  "actor" | "group" | "keyword" | "area" | "event" | "link" | "media";
 
 export interface ResourceTypeOption {
   value: SearchResourceType;

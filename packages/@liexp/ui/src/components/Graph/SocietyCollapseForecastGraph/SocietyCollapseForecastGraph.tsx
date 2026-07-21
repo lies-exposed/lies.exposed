@@ -100,8 +100,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
     const handleTooltip = React.useCallback(
       (
         event:
-          | React.TouchEvent<SVGRectElement>
-          | React.MouseEvent<SVGRectElement>,
+          React.TouchEvent<SVGRectElement> | React.MouseEvent<SVGRectElement>,
       ) => {
         const { x, y } = localPoint(event) ?? { x: 0, y: 0 };
         const x0 = yearScale.invert(x);

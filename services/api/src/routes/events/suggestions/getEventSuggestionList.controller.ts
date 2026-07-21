@@ -41,12 +41,11 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
         pipe(
           status,
           O.map((s) => [s]),
-          O.orElse(
-            (): O.Option<EventSuggestion.EventSuggestionStatus[]> =>
-              O.some([
-                "PENDING",
-                "COMPLETED",
-              ] as EventSuggestion.EventSuggestionStatus[]),
+          O.orElse((): O.Option<EventSuggestion.EventSuggestionStatus[]> =>
+            O.some([
+              "PENDING",
+              "COMPLETED",
+            ] as EventSuggestion.EventSuggestionStatus[]),
           ),
         );
 

@@ -66,8 +66,7 @@ export const mergeProviderConfig = (
   override?: ProviderConfigOverride,
 ): MergedProviderConfig => {
   const chatOptions = defaultOptions.options?.chat as
-    | Record<string, unknown>
-    | undefined;
+    Record<string, unknown> | undefined;
 
   const provider = override?.provider ?? defaultOptions.provider;
   const model = override?.model ?? defaultOptions.models?.chat ?? "gpt-4o";

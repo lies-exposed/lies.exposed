@@ -18,6 +18,8 @@ jobs:
       any-code: ${{ steps.filter.outputs.any-code }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - uses: dorny/paths-filter@v4
         id: filter
@@ -157,6 +159,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - uses: ./.github/actions/install-deps
         with:
@@ -202,6 +206,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - uses: ./.github/actions/setup-workspace
         with:
@@ -256,6 +262,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - uses: ./.github/actions/setup-workspace
         with:

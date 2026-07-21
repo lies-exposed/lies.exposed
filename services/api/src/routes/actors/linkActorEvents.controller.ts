@@ -62,13 +62,12 @@ export const MakeLinkActorEventsRoute: Route = (r, { db, logger, jwt }) => {
                       TE.map((): LinkResult => ({ eventId, success: true })),
                     );
                   }),
-                  TE.orElse(
-                    (): TE.TaskEither<ControllerError, LinkResult> =>
-                      TE.right({
-                        eventId,
-                        success: false,
-                        reason: "Event not found",
-                      }),
+                  TE.orElse((): TE.TaskEither<ControllerError, LinkResult> =>
+                    TE.right({
+                      eventId,
+                      success: false,
+                      reason: "Event not found",
+                    }),
                   ),
                 ),
             ),

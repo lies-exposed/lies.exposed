@@ -13,20 +13,17 @@ export const ExtractMediaExtraSubscriber = Subscriber(
   (payload): RTE<void> =>
     pipe(
       fp.RTE.Do,
-      fp.RTE.bind(
-        "media",
-        (): RTE<MediaEntity> =>
-          MediaRepository.findOneOrFail({
-            where: { id: Equal(payload.id) },
-          }),
+      fp.RTE.bind("media", (): RTE<MediaEntity> =>
+        MediaRepository.findOneOrFail({
+          where: { id: Equal(payload.id) },
+        }),
       ),
       fp.RTE.bind("extra", ({ media }) => extractMediaExtra(media)),
-      fp.RTE.chain(
-        ({ media, extra }): RTE<MediaEntity> =>
-          pipe(
-            MediaRepository.save([{ id: media.id, extra }]),
-            fp.RTE.map((s) => s[0]),
-          ),
+      fp.RTE.chain(({ media, extra }): RTE<MediaEntity> =>
+        pipe(
+          MediaRepository.save([{ id: media.id, extra }]),
+          fp.RTE.map((s) => s[0]),
+        ),
       ),
       fp.RTE.map(() => undefined),
     ),

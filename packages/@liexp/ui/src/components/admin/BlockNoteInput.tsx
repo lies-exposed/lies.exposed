@@ -118,8 +118,7 @@ const BlockNoteInput: React.FC<
   }
 > = ({ onlyText = false, readOnly = false, ...props }) => {
   const resource = useResourceContext<{ resource: ResourcesNames }>() as
-    | ResourcesNames
-    | undefined;
+    ResourcesNames | undefined;
   const record = useRecordContext<{ id: UUID }>();
 
   return (
