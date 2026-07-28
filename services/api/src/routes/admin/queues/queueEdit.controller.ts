@@ -15,11 +15,12 @@ export const MakeQueueEditRoute: Route = (r, ctx) => {
         fp.RTE.Do,
         fp.RTE.bind("queue", () => fp.RTE.right(GetQueueProvider.queue(type))),
         fp.RTE.bind("prevJob", ({ queue }) => queue.getJob(resource, id)),
-        fp.RTE.bind("deletePrevJob", ({ queue, prevJob }) =>
-          queue.deleteJob(prevJob.resource, prevJob.id),
-        ),
+        // addJob upserts by primary key (id = prevJob.id) so this is an
+        // in-place UPDATE, not an insert. No delete step: a delete-then-add
+        // used to run here (leftover from the pre-Postgres, file-based queue
+        // where "edit" meant delete-file-then-write-file) and left a window
+        // where a crash between the two steps could drop the job permanently.
         fp.RTE.bind("job", ({ queue, prevJob }) => {
-          // Construct the job without timestamps - these will be set by addJob
           const jobData: Omit<Queue, "createdAt" | "updatedAt" | "deletedAt"> =
             {
               ...(userData as Omit<
