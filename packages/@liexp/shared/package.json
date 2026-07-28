@@ -27,8 +27,8 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
   },
   "dependencies": {
-    "@blocknote/core": "^0.51.4",
-    "@blocknote/server-util": "^0.51.4",
+    "@blocknote/core": "^0.52.1",
+    "@blocknote/server-util": "^0.52.1",
     "@floating-ui/dom": "^1.7.6",
     "@liexp/core": "workspace:*",
     "@liexp/io": "workspace:*",
