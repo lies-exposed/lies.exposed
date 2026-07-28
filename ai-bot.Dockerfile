@@ -35,33 +35,12 @@ RUN pnpm add pdfjs-dist@^5 \
     puppeteer-extra-plugin-stealth@^2
 
 
-FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS build
-
-WORKDIR /home/node
-
-RUN mkdir build scripts
-
-COPY ./services/ai-bot/build/run-esbuild.cjs build/run-esbuild.cjs
-
-COPY --from=deps /home/node/node_modules ./node_modules
-
-COPY services/ai-bot/sea-config.json sea-config.json
-
-RUN node --experimental-sea-config sea-config.json
-
-RUN cp $(command -v node) ./ai-bot
-
-RUN strip ./ai-bot
-
-RUN npx postject ai-bot NODE_SEA_BLOB ./build/ai-bot.blob \
-    --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
-
 FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS production
 
 WORKDIR /home/node
 
 COPY --from=deps /home/node/node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs /home/node/build/
 COPY --from=deps /home/node/node_modules ./node_modules
-COPY --from=build /home/node/ai-bot ai-bot
+COPY ./services/ai-bot/build/run-esbuild.cjs build/run-esbuild.cjs
 
-CMD ["./ai-bot"]
+CMD ["node", "build/run-esbuild.cjs"]
