@@ -1,4 +1,7 @@
 import { ChatAnthropic, type AnthropicInput } from "@langchain/anthropic";
+import { type CallbackManagerForLLMRun } from "@langchain/core/callbacks/manager";
+import { type BaseMessage } from "@langchain/core/messages";
+import { type ChatResult } from "@langchain/core/outputs";
 import {
   ChatOpenAI,
   type ChatOpenAIFields,
@@ -12,6 +15,41 @@ import type * as Reader from "fp-ts/lib/Reader.js";
 import { type Document as LangchainDocument } from "langchain";
 
 const langchainLogger = GetLogger("langchain");
+
+const EMPTY_CHOICES_MAX_RETRIES = 2;
+
+/**
+ * Some OpenAI-compatible backends (observed with LocalAI serving
+ * qwen3.6-35b-a3b) occasionally answer a non-streaming completion with
+ * HTTP 200 and an empty/missing `choices` array — no exception is thrown,
+ * so @langchain/openai's completions.js silently returns `generations: []`,
+ * and @langchain/core's BaseChatModel.invoke() then crashes reading
+ * `.generations[0][0].message` of undefined. This isn't a network failure,
+ * so ChatOpenAI's own `maxRetries` never kicks in. Retry the underlying
+ * completion ourselves when this happens before giving up.
+ */
+class ChatOpenAIWithEmptyChoicesRetry extends ChatOpenAI {
+  override async _generate(
+    messages: BaseMessage[],
+    options: this["ParsedCallOptions"],
+    runManager?: CallbackManagerForLLMRun,
+  ): Promise<ChatResult> {
+    let result: ChatResult | undefined;
+    for (let attempt = 1; attempt <= EMPTY_CHOICES_MAX_RETRIES + 1; attempt++) {
+      result = await super._generate(messages, options, runManager);
+      if (result.generations.length > 0) return result;
+      langchainLogger.warn.log(
+        "Chat completion returned no choices (attempt %d/%d) — backend likely had a transient hiccup%s",
+        attempt,
+        EMPTY_CHOICES_MAX_RETRIES + 1,
+        attempt <= EMPTY_CHOICES_MAX_RETRIES ? ", retrying..." : "",
+      );
+    }
+    throw new Error(
+      `Chat completion backend returned no choices after ${EMPTY_CHOICES_MAX_RETRIES + 1} attempts`,
+    );
+  }
+}
 
 export const EMBEDDINGS_PROMPT: PromptFn<{
   text: string;
@@ -112,7 +150,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
     if (provider === "openai") {
       const openAIChatOpts = (opts.options?.chat ?? {}) as ChatOpenAIFields;
       const openAIChatOptions = chatOptions as ChatOpenAIFields;
-      const openAIChat = new ChatOpenAI({
+      const openAIChat = new ChatOpenAIWithEmptyChoicesRetry({
         model,
         temperature: 0,
         apiKey: opts.apiKey,
