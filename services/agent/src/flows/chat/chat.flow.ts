@@ -376,6 +376,41 @@ export const processStreamEvent = (
 // Agent resolution
 // ---------------------------------------------------------------------------
 
+const EMPTY_CHOICES_MAX_RETRIES = 2;
+
+/**
+ * LocalAI occasionally answers a chat completion with HTTP 200 and an empty
+ * `choices` array; @langchain/core's BaseChatModel.invoke() then crashes
+ * reading `.generations[0][0].message` of undefined. Two attempts to fix
+ * this inside the langchain provider (subclassing ChatOpenAI, then patching
+ * `configuration.fetch`) were both silently bypassed — createAgent/bindTools
+ * ends up invoking the model through a path that discards non-serializable
+ * overrides on the model instance (crash stack always names the base
+ * `ChatOpenAI`, never our wrapper). Retrying the whole agent turn here, at
+ * the one call site that can't be rebuilt out from under us, is the fix that
+ * actually holds.
+ */
+const isEmptyChoicesError = (error: unknown): boolean =>
+  error instanceof TypeError &&
+  error.message === "Cannot read properties of undefined (reading 'message')";
+
+const invokeAgentWithEmptyChoicesRetry = async (
+  agent: { invoke: (...args: any[]) => Promise<unknown> },
+  input: unknown,
+  config: unknown,
+): Promise<unknown> => {
+  for (let attempt = 1; attempt <= EMPTY_CHOICES_MAX_RETRIES + 1; attempt++) {
+    try {
+      return await agent.invoke(input, config);
+    } catch (error) {
+      if (!isEmptyChoicesError(error) || attempt > EMPTY_CHOICES_MAX_RETRIES) {
+        throw error;
+      }
+    }
+  }
+  throw new Error("unreachable");
+};
+
 const getOrCreateAgent =
   (agentType?: AgentType, aiConfig?: AIConfig) => (ctx: AgentContext) => {
     // Everything routes through the factory. With no type/config it resolves the
@@ -414,7 +449,8 @@ export const sendChatMessage =
       TE.chain((agent) =>
         TE.tryCatch(
           () =>
-            agent.invoke(
+            invokeAgentWithEmptyChoicesRetry(
+              agent,
               { messages: [enhancedMessage] },
               {
                 configurable: { thread_id: conversationId },
