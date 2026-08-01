@@ -259,8 +259,8 @@ importers:
         specifier: ^1.1.4
         version: 1.1.4
       pdfjs-dist:
-        specifier: ^6.1.200
-        version: 6.1.200
+        specifier: ^6.2.108
+        version: 6.2.108
       puppeteer-core:
         specifier: ^25.3.0
         version: 25.3.0(yauzl@2.10.0)
@@ -521,8 +521,8 @@ importers:
         specifier: ^2.16.10
         version: 2.16.11
       pdfjs-dist:
-        specifier: ^6.1.200
-        version: 6.1.200
+        specifier: ^6.2.108
+        version: 6.2.108
       react-admin:
         specifier: ^5.15.1
         version: 5.15.1(@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.2.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.7)(react@18.3.1)
@@ -1191,8 +1191,8 @@ importers:
         specifier: ^6.45.0
         version: 6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.1)(zod@4.4.3)
       pdfjs-dist:
-        specifier: ^6.1.200
-        version: 6.1.200
+        specifier: ^6.2.108
+        version: 6.2.108
       puppeteer-core:
         specifier: ^25.3.0
         version: 25.3.0(yauzl@2.10.0)
@@ -1693,8 +1693,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
       pdfjs-dist:
-        specifier: ^6.1.200
-        version: 6.1.200
+        specifier: ^6.2.108
+        version: 6.2.108
       pg:
         specifier: ^8.21.0
         version: 8.21.0
@@ -8795,8 +8795,8 @@ packages:
     resolution: {integrity: sha512-SuLdBvS42z33m8ejRbInMapQe8n0D3vN/Xd5fmWM3tufNgRQFBpaW2YVJxQZV4iPNqb0vEFvssMEo5w9c6BTIA==}
     hasBin: true
 
-  pdfjs-dist@6.1.200:
-    resolution: {integrity: sha512-o8MolyzirkkLrcdsae/HEOiIcXWI7DS5zGpvqW8xTC2YUsW30rltFw2bDGvw/fskUdEMrQm2br68jzDS5BH2vw==}
+  pdfjs-dist@6.2.108:
+    resolution: {integrity: sha512-YxFb+SQcodN2rnX9Tn3dHYlqfb7NjlzzfONPpJd+AKoKtUjEdevTfbC07d5TcczzOK6261auRkP/M8OBHs9vFQ==}
     engines: {node: '>=22.13.0 || >=24'}
 
   pend@1.2.0:
@@ -18386,7 +18386,7 @@ snapshots:
     dependencies:
       resolve-protobuf-schema: 2.1.0
 
-  pdfjs-dist@6.1.200:
+  pdfjs-dist@6.2.108:
     optionalDependencies:
       '@napi-rs/canvas': 1.0.2
 
