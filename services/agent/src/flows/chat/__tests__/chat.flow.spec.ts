@@ -461,6 +461,69 @@ describe("chat.flow", () => {
         expect(result.right.usedProvider?.model).toBe("gpt-4o");
       }
     });
+
+    test("retries and succeeds when agent.invoke hits the empty-choices crash", async () => {
+      const emptyChoicesError = new TypeError(
+        "Cannot read properties of undefined (reading 'message')",
+      );
+      const invoke = vi
+        .fn()
+        .mockRejectedValueOnce(emptyChoicesError)
+        .mockRejectedValueOnce(emptyChoicesError)
+        .mockResolvedValueOnce({
+          messages: [{ id: "msg-retry", content: "Recovered response" }],
+        });
+      ctx = createMockContext({
+        agentFactory: vi
+          .fn()
+          .mockReturnValue(TE.right({ invoke, streamEvents: vi.fn() })),
+      });
+
+      const result = await pipe(
+        sendChatMessage({ message: "test", conversation_id: null })(ctx),
+      )();
+
+      expect(invoke).toHaveBeenCalledTimes(3);
+      expect(result._tag).toBe("Right");
+      if (result._tag === "Right") {
+        expect(result.right.message.content).toBe("Recovered response");
+      }
+    });
+
+    test("gives up after exhausting retries on the empty-choices crash", async () => {
+      const emptyChoicesError = new TypeError(
+        "Cannot read properties of undefined (reading 'message')",
+      );
+      const invoke = vi.fn().mockRejectedValue(emptyChoicesError);
+      ctx = createMockContext({
+        agentFactory: vi
+          .fn()
+          .mockReturnValue(TE.right({ invoke, streamEvents: vi.fn() })),
+      });
+
+      const result = await pipe(
+        sendChatMessage({ message: "test", conversation_id: null })(ctx),
+      )();
+
+      expect(invoke).toHaveBeenCalledTimes(3);
+      expect(result._tag).toBe("Left");
+    });
+
+    test("does not retry other errors from agent.invoke", async () => {
+      const invoke = vi.fn().mockRejectedValue(new Error("Agent error"));
+      ctx = createMockContext({
+        agentFactory: vi
+          .fn()
+          .mockReturnValue(TE.right({ invoke, streamEvents: vi.fn() })),
+      });
+
+      const result = await pipe(
+        sendChatMessage({ message: "test", conversation_id: null })(ctx),
+      )();
+
+      expect(invoke).toHaveBeenCalledTimes(1);
+      expect(result._tag).toBe("Left");
+    });
   });
 
   // -------------------------------------------------------------------------
