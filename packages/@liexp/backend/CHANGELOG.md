@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.21](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.20...@liexp/backend@0.5.21) (2026-08-01)
+
+
+### Bug Fixes
+
+* **ci:** pin checkout ref to PR head SHA on pull_request_target ([#3768](https://github.com/lies-exposed/lies.exposed/issues/3768)) ([672a501](https://github.com/lies-exposed/lies.exposed/commit/672a501ff0408e440602b4b189dfc46e6e91b4a3))
+* retry empty-choices LLM responses; rebuild+push liexp-base in CI ([#3786](https://github.com/lies-exposed/lies.exposed/issues/3786)) ([5dc3678](https://github.com/lies-exposed/lies.exposed/commit/5dc3678c20262542ec9530d27baf5edde32e410c))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.21
+    * @liexp/io bumped to 0.5.21
+    * @liexp/shared bumped to 0.5.21
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.21
+    * @liexp/test bumped to 0.5.21
+
 ## [0.5.20](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.19...@liexp/backend@0.5.20) (2026-07-18)
 
 
