@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.5.21](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.20...lies.exposed@0.5.21) (2026-08-01)
+
+
+### Bug Fixes
+
+* **ai-bot:** drop SEA packaging, rebuild+push liexp-base in CI ([#3763](https://github.com/lies-exposed/lies.exposed/issues/3763)) ([fab30a4](https://github.com/lies-exposed/lies.exposed/commit/fab30a4815087574a3666e42bdf9b0aa27a5344d))
+* **ci:** build services before lint, enumerate resolver tsconfigs ([#3769](https://github.com/lies-exposed/lies.exposed/issues/3769)) ([f25bedd](https://github.com/lies-exposed/lies.exposed/commit/f25bedd2f2149763d454c5fbf582e47c55dac437))
+* **ci:** pin checkout ref to PR head SHA on pull_request_target ([#3768](https://github.com/lies-exposed/lies.exposed/issues/3768)) ([672a501](https://github.com/lies-exposed/lies.exposed/commit/672a501ff0408e440602b4b189dfc46e6e91b4a3))
+* retry empty-choices LLM responses; rebuild+push liexp-base in CI ([#3786](https://github.com/lies-exposed/lies.exposed/issues/3786)) ([5dc3678](https://github.com/lies-exposed/lies.exposed/commit/5dc3678c20262542ec9530d27baf5edde32e410c))
+* use createTypeScriptImportResolver for path alias resolution ([#3766](https://github.com/lies-exposed/lies.exposed/issues/3766)) ([29da395](https://github.com/lies-exposed/lies.exposed/commit/29da39528d3c26368119842f630fa4b4bbdd67cb))
+* **workspace:** use pull_request_target to avoid approval prompt ([#3760](https://github.com/lies-exposed/lies.exposed/issues/3760)) ([d59997b](https://github.com/lies-exposed/lies.exposed/commit/d59997b51d163c81529201e6eb2adba3f6ea3116))
+
+
+### Miscellaneous
+
+* **workspace:** fix Alpine-era apt package/adduser leftovers in base.Dockerfile ([#3764](https://github.com/lies-exposed/lies.exposed/issues/3764)) ([15b9686](https://github.com/lies-exposed/lies.exposed/commit/15b9686d32d24d0a87a9b5a532707eb7ccb4bbc5))
+* **workspace:** trigger PR CI on production Dockerfile changes ([#3765](https://github.com/lies-exposed/lies.exposed/issues/3765)) ([214351c](https://github.com/lies-exposed/lies.exposed/commit/214351cd5c18c974f94fe643b532470f8c6df2b6))
+
 ## [0.5.20](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.19...lies.exposed@0.5.20) (2026-07-18)
 
 

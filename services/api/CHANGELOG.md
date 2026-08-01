@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.5.21](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.20...api@0.5.21) (2026-08-01)
+
+
+### Bug Fixes
+
+* **api:** update queue job in place instead of delete-then-recreate ([#3785](https://github.com/lies-exposed/lies.exposed/issues/3785)) ([6625c89](https://github.com/lies-exposed/lies.exposed/commit/6625c89d70d6df60c8c6207492a7d5a85e2a44a6))
+* **ci:** pin checkout ref to PR head SHA on pull_request_target ([#3768](https://github.com/lies-exposed/lies.exposed/issues/3768)) ([672a501](https://github.com/lies-exposed/lies.exposed/commit/672a501ff0408e440602b4b189dfc46e6e91b4a3))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.21
+    * @liexp/core bumped to 0.5.21
+    * @liexp/io bumped to 0.5.21
+    * @liexp/shared bumped to 0.5.21
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.21
+    * @liexp/test bumped to 0.5.21
+
 ## [0.5.20](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.19...api@0.5.20) (2026-07-18)
 
 
