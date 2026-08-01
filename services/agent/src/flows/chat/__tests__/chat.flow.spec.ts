@@ -490,6 +490,38 @@ describe("chat.flow", () => {
       }
     });
 
+    test("retries when the error is re-wrapped and no longer instanceof TypeError", async () => {
+      // langgraph's _runWithRetry/PregelRunner layers between the crash site
+      // and agent.invoke() can re-wrap the original TypeError, dropping the
+      // exact class while preserving the message — reproduces the prod case
+      // where matching on `instanceof TypeError` silently stopped retrying.
+      class WrappedError extends Error {}
+      const wrapped = new WrappedError(
+        "Cannot read properties of undefined (reading 'message')",
+      );
+      const invoke = vi
+        .fn()
+        .mockRejectedValueOnce(wrapped)
+        .mockResolvedValueOnce({
+          messages: [{ id: "msg-retry-2", content: "Recovered response 2" }],
+        });
+      ctx = createMockContext({
+        agentFactory: vi
+          .fn()
+          .mockReturnValue(TE.right({ invoke, streamEvents: vi.fn() })),
+      });
+
+      const result = await pipe(
+        sendChatMessage({ message: "test", conversation_id: null })(ctx),
+      )();
+
+      expect(invoke).toHaveBeenCalledTimes(2);
+      expect(result._tag).toBe("Right");
+      if (result._tag === "Right") {
+        expect(result.right.message.content).toBe("Recovered response 2");
+      }
+    });
+
     test("gives up after exhausting retries on the empty-choices crash", async () => {
       const emptyChoicesError = new TypeError(
         "Cannot read properties of undefined (reading 'message')",
