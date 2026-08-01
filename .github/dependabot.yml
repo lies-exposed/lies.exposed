@@ -66,6 +66,15 @@ updates:
       blocknote:
         patterns:
           - "@blocknote/*"
+      databases:
+        patterns:
+          - "@databases/*"
+      emotion:
+        patterns:
+          - "@emotion/*"
+      fontawesome:
+        patterns:
+          - "@fortawesome/*"
       langchain:
         patterns:
           - "@langchain/*"
@@ -94,6 +103,7 @@ updates:
           - "eslint"
           - "@types/*"
           - "@vitejs/*"
+          - "@vitest/*"
           - "vite*"
           - "jest*"
           - "vitest*"
@@ -102,6 +112,7 @@ updates:
           - "esbuild*"
           - "@testing-library/*"
           - "testing-library*"
+          - "@commitlint/*"
           - "msw"
           - "playwright"
           - "prettier"
