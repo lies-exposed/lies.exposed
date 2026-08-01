@@ -133,7 +133,7 @@
     "jsdom": "^29.1.1",
     "openai": "^6.45.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vite": "^8.1.5",
+    "vite": "^8.2.0",
     "vitest": "^4.1.10"
   },
   "peerDependencies": {
