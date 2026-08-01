@@ -128,6 +128,39 @@ describe("GetLangchainProvider", () => {
     expect((provider.embeddings as any).model).toBe("text-embedding-3-small");
   });
 
+  describe("cfAccess", () => {
+    it("injects CF-Access headers only for requests to the configured baseURL host, via the global fetch patch (survives langgraph rebinding unlike configuration.fetch/defaultHeaders)", async () => {
+      const originalFetch = globalThis.fetch;
+      const fetchSpy = vi.fn().mockResolvedValue(new Response("ok"));
+      globalThis.fetch = fetchSpy as unknown as typeof fetch;
+
+      try {
+        GetLangchainProvider({
+          ...baseOpts,
+          baseURL: "https://cf-protected.example.com",
+          cfAccess: { clientId: "client-id-123", clientSecret: "secret-abc" },
+        });
+
+        const patchedFetch = globalThis.fetch;
+
+        await patchedFetch(
+          "https://cf-protected.example.com/v1/chat/completions",
+          { headers: { "content-type": "application/json" } },
+        );
+        const [, protectedInit] = fetchSpy.mock.calls[0];
+        const headers = protectedInit.headers as Headers;
+        expect(headers.get("CF-Access-Client-Id")).toBe("client-id-123");
+        expect(headers.get("CF-Access-Client-Secret")).toBe("secret-abc");
+
+        await patchedFetch("https://unrelated.example.com/foo");
+        const [, unrelatedInit] = fetchSpy.mock.calls[1];
+        expect(unrelatedInit?.headers).toBeUndefined();
+      } finally {
+        globalThis.fetch = originalFetch;
+      }
+    });
+  });
+
   describe("queryDocument", () => {
     it("returns empty string when the chat stream yields nothing", async () => {
       const provider = GetLangchainProvider(baseOpts);

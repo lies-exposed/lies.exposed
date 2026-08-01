@@ -13,6 +13,53 @@ import { type Document as LangchainDocument } from "langchain";
 
 const langchainLogger = GetLogger("langchain");
 
+/**
+ * Patches the process-global `fetch` (once) to inject Cloudflare Access
+ * service-token headers for every request to `baseURL`'s host.
+ *
+ * This has to happen at the global-fetch level, not via ChatOpenAI's
+ * `configuration.fetch` / `configuration.defaultHeaders` constructor
+ * options: langgraph's `createAgent`/`bindTools` reconstructs the model from
+ * a curated set of serializable kwargs when binding tools, and arbitrary
+ * `configuration` sub-fields (fetch, defaultHeaders) don't survive that
+ * round-trip even though `configuration.baseURL` does (confirmed by
+ * instrumenting the global fetch: the rebuilt client still hit the right
+ * host, but with none of the headers set via `configuration.defaultHeaders`).
+ * The global `fetch` reference itself isn't subject to that rebinding, so
+ * patching it is the one interception point guaranteed to apply regardless
+ * of which internal path (direct call, createAgent, bindTools) issues the
+ * request.
+ */
+let cfAccessFetchInstalled = false;
+const installCfAccessFetch = (
+  baseURL: string,
+  cfAccess: { clientId: string; clientSecret: string },
+): void => {
+  if (cfAccessFetchInstalled) return;
+  cfAccessFetchInstalled = true;
+
+  const targetHost = new URL(baseURL).host;
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = (async (input, init) => {
+    const url =
+      typeof input === "string"
+        ? input
+        : input instanceof URL
+          ? input.href
+          : input.url;
+    if (!url.includes(targetHost)) {
+      return originalFetch(input, init);
+    }
+
+    const headers = new Headers(
+      init?.headers ?? (input instanceof Request ? input.headers : undefined),
+    );
+    headers.set("CF-Access-Client-Id", cfAccess.clientId);
+    headers.set("CF-Access-Client-Secret", cfAccess.clientSecret);
+    return originalFetch(input, { ...init, headers });
+  }) as typeof fetch;
+};
+
 const EMPTY_CHOICES_MAX_RETRIES = 2;
 
 /**
@@ -95,6 +142,18 @@ export interface LangchainProviderOptions<Provider extends AIProvider> {
     chat?: string;
     embeddings?: string;
   };
+  // Cloudflare Access service token headers — required whenever `baseURL`
+  // points at a hostname sitting behind a Cloudflare Zero Trust Access
+  // application, otherwise every request gets intercepted and answered with
+  // an HTML SSO login page instead of reaching the real backend. Passed as
+  // `defaultHeaders` (a plain, serializable object) rather than a custom
+  // `fetch` override, because langgraph's createAgent/bindTools rebinds the
+  // model from its serializable params and silently drops non-serializable
+  // fields like a custom fetch function.
+  cfAccess?: {
+    clientId: string;
+    clientSecret: string;
+  };
   options?: {
     chat: Provider extends "anthropic"
       ? AnthropicInput
@@ -137,9 +196,16 @@ export const GetLangchainProvider = <P extends AIProvider>(
         .flatMap(() => "*")
         .join(""),
     ),
+    cfAccess: opts.cfAccess
+      ? { clientId: opts.cfAccess.clientId, clientSecret: "***" }
+      : undefined,
   };
 
   langchainLogger.debug.log("Initializing Langchain provider...", logOptions);
+
+  if (opts.cfAccess) {
+    installCfAccessFetch(opts.baseURL, opts.cfAccess);
+  }
 
   const makeChat = <P extends AIProvider>(
     provider: P,
@@ -174,6 +240,10 @@ export const GetLangchainProvider = <P extends AIProvider>(
         configuration: {
           maxRetries: opts.maxRetries ?? 3,
           baseURL: opts.baseURL,
+          // CF Access headers are injected via the global-fetch patch
+          // (installCfAccessFetch above), not here — configuration.fetch and
+          // configuration.defaultHeaders don't survive langgraph's
+          // createAgent/bindTools rebinding, see comment on that function.
           fetch: fetchWithEmptyChoicesRetry,
           ...openAIChatOpts.configuration,
           ...openAIChatOptions.configuration,
