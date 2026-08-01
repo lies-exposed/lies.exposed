@@ -108,12 +108,10 @@ const inlineRelationsPluginSerializer = (
     default: {
       const content = Array.isArray(p.content) ? p.content : [];
       return pipe(
-        content,
+        content as unknown[] as BNBlock[],
         fp.A.filter((c) => !["text", "link"].includes(c.type)),
         // Content items that are not text or link are treated as BNBlock for recursion
-        fp.A.map((c) =>
-          inlineRelationsPluginSerializer(c as unknown as BNBlock),
-        ),
+        fp.A.map((c) => inlineRelationsPluginSerializer(c)),
         fp.A.compact,
         fp.A.flatten,
         (a) => [...a],
