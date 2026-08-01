@@ -1,7 +1,4 @@
 import { ChatAnthropic, type AnthropicInput } from "@langchain/anthropic";
-import { type CallbackManagerForLLMRun } from "@langchain/core/callbacks/manager";
-import { type BaseMessage } from "@langchain/core/messages";
-import { type ChatResult } from "@langchain/core/outputs";
 import {
   ChatOpenAI,
   type ChatOpenAIFields,
@@ -22,34 +19,49 @@ const EMPTY_CHOICES_MAX_RETRIES = 2;
  * Some OpenAI-compatible backends (observed with LocalAI serving
  * qwen3.6-35b-a3b) occasionally answer a non-streaming completion with
  * HTTP 200 and an empty/missing `choices` array — no exception is thrown,
- * so @langchain/openai's completions.js silently returns `generations: []`,
+ * so @langchain/openai silently turns it into an empty generations result,
  * and @langchain/core's BaseChatModel.invoke() then crashes reading
  * `.generations[0][0].message` of undefined. This isn't a network failure,
- * so ChatOpenAI's own `maxRetries` never kicks in. Retry the underlying
- * completion ourselves when this happens before giving up.
+ * so ChatOpenAI's own `maxRetries` never kicks in.
+ *
+ * Subclassing ChatOpenAI and overriding `_generate` was tried first, but
+ * langgraph's `createAgent`/`bindTools` can end up invoking the model
+ * through a path that doesn't go through the overridden method (observed:
+ * stack traces still naming the base `ChatOpenAI`, no retry log ever
+ * printed). Patching at the `fetch` level instead is call-path agnostic —
+ * every request this client makes goes through it — and only touches
+ * non-streaming JSON responses shaped like `{ choices: [...] }`; anything
+ * else (SSE streams, error responses) is passed through untouched.
  */
-class ChatOpenAIWithEmptyChoicesRetry extends ChatOpenAI {
-  override async _generate(
-    messages: BaseMessage[],
-    options: this["ParsedCallOptions"],
-    runManager?: CallbackManagerForLLMRun,
-  ): Promise<ChatResult> {
-    let result: ChatResult | undefined;
-    for (let attempt = 1; attempt <= EMPTY_CHOICES_MAX_RETRIES + 1; attempt++) {
-      result = await super._generate(messages, options, runManager);
-      if (result.generations.length > 0) return result;
-      langchainLogger.warn.log(
-        "Chat completion returned no choices (attempt %d/%d) — backend likely had a transient hiccup%s",
-        attempt,
-        EMPTY_CHOICES_MAX_RETRIES + 1,
-        attempt <= EMPTY_CHOICES_MAX_RETRIES ? ", retrying..." : "",
-      );
+const fetchWithEmptyChoicesRetry: typeof fetch = async (input, init) => {
+  for (let attempt = 1; attempt <= EMPTY_CHOICES_MAX_RETRIES + 1; attempt++) {
+    const response = await fetch(input, init);
+    if (!response.ok || attempt > EMPTY_CHOICES_MAX_RETRIES) {
+      return response;
     }
-    throw new Error(
-      `Chat completion backend returned no choices after ${EMPTY_CHOICES_MAX_RETRIES + 1} attempts`,
+
+    const contentType = response.headers.get("content-type") ?? "";
+    if (!contentType.includes("application/json")) {
+      return response;
+    }
+
+    const data: unknown = await response
+      .clone()
+      .json()
+      .catch(() => undefined);
+    const choices = (data as { choices?: unknown[] } | undefined)?.choices;
+    if (Array.isArray(choices) && choices.length > 0) {
+      return response;
+    }
+
+    langchainLogger.warn.log(
+      "Chat completion returned no choices (attempt %d/%d) — backend likely had a transient hiccup, retrying...",
+      attempt,
+      EMPTY_CHOICES_MAX_RETRIES + 1,
     );
   }
-}
+  return fetch(input, init);
+};
 
 export const EMBEDDINGS_PROMPT: PromptFn<{
   text: string;
@@ -150,7 +162,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
     if (provider === "openai") {
       const openAIChatOpts = (opts.options?.chat ?? {}) as ChatOpenAIFields;
       const openAIChatOptions = chatOptions as ChatOpenAIFields;
-      const openAIChat = new ChatOpenAIWithEmptyChoicesRetry({
+      const openAIChat = new ChatOpenAI({
         model,
         temperature: 0,
         apiKey: opts.apiKey,
@@ -162,6 +174,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
         configuration: {
           maxRetries: opts.maxRetries ?? 3,
           baseURL: opts.baseURL,
+          fetch: fetchWithEmptyChoicesRetry,
           ...openAIChatOpts.configuration,
           ...openAIChatOptions.configuration,
         },
