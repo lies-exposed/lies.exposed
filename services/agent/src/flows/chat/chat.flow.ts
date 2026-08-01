@@ -389,10 +389,17 @@ const EMPTY_CHOICES_MAX_RETRIES = 2;
  * `ChatOpenAI`, never our wrapper). Retrying the whole agent turn here, at
  * the one call site that can't be rebuilt out from under us, is the fix that
  * actually holds.
+ *
+ * Matching on `instanceof TypeError` was tried first and still didn't
+ * retry in prod: the error crosses langgraph's `_runWithRetry` /
+ * `PregelRunner` layers between the crash site and this call, which can
+ * re-wrap it into something that no longer passes `instanceof TypeError`
+ * even though the message survives intact. Match on message text alone —
+ * specific enough not to collide with an unrelated real error.
  */
 const isEmptyChoicesError = (error: unknown): boolean =>
-  error instanceof TypeError &&
-  error.message === "Cannot read properties of undefined (reading 'message')";
+  (error as { message?: unknown } | null)?.message ===
+  "Cannot read properties of undefined (reading 'message')";
 
 const invokeAgentWithEmptyChoicesRetry = async (
   agent: { invoke: (...args: any[]) => Promise<unknown> },
