@@ -34,6 +34,27 @@ jobs:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
+  # Build and push the shared base image first. Every service Dockerfile
+  # does `FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest` —
+  # nothing else in this pipeline builds/pushes that tag, so without this
+  # job a base.Dockerfile change (e.g. the Alpine -> Debian Bookworm switch)
+  # never reaches the registry and every service silently keeps building on
+  # the old base image regardless of what's committed.
+  build-base:
+    needs: [release-please]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Docker build base
+        uses: ./.github/actions/docker-build-push
+        with:
+          dockerfile: base.Dockerfile
+          image_name: ghcr.io/lies-exposed/liexp-base:26-latest
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          push: ${{ needs.release-please.outputs.releases_created == 'true' }}
+
   # Setup: Install deps and build (only when release is created)
   setup:
     needs: [release-please]
@@ -97,7 +118,7 @@ jobs:
 
   # Build and push Docker images in parallel (only when release is created)
   deploy:
-    needs: [release-please, setup]
+    needs: [release-please, setup, build-base]
     runs-on: ubuntu-latest
     strategy:
       matrix:
