@@ -132,7 +132,7 @@ describe("GetLangchainProvider", () => {
     it("injects CF-Access headers only for requests to the configured baseURL host, via the global fetch patch (survives langgraph rebinding unlike configuration.fetch/defaultHeaders)", async () => {
       const originalFetch = globalThis.fetch;
       const fetchSpy = vi.fn().mockResolvedValue(new Response("ok"));
-      globalThis.fetch = fetchSpy as unknown as typeof fetch;
+      globalThis.fetch = fetchSpy as typeof fetch;
 
       try {
         GetLangchainProvider({

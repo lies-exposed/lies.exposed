@@ -40,7 +40,7 @@ const installCfAccessFetch = (
 
   const targetHost = new URL(baseURL).host;
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = (async (input, init) => {
+  const patchedFetch: typeof fetch = async (input, init) => {
     const url =
       typeof input === "string"
         ? input
@@ -57,7 +57,8 @@ const installCfAccessFetch = (
     headers.set("CF-Access-Client-Id", cfAccess.clientId);
     headers.set("CF-Access-Client-Secret", cfAccess.clientSecret);
     return originalFetch(input, { ...init, headers });
-  }) as typeof fetch;
+  };
+  globalThis.fetch = patchedFetch;
 };
 
 const EMPTY_CHOICES_MAX_RETRIES = 2;
