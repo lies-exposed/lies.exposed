@@ -68,6 +68,8 @@ const getLangchainConfig = (env: ENV) => {
           chat: model,
           embeddings: model,
         },
+        cfAccessClientId: env.CF_ACCESS_CLIENT_ID,
+        cfAccessClientSecret: env.CF_ACCESS_CLIENT_SECRET,
       };
     }
     case "anthropic":
@@ -121,6 +123,15 @@ export const getAgentContext =
       maxRetries: langchainConfig.maxRetries,
       provider: langchainConfig.provider,
       models: langchainConfig.models,
+      cfAccess:
+        "cfAccessClientId" in langchainConfig &&
+        langchainConfig.cfAccessClientId &&
+        langchainConfig.cfAccessClientSecret
+          ? {
+              clientId: langchainConfig.cfAccessClientId,
+              clientSecret: langchainConfig.cfAccessClientSecret,
+            }
+          : undefined,
       options: {
         // Disable token streaming for the chat model. Reasoning models served
         // via LocalAI (e.g. qwen3.6-35b-a3b) stream their leading <think> tokens
