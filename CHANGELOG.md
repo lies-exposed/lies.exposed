@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.22](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.21...lies.exposed@0.5.22) (2026-08-04)
+
+
+### Bug Fixes
+
+* **shared:** declare y-prosemirror/yjs as real deps for worker prod deploy ([#3787](https://github.com/lies-exposed/lies.exposed/issues/3787)) ([6ff4970](https://github.com/lies-exposed/lies.exposed/commit/6ff4970280f26dd93a9954ec1af7abd18faee96c))
+
+
+### Miscellaneous
+
+* **deps:** group [@fortawesome](https://github.com/fortawesome), [@emotion](https://github.com/emotion), [@databases](https://github.com/databases), [@commitlint](https://github.com/commitlint), [@vitest](https://github.com/vitest) scoped updates ([#3789](https://github.com/lies-exposed/lies.exposed/issues/3789)) ([a035179](https://github.com/lies-exposed/lies.exposed/commit/a0351797d52d64c5c619b8c7a7c88c5f63e069d4))
+
 ## [0.5.21](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.20...lies.exposed@0.5.21) (2026-08-01)
 
 
