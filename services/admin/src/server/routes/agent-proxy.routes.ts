@@ -574,21 +574,34 @@ export const registerAgentProxyRoutes = (
           correlationId,
         );
 
-        // Send error event if possible
+        // Send error event if possible. The client may have already
+        // disconnected (the read loop's `finally` already called
+        // `res.end()`) by the time this fires, so writing unconditionally
+        // throws ERR_STREAM_WRITE_AFTER_END — outside any try/catch here,
+        // which crashes the whole process as an unhandled rejection.
         if (!res.headersSent) {
           res.status(500).json({
             error: "Streaming failed",
             message: error instanceof Error ? error.message : "Unknown error",
           });
-        } else {
-          res.write(
-            `data: ${JSON.stringify({
-              type: "error",
-              timestamp: new Date().toISOString(),
-              error: error instanceof Error ? error.message : "Unknown error",
-            })}\n\n`,
-          );
-          res.end();
+        } else if (!res.writableEnded) {
+          try {
+            res.write(
+              `data: ${JSON.stringify({
+                type: "error",
+                timestamp: new Date().toISOString(),
+                error:
+                  error instanceof Error ? error.message : "Unknown error",
+              })}\n\n`,
+            );
+            res.end();
+          } catch (writeError) {
+            logger.warn.log(
+              "Failed to write error event, client likely disconnected: %O (correlation: %s)",
+              writeError,
+              correlationId,
+            );
+          }
         }
       }
     },
