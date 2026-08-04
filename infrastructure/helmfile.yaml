@@ -5,7 +5,7 @@ environments:
 releases:
   - name: lies-exposed
     namespace: "prod"
-    kubeContext: "home-server-local"
+    kubeContext: "home-server"
     chart: ../helm
     missingFileHandler: Warn
     values:
