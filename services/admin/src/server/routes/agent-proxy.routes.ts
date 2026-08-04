@@ -590,8 +590,7 @@ export const registerAgentProxyRoutes = (
               `data: ${JSON.stringify({
                 type: "error",
                 timestamp: new Date().toISOString(),
-                error:
-                  error instanceof Error ? error.message : "Unknown error",
+                error: error instanceof Error ? error.message : "Unknown error",
               })}\n\n`,
             );
             res.end();
