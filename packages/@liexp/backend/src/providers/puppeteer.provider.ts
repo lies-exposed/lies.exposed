@@ -77,6 +77,7 @@ const makePuppeteerError = (name: string, message: string): PuppeteerError =>
 
 export function getChromePath(): E.Either<PuppeteerError, string> {
   const knownPaths = [
+    "/usr/bin/chromium",
     "/usr/bin/chromium-browser",
     "/usr/bin/google-chrome",
     "/Program Files (x86)/Google/Chrome/Application/chrome.exe",
