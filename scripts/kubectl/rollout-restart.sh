@@ -3,7 +3,7 @@
 set -e -x
 
 namespace=prod
-context=home-server-local
+context=home-server
 
 # default deployments
 default_deployments=(api ai-bot agent web admin worker storybook)
