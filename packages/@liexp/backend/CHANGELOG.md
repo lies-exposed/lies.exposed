@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.5.22](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.21...@liexp/backend@0.5.22) (2026-08-04)
+
+
+### Bug Fixes
+
+* **agent:** send Cloudflare Access service token to LocalAI backend ([#3804](https://github.com/lies-exposed/lies.exposed/issues/3804)) ([312b77a](https://github.com/lies-exposed/lies.exposed/commit/312b77a3c5dd15ffa6e08ad6579c1ef1e07c2a80))
+* **backend:** recognize Debian bookworm's /usr/bin/chromium path ([#3812](https://github.com/lies-exposed/lies.exposed/issues/3812)) ([9b7ed60](https://github.com/lies-exposed/lies.exposed/commit/9b7ed600debdb04002cb63210bddc6d96e507bc8))
+* **backend:** retry empty-choices LLM responses at the fetch layer ([#3800](https://github.com/lies-exposed/lies.exposed/issues/3800)) ([9c38f15](https://github.com/lies-exposed/lies.exposed/commit/9c38f15289040c5805a1b4d5cc50baa6364b410a))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.22
+    * @liexp/io bumped to 0.5.22
+    * @liexp/shared bumped to 0.5.22
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.22
+    * @liexp/test bumped to 0.5.22
+
 ## [0.5.21](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.20...@liexp/backend@0.5.21) (2026-08-01)
 
 
