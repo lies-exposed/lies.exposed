@@ -19,6 +19,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ACTORS } from "@liexp/io/lib/http/Actor.js";
 import { UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import { SCIENTIFIC_STUDY } from "@liexp/io/lib/http/Events/EventType.js";
 import { Event } from "@liexp/io/lib/http/Events/index.js";
 import { APPROVED, LINKS } from "@liexp/io/lib/http/Link.js";
 import { MEDIA } from "@liexp/io/lib/http/Media/Media.js";
@@ -112,9 +113,21 @@ const normalizeEventPayload = (result: unknown): RTE<unknown> => {
   const actorValues: unknown[] = Array.isArray(p.actors) ? p.actors : [];
   const groupValues: unknown[] = Array.isArray(p.groups) ? p.groups : [];
 
+  // ScientificStudy's payload has no `actors`/`groups` fields — the model
+  // reports authors as plain names and the publisher as a plain org name
+  // instead (payload.authors: UUID[], payload.publisher: UUID | undefined),
+  // so they need the same name-to-id resolution under different keys.
+  const isScientificStudy = r.type === SCIENTIFIC_STUDY.literals[0];
+  const authorValues: unknown[] =
+    isScientificStudy && Array.isArray(p.authors) ? p.authors : [];
+  const publisherValues: unknown[] =
+    isScientificStudy && typeof p.publisher === "string" ? [p.publisher] : [];
+
   const needsResolution =
     actorValues.some((v) => !Schema.is(UUID)(v)) ||
-    groupValues.some((v) => !Schema.is(UUID)(v));
+    groupValues.some((v) => !Schema.is(UUID)(v)) ||
+    authorValues.some((v) => !Schema.is(UUID)(v)) ||
+    publisherValues.some((v) => !Schema.is(UUID)(v));
 
   if (!needsResolution) return fp.RTE.of(result);
 
@@ -122,10 +135,23 @@ const normalizeEventPayload = (result: unknown): RTE<unknown> => {
     resolveToActorIds(actorValues),
     fp.RTE.bindTo("actors"),
     fp.RTE.bind("groups", () => resolveToGroupIds(groupValues)),
-    fp.RTE.map(({ actors, groups }) => ({
-      ...r,
-      payload: { ...p, actors, groups },
-    })),
+    fp.RTE.bind("authors", () => resolveToActorIds(authorValues)),
+    fp.RTE.bind("publishers", () => resolveToGroupIds(publisherValues)),
+    fp.RTE.map(({ actors, groups, authors, publishers }) =>
+      isScientificStudy
+        ? {
+            ...r,
+            payload: {
+              ...p,
+              authors,
+              publisher: publishers[0],
+            },
+          }
+        : {
+            ...r,
+            payload: { ...p, actors, groups },
+          },
+    ),
   );
 };
 
