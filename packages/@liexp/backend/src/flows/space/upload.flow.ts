@@ -20,8 +20,8 @@ export const upload =
     return pipe(
       ctx.s3.upload({
         Bucket: ctx.env.SPACE_BUCKET,
-        ...input,
         ACL: "public-read",
+        ...input,
       }),
     );
   };
