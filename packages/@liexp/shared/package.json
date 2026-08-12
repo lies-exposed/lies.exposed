@@ -45,20 +45,20 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@liexp/test": "workspace:*",
-    "@types/lodash": "^4.17.24",
+    "@types/lodash": "^4.17.25",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
     "@typescript/native": "npm:typescript@^7.0.2",
     "axios": "^1.16.0",
     "effect": "^3.21.3",
-    "eslint": "^10.8.0",
+    "eslint": "^10.8.1",
     "fast-check": "^3.23.2",
     "fp-ts": "^2.16.10",
     "pdfjs-dist": "^6.2.108",
     "react-admin": "^5.15.1",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "^4.1.10",
-    "vitest-mock-extended": "^5.1.0"
+    "vitest-mock-extended": "^5.1.1"
   },
   "peerDependencies": {
     "@tanstack/react-query": "^5",
