@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.5.23](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...admin@0.5.23) (2026-08-22)
+
+
+### Bug Fixes
+
+* **admin:** guard streaming proxy error handler against write-after-end crash ([#3816](https://github.com/lies-exposed/lies.exposed/issues/3816)) ([f5ff812](https://github.com/lies-exposed/lies.exposed/commit/f5ff812a3f01c3e62073091064fcab229f7da9da))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.23
+    * @liexp/core bumped to 0.5.23
+    * @liexp/io bumped to 0.5.23
+    * @liexp/shared bumped to 0.5.23
+    * @liexp/ui bumped to 0.5.23
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.23
+    * @liexp/test bumped to 0.5.23
+
 ## [0.5.22](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.21...admin@0.5.22) (2026-08-04)
 
 
