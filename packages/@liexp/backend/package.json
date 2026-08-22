@@ -47,7 +47,7 @@
     "linkedom": "^0.18.9",
     "reflect-metadata": "^0.2.2",
     "sirv": "^3.0.2",
-    "typeorm": "^0.3.29"
+    "typeorm": "^1.1.0"
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.974.0",
