@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.23](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...lies.exposed@0.5.23) (2026-08-22)
+
+
+### Bug Fixes
+
+* **workspace:** bump api pod memory limit from 512Mi to 1Gi ([#3817](https://github.com/lies-exposed/lies.exposed/issues/3817)) ([e9aa97b](https://github.com/lies-exposed/lies.exposed/commit/e9aa97be78c185ab6deacaf24635c1b6f127ed1e))
+
 ## [0.5.22](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.21...lies.exposed@0.5.22) (2026-08-04)
 
 
