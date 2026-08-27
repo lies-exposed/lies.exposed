@@ -874,8 +874,8 @@ importers:
         specifier: ^29.1.1
         version: 29.1.1(@noble/hashes@1.8.0)(canvas@3.0.1)
       openai:
-        specifier: ^6.45.0
-        version: 6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3)
+        specifier: ^7.5.0
+        version: 7.5.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3)
       typescript:
         specifier: npm:@typescript/typescript6@^6.0.2
         version: '@typescript/typescript6@6.0.2'
@@ -937,8 +937,8 @@ importers:
         specifier: ^2.16.10
         version: 2.16.11
       openai:
-        specifier: ^6.45.0
-        version: 6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3)
+        specifier: ^7.5.0
+        version: 7.5.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -1147,13 +1147,13 @@ importers:
         version: 3.1086.0
       '@langchain/core':
         specifier: ^1.2.9
-        version: 1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3)
+        version: 1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@7.5.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3)
       '@langchain/langgraph':
         specifier: ^1.4.12
-        version: 1.4.12(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(svelte@5.55.4(@typescript-eslint/types@8.67.0))(zod@4.4.3)
+        version: 1.4.12(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@7.5.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(svelte@5.55.4(@typescript-eslint/types@8.67.0))(zod@4.4.3)
       '@langchain/mcp-adapters':
         specifier: ^1.1.4
-        version: 1.1.4(@cfworker/json-schema@4.1.1)(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(@langchain/langgraph@1.4.12(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(svelte@5.55.4(@typescript-eslint/types@8.67.0))(zod@4.4.3))
+        version: 1.1.4(@cfworker/json-schema@4.1.1)(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@7.5.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(@langchain/langgraph@1.4.12(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@7.5.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(svelte@5.55.4(@typescript-eslint/types@8.67.0))(zod@4.4.3))
       '@liexp/backend':
         specifier: workspace:*
         version: link:../../packages/@liexp/backend
@@ -1188,8 +1188,8 @@ importers:
         specifier: ^2.16.10
         version: 2.16.11
       openai:
-        specifier: ^6.45.0
-        version: 6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3)
+        specifier: ^7.5.0
+        version: 7.5.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3)
       pdfjs-dist:
         specifier: ^6.2.108
         version: 6.2.108
@@ -8969,6 +8969,10 @@ packages:
     resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
     engines: {node: '>=12'}
 
+  picomatch@4.0.7:
+    resolution: {integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==}
+    engines: {node: '>=12'}
+
   pkce-challenge@5.0.1:
     resolution: {integrity: sha512-wQ0b/W4Fr01qtpHlqSqspcj3EhBvimsdh0KlHhH8HRZnMsEa0ea2fTULOXOS9ccQr3om+GcGRk4e+isrZWV8qQ==}
     engines: {node: '>=16.20.0'}
@@ -12420,20 +12424,6 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       svelte: 5.55.4(@typescript-eslint/types@8.67.0)
 
-  '@langchain/langgraph@1.4.12(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(svelte@5.55.4(@typescript-eslint/types@8.67.0))(zod@4.4.3)':
-    dependencies:
-      '@langchain/core': 1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3)
-      '@langchain/langgraph-checkpoint': 1.1.5(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))
-      '@langchain/langgraph-sdk': 1.9.31(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(svelte@5.55.4(@typescript-eslint/types@8.67.0))
-      '@langchain/protocol': 0.0.18
-      '@standard-schema/spec': 1.1.0
-      zod: 4.4.3
-    transitivePeerDependencies:
-      - react
-      - react-dom
-      - svelte
-      - vue
-
   '@langchain/langgraph@1.4.12(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@7.5.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(svelte@5.55.4(@typescript-eslint/types@8.67.0))(zod@4.4.3)':
     dependencies:
       '@langchain/core': 1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@7.5.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3)
@@ -12461,19 +12451,6 @@ snapshots:
       - react-dom
       - svelte
       - vue
-
-  '@langchain/mcp-adapters@1.1.4(@cfworker/json-schema@4.1.1)(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(@langchain/langgraph@1.4.12(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(svelte@5.55.4(@typescript-eslint/types@8.67.0))(zod@4.4.3))':
-    dependencies:
-      '@langchain/core': 1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3)
-      '@langchain/langgraph': 1.4.12(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.47.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(svelte@5.55.4(@typescript-eslint/types@8.67.0))(zod@4.4.3)
-      '@modelcontextprotocol/sdk': 1.30.0(@cfworker/json-schema@4.1.1)(zod@4.4.3)
-      debug: 4.4.3
-      zod: 4.4.3
-    optionalDependencies:
-      extended-eventsource: 1.7.0
-    transitivePeerDependencies:
-      - '@cfworker/json-schema'
-      - supports-color
 
   '@langchain/mcp-adapters@1.1.4(@cfworker/json-schema@4.1.1)(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@7.5.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(@langchain/langgraph@1.4.12(@langchain/core@1.2.9(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@7.5.0(@aws-sdk/credential-provider-node@3.972.67)(@smithy/signature-v4@5.6.4)(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(svelte@5.55.4(@typescript-eslint/types@8.67.0))(zod@4.4.3))':
     dependencies:
@@ -13265,7 +13242,7 @@ snapshots:
       detect-libc: 2.1.2
       is-glob: 4.0.3
       node-addon-api: 7.1.1
-      picomatch: 4.0.5
+      picomatch: 4.0.7
     optionalDependencies:
       '@parcel/watcher-android-arm64': 2.6.0
       '@parcel/watcher-darwin-arm64': 2.6.0
@@ -18764,6 +18741,9 @@ snapshots:
   picocolors@1.1.1: {}
 
   picomatch@4.0.5: {}
+
+  picomatch@4.0.7:
+    optional: true
 
   pkce-challenge@5.0.1: {}
 
