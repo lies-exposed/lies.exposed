@@ -112,8 +112,8 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@testing-library/jest-dom": "^7.0.1",
-    "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.6.4",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.6",
     "@types/d3": "^7.4.3",
     "@types/d3-hierarchy": "^3.1.7",
     "@types/d3-sankey": "^0.12.5",
@@ -128,13 +128,13 @@
     "@typescript/native": "npm:typescript@^7.0.2",
     "axios": "^1.18.0",
     "effect": "^3.21.3",
-    "eslint": "^10.8.1",
+    "eslint": "^10.9.1",
     "fp-ts": "^2.16.10",
     "jsdom": "^29.1.1",
     "openai": "^6.45.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vite": "^8.2.1",
-    "vitest": "^4.1.10"
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "axios": "^1",
