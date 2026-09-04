@@ -131,7 +131,7 @@
     "eslint": "^10.9.1",
     "fp-ts": "^2.16.10",
     "jsdom": "^29.1.1",
-    "openai": "^6.45.0",
+    "openai": "^7.8.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.2.2",
     "vitest": "^4.1.11"
