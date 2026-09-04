@@ -44,10 +44,10 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
   },
   "dependencies": {
-    "@langchain/anthropic": "^1.5.8",
+    "@langchain/anthropic": "^1.5.9",
     "@langchain/mcp-adapters": "^1.1.4",
-    "@langchain/openai": "^1.5.10",
-    "@langchain/xai": "^1.4.10",
+    "@langchain/openai": "^1.5.11",
+    "@langchain/xai": "^1.4.11",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/io": "workspace:*",
