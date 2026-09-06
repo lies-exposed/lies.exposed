@@ -27,15 +27,13 @@ export class DBError extends IOError {
   name = "DBError";
 }
 
-export type Criteria = UUID[] | ObjectId[] | ObjectLiteral;
+export type Criteria = UUID[] | ObjectLiteral;
 // | string
 // | string[]
 // | number
 // | number[]
 // | Date
 // | Date[]
-// | ObjectId
-// | ObjectId[];
 
 interface DatabaseClient {
   manager: EntityManager;

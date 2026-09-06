@@ -1,4 +1,4 @@
-import type { DataSourceOptions } from "typeorm";
+import type { PostgresDataSourceOptions } from "typeorm/driver/postgres/PostgresDataSourceOptions.js";
 import { describe, expect, it } from "vitest";
 import { ALL_ENTITIES, createORMConfig } from "./data-source.js";
 
@@ -42,14 +42,14 @@ describe("data-source", () => {
 
     it("should preserve base config options", () => {
       const baseOptions = {
-        type: "postgres",
+        type: "postgres" as const,
         host: "localhost",
         port: 5432,
         database: "testdb",
-      } as DataSourceOptions;
+      };
       const config = createORMConfig(baseOptions);
-      expect(config.host).toBe("localhost");
-      expect(config.port).toBe(5432);
+      expect((config as PostgresDataSourceOptions).host).toBe("localhost");
+      expect((config as PostgresDataSourceOptions).port).toBe(5432);
       expect(config.database).toBe("testdb");
     });
 
