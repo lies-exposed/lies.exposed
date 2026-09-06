@@ -69,7 +69,7 @@
     "debug": "^4.4.0",
     "dotenv": "^17.4.2",
     "effect": "^3.21.3",
-    "eslint": "^10.9.1",
+    "eslint": "^10.10.0",
     "exifreader": "^4.44.0",
     "express-rate-limit": "^8.5.2",
     "fast-check": "^3.23.2",
