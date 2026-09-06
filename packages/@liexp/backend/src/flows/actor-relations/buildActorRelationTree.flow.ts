@@ -79,10 +79,8 @@ export const buildActorRelationTree = <
                 { relatedActor: { id: In(unvisited) } },
               ],
               relations: {
-                actor: true,
-                relatedActor: true,
-                "actor.avatar": true,
-                "relatedActor.avatar": true,
+                actor: { avatar: true },
+                relatedActor: { avatar: true },
               },
             }),
             TE.map((relations) => ({ actors, relations })),
@@ -147,7 +145,7 @@ export const buildActorRelationTree = <
                     actor: { id: In([...allParentIds]) },
                     type: In(["PARENT_CHILD"]),
                   },
-                  relations: ["actor", "relatedActor"],
+                  relations: { actor: true, relatedActor: true },
                 })
               : TE.right<ServerError, ActorRelationEntity[]>([]);
 
@@ -240,6 +238,4 @@ export const buildActorRelationTree = <
       TE.map(() => treeMap),
     );
   };
-};
-
 };

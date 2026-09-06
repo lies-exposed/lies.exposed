@@ -16,7 +16,6 @@ import {
   type EntityTarget,
   type FindManyOptions,
   type FindOneOptions,
-  type ObjectId,
   type ObjectLiteral,
   type SaveOptions,
   type UpdateResult,
@@ -305,7 +304,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
   };
 };
 
-type DatabaseConnectionOpts = PostgresConnectionOptions;
+type DatabaseConnectionOpts = PostgresDataSourceOptions;
 
 interface MakeDatabaseClientCtx {
   connectionName: string;
