@@ -29,9 +29,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tanstack/eslint-plugin-query": "^5.101.4",
+    "@tanstack/eslint-plugin-query": "^5.102.8",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "eslint": "^10.9.1",
+    "eslint": "^10.10.0",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-fp-ts": "^0.5.1",
     "eslint-plugin-import-x": "^4.17.1",
