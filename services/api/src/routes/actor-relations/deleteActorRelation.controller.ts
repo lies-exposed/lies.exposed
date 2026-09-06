@@ -17,7 +17,10 @@ export const MakeDeleteActorRelationRoute: Route = (r, ctx): void => {
       return pipe(
         ctx.db.findOneOrFail(ActorRelationEntity, {
           where: { id: Equal(id) },
-          relations: ["actor", "relatedActor"],
+relations: {
+  actor: true
+  relatedActor: true
+  }
         }),
         TE.chainFirst(() => ctx.db.softDelete(ActorRelationEntity, id)),
         TE.chainEitherK((ar) => ActorRelationIO.decodeSingle(ar)),

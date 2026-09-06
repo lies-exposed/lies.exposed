@@ -125,7 +125,7 @@ Examples:
       return pipe(
         ctx.db.find(LinkEntity, {
           where: { publishDate: IsNull(), deletedAt: IsNull() },
-          select: ["id", "url"],
+          select: { id: true, url: true },
           skip,
           take: chunkSize,
           order: { createdAt: "DESC", id: "ASC" },

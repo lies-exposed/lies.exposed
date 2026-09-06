@@ -42,7 +42,7 @@ export const EventsNetworkGraphFormTab: React.FC<{
       ? toGetNetworkQuery(getRelationIds(record as Event))
       : {
           ids: [id],
-          relations: ["actors", "groups", "keywords"],
+          relations: { actors: true, groups: true, keywords: true },
           keywords: null,
           actors: null,
           groups: null,

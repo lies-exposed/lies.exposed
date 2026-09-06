@@ -107,7 +107,7 @@ export const fetchEventsRelations =
                       ? pipe(
                           ctx.db.find(GroupMemberEntity, {
                             where: { id: In(ids) },
-                            relations: ["actor", "group"],
+                            relations: { actor: true, group: true },
                           }),
                           TE.chain((entities) =>
                             pipe(

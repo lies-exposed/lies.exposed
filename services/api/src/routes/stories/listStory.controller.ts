@@ -51,7 +51,9 @@ export const MakeListStoryRoute: Route = (r, { env, db, logger: _logger }) => {
                 ...exclude,
               },
               withDeleted,
-              relations: ["featuredImage"],
+relations: {
+  featuredImage: true
+  }
               loadRelationIds: {
                 relations: [
                   "creator",

@@ -88,7 +88,7 @@ export const extractRelationsFromText =
                   O.fromPredicate((l) => l.length > 0),
                   O.map((names) =>
                     ctx.db.find(GroupEntity, {
-                      select: ["id", "name", "avatar"],
+                      select: { id: true, name: true, avatar: true },
                       where: {
                         name: In(names),
                       },

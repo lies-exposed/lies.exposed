@@ -133,7 +133,7 @@ export const mergeActor = (input: MergeActorInput): TEReader<Actor> => {
                   return pipe(
                     txCtx.find(StoryEntity, {
                       where: { id: In(newStoryIds) },
-                      relations: ["actors"],
+                      relations: { actors: true },
                     }),
                     fp.TE.chain((stories) => {
                       const updatedStories = stories.map((story) => ({
@@ -196,4 +196,6 @@ export const mergeActor = (input: MergeActorInput): TEReader<Actor> => {
         ),
       ),
     );
+};
+  );
 };

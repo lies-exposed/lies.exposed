@@ -43,7 +43,7 @@ export const EventsFlowGraphFormTab: React.FC<{ type: FlowGraphType }> = ({
           keywords: type === "keywords" ? [id] : null,
           groups: type === "groups" ? [id] : null,
           actors: type === "actors" ? [id] : null,
-          relations: ["actors", "groups", "keywords"],
+          relations: { actors: true, groups: true, keywords: true },
           startDate: null,
           endDate: null,
           emptyRelations: null,

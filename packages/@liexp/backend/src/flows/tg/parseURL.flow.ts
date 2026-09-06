@@ -67,7 +67,7 @@ export const parseURLs =
               where: {
                 url: Equal(url),
               },
-              relations: ["image"],
+              relations: { image: true },
             },
           ),
           TE.chain((link) => {

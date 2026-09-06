@@ -260,7 +260,10 @@ describe("Merge Actor", () => {
     const memberships = await throwTE(
       Test.ctx.db.find(GroupMemberEntity, {
         where: { actor: { id: Equal(targetActor.id) } },
-        relations: ["group", "actor"],
+relations: {
+  group: true
+  actor: true
+  }
       }),
     );
     // Target actor should not have gained the source's memberships
@@ -291,7 +294,9 @@ describe("Merge Actor", () => {
     const updatedTargetActor = await throwTE(
       Test.ctx.db.findOneOrFail(ActorEntity, {
         where: { id: Equal(targetActor.id) },
-        relations: ["nationalities"],
+relations: {
+  nationalities: true
+  }
       }),
     );
     expect(updatedTargetActor.nationalities).toHaveLength(3);

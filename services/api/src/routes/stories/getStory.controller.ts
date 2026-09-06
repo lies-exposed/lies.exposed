@@ -16,7 +16,9 @@ export const MakeGetStoryRoute: Route = (r, ctx) => {
       TE.chain((user) =>
         ctx.db.findOneOrFail(StoryEntity, {
           where: { id },
-          relations: ["featuredImage"],
+relations: {
+  featuredImage: true
+  }
           loadRelationIds: {
             relations: [
               "creator",

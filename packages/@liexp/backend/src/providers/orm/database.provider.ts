@@ -21,7 +21,7 @@ import {
   type SaveOptions,
   type UpdateResult,
 } from "typeorm";
-import { type PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions.js";
+import { type PostgresDataSourceOptions } from "typeorm/driver/postgres/PostgresDataSourceOptions.js";
 import { type QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity.js";
 
 export class DBError extends IOError {
@@ -291,7 +291,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
           () =>
             ctx.connection.manager.transaction((e) => {
               const transactionClient = GetDatabaseClient({
-                connection: e.connection,
+                connection: e.dataSource,
                 logger: ctx.logger,
               });
               return task(transactionClient)();

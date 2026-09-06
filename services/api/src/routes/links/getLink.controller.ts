@@ -18,8 +18,14 @@ export const MakeGetLinksRoute: Route = (r, ctx) => {
     return pipe(
       ctx.db.findOneOrFail(LinkEntity, {
         where: { id: Equal(id) },
-        relations: ["image"],
-        loadRelationIds: { relations: ["events", "keywords", "creator"] },
+relations: {
+  image: true
+  }
+relations: {
+  events: true
+  keywords: true
+  creator: true
+  }
         withDeleted: isAdmin,
       }),
       TE.chainEitherK((l) => LinkIO.decodeSingle(l)),

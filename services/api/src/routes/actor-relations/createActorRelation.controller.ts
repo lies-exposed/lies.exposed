@@ -110,7 +110,10 @@ export const MakeCreateActorRelationRoute: Route = (
         TE.chain(([relation]) =>
           db.findOneOrFail(ActorRelationEntity, {
             where: { id: Equal(relation.id) },
-            relations: ["actor", "relatedActor"],
+relations: {
+  actor: true
+  relatedActor: true
+  }
           }),
         ),
         TE.chainEitherK((ar) => ActorRelationIO.decodeSingle(ar)),

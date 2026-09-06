@@ -19,7 +19,9 @@ export const TakeLinkScreenshotSubscriber = Subscriber(
       fp.RTE.chainTaskEitherK((ctx) =>
         LinkRepository.findOneOrFail({
           where: { id: Equal(id) },
-          relations: ["image"],
+relations: {
+  image: true
+  }
         })(ctx),
       ),
       fp.RTE.chain((link) =>

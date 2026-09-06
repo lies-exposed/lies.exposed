@@ -195,7 +195,7 @@ const executeMergeTransaction = <C extends MergeContext>(
             pipe(
               txCtx.find(StoryEntity, {
                 where: { events: { id: In(allEventIds) } },
-                relations: ["events"],
+                relations: { events: true },
               }),
               fp.TE.chain((stories) => {
                 if (stories.length === 0) {

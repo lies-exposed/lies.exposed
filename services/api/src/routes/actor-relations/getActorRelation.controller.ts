@@ -12,7 +12,10 @@ export const MakeGetActorRelationRoute: Route = (r, ctx) => {
     return pipe(
       ctx.db.findOneOrFail(ActorRelationEntity, {
         where: { id: Equal(id) },
-        relations: ["actor", "relatedActor"],
+relations: {
+  actor: true
+  relatedActor: true
+  }
         loadRelationIds: {
           relations: [],
         },

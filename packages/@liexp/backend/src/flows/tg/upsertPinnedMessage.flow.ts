@@ -57,13 +57,14 @@ export const upsertPinnedMessage =
             .createQueryBuilder(KeywordEntity, "k")
             .select()
             .loadAllRelationIds({ relations: ["events"] })
-            .loadRelationCountAndMap("k.eventCount", "k.events")
             .addSelect((qb) => {
               return qb
-                .select("COUNT(ev.id)", "count")
-                .from(EventV2Entity, "ev"); // can't be mapped, but can be sorted. ( getMany )
-            }, "count")
-            .orderBy('"count"', "DESC")
+                .select("COUNT(*)", "eventCount")
+                .from(EventV2Entity, "ev")
+                .innerJoin("ev.keywords", "kw")
+                .where("kw.id = k.id");
+            }, "eventCount")
+            .orderBy('"eventCount"', "DESC")
             .limit(limit)
             .getMany(),
         ),

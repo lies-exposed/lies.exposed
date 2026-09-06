@@ -73,7 +73,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
           {
             ...p,
             ...filter,
-            relations: [MEDIA.literals[0]],
+            relations: { [MEDIA.literals[0]]: true },
           },
           discrete,
         )
