@@ -27,9 +27,7 @@ export const MakeKeywordsDistributionRoute = (
         ctx.db.manager
           .createQueryBuilder(KeywordEntity, "keyword")
           // .leftJoinAndSelect("keyword.events", "events")
-relations: {
-  events: true
-  }
+          .loadAllRelationIds({ relations: ["events"] }),
         (q) => {
           if (O.isSome(ids)) {
             return q.where(`keyword.id IN (:...ids)`, {

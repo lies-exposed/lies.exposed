@@ -50,9 +50,7 @@ export const MakeEditLinkMetadataRoute = (
         TE.chain(() =>
           ctx.db.findOneOrFail(LinkEntity, {
             where: { id: Equal(id) },
-relations: {
-  events: true
-  }
+            loadRelationIds: { relations: ["events"] },
           }),
         ),
         TE.chainEitherK((l) => LinkIO.decodeSingle(l)),

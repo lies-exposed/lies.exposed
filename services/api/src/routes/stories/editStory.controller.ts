@@ -78,9 +78,7 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
         TE.chain(() =>
           ctx.db.findOneOrFail(StoryEntity, {
             where: { id: Equal(id) },
-relations: {
-  featuredImage: true
-  }
+            relations: ["featuredImage"],
             loadRelationIds: {
               relations: [
                 "creator",

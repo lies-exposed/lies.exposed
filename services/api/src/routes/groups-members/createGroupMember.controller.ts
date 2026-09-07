@@ -28,10 +28,7 @@ export const MakeCreateGroupMemberRoute: Route = (
         TE.chain(([page]) =>
           db.findOneOrFail(GroupMemberEntity, {
             where: { id: Equal(page.id) },
-relations: {
-  actor: true
-  group: true
-  }
+            relations: ["actor", "group"],
           }),
         ),
         TE.chainEitherK((g) => GroupMemberIO.decodeSingle(g)),

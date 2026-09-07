@@ -25,10 +25,7 @@ export const MakeEditGroupMemberRoute: Route = (r, ctx): void => {
         TE.chain(() =>
           ctx.db.findOneOrFail(GroupMemberEntity, {
             where: { id: Equal(id) },
-relations: {
-  actor: true
-  group: true
-  }
+            relations: ["actor", "group"],
           }),
         ),
         TE.chainEitherK((gm) => GroupMemberIO.decodeSingle(gm)),

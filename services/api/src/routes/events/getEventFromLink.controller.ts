@@ -34,9 +34,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
           where: {
             url: Equal(url),
           },
-relations: {
-  image: true
-  }
+          relations: ["image"],
         }),
       ),
       TE.bind("metadata", ({ link }) => {

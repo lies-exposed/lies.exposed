@@ -21,10 +21,7 @@ export const MakeEditActorRelationRoute: Route = (r, ctx): void => {
       return pipe(
         ctx.db.findOneOrFail(ActorRelationEntity, {
           where: { id: Equal(id) },
-relations: {
-  actor: true
-  relatedActor: true
-  }
+          relations: ["actor", "relatedActor"],
         }),
         TE.chain((existing) => {
           const effectiveActor = actor ?? existing.actor.id;
@@ -67,10 +64,7 @@ relations: {
         TE.chain(() =>
           ctx.db.findOneOrFail(ActorRelationEntity, {
             where: { id: Equal(id) },
-relations: {
-  actor: true
-  relatedActor: true
-  }
+            relations: ["actor", "relatedActor"],
           }),
         ),
         TE.chainEitherK((ar) => ActorRelationIO.decodeSingle(ar)),

@@ -124,9 +124,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
           return pipe(
             ctx.db.findOneOrFail(LinkEntity, {
               where: { id: Equal(id) },
-relations: {
-  image: true
-  }
+              relations: ["image"],
             }),
             TE.chain((l): TEControllerError<LinkEntity> => {
               previousStatus = l.status;
@@ -206,9 +204,7 @@ relations: {
               pipe(
                 ctx.db.find(EventV2Entity, {
                   where: { id: In(events) },
-relations: {
-  links: true
-  }
+                  loadRelationIds: { relations: ["links"] },
                 }),
                 TE.chain((events) =>
                   ctx.db.save(
@@ -229,13 +225,8 @@ relations: {
             TE.chain(() =>
               ctx.db.findOneOrFail(LinkEntity, {
                 where: { id: Equal(id) },
-relations: {
-  image: true
-  }
-relations: {
-  events: true
-  keywords: true
-  }
+                relations: ["image"],
+                loadRelationIds: { relations: ["events", "keywords"] },
               }),
             ),
             TE.chain((finalLink) => {
