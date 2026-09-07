@@ -21,7 +21,7 @@ export const updateEventPayloadURLRefs: CommandFlow = async (ctx) => {
     sequenceS(fp.TE.ApplicativePar)({
       creator: getOneAdminOrFail(ctx),
       events: pipe(
-        ctx.db.execQuery(() => {
+        ctx.db.execQuery(async (): Promise<EventV2Entity[]> => {
           const q = ctx.db.manager
             .createQueryBuilder(EventV2Entity, "event")
             .where(
@@ -39,9 +39,9 @@ export const updateEventPayloadURLRefs: CommandFlow = async (ctx) => {
                     ` (event.type = 'Documentary' AND TRIM("event"."payload"::jsonb ->> 'website') = '')`,
                   );
               }),
-            )
+            );
 
-            .printSql();
+          ctx.logger.debug.log("Query SQL: %s", q.getSql());
 
           return q.getMany();
         }),

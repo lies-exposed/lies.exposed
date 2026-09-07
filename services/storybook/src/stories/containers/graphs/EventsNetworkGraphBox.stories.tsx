@@ -1,89 +1,18 @@
-import { ACTORS } from "@liexp/io/lib/http/Actor.js";
-import { GROUPS } from "@liexp/io/lib/http/Group.js";
-import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
-import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput.js";
-import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput.js";
-import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput.js";
-import { Box } from "@liexp/ui/lib/components/mui/index.js";
-import {
-  EventsNetworkGraphBox,
-  type EventNetworkGraphBoxProps,
-} from "@liexp/ui/lib/containers/graphs/EventsNetworkGraphBox/EventsNetworkGraphBox.js";
-import { type Meta, type StoryFn } from "@storybook/react-vite";
-import { subWeeks } from "date-fns";
-import * as React from "react";
+import { ACTORS, GROUPS, KEYWORDS } from "@liexp/shared/lib/domain/literals/index.js";
+import { formatDate, subWeeks } from "@liexp/shared/lib/utils/date.utils.js";
+import type { Meta, StoryObj } from "@storybook/react";
+import EventsNetworkGraphBox from "./EventsNetworkGraphBox.js";
 
-const meta: Meta = {
-  title: "Containers/Graphs/EventNetworkGraphBox",
+const meta: Meta<typeof EventsNetworkGraphBox> = {
+  title: "Containers/Graphs/EventsNetworkGraphBox",
   component: EventsNetworkGraphBox,
-  argTypes: {
-    groupBy: {
-      control: {
-        type: "select",
-        labels: ["actor", "group", "keyword"],
-      },
-    },
-  },
 };
 
 export default meta;
 
-const Template: StoryFn<EventNetworkGraphBoxProps> = ({
-  query: { ids, ...query },
-  ...props
-}) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [items, setItem] = React.useState<any[]>(
-    ids ? ids.map((id: string) => ({ id })) : [],
-  );
+type Story = StoryObj<typeof EventsNetworkGraphBox>;
 
-  const inputProps = {
-    style: { width: "100%" },
-    selectedItems: items,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onChange: (items: any[]) => {
-      setItem(items);
-    },
-  };
-  const input =
-    props.type === KEYWORDS.literals[0] ? (
-      <AutocompleteKeywordInput {...inputProps} />
-    ) : props.type === ACTORS.literals[0] ? (
-      <AutocompleteActorInput {...inputProps} />
-    ) : props.type === GROUPS.literals[0] ? (
-      <AutocompleteGroupInput {...inputProps} />
-    ) : (
-      <div />
-    );
-
-  return (
-    <>
-      <Box
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-        }}
-      >
-        <Box style={{ display: "flex", flexDirection: "column" }}>
-          <Box style={{ display: "flex" }}>{input}</Box>
-        </Box>
-        <Box style={{ display: "flex", height: 800 }}>
-          <EventsNetworkGraphBox
-            {...props}
-            query={{
-              ...query,
-              ids,
-            }}
-          />
-        </Box>
-      </Box>
-    </>
-  );
-};
-
-const EventsByActors = Template.bind({});
+const Template: Story = (args) => <EventsNetworkGraphBox {...args} />;
 
 const commonQuery = {
   startDate: formatDate(subWeeks(new Date(), 300)),
@@ -93,7 +22,7 @@ const commonQuery = {
 EventsByActors.args = {
   count: 20,
   type: ACTORS.literals[0],
-relations: [ACTORS.literals[0]
+  relations: [ACTORS.literals[0], KEYWORDS.literals[0]],
   query: {
     ...commonQuery,
     ids: ["4163db78-67ca-4243-80fe-05ff920e70e1"],
@@ -106,7 +35,7 @@ const EventsByKeywords = Template.bind({});
 EventsByKeywords.args = {
   count: 10,
   type: KEYWORDS.literals[0],
-relations: [GROUPS.literals[0]
+  relations: [GROUPS.literals[0]],
   query: {
     ...commonQuery,
     ids: ["fe502631-ef4e-4dfc-a1ff-c2cd04f3ff6d"],
@@ -118,7 +47,7 @@ const EventsByGroups = Template.bind({});
 EventsByGroups.args = {
   count: 10,
   type: GROUPS.literals[0],
-relations: [GROUPS.literals[0]
+  relations: [GROUPS.literals[0]],
   query: {
     ...commonQuery,
     ids: ["3879feae-a4f8-4f12-ad8d-3f199050afcd"],
@@ -128,7 +57,7 @@ relations: [GROUPS.literals[0]
 const EventsTimelineNetwork = Template.bind({});
 EventsTimelineNetwork.args = {
   type: "events",
-relations: [GROUPS.literals[0]
+  relations: [GROUPS.literals[0]],
   query: {
     startDate: subWeeks(new Date(), 5).toISOString(),
     endDate: new Date().toISOString(),
@@ -138,7 +67,7 @@ relations: [GROUPS.literals[0]
 const OneEventNetwork = Template.bind({});
 OneEventNetwork.args = {
   type: "events",
-relations: [GROUPS.literals[0]
+  relations: [GROUPS.literals[0]],
   query: {
     ...commonQuery,
     ids: ["c82575ea-120e-467b-8d75-cbf7e49d721a"],

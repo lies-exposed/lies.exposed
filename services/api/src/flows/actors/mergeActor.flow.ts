@@ -197,5 +197,3 @@ export const mergeActor = (input: MergeActorInput): TEReader<Actor> => {
       ),
     );
 };
-  );
-};
