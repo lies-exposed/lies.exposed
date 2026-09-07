@@ -173,7 +173,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 type={ACTORS.Type}
                 query={{
                   ...query,
-                  relations: { actors: true, groups: true, keywords: true },
+                  relations: ["actors", "groups", "keywords"],
                   actors:
                     query.actors && isNonEmpty(query.actors)
                       ? query.actors
