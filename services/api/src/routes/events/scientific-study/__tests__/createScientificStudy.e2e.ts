@@ -25,7 +25,7 @@ describe("Create Scientific Study", () => {
   let admin: UserTest;
   let authorizationToken: string;
   const scientificStudyIds: any[] = [];
-  const [actor] = fc.sample(ActorArb, 1);
+  const [actor] = fc.sample(ActorArb, 1) as any[];
   const [group] = fc.sample(GroupArb, 1);
 
   beforeAll(async () => {

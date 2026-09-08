@@ -18,7 +18,7 @@ export const MakeGetLinksRoute: Route = (r, ctx) => {
     return pipe(
       ctx.db.findOneOrFail(LinkEntity, {
         where: { id: Equal(id) },
-        relations: ["image"],
+        relations: { image: true },
         loadRelationIds: { relations: ["events", "keywords", "creator"] },
         withDeleted: isAdmin,
       }),

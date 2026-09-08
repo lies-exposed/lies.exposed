@@ -260,7 +260,7 @@ describe("Merge Actor", () => {
     const memberships = await throwTE(
       Test.ctx.db.find(GroupMemberEntity, {
         where: { actor: { id: Equal(targetActor.id) } },
-        relations: ["group", "actor"],
+        relations: { group: true, actor: true },
       }),
     );
     // Target actor should not have gained the source's memberships
@@ -291,7 +291,7 @@ describe("Merge Actor", () => {
     const updatedTargetActor = await throwTE(
       Test.ctx.db.findOneOrFail(ActorEntity, {
         where: { id: Equal(targetActor.id) },
-        relations: ["nationalities"],
+        relations: { nationalities: true },
       }),
     );
     expect(updatedTargetActor.nationalities).toHaveLength(3);
@@ -303,7 +303,7 @@ describe("Merge Actor", () => {
 
   test("Should handle merging actor with no relations", async () => {
     // Create a new source actor with no relations
-    const [emptyActorData] = tests.fc.sample(ActorArb, 1);
+    const [emptyActorData] = tests.fc.sample(ActorArb, 1) as any[];
     const emptyTimestamp = Date.now();
     const emptyActor = {
       ...emptyActorData,
@@ -313,11 +313,11 @@ describe("Merge Actor", () => {
       death: null,
       memberIn: [],
       nationalities: [],
-    };
+    } as any;
     await throwTE(Test.ctx.db.save(ActorEntity, [emptyActor]));
 
     // Create a target actor
-    const [newTargetData] = tests.fc.sample(ActorArb, 1);
+    const [newTargetData] = tests.fc.sample(ActorArb, 1) as any[];
     const newTarget = {
       ...newTargetData,
       username: `merge-test-new-target-${emptyTimestamp}`,
@@ -326,7 +326,7 @@ describe("Merge Actor", () => {
       death: null,
       memberIn: [],
       nationalities: [],
-    };
+    } as any;
     await throwTE(Test.ctx.db.save(ActorEntity, [newTarget]));
 
     const response = await Test.req

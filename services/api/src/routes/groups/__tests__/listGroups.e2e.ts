@@ -17,7 +17,7 @@ describe("List Groups", () => {
   let appTest: AppTest;
   let authorizationToken: string;
   let totalEvents: number;
-  const actors = FastCheck.sample(ActorArb, 10).map((a) => ({
+  const actors = FastCheck.sample(ActorArb, 10).map((a: any) => ({
     ...a,
     avatar: a.avatar
       ? ({

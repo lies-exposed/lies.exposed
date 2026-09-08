@@ -12,7 +12,7 @@ import { loginUser } from "../../../../../test/utils/user.utils.js";
 describe("Create Death Event", () => {
   let appTest: AppTest;
   const users: any[] = [];
-  const [actor] = fc.sample(ActorArb, 1).map((actor) => ({
+  const [actor] = fc.sample(ActorArb, 1).map((actor: any) => ({
     ...actor,
     memberIn: [],
     nationalities: [],

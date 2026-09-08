@@ -14,7 +14,7 @@ export const MakeDeleteMediaRoute: Route = (r, ctx) => {
     return pipe(
       ctx.db.findOneOrFail(MediaEntity, {
         where: { id },
-        relations: ["links"],
+        relations: { links: true },
         withDeleted: true,
       }),
       TE.chain((m) =>

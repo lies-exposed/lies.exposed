@@ -18,12 +18,12 @@ describe("Unlink Actor Events", () => {
   let user: any;
   let authorizationToken: string;
   const [avatar] = tests.fc.sample(MediaArb, 1);
-  const actor = tests.fc.sample(ActorArb, 1).map((a) => ({
+  const actor = (tests.fc.sample(ActorArb, 1).map((a) => ({
     ...a,
     death: undefined,
     memberIn: [],
     avatar,
-  }))[0];
+  }))[0] as any);
 
   beforeAll(async () => {
     Test = await GetAppTest();

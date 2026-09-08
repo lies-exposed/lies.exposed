@@ -58,18 +58,17 @@ export const mergeActor = (input: MergeActorInput): TEReader<Actor> => {
             fp.TE.bind("source", () =>
               txCtx.findOneOrFail(ActorEntity, {
                 where: { id: Equal(sourceId) },
-                relations: [
-                  "memberIn",
-                  "memberIn.group",
-                  "stories",
-                  "nationalities",
-                ],
+                relations: {
+                  memberIn: { group: true },
+                  stories: true,
+                  nationalities: true,
+                },
               }),
             ),
             fp.TE.bind("target", () =>
               txCtx.findOneOrFail(ActorEntity, {
                 where: { id: Equal(targetId) },
-                relations: ["memberIn", "stories", "nationalities"],
+                relations: { memberIn: true, stories: true, nationalities: true },
               }),
             ),
             fp.TE.chain(({ source, target }) => {

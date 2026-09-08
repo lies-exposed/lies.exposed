@@ -12,7 +12,7 @@ export const MakeGetGroupMemberRoute: Route = (r, ctx) => {
     return pipe(
       ctx.db.findOneOrFail(GroupMemberEntity, {
         where: { id: Equal(id) },
-        relations: ["actor", "group"],
+        relations: { actor: true, group: true },
         loadRelationIds: {
           relations: [],
         },

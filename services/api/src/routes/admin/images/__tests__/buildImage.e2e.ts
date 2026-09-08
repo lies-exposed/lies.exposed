@@ -1,6 +1,6 @@
 import { BuildImageWithSharpPubSub } from "@liexp/backend/lib/pubsub/buildImageWithSharp.pubSub.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
-import { beforeAll, beforeEach, describe, expect, test } from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import { loginUser } from "../../../../../test/utils/user.utils.js";
 
@@ -50,11 +50,18 @@ describe("Build Image", () => {
   beforeEach(() => {
     // Reset sharp mock so toBuffer can resolve fresh for each test
     const fakeImageBuffer = Buffer.from("fake-png-data");
-    (Test.mocks.sharp.mocks.composite as any).mockReturnThis();
-    (Test.mocks.sharp.mocks.sharpen as any).mockReturnThis();
-    (Test.mocks.sharp.mocks.toFormat as any).mockReturnThis();
-    (Test.mocks.sharp.mocks.toBuffer as any).mockResolvedValue(fakeImageBuffer);
-    (Test.mocks.sharp.mocks.resize as any).mockReturnThis();
+    const sharpMocks = Test.mocks.sharp.mocks as any;
+    if (sharpMocks.composite === undefined) {
+      sharpMocks.composite = vi.fn().mockReturnThis();
+    }
+    if (sharpMocks.sharpen === undefined) {
+      sharpMocks.sharpen = vi.fn().mockReturnThis();
+    }
+    sharpMocks.composite.mockReturnThis();
+    sharpMocks.sharpen.mockReturnThis();
+    sharpMocks.toFormat.mockReturnThis();
+    sharpMocks.toBuffer.mockResolvedValue(fakeImageBuffer);
+    sharpMocks.resize.mockReturnThis();
     // Mock http provider to return a fake image buffer for URL fetching
     (Test.mocks.axios.get as any).mockResolvedValue({
       data: fakeImageBuffer,

@@ -14,7 +14,7 @@ describe("Edit Group", () => {
   let appTest: AppTest;
   const users: any[] = [];
   let authorizationToken: string;
-  const actors = fc.sample(ActorArb, 10).map((a) => ({
+  const actors = fc.sample(ActorArb, 10).map((a: any) => ({
     ...a,
     memberIn: [],
     nationalities: [],
