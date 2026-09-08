@@ -630,11 +630,11 @@ importers:
         specifier: ^10.1.2
         version: 10.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.101.4
-        version: 5.101.4(react@18.3.1)
+        specifier: ^5.102.8
+        version: 5.102.8(react@18.3.1)
       '@tanstack/react-virtual':
-        specifier: ^3.14.9
-        version: 3.14.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^3.14.10
+        version: 3.14.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@ts-endpoint/core':
         specifier: file:../../../patches/ts-endpoint-core-0.1.0.tgz
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
@@ -739,16 +739,16 @@ importers:
         version: 9.4.1
       ra-core:
         specifier: ^5.15.0
-        version: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       ra-i18n-polyglot:
         specifier: ^5.15.0
-        version: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       ra-language-english:
         specifier: ^5.15.0
-        version: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       ra-ui-materialui:
         specifier: ^5.15.1
-        version: 5.15.1(40ae965321a32bc736da4fd37b36f70f)
+        version: 5.15.1(f6e6aeafded3c5e6d3a30ea6dfc812ac)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -910,8 +910,8 @@ importers:
         specifier: ^10.73.0
         version: 10.73.0(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.101.4
-        version: 5.101.4(react@18.3.1)
+        specifier: ^5.102.8
+        version: 5.102.8(react@18.3.1)
       '@testing-library/react':
         specifier: ^16.3.3
         version: 16.3.3(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1427,8 +1427,8 @@ importers:
         specifier: ^10.5.10
         version: 10.5.10(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(@typescript/typescript6@6.0.2)(esbuild@0.28.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.60.0)(storybook@10.5.10(@types/react@18.3.27)(prettier@3.9.6)(react@18.3.1))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.9.0))
       '@tanstack/react-query':
-        specifier: ^5.101.4
-        version: 5.101.4(react@18.3.1)
+        specifier: ^5.102.8
+        version: 5.102.8(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
         version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.18.0)(fp-ts@2.16.11)(react-admin@5.15.1(@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1))
@@ -1527,8 +1527,8 @@ importers:
         specifier: ^10.73.0
         version: 10.73.0(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.101.4
-        version: 5.101.4(react@18.3.1)
+        specifier: ^5.102.8
+        version: 5.102.8(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
         version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.18.0)(fp-ts@2.16.11)(react-admin@5.15.1(@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1))
@@ -1558,10 +1558,10 @@ importers:
         version: 8.4.2
       ra-core:
         specifier: ^5.15.0
-        version: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       ra-i18n-polyglot:
         specifier: ^5.15.0
-        version: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -4615,19 +4615,27 @@ packages:
   '@tanstack/query-core@5.101.4':
     resolution: {integrity: sha512-gNwcvOJcRbLWPOLG/2OBm+zM+Yv+MKsXKEOWC57USuZDEsI71hEErQsiEGx5wX9rzWWkfwM0fVSPoiIFSsxfiw==}
 
+  '@tanstack/query-core@5.102.8':
+    resolution: {integrity: sha512-ZNjkJ33CqvPNec/6lZBnHqLc3EVGPZ9ySLhYahU9TcuRFdmwXewuj0c4hwSWcGHqEUwcSrKeZ+oGcvPBqXcQcg==}
+
   '@tanstack/react-query@5.101.4':
     resolution: {integrity: sha512-yRg2pfOCxIs4ZJW3XYYHU/WgtD04FHSnfHlpRT7h7pR77hwkdRG4wxbKe4aq6P0RvXUTBSQpQeadS1SUYUe+KA==}
     peerDependencies:
       react: ^18 || ^19
 
-  '@tanstack/react-virtual@3.14.9':
-    resolution: {integrity: sha512-qZyr0FZDP8rDC4WBhsryIZmAd9bveJvFGUJJtskWaew6/0dTRS6wZxnR6VQ5bY2KwL3LjerrHqQLk3a0GKcPXQ==}
+  '@tanstack/react-query@5.102.8':
+    resolution: {integrity: sha512-TYBea4OuXWD7MhaSHq069TWbFe7rcwWN6kzT7JF0OKi1K6c1gTv2IzD6A6ExJsCMozdkqBWeuIUZmu4KQg0O5A==}
+    peerDependencies:
+      react: ^18 || ^19
+
+  '@tanstack/react-virtual@3.14.10':
+    resolution: {integrity: sha512-SRyoUbdFMRHuYXMijV5H4ZarQWpXkj3iANq8OFre+pybeVap8ZJjZ3Nz9bVjx4d8PfobVUQUdKyyyHYk3E+djw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@tanstack/virtual-core@3.17.7':
-    resolution: {integrity: sha512-bp+v10y65sp2H7WpWfIMyxTNfl8ZVfxFTLRjPIFRryi6FV/J33z4IS53WO4pTk36KlvJ4iLiQz+oaydDC1xbcA==}
+  '@tanstack/virtual-core@3.17.8':
+    resolution: {integrity: sha512-BfEvehNpOT75r5Ksc5xW6NZuXujTfb7nlSEyVu4XHG3gdxNg1KqXruWbDewXOUaUYIo4oRbSfkjIajz4MAT8tA==}
 
   '@testing-library/dom@10.4.1':
     resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
@@ -13398,18 +13406,25 @@ snapshots:
 
   '@tanstack/query-core@5.101.4': {}
 
+  '@tanstack/query-core@5.102.8': {}
+
   '@tanstack/react-query@5.101.4(react@18.3.1)':
     dependencies:
       '@tanstack/query-core': 5.101.4
       react: 18.3.1
 
-  '@tanstack/react-virtual@3.14.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tanstack/react-query@5.102.8(react@18.3.1)':
     dependencies:
-      '@tanstack/virtual-core': 3.17.7
+      '@tanstack/query-core': 5.102.8
+      react: 18.3.1
+
+  '@tanstack/react-virtual@3.14.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/virtual-core': 3.17.8
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@tanstack/virtual-core@3.17.7': {}
+  '@tanstack/virtual-core@3.17.8': {}
 
   '@testing-library/dom@10.4.1':
     dependencies:
@@ -18452,9 +18467,9 @@ snapshots:
       react-router: 7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom: 7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
-  ra-core@5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
+  ra-core@5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@tanstack/react-query': 5.101.4(react@18.3.1)
+      '@tanstack/react-query': 5.102.8(react@18.3.1)
       date-fns: 3.6.0
       eventemitter3: 5.0.4
       inflection: 3.0.2
@@ -18481,10 +18496,10 @@ snapshots:
       - react-router
       - react-router-dom
 
-  ra-i18n-polyglot@5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
+  ra-i18n-polyglot@5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
     dependencies:
       node-polyglot: 2.6.0
-      ra-core: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      ra-core: 5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
     transitivePeerDependencies:
       - '@tanstack/react-query'
       - react
@@ -18504,9 +18519,9 @@ snapshots:
       - react-router
       - react-router-dom
 
-  ra-language-english@5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
+  ra-language-english@5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
     dependencies:
-      ra-core: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      ra-core: 5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
     transitivePeerDependencies:
       - '@tanstack/react-query'
       - react
@@ -18515,7 +18530,7 @@ snapshots:
       - react-router
       - react-router-dom
 
-  ra-ui-materialui@5.15.1(40ae965321a32bc736da4fd37b36f70f):
+  ra-ui-materialui@5.15.1(57c121e02572210e000406d997d2f014):
     dependencies:
       '@mui/icons-material': 7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.27)(react@18.3.1)
       '@mui/material': 7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -18532,7 +18547,7 @@ snapshots:
       jsonexport: 3.2.0
       lodash: 4.18.1
       query-string: 7.1.3
-      ra-core: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      ra-core: 5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-dropzone: 14.4.1(react@18.3.1)
@@ -18540,7 +18555,7 @@ snapshots:
       react-hook-form: 7.81.0(react@18.3.1)
       react-hotkeys-hook: 5.3.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-is: 19.2.8
-      react-router: 7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router: 7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom: 7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
@@ -18573,13 +18588,13 @@ snapshots:
       react-router-dom: 7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
-  ra-ui-materialui@5.15.1(928003d8d1f9e830370f53b096d05c02):
+  ra-ui-materialui@5.15.1(f6e6aeafded3c5e6d3a30ea6dfc812ac):
     dependencies:
       '@mui/icons-material': 7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.27)(react@18.3.1)
       '@mui/material': 7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mui/system': 7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1)
       '@mui/utils': 9.4.0(@types/react@18.3.27)(react@18.3.1)
-      '@tanstack/react-query': 5.101.4(react@18.3.1)
+      '@tanstack/react-query': 5.102.8(react@18.3.1)
       autosuggest-highlight: 3.3.4
       clsx: 2.1.1
       css-mediaquery: 0.1.2
@@ -18590,7 +18605,7 @@ snapshots:
       jsonexport: 3.2.0
       lodash: 4.18.1
       query-string: 7.1.3
-      ra-core: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      ra-core: 5.15.0(@tanstack/react-query@5.102.8(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-dropzone: 14.4.1(react@18.3.1)
@@ -18598,7 +18613,7 @@ snapshots:
       react-hook-form: 7.81.0(react@18.3.1)
       react-hotkeys-hook: 5.3.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-is: 19.2.8
-      react-router: 7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router: 7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom: 7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
@@ -18633,7 +18648,7 @@ snapshots:
       ra-core: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       ra-i18n-polyglot: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       ra-language-english: 5.15.0(@tanstack/react-query@5.101.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.81.0(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      ra-ui-materialui: 5.15.1(928003d8d1f9e830370f53b096d05c02)
+      ra-ui-materialui: 5.15.1(57c121e02572210e000406d997d2f014)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-hook-form: 7.81.0(react@18.3.1)
