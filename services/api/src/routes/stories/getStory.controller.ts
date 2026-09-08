@@ -18,7 +18,15 @@ export const MakeGetStoryRoute: Route = (r, ctx) => {
           where: { id },
           relations: { featuredImage: true },
           loadRelationIds: {
-            relations: ["creator", "keywords", "links", "events", "groups", "actors", "media"],
+            relations: [
+              "creator",
+              "keywords",
+              "links",
+              "events",
+              "groups",
+              "actors",
+              "media",
+            ],
           },
           withDeleted: !!user,
         }),

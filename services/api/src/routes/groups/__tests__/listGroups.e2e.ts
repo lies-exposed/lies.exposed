@@ -24,7 +24,7 @@ describe("List Groups", () => {
           ...a.avatar,
           stories: [],
           featuredInAreas: [],
-        } as any as MediaEntity)
+        } as MediaEntity)
       : null,
     memberIn: [],
     groups: [],
@@ -45,7 +45,7 @@ describe("List Groups", () => {
           ...g.avatar,
           stories: [],
           featuredInAreas: [],
-        } as any as MediaEntity)
+        } as MediaEntity)
       : null,
     startDate: g.startDate ?? null,
     endDate: g.endDate ?? null,

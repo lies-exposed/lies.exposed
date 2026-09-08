@@ -53,7 +53,15 @@ export const MakeListStoryRoute: Route = (r, { env, db, logger: _logger }) => {
               withDeleted,
               relations: { featuredImage: true },
               loadRelationIds: {
-                relations: ["creator", "keywords", "media", "links", "actors", "groups", "events"],
+                relations: [
+                  "creator",
+                  "keywords",
+                  "media",
+                  "links",
+                  "actors",
+                  "groups",
+                  "events",
+                ],
               },
             }),
             TE.chainEitherK(StoryIO.decodeMany),

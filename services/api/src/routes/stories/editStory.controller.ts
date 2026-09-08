@@ -80,7 +80,15 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
             where: { id: Equal(id) },
             relations: { featuredImage: true },
             loadRelationIds: {
-              relations: ["creator", "actors", "groups", "keywords", "links", "media", "events"],
+              relations: [
+                "creator",
+                "actors",
+                "groups",
+                "keywords",
+                "links",
+                "media",
+                "events",
+              ],
             },
             withDeleted: true,
           }),
