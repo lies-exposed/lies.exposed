@@ -22,7 +22,7 @@ describe("List Actor", () => {
         ...a,
         avatar,
       })),
-    ) as any;
+    );
 
     await throwTE(
       Test.ctx.db.save(
