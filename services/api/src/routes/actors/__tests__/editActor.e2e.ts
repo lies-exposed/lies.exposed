@@ -20,12 +20,12 @@ describe("Edit Actor", () => {
   let user: any;
   let authorizationToken: string;
   const [avatar] = tests.fc.sample(MediaArb, 1);
-  let actor = (tests.fc.sample(ActorArb, 1).map((a) => ({
+  let actor = tests.fc.sample(ActorArb, 1).map((a) => ({
     ...a,
     death: undefined,
     memberIn: [],
     avatar,
-  }))[0] as any);
+  }))[0] as any;
 
   beforeAll(async () => {
     Test = await GetAppTest();

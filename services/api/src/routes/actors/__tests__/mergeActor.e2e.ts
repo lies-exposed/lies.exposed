@@ -313,7 +313,7 @@ describe("Merge Actor", () => {
       death: null,
       memberIn: [],
       nationalities: [],
-    } as any;
+    };
     await throwTE(Test.ctx.db.save(ActorEntity, [emptyActor]));
 
     // Create a target actor
@@ -326,7 +326,7 @@ describe("Merge Actor", () => {
       death: null,
       memberIn: [],
       nationalities: [],
-    } as any;
+    };
     await throwTE(Test.ctx.db.save(ActorEntity, [newTarget]));
 
     const response = await Test.req

@@ -18,7 +18,7 @@ describe("List Actor", () => {
     } as any)()}`;
 
     actors = avatars.flatMap((avatar) =>
-      tests.fc.sample(ActorArb, 1).map((a) => ({ ...a, avatar } as any)),
+      tests.fc.sample(ActorArb, 1).map((a) => ({ ...a, avatar })) as any,
     );
 
     await throwTE(

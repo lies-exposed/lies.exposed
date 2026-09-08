@@ -1,0 +1,11 @@
+fix(typeorm): apply remaining migration fixes from codemod run
+
+- Convert remaining string relations arrays to object syntax in controllers
+  and flows (mergeActor, getLinkAdminStats, 30+ controller files)
+- Remove deprecated printSql() call from worker subscriber
+- Restore and fix EventsNetworkGraphBox.stories.tsx (codemod corrupted imports)
+- Fix worker service lint errors (prettier indentation)
+- Remove pglite-datasource.ts test utility (no longer needed)
+- Fix migration file relations syntax
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>

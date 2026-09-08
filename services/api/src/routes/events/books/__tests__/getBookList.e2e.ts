@@ -39,11 +39,11 @@ describe("Get Book List", () => {
   });
 
   test("Should return books by actor", async () => {
-    const actor = (fc.sample(ActorArb, 1).map((actor) => ({
+    const actor = fc.sample(ActorArb, 1).map((actor) => ({
       ...actor,
       memberIn: [],
       nationalities: [],
-    }))[0] as any);
+    }))[0] as any;
 
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
 
