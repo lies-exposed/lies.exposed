@@ -87,7 +87,7 @@
     "sharp": "^0.35.3",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.2.2",
-    "vitest": "^4.1.11",
+    "vitest": "^5.0.0",
     "vitest-mock-extended": "^5.1.1"
   },
   "peerDependencies": {

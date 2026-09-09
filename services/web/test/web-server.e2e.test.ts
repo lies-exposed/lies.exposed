@@ -5,7 +5,7 @@ import {
   type WebAppTest,
 } from "./WebAppTest.js";
 
-describe.sequential("Web Server E2E Tests", () => {
+describe("Web Server E2E Tests", () => {
   describe("Development Mode", () => {
     let Test: WebAppTest;
 

@@ -2,7 +2,7 @@ import { describe, expect, it, beforeAll, afterAll } from "vitest";
 import { GetAdminAppTest, closeAdminAppTest } from "./AdminAppTest.js";
 import type { AdminAppTest } from "./AdminAppTest.js";
 
-describe.sequential("Admin Web Server", () => {
+describe("Admin Web Server", () => {
   let AdminTest: AdminAppTest;
 
   describe("Development Mode", () => {

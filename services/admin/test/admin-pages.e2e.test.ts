@@ -111,7 +111,7 @@ function containsErrorPattern(html: string): string | null {
   return null;
 }
 
-describe.sequential("Admin Page Routes", () => {
+describe("Admin Page Routes", () => {
   let AdminTest: AdminAppTest;
 
   beforeAll(async () => {

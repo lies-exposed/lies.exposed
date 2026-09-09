@@ -134,7 +134,7 @@
     "openai": "^6.45.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.2.2",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "peerDependencies": {
     "axios": "^1",

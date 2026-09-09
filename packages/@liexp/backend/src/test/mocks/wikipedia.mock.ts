@@ -1,6 +1,6 @@
 import { vi } from "vitest";
 
 export const wikipediaProviderMock = {
-  search: vi.fn(),
-  articleSummary: vi.fn(),
+  search: vi.fn(() => undefined),
+  articleSummary: vi.fn(() => undefined),
 };

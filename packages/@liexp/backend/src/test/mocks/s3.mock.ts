@@ -14,7 +14,7 @@ const defaultUploadResponse = {
 
 // Mock Upload class that works as a constructor
 class MockUpload {
-  done = vi.fn().mockResolvedValue(defaultUploadResponse);
+  done = vi.fn(() => Promise.resolve(defaultUploadResponse));
 
   constructor() {
     // Each instance gets its own done method
@@ -32,15 +32,15 @@ const s3Mock = {
           query: undefined,
         }),
     },
-    send: vi
-      .fn()
-      .mockImplementation(() => Promise.reject(new Error("Not implemented"))),
-    destroy: vi.fn().mockResolvedValue(undefined),
+    send: vi.fn(() => Promise.reject(new Error("Not implemented"))),
+    destroy: vi.fn(() => undefined),
   }),
   classes: {
     Upload: MockUpload as unknown as typeof Upload,
   },
-  getSignedUrl: vi.fn(),
+  getSignedUrl: vi.fn((): string => {
+    throw new Error("Not implemented");
+  }),
 };
 
-export { s3Mock, MockUpload };
+export { MockUpload, s3Mock };

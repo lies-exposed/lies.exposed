@@ -6,7 +6,7 @@ export default defineConfig({
     name: "@liexp/io",
     root: __dirname,
     globals: true,
-    pool: "vmForks",
+    pool: "forks",
     include: [__dirname + "/src/**/*.spec.ts"],
     watch: false,
     coverage: {

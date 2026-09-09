@@ -6,15 +6,19 @@ const editor = {
 };
 
 const BlockNoteSchema = {
-  create: vi.fn(),
+  create: vi.fn(() => {
+    throw new Error("Not implemented");
+  }),
 };
 
 const BlockNoteEditor = {
-  create: vi.fn().mockReturnValue(editor),
+  create: vi.fn(() => editor),
 };
 
 const defaultBlockSpecs = {
-  image: vi.fn(),
+  image: vi.fn(() => {
+    throw new Error("Not implemented");
+  }),
 };
 
 export { BlockNoteEditor, BlockNoteSchema, defaultBlockSpecs };

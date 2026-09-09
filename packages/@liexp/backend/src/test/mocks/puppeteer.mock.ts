@@ -1,56 +1,83 @@
-import type { PuppeteerExtra } from "puppeteer-extra";
-import type { Mocked } from "vitest";
-import { vi } from "vitest";
+import { type Browser, type Page } from "puppeteer-core";
+import { type VanillaPuppeteer } from "puppeteer-extra";
+import { type Mock, vi } from "vitest";
+import { mock, type MockProxy } from "vitest-mock-extended";
 
-const puppeteerMock = {
-  use: vi.fn(),
-  launch: vi.fn().mockRejectedValue(new Error("launch not implemented")),
-} as any as Mocked<PuppeteerExtra>;
+const puppeteerMock: MockProxy<Partial<VanillaPuppeteer>> = mock({
+  use: vi.fn().mockReturnThis(),
+  launch: vi.fn(() => {
+    return Promise.resolve(browserMock);
+  }),
+});
 
-const pageMock = {
-  on: vi.fn(),
-  goto: vi.fn().mockRejectedValue(new Error("goto not implemented")),
-  click: vi.fn().mockRejectedValue(new Error("click: Not implemented")),
-  waitForSelector: vi
-    .fn()
-    .mockRejectedValue(new Error(`waitForSelector: Not implemented`)),
-  $: vi.fn().mockRejectedValue(new Error(`$: Not implemented`)),
-  $$: vi.fn().mockRejectedValue(new Error(`$: Not implemented`)),
-  $eval: vi.fn().mockRejectedValue(new Error(`$eval: Not implemented`)),
-  $x: vi.fn().mockRejectedValue(new Error(`$x: Not implemented`)),
-  evaluate: vi.fn().mockRejectedValue(new Error(`evaluate: Not implemented`)),
-  evaluateHandle: vi
-    .fn()
-    .mockRejectedValue(new Error(`evaluateHandle: Not implemented`)),
+const pageMock: MockProxy<Partial<Page>> = mock({
+  on: vi.fn(() => {
+    throw new Error("Not implemented");
+  }),
+  goto: vi.fn(() => {
+    throw new Error("goto not implemented");
+  }),
+  click: vi.fn(() => {
+    throw new Error("click not implemented");
+  }),
+  waitForSelector: vi.fn(() => {
+    throw new Error("goto not implemented");
+  }),
+  $: vi.fn(() => {
+    throw new Error("goto not implemented");
+  }),
+  $$: vi.fn(() => {
+    throw new Error("goto not implemented");
+  }),
+  $eval: vi.fn(() => {
+    throw new Error("goto not implemented");
+  }),
+  $x: vi.fn(() => {
+    throw new Error("goto not implemented");
+  }),
+  evaluate: vi.fn(() => {
+    throw new Error("goto not implemented");
+  }),
+  evaluateHandle: vi.fn(() => {
+    throw new Error("goto not implemented");
+  }),
   waitForTimeout: vi.fn().mockImplementation((ms) => {
     return new Promise((resolve) => {
       setTimeout(resolve, ms / 10);
     });
   }),
-  emulate: vi.fn().mockRejectedValue(new Error(`emulate: Not implemented`)),
-  screenshot: vi
-    .fn()
-    .mockRejectedValue(new Error(`screenshot: Not implemented`)),
-  browser: () => browserMock,
-};
-
-const browserMock = {
-  on: vi.fn(),
-  newPage: vi.fn().mockResolvedValue(pageMock),
-  pages: vi.fn().mockResolvedValue([pageMock] as any),
-  close: vi.fn().mockResolvedValue(undefined),
-};
-
-puppeteerMock.use.mockImplementation(() => puppeteerMock);
-puppeteerMock.launch.mockImplementation(() => {
-  return Promise.resolve(browserMock) as any;
+  emulate: vi.fn(() => {
+    throw new Error("goto not implemented");
+  }),
+  screenshot: vi.fn(() => {
+    throw new Error("goto not implemented");
+  }),
+  browser: vi.fn(() => browserMock as unknown as Browser),
 });
 
-export default {
+const browserMock: MockProxy<
+  Partial<
+    Omit<Browser, "newPage" | "pages"> & {
+      newPage: Mock<() => Promise<typeof pageMock>>;
+      pages: Mock<() => Promise<(typeof pageMock)[]>>;
+    }
+  >
+> = mock({
+  on: vi.fn(() => {
+    throw new Error("Not implemented");
+  }),
+  newPage: vi.fn(() => Promise.resolve(pageMock)),
+  pages: vi.fn(() => Promise.resolve([pageMock])),
+  close: vi.fn(() => Promise.resolve(undefined)),
+});
+
+const mocks = {
   ...puppeteerMock,
   page: pageMock,
   browser: browserMock,
   devices: {
     "iPhone 13 Pro": {},
-  } as any,
+  },
 };
+
+export default mocks;
