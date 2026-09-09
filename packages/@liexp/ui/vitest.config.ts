@@ -6,7 +6,7 @@ export default defineConfig({
     name: "@liexp/ui",
     root: __dirname,
     globals: true,
-    pool: "vmForks",
+    pool: "forks",
     watch: false,
     environment: "jsdom",
     setupFiles: [path.join(__dirname, "test.setup.ts")],
