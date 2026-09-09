@@ -70,7 +70,6 @@ if [ "$base" = true ]; then
     echo "Pushing image $BASE_IMAGE"
     docker image push $BASE_IMAGE:${NODE_VERSION}-latest
     docker image push $BASE_IMAGE:${NODE_VERSION}-pnpm-latest
-    
 fi
 
 if [ "$api" = true ]; then

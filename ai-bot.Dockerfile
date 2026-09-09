@@ -4,7 +4,7 @@ FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS dev
 
 WORKDIR /home/node
 
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json ./
 
 COPY patches patches
 COPY packages/@liexp/core packages/@liexp/core
