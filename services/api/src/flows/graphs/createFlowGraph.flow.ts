@@ -49,7 +49,15 @@ const ordByDate = pipe(
 
 const updateMap =
   (m: Map<string, FlowLink[]>, sourceType: NetworkLink["sourceType"]) =>
-  (ids: readonly { id: string; color: string; name?: string; fullName?: string }[], eId: string) => {
+  (
+    ids: readonly {
+      id: string;
+      color: string;
+      name?: string;
+      fullName?: string;
+    }[],
+    eId: string,
+  ) => {
     return pipe(
       ids,
       fp.A.map((a) =>
@@ -60,15 +68,17 @@ const updateMap =
             pipe(
               links,
               fp.A.last,
-              fp.O.map((l) =>
-                (links.concat({
-                  source: l.target,
-                  stroke: toColor(a.color),
-                  fill: toColor(a.color),
-                  sourceType,
-                  value: 1,
-                  target: eId,
-                })) as FlowLink[],
+              fp.O.map(
+                (l) =>
+                  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+                  links.concat({
+                    source: l.target,
+                    stroke: toColor(a.color),
+                    fill: toColor(a.color),
+                    sourceType,
+                    value: 1,
+                    target: eId,
+                  }) as FlowLink[],
               ),
             ),
           ),
