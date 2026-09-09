@@ -37,8 +37,8 @@ const ordByDate = pipe(
 );
 
 const updateMap =
-  (m: Map<string, any[]>, sourceType: NetworkLink["sourceType"]) =>
-  (ids: any[], eId: string) => {
+  (m: Map<string, NetworkLink[]>, sourceType: NetworkLink["sourceType"]) =>
+  (ids: NetworkLink[], eId: string) => {
     return pipe(
       ids,
       fp.A.map((a) =>
@@ -72,7 +72,7 @@ const updateMap =
               target: eId,
             },
           ]),
-          (links): [string, any[]] => [a.id, links],
+          (links): [string, NetworkLink[]] => [a.id, links],
         ),
       ),
       fp.A.reduce(m, (acc, [k, ll]) =>
@@ -118,9 +118,9 @@ const getFlowGraph =
     );
 
     const initialResult = {
-      actorLinks: new Map<string, any[]>(),
-      groupLinks: new Map<string, any[]>(),
-      keywordLinks: new Map<string, any[]>(),
+      actorLinks: new Map<string, NetworkLink[]>(),
+      groupLinks: new Map<string, NetworkLink[]>(),
+      keywordLinks: new Map<string, NetworkLink[]>(),
       totals: EventTotalsMonoid.empty,
     };
 

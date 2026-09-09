@@ -76,7 +76,7 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
   };
 
   return pipe(
-    ActorRepository.findOneOrFail({ where: { id: Equal(id as any) } }),
+    ActorRepository.findOneOrFail({ where: { id: Equal(id as string) } }),
     fp.RTE.chain((actor) =>
       ActorRepository.save([
         {

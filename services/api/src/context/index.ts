@@ -27,7 +27,7 @@ import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { Redis } from "ioredis";
 import * as metadataParser from "page-metadata-parser";
-import sharp from "sharp";
+import SharpModule from "sharp";
 import WinkFn from "wink-nlp";
 import { type TEControllerError } from "../types/TEControllerError.js";
 import { type ServerContext } from "./context.type.js";
@@ -137,7 +137,7 @@ export const makeContext =
           imgProc: fp.TE.right(
             MakeImgProcClient({
               logger: serverLogger.extend("imgproc"),
-              client: sharp,
+              client: SharpModule,
               exifR: ExifReader,
             }),
           ),

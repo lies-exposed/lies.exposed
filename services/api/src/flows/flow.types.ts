@@ -6,7 +6,7 @@ import { type ControllerError } from "#io/ControllerError.js";
  * Flow is a curried function of {@link ServerContext} that returns
  * synchronous result
  */
-export type Flow<Args extends any[], R, Context = ServerContext> = (
+export type Flow<Args extends unknown[], R, Context = ServerContext> = (
   ...args: Args
 ) => (ctx: Context) => R;
 
