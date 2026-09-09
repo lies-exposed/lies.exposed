@@ -3,6 +3,7 @@
 set -x
 
 NODE_VERSION=26
+PNPM_VERSION=11
 
 BASE_IMAGE=liexp-base
 API_IMAGE=liexp-api
@@ -67,6 +68,7 @@ done
 
 if [ "$pnpm" = true ]; then
   docker build . --force-rm --pull --file base.Dockerfile \
+    --build-arg PNPM_VERSION=${PNPM_VERSION} \
     --tag $BASE_IMAGE:pnpm-latest \
     --tag ghcr.io/lies-exposed/$BASE_IMAGE:${NODE_VERSION}-pnpm-latest \
     --target=pnpm \
