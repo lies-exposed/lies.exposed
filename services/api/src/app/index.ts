@@ -18,7 +18,7 @@ export const makeApp = (ctx: ServerContext): express.Express => {
   // uploads
   MakeUploadFileRoute(app, ctx);
 
-  const jsonMiddleware: express.RequestHandler = express.json({
+  const jsonMiddleware: any = express.json({
     limit: 1024 * 1000,
   });
   jsonMiddleware.unless = unless;
