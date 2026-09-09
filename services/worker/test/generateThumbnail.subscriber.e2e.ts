@@ -23,18 +23,10 @@ describe("GenerateThumbnail Subscriber", () => {
     Test.mocks.fs.mkdirSync.mockReturnValue(undefined);
     Test.mocks.fs.writeFileSync.mockReturnValue(undefined);
 
-    // Mock sharp image processing - sharp.toBuffer() returns { data, info }
-    Test.mocks.sharp.mocks.toBuffer.mockResolvedValue({
-      data: Buffer.from("processed-image"),
-      info: {
-        format: "png",
-        width: 800,
-        height: 600,
-        channels: 4,
-        premultiplied: false,
-        size: 18,
-      },
-    });
+    // Mock sharp image processing - sharp.toBuffer() returns a Buffer
+    Test.mocks.sharp.mocks.toBuffer.mockResolvedValue(
+      Buffer.from("processed-image"),
+    );
 
     const media = fc.sample(Arbs.Media.MediaArb, 1);
 

@@ -6,7 +6,6 @@ import { unaccent } from "@electric-sql/pglite/contrib/unaccent";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { toDBError, type DBError, type DatabaseClient } from "@liexp/backend/lib/providers/orm/database.provider.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { createORMConfig } from "@liexp/backend/lib/utils/data-source.js";
 
 // Per-worker cache for PGlite datasource (each worker reuses its instance across tests)

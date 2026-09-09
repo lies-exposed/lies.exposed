@@ -45,7 +45,13 @@ describe("List Groups", () => {
           ...g.avatar,
           stories: [],
           featuredInAreas: [],
-        } as MediaEntity)
+          creator: null,
+          events: [],
+          links: [],
+          areas: [],
+          featuredInStories: [],
+          keywords: [],
+        } as unknown as MediaEntity)
       : null,
     startDate: g.startDate ?? null,
     endDate: g.endDate ?? null,
