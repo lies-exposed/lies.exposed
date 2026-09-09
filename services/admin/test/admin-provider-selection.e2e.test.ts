@@ -2,7 +2,7 @@ import { describe, expect, it, beforeAll, afterAll } from "vitest";
 import { GetAdminAppTest, closeAdminAppTest } from "./AdminAppTest.js";
 import type { AdminAppTest } from "./AdminAppTest.js";
 
-describe.sequential("Admin Provider Selection E2E", () => {
+describe("Admin Provider Selection E2E", () => {
   let AdminTest: AdminAppTest;
 
   beforeAll(async () => {
