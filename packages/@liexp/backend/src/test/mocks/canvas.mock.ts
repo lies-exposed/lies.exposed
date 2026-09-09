@@ -1,5 +1,5 @@
-import { vi } from "vitest";
+import { type Mock, vi } from "vitest";
 
-const DOMMatrix = vi.fn();
-const Path2D = vi.fn();
+const DOMMatrix: Mock = vi.fn();
+const Path2D: Mock = vi.fn();
 export { DOMMatrix, Path2D };
