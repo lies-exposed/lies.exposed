@@ -62,8 +62,8 @@
     "@liexp/io": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
-    "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
+    "@ts-endpoint/core": "file:../../patches/ts-endpoint-core-0.1.0.tgz",
+    "@ts-endpoint/express": "file:../../patches/ts-endpoint-express-0.1.0.tgz",
     "axios": "^1.18.0",
     "body-parser": "^2.3.0",
     "cors": "^2.8.5",
@@ -113,5 +113,5 @@
     "vitest-mock-extended": "^5.1.1",
     "wink-nlp": "^2.3.0"
   },
-  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
+  "packageManager": "pnpm@11.26.0"
 }

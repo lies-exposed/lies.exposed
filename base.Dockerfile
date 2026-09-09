@@ -11,7 +11,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 # install curl for healthcheck
 RUN apt-get update && apt-get install -y curl
 
-RUN npm i -g corepack@latest && corepack use pnpm@latest-10
+RUN npm i -g pnpm@latest-11
 
 WORKDIR /usr/src/app
 

@@ -6,7 +6,6 @@
       "ignoreDependencies": [
         "husky",
         "lint-staged",
-        "corepack",
         "@typescript/native",
         "eslint-plugin-fp-ts"
       ]

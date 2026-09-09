@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@liexp/core": "workspace:*",
-    "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
+    "@ts-endpoint/core": "file:../../../patches/ts-endpoint-core-0.1.0.tgz",
     "uuid": "^14.0.1"
   },
   "devDependencies": {
@@ -44,5 +44,5 @@
     "effect": "^3",
     "fp-ts": "^2"
   },
-  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
+  "packageManager": "pnpm@11.26.0"
 }
