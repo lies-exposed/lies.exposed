@@ -59,12 +59,10 @@ export const upsertPinnedMessage =
             .loadAllRelationIds({ relations: ["events"] })
             .addSelect((qb) => {
               return qb
-                .select("COUNT(*)", "eventCount")
-                .from(EventV2Entity, "ev")
-                .innerJoin("ev.keywords", "kw")
-                .where("kw.id = k.id");
-            }, "eventCount")
-            .orderBy('"eventCount"', "DESC")
+                .select("COUNT(ev.id)", "count")
+                .from(EventV2Entity, "ev"); // can't be mapped, but can be sorted. ( getMany )
+            }, "count")
+            .orderBy('"count"', "DESC")
             .limit(limit)
             .getMany(),
         ),

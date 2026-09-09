@@ -34,6 +34,8 @@ export type Criteria = UUID[] | ObjectLiteral;
 // | number[]
 // | Date
 // | Date[]
+// | ObjectId
+// | ObjectId[];
 
 interface DatabaseClient {
   manager: EntityManager;
@@ -288,7 +290,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
           () =>
             ctx.connection.manager.transaction((e) => {
               const transactionClient = GetDatabaseClient({
-                connection: e.dataSource,
+                connection: e.connection,
                 logger: ctx.logger,
               });
               return task(transactionClient)();

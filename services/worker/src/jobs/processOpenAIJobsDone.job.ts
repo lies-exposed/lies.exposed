@@ -192,9 +192,7 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
         return pipe(
           LinkRepository.findOneOrFail({
             where: { id: Equal(linkId) },
-            relations: {
-              events: true,
-            },
+            loadRelationIds: { relations: ["events"] },
           }),
           fp.RTE.chain((link) => {
             const draftStatus = link.status !== APPROVED.literals[0];

@@ -74,10 +74,7 @@ export const createGlobalSetup = <A extends BACKEND_ENV, I = any>(
         await dataSource.initialize();
         await dataSource.runMigrations();
       } finally {
-        // TypeORM v1: destroy() requires connection to be established
-        if (dataSource.isInitialized) {
-          await dataSource.destroy();
-        }
+        await dataSource.destroy();
       }
       moduleLogger.info.log(
         "Global test setup completed - using transactional rollback for test isolation",

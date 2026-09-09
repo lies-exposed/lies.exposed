@@ -31,14 +31,13 @@ export const MakeQueueListRoute: Route = (r, ctx) => {
         ctx.env.DEFAULT_PAGE_SIZE,
       );
 
-      const where: Record<string, any> = {};
-      if (resource !== undefined) where.resource = resource;
-      if (type !== undefined) where.type = type;
-      if (status !== undefined) where.status = status;
-
       return pipe(
         QueueRepository.find({
-          where,
+          where: {
+            resource,
+            type,
+            status,
+          },
           ...findOptions,
         }),
         fp.RTE.chainEitherK(QueueIO.decodeMany),

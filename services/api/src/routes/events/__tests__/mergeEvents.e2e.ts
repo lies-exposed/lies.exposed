@@ -232,7 +232,7 @@ describe("Merge Events", () => {
     const mergedEvent = await throwTE(
       Test.ctx.db.findOneOrFail(EventV2Entity, {
         where: { id: Equal(event1.id) },
-        relations: { links: true, media: true, keywords: true },
+        relations: ["links", "media", "keywords"],
       }),
     );
 
@@ -277,7 +277,7 @@ describe("Merge Events", () => {
     const updatedStory = await throwTE(
       Test.ctx.db.findOneOrFail(StoryEntity, {
         where: { id: Equal(story.id) },
-        relations: { events: true },
+        relations: ["events"],
       }),
     );
     const storyEventIds = updatedStory.events.map((e) => e.id);

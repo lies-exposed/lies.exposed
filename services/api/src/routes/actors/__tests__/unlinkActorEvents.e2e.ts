@@ -23,7 +23,7 @@ describe("Unlink Actor Events", () => {
     death: undefined,
     memberIn: [],
     avatar,
-  }))[0] as any;
+  }))[0];
 
   beforeAll(async () => {
     Test = await GetAppTest();

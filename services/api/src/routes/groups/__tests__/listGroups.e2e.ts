@@ -17,14 +17,14 @@ describe("List Groups", () => {
   let appTest: AppTest;
   let authorizationToken: string;
   let totalEvents: number;
-  const actors = FastCheck.sample(ActorArb, 10).map((a: any) => ({
+  const actors = FastCheck.sample(ActorArb, 10).map((a) => ({
     ...a,
     avatar: a.avatar
       ? ({
           ...a.avatar,
           stories: [],
           featuredInAreas: [],
-        } as MediaEntity)
+        } as any as MediaEntity)
       : null,
     memberIn: [],
     groups: [],
@@ -45,13 +45,7 @@ describe("List Groups", () => {
           ...g.avatar,
           stories: [],
           featuredInAreas: [],
-          creator: null,
-          events: [],
-          links: [],
-          areas: [],
-          featuredInStories: [],
-          keywords: [],
-        } as unknown as MediaEntity)
+        } as any as MediaEntity)
       : null,
     startDate: g.startDate ?? null,
     endDate: g.endDate ?? null,

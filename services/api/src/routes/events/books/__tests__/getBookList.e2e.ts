@@ -43,7 +43,7 @@ describe("Get Book List", () => {
       ...actor,
       memberIn: [],
       nationalities: [],
-    }))[0] as any;
+    }))[0];
 
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
 
@@ -105,7 +105,7 @@ describe("Get Book List", () => {
       ...actor,
       memberIn: [],
       nationalities: [],
-    })) as any[];
+    }));
     const [group] = fc.sample(GroupArb, 1).map((g) => ({
       ...g,
       members: [],

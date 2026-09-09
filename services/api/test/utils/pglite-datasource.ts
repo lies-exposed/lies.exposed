@@ -5,7 +5,9 @@ import { uuid_ossp } from "@electric-sql/pglite/contrib/uuid_ossp";
 import { unaccent } from "@electric-sql/pglite/contrib/unaccent";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { toDBError, type DBError, type DatabaseClient } from "@liexp/backend/lib/providers/orm/database.provider.js";
+import { GetDatabaseClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { createORMConfig } from "@liexp/backend/lib/utils/data-source.js";
 
 // Per-worker cache for PGlite datasource (each worker reuses its instance across tests)
@@ -35,6 +37,37 @@ const getPGliteOptions = (workerId: string): PGliteOptions => {
       unaccent,
     },
   };
+};
+
+/**
+ * Create a transactional DatabaseClient from a QueryRunner
+ * All database operations will go through the transaction
+ * This is a clean approach that doesn't require patching the DataSource
+ */
+const createTransactionalDatabaseClient = (
+  queryRunner: QueryRunner,
+): DatabaseClient => {
+  const logger = GetLogger("typeorm-transaction");
+  logger.info.log("🔄 Creating transactional DatabaseClient from QueryRunner");
+  
+  // Create a pseudo-DataSource that uses the QueryRunner's manager
+  // This makes GetDatabaseClient use the transactional EntityManager
+  const transactionalConnection = {
+    manager: queryRunner.manager, // ← Key: Use QueryRunner's transactional manager
+    driver: queryRunner.connection.driver,
+    options: queryRunner.connection.options,
+    isInitialized: true,
+  } as DataSource;
+
+  const client = GetDatabaseClient({
+    connection: transactionalConnection,
+    logger,
+  });
+  
+  logger.info.log("✅ Transactional DatabaseClient created with manager: %s", 
+    queryRunner.manager.constructor.name);
+  
+  return client;
 };
 
 /**
@@ -139,6 +172,24 @@ const getPGliteORMConfig = (workerId: string): DataSourceOptions => {
 };
 
 /**
+ * Ensure a DataSource is initialized for the current worker
+ * This is a prerequisite for starting transactions
+ * Returns the DataSource synchronously (it's already cached)
+ */
+const ensureDataSourceInitialized = async (dbName: string): Promise<DataSource> => {
+  const workerId = getWorkerId();
+  
+  // Check if we already have an initialized DataSource
+  const existing = workerDataSources.get(workerId);
+  if (existing && existing.isInitialized) {
+    return existing;
+  }
+  
+  // Initialize if not already done
+  return throwTE(getInitializedPGliteDataSource(dbName));
+};
+
+/**
  * Create and initialize a PGlite-based DataSource with fp-ts TaskEither
  * Uses per-worker caching with transaction-based isolation
  * First test: ~4.5s (schema sync), subsequent tests: ~1-5ms (transaction rollback)
@@ -176,5 +227,33 @@ export const getInitializedPGliteDataSource = (
     },
     toDBError(),
   );
+};
+
+/**
+ * Close the cached datasource for current worker (call this in global teardown)
+ */
+const closeCachedDataSource = async (): Promise<void> => {
+  const workerId = getWorkerId();
+  
+  // Release query runner
+  const queryRunner = workerQueryRunners.get(workerId);
+  if (queryRunner) {
+    // Rollback any active transaction
+    const isActive = workerTransactionActive.get(workerId);
+    if (isActive) {
+      await queryRunner.rollbackTransaction();
+    }
+    await queryRunner.release();
+    workerQueryRunners.delete(workerId);
+    workerTransactionActive.delete(workerId);
+  }
+  
+  // Close datasource
+  const cachedDataSource = workerDataSources.get(workerId);
+  if (cachedDataSource && cachedDataSource.isInitialized) {
+    await cachedDataSource.destroy();
+    workerDataSources.delete(workerId);
+    workerSchemaInitialized.delete(workerId);
+  }
 };
 

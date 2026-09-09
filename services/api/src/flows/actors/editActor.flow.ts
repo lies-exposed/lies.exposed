@@ -76,7 +76,6 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
   };
 
   return pipe(
-    // TypeORM v1 has stricter typing for Equal with branded UUID types
     ActorRepository.findOneOrFail({ where: { id: Equal(id as any) } }),
     fp.RTE.chain((actor) =>
       ActorRepository.save([

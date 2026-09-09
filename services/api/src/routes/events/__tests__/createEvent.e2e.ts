@@ -30,7 +30,7 @@ describe("Create Event", () => {
   let authorizationToken: string;
 
   const keywords = fc.sample(KeywordArb, 5);
-  const actors = fc.sample(ActorArb, 3).map((a: any) => ({
+  const actors = fc.sample(ActorArb, 3).map((a) => ({
     ...a,
     memberIn: [],
     nationalities: [],

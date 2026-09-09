@@ -18,10 +18,7 @@ describe("List Actor", () => {
     } as any)()}`;
 
     actors = avatars.flatMap((avatar) =>
-      tests.fc.sample(ActorArb, 1).map((a) => ({
-        ...a,
-        avatar,
-      })),
+      tests.fc.sample(ActorArb, 1).map((a) => ({ ...a, avatar })),
     );
 
     await throwTE(
@@ -35,7 +32,7 @@ describe("List Actor", () => {
           death: undefined,
           avatar: a.avatar,
           nationalities: [],
-        })) as any[],
+        })),
       ),
     );
   });
