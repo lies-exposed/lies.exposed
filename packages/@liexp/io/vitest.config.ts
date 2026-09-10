@@ -4,10 +4,10 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     name: "@liexp/io",
-    root: __dirname,
+    root: import.meta.dirname,
     globals: true,
     pool: "forks",
-    include: [__dirname + "/src/**/*.spec.ts"],
+    include: [import.meta.dirname + "/src/**/*.spec.ts"],
     watch: false,
     coverage: {
       thresholds: {
@@ -16,11 +16,11 @@ export default defineConfig({
       },
     },
     alias: {
-      "@liexp/core/lib": path.resolve(__dirname, "../core/src"),
+      "@liexp/core/lib": path.resolve(import.meta.dirname, "../core/src"),
     },
   },
   resolve: {
     tsconfigPaths: true,
   },
-  root: __dirname,
+  root: import.meta.dirname,
 });

@@ -4,13 +4,13 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     name: "@liexp/ui",
-    root: __dirname,
+    root: import.meta.dirname,
     globals: true,
     pool: "forks",
     watch: false,
     environment: "jsdom",
-    setupFiles: [path.join(__dirname, "test.setup.ts")],
-    include: [path.join(__dirname, "/src/**/*.spec.{ts,tsx}")],
+    setupFiles: [path.join(import.meta.dirname, "test.setup.ts")],
+    include: [path.join(import.meta.dirname, "/src/**/*.spec.{ts,tsx}")],
     coverage: {
       thresholds: {
         statements: 80,
@@ -23,5 +23,5 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
-  root: __dirname,
+  root: import.meta.dirname,
 });
