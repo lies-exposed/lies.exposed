@@ -1,11 +1,11 @@
 import * as fs from "fs";
 import { fileURLToPath } from "node:url";
 import * as path from "path";
+import { registerMswHandlers } from "@liexp/backend/lib/test/msw/sharedServer.js";
 import { GetLogger, type Logger } from "@liexp/core/lib/logger/index.js";
 import { fc } from "@liexp/test/lib/index.js";
 import type * as e from "express";
 import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
 import { AdminProxyENV } from "../src/server/io/ENV.js";
@@ -24,7 +24,6 @@ export interface AdminAppTest {
 }
 
 let adminAppTest: AdminAppTest | undefined = undefined;
-let mswServer: ReturnType<typeof setupServer> | undefined = undefined;
 
 // MSW API Handlers for agent service mock
 const createAgentApiHandlers = (env: AdminProxyENV) => [
@@ -92,17 +91,11 @@ export const createAdminServerTest = async (
 
   const validatedEnv = envResult.right;
 
-  // Set up MSW server for mocking agent service (after env is validated)
-  if (!mswServer) {
-    mswServer = setupServer(...createAgentApiHandlers(validatedEnv));
-
-    // Start MSW server
-    mswServer.listen({
-      onUnhandledRequest: "warn", // Allow non-mocked requests to pass through
-    });
-
-    logger.info.log("MSW server started for agent API mocking");
-  }
+  // Register agent-API mock handlers on the process-wide shared MSW server.
+  // A single `setupServer()` instance is shared across the web + admin e2e
+  // projects (they run in one fork) — see `@liexp/backend/.../msw/sharedServer`.
+  registerMswHandlers(...createAgentApiHandlers(validatedEnv));
+  logger.info.log("MSW handlers registered for agent API mocking");
 
   // Ensure test files exist for production mode
   if (isProduction) {
@@ -172,10 +165,7 @@ export const closeAdminAppTest = async (): Promise<void> => {
     adminAppTest = undefined;
   }
 
-  if (mswServer) {
-    mswServer.close();
-    mswServer = undefined;
-  }
-
+  // The shared MSW server is process-wide and intentionally left listening;
+  // handlers registered here do not overlap other projects' origins.
   return Promise.resolve();
 };
