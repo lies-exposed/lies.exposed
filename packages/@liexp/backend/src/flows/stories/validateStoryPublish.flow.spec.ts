@@ -159,7 +159,7 @@ describe(validateStoryPublish.name, () => {
         where: expect.objectContaining({
           status: Link.DRAFT.literals[0],
         }),
-        select: ["id", "url"],
+        select: { id: true, url: true },
       }),
     );
   });
