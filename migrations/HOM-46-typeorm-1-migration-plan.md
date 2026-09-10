@@ -180,14 +180,21 @@ select: { id: true, fullName: true, avatar: true }
 
 In v1.0, `null` and `undefined` in `where` conditions now **throw** by default (previously silently ignored).
 
-**Action**: Review all `find()`, `findOne()`, `findBy()` calls to ensure they don't pass `null`/`undefined` as values unintentionally. If the old behavior is desired, add to DataSource config:
+**Resolution**: Rather than opting the whole datasource back into the lenient
+behavior, the `where` criteria are sanitised centrally before they reach
+TypeORM. `packages/@liexp/backend/src/utils/sanitizeFindOptions.ts` strips
+`undefined` / `null` values (keeping `FindOperator`s such as `IsNull()`,
+`Date`s and array values), and `GetDatabaseClient` in
+`providers/orm/database.provider.ts` applies it to every
+`findOne` / `findOneOrFail` / `find` / `findAndCount` / `count` call. The v1
+default (`throw`) is therefore left in place.
 
-```typescript
-new DataSource({
-  // ...
-  invalidWhereValuesBehavior: { null: "ignore", undefined: "ignore" },
-})
-```
+Not covered: `update` / `delete` / `softDelete` criteria (no offending call
+sites today — add sanitisation there if one appears).
+
+Historical note: an earlier fix added
+`invalidWhereValuesBehavior: { null: "sql-null", undefined: "ignore" }` to
+`createORMConfig`; that line was removed once the sanitiser landed.
 
 ### 7b. `nullable: false` Relations Use INNER JOIN
 
