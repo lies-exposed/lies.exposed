@@ -14,6 +14,7 @@ import { Box, Grid, Stack } from "../../mui/index.js";
 import BlockNoteInput from "../BlockNoteInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { EditForm } from "../common/EditForm.js";
+import { FormAutosave } from "../common/FormAutosave.js";
 import { TextWithSlugInput } from "../common/inputs/TextWithSlugInput.js";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
 import { ReferenceMediaInputWithUpload } from "../media/input/ReferenceMediaInputWithUpload.js";
@@ -203,6 +204,9 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
       >
         <TabbedForm.Tab label="generals">
           <Stack display="flex" direction="column" width="100%">
+            <FormAutosave
+              excludePaths={["featuredImage", "newFeaturedImageUpload"]}
+            />
             <Grid
               size={12}
               container
@@ -276,6 +280,9 @@ export const StoryCreate: React.FC<CreateProps> = (props) => {
       transform={transformStory(dataProvider)}
     >
       <SimpleForm>
+        <FormAutosave
+          excludePaths={["featuredImage", "newFeaturedImageUpload"]}
+        />
         <BooleanInput source="draft" />
         <TextWithSlugInput source="title" slugSource="path" fullWidth />
         <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
