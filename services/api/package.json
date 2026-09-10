@@ -79,13 +79,13 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.2.0",
     "page-metadata-parser": "^1.1.4",
-    "pg": "^8.21.0",
+    "pg": "^8.23.0",
     "qs": "^6.16.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sharp": "^0.35.3",
     "tsx": "^4.21.0",
-    "typeorm": "^0.3.31"
+    "typeorm": "^1.1.1"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.8",
@@ -97,7 +97,7 @@
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/multer": "^2.2.0",
-    "@types/node": "^26.4.1",
+    "@types/node": "^26.5.0",
     "@types/pg": "^8.23.1",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
