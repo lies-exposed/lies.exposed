@@ -1,9 +1,8 @@
 # syntax=docker/dockerfile:1
 
 ARG NODE_VERSION=26
-ARG PNPM_VERSION=11
 
-FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-pnpm${PNPM_VERSION}-latest AS base
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS base
 
 COPY ./package.json /usr/src/app/package.json
 COPY ./pnpm-lock.yaml /usr/src/app/pnpm-lock.yaml
