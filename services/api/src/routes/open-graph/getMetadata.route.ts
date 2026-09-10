@@ -30,7 +30,7 @@ export const MakeGetMetadataRoute: Route = (r, ctx) => {
             where: {
               url: Equal(url),
             },
-            relations: ["image"],
+            relations: { image: true },
           }),
         ),
         TE.bind("metadata", ({ link }) => {

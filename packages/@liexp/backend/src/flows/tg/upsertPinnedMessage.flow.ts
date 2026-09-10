@@ -57,7 +57,6 @@ export const upsertPinnedMessage =
             .createQueryBuilder(KeywordEntity, "k")
             .select()
             .loadAllRelationIds({ relations: ["events"] })
-            .loadRelationCountAndMap("k.eventCount", "k.events")
             .addSelect((qb) => {
               return qb
                 .select("COUNT(ev.id)", "count")

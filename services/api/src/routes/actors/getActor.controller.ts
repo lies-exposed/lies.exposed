@@ -25,7 +25,7 @@ export const MakeGetActorRoute: Route = (r, ctx) => {
           },
         }),
         events: ctx.db.find(EventV2Entity, {
-          select: ["id", "payload"],
+          select: { id: true, payload: true },
           where: {
             payload: Raw(
               (alias) => `${alias} ::jsonb -> 'actors' ?| ARRAY[:...actors]`,

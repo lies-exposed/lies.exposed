@@ -1,0 +1,7 @@
+fix(api): fix remaining lint errors after TypeORM v1 migration
+
+- Remove unnecessary `as any` type assertions in test files
+- Remove extra parentheses in actor test files
+- Format relations arrays across multiple lines in controllers and flows
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>

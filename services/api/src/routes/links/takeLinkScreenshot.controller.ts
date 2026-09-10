@@ -40,7 +40,7 @@ export const MakeTakeLinkScreenshotRoute = (
             LinkEntity,
             {
               where: { id: Equal(id) },
-              relations: ["image"],
+              relations: { image: true },
             },
           ),
         ),

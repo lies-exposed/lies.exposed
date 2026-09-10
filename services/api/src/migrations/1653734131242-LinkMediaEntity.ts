@@ -46,7 +46,7 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
     const links = await queryRunner.manager
       .getRepository<LinkEntity & { image: any }>(LinkEntity)
       .find({
-        relations: ["image"],
+        relations: { image: true },
       });
 
     await queryRunner.query(

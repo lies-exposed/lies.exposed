@@ -69,7 +69,7 @@ export const extractRelationsFromText =
                   O.fromPredicate((ll) => ll.length > 0),
                   O.map((names) =>
                     ctx.db.find(ActorEntity, {
-                      select: ["id", "fullName", "avatar"],
+                      select: { id: true, fullName: true, avatar: true },
                       where: {
                         fullName: In(names),
                       },
@@ -88,7 +88,7 @@ export const extractRelationsFromText =
                   O.fromPredicate((l) => l.length > 0),
                   O.map((names) =>
                     ctx.db.find(GroupEntity, {
-                      select: ["id", "name", "avatar"],
+                      select: { id: true, name: true, avatar: true },
                       where: {
                         name: In(names),
                       },
@@ -109,7 +109,7 @@ export const extractRelationsFromText =
                   O.fromPredicate((l) => l.length > 0),
                   O.map((tags) =>
                     ctx.db.find(KeywordEntity, {
-                      select: ["id", "tag"],
+                      select: { id: true, tag: true },
                       where: {
                         tag: In(tags),
                       },

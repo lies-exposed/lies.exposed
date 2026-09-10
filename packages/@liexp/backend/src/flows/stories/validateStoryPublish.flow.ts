@@ -28,7 +28,7 @@ export const validateStoryPublish =
     return pipe(
       ctx.db.find(LinkEntity, {
         where: { id: In(linkIds), status: Link.DRAFT.literals[0] },
-        select: ["id", "url"],
+        select: { id: true, url: true },
       }),
       TE.chain((draftLinks) => {
         if (draftLinks.length === 0) {

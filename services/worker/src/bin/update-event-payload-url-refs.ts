@@ -39,11 +39,9 @@ export const updateEventPayloadURLRefs: CommandFlow = async (ctx) => {
                     ` (event.type = 'Documentary' AND TRIM("event"."payload"::jsonb ->> 'website') = '')`,
                   );
               }),
-            )
+            );
 
-            .printSql();
-
-          return q.getMany();
+          return Promise.resolve(q.getMany() as unknown as EventV2Entity[]);
         }),
         // fp.TE.map(([ev]) => ev)
       ),

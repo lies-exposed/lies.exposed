@@ -13,7 +13,6 @@ const getLinksWithoutThumbnail = (): TEReader<number> => (ctx) => {
         .createQueryBuilder(LinkEntity, "link")
         .leftJoinAndSelect("link.image", "image")
         .where("image.thumbnail IS NULL")
-        .printSql()
         .getCount();
     }),
   );

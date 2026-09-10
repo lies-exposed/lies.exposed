@@ -18,7 +18,7 @@ export const EditEventRoute: Route = (r, ctx) => {
       return pipe(
         ctx.db.findOneOrFail(EventV2Entity, {
           where: { id: Equal(id) },
-          relations: ["links", "media", "keywords"],
+          relations: { links: true, media: true, keywords: true },
         }),
         TE.chain((event) => editEventQuery(event, body)(ctx)),
         LoggerService.TE.debug(ctx, `Update data %O`),

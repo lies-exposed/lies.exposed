@@ -124,7 +124,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
           return pipe(
             ctx.db.findOneOrFail(LinkEntity, {
               where: { id: Equal(id) },
-              relations: ["image"],
+              relations: { image: true },
             }),
             TE.chain((l): TEControllerError<LinkEntity> => {
               previousStatus = l.status;
@@ -225,7 +225,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
             TE.chain(() =>
               ctx.db.findOneOrFail(LinkEntity, {
                 where: { id: Equal(id) },
-                relations: ["image"],
+                relations: { image: true },
                 loadRelationIds: { relations: ["events", "keywords"] },
               }),
             ),

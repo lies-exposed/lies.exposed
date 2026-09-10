@@ -47,7 +47,7 @@
     "linkedom": "^0.18.13",
     "reflect-metadata": "^0.2.2",
     "sirv": "^3.0.2",
-    "typeorm": "^0.3.31"
+    "typeorm": "^1.1.1"
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.974.5",
@@ -111,7 +111,7 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "query-string": "^9.1.1",
     "sharp": "^0.35.3",
-    "typeorm": "^0.3.20",
+    "typeorm": "^1",
     "wink-eng-lite-web-model": "^1.8.0",
     "wink-nlp": "^2.3.0",
     "wink-nlp-utils": "^2.1.0"

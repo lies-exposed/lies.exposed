@@ -68,7 +68,7 @@ export const buildActorRelationTree = <
         // Batch 1: fetch actor rows
         ctx.db.find(ActorEntity, {
           where: { id: In(unvisited) },
-          relations: ["avatar"],
+          relations: { avatar: true },
         }),
         TE.chain((actors) =>
           pipe(
@@ -78,12 +78,10 @@ export const buildActorRelationTree = <
                 { actor: { id: In(unvisited) } },
                 { relatedActor: { id: In(unvisited) } },
               ],
-              relations: [
-                "actor",
-                "relatedActor",
-                "actor.avatar",
-                "relatedActor.avatar",
-              ],
+              relations: {
+                actor: { avatar: true },
+                relatedActor: { avatar: true },
+              },
             }),
             TE.map((relations) => ({ actors, relations })),
           ),
@@ -147,7 +145,7 @@ export const buildActorRelationTree = <
                     actor: { id: In([...allParentIds]) },
                     type: In(["PARENT_CHILD"]),
                   },
-                  relations: ["actor", "relatedActor"],
+                  relations: { actor: true, relatedActor: true },
                 })
               : TE.right<ServerError, ActorRelationEntity[]>([]);
 
@@ -234,7 +232,7 @@ export const buildActorRelationTree = <
     return pipe(
       ctx.db.findOneOrFail(ActorEntity, {
         where: { id: In([actorId]) },
-        relations: ["avatar"],
+        relations: { avatar: true },
       }),
       TE.chain(() => processLevel([actorId], 0)),
       TE.map(() => treeMap),

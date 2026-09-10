@@ -28,7 +28,7 @@ export const MakeDeleteLinkRoute: Route = (r, ctx) => {
               {
                 where: { id: Equal(id) },
                 withDeleted: isAdmin,
-                relations: ["image"],
+                relations: { image: true },
               },
             ),
             TE.chain(TE.fromOption(() => toNotFoundError("Link"))),
