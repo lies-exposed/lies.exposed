@@ -17,7 +17,9 @@ import { FindOperator } from "typeorm";
  * convention in this repo), which is a `FindOperator` and therefore preserved.
  */
 
-const isSanitisableObject = (value: unknown): value is Record<string, unknown> =>
+const isSanitisableObject = (
+  value: unknown,
+): value is Record<string, unknown> =>
   typeof value === "object" &&
   value !== null &&
   !Array.isArray(value) &&
@@ -93,5 +95,5 @@ export const sanitizeFindOptions = <O extends { where?: unknown } | undefined>(
     return options;
   }
 
-  return { ...options, where: sanitizeWhere(options.where) } as O;
+  return { ...options, where: sanitizeWhere(options.where) };
 };

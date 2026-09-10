@@ -1,9 +1,6 @@
 import { Equal, In, IsNull } from "typeorm";
 import { describe, it, expect } from "vitest";
-import {
-  sanitizeFindOptions,
-  sanitizeWhere,
-} from "./sanitizeFindOptions.js";
+import { sanitizeFindOptions, sanitizeWhere } from "./sanitizeFindOptions.js";
 
 describe("sanitizeFindOptions", () => {
   describe("sanitizeWhere", () => {
@@ -23,7 +20,12 @@ describe("sanitizeFindOptions", () => {
         deletedAt: isNull,
         ids: ["a", "b"],
       });
-      expect(result).toEqual({ status: op, date, deletedAt: isNull, ids: ["a", "b"] });
+      expect(result).toEqual({
+        status: op,
+        date,
+        deletedAt: isNull,
+        ids: ["a", "b"],
+      });
     });
 
     it("recurses into nested relation criteria", () => {
@@ -33,17 +35,14 @@ describe("sanitizeFindOptions", () => {
     });
 
     it("removes a nested object that becomes empty", () => {
-      expect(
-        sanitizeWhere({ actor: { id: undefined }, id: "keep" }),
-      ).toEqual({ id: "keep" });
+      expect(sanitizeWhere({ actor: { id: undefined }, id: "keep" })).toEqual({
+        id: "keep",
+      });
     });
 
     it("sanitises each entry of an array where and drops empty ones", () => {
       expect(
-        sanitizeWhere([
-          { id: "a", type: undefined },
-          { type: undefined },
-        ]),
+        sanitizeWhere([{ id: "a", type: undefined }, { type: undefined }]),
       ).toEqual([{ id: "a" }]);
     });
 
