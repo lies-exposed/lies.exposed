@@ -22,6 +22,7 @@ import {
   type DataSourceOptions,
 } from "typeorm";
 import { type QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity.js";
+import { sanitizeFindOptions } from "../../utils/sanitizeFindOptions.js";
 
 export class DBError extends IOError {
   name = "DBError";
@@ -174,60 +175,65 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       return execQuery((db) => db.query(query.text, query.values));
     },
     findOne: (entity, options) => {
+      const opts = sanitizeFindOptions(options);
       ctx.logger.debug.log(
         `findOne %s with options %O`,
         getEntityName(entity),
-        options,
+        opts,
       );
       return pipe(
         fp.TE.tryCatch(
-          () => ctx.connection.manager.findOne(entity, options),
+          () => ctx.connection.manager.findOne(entity, opts),
           handleError(),
         ),
         fp.TE.map(fp.O.fromNullable),
       );
     },
     findOneOrFail: (entity, options) => {
+      const opts = sanitizeFindOptions(options);
       ctx.logger.debug.log(
         `findOneOrFail %s with options %O`,
         getEntityName(entity),
-        options,
+        opts,
       );
       return fp.TE.tryCatch(
-        () => ctx.connection.manager.findOneOrFail(entity, options),
+        () => ctx.connection.manager.findOneOrFail(entity, opts),
         handleError({ status: 404 }),
       );
     },
     find: (entity, options) => {
+      const opts = sanitizeFindOptions(options);
       ctx.logger.debug.log(
         `find %s with options %O`,
         getEntityName(entity),
-        options,
+        opts,
       );
       return fp.TE.tryCatch(
-        () => ctx.connection.manager.find(entity, options),
+        () => ctx.connection.manager.find(entity, opts),
         handleError(),
       );
     },
     findAndCount: (entity, options) => {
+      const opts = sanitizeFindOptions(options);
       ctx.logger.debug.log(
         `find and count %s with options %O`,
         getEntityName(entity),
-        options,
+        opts,
       );
       return fp.TE.tryCatch(
-        () => ctx.connection.manager.findAndCount(entity, options),
+        () => ctx.connection.manager.findAndCount(entity, opts),
         handleError(),
       );
     },
     count: (entity, options) => {
+      const opts = sanitizeFindOptions(options);
       ctx.logger.debug.log(
         `count %s with options %O`,
         getEntityName(entity),
-        options,
+        opts,
       );
       return fp.TE.tryCatch(
-        () => ctx.connection.manager.count(entity, options),
+        () => ctx.connection.manager.count(entity, opts),
         handleError(),
       );
     },
