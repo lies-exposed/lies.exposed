@@ -19,8 +19,8 @@ import {
   type ObjectLiteral,
   type SaveOptions,
   type UpdateResult,
+  type DataSourceOptions,
 } from "typeorm";
-import { type PostgresDataSourceOptions } from "typeorm/driver/postgres/PostgresDataSourceOptions.js";
 import { type QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity.js";
 
 export class DBError extends IOError {
@@ -304,7 +304,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
   };
 };
 
-type DatabaseConnectionOpts = PostgresDataSourceOptions;
+type DatabaseConnectionOpts = DataSourceOptions;
 
 interface MakeDatabaseClientCtx {
   connectionName: string;

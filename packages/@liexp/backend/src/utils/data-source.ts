@@ -5,7 +5,6 @@ import * as fs from "fs";
 import * as path from "path";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { DataSource, type DataSourceOptions, type EntityTarget } from "typeorm";
-import { type PostgresDataSourceOptions } from "typeorm/driver/postgres/PostgresDataSourceOptions.js";
 import { ActorEntity } from "../entities/Actor.entity.js";
 import { ActorRelationEntity } from "../entities/ActorRelation.entity.js";
 import { AreaEntity } from "../entities/Area.entity.js";
@@ -60,13 +59,13 @@ export const ALL_ENTITIES: EntityTarget<unknown>[] = [
 export const createORMConfig = (
   baseConfig: Partial<DataSourceOptions>,
   overrides?: Partial<DataSourceOptions>,
-): PostgresDataSourceOptions => {
+): DataSourceOptions => {
   return {
     entities: ALL_ENTITIES,
     synchronize: false,
     ...baseConfig,
     ...overrides,
-  } as PostgresDataSourceOptions;
+  } as DataSourceOptions;
 };
 
 export const getORMConfig = (env: BACKEND_ENV): DataSourceOptions => {
