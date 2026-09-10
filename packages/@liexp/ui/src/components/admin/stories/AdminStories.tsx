@@ -204,9 +204,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
       >
         <TabbedForm.Tab label="generals">
           <Stack display="flex" direction="column" width="100%">
-            <FormAutosave
-              excludePaths={["featuredImage", "newFeaturedImageUpload"]}
-            />
+            <FormAutosave includePaths={["body2"]} />
             <Grid
               size={12}
               container
@@ -280,9 +278,7 @@ export const StoryCreate: React.FC<CreateProps> = (props) => {
       transform={transformStory(dataProvider)}
     >
       <SimpleForm>
-        <FormAutosave
-          excludePaths={["featuredImage", "newFeaturedImageUpload"]}
-        />
+        <FormAutosave includePaths={["body2"]} />
         <BooleanInput source="draft" />
         <TextWithSlugInput source="title" slugSource="path" fullWidth />
         <ReferenceArrayKeywordInput source="keywords" showAdd={true} />

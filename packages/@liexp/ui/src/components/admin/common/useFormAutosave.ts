@@ -1,6 +1,7 @@
 import { formatDistanceToNow } from "date-fns";
 import debounce from "lodash/debounce.js";
 import omit from "lodash/omit.js";
+import pick from "lodash/pick.js";
 import * as React from "react";
 import { useRecordContext, useResourceContext } from "react-admin";
 import { useFormContext, useFormState, useWatch } from "react-hook-form";
@@ -22,9 +23,16 @@ export interface UseFormAutosaveOptions {
   /** Debounce window for local writes, in ms. Default 1500. */
   debounceMs?: number;
   /**
+   * Restrict the cached snapshot to these form paths. Use it to autosave only
+   * the expensive-to-retype fields (e.g. `["body2"]` for the story editor)
+   * instead of the whole form. Takes precedence over `excludePaths`.
+   */
+  includePaths?: string[];
+  /**
    * Form paths to leave out of the cached snapshot — use it for fields that
    * hold non-serializable data (pending `File` uploads) where a partial
-   * round-trip would be worse than not restoring them.
+   * round-trip would be worse than not restoring them. Ignored when
+   * `includePaths` is set.
    */
   excludePaths?: string[];
   /**
@@ -117,6 +125,7 @@ export const useFormAutosave = (
   const {
     disabled = false,
     debounceMs = DEFAULT_DEBOUNCE_MS,
+    includePaths,
     excludePaths,
     storageKey,
   } = options;
@@ -177,12 +186,24 @@ export const useFormAutosave = (
   // touched the form and while it has not just been submitted.
   React.useEffect(() => {
     if (disabled || !isDirty || isSubmitSuccessful) return;
-    const snapshot =
-      excludePaths && excludePaths.length > 0
-        ? (omit(values, excludePaths) as Record<string, unknown>)
-        : (values as Record<string, unknown>);
+    let snapshot: Record<string, unknown>;
+    if (includePaths && includePaths.length > 0) {
+      snapshot = pick(values, includePaths) as Record<string, unknown>;
+    } else if (excludePaths && excludePaths.length > 0) {
+      snapshot = omit(values, excludePaths) as Record<string, unknown>;
+    } else {
+      snapshot = values as Record<string, unknown>;
+    }
     persist(snapshot);
-  }, [values, isDirty, isSubmitSuccessful, disabled, excludePaths, persist]);
+  }, [
+    values,
+    isDirty,
+    isSubmitSuccessful,
+    disabled,
+    includePaths,
+    excludePaths,
+    persist,
+  ]);
 
   // Flush a pending write if the tab is closed or hidden mid-edit.
   React.useEffect(() => {

@@ -13,13 +13,14 @@ const KEY_NEW = "liexp:autosave:stories:new";
 const KEY_ABC = "liexp:autosave:stories:abc";
 
 const Inner: React.FC<{
-  methods: ReturnType<typeof useForm<{ title: string }>>;
+  methods: ReturnType<typeof useForm<{ title: string; path: string }>>;
   opts?: UseFormAutosaveOptions;
 }> = ({ methods, opts }) => {
   const { draft, restore, discard, lastSavedAt } = useFormAutosave(opts);
   return (
     <div>
       <input aria-label="title" {...methods.register("title")} />
+      <input aria-label="path" {...methods.register("path")} />
       <span data-testid="draft">{draft ? "found" : "none"}</span>
       <span data-testid="last-saved">{lastSavedAt ?? "null"}</span>
       <button type="button" onClick={restore}>
@@ -37,7 +38,10 @@ const Harness: React.FC<{
   opts?: UseFormAutosaveOptions;
 }> = ({ record, opts }) => {
   const methods = useForm({
-    defaultValues: { title: (record?.title as string) ?? "" },
+    defaultValues: {
+      title: (record?.title as string) ?? "",
+      path: (record?.path as string) ?? "",
+    },
   });
   return (
     <ResourceContextProvider value="stories">
@@ -160,5 +164,19 @@ describe("useFormAutosave", () => {
       expect(readKey(KEY_NEW)).not.toBeNull();
     });
     expect(readKey(KEY_NEW)?.values.title).toBeUndefined();
+  });
+
+  it("caches only the included paths when includePaths is set", async () => {
+    const user = userEvent.setup();
+    render(<Harness opts={{ debounceMs: 10, includePaths: ["title"] }} />);
+
+    await user.type(screen.getByLabelText("title"), "kept");
+    await user.type(screen.getByLabelText("path"), "dropped");
+
+    await waitFor(() => {
+      expect(readKey(KEY_NEW)?.values.title).toBe("kept");
+    });
+    // `path` is dirty too, but only `title` is in includePaths.
+    expect(Object.keys(readKey(KEY_NEW)?.values ?? {})).toEqual(["title"]);
   });
 });
