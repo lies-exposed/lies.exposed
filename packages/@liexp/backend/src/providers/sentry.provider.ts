@@ -27,7 +27,12 @@ export const initSentry = (
 
     Sentry.init({
       dsn,
-      integrations: [],
+      // Passing `integrations: []` replaces @sentry/node's default
+      // integration set instead of adding to it, dropping
+      // OnUncaughtException/OnUnhandledRejection — only errors explicitly
+      // passed to captureException (e.g. via setupExpressErrorHandler)
+      // reached Sentry; unhandled exceptions/rejections in every service
+      // using this provider were silently dropped.
       tracesSampleRate: 0,
       beforeSend(event, hint) {
         const err = hint?.originalException;

@@ -36,7 +36,9 @@ debug.enable(import.meta.env.VITE_DEBUG ?? "@liexp:*:error");
 if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
-    integrations: [],
+    // Passing `integrations: []` replaces the SDK's default integration set
+    // instead of adding to it, dropping GlobalHandlers (window.onerror /
+    // unhandledrejection) — see admin's index.tsx for the same fix.
     tracesSampleRate: 0,
   });
 }
