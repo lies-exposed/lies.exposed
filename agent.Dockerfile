@@ -28,6 +28,8 @@ RUN pnpm agent build
 
 FROM build AS pruned
 
+ENV CI="true"
+
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm agent fetch --prod
 
 RUN pnpm agent --prod deploy --legacy /prod/agent

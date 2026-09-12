@@ -28,6 +28,8 @@ RUN pnpm worker build
 
 FROM build AS pruned
 
+ENV CI="true"
+
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm worker fetch --prod
 
 RUN pnpm worker --prod deploy --legacy /prod/worker
