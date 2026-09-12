@@ -133,6 +133,7 @@ services:
       - ./services/ai-bot/config/ai-bot.config.json:/home/node/config/ai-bot.config.json:rw
     restart: always
     mem_limit: 512M
+    tty: true
     depends_on:
       - api.liexp.dev
       - agent.liexp.dev

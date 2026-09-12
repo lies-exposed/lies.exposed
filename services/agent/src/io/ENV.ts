@@ -12,7 +12,7 @@ const ENV = Schema.Struct({
   OPENAI_API_KEY: Schema.optional(Schema.String),
   XAI_API_KEY: Schema.optional(Schema.String),
   ANTHROPIC_API_KEY: Schema.optional(Schema.String),
-  LOCALAI_MODEL: Schema.optional(Schema.String),
+  LOCALAI_MODEL: Schema.String,
   LOCALAI_MAX_RETRIES: Schema.optional(Schema.NumberFromString),
   // Cloudflare Access service token — the LocalAI hostname sits behind a
   // Cloudflare Zero Trust Access application; without these headers every

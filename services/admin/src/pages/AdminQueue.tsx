@@ -459,7 +459,8 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
           {({ formData }) => {
             if (
               Schema.is(OpenAICreateEventFromTextType)(formData.type) ||
-              Schema.is(OpenAICreateEventFromURLType)(formData.type)
+              Schema.is(OpenAICreateEventFromURLType)(formData.type) ||
+              Schema.is(Queue.OpenAIEmbeddingQueueType)(formData.type)
             ) {
               return (
                 <JSONInput

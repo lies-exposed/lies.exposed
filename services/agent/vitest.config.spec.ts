@@ -20,6 +20,7 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
       MCP_URL: "http://localhost:4010/mcp",
       API_TOKEN: "test-token",
       BRAVE_API_KEY: "null",
+      LOCALAI_MODEL: "test-model",
     },
     coverage: {
       include: ["src/**/*.ts"],

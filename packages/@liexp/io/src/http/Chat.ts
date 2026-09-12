@@ -48,23 +48,22 @@ export const AIProvider = Schema.Literal(
 export type AIProvider = typeof AIProvider.Type;
 
 const LocalAIModels = Schema.Union(
-  Schema.Literal("qwen3.5-4b"),
+  Schema.Literal("qwen3.6-35b-a3b"),
   Schema.Literal("gemma-4-e4b-it"),
-  Schema.Literal("gemma-4-e2b-it"),
 );
 
 // Available model names per provider
 export const AvailableModels = Schema.Union(
   // OpenAI models
-  Schema.Literal("gpt-4o"),
+  ...LocalAIModels.members,
   // Local AI models
   LocalAIModels,
   // XAI models
   Schema.Literal("grok-4-fast"),
-  // Anthropic Claude models
-  Schema.Literal("claude-sonnet-4-20250514"),
-  Schema.Literal("claude-3-7-sonnet-latest"),
-  Schema.Literal("claude-3-5-haiku-latest"),
+  // // Anthropic Claude models
+  // Schema.Literal("claude-sonnet-4-20250514"),
+  // Schema.Literal("claude-3-7-sonnet-latest"),
+  // Schema.Literal("claude-3-5-haiku-latest"),
 ).annotations({
   title: "AvailableModels",
   description: "Available model identifiers",

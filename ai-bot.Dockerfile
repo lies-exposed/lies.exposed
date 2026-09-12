@@ -15,7 +15,7 @@ COPY packages/@liexp/backend packages/@liexp/backend
 
 COPY services/ai-bot services/ai-bot
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 RUN pnpm packages build
 
