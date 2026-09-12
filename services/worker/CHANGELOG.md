@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...worker@0.6.0) (2026-09-12)
+
+
+### Features
+
+* **typeorm:** migrate TypeORM from v0.3 to v1 ([#3847](https://github.com/lies-exposed/lies.exposed/issues/3847)) ([06b671f](https://github.com/lies-exposed/lies.exposed/commit/06b671f842a53b7724b0b0d076c9cc29e8118cd3))
+
+
+### Bug Fixes
+
+* **worker:** resolve ScientificStudy authors/publisher names to UUIDs ([#3814](https://github.com/lies-exposed/lies.exposed/issues/3814)) ([45bafe9](https://github.com/lies-exposed/lies.exposed/commit/45bafe9db62cdf227fd6dfeeedb461e04a2fb17f))
+
+
+### Miscellaneous
+
+* migrate pnpm to v11 and drop corepack ([#3859](https://github.com/lies-exposed/lies.exposed/issues/3859)) ([70b2ba3](https://github.com/lies-exposed/lies.exposed/commit/70b2ba30933f5aba2cb75c2d4cd935deb30e07cb))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.6.0
+    * @liexp/core bumped to 0.6.0
+    * @liexp/io bumped to 0.6.0
+    * @liexp/shared bumped to 0.6.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.6.0
+    * @liexp/test bumped to 0.6.0
+
 ## [0.5.22](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.21...worker@0.5.22) (2026-08-04)
 
 

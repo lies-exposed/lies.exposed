@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...@liexp/shared@0.6.0) (2026-09-12)
+
+
+### Features
+
+* **typeorm:** migrate TypeORM from v0.3 to v1 ([#3847](https://github.com/lies-exposed/lies.exposed/issues/3847)) ([06b671f](https://github.com/lies-exposed/lies.exposed/commit/06b671f842a53b7724b0b0d076c9cc29e8118cd3))
+
+
+### Miscellaneous
+
+* bump dev deps ([#3846](https://github.com/lies-exposed/lies.exposed/issues/3846)) ([a7b97b4](https://github.com/lies-exposed/lies.exposed/commit/a7b97b4de74bd9a220f1e512d6e9e7e28f8e070c))
+* migrate pnpm to v11 and drop corepack ([#3859](https://github.com/lies-exposed/lies.exposed/issues/3859)) ([70b2ba3](https://github.com/lies-exposed/lies.exposed/commit/70b2ba30933f5aba2cb75c2d4cd935deb30e07cb))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.6.0
+    * @liexp/io bumped to 0.6.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.6.0
+    * @liexp/test bumped to 0.6.0
+
 ## [0.5.22](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.21...@liexp/shared@0.5.22) (2026-08-04)
 
 
