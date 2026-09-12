@@ -1,5 +1,38 @@
 # Changelog
 
+## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...admin@0.6.0) (2026-09-12)
+
+
+### Features
+
+* **typeorm:** migrate TypeORM from v0.3 to v1 ([#3847](https://github.com/lies-exposed/lies.exposed/issues/3847)) ([06b671f](https://github.com/lies-exposed/lies.exposed/commit/06b671f842a53b7724b0b0d076c9cc29e8118cd3))
+
+
+### Bug Fixes
+
+* **admin:** guard streaming proxy error handler against write-after-end crash ([#3816](https://github.com/lies-exposed/lies.exposed/issues/3816)) ([f5ff812](https://github.com/lies-exposed/lies.exposed/commit/f5ff812a3f01c3e62073091064fcab229f7da9da))
+
+
+### Miscellaneous
+
+* bump dev deps ([#3846](https://github.com/lies-exposed/lies.exposed/issues/3846)) ([a7b97b4](https://github.com/lies-exposed/lies.exposed/commit/a7b97b4de74bd9a220f1e512d6e9e7e28f8e070c))
+* migrate pnpm to v11 and drop corepack ([#3859](https://github.com/lies-exposed/lies.exposed/issues/3859)) ([70b2ba3](https://github.com/lies-exposed/lies.exposed/commit/70b2ba30933f5aba2cb75c2d4cd935deb30e07cb))
+* use one instance of msw server for the whole e2e tests suite ([#3860](https://github.com/lies-exposed/lies.exposed/issues/3860)) ([fa8808f](https://github.com/lies-exposed/lies.exposed/commit/fa8808fb7b4be3d519911562873515bfb1b991a4))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.6.0
+    * @liexp/core bumped to 0.6.0
+    * @liexp/io bumped to 0.6.0
+    * @liexp/shared bumped to 0.6.0
+    * @liexp/ui bumped to 0.6.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.6.0
+    * @liexp/test bumped to 0.6.0
+
 ## [0.5.22](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.21...admin@0.5.22) (2026-08-04)
 
 

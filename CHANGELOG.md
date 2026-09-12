@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...lies.exposed@0.6.0) (2026-09-12)
+
+
+### Features
+
+* **admin:** localStorage autosave for story edit/create forms ([#3864](https://github.com/lies-exposed/lies.exposed/issues/3864)) ([de1e392](https://github.com/lies-exposed/lies.exposed/commit/de1e39297fa262d0d756dfe95c491b9775af9a22))
+* **typeorm:** migrate TypeORM from v0.3 to v1 ([#3847](https://github.com/lies-exposed/lies.exposed/issues/3847)) ([06b671f](https://github.com/lies-exposed/lies.exposed/commit/06b671f842a53b7724b0b0d076c9cc29e8118cd3))
+
+
+### Bug Fixes
+
+* **workspace:** bump api pod memory limit from 512Mi to 1Gi ([#3817](https://github.com/lies-exposed/lies.exposed/issues/3817)) ([e9aa97b](https://github.com/lies-exposed/lies.exposed/commit/e9aa97be78c185ab6deacaf24635c1b6f127ed1e))
+
+
+### Miscellaneous
+
+* admin base node image correct tag ([#3863](https://github.com/lies-exposed/lies.exposed/issues/3863)) ([db9aaac](https://github.com/lies-exposed/lies.exposed/commit/db9aaace2a0b4765a15bf56325da37c5a88dc111))
+* bump dev deps ([#3846](https://github.com/lies-exposed/lies.exposed/issues/3846)) ([a7b97b4](https://github.com/lies-exposed/lies.exposed/commit/a7b97b4de74bd9a220f1e512d6e9e7e28f8e070c))
+* drop base docker image build on release-please ([#3861](https://github.com/lies-exposed/lies.exposed/issues/3861)) ([7dfef6a](https://github.com/lies-exposed/lies.exposed/commit/7dfef6a8e4101502eb153a8774256a7770a852ce))
+* drop base docker image build on release-please ([#3862](https://github.com/lies-exposed/lies.exposed/issues/3862)) ([98dd517](https://github.com/lies-exposed/lies.exposed/commit/98dd517ecc458bdbb12a334872c6a2dcec7d8608))
+* migrate pnpm to v11 and drop corepack ([#3859](https://github.com/lies-exposed/lies.exposed/issues/3859)) ([70b2ba3](https://github.com/lies-exposed/lies.exposed/commit/70b2ba30933f5aba2cb75c2d4cd935deb30e07cb))
+* use one instance of msw server for the whole e2e tests suite ([#3860](https://github.com/lies-exposed/lies.exposed/issues/3860)) ([fa8808f](https://github.com/lies-exposed/lies.exposed/commit/fa8808fb7b4be3d519911562873515bfb1b991a4))
+
 ## [0.5.22](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.21...lies.exposed@0.5.22) (2026-08-04)
 
 
