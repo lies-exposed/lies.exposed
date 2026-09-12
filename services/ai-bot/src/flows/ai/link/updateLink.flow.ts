@@ -105,13 +105,20 @@ const getPageContentRTE = (
                 "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
               "Accept-Language": "en-US,en;q=0.9",
             });
+            // "networkidle0" never fires on pages with persistent background
+            // requests (ads/analytics/live-blog polling) — many news sites
+            // (e.g. reuters.com) hang until the 30s timeout despite the
+            // article content having loaded long before. "domcontentloaded"
+            // plus a short settle delay for client-rendered content below is
+            // enough since we only read static meta tags and DOM text.
             await page.goto(url, {
-              waitUntil: "networkidle0",
+              waitUntil: "domcontentloaded",
               timeout: 30000,
             });
             await page
               .waitForSelector("body", { timeout: 2000 })
               .catch(() => {});
+            await new Promise((resolve) => setTimeout(resolve, 1500));
             const { title, content } = await page.evaluate(() => {
               const meta = (sel: string): string =>
                 document.querySelector(sel)?.getAttribute("content")?.trim() ??
@@ -206,7 +213,27 @@ const getPageContentRTE = (
       }),
       // Live scrape failed outright (nav error/timeout) or was bot-blocked
       // (guard above) — try a Wayback Machine snapshot before giving up.
-      fp.TE.orElse(() => fromWayback),
+      // Log the real puppeteer failure here: fromWayback's own error would
+      // otherwise be the only thing surfaced on the job, masking why the
+      // live scrape actually failed (bot-block vs. nav timeout vs. other).
+      fp.TE.orElse((puppeteerError) =>
+        pipe(
+          fp.TE.fromIO<void, never>(() => {
+            ctx.logger.error.log(
+              "Puppeteer scrape failed for %s, falling back to Wayback: %s",
+              url,
+              puppeteerError.message,
+            );
+          }),
+          fp.TE.chain(() => fromWayback),
+          fp.TE.mapLeft(
+            (waybackError) =>
+              new Error(
+                `${waybackError.message} (puppeteer error: ${puppeteerError.message})`,
+              ),
+          ),
+        ),
+      ),
       fp.TE.mapLeft(toAIBotError),
     );
 
