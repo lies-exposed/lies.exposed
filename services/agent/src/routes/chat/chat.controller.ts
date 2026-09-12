@@ -159,8 +159,8 @@ const PROVIDER_MODELS: Record<
 > = {
   openai: {
     description: "OpenAI GPT models (or LocalAI-compatible)",
-    models: ["gpt-4o", "gemma-4-e4b-it", "gemma-4-e2b-it"],
-    defaultModel: "gemma-4-e4b-it",
+    models: ["qwen3.6-35b-a3b", "gemma-4-e4b-it"],
+    defaultModel: "qwen3.6-35b-a3b",
   },
   anthropic: {
     description: "Anthropic Claude models",
@@ -178,11 +178,23 @@ const PROVIDER_MODELS: Record<
   },
 };
 
+// OpenAI-compatible model-listing lives under `/v1/models`. Chat/embeddings
+// requests tolerate a bare host baseURL (LocalAI aliases those at root), but
+// `/models` doesn't have that alias, so a configured OPENAI_BASE_URL without
+// a `/v1` suffix (e.g. LocalAI's plain host) 404s here even though chat works
+// fine — normalize the base so this call matches the convention every other
+// OpenAI-compatible client (including this repo's own graphify config) uses.
+function withV1(baseURL: string): string {
+  const trimmed = baseURL.replace(/\/+$/, "");
+  return trimmed.endsWith("/v1") ? trimmed : `${trimmed}/v1`;
+}
+
 async function fetchOpenAIModels(
   baseURL: string | undefined,
   apiKey: string,
 ): Promise<string[]> {
-  const url = `${baseURL ?? "https://api.openai.com/v1"}/models`;
+  const base = baseURL ? withV1(baseURL) : "https://api.openai.com/v1";
+  const url = `${base}/models`;
   const response = await fetch(url, {
     headers: { Authorization: `Bearer ${apiKey}` },
   });
