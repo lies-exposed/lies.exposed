@@ -21,7 +21,11 @@ debug.enable(import.meta.env.VITE_DEBUG ?? "@liexp:*:error");
 if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
-    integrations: [],
+    // Passing `integrations: []` replaces the SDK's default integration set
+    // instead of adding to it, dropping GlobalHandlers (window.onerror /
+    // unhandledrejection) — only React render errors (caught by
+    // Sentry.ErrorBoundary below) were ever reaching Bugsink. Omitting the
+    // key keeps the defaults.
     tracesSampleRate: 0,
   });
 }
