@@ -2,6 +2,7 @@
 
 ARG NODE_VERSION=26
 
+
 FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-pnpm-latest AS dev
 
 WORKDIR /usr/src/app
@@ -40,6 +41,8 @@ ENV DOTENV_CONFIG_PATH=${DOTENV_CONFIG_PATH}
 RUN pnpm web build:app-server
 
 FROM build AS pruned
+
+ENV CI="true"
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm web fetch --prod
 

@@ -28,6 +28,8 @@ RUN pnpm api build
 
 FROM build AS pruned
 
+ENV CI="true"
+
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm api fetch --prod
 
 RUN pnpm api --prod deploy --legacy /prod/api

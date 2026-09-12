@@ -36,6 +36,8 @@ RUN pnpm admin build:app-server
 
 FROM build AS pruned
 
+ENV CI="true"
+
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm admin fetch --prod
 
 RUN pnpm admin --prod deploy --legacy /prod/admin
