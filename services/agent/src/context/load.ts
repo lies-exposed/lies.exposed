@@ -58,7 +58,7 @@ const getLangchainConfig = (env: ENV) => {
 
   switch (provider) {
     case "openai": {
-      const model = (env.LOCALAI_MODEL ?? "gpt-4o") as AvailableModels;
+      const model = env.LOCALAI_MODEL as AvailableModels;
       return {
         baseURL: env.OPENAI_BASE_URL!,
         apiKey: env.OPENAI_API_KEY!,
