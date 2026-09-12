@@ -64,6 +64,7 @@ const getLangchainConfig = (env: ENV) => {
         apiKey: env.OPENAI_API_KEY!,
         maxRetries: env.LOCALAI_MAX_RETRIES,
         provider: "openai" as const,
+        xClientId: "lies-exposed-agent",
         models: {
           chat: model,
           embeddings: model,

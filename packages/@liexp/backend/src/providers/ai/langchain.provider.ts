@@ -111,6 +111,42 @@ const fetchWithEmptyChoicesRetry: typeof fetch = async (input, init) => {
   return fetch(input, init);
 };
 
+/**
+ * Patches the process-global `fetch` (once) to inject the `X-Client-Id`
+ * header on every request to `baseURL`'s host.
+ *
+ * The localai-gateway's orchestrator reads this header for per-client
+ * admission-control metrics and request logging; without it callers appear
+ * as "unknown". Patching at the global-fetch level guarantees the header
+ * is sent regardless of how langgraph rebinds the model internally.
+ */
+let xClientIdInstalled = false;
+const installXClientIdHeader = (baseURL: string, xClientId: string): void => {
+  if (xClientIdInstalled) return;
+  xClientIdInstalled = true;
+
+  const targetHost = new URL(baseURL).host;
+  const originalFetch = globalThis.fetch;
+  const patchedFetch: typeof fetch = async (input, init) => {
+    const url =
+      typeof input === "string"
+        ? input
+        : input instanceof URL
+          ? input.href
+          : input.url;
+    if (!url.includes(targetHost)) {
+      return originalFetch(input, init);
+    }
+
+    const headers = new Headers(
+      init?.headers ?? (input instanceof Request ? input.headers : undefined),
+    );
+    headers.set("X-Client-Id", xClientId);
+    return originalFetch(input, { ...init, headers });
+  };
+  globalThis.fetch = patchedFetch;
+};
+
 export const EMBEDDINGS_PROMPT: PromptFn<{
   text: string;
   question: string;
@@ -143,6 +179,11 @@ export interface LangchainProviderOptions<Provider extends AIProvider> {
     chat?: string;
     embeddings?: string;
   };
+  // Stable client identifier sent as `X-Client-Id` on every request to the
+  // localai-gateway. The gateway's orchestrator.ts reads this header and uses
+  // it for per-client admission-control metrics and request logging; without
+  // it callers appear as "unknown".
+  xClientId?: string;
   // Cloudflare Access service token headers — required whenever `baseURL`
   // points at a hostname sitting behind a Cloudflare Zero Trust Access
   // application, otherwise every request gets intercepted and answered with
@@ -206,6 +247,10 @@ export const GetLangchainProvider = <P extends AIProvider>(
 
   if (opts.cfAccess) {
     installCfAccessFetch(opts.baseURL, opts.cfAccess);
+  }
+
+  if (opts.xClientId) {
+    installXClientIdHeader(opts.baseURL, opts.xClientId);
   }
 
   const makeChat = <P extends AIProvider>(
