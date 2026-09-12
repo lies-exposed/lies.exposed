@@ -9,37 +9,15 @@
       "command": "npx",
       "type": "stdio"
     },
-    "basic-memory": {
-      "args": [
-        "basic-memory",
-        "mcp",
-        "--project",
-        "lies-exposed"
-      ],
-      "command": "uvx",
-      "type": "stdio"
-    },
     "context7": {
       "type": "http",
       "url": "https://mcp.context7.com/mcp"
-    },
-    "graymatter": {
-      "args": [
-        "mcp",
-        "serve"
-      ],
-      "command": "graymatter"
     },
     "playwright": {
       "args": [
         "@playwright/mcp@latest"
       ],
       "command": "npx",
-      "type": "stdio"
-    },
-    "graymatter": {
-      "args": ["mcp", "serve"],
-      "command": "graymatter",
       "type": "stdio"
     }
   }
