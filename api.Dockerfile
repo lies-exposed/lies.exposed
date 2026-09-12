@@ -16,7 +16,7 @@ COPY packages/@liexp/backend packages/@liexp/backend
 
 COPY services/api services/api
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 RUN pnpm packages build
 
@@ -30,7 +30,7 @@ FROM build AS pruned
 
 ENV CI="true"
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm api fetch --prod
+RUN pnpm api fetch --prod
 
 RUN pnpm api --prod deploy --legacy /prod/api
 

@@ -4727,7 +4727,7 @@ packages:
       react-admin: ^5
 
   '@ts-endpoint/resource-client@file:patches/ts-endpoint-resource-client-0.1.0.tgz':
-    resolution: {integrity: sha512-nPX1gmllGxtZyhEWpXSv/Snm1JuTqktOv7bahiXB8aVn690O/dIKAPNcZ3oi2P0mCNIP1fr1R29zkW2XiZV3Qg==, tarball: file:patches/ts-endpoint-resource-client-0.1.0.tgz}
+    resolution: {integrity: sha512-kb2TDdJVm38NgBf3J1R0Q4rY+iculqyvE8QHxPnxM2zN/Sa5goctklgZNaJAaCoHx3ilYTt5DClFT2ixFjrgwA==, tarball: file:patches/ts-endpoint-resource-client-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
       axios: ^1
