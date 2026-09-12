@@ -161,6 +161,62 @@ describe("GetLangchainProvider", () => {
     });
   });
 
+  describe("xClientId", () => {
+    it("injects X-Client-Id header only for requests to the configured baseURL host", async () => {
+      const originalFetch = globalThis.fetch;
+      const fetchSpy = vi.fn().mockResolvedValue(new Response("ok"));
+      globalThis.fetch = fetchSpy as typeof fetch;
+
+      try {
+        GetLangchainProvider({
+          ...baseOpts,
+          baseURL: "https://ai.ascariandrea.it",
+          xClientId: "lies-exposed-agent",
+        });
+
+        const patchedFetch = globalThis.fetch;
+
+        await patchedFetch("https://ai.ascariandrea.it/v1/chat/completions", {
+          headers: { "content-type": "application/json" },
+        });
+        const [, init] = fetchSpy.mock.calls[0];
+        const headers = init.headers as Headers;
+        expect(headers.get("X-Client-Id")).toBe("lies-exposed-agent");
+
+        await patchedFetch("https://unrelated.example.com/foo");
+        const [, unrelatedInit] = fetchSpy.mock.calls[1];
+        expect(unrelatedInit?.headers).toBeUndefined();
+      } finally {
+        globalThis.fetch = originalFetch;
+      }
+    });
+
+    it("is idempotent — second call with different baseURL does not re-patch", () => {
+      const originalFetch = globalThis.fetch;
+      const fetchSpy = vi.fn().mockResolvedValue(new Response("ok"));
+      globalThis.fetch = fetchSpy as typeof fetch;
+
+      try {
+        GetLangchainProvider({
+          ...baseOpts,
+          baseURL: "https://ai.ascariandrea.it",
+          xClientId: "lies-exposed-agent",
+        });
+        const firstPatch = globalThis.fetch;
+
+        GetLangchainProvider({
+          ...baseOpts,
+          baseURL: "https://other.example.com",
+          xClientId: "other-client",
+        });
+
+        expect(globalThis.fetch).toBe(firstPatch);
+      } finally {
+        globalThis.fetch = originalFetch;
+      }
+    });
+  });
+
   describe("queryDocument", () => {
     it("returns empty string when the chat stream yields nothing", async () => {
       const provider = GetLangchainProvider(baseOpts);
