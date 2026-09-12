@@ -234,7 +234,28 @@ export const GetPuppeteerProvider = (
       TE.chain((browser) => {
         return TE.tryCatch(async () => {
           puppeteerLogger.debug.log("getting first browser page");
-          const p = await browser.pages().then((pages) => pages[0]);
+          // Must be a page created via browser.newPage(), not the browser's
+          // pre-existing default page: puppeteer-extra only runs plugin
+          // hooks (including every stealth evasion, e.g. the UA override
+          // that strips "HeadlessChrome") on pages it creates itself. Reusing
+          // the default page skips those hooks, leaving navigator.userAgent
+          // literally containing "HeadlessChrome" and getting trivially bot-blocked.
+          const p = await browser.newPage();
+          // When this process runs under tsx (e.g. the `process-job` CLI —
+          // see src/cli/), esbuild's `keepNames: true` transform injects
+          // `__name(fn, "name")` calls into any local const/function binding,
+          // including ones declared inside a page.evaluate() callback. Those
+          // calls reference a helper defined in THIS module's scope, which is
+          // absent when puppeteer serializes the callback via toString() and
+          // runs it standalone in the page — throwing "__name is not defined".
+          // Defining it as a page global sidesteps this (bare identifiers
+          // fall back to the global object), with no effect on the esbuild
+          // production bundle (build:es), which doesn't set keepNames.
+          await p.evaluateOnNewDocument(() => {
+            (globalThis as unknown as { __name?: unknown }).__name =
+              (globalThis as unknown as { __name?: unknown }).__name ??
+              ((fn: unknown) => fn);
+          });
           await p.goto(url);
           return p;
         }, toPuppeteerError);
