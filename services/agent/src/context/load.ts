@@ -146,6 +146,13 @@ export const getAgentContext =
         // thinking on qwen3.6 when tools are present, so this is the robust fix.
         chat: {
           streaming: false,
+          // Overrides ChatOpenAI's 30min default. The LocalAI gateway
+          // serializes/queues requests, so this needs headroom beyond a
+          // single model call's latency; keep ai-bot's
+          // AGENT_REQUEST_TIMEOUT_MS >= this value.
+          ...(env.LOCALAI_TIMEOUT_MS
+            ? { timeout: env.LOCALAI_TIMEOUT_MS }
+            : {}),
         },
         embeddings: {},
       },

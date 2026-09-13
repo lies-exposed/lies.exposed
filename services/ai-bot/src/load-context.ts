@@ -29,7 +29,10 @@ const configProvider = ConfigProviderReader(configFile, AIBotConfig);
 // this, an agent tool stuck retrying (e.g. a bot-blocked scrape target) never
 // resolves the HTTP call, so the job-processor bracket's release step never
 // runs and the queue row is orphaned in "processing" indefinitely.
-const AGENT_REQUEST_TIMEOUT_MS = 5 * 60 * 1000;
+// Default kept >= agent's own LOCALAI_TIMEOUT_MS default (30min) since the
+// LocalAI gateway serializes/queues requests and can leave agent waiting
+// close to its own timeout before responding.
+const DEFAULT_AGENT_REQUEST_TIMEOUT_MS = 30 * 60 * 1000;
 
 export const loadContext = (
   getToken: () => string | null,
@@ -79,7 +82,8 @@ export const loadContext = (
         GetResourceClient(
           axios.default.create({
             baseURL: config.config.agent.url,
-            timeout: AGENT_REQUEST_TIMEOUT_MS,
+            timeout:
+              env.AGENT_REQUEST_TIMEOUT_MS ?? DEFAULT_AGENT_REQUEST_TIMEOUT_MS,
             headers: {
               Authorization: `Bearer ${env.AGENT_API_KEY}`,
             },

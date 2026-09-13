@@ -14,6 +14,10 @@ const ENV = Schema.Struct({
   ANTHROPIC_API_KEY: Schema.optional(Schema.String),
   LOCALAI_MODEL: Schema.String,
   LOCALAI_MAX_RETRIES: Schema.optional(Schema.NumberFromString),
+  // Request timeout for the OpenAI-compatible chat client. The LocalAI
+  // gateway serializes/queues incoming requests, so this needs headroom
+  // beyond a single model call's latency.
+  LOCALAI_TIMEOUT_MS: Schema.optional(Schema.NumberFromString),
   // Cloudflare Access service token — the LocalAI hostname sits behind a
   // Cloudflare Zero Trust Access application; without these headers every
   // request gets intercepted and answered with an HTML SSO login page
