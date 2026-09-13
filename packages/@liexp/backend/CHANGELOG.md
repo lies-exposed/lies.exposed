@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...@liexp/backend@0.6.1) (2026-09-13)
+
+
+### Bug Fixes
+
+* **ai-bot:** bound agent chat requests and cap scrape retries on dead URLs ([#3876](https://github.com/lies-exposed/lies.exposed/issues/3876)) ([2f1e8be](https://github.com/lies-exposed/lies.exposed/commit/2f1e8bed44ea2e207a0e8fa3e5116e6983d45ac3))
+* **ai-bot:** puppeteer link scraping bot-blocked and CLI __name crash ([#3866](https://github.com/lies-exposed/lies.exposed/issues/3866)) ([c7ce4eb](https://github.com/lies-exposed/lies.exposed/commit/c7ce4eb3c4d48bf988da88a2c009e1dddd2e2d16))
+* **backend,web:** restore default Sentry integrations ([#3873](https://github.com/lies-exposed/lies.exposed/issues/3873)) ([922dba6](https://github.com/lies-exposed/lies.exposed/commit/922dba6eeddd1385717b778c1aecbacd97b30a99))
+* **backend:** add X-Client-Id header to all localai-gateway callers ([#3869](https://github.com/lies-exposed/lies.exposed/issues/3869)) ([2d935bd](https://github.com/lies-exposed/lies.exposed/commit/2d935bd3139d907068e29960c6df9459abb20a46))
+* **backend:** normalize OPENAI_BASE_URL to always include /v1 ([#3874](https://github.com/lies-exposed/lies.exposed/issues/3874)) ([85bcafe](https://github.com/lies-exposed/lies.exposed/commit/85bcafea932a599f4ab308473365f3c458d8e39b))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.6.1
+    * @liexp/io bumped to 0.6.1
+    * @liexp/shared bumped to 0.6.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.6.1
+    * @liexp/test bumped to 0.6.1
+
 ## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...@liexp/backend@0.6.0) (2026-09-12)
 
 

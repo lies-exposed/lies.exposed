@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...ai-bot@0.6.1) (2026-09-13)
+
+
+### Bug Fixes
+
+* **ai-bot:** bound agent chat requests and cap scrape retries on dead URLs ([#3876](https://github.com/lies-exposed/lies.exposed/issues/3876)) ([2f1e8be](https://github.com/lies-exposed/lies.exposed/commit/2f1e8bed44ea2e207a0e8fa3e5116e6983d45ac3))
+* **ai-bot:** puppeteer link scraping bot-blocked and CLI __name crash ([#3866](https://github.com/lies-exposed/lies.exposed/issues/3866)) ([c7ce4eb](https://github.com/lies-exposed/lies.exposed/commit/c7ce4eb3c4d48bf988da88a2c009e1dddd2e2d16))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.6.1
+    * @liexp/core bumped to 0.6.1
+    * @liexp/io bumped to 0.6.1
+    * @liexp/shared bumped to 0.6.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.6.1
+
 ## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...ai-bot@0.6.0) (2026-09-12)
 
 

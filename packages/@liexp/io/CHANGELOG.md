@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...@liexp/io@0.6.1) (2026-09-13)
+
+
+### Bug Fixes
+
+* scrub JWT leak in queue errors, admin queue crash, Docker cache staleness ([#3868](https://github.com/lies-exposed/lies.exposed/issues/3868)) ([cdaf13f](https://github.com/lies-exposed/lies.exposed/commit/cdaf13f9efa8df2861a437ecf27f2ff62db44d86))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.6.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.6.1
+
 ## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...@liexp/io@0.6.0) (2026-09-12)
 
 

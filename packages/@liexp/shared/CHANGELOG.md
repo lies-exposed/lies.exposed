@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...@liexp/shared@0.6.1) (2026-09-13)
+
+
+### Bug Fixes
+
+* **shared:** treat empty string as valid BlockNote content ([#3877](https://github.com/lies-exposed/lies.exposed/issues/3877)) ([18f2484](https://github.com/lies-exposed/lies.exposed/commit/18f2484686053a31b6b1b2bbec18e411292bbb7c))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.6.1
+    * @liexp/io bumped to 0.6.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.6.1
+    * @liexp/test bumped to 0.6.1
+
 ## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...@liexp/shared@0.6.0) (2026-09-12)
 
 

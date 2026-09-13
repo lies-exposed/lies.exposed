@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...lies.exposed@0.6.1) (2026-09-13)
+
+
+### Bug Fixes
+
+* **ai-bot:** bound agent chat requests and cap scrape retries on dead URLs ([#3876](https://github.com/lies-exposed/lies.exposed/issues/3876)) ([2f1e8be](https://github.com/lies-exposed/lies.exposed/commit/2f1e8bed44ea2e207a0e8fa3e5116e6983d45ac3))
+* scrub JWT leak in queue errors, admin queue crash, Docker cache staleness ([#3868](https://github.com/lies-exposed/lies.exposed/issues/3868)) ([cdaf13f](https://github.com/lies-exposed/lies.exposed/commit/cdaf13f9efa8df2861a437ecf27f2ff62db44d86))
+
+
+### Miscellaneous
+
+* add .codegraph to ignored dirs ([#3875](https://github.com/lies-exposed/lies.exposed/issues/3875)) ([a9e694f](https://github.com/lies-exposed/lies.exposed/commit/a9e694f5cefbfe149e87f2dc83063ffe326948ed))
+
 ## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...lies.exposed@0.6.0) (2026-09-12)
 
 
