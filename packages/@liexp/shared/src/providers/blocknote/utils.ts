@@ -42,7 +42,7 @@ const toInitialValueS = (value: string): BlockNoteDocument => {
 function toInitialValue(v: string): BlockNoteDocument;
 function toInitialValue(v: unknown): BlockNoteDocument | undefined;
 function toInitialValue(v: any): BlockNoteDocument | undefined {
-  if (typeof v === "string" && v !== "") {
+  if (typeof v === "string") {
     return toInitialValueS(v);
   }
 
