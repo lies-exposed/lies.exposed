@@ -11,6 +11,10 @@ const ENV = Schema.Struct({
   DEBUG: OptionFromNullishToNull(Schema.String),
   API_TOKEN: OptionFromNullishToNull(Schema.String),
   AGENT_API_KEY: Schema.String,
+  // Bounds how long ai-bot waits for the agent's chat response. The agent's
+  // LocalAI gateway serializes/queues requests, so this must stay >= the
+  // agent's own LOCALAI_TIMEOUT_MS to avoid ai-bot aborting before agent does.
+  AGENT_REQUEST_TIMEOUT_MS: Schema.optional(Schema.NumberFromString),
 }).annotations({
   title: "ENV",
 });
