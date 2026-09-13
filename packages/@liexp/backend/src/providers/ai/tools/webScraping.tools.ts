@@ -279,6 +279,14 @@ const scrapeWebPageInput = effectToZod(ScrapeWebpageInputSchema);
 /**
  * Creates a web scraping tool optimized for LLM consumption
  */
+// Caps retries against a URL that keeps failing (e.g. bot-blocked navigation
+// timeouts). Without this the agent's tool-calling loop just keeps re-invoking
+// the tool on the same doomed URL until recursionLimit, each attempt costing
+// a real ~30-90s browser launch+timeout — tying up the calling job (and its
+// HTTP request, which has no independent timeout) for tens of minutes.
+const MAX_CONSECUTIVE_FAILURES_PER_URL = 2;
+const consecutiveFailuresByUrl = new Map<string, number>();
+
 export const createWebScrapingTool = <
   C extends PuppeteerProviderContext & LoggerContext,
 >(
@@ -296,6 +304,15 @@ export const createWebScrapingTool = <
 
     if (!url) {
       throw new Error("URL is required");
+    }
+
+    const priorFailures = consecutiveFailuresByUrl.get(url) ?? 0;
+    if (priorFailures >= MAX_CONSECUTIVE_FAILURES_PER_URL) {
+      return (
+        `Error scraping ${url}: gave up after ${priorFailures} failed attempts ` +
+        `(navigation timeout / bot-blocked). Do not retry this URL — report ` +
+        `that the page content is unavailable.`
+      );
     }
 
     const task = pipe(
@@ -374,8 +391,14 @@ export const createWebScrapingTool = <
         return `Error scraping ${url}: ${errorMessage}`;
       }),
       fp.TE.fold(
-        (error) => () => Promise.resolve(error),
-        (result) => () => Promise.resolve(result),
+        (error) => () => {
+          consecutiveFailuresByUrl.set(url, priorFailures + 1);
+          return Promise.resolve(error);
+        },
+        (result) => () => {
+          consecutiveFailuresByUrl.delete(url);
+          return Promise.resolve(result);
+        },
       ),
     );
 
