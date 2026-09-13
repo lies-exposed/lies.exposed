@@ -25,6 +25,12 @@ import { toAIBotError, type AIBotError } from "#common/error/index.js";
 const configFile = path.resolve(process.cwd(), "config/ai-bot.config.json");
 const configProvider = ConfigProviderReader(configFile, AIBotConfig);
 
+// Bounds how long a queue job can sit waiting on the agent's chat turn. Without
+// this, an agent tool stuck retrying (e.g. a bot-blocked scrape target) never
+// resolves the HTTP call, so the job-processor bracket's release step never
+// runs and the queue row is orphaned in "processing" indefinitely.
+const AGENT_REQUEST_TIMEOUT_MS = 5 * 60 * 1000;
+
 export const loadContext = (
   getToken: () => string | null,
 ): TaskEither<AIBotError, ClientContext> =>
@@ -73,6 +79,7 @@ export const loadContext = (
         GetResourceClient(
           axios.default.create({
             baseURL: config.config.agent.url,
+            timeout: AGENT_REQUEST_TIMEOUT_MS,
             headers: {
               Authorization: `Bearer ${env.AGENT_API_KEY}`,
             },
