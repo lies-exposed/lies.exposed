@@ -61,6 +61,25 @@ const installCfAccessFetch = (
   globalThis.fetch = patchedFetch;
 };
 
+// OpenAI-compatible model-listing lives under `/v1/models`, and so do
+// chat/embeddings under `/v1/chat/completions` and `/v1/embeddings` — the
+// `/v1` prefix is not aliased at the bare host by the localai-gateway sitting
+// behind Cloudflare Access (confirmed: `POST /chat/completions` on the bare
+// host 404s, `POST /v1/chat/completions` succeeds). openai-node appends the
+// endpoint path directly to `configuration.baseURL` with no normalization of
+// its own, so a configured `OPENAI_BASE_URL` without a `/v1` suffix silently
+// 404s every request. Normalize once here so every client this provider
+// builds (chat, embeddings) agrees with the convention this repo's own
+// graphify config and `services/agent/.../chat.controller.ts`'s `withV1`
+// already use for `/models`.
+function withV1(baseURL: string): string {
+  // anthropic passes `undefined as any` here (no OpenAI-compatible baseURL
+  // applies to that provider) — pass through untouched rather than crash.
+  if (!baseURL) return baseURL;
+  const trimmed = baseURL.replace(/\/+$/, "");
+  return trimmed.endsWith("/v1") ? trimmed : `${trimmed}/v1`;
+}
+
 const EMPTY_CHOICES_MAX_RETRIES = 2;
 
 /**
@@ -253,6 +272,8 @@ export const GetLangchainProvider = <P extends AIProvider>(
     installXClientIdHeader(opts.baseURL, opts.xClientId);
   }
 
+  const baseURL = withV1(opts.baseURL);
+
   const makeChat = <P extends AIProvider>(
     provider: P,
     model: string,
@@ -285,7 +306,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
         ...openAIChatOptions,
         configuration: {
           maxRetries: opts.maxRetries ?? 3,
-          baseURL: opts.baseURL,
+          baseURL,
           // CF Access headers are injected via the global-fetch patch
           // (installCfAccessFetch above), not here — configuration.fetch and
           // configuration.defaultHeaders don't survive langgraph's
@@ -333,7 +354,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
       ...opts.options?.embeddings,
       ...embeddingOpts,
       configuration: {
-        baseURL: opts.baseURL,
+        baseURL,
         ...opts.options?.embeddings.configuration,
         ...embeddingOpts?.configuration,
       },
