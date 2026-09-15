@@ -130,7 +130,7 @@
     "effect": "^3.21.3",
     "eslint": "^10.10.0",
     "fp-ts": "^2.16.10",
-    "jsdom": "^29.1.1",
+    "jsdom": "^30.0.1",
     "openai": "^7.15.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.2.2",
