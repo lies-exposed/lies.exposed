@@ -82,7 +82,7 @@
     "@types/node-telegram-bot-api": "^0.64.15",
     "@types/prompts": "^2.4.9",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "tsx": "^4.21.0",
+    "tsx": "^4.23.13",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "^5.0.0"
   },
