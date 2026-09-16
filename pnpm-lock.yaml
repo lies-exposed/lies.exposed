@@ -626,8 +626,8 @@ importers:
         specifier: ^5.102.8
         version: 5.102.8(react@18.3.1)
       '@tanstack/react-virtual':
-        specifier: ^3.14.10
-        version: 3.14.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^3.14.12
+        version: 3.14.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@ts-endpoint/core':
         specifier: file:../../../patches/ts-endpoint-core-0.1.0.tgz
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
@@ -4418,14 +4418,14 @@ packages:
     peerDependencies:
       react: ^18 || ^19
 
-  '@tanstack/react-virtual@3.14.10':
-    resolution: {integrity: sha512-SRyoUbdFMRHuYXMijV5H4ZarQWpXkj3iANq8OFre+pybeVap8ZJjZ3Nz9bVjx4d8PfobVUQUdKyyyHYk3E+djw==}
+  '@tanstack/react-virtual@3.14.12':
+    resolution: {integrity: sha512-EOJkBss/FRqzFrCpX8M96lIh+ZMc0jPt0LILhxWQ3tOHQ3XdVvuE0jceS2yZXpDtayNfpjeg2EnuYPm90CxIlA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@tanstack/virtual-core@3.17.8':
-    resolution: {integrity: sha512-BfEvehNpOT75r5Ksc5xW6NZuXujTfb7nlSEyVu4XHG3gdxNg1KqXruWbDewXOUaUYIo4oRbSfkjIajz4MAT8tA==}
+  '@tanstack/virtual-core@3.17.10':
+    resolution: {integrity: sha512-eMorKWIi2nekElu+8DgSMJR4iR+sTDeh+W8VjKiMH79yUfEDJ3W9aL/96/wwbxNjyV6EfN39HKszSxjd90zAqQ==}
 
   '@testing-library/dom@10.4.1':
     resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
@@ -12892,13 +12892,13 @@ snapshots:
       '@tanstack/query-core': 5.102.8
       react: 18.3.1
 
-  '@tanstack/react-virtual@3.14.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tanstack/react-virtual@3.14.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@tanstack/virtual-core': 3.17.8
+      '@tanstack/virtual-core': 3.17.10
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@tanstack/virtual-core@3.17.8': {}
+  '@tanstack/virtual-core@3.17.10': {}
 
   '@testing-library/dom@10.4.1':
     dependencies:
