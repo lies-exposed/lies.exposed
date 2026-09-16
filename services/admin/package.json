@@ -78,7 +78,7 @@
     "@types/supertest": "^7.2.1",
     "@typescript/native": "npm:typescript@^7.0.2",
     "eslint": "^10.10.0",
-    "jsdom": "^29.1.1",
+    "jsdom": "^30.0.1",
     "msw": "^2.15.0",
     "supertest": "^7.2.2",
     "tsx": "^4.23.13",
