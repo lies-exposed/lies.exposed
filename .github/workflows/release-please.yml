@@ -81,7 +81,7 @@ jobs:
 
       - name: Install MinIO Client
         if: needs.release-please.outputs.releases_created == 'true'
-        uses: hostwithquantum/setup-mc@v1.1.1
+        uses: hostwithquantum/setup-mc@v1.2.0
         with:
           alias-name: lies-exposed-space
           alias-url: https://space.lies.exposed
