@@ -51,13 +51,13 @@
     "@typescript/native": "npm:typescript@^7.0.2",
     "axios": "^1.18.0",
     "effect": "^3.21.3",
-    "eslint": "^10.10.0",
+    "eslint": "^10.11.0",
     "fast-check": "^3.23.2",
     "fp-ts": "^2.16.10",
     "pdfjs-dist": "^6.2.108",
     "react-admin": "^5.15.3",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vitest": "^5.0.0",
+    "vitest": "^5.0.1",
     "vitest-mock-extended": "^5.1.1"
   },
   "peerDependencies": {
