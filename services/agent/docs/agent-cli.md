@@ -33,7 +33,7 @@ pnpm --filter agent cli agent "list the most recent actors"
 
 1. Loads `.env.local` + `.env` from the service root
 2. Creates `AgentContext` with all providers (JWT, LangChain, Puppeteer, Brave Search, MCP client, FSClient)
-3. Loads skills from `skills/*.md` (logged as `[agent-cli] Loaded X skills`)
+3. Loads runtime skills from `skills/*.md` (logged as `[agent-cli] Loaded X skills`)
 4. Loads MCP tools from API (logged as `[agent-cli] Loaded X MCP tools`)
 5. Creates a new conversation UUID
 6. Streams the response via `sendChatMessageStream`
@@ -118,7 +118,7 @@ After editing files in `skills/`:
 ```bash
 # Test that skills are loaded and followed
 pnpm --filter agent cli agent "here is a link https://example.com/article"
-# Should trigger link_handling skill workflow
+# Should trigger link-ingest skill workflow
 ```
 
 ## CLI Output Format
@@ -157,7 +157,7 @@ pnpm --filter agent cli agent "tell me about actor 00000000-0000-0000-0000-00000
 
 ### Verify multi-step workflows
 ```bash
-# Should follow link_handling skill
+# Should follow link-ingest skill
 pnpm --filter agent cli agent "extract entities from https://example.com/article"
 
 # Should search for variations before creating

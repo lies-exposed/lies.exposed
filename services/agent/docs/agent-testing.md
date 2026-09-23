@@ -58,7 +58,8 @@ depend on exact DB state, and cleanup after a failed test is on you.
 services/agent/
   AGENTS.md                          ← Platform Manager system prompt
   RESEARCHER.md                      ← Researcher system prompt
-  skills/*.md                        ← Skill files (appended to system prompt)
+  skills/*.md                        ← Runtime skills (catalog in prompt, body via load_skill)
+  docs/*.md                          ← Dev docs + reference loaded via read_documentation
   src/flows/chat/__tests__/
     chat.flow.spec.ts                ← Spec tests for chat flow
     agent-pipeline.eval.ts           ← Eval tests for prompt behavior (shared dev DB)

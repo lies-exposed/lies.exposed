@@ -16,7 +16,7 @@ import { sendChatMessageStream } from "../chat.flow.js";
  * into a platform event. Neither turn names a tool or a workflow step — the
  * only thing that can get from "here's a link" to a persisted `link` row and
  * then a persisted `event` row linked to it is the agent itself loading
- * skills/link_handling.md via `load_skill` and following it. That's the
+ * skills/link-ingest.md via `load_skill` and following it. That's the
  * thing under test: input -> load skills -> call tools -> final response,
  * not a scripted sequence of liexp_cli calls dictated by the test.
  *
@@ -27,7 +27,7 @@ import { sendChatMessageStream } from "../chat.flow.js";
  * the same way it would across two HTTP requests in production.
  *
  * Runs against the throwaway liexp_test DB + api-test server from
- * test/evalDbGlobalSetup.ts (vitest.config.eval.ts). See skills/agent_testing.md.
+ * test/evalDbGlobalSetup.ts (vitest.config.eval.ts). See docs/agent-testing.md.
  */
 
 // ---------------------------------------------------------------------------
@@ -119,16 +119,16 @@ describe("link-to-event (skill-driven)", () => {
         conversationId,
       );
 
-      // Proves the link_handling skill actually ran, not that the model
+      // Proves the link-ingest skill actually ran, not that the model
       // happened to guess the right liexp_cli invocation on its own.
       const skillLoad = toolCallStarts(linkTurnEvents).find(
         (e) =>
           e.tool_call.name === "load_skill" &&
-          toolArgs(e).includes("link_handling"),
+          toolArgs(e).includes("link-ingest"),
       );
       expect(
         skillLoad,
-        "expected the agent to call load_skill(link_handling) for a bare URL",
+        "expected the agent to call load_skill(link-ingest) for a bare URL",
       ).toBeDefined();
 
       const linkCreateStart = liexpCliCalls(linkTurnEvents).find((e) =>
