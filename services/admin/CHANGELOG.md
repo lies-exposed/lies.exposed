@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...admin@0.6.1) (2026-09-23)
+
+
+### Bug Fixes
+
+* **admin:** restore default Sentry integrations for Bugsink capture ([#3872](https://github.com/lies-exposed/lies.exposed/issues/3872)) ([02ad3ea](https://github.com/lies-exposed/lies.exposed/commit/02ad3ea2ea5d7378d20e9b8e22a762b226ca94a9))
+* scrub JWT leak in queue errors, admin queue crash, Docker cache staleness ([#3868](https://github.com/lies-exposed/lies.exposed/issues/3868)) ([cdaf13f](https://github.com/lies-exposed/lies.exposed/commit/cdaf13f9efa8df2861a437ecf27f2ff62db44d86))
+
+
+### Miscellaneous
+
+* **admin:** update Sentry DSN ([#3871](https://github.com/lies-exposed/lies.exposed/issues/3871)) ([b6b7529](https://github.com/lies-exposed/lies.exposed/commit/b6b7529c2b65e959d79ade768cd5e97162762c35))
+* removed bugsink.lies.exposed deploy ([#3906](https://github.com/lies-exposed/lies.exposed/issues/3906)) ([6fdea12](https://github.com/lies-exposed/lies.exposed/commit/6fdea127198e5487415955f553bf8cc484560b4c))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.6.1
+    * @liexp/core bumped to 0.6.1
+    * @liexp/io bumped to 0.6.1
+    * @liexp/shared bumped to 0.6.1
+    * @liexp/ui bumped to 0.6.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.6.1
+    * @liexp/test bumped to 0.6.1
+
 ## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...admin@0.6.0) (2026-09-12)
 
 

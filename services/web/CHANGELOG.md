@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...web@0.6.1) (2026-09-23)
+
+
+### Bug Fixes
+
+* **backend,web:** restore default Sentry integrations ([#3873](https://github.com/lies-exposed/lies.exposed/issues/3873)) ([922dba6](https://github.com/lies-exposed/lies.exposed/commit/922dba6eeddd1385717b778c1aecbacd97b30a99))
+
+
+### Miscellaneous
+
+* removed bugsink.lies.exposed deploy ([#3906](https://github.com/lies-exposed/lies.exposed/issues/3906)) ([6fdea12](https://github.com/lies-exposed/lies.exposed/commit/6fdea127198e5487415955f553bf8cc484560b4c))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.6.1
+    * @liexp/core bumped to 0.6.1
+    * @liexp/io bumped to 0.6.1
+    * @liexp/shared bumped to 0.6.1
+    * @liexp/ui bumped to 0.6.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.6.1
+    * @liexp/test bumped to 0.6.1
+
 ## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...web@0.6.0) (2026-09-12)
 
 
