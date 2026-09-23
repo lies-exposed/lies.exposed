@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...agent@0.6.1) (2026-09-23)
+
+
+### Bug Fixes
+
+* **agent,ai-bot:** make LocalAI/agent request timeouts env-configurable ([#3878](https://github.com/lies-exposed/lies.exposed/issues/3878)) ([c4b0e4f](https://github.com/lies-exposed/lies.exposed/commit/c4b0e4f51313cd4ac7105d465169173211abb901))
+* **agent:** skill search in load_skill and runtime skill catalog ([#3904](https://github.com/lies-exposed/lies.exposed/issues/3904)) ([fac1995](https://github.com/lies-exposed/lies.exposed/commit/fac1995aef49174a369987d5a6e2488dd8b7be94))
+* **agent:** sync stale model list and fix LocalAI dynamic fetch URL ([#3870](https://github.com/lies-exposed/lies.exposed/issues/3870)) ([ce9a8b4](https://github.com/lies-exposed/lies.exposed/commit/ce9a8b4efe2280901a0ea45633ab62e01f4543cd))
+* **backend:** add X-Client-Id header to all localai-gateway callers ([#3869](https://github.com/lies-exposed/lies.exposed/issues/3869)) ([2d935bd](https://github.com/lies-exposed/lies.exposed/commit/2d935bd3139d907068e29960c6df9459abb20a46))
+* scrub JWT leak in queue errors, admin queue crash, Docker cache staleness ([#3868](https://github.com/lies-exposed/lies.exposed/issues/3868)) ([cdaf13f](https://github.com/lies-exposed/lies.exposed/commit/cdaf13f9efa8df2861a437ecf27f2ff62db44d86))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.6.1
+    * @liexp/core bumped to 0.6.1
+    * @liexp/io bumped to 0.6.1
+    * @liexp/shared bumped to 0.6.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.6.1
+    * @liexp/test bumped to 0.6.1
+
 ## [0.6.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.22...agent@0.6.0) (2026-09-12)
 
 
