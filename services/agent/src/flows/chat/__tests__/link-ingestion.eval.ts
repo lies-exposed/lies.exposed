@@ -16,7 +16,7 @@ import { sendChatMessageStream } from "../chat.flow.js";
  * liexp_cli", "create a link record", or anything about how to do the work.
  * It only hands the agent a URL, the same way a real user would. Getting
  * from that to a persisted `link` row depends entirely on the agent (a) loading
- * the `link_handling` skill (skills/link_handling.md) via the `load_skill`
+ * the `link-ingest` skill (skills/link-ingest.md) via the `load_skill`
  * tool and (b) following its workflow. That's what's under test here, not
  * whether liexp_cli works — the earlier version of this test told the agent
  * exactly which tool to call, which meant it never actually exercised skill
@@ -24,7 +24,7 @@ import { sendChatMessageStream } from "../chat.flow.js";
  *
  * Runs against the throwaway liexp_test DB + api-test server that
  * test/evalDbGlobalSetup.ts spins up for this project (vitest.config.eval.ts).
- * See skills/agent_testing.md for the four test tiers.
+ * See docs/agent-testing.md for the four test tiers.
  */
 
 // ---------------------------------------------------------------------------
@@ -97,7 +97,7 @@ beforeAll(async () => {
 
 describe("link ingestion (skill-driven)", () => {
   cachedTest(
-    "link ingestion > a bare URL triggers the link_handling skill and persists a link",
+    "link ingestion > a bare URL triggers the link-ingest skill and persists a link",
     async () => {
       const events = await collectEvents(
         ctx.ctx,
@@ -109,11 +109,11 @@ describe("link ingestion (skill-driven)", () => {
       const skillLoad = toolCallStarts(events).find(
         (e) =>
           e.tool_call.name === "load_skill" &&
-          toolArgs(e).includes("link_handling"),
+          toolArgs(e).includes("link-ingest"),
       );
       expect(
         skillLoad,
-        "expected the agent to call load_skill(link_handling) for a bare URL",
+        "expected the agent to call load_skill(link-ingest) for a bare URL",
       ).toBeDefined();
 
       const linkCreateStart = toolCallStarts(events).find(

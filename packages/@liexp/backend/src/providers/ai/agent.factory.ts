@@ -26,6 +26,7 @@ import {
   buildSkillsAddendum,
   createLoadSkillTool,
   loadSkills,
+  skillsForAgent,
   type Skill,
 } from "./tools/skills.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
@@ -224,7 +225,8 @@ export const GetAgentFactory =
 
             const webScraping = createWebScrapingTool(ctx);
             const searchWeb = createSearchWebTool(ctx);
-            const loadSkill = createLoadSkillTool(skills);
+            const agentSkills = skillsForAgent(skills, type);
+            const loadSkill = createLoadSkillTool(agentSkills);
 
             let tools: StructuredToolInterface[];
 
@@ -296,7 +298,10 @@ export const GetAgentFactory =
           ),
         ),
         fp.TE.bind("skills", () => skillsTask),
-        fp.TE.map(({ prompt, skills }) => prompt + buildSkillsAddendum(skills)),
+        fp.TE.map(
+          ({ prompt, skills }) =>
+            prompt + buildSkillsAddendum(skillsForAgent(skills, type)),
+        ),
         fp.TE.tap((systemPrompt) =>
           fp.TE.fromIO(() => {
             promptCache.set(type, systemPrompt);
