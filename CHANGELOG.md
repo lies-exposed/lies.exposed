@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.1...lies.exposed@0.6.2) (2026-09-24)
+
+
+### Miscellaneous
+
+* removed helm ingress config for bugsink ([#3909](https://github.com/lies-exposed/lies.exposed/issues/3909)) ([cd2ee9e](https://github.com/lies-exposed/lies.exposed/commit/cd2ee9e92ed5e757dfef3acebf7144df3419a275))
+
 ## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...lies.exposed@0.6.1) (2026-09-23)
 
 
