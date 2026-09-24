@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.6.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.1...worker@0.6.2) (2026-09-24)
+
+
+### Bug Fixes
+
+* **worker:** preserve link image and fields when AI link job completes ([#3907](https://github.com/lies-exposed/lies.exposed/issues/3907)) ([60106ab](https://github.com/lies-exposed/lies.exposed/commit/60106ab68fcb7a7a35f3e62b8e64492ee33810b1))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.6.2
+    * @liexp/core bumped to 0.6.2
+    * @liexp/io bumped to 0.6.2
+    * @liexp/shared bumped to 0.6.2
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.6.2
+    * @liexp/test bumped to 0.6.2
+
 ## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...worker@0.6.1) (2026-09-23)
 
 
