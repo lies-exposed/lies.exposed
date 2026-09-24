@@ -942,8 +942,8 @@ importers:
         specifier: ^7.18.2
         version: 7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       web-vitals:
-        specifier: ^5.3.0
-        version: 5.3.0
+        specifier: ^6.2.2
+        version: 6.2.2
     devDependencies:
       '@liexp/eslint-config':
         specifier: workspace:*
@@ -10070,8 +10070,8 @@ packages:
   waveform-data@4.5.2:
     resolution: {integrity: sha512-1wDQ2LmaCM76xXXkOamWui1dp7uS2UHVeNccuHDS/qnoOrczrXR6g7Q9m/UjlibHfukxBrceoRIVTKKY1tDLdA==}
 
-  web-vitals@5.3.0:
-    resolution: {integrity: sha512-q6LWsLatGYZp5VGBIOvbTj6JBV2nOmC8KvWztXBmwJcfFAzhwKwbOxhUH306XY3CcaZDUlSmSuNPBsCn0bFu+g==}
+  web-vitals@6.2.2:
+    resolution: {integrity: sha512-oto5x6dLEgrRqfcWed+pZEUb2q6ikbFmqF54CRDhI/QGbn+qxC49b4C4OkbH+kb9C3a8shpFD3SgR9kRcs80ZQ==}
 
   web-worker@1.5.0:
     resolution: {integrity: sha512-RiMReJrTAiA+mBjGONMnjVDP2u3p9R1vkcGz6gDIrOMT3oGuYwX2WRMYI9ipkphSuE5XKEhydbhNEJh4NY9mlw==}
@@ -19469,7 +19469,7 @@ snapshots:
 
   waveform-data@4.5.2: {}
 
-  web-vitals@5.3.0: {}
+  web-vitals@6.2.2: {}
 
   web-worker@1.5.0: {}
 
