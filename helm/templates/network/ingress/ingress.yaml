@@ -72,18 +72,6 @@ spec:
                 port:
                   number: 3003
 {{- end }}
-{{- if .Values.bugsink.enabled }}
-    - host: "{{ .Values.bugsink.domain }}"
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: bugsink
-                port:
-                  number: 80
-{{- end }}
   ingressClassName: nginx
   tls:
     - hosts:
@@ -92,9 +80,6 @@ spec:
         - "admin.{{ .Values.domain }}"
 {{- if .Values.agent.enabled }}
         - "agent.{{ .Values.domain }}"
-{{- end }}
-{{- if .Values.bugsink.enabled }}
-        - {{ .Values.bugsink.domain }}
 {{- end }}
       # # cert-manager will create this secret
       # secretName: example-tls
