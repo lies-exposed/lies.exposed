@@ -221,15 +221,28 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
       }
 
       if (Schema.is(LINKS)(job.resource)) {
-        const { thumbnailUrl, ...linkResult } = job.result ?? {};
+        const { thumbnailUrl, title, description, publishDate } =
+          job.result ?? {};
+        // Only merge values the model actually extracted: a blocked scrape
+        // yields empty strings / null, which must not wipe existing data.
+        const linkResult = {
+          ...(title ? { title } : {}),
+          ...(description ? { description } : {}),
+          ...(publishDate ? { publishDate } : {}),
+        };
         return pipe(
           fp.RTE.Do,
           fp.RTE.apS(
             "link",
-            LinkRepository.findOneOrFail({ where: { id: Equal(job.id) } }),
+            LinkRepository.findOneOrFail({
+              where: { id: Equal(job.id) },
+              loadRelationIds: { relations: ["image"] },
+            }),
           ),
-          fp.RTE.bind("image", () => {
-            if (!thumbnailUrl) {
+          fp.RTE.bind("image", ({ link }) => {
+            // Never override an image already set on the link (e.g. the
+            // screenshot taken on creation, or one picked by an admin).
+            if (!thumbnailUrl || link.image) {
               return fp.RTE.of(undefined);
             }
 
