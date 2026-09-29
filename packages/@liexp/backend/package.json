@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.974.5",
-    "@langchain/anthropic": "^1.5.10",
+    "@langchain/anthropic": "^1.5.11",
     "@langchain/core": "^1.2.12",
     "@langchain/mcp-adapters": "^1.1.4",
     "@langchain/openai": "^1.5.13",
@@ -76,7 +76,7 @@
     "fast-csv": "^5.0.7",
     "fp-ts": "^2.16.10",
     "ioredis": "^6.0.0",
-    "langchain": "^1.5.11",
+    "langchain": "^1.5.12",
     "msw": "^2.15.0",
     "page-metadata-parser": "^1.1.4",
     "pdfjs-dist": "^6.2.108",
