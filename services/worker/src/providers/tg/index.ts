@@ -12,6 +12,7 @@ import { helpCommand } from "./help.command.js";
 import { loginCommand } from "./login.command.js";
 import { startCommand } from "./start.command.js";
 import { type WorkerContext } from "#context/context.js";
+import { toWorkerError } from "#io/worker.error.js";
 import { getThanksMessage } from "#utils/tg.utils.js";
 
 export const TGMessageCommands = (ctx: WorkerContext) => {
@@ -65,11 +66,23 @@ export const TGMessageCommands = (ctx: WorkerContext) => {
       )
       .catch((e) => {
         tgLogger.error.log("Error %O", e);
-        void ctx.tg.api.sendMessage(
-          msg.chat.id,
-          "Sorry, something went wrong while processing your message. Please try again later.",
-          { reply_to_message_id: msg.message_id },
-        );
+        void pipe(
+          fp.TE.tryCatch(
+            () =>
+              ctx.tg.api.sendMessage(
+                msg.chat.id,
+                "Sorry, something went wrong while processing your message. Please try again later.",
+              ),
+            toWorkerError,
+          ),
+          fp.TE.mapLeft((err) => {
+            tgLogger.error.log("Failed to send error reply: %O", err);
+            return err;
+          }),
+          throwTE,
+        ).catch(() => {
+          /* silently ignore failure to send error reply */
+        });
       });
   });
 };
