@@ -61,9 +61,6 @@ export const loginCommand = ({
               tg.api.sendMessage(
                 msg.chat.id,
                 `Invalid token for user ${commandContext.email}`,
-                {
-                  reply_to_message_id: msg.message_id,
-                },
               ),
             toWorkerError,
           );
@@ -74,9 +71,6 @@ export const loginCommand = ({
             tg.api.sendMessage(
               msg.chat.id,
               `User ${commandContext.email} not found`,
-              {
-                reply_to_message_id: msg.message_id,
-              },
             ),
           toWorkerError,
         );

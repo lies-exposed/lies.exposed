@@ -65,7 +65,6 @@ export const askCommand = (ctx: WorkerContext): TGBotProvider => {
       void ctx.tg.api.sendMessage(
         msg.chat.id,
         "Sorry, something went wrong while processing your question. Please try again later.",
-        { reply_to_message_id: msg.message_id },
       );
     });
   });
