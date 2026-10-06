@@ -755,8 +755,8 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       react-dropzone:
-        specifier: ^15.0.0
-        version: 15.0.0(react@18.3.1)
+        specifier: ^20.1.2
+        version: 20.1.2(@types/react@18.3.27)(react@18.3.1)
       react-ellipsis-component:
         specifier: ^1.1.11
         version: 1.1.11(react@18.3.1)
@@ -5712,6 +5712,10 @@ packages:
     resolution: {integrity: sha512-0bDNnY/u6pPwHDMoF0FieU354oBi0a8rD9FcsLwzcGWbc8KS8KPIi7y+s13OlVY+gMWc/9xEMUgNE6Qm8ZllYQ==}
     engines: {node: '>=4'}
 
+  attr-accept@4.0.0:
+    resolution: {integrity: sha512-hmCnJClmeKNKlsBHgbM8yLZRiQZ4/20UXbLJb6OUT16eWcM5/xNZerr80a/zCYob768KIGq++aLrQNTuwPsIOQ==}
+    engines: {node: '>= 22'}
+
   autosuggest-highlight@3.3.4:
     resolution: {integrity: sha512-j6RETBD2xYnrVcoV1S5R4t3WxOlWZKyDQjkwnggDPSjF5L4jV98ZltBpvPvbkM1HtoSe5o+bNrTHyjPbieGeYA==}
 
@@ -6943,6 +6947,10 @@ packages:
   file-selector@2.1.2:
     resolution: {integrity: sha512-QgXo+mXTe8ljeqUFaX3QVHc5osSItJ/Km+xpocx0aSqWGMSCf6qYs/VnzZgS864Pjn5iceMRFigeAV7AfTlaig==}
     engines: {node: '>= 12'}
+
+  file-selector@5.0.1:
+    resolution: {integrity: sha512-v0g/PTeuQgvKCBrVRsfVudvwXlRHSWHEQkVgKawgCGHkEpKA1clp3Om5jvEVhz8G9W/mOYjJH9FhkH4C888PgQ==}
+    engines: {node: '>= 22'}
 
   file-type@3.9.0:
     resolution: {integrity: sha512-RLoqTXE8/vPmMuTI88DAzhMYC99I8BWv7zYP4A1puo5HIjEJ5EX48ighy4ZyKMG9EDXxBgW6e++cn7d1xuFghA==}
@@ -8913,11 +8921,15 @@ packages:
     peerDependencies:
       react: '>= 16.8 || 18.0.0'
 
-  react-dropzone@15.0.0:
-    resolution: {integrity: sha512-lGjYV/EoqEjEWPnmiSvH4v5IoIAwQM2W4Z1C0Q/Pw2xD0eVzKPS359BQTUMum+1fa0kH2nrKjuavmTPOGhpLPg==}
-    engines: {node: '>= 10.13'}
+  react-dropzone@20.1.2:
+    resolution: {integrity: sha512-gj2m31ZmYOZjTuW6CDfx38/WW2JlbuQ/X2Il8cOwIWa7Znp7vQSPJFtRfDbAjusBuoXzAYktI+r2R6iKMaRTPw==}
+    engines: {node: '>= 22'}
     peerDependencies:
-      react: '>= 16.8 || 18.0.0'
+      '@types/react': '*'
+      react: '>= 18'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
 
   react-ellipsis-component@1.1.11:
     resolution: {integrity: sha512-7qPeHrqgS241sdIOoNNMQWqWLI04ae7myiau8XvMOFJVWWVVs61FjImht2TViu27PAGaVrejV6x18cLoVIX29w==}
@@ -14373,6 +14385,8 @@ snapshots:
 
   attr-accept@2.2.5: {}
 
+  attr-accept@4.0.0: {}
+
   autosuggest-highlight@3.3.4:
     dependencies:
       remove-accents: 0.4.4
@@ -15756,6 +15770,8 @@ snapshots:
   file-selector@2.1.2:
     dependencies:
       tslib: 2.8.1
+
+  file-selector@5.0.1: {}
 
   file-type@3.9.0: {}
 
@@ -18181,12 +18197,13 @@ snapshots:
       prop-types: 15.8.1
       react: 18.3.1
 
-  react-dropzone@15.0.0(react@18.3.1):
+  react-dropzone@20.1.2(@types/react@18.3.27)(react@18.3.1):
     dependencies:
-      attr-accept: 2.2.5
-      file-selector: 2.1.2
-      prop-types: 15.8.1
+      attr-accept: 4.0.0
+      file-selector: 5.0.1
       react: 18.3.1
+    optionalDependencies:
+      '@types/react': 18.3.27
 
   react-ellipsis-component@1.1.11(react@18.3.1):
     dependencies:
