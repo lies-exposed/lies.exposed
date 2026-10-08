@@ -153,7 +153,7 @@ export const GetPuppeteerProvider = (
             executablePath,
             headless: true,
             args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-gpu"],
-            protocolTimeout: 30_000,
+            protocolTimeout: 120_000,
             ...defaultOpts,
             ...opts,
           };
