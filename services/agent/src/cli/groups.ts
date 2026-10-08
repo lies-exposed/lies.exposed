@@ -6,10 +6,14 @@ import {
   type CommandModule,
 } from "./command.type.js";
 import { eventGroup } from "./events/index.js";
+import { graphGroup } from "./graphs/index.js";
 import { groupGroup } from "./groups/index.js";
+import { keywordGroup } from "./keywords/index.js";
 import { linkGroup } from "./links/index.js";
 import { mediaGroup } from "./media/index.js";
 import { nationGroup } from "./nations/index.js";
+import { settingGroup } from "./settings/index.js";
+import { socialPostGroup } from "./socialposts/index.js";
 import { storyGroup } from "./stories/index.js";
 
 /**
@@ -30,6 +34,10 @@ export const groups: Record<string, CommandGroup> = {
   nation: nationGroup,
   event: eventGroup,
   story: storyGroup,
+  socialposts: socialPostGroup,
+  keywords: keywordGroup,
+  graphs: graphGroup,
+  settings: settingGroup,
 };
 
 /**
