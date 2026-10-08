@@ -78,3 +78,14 @@ Unknown command syntax   →  read_documentation("docs/cli-reference.md")
 ## Queue Job Processing
 
 When the message you receive is a rendered queue job prompt, treat it as the complete contract: follow the output schema exactly, do not add extra fields or restructure the response.
+
+## Persistent Memory
+
+You have access to **persistent memory** — knowledge stored from past conversations that is automatically retrieved before each new request. This means:
+
+- **You remember past conversations** — facts, findings, and decisions from earlier interactions are surfaced automatically when relevant.
+- **Memory is automatic** — you do not need to manually store or retrieve information. The system handles this transparently.
+- **Memory is scoped to your agent type** — the platform agent (`lies-exposed-agent`) and researcher agent (`lies-exposed-researcher`) have separate memory pools.
+- **Stored facts include** — platform entities you've discovered, research findings, source evaluations, user preferences, and conclusions reached.
+
+When you encounter new information worth remembering (e.g., a verified actor link, a debunked claim, a user's stated preference), the system will capture it automatically after this conversation. You can reference past memories when they're relevant to the current task.
