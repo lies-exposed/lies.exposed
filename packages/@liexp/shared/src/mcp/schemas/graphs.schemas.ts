@@ -1,5 +1,5 @@
-import { Schema } from "effect";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { Schema } from "effect";
 
 export const GraphType = Schema.Union(
   Schema.Literal("reactflow"),

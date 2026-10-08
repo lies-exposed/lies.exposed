@@ -1,10 +1,10 @@
-import { Schema } from "effect";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   SocialPostStatus,
   SocialPostResourceType,
   SocialPlatform,
 } from "@liexp/io/lib/http/SocialPost.js";
-import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { Schema } from "effect";
 
 export const FindSocialPostsInputSchema = Schema.Struct({
   q: Schema.UndefinedOr(Schema.String).annotations({
@@ -82,7 +82,8 @@ export const CreateSocialPostInputSchema = Schema.Struct({
     description: "Platforms to publish to: IG or TG",
   }),
 });
-export type CreateSocialPostInputSchema = typeof CreateSocialPostInputSchema.Type;
+export type CreateSocialPostInputSchema =
+  typeof CreateSocialPostInputSchema.Type;
 
 export const EditSocialPostInputSchema = Schema.Struct({
   id: UUID.annotations({

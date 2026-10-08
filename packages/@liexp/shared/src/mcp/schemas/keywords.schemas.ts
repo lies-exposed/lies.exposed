@@ -1,6 +1,6 @@
-import { Schema } from "effect";
-import { UUID, Tag } from "@liexp/io/lib/http/Common/index.js";
 import { Color } from "@liexp/io/lib/http/Common/Color.js";
+import { UUID, Tag } from "@liexp/io/lib/http/Common/index.js";
+import { Schema } from "effect";
 
 export const FindKeywordsInputSchema = Schema.Struct({
   q: Schema.UndefinedOr(Schema.String).annotations({
