@@ -35,6 +35,9 @@ const ENV = Schema.Struct({
   SENTRY_DSN: Schema.optionalWith(Schema.NullOr(Schema.String), {
     default: () => null,
   }),
+  // Mem0 persistent memory server URL (optional; if not set, memory features
+  // are silently disabled). Points to the mem0 REST API (v3 endpoints).
+  MEM0_API_URL: Schema.optional(Schema.String),
 }).annotations({ title: "AGENT_ENV" });
 
 type ENV = typeof ENV.Type;

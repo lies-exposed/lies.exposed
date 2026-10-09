@@ -9,6 +9,7 @@ import { type AgentType } from "@liexp/io/lib/http/Chat.js";
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type ENV } from "#io/ENV.js";
+import { type MemoryClient } from "#memory/client.js";
 
 interface ENVContext {
   env: ENV;
@@ -31,6 +32,14 @@ interface AgentFactoryContext {
   ) => TaskEither<ServerError, any>;
 }
 
+/**
+ * Optional persistent memory client (mem0). When configured, memories are
+ * automatically retrieved before each request and stored after each response.
+ */
+interface MemoryClientContext {
+  memoryClient?: MemoryClient;
+}
+
 export type AgentContext = ENVContext &
   LoggerContext &
   JWTProviderContext &
@@ -38,4 +47,5 @@ export type AgentContext = ENVContext &
   LangchainContext &
   PuppeteerProviderContext &
   FSClientContext &
-  AgentFactoryContext;
+  AgentFactoryContext &
+  MemoryClientContext;

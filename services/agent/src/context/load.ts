@@ -21,6 +21,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
 import { createMcpClient } from "../mcp/mcp.client.js";
+import { createMemoryClient } from "../memory/client.js";
 import { type AgentContext } from "./context.type.js";
 import { ENV } from "#io/ENV.js";
 import { createCliExecutorTool } from "#tools/cli-executor.tool.js";
@@ -275,6 +276,21 @@ export const getAgentContext =
 
         const fsClient = GetFSClient({ client: fs });
 
+        // Initialize memory client if MEM0_API_URL is configured.
+        // When not configured, memory features are silently disabled
+        // (graceful degradation — the agent works normally without it).
+        const memoryClient = env.MEM0_API_URL
+          ? createMemoryClient(env.MEM0_API_URL)
+          : undefined;
+
+        if (memoryClient) {
+          agentLogger.info.log("Memory client initialized");
+        } else {
+          agentLogger.debug.log(
+            "MEM0_API_URL not set — persistent memory disabled",
+          );
+        }
+
         // Single source for agents: the factory creates and caches agents
         // on-demand per type + provider config (default "auto" included).
         const agentFactory = GetAgentFactory({
@@ -305,6 +321,7 @@ export const getAgentContext =
           brave: braveProvider,
           fs: fsClient,
           agentFactory,
+          ...(memoryClient ? { memoryClient } : {}),
         };
       }),
     );
