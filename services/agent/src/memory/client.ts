@@ -1,12 +1,13 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import type { AxiosResponse } from "axios";
 import axios from "axios";
+import * as TE from "fp-ts/lib/TaskEither.js";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
-interface SearchResult {
+export interface SearchResult {
   id: string;
   memory: string;
   score: number;
@@ -35,7 +36,7 @@ interface AddResponse {
  * Returns Left when MEM0_API_URL is not configured (graceful degradation).
  */
 
-interface MemoryClient {
+export interface MemoryClient {
   searchMemories: (
     query: string,
     agentId: string,
@@ -49,7 +50,6 @@ interface MemoryClient {
 
 const MAX_RESULTS = 5;
 const SEARCH_TIMEOUT_MS = 5000;
-const ADD_TIMEOUT_MS = 10000;
 
 export const createMemoryClient = (
   baseUrl: string,
@@ -66,20 +66,22 @@ export const createMemoryClient = (
       agentId: string,
       topK = MAX_RESULTS,
     ): TE.TaskEither<Error, SearchResult[]> =>
-      TE.tryCatch(
-        () =>
-          http.post<SearchResponse>("/v3/memories/search/", {
-            query,
-            filters: { agent_id: agentId },
-            top_k: Math.min(topK, MAX_RESULTS),
-          }),
-        (error) =>
-          error instanceof Error
-            ? error
-            : new Error(String(error)),
-      ).pipe(
-        TE.map((response) =>
-          response.data.results.slice(0, MAX_RESULTS),
+      pipe(
+        TE.tryCatch(
+          () =>
+            http.post<SearchResponse>("/v3/memories/search/", {
+              query,
+              filters: { agent_id: agentId },
+              top_k: Math.min(topK, MAX_RESULTS),
+            }),
+          (error) =>
+            error instanceof Error
+              ? error
+              : new Error(String(error)),
+        ),
+        TE.map(
+          (response: AxiosResponse<SearchResponse>) =>
+            response.data.results.slice(0, MAX_RESULTS),
         ),
       ),
 
@@ -87,18 +89,21 @@ export const createMemoryClient = (
       content: string,
       agentId: string,
     ): TE.TaskEither<Error, string> =>
-      TE.tryCatch(
-        () =>
-          http.post<AddResponse>("/v3/memories/add/", {
-            messages: [{ role: "user", content }],
-            agent_id: agentId,
-          }),
-        (error) =>
-          error instanceof Error
-            ? error
-            : new Error(String(error)),
-      ).pipe(
-        TE.map((response) => response.data.event_id),
+      pipe(
+        TE.tryCatch(
+          () =>
+            http.post<AddResponse>("/v3/memories/add/", {
+              messages: [{ role: "user", content }],
+              agent_id: agentId,
+            }),
+          (error) =>
+            error instanceof Error
+              ? error
+              : new Error(String(error)),
+        ),
+        TE.map(
+          (response: AxiosResponse<AddResponse>) => response.data.event_id,
+        ),
       ),
   };
 };
@@ -128,18 +133,4 @@ export const formatMemoriesForPrompt = (
     memories,
     "",
   ].join("\n");
-};
-
-/**
- * Extract facts from a conversation for storage.
- * Returns a concise summary of key findings worth remembering.
- */
-export const extractConversationFacts = (
-  userMessage: string,
-  assistantMessage: string,
-): string => {
-  // The agent itself will do the extraction via an LLM call.
-  // For now, store the conversation as-is — mem0's own LLM will
-  // extract facts during processing.
-  return `User: ${userMessage}\n\nAssistant: ${assistantMessage}`;
 };

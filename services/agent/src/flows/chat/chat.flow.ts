@@ -11,11 +11,12 @@ import {
 } from "@liexp/io/lib/http/Chat.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { isRight } from "fp-ts/lib/Either.js";
 import { type AIMessage } from "langchain";
 import { type AgentContext } from "../../context/context.type.js";
 import {
   formatMemoriesForPrompt,
-} from "../memory/client.js";
+} from "../../memory/client.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -387,28 +388,25 @@ const agentIdForScope = (agentType?: AgentType): string =>
  * Retrieve relevant memories for a user message. Returns the enhanced message
  * with injected memories, or the original message if memory is unavailable.
  */
-const injectMemories = (
+const injectMemories = async (
   message: string,
   ctx: AgentContext,
-): string => {
+): Promise<string> => {
   const memoryClient = ctx.memoryClient;
   if (!memoryClient) return message;
 
   try {
-    const results = pipe(
-      memoryClient.searchMemories(message, agentIdForScope(), 5),
-      TE.getOrElseW((e) => {
-        ctx.logger.warn.log("Memory search failed: %s", e.message);
-        return TE.right([]);
-      }),
-    )();
-
-    if (results.length === 0) return message;
-
-    const formatted = formatMemoriesForPrompt(results);
-    return `${message}\n\n${formatted}`;
-  } catch (error) {
-    ctx.logger.warn.log("Memory retrieval error: %O", error);
+    const result = await memoryClient.searchMemories(message, agentIdForScope(), 5)();
+    if (isRight(result)) {
+      const results = result.right;
+      if (results.length === 0) return message;
+      const formatted = formatMemoriesForPrompt(results);
+      return `${message}\n\n${formatted}`;
+    }
+    ctx.logger.warn.log("Memory search returned left: %s", String(result.left));
+    return message;
+  } catch (_error) {
+    ctx.logger.warn.log("Memory retrieval failed, continuing without memories");
     return message;
   }
 };
@@ -490,10 +488,14 @@ export const sendChatMessage =
 
     // Inject relevant memories from past conversations (gracefully degrades
     // when memory is not configured or unavailable).
-    const messageWithMemories = injectMemories(enhancedMessage, ctx);
-
     return pipe(
-      getOrCreateAgent(payload.agent_type, payload.aiConfig)(ctx),
+      TE.tryCatch(
+        () => injectMemories(enhancedMessage, ctx),
+        ServerError.fromUnknown,
+      ),
+      TE.chain((messageWithMemories) =>
+        pipe(
+          getOrCreateAgent(payload.agent_type, payload.aiConfig)(ctx),
       TE.chain((agent) =>
         TE.tryCatch(
           () =>
@@ -546,10 +548,10 @@ export const sendChatMessage =
               agentIdForScope(payload.agent_type),
             ),
             TE.match(
-              (e) => {
+              (e: unknown) => {
                 ctx.logger.debug.log(
                   "Memory storage failed (non-fatal): %s",
-                  e.message,
+                  String(e),
                 );
               },
               () => {
@@ -570,7 +572,9 @@ export const sendChatMessage =
             : undefined,
         };
       }),
-    );
+    ),
+  ),
+  );
   };
 
 export const getChatConversation =
@@ -763,10 +767,10 @@ export const sendChatMessageStream = (payload: {
             agentIdForScope(payload.agent_type),
           ),
           TE.match(
-            (e) => {
+            (e: unknown) => {
               ctx.logger.debug.log(
                 "Memory storage failed (non-fatal): %s",
-                e.message,
+                String(e),
               );
             },
             () => {

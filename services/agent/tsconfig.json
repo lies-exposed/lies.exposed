@@ -12,6 +12,7 @@
       "#context/*": ["./src/context/*"],
       "#flows/*": ["./src/flows/*"],
       "#io/*": ["./src/io/*"],
+      "#memory/*": ["./src/memory/*"],
       "#mcp/*": ["./src/mcp/*"],
       "#routes/*": ["./src/routes/*"],
       "#cli/*": ["./src/cli/*"],
