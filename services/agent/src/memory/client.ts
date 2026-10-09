@@ -42,18 +42,13 @@ export interface MemoryClient {
     agentId: string,
     topK?: number,
   ) => TE.TaskEither<Error, SearchResult[]>;
-  addMemory: (
-    content: string,
-    agentId: string,
-  ) => TE.TaskEither<Error, string>;
+  addMemory: (content: string, agentId: string) => TE.TaskEither<Error, string>;
 }
 
 const MAX_RESULTS = 5;
 const SEARCH_TIMEOUT_MS = 5000;
 
-export const createMemoryClient = (
-  baseUrl: string,
-): MemoryClient => {
+export const createMemoryClient = (baseUrl: string): MemoryClient => {
   const http = axios.create({
     baseURL: baseUrl.replace(/\/+$/, ""),
     timeout: SEARCH_TIMEOUT_MS,
@@ -75,13 +70,10 @@ export const createMemoryClient = (
               top_k: Math.min(topK, MAX_RESULTS),
             }),
           (error) =>
-            error instanceof Error
-              ? error
-              : new Error(String(error)),
+            error instanceof Error ? error : new Error(String(error)),
         ),
-        TE.map(
-          (response: AxiosResponse<SearchResponse>) =>
-            response.data.results.slice(0, MAX_RESULTS),
+        TE.map((response: AxiosResponse<SearchResponse>) =>
+          response.data.results.slice(0, MAX_RESULTS),
         ),
       ),
 
@@ -97,9 +89,7 @@ export const createMemoryClient = (
               agent_id: agentId,
             }),
           (error) =>
-            error instanceof Error
-              ? error
-              : new Error(String(error)),
+            error instanceof Error ? error : new Error(String(error)),
         ),
         TE.map(
           (response: AxiosResponse<AddResponse>) => response.data.event_id,
@@ -116,9 +106,7 @@ export const createMemoryClient = (
  * Format search results for injection into the agent prompt.
  * Limits to top 3 results to control prompt size.
  */
-export const formatMemoriesForPrompt = (
-  results: SearchResult[],
-): string => {
+export const formatMemoriesForPrompt = (results: SearchResult[]): string => {
   const limit = Math.min(results.length, 3);
   if (limit === 0) return "";
 

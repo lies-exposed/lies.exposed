@@ -171,6 +171,22 @@ const config = defineConfig(
       "@typescript-eslint/no-explicit-any": "off",
     },
   },
+
+  // Subpath imports (#alias/*) use Node.js "imports" field, not TypeScript
+  // path aliases — the import-x resolver can't resolve them. Disable
+  // import-x/no-unresolved for these so lint passes.
+  {
+    files: ["**/*.ts"],
+    ignores: ["**/build/**", "**/node_modules/**"],
+    rules: {
+      "import-x/no-unresolved": [
+        "error",
+        {
+          ignore: ["^#.*"],
+        },
+      ],
+    },
+  },
 );
 
 export default config;

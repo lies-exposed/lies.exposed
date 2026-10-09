@@ -10,13 +10,11 @@ import {
   type ResourceContext,
 } from "@liexp/io/lib/http/Chat.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { isRight } from "fp-ts/lib/Either.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AIMessage } from "langchain";
 import { type AgentContext } from "../../context/context.type.js";
-import {
-  formatMemoriesForPrompt,
-} from "../../memory/client.js";
+import { formatMemoriesForPrompt } from "../../memory/client.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -396,7 +394,11 @@ const injectMemories = async (
   if (!memoryClient) return message;
 
   try {
-    const result = await memoryClient.searchMemories(message, agentIdForScope(), 5)();
+    const result = await memoryClient.searchMemories(
+      message,
+      agentIdForScope(),
+      5,
+    )();
     if (isRight(result)) {
       const results = result.right;
       if (results.length === 0) return message;
@@ -496,85 +498,88 @@ export const sendChatMessage =
       TE.chain((messageWithMemories) =>
         pipe(
           getOrCreateAgent(payload.agent_type, payload.aiConfig)(ctx),
-      TE.chain((agent) =>
-        TE.tryCatch(
-          () =>
-            invokeAgentWithEmptyChoicesRetry(
-              agent,
-              { messages: [messageWithMemories] },
-              {
-                configurable: { thread_id: conversationId },
-                recursionLimit: 50,
-              },
+          TE.chain((agent) =>
+            TE.tryCatch(
+              () =>
+                invokeAgentWithEmptyChoicesRetry(
+                  agent,
+                  { messages: [messageWithMemories] },
+                  {
+                    configurable: { thread_id: conversationId },
+                    recursionLimit: 50,
+                  },
+                ),
+              ServerError.fromUnknown,
             ),
-          ServerError.fromUnknown,
+          ),
+          TE.map((result) => {
+            const { messages } = result as { messages: AIMessage[] };
+            const lastMessage = messages[messages.length - 1];
+            const content =
+              typeof lastMessage?.content === "string"
+                ? lastMessage.content
+                : JSON.stringify(lastMessage?.content ?? "No response");
+
+            const userMessage: ChatMessage = {
+              id: uuid(),
+              content: payload.message,
+              role: "user",
+              timestamp: new Date().toISOString(),
+            };
+            const assistantMessage: ChatMessage = {
+              id: lastMessage.id ?? uuid(),
+              content,
+              role: "assistant",
+              timestamp: new Date().toISOString(),
+            };
+
+            conversations.set(conversationId, [
+              ...(conversations.get(conversationId) ?? []),
+              userMessage,
+              assistantMessage,
+            ]);
+
+            // Fire-and-forget: store conversation for future memory retrieval.
+            // Errors are silently logged — memory storage must never block the
+            // response or cause the request to fail.
+            const memoryClient = ctx.memoryClient;
+            if (memoryClient) {
+              void pipe(
+                memoryClient.addMemory(
+                  `User: ${payload.message}\n\nAssistant: ${content}`,
+                  agentIdForScope(payload.agent_type),
+                ),
+                TE.match(
+                  (e: unknown) => {
+                    ctx.logger.debug.log(
+                      "Memory storage failed (non-fatal): %s",
+                      String(e),
+                    );
+                  },
+                  () => {
+                    ctx.logger.debug.log(
+                      "Memory stored for conversation %s",
+                      conversationId,
+                    );
+                  },
+                ),
+              )();
+            }
+
+            return {
+              message: assistantMessage,
+              conversationId,
+              usedProvider: payload.aiConfig
+                ? {
+                    provider: payload.aiConfig.provider,
+                    model: payload.aiConfig.model ?? "gpt-4o",
+                  }
+                : undefined,
+            };
+          }),
         ),
       ),
-      TE.map((result) => {
-        const { messages } = result as { messages: AIMessage[] };
-        const lastMessage = messages[messages.length - 1];
-        const content =
-          typeof lastMessage?.content === "string"
-            ? lastMessage.content
-            : JSON.stringify(lastMessage?.content ?? "No response");
-
-        const userMessage: ChatMessage = {
-          id: uuid(),
-          content: payload.message,
-          role: "user",
-          timestamp: new Date().toISOString(),
-        };
-        const assistantMessage: ChatMessage = {
-          id: lastMessage.id ?? uuid(),
-          content,
-          role: "assistant",
-          timestamp: new Date().toISOString(),
-        };
-
-        conversations.set(conversationId, [
-          ...(conversations.get(conversationId) ?? []),
-          userMessage,
-          assistantMessage,
-        ]);
-
-        // Fire-and-forget: store conversation for future memory retrieval.
-        // Errors are silently logged — memory storage must never block the
-        // response or cause the request to fail.
-        const memoryClient = ctx.memoryClient;
-        if (memoryClient) {
-          void pipe(
-            memoryClient.addMemory(
-              `User: ${payload.message}\n\nAssistant: ${content}`,
-              agentIdForScope(payload.agent_type),
-            ),
-            TE.match(
-              (e: unknown) => {
-                ctx.logger.debug.log(
-                  "Memory storage failed (non-fatal): %s",
-                  String(e),
-                );
-              },
-              () => {
-                ctx.logger.debug.log("Memory stored for conversation %s", conversationId);
-              },
-            ),
-          )();
-        }
-
-        return {
-          message: assistantMessage,
-          conversationId,
-          usedProvider: payload.aiConfig
-            ? {
-                provider: payload.aiConfig.provider,
-                model: payload.aiConfig.model ?? "gpt-4o",
-              }
-            : undefined,
-        };
-      }),
-    ),
-  ),
-  );
+    );
   };
 
 export const getChatConversation =
@@ -774,7 +779,10 @@ export const sendChatMessageStream = (payload: {
               );
             },
             () => {
-              ctx.logger.debug.log("Memory stored for conversation %s", conversationId);
+              ctx.logger.debug.log(
+                "Memory stored for conversation %s",
+                conversationId,
+              );
             },
           ),
         )();
