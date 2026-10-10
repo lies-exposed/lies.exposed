@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.7.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.1...agent@0.7.0) (2026-10-10)
+
+
+### Features
+
+* **agent:** add CLI commands for SocialPost, Graph, Keyword, and Setting ([#3929](https://github.com/lies-exposed/lies.exposed/issues/3929)) ([872d506](https://github.com/lies-exposed/lies.exposed/commit/872d506c1c139e0a6154d8be1fb4b6a5b8a3dab5))
+* **agent:** add persistent memory (mem0) integration ([#3930](https://github.com/lies-exposed/lies.exposed/issues/3930)) ([69bd7ba](https://github.com/lies-exposed/lies.exposed/commit/69bd7ba43de14354076bf4c3b4e165e5cc849d33))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.7.0
+    * @liexp/core bumped to 0.7.0
+    * @liexp/io bumped to 0.7.0
+    * @liexp/shared bumped to 0.7.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.7.0
+    * @liexp/test bumped to 0.7.0
+
 ## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...agent@0.6.1) (2026-09-23)
 
 

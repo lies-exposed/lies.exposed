@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.1...@liexp/eslint-config@0.7.0) (2026-10-10)
+
+
+### Features
+
+* **agent:** add persistent memory (mem0) integration ([#3930](https://github.com/lies-exposed/lies.exposed/issues/3930)) ([69bd7ba](https://github.com/lies-exposed/lies.exposed/commit/69bd7ba43de14354076bf4c3b4e165e5cc849d33))
+
 ## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...@liexp/eslint-config@0.6.1) (2026-09-23)
 
 

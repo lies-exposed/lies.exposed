@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.1...lies.exposed@0.7.0) (2026-10-10)
+
+
+### Bug Fixes
+
+* **puppeteer:** increase protocolTimeout from 30s to 120s ([#3928](https://github.com/lies-exposed/lies.exposed/issues/3928)) ([007d91d](https://github.com/lies-exposed/lies.exposed/commit/007d91dba5ca9fd00e4e7bcc50f849b2212b3f58))
+
+
+### Miscellaneous
+
+* removed helm ingress config for bugsink ([#3909](https://github.com/lies-exposed/lies.exposed/issues/3909)) ([cd2ee9e](https://github.com/lies-exposed/lies.exposed/commit/cd2ee9e92ed5e757dfef3acebf7144df3419a275))
+
 ## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...lies.exposed@0.6.1) (2026-09-23)
 
 
