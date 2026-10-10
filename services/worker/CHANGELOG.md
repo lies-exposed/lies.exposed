@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.7.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.1...worker@0.7.0) (2026-10-10)
+
+
+### Bug Fixes
+
+* **worker:** preserve link image and fields when AI link job completes ([#3907](https://github.com/lies-exposed/lies.exposed/issues/3907)) ([60106ab](https://github.com/lies-exposed/lies.exposed/commit/60106ab68fcb7a7a35f3e62b8e64492ee33810b1))
+* **worker:** remove reply_to_message_id from Telegram error replies ([#3922](https://github.com/lies-exposed/lies.exposed/issues/3922)) ([c718fed](https://github.com/lies-exposed/lies.exposed/commit/c718fed66534fbd97f12e8a49afb3c65b4e4cd41))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.7.0
+    * @liexp/core bumped to 0.7.0
+    * @liexp/io bumped to 0.7.0
+    * @liexp/shared bumped to 0.7.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.7.0
+    * @liexp/test bumped to 0.7.0
+
 ## [0.6.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.0...worker@0.6.1) (2026-09-23)
 
 
