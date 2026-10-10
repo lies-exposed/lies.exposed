@@ -92,7 +92,7 @@
     "react-admin": "^5.15.4",
     "react-audio-player": "^0.17.0",
     "react-dom": "^18.3.1",
-    "react-dropzone": "^15.0.0",
+    "react-dropzone": "^20.1.2",
     "react-ellipsis-component": "^1.1.11",
     "react-error-boundary": "^6.1.1",
     "react-helmet-async": "^3.0.0",
