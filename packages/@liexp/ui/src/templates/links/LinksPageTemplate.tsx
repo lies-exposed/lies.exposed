@@ -9,6 +9,7 @@ import SearchFiltersBar, {
 } from "../../components/Common/Filters/SearchFiltersBox.js";
 import { Box, Container, Stack } from "../../components/mui/index.js";
 import { InfiniteLinksListBox } from "../../containers/list/InfiniteLinksListBox.js";
+import { reportBoundaryError } from "../../utils/error.utils.js";
 import { SplitPageTemplate } from "../SplitPageTemplate.js";
 
 export interface LinksPageTemplateProps {
@@ -56,7 +57,10 @@ export const LinksPageTemplate: React.FC<LinksPageTemplateProps> = ({
         }}
       >
         <Container style={{ display: "flex" }}>
-          <ErrorBoundary FallbackComponent={ErrorBox}>
+          <ErrorBoundary
+            FallbackComponent={ErrorBox}
+            onError={reportBoundaryError}
+          >
             <InfiniteLinksListBox
               listProps={{ type: "masonry" }}
               params={undefined}

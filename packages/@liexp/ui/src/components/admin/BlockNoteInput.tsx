@@ -11,6 +11,7 @@ import {
   type InputProps,
 } from "react-admin";
 import { ErrorBoundary } from "react-error-boundary";
+import { reportBoundaryError } from "../../utils/error.utils.js";
 import { BNEditor, type BNEditorProps } from "../Common/BlockNote/index.js";
 import { ResettableErrorBox } from "../Common/ErrorBox.js";
 import JSONInput from "../Common/JSON/JSONInput.js";
@@ -85,6 +86,7 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
         </Stack>
 
         <ErrorBoundary
+          onError={reportBoundaryError}
           fallbackRender={(props) => (
             <ResettableErrorBox {...props} style={{ maxWidth: 800 }} />
           )}

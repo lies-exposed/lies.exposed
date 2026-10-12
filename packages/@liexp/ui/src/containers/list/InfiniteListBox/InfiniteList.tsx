@@ -60,6 +60,11 @@ const InfiniteListForwardRef: React.ForwardRefRenderFunction<
     [virtualizer],
   );
 
+  // stable so rows calling it from effects don't re-trigger on every render
+  const remeasure = React.useCallback(() => {
+    virtualizer.measure();
+  }, [virtualizer]);
+
   const virtualItems = virtualizer.getVirtualItems();
 
   React.useEffect(() => {
@@ -97,6 +102,7 @@ const InfiniteListForwardRef: React.ForwardRefRenderFunction<
             return (
               <div
                 key={`empty-${virtualItem.index}`}
+                data-index={virtualItem.index}
                 ref={(node) => {
                   if (node) {
                     virtualizer.measureElement(node);
@@ -110,6 +116,7 @@ const InfiniteListForwardRef: React.ForwardRefRenderFunction<
           return (
             <div
               key={String(item.id ?? virtualItem.index)}
+              data-index={virtualItem.index}
               ref={(node) => {
                 if (node) {
                   virtualizer.measureElement(node);
@@ -124,12 +131,8 @@ const InfiniteListForwardRef: React.ForwardRefRenderFunction<
                 isVisible={true}
                 isLast={isLast}
                 style={{ width: "100%" }}
-                measure={() => {
-                  virtualizer.measure();
-                }}
-                onRowInvalidate={() => {
-                  virtualizer.measure();
-                }}
+                measure={remeasure}
+                onRowInvalidate={remeasure}
               />
             </div>
           );

@@ -8,6 +8,7 @@ import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
 import { ErrorBoundary } from "react-error-boundary";
 import { ECOTheme } from "../../../theme/index.js";
+import { reportBoundaryError } from "../../../utils/error.utils.js";
 import LinkCard from "../../Cards/LinkCard.js";
 import { ErrorBox } from "../../Common/ErrorBox.js";
 import { HelmetProvider } from "../../SEO.js";
@@ -36,7 +37,10 @@ const LinkPreview: React.FC<{ record?: Link }> = ({ record: _record }) => {
       <HelmetProvider>
         <QueryClientProvider client={qc}>
           <ThemeProvider theme={ECOTheme}>
-            <ErrorBoundary FallbackComponent={ErrorBox}>
+            <ErrorBoundary
+              FallbackComponent={ErrorBox}
+              onError={reportBoundaryError}
+            >
               <LinkCard link={{ ...a, selected: true }} onClick={() => {}} />
             </ErrorBoundary>
           </ThemeProvider>

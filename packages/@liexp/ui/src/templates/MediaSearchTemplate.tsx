@@ -10,6 +10,7 @@ import SearchFiltersBar, {
 import { Box, Container, Stack } from "../components/mui/index.js";
 import { PageContentBox } from "../containers/PageContentBox.js";
 import { InfiniteMediaListBox } from "../containers/list/InfiniteMediaListBox.js";
+import { reportBoundaryError } from "../utils/error.utils.js";
 import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 export interface MediaSearchTemplateProps {
@@ -69,7 +70,10 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
         }}
       >
         <Container style={{ display: "flex" }}>
-          <ErrorBoundary FallbackComponent={ErrorBox}>
+          <ErrorBoundary
+            FallbackComponent={ErrorBox}
+            onError={reportBoundaryError}
+          >
             <InfiniteMediaListBox
               params={undefined}
               filter={filter}

@@ -3,7 +3,6 @@ import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import {
-  type EndpointDataOutputType,
   type EndpointOutputType,
   type EndpointParamsType,
   type EndpointQueryType,
@@ -54,8 +53,9 @@ export interface InfiniteListBoxProps<
   >;
   params: EndpointParamsType<E>;
   filter: Partial<EndpointQueryType<E>>;
-  toItems?: (data: EndpointDataOutputType<E>) => any[];
-  getTotal?: (data: EndpointDataOutputType<E>) => number;
+  /** Receives a whole page, i.e. the endpoint output (`{ data, total }`), not just `data`. */
+  toItems?: (page: EndpointOutputType<E>) => any[];
+  getTotal?: (page: EndpointOutputType<E>) => number;
 }
 
 export const InfiniteListBox = <
@@ -66,8 +66,8 @@ export const InfiniteListBox = <
   params,
   filter,
   listProps,
-  toItems = (r: EndpointDataOutputType<E>) => r.data,
-  getTotal = (r: EndpointDataOutputType<E>) => r.total,
+  toItems = (r: EndpointOutputType<E>) => r.data,
+  getTotal = (r: EndpointOutputType<E>) => r.total,
 }: InfiniteListBoxProps<T, E>): React.ReactElement => {
   const Q = useEndpointQueries();
 
@@ -90,7 +90,7 @@ export const InfiniteListBox = <
     any,
     APIError,
     {
-      pages: EndpointDataOutputType<E>[];
+      pages: EndpointOutputType<E>[];
       pageParams: { _start: number; _end: number }[];
     },
     any,
@@ -98,11 +98,12 @@ export const InfiniteListBox = <
   >({
     initialPageParam: { _start: 0, _end: 20 },
     queryKey,
+    // key layout from getKey: [name, params, query, discrete]
     queryFn: ({ queryKey, pageParam }) => {
       return query.fetch(
-        queryKey[0],
+        queryKey[1],
         {
-          ...queryKey[1],
+          ...queryKey[2],
           _start: pageParam._start,
           _end: pageParam._end,
         },
