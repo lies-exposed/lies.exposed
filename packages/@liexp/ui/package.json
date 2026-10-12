@@ -42,6 +42,8 @@
     "@liexp/core": "workspace:*",
     "@liexp/io": "workspace:*",
     "@liexp/shared": "workspace:*",
+    "@mantine/core": "^8.3.11",
+    "@mantine/hooks": "^8.3.11",
     "@mui/icons-material": "^7.3.9",
     "@mui/lab": "7.0.0-beta.17",
     "@mui/material": "^7.3.9",

@@ -56,6 +56,11 @@ overrides:
   basic-ftp@=5.2.0: '>=5.2.1'
   dompurify@<=3.3.3: '>=3.4.0'
   basic-ftp@<=5.2.2: '>=5.3.0'
+  # single prosemirror copy: @tiptap/pm and @blocknote/core resolving different
+  # versions breaks prosemirror-view instanceof checks (DecorationGroup "localsInner")
+  prosemirror-view: ^1.42.6
+  prosemirror-model: ^1.25.12
+  prosemirror-transform: ^1.12.2
 
 allowBuilds:
   canvas: false

@@ -69,6 +69,12 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
     [virtualizer],
   );
 
+  // must be stable: items call it from an effect keyed on it, and measure()
+  // re-renders this list, so a fresh callback per render loops forever
+  const remeasure = React.useCallback(() => {
+    virtualizer.measure();
+  }, [virtualizer]);
+
   const virtualItems = virtualizer.getVirtualItems();
 
   React.useEffect(() => {
@@ -112,6 +118,7 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
             return (
               <div
                 key={`event-empty-${virtualItem.index}`}
+                data-index={virtualItem.index}
                 ref={(node) => {
                   if (node) {
                     virtualizer.measureElement(node);
@@ -125,6 +132,7 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
           return (
             <div
               key={event.id}
+              data-index={virtualItem.index}
               ref={(node) => {
                 if (node) {
                   virtualizer.measureElement(node);
@@ -142,12 +150,8 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
                 onActorClick={onActorClick}
                 onGroupClick={onGroupClick}
                 onGroupMemberClick={onGroupMemberClick}
-                onRowInvalidate={() => {
-                  virtualizer.measure();
-                }}
-                onLoad={() => {
-                  virtualizer.measure();
-                }}
+                onRowInvalidate={remeasure}
+                onLoad={remeasure}
               />
             </div>
           );
