@@ -4,6 +4,7 @@ import { Footer } from "@liexp/ui/lib/components/Footer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { Grid, useMuiMediaQuery } from "@liexp/ui/lib/components/mui/index.js";
 import { useTheme } from "@liexp/ui/lib/theme/index.js";
+import * as Sentry from "@sentry/react";
 import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes } from "react-router";
@@ -33,7 +34,16 @@ export const App: React.FC<{ pathname: string }> = ({ pathname }) => {
         width: "100%",
       }}
     >
-      <ErrorBoundary FallbackComponent={ErrorBox}>
+      {/* This boundary catches render errors before the root Sentry.ErrorBoundary
+          can see them, so report them explicitly or they never reach Bugsink. */}
+      <ErrorBoundary
+        FallbackComponent={ErrorBox}
+        onError={(error, info) => {
+          Sentry.captureException(error, {
+            contexts: { react: { componentStack: info.componentStack } },
+          });
+        }}
+      >
         <SEO title="lies exposed" urlPath={pathname} />
         <AppHeader />
         <Routes>
