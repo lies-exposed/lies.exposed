@@ -23,8 +23,8 @@ export const BooksPage: React.FC = () => {
         _start: "0",
         _end: "50",
       }}
-      toItems={(r) => [...r.events]}
-      getTotal={(r) => r.total}
+      toItems={(r) => [...r.data.events]}
+      getTotal={(r) => r.data.total}
       listProps={{
         type: "masonry",
         getItem: (data: any[], index: any) => {
