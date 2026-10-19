@@ -104,6 +104,7 @@
         "**/*.{spec,e2e,eval}.ts",
         "test/AppTest.ts"
       ],
+      "includeEntryExports": false,
       "project": [
         "src/**/*.ts",
         "test/**/*.ts"
