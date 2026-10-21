@@ -1686,8 +1686,8 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
       node-telegram-bot-api:
-        specifier: ^0.67.0
-        version: 0.67.0(request@2.88.2)(supports-color@8.1.1)
+        specifier: ^2.1.0
+        version: 2.1.0
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -8314,9 +8314,9 @@ packages:
     resolution: {integrity: sha512-s4Hrg5q+VPl4/tJVG++pImxF6eb8tNJNj4KnDqAOKL6zGU34lo9RXmyAN158njwGN+v8hdNf8s9fWIYW9hPb5A==}
     engines: {node: '>=0.12'}
 
-  node-telegram-bot-api@0.67.0:
-    resolution: {integrity: sha512-gO7o/dPcdFSUuFuPiAYBxV7bcN+vQL3pfaHN8P4z8fPtFstN05xVmhMFOth57DANGDKBpzW3rMRo7debOlUI1w==}
-    engines: {node: '>=0.12'}
+  node-telegram-bot-api@2.1.0:
+    resolution: {integrity: sha512-IXWp7Qzhwv21DqTw0g1CcppTb4TCzrQ949RVdtAmgiHAu3KbcRPyCAFXLaFAViqWDVx8GLZjnWiWJ7pWSj2PRA==}
+    engines: {node: '>=18'}
 
   nth-check@3.0.1:
     resolution: {integrity: sha512-GX0gsdbGVCgnRgbeGaubfjpBXyYRWOOCVeYh08bSQvDZqxz5ndXs1OTfAt/h36G1xvI94YIspsI0sVFqAV9+RQ==}
@@ -17562,20 +17562,7 @@ snapshots:
       - request
       - supports-color
 
-  node-telegram-bot-api@0.67.0(request@2.88.2)(supports-color@8.1.1):
-    dependencies:
-      '@cypress/request': 3.0.10
-      '@cypress/request-promise': 5.0.0(@cypress/request@3.0.10)(request@2.88.2)
-      array.prototype.findindex: 2.2.4
-      bl: 1.2.3
-      debug: 3.2.7(supports-color@8.1.1)
-      eventemitter3: 3.1.2
-      file-type: 3.9.0
-      mime: 1.6.0
-      pump: 2.0.1
-    transitivePeerDependencies:
-      - request
-      - supports-color
+  node-telegram-bot-api@2.1.0: {}
 
   nth-check@3.0.1:
     dependencies:
