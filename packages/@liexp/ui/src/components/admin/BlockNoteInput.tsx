@@ -52,11 +52,12 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
     setShowJSONEditor(false);
   };
 
-  // Guard: only render the editor once the record is available.
-  // Rendering before the record loads can cause BlockNote to initialize
-  // with invalid content, leading to TypeError during render.
+  // Guard: only render the editor once the record is available AND the field
+  // value is a valid array. Rendering before the record loads or with a null/
+  // undefined field value (from OptionFromNullishToNull schemas) causes BlockNote
+  // to initialize with invalid content, leading to TypeError during render.
   // See: https://github.com/TypeCellOS/BlockNote/issues/1021
-  if (!record) {
+  if (!record || !value || !Array.isArray(value)) {
     return null;
   }
 
