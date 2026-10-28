@@ -43,6 +43,37 @@ export const setupSpaStaticServing = (
 
   const sirvMiddleware = sirv(buildPath, sirvOptions);
 
+  // Serve index.html with no-cache headers BEFORE sirv.
+  // Without this, browsers cache index.html forever (immutable: true + 1yr
+  // maxAge on sirv), so after a deployment the browser keeps the old
+  // index.html that references stale chunk hashes — causing
+  // "error loading dynamically imported module" TypeError.
+  // Assets (JS/CSS chunks) have content hashes and are cached forever by
+  // sirv; only index.html needs no-cache.
+  if (base === "/" || base === "") {
+    app.use((req, res, next) => {
+      if (req.path === "/" || req.path === "/index.html") {
+        res.set({
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        });
+      }
+      next();
+    });
+  } else {
+    app.use((req, res, next) => {
+      if (req.path === base || `${req.path}/index.html` === base) {
+        res.set({
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        });
+      }
+      next();
+    });
+  }
+
   // For root base path, use sirv directly without path prefix
   if (base === "/" || base === "") {
     app.use((req, res, next) => {
@@ -94,6 +125,20 @@ export const setupSpaFallback = (
     // Use { root } option so Express's `send` module resolves the file
     // relative to the build directory rather than treating the absolute
     // path as a URL-relative path (which would cause a 404).
+    //
+    // CRITICAL: Set no-cache headers on index.html so browsers always
+    // re-fetch it on deployment. Without this, browsers cache index.html
+    // forever (due to immutable asset caching), and stale index.html
+    // references old chunk hashes that no longer exist — causing
+    // "error loading dynamically imported module" TypeError.
+    // Assets (JS/CSS chunks) have content hashes in filenames and are
+    // cached forever by sirv; only index.html needs no-cache.
+    res.set({
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
+    });
+
     logger.info.log("SPA fallback: serving index.html for %s", req.path);
     res.sendFile(indexFilename, { root: indexRoot }, (err) => {
       if (err) {
