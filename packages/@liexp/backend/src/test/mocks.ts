@@ -54,7 +54,7 @@ export interface DepsMocks {
   pdf: typeof pdfJsMock;
 }
 
-export const axiosMock = mock<Axios>({
+export const axiosMock: Axios = mock<Axios>({
   get: vi.fn(),
   interceptors: mock({
     request: mock<AxiosInterceptorManager<InternalAxiosRequestConfig>>(),
