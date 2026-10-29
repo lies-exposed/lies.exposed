@@ -61,7 +61,7 @@
     "openai": "^7.19.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router": "^7.18.2",
+    "react-router": "^7.18.3",
     "web-vitals": "^5.3.0"
   },
   "devDependencies": {
@@ -83,7 +83,7 @@
     "supertest": "^7.2.2",
     "tsx": "^4.23.15",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vite": "^8.2.2",
+    "vite": "^8.2.4",
     "vite-plugin-css-injected-by-js": "^5.0.2",
     "vite-plugin-optimizer": "^1.4.3",
     "vitest": "^5.0.0",
