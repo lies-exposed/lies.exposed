@@ -78,13 +78,13 @@
     "@liexp/test": "workspace:*",
     "@types/debug": "^4.1.13",
     "@types/fluent-ffmpeg": "^2.1.28",
-    "@types/lodash": "^4.17.25",
+    "@types/lodash": "^4.17.27",
     "@types/node-telegram-bot-api": "^0.64.15",
     "@types/prompts": "^2.4.9",
     "@typescript/native": "npm:typescript@^7.0.2",
     "tsx": "^4.23.15",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.5"
   },
   "packageManager": "pnpm@11.26.0"
 }
