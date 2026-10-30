@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.7.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...@liexp/backend@0.7.1) (2026-10-30)
+
+
+### Bug Fixes
+
+* add explicit Axios type annotation for axios 1.20.0 compatibility ([#3968](https://github.com/lies-exposed/lies.exposed/issues/3968)) ([6649b78](https://github.com/lies-exposed/lies.exposed/commit/6649b788250bfd0ff47e552c5646ea40ca588564))
+* add no-cache headers for index.html in SPA static serving ([#3965](https://github.com/lies-exposed/lies.exposed/issues/3965)) ([3327169](https://github.com/lies-exposed/lies.exposed/commit/3327169ceae90d6aa3689e2e79a67a4e4043316c))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.7.1
+    * @liexp/io bumped to 0.7.1
+    * @liexp/shared bumped to 0.7.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.7.1
+    * @liexp/test bumped to 0.7.1
+
 ## [0.7.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.1...@liexp/backend@0.7.0) (2026-10-28)
 
 
