@@ -112,7 +112,7 @@ describe(parseVideo.name, () => {
       width: 1920,
       height: 1080,
       duration: 60,
-      thumb: thumbFile,
+      thumbnail: thumbFile,
     } as any;
 
     const description = "Video with thumbnail";
@@ -183,7 +183,7 @@ describe(parseVideo.name, () => {
       file_id: "video-file-id",
       file_unique_id: "video-unique-id",
       duration: 30,
-      thumb: thumbFile,
+      thumbnail: thumbFile,
     } as any;
 
     appTest.ctx.tg.getFileStream
