@@ -6,8 +6,8 @@ import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type Message } from "node-telegram-bot-api";
 import { type WorkerContext } from "#context/context.js";
-import { toWorkerError, type WorkerError } from "#io/worker.error.js";
 import { fetchAndCreateGroupFromWikipedia } from "#flows/group/fetchGroupFromWikipedia.js";
+import { toWorkerError } from "#io/worker.error.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 
 const getSuccessMessage = (g: GroupEntity, baseUrl: string): string =>
@@ -34,7 +34,7 @@ export const groupCommand = (ctx: WorkerContext): TGBotProvider => {
         findOne: (search) =>
           pipe(
             ctx.db.findOne(GroupEntity, { where: { username: search } }),
-            fp.TE.mapLeft((e) => toWorkerError(e) as WorkerError),
+            fp.TE.mapLeft((e) => toWorkerError(e)),
           ),
         fetchAndSave: (title, wp) =>
           fetchAndCreateGroupFromWikipedia(title, wp),

@@ -6,8 +6,8 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import kebabCase from "lodash/kebabCase.js";
 import { type Message } from "node-telegram-bot-api";
 import { type WorkerContext } from "#context/context.js";
-import { toWorkerError, type WorkerError } from "#io/worker.error.js";
 import { fetchAndCreateAreaFromWikipedia } from "#flows/area/fetchAndCreateAreaFromWikipedia.js";
+import { toWorkerError } from "#io/worker.error.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 
 const getSuccessMessage = (area: AreaEntity, baseUrl: string): string =>
@@ -29,13 +29,16 @@ export const areaCommand = (ctx: WorkerContext): TGBotProvider => {
         findOne: (label) =>
           pipe(
             ctx.db.findOne(AreaEntity, { where: { label } }),
-            fp.TE.mapLeft((e) => toWorkerError(e) as WorkerError),
+            fp.TE.mapLeft((e) => toWorkerError(e)),
           ),
-        getSuccessMessage: (area: AreaEntity) => getSuccessMessage(area, ctx.env.WEB_URL),
+        getSuccessMessage: (area: AreaEntity) =>
+          getSuccessMessage(area, ctx.env.WEB_URL),
         fetchAndSave: (search, wp) => (c) =>
           pipe(
             fetchAndCreateAreaFromWikipedia(search, wp)(c),
-            fp.TE.map((result: { area: AreaEntity; media: unknown[] }) => result.area),
+            fp.TE.map(
+              (result: { area: AreaEntity; media: unknown[] }) => result.area,
+            ),
           ),
       })(ctx),
       throwTE,

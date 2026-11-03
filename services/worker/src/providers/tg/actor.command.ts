@@ -6,8 +6,8 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import kebabCase from "lodash/kebabCase.js";
 import { type Message } from "node-telegram-bot-api";
 import { type WorkerContext } from "#context/context.js";
-import { toWorkerError, type WorkerError } from "#io/worker.error.js";
 import { fetchAndCreateActorFromWikipedia } from "#flows/actor/fetchAndCreateActorFromWikipedia.flow.js";
+import { toWorkerError } from "#io/worker.error.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 
 const getSuccessMessage = (actor: ActorEntity, baseUrl: string): string =>
@@ -23,11 +23,7 @@ export const actorCommand = (ctx: WorkerContext): TGBotProvider => {
     const userId = msg.from?.id;
 
     const username = kebabCase(match[1]);
-    ctx.logger.debug.log(
-      "Looking for actor %s (%s)",
-      match[1],
-      username,
-    );
+    ctx.logger.debug.log("Looking for actor %s (%s)", match[1], username);
 
     void pipe(
       EntityFromWikipediaService({
@@ -39,9 +35,10 @@ export const actorCommand = (ctx: WorkerContext): TGBotProvider => {
         findOne: (u) =>
           pipe(
             ctx.db.findOne(ActorEntity, { where: { username: u } }),
-            fp.TE.mapLeft((e) => toWorkerError(e) as WorkerError),
+            fp.TE.mapLeft((e) => toWorkerError(e)),
           ),
-        getSuccessMessage: (actor: ActorEntity) => getSuccessMessage(actor, ctx.env.WEB_URL),
+        getSuccessMessage: (actor: ActorEntity) =>
+          getSuccessMessage(actor, ctx.env.WEB_URL),
         fetchAndSave: (label, wp) =>
           fetchAndCreateActorFromWikipedia(label, wp),
       })(ctx),

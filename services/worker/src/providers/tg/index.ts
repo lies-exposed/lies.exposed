@@ -58,12 +58,7 @@ export const TGMessageCommands = (ctx: WorkerContext) => {
       }),
       throwTE,
     )
-      .then((message) =>
-        pipe(
-          ctx.tg.post(message, msg.message_id),
-          throwTE,
-        ),
-      )
+      .then((message) => pipe(ctx.tg.post(message, msg.message_id), throwTE))
       .catch((e) => {
         tgLogger.error.log("Error %O", e);
         void pipe(

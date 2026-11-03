@@ -88,9 +88,7 @@ const getMessageTexts = (
 };
 
 export const postToTG =
-  (
-    params: CreateSocialPost & { id: UUID },
-  ): RTE<readonly Message[]> =>
+  (params: CreateSocialPost & { id: UUID }): RTE<readonly Message[]> =>
   (ctx) => {
     const { id: _id, ...body } = params;
     return pipe(

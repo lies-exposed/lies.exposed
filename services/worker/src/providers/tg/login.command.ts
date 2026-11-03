@@ -2,9 +2,9 @@ import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { type Message } from "node-telegram-bot-api";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError } from "#io/worker.error.js";
-import { type Message } from "node-telegram-bot-api";
 
 export const loginCommand = ({
   logger,
@@ -68,10 +68,7 @@ export const loginCommand = ({
         }
 
         return pipe(
-          tg.post(
-            `User ${commandContext.email} not found`,
-            msg.message_id,
-          ),
+          tg.post(`User ${commandContext.email} not found`, msg.message_id),
           fp.TE.mapLeft((e) => toWorkerError(e)),
           fp.TE.map(() => undefined),
         );
