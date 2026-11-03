@@ -152,9 +152,11 @@ export const EntityFromWikipediaService: EntityFromWikipediaService =
                         cleanupCallbackHandler(api.chatId);
                         return;
                       }
-                      await ctx.tg.post(
-                        api.getSuccessMessage(entity, ctx.env.WEB_URL),
-                      )(ctx)();
+                      await ctx.tg.api.sendMessage({
+                        chat_id: api.chatId,
+                        text: api.getSuccessMessage(entity, ctx.env.WEB_URL),
+                        parse_mode: "HTML",
+                      });
                     } catch (e) {
                       ctx.logger.error.log("Callback error: %O", e);
                     } finally {
