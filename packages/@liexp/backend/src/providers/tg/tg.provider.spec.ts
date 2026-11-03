@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
 import { TelegramApiError } from "node-telegram-bot-api";
+import { describe, expect, it } from "vitest";
 import { TGError, toTGError } from "./tg.provider.js";
 
 describe("tg.provider", () => {
@@ -18,9 +18,13 @@ describe("tg.provider", () => {
     });
 
     it("should handle ETELEGRAM errors", () => {
-      const telegramError = new TelegramApiError(403, "Bot was blocked by the user", {
-        response: {},
-      });
+      const telegramError = new TelegramApiError(
+        403,
+        "Bot was blocked by the user",
+        {
+          response: {},
+        },
+      );
 
       const result = toTGError(telegramError);
       expect(result).toHaveProperty("description");
