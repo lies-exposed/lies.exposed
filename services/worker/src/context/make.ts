@@ -33,7 +33,7 @@ import type ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type Redis } from "ioredis";
-import TelegramBot from "node-telegram-bot-api";
+import { Bot } from "node-telegram-bot-api";
 import type * as pdfJS from "pdfjs-dist/legacy/build/pdf.mjs";
 import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
@@ -115,7 +115,8 @@ export const makeContext = (
         TGBotProvider(
           {
             logger: serverLogger,
-            client: (token, opts) => new TelegramBot(token, opts),
+            client: (token: string) => new Bot(token),
+            http: HTTPProvider(impl.http.client),
           },
           {
             token: env.TG_BOT_TOKEN,

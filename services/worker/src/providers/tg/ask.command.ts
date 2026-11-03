@@ -7,6 +7,7 @@ import { type ChatResponse } from "@liexp/io/lib/http/Chat.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { type Message } from "node-telegram-bot-api";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError } from "#io/worker.error.js";
 
@@ -30,7 +31,7 @@ export const askCommand = (ctx: WorkerContext): TGBotProvider => {
     }),
   });
 
-  ctx.tg.api.onText(/\/ask\s(.+)/, (msg, match) => {
+  ctx.tg.onText(/\/ask\s(.+)/, (msg: Message, match) => {
     if (!match || match[1] === "") {
       return;
     }
@@ -48,12 +49,10 @@ export const askCommand = (ctx: WorkerContext): TGBotProvider => {
           fp.TE.mapLeft(toWorkerError),
           fp.TE.chain((response) => {
             const { data } = response as { data: ChatResponse };
-            return fp.TE.tryCatch(
-              () =>
-                ctx.tg.api.sendMessage(msg.chat.id, data.message.content, {
-                  reply_to_message_id: msg.message_id,
-                }),
-              toWorkerError,
+            return pipe(
+              ctx.tg.post(data.message.content, msg.message_id),
+              fp.TE.mapLeft((e) => toWorkerError(e)),
+              fp.TE.map(() => undefined),
             );
           }),
           fp.TE.map(() => undefined),
@@ -62,10 +61,15 @@ export const askCommand = (ctx: WorkerContext): TGBotProvider => {
       throwTE,
     ).catch((e) => {
       ctx.logger.error.log("Error in /ask command: %O", e);
-      void ctx.tg.api.sendMessage(
-        msg.chat.id,
-        "Sorry, something went wrong while processing your question. Please try again later.",
-      );
+      void pipe(
+        ctx.tg.post(
+          "Sorry, something went wrong while processing your question. Please try again later.",
+          msg.message_id,
+        ),
+        throwTE,
+      ).catch(() => {
+        /* silently ignore failure to send error reply */
+      });
     });
   });
 

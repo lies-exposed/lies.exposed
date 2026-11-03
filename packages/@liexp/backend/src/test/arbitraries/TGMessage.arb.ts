@@ -1,5 +1,5 @@
 import fc from "fast-check";
-import type TelegramBot from "node-telegram-bot-api";
+import type { Message, Chat, PhotoSize, MessageEntity } from "node-telegram-bot-api";
 
 const TGFromArb = fc.record({
   id: fc.nat(),
@@ -10,7 +10,7 @@ const TGFromArb = fc.record({
   language_code: fc.constant("en"),
 });
 
-const TGChatArb: fc.Arbitrary<TelegramBot.Chat> = fc.record({
+const TGChatArb: fc.Arbitrary<Chat> = fc.record({
   id: fc.nat(),
   first_name: fc.string(),
   last_name: fc.string(),
@@ -18,7 +18,7 @@ const TGChatArb: fc.Arbitrary<TelegramBot.Chat> = fc.record({
   type: fc.constant("private"),
 });
 
-export const TGPhotoArb: fc.Arbitrary<TelegramBot.PhotoSize> = fc.record({
+export const TGPhotoArb: fc.Arbitrary<PhotoSize> = fc.record({
   file_id: fc.base64String({ minLength: 16, maxLength: 16 }),
   file_unique_id: fc.base64String({ minLength: 16, maxLength: 16 }),
   file_size: fc.nat(),
@@ -26,14 +26,14 @@ export const TGPhotoArb: fc.Arbitrary<TelegramBot.PhotoSize> = fc.record({
   height: fc.nat(),
 });
 
-const TGCaptionEntityArb: fc.Arbitrary<TelegramBot.MessageEntity> = fc.record({
+const TGCaptionEntityArb: fc.Arbitrary<MessageEntity> = fc.record({
   offset: fc.nat(),
   length: fc.nat(),
   type: fc.constant("text_link"),
   url: fc.webUrl(),
 });
 
-export const TGMessageArb: fc.Arbitrary<TelegramBot.Message> = fc.record({
+export const TGMessageArb: fc.Arbitrary<Message> = fc.record({
   message_id: fc.nat(),
   from: TGFromArb,
   chat: TGChatArb,

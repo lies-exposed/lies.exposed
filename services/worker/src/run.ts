@@ -32,7 +32,7 @@ const run = (): Promise<void> => {
     TE.chain(({ ctx, cronJobs }) => {
       // cron jobs
 
-      ctx.tg.api.on("polling_error", (e) => {
+      ctx.tg.onError((e) => {
         ctx.logger.error.log(`TG Bot error during polling %O`, e);
       });
 
@@ -45,7 +45,7 @@ const run = (): Promise<void> => {
 
         void pipe(
           sequenceS(TE.ApplicativePar)({
-            tg: ctx.tg.stopPolling({}),
+            tg: ctx.tg.stopPolling(),
             cronJobs: cronJobs.onShutdown(),
           }),
           throwTE,

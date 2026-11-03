@@ -1,11 +1,12 @@
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { GROUPS } from "@liexp/io/lib/http/Group.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import type TelegramBot from "node-telegram-bot-api";
+import { type Message } from "node-telegram-bot-api";
 import { type WorkerContext } from "#context/context.js";
+import { toWorkerError, type WorkerError } from "#io/worker.error.js";
 import { fetchAndCreateGroupFromWikipedia } from "#flows/group/fetchGroupFromWikipedia.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 
@@ -14,7 +15,7 @@ const getSuccessMessage = (g: GroupEntity, baseUrl: string): string =>
 
 export const groupCommand = (ctx: WorkerContext): TGBotProvider => {
   const handleGroupMessage = async (
-    msg: TelegramBot.Message,
+    msg: Message,
     match: RegExpExecArray | null,
   ): Promise<void> => {
     if (!match || match[1] === "") {
@@ -31,16 +32,19 @@ export const groupCommand = (ctx: WorkerContext): TGBotProvider => {
         fromId: msg.from?.id,
         getIdentifier: getUsernameFromDisplayName,
         findOne: (search) =>
-          ctx.db.findOne(GroupEntity, { where: { username: search } }),
+          pipe(
+            ctx.db.findOne(GroupEntity, { where: { username: search } }),
+            fp.TE.mapLeft((e) => toWorkerError(e) as WorkerError),
+          ),
         fetchAndSave: (title, wp) =>
-          fetchAndCreateGroupFromWikipedia(title, wp)(ctx),
+          fetchAndCreateGroupFromWikipedia(title, wp),
         getSuccessMessage: getSuccessMessage,
       })(ctx),
       throwTE,
     );
   };
 
-  ctx.tg.api.onText(/\/group\s(.*)/, (msg, match) => {
+  ctx.tg.onText(/\/group\s(.*)/, (msg, match) => {
     void handleGroupMessage(msg, match);
   });
 

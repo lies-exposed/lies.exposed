@@ -3,7 +3,7 @@ import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import type TelegramBot from "node-telegram-bot-api";
+import { type Message } from "node-telegram-bot-api";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -53,8 +53,8 @@ export type CreateFromTGMessageContext = LoggerContext &
 
 export const createFromTGMessage =
   <C extends CreateFromTGMessageContext>(
-    message: TelegramBot.Message,
-    metadata: TelegramBot.Metadata,
+    message: Message,
+    metadata: Record<string, unknown>,
   ): ReaderTaskEither<C, PuppeteerError | TGError, EventResult> =>
   (ctx) => {
     ctx.logger.info.log(

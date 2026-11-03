@@ -1,48 +1,63 @@
-import { type Readable, type Stream } from "stream";
-import { pipe, fp } from "@liexp/core/lib/fp/index.js";
+import { type Readable } from "stream";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import { MP4Type, PDFType } from "@liexp/io/lib/http/Media/MediaType.js";
+import { PDFType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { IOError } from "@ts-endpoint/core";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import type TelegramBot from "node-telegram-bot-api";
-import { type ConstructorOptions } from "node-telegram-bot-api";
+import {
+  Bot,
+  TelegramApiError,
+  type CallbackQuery,
+  type File,
+  type InputMedia,
+  type Message,
+  type SendVideoParams,
+} from "node-telegram-bot-api";
 
 export interface TGBotProvider {
-  api: TelegramBot;
+  api: any;
   upsertPinnedMessage: (
     text: string,
-  ) => TE.TaskEither<Error, TelegramBot.Message>;
+  ) => TE.TaskEither<Error, Message>;
   post: (
     text: string,
     replyToMessageId?: number,
-  ) => TE.TaskEither<Error, TelegramBot.Message>;
+  ) => TE.TaskEither<Error, Message>;
   postPhoto: (
-    imageUrl: string | Stream,
+    imageUrl: string,
     caption: string,
-  ) => TE.TaskEither<Error, TelegramBot.Message>;
+  ) => TE.TaskEither<Error, Message>;
   postVideo: (
-    videoUrl: string | Stream,
+    videoUrl: string,
     caption: string,
-    opts?: TelegramBot.SendVideoOptions,
-  ) => TE.TaskEither<Error, TelegramBot.Message>;
+    opts?: Omit<SendVideoParams, "chat_id" | "video" | "caption" | "parse_mode">,
+  ) => TE.TaskEither<Error, Message>;
   postMediaGroup: (
-    text: string,
-    media: readonly TelegramBot.InputMedia[],
-  ) => TE.TaskEither<Error, TelegramBot.Message[]>;
+    caption: string,
+    media: readonly InputMedia[],
+  ) => TE.TaskEither<Error, Message[]>;
   postFile: (
     text: string,
     fileName: string,
-    file: string | Stream | Buffer,
+    file: string,
     contentType?: PDFType,
-  ) => TE.TaskEither<Error, TelegramBot.Message>;
+  ) => TE.TaskEither<Error, Message>;
   onMessage: (
-    f: (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void,
+    f: (message: Message) => void,
   ) => void;
-  stopPolling: (
-    opts?: TelegramBot.StopPollingOptions,
-  ) => TE.TaskEither<Error, void>;
+  onText: (
+    regex: RegExp,
+    f: (message: Message, match: RegExpExecArray | null) => void,
+  ) => void;
+  onCallbackQuery: (
+    f: (query: CallbackQuery) => void,
+  ) => void;
+  onError: (
+    f: (err: Error) => void,
+  ) => void;
+  stopPolling: () => TE.TaskEither<Error, void>;
 
-  getFileStream: <F extends TelegramBot.FileBase>(
+  getFileStream: <F extends File>(
     file: F,
   ) => TE.TaskEither<Error, Readable>;
 }
@@ -59,11 +74,13 @@ export class TGError extends IOError {
 }
 
 export const toTGError = (e: unknown): TGError => {
-  if (e) {
-    const errorAny: any = e;
-    if (errorAny.code === "ETELEGRAM") {
-      return errorAny.toJSON();
-    }
+  if (e instanceof TelegramApiError) {
+    return {
+      code: "ETELEGRAM",
+      status: e.errorCode ?? 500,
+      description: e.message,
+      parameters: e.parameters,
+    } as any;
   }
   return new TGError("Unknown telegram error", {
     kind: "ServerError",
@@ -77,12 +94,21 @@ const liftTGTE = <A>(p: () => Promise<A>): TE.TaskEither<TGError, A> => {
 };
 
 export interface TGBotProviderCtx {
-  client: (token: string, options: ConstructorOptions) => TelegramBot;
+  client: (token: string) => Bot;
   logger: Logger;
+  http: {
+    get: <T>(
+      url: string,
+      config?: import("axios").AxiosRequestConfig,
+    ) => TE.TaskEither<
+      import("@liexp/shared/lib/providers/http/http.provider.js").HTTPError,
+      T
+    >;
+  };
 }
 
 export const TGBotProvider = (
-  { client, logger }: TGBotProviderCtx,
+  { client, logger, http }: TGBotProviderCtx,
   opts: TGBotProviderOpts,
 ): TGBotProvider => {
   const encryptedToken = opts.token
@@ -100,13 +126,15 @@ export const TGBotProvider = (
     ...opts,
     token: encryptedToken,
   });
-  const api = client(opts.token, {
-    polling: opts.polling,
-    baseApiUrl: opts.baseApiUrl,
-  });
+  const bot = client(opts.token);
+
+  if (opts.baseApiUrl) {
+    // @ts-expect-error — setApiUrl may not be typed in all v2 versions
+    bot.api.setApiUrl(opts.baseApiUrl);
+  }
 
   return {
-    api,
+    api: bot.api,
     getFileStream: (file) => {
       const fileSizeInMB = Math.ceil((file.file_size ?? 1) / 1000 / 1000);
       logger.debug.log(
@@ -116,26 +144,50 @@ export const TGBotProvider = (
       );
 
       return pipe(
-        TE.fromIOEither(() => {
-          try {
-            const readable = api.getFileStream(file.file_id);
-            return fp.E.right(readable);
-          } catch (err) {
-            return fp.E.left(toTGError(err));
+        liftTGTE(() => bot.api.getFile({ file_id: file.file_id })),
+        TE.chain((result) => {
+          const filePath = result.file_path;
+          if (!filePath) {
+            return TE.left(new TGError("No file_path returned from Telegram", {
+              kind: "ClientError",
+              status: "500",
+              meta: { file_id: file.file_id },
+            }));
           }
+          const url = `https://api.telegram.org/file/bot${opts.token}/${filePath}`;
+          return pipe(
+            http.get<Readable>(url, {
+              responseType: "stream",
+            }),
+            TE.mapLeft(() => new TGError("Failed to download file", {
+              kind: "ClientError",
+              status: "500",
+              meta: { file_id: file.file_id },
+            })),
+          );
         }),
       );
     },
     upsertPinnedMessage: (text) => {
       return pipe(
-        liftTGTE(() => api.getChat(opts.chat)),
+        liftTGTE(() => bot.api.getChat({ chat_id: opts.chat })),
         TE.map((c) => c.pinned_message),
         TE.chain((message) => {
           if (!message) {
             return pipe(
-              liftTGTE(() => api.sendMessage(opts.chat, text, {})),
+              liftTGTE(() =>
+                bot.api.sendMessage({
+                  chat_id: opts.chat,
+                  text,
+                }),
+              ),
               TE.chainFirst((m) =>
-                liftTGTE(() => api.pinChatMessage(opts.chat, m.message_id)),
+                liftTGTE(() =>
+                  bot.api.pinChatMessage({
+                    chat_id: opts.chat,
+                    message_id: m.message_id,
+                  }),
+                ),
               ),
             );
           } else {
@@ -143,7 +195,8 @@ export const TGBotProvider = (
               text === message.text
                 ? TE.right(message)
                 : liftTGTE(() =>
-                    api.editMessageText(text, {
+                    bot.api.editMessageText({
+                      text,
                       message_id: message.message_id,
                       chat_id: opts.chat,
                     }),
@@ -158,66 +211,85 @@ export const TGBotProvider = (
     },
     post: (text, replyToMessageId) => {
       return liftTGTE(() =>
-        api.sendMessage(opts.chat, text, {
-          reply_to_message_id: replyToMessageId,
+        bot.api.sendMessage({
+          chat_id: opts.chat,
+          text,
+          reply_parameters: replyToMessageId
+            ? { message_id: replyToMessageId }
+            : undefined,
           parse_mode: "HTML",
-          disable_web_page_preview: false,
         }),
       );
     },
     postPhoto: (image, caption) => {
       return liftTGTE(() =>
-        api.sendPhoto(opts.chat, image, {
+        bot.api.sendPhoto({
+          chat_id: opts.chat,
+          photo: image,
           caption,
           parse_mode: "HTML",
         }),
       );
     },
-    postVideo: (image, caption, videoOpts) => {
+    postVideo: (videoUrl, caption, videoOpts) => {
       return liftTGTE(() =>
-        api.sendVideo(
-          opts.chat,
-          image,
-          {
-            caption,
-            parse_mode: "HTML",
-            ...videoOpts,
-          },
-          { contentType: MP4Type.literals[0] },
-        ),
+        bot.api.sendVideo({
+          chat_id: opts.chat,
+          video: videoUrl,
+          caption,
+          parse_mode: "HTML",
+          ...videoOpts,
+        }),
       );
     },
     postMediaGroup(caption, media) {
       logger.debug.log("Post media group %O", media);
       return pipe(
         liftTGTE(() =>
-          api.sendMediaGroup(
-            opts.chat,
-            media.map((m) => ({ ...m, caption, parse_mode: "HTML" })),
-            { disable_notification: true },
-          ),
+          bot.api.sendMediaGroup({
+            chat_id: opts.chat,
+            media: media.map((m) => ({ ...m, caption, parse_mode: "HTML" })),
+          }),
         ),
       );
     },
     postFile(text, filename, file, contentType = PDFType.literals[0]) {
       return liftTGTE(() =>
-        api.sendDocument(
-          opts.chat,
-          file,
-          {
-            caption: text,
-            parse_mode: "HTML",
-          },
-          { filename, contentType },
-        ),
+        bot.api.sendDocument({
+          chat_id: opts.chat,
+          document: file,
+          caption: text,
+          parse_mode: "HTML",
+        }),
       );
     },
     onMessage: (f) => {
-      api.on("message", f);
+      bot.on("message", (ctx) => {
+        // v2 middleware context has message and metadata
+        const msg = ctx.message as Message;
+        f(msg);
+      });
     },
-    stopPolling: (opts) => {
+    onText: (regex, f) => {
+      bot.hears(regex, (ctx) => {
+        const msg = ctx.message as Message;
+        const match = msg.text?.match(regex);
+        f(msg, match as RegExpExecArray | null);
+      });
+    },
+    onCallbackQuery: (f) => {
+      bot.on("callback_query", (ctx) => {
+        f(ctx.callbackQuery as CallbackQuery);
+      });
+    },
+    onError: (f) => {
+      bot.catch((err, ctx) => {
+        f(err instanceof Error ? err : new Error(String(err)));
+      });
+    },
+    stopPolling: () => {
       return liftTGTE(
-        () => api.stopPolling(opts) ?? Promise.resolve(undefined),
+        () => bot.stop() ?? Promise.resolve(undefined),
       );
     },
   };

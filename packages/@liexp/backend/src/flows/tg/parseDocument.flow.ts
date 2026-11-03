@@ -5,7 +5,7 @@ import { PDFType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import type TelegramBot from "node-telegram-bot-api";
+import { type Document } from "node-telegram-bot-api";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -32,7 +32,7 @@ export const parseDocument =
       HTTPProviderContext &
       RedisContext,
   >(
-    messageDocument: TelegramBot.Document,
+    messageDocument: Document,
   ): ReaderTaskEither<C, ServerError, UUID[]> =>
   (ctx) => {
     const mediaId = uuid();

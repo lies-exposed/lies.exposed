@@ -12,7 +12,6 @@ import { helpCommand } from "./help.command.js";
 import { loginCommand } from "./login.command.js";
 import { startCommand } from "./start.command.js";
 import { type WorkerContext } from "#context/context.js";
-import { toWorkerError } from "#io/worker.error.js";
 import { getThanksMessage } from "#utils/tg.utils.js";
 
 export const TGMessageCommands = (ctx: WorkerContext) => {
@@ -33,7 +32,7 @@ export const TGMessageCommands = (ctx: WorkerContext) => {
   // bind /ask command to tg bot
   askCommand(ctx);
 
-  ctx.tg.onMessage((msg, metadata) => {
+  ctx.tg.onMessage((msg) => {
     if (msg.text?.startsWith("/")) {
       ctx.logger.debug.log("Command message %s, skipping...", msg.text);
       return;
@@ -50,7 +49,7 @@ export const TGMessageCommands = (ctx: WorkerContext) => {
         ),
         eventSuggestion: createFromTGMessage(
           msg,
-          metadata,
+          {},
         )({ ...ctx, logger: tgLogger }),
       }),
       fp.TE.map(({ eventSuggestion }) => {
@@ -60,20 +59,17 @@ export const TGMessageCommands = (ctx: WorkerContext) => {
       throwTE,
     )
       .then((message) =>
-        ctx.tg.api.sendMessage(msg.chat.id, message, {
-          reply_to_message_id: msg.message_id,
-        }),
+        pipe(
+          ctx.tg.post(message, msg.message_id),
+          throwTE,
+        ),
       )
       .catch((e) => {
         tgLogger.error.log("Error %O", e);
         void pipe(
-          fp.TE.tryCatch(
-            () =>
-              ctx.tg.api.sendMessage(
-                msg.chat.id,
-                "Sorry, something went wrong while processing your message. Please try again later.",
-              ),
-            toWorkerError,
+          ctx.tg.post(
+            "Sorry, something went wrong while processing your message. Please try again later.",
+            msg.message_id,
           ),
           fp.TE.mapLeft((err) => {
             tgLogger.error.log("Failed to send error reply: %O", err);
