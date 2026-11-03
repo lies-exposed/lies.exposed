@@ -15,7 +15,11 @@ import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type Message, type MessageEntity, type PhotoSize } from "node-telegram-bot-api";
+import {
+  type Message,
+  type MessageEntity,
+  type PhotoSize,
+} from "node-telegram-bot-api";
 import type * as puppeteer from "puppeteer-core";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type DatabaseContext } from "../../../context/db.context.js";

@@ -1,5 +1,10 @@
 import fc from "fast-check";
-import type { Message, Chat, PhotoSize, MessageEntity } from "node-telegram-bot-api";
+import type {
+  Message,
+  Chat,
+  PhotoSize,
+  MessageEntity,
+} from "node-telegram-bot-api";
 
 const TGFromArb = fc.record({
   id: fc.nat(),

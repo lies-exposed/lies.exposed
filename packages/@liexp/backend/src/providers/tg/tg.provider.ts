@@ -2,10 +2,12 @@ import { type Readable } from "stream";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { PDFType } from "@liexp/io/lib/http/Media/MediaType.js";
+import type { HTTPError } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { IOError } from "@ts-endpoint/core";
+import type { AxiosRequestConfig } from "axios";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import {
-  Bot,
+  type Bot,
   TelegramApiError,
   type CallbackQuery,
   type File,
@@ -16,9 +18,7 @@ import {
 
 export interface TGBotProvider {
   api: any;
-  upsertPinnedMessage: (
-    text: string,
-  ) => TE.TaskEither<Error, Message>;
+  upsertPinnedMessage: (text: string) => TE.TaskEither<Error, Message>;
   post: (
     text: string,
     replyToMessageId?: number,
@@ -30,7 +30,10 @@ export interface TGBotProvider {
   postVideo: (
     videoUrl: string,
     caption: string,
-    opts?: Omit<SendVideoParams, "chat_id" | "video" | "caption" | "parse_mode">,
+    opts?: Omit<
+      SendVideoParams,
+      "chat_id" | "video" | "caption" | "parse_mode"
+    >,
   ) => TE.TaskEither<Error, Message>;
   postMediaGroup: (
     caption: string,
@@ -42,24 +45,16 @@ export interface TGBotProvider {
     file: string,
     contentType?: PDFType,
   ) => TE.TaskEither<Error, Message>;
-  onMessage: (
-    f: (message: Message) => void,
-  ) => void;
+  onMessage: (f: (message: Message) => void) => void;
   onText: (
     regex: RegExp,
     f: (message: Message, match: RegExpExecArray | null) => void,
   ) => void;
-  onCallbackQuery: (
-    f: (query: CallbackQuery) => void,
-  ) => void;
-  onError: (
-    f: (err: Error) => void,
-  ) => void;
+  onCallbackQuery: (f: (query: CallbackQuery) => void) => void;
+  onError: (f: (err: Error) => void) => void;
   stopPolling: () => TE.TaskEither<Error, void>;
 
-  getFileStream: <F extends File>(
-    file: F,
-  ) => TE.TaskEither<Error, Readable>;
+  getFileStream: <F extends File>(file: F) => TE.TaskEither<Error, Readable>;
 }
 
 export interface TGBotProviderOpts {
@@ -99,11 +94,8 @@ export interface TGBotProviderCtx {
   http: {
     get: <T>(
       url: string,
-      config?: import("axios").AxiosRequestConfig,
-    ) => TE.TaskEither<
-      import("@liexp/shared/lib/providers/http/http.provider.js").HTTPError,
-      T
-    >;
+      config?: AxiosRequestConfig,
+    ) => TE.TaskEither<HTTPError, T>;
   };
 }
 
@@ -148,22 +140,27 @@ export const TGBotProvider = (
         TE.chain((result) => {
           const filePath = result.file_path;
           if (!filePath) {
-            return TE.left(new TGError("No file_path returned from Telegram", {
-              kind: "ClientError",
-              status: "500",
-              meta: { file_id: file.file_id },
-            }));
+            return TE.left(
+              new TGError("No file_path returned from Telegram", {
+                kind: "ClientError",
+                status: "500",
+                meta: { file_id: file.file_id },
+              }),
+            );
           }
           const url = `https://api.telegram.org/file/bot${opts.token}/${filePath}`;
           return pipe(
             http.get<Readable>(url, {
               responseType: "stream",
             }),
-            TE.mapLeft(() => new TGError("Failed to download file", {
-              kind: "ClientError",
-              status: "500",
-              meta: { file_id: file.file_id },
-            })),
+            TE.mapLeft(
+              () =>
+                new TGError("Failed to download file", {
+                  kind: "ClientError",
+                  status: "500",
+                  meta: { file_id: file.file_id },
+                }),
+            ),
           );
         }),
       );
@@ -253,7 +250,7 @@ export const TGBotProvider = (
         ),
       );
     },
-    postFile(text, filename, file, contentType = PDFType.literals[0]) {
+    postFile(text, filename, file, _contentType = PDFType.literals[0]) {
       return liftTGTE(() =>
         bot.api.sendDocument({
           chat_id: opts.chat,
@@ -266,31 +263,29 @@ export const TGBotProvider = (
     onMessage: (f) => {
       bot.on("message", (ctx) => {
         // v2 middleware context has message and metadata
-        const msg = ctx.message as Message;
+        const msg = ctx.message!;
         f(msg);
       });
     },
     onText: (regex, f) => {
       bot.hears(regex, (ctx) => {
-        const msg = ctx.message as Message;
+        const msg = ctx.message!;
         const match = msg.text?.match(regex);
         f(msg, match as RegExpExecArray | null);
       });
     },
     onCallbackQuery: (f) => {
       bot.on("callback_query", (ctx) => {
-        f(ctx.callbackQuery as CallbackQuery);
+        f(ctx.callbackQuery!);
       });
     },
     onError: (f) => {
-      bot.catch((err, ctx) => {
+      bot.catch((err) => {
         f(err instanceof Error ? err : new Error(String(err)));
       });
     },
     stopPolling: () => {
-      return liftTGTE(
-        () => bot.stop() ?? Promise.resolve(undefined),
-      );
+      return liftTGTE(() => bot.stop() ?? Promise.resolve(undefined));
     },
   };
 };

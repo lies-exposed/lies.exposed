@@ -48,10 +48,7 @@ export const parseVideo =
     const mediaId = uuid();
     const thumbTask = pipe(
       O.fromNullable(video.thumbnail),
-      O.fold<
-        PhotoSize,
-        TE.TaskEither<ServerError, string | undefined>
-      >(
+      O.fold<PhotoSize, TE.TaskEither<ServerError, string | undefined>>(
         () => TE.right(undefined),
         (file) =>
           pipe(
