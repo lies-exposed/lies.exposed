@@ -117,5 +117,5 @@
     "wink-nlp": "^2.3.0",
     "wink-nlp-utils": "^2.1.0"
   },
-  "packageManager": "pnpm@11.26.0"
+  "packageManager": "pnpm@12.17.0"
 }

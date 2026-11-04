@@ -113,5 +113,5 @@
     "vitest-mock-extended": "^5.1.1",
     "wink-nlp": "^2.3.0"
   },
-  "packageManager": "pnpm@11.26.0"
+  "packageManager": "pnpm@12.17.0"
 }
