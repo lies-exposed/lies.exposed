@@ -77,10 +77,10 @@ describe(findUserOrReplyFlow.name, () => {
     );
 
     expect(taskExecuted).toBe(false);
-    expect(mockTg.api.sendMessage).toHaveBeenCalledWith(
-      chatId,
-      expect.stringContaining("not allowed"),
-    );
+    expect(mockTg.api.sendMessage).toHaveBeenCalledWith({
+      chat_id: chatId,
+      text: expect.stringContaining("not allowed"),
+    });
   });
 
   it("should return None when no userId is provided", async () => {

@@ -27,10 +27,10 @@ export const findUserOrReplyFlow =
           return pipe(
             fp.TE.tryCatch(
               () =>
-                ctx.tg.api.sendMessage(
-                  chatId,
-                  `You are not allowed to create actors`,
-                ),
+                ctx.tg.api.sendMessage({
+                  chat_id: chatId,
+                  text: `You are not allowed to create actors`,
+                }),
               toDBError(),
             ),
             fp.TE.map(() => undefined),

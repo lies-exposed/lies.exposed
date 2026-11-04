@@ -2,7 +2,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import type TelegramBot from "node-telegram-bot-api";
+import { type Message } from "node-telegram-bot-api";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
 import { type TGBotProviderContext } from "../../context/index.js";
@@ -47,7 +47,7 @@ export type UpsertPinnerMessageFlowContext = DatabaseContext &
 export const upsertPinnedMessage =
   <C extends UpsertPinnerMessageFlowContext>(
     limit: number,
-  ): ReaderTaskEither<C, DBError | TGError, TelegramBot.Message> =>
+  ): ReaderTaskEither<C, DBError | TGError, Message> =>
   (ctx) => {
     ctx.logger.info.log("Fetch resources totals...");
     return pipe(

@@ -1,4 +1,3 @@
-import { type Stream } from "stream";
 import { type ENVContext } from "@liexp/backend/lib/context/env.context.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
@@ -12,7 +11,7 @@ import {
   type SocialPostContentMedia,
 } from "@liexp/io/lib/http/SocialPost.js";
 import { Schema } from "effect";
-import type TelegramBot from "node-telegram-bot-api";
+import { type Message } from "node-telegram-bot-api";
 import { type ENV } from "../../io/env.js";
 import { type RTE } from "../../types.js";
 
@@ -89,9 +88,7 @@ const getMessageTexts = (
 };
 
 export const postToTG =
-  (
-    params: CreateSocialPost & { id: UUID },
-  ): RTE<readonly TelegramBot.Message[]> =>
+  (params: CreateSocialPost & { id: UUID }): RTE<readonly Message[]> =>
   (ctx) => {
     const { id: _id, ...body } = params;
     return pipe(
@@ -149,14 +146,9 @@ export const postToTG =
 
               if (Schema.is(SocialPostVideo)(m)) {
                 return pipe(
-                  ctx.http.get<Stream>(m.media, {
-                    responseType: "stream",
+                  ctx.tg.postVideo(m.media, mediaText, {
+                    duration: m.duration,
                   }),
-                  fp.TE.chain((stream) =>
-                    ctx.tg.postVideo(stream, mediaText, {
-                      duration: m.duration,
-                    }),
-                  ),
                   fp.TE.map(fp.A.of),
                 );
               }

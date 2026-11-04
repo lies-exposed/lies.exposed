@@ -8,7 +8,7 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import type TelegramBot from "node-telegram-bot-api";
+import { type Video, type PhotoSize } from "node-telegram-bot-api";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -37,7 +37,7 @@ export const parseVideo =
       RedisContext,
   >(
     description: string,
-    video: TelegramBot.Video,
+    video: Video,
   ): ReaderTaskEither<C, ServerError, UUID[]> =>
   (ctx) => {
     ctx.logger.debug.log("Parse video with description %O", {
@@ -47,11 +47,8 @@ export const parseVideo =
 
     const mediaId = uuid();
     const thumbTask = pipe(
-      O.fromNullable(video.thumb),
-      O.fold<
-        TelegramBot.PhotoSize,
-        TE.TaskEither<ServerError, string | undefined>
-      >(
+      O.fromNullable(video.thumbnail),
+      O.fold<PhotoSize, TE.TaskEither<ServerError, string | undefined>>(
         () => TE.right(undefined),
         (file) =>
           pipe(

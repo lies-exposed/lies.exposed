@@ -58,7 +58,7 @@
     "ioredis": "^6.0.0",
     "lodash": "^4.18.1",
     "node-cron": "^4.6.0",
-    "node-telegram-bot-api": "^0.67.0",
+    "node-telegram-bot-api": "^2.1.0",
     "page-metadata-parser": "^1.1.4",
     "parse2-kmz": "^1.0.7",
     "pdfjs-dist": "^6.2.108",
@@ -79,7 +79,7 @@
     "@types/debug": "^4.1.13",
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/lodash": "^4.17.25",
-    "@types/node-telegram-bot-api": "^0.64.15",
+
     "@types/prompts": "^2.4.9",
     "@typescript/native": "npm:typescript@^7.0.2",
     "tsx": "^4.23.15",

@@ -4,15 +4,17 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AREAS } from "@liexp/io/lib/http/Area.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import kebabCase from "lodash/kebabCase.js";
+import { type Message } from "node-telegram-bot-api";
 import { type WorkerContext } from "#context/context.js";
 import { fetchAndCreateAreaFromWikipedia } from "#flows/area/fetchAndCreateAreaFromWikipedia.js";
+import { toWorkerError } from "#io/worker.error.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 
 const getSuccessMessage = (area: AreaEntity, baseUrl: string): string =>
   `Area <a href="${baseUrl}/areas/${area.id}">${area.label}</a>`;
 
 export const areaCommand = (ctx: WorkerContext): TGBotProvider => {
-  ctx.tg.api.onText(/\/area\s(.*)/, (msg, match) => {
+  ctx.tg.onText(/\/area\s(.*)/, (msg: Message, match) => {
     if (!match || match[1] === "") {
       return;
     }
@@ -23,13 +25,20 @@ export const areaCommand = (ctx: WorkerContext): TGBotProvider => {
         search: match[1],
         chatId: msg.chat.id,
         fromId: msg.from?.id,
-        getIdentifier: (search) => kebabCase(search),
-        findOne: (label) => ctx.db.findOne(AreaEntity, { where: { label } }),
-        getSuccessMessage: (area) => getSuccessMessage(area, ctx.env.WEB_URL),
-        fetchAndSave: (search, wp) =>
+        getIdentifier: (s) => kebabCase(s),
+        findOne: (label) =>
           pipe(
-            fetchAndCreateAreaFromWikipedia(search, wp)(ctx),
-            fp.TE.map((area) => area.area),
+            ctx.db.findOne(AreaEntity, { where: { label } }),
+            fp.TE.mapLeft((e) => toWorkerError(e)),
+          ),
+        getSuccessMessage: (area: AreaEntity) =>
+          getSuccessMessage(area, ctx.env.WEB_URL),
+        fetchAndSave: (search, wp) => (c) =>
+          pipe(
+            fetchAndCreateAreaFromWikipedia(search, wp)(c),
+            fp.TE.map(
+              (result: { area: AreaEntity; media: unknown[] }) => result.area,
+            ),
           ),
       })(ctx),
       throwTE,

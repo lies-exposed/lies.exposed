@@ -5,7 +5,7 @@ import { ImageType, MediaType } from "@liexp/io/lib/http/Media/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import type TelegramBot from "node-telegram-bot-api";
+import { type PhotoSize } from "node-telegram-bot-api";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -33,7 +33,7 @@ export const parsePhoto =
       RedisContext,
   >(
     description: string,
-    photo: TelegramBot.PhotoSize[],
+    photo: PhotoSize[],
   ): ReaderTaskEither<C, ServerError, UUID[]> =>
   (ctx) => {
     return pipe(

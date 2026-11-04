@@ -15,7 +15,11 @@ import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import type TelegramBot from "node-telegram-bot-api";
+import {
+  type Message,
+  type MessageEntity,
+  type PhotoSize,
+} from "node-telegram-bot-api";
 import type * as puppeteer from "puppeteer-core";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type DatabaseContext } from "../../../context/db.context.js";
@@ -77,7 +81,7 @@ interface MessageParserAPI<C extends MessageParserContext> {
 
 const takeURLsFromMessageEntity =
   (text?: string) =>
-  (acc: URL[], e: TelegramBot.MessageEntity): URL[] => {
+  (acc: URL[], e: MessageEntity): URL[] => {
     if (e.type === "url" && text) {
       return acc.concat(
         text.substring(e.offset, e.offset + e.length) as unknown as URL,
@@ -90,7 +94,7 @@ const takeURLsFromMessageEntity =
   };
 
 export const MessageParser = <C extends MessageParserContext>(
-  message: TelegramBot.Message,
+  message: Message,
 ): MessageParserAPI<C> => {
   const {
     url: urlEntity,
@@ -174,7 +178,7 @@ export const MessageParser = <C extends MessageParserContext>(
 
             return acc;
           },
-          { unique: [] as TelegramBot.PhotoSize[], ids: [] as string[] },
+          { unique: [] as PhotoSize[], ids: [] as string[] },
         ),
         TE.right,
         LoggerService.TE.debug(ctx, "Photo to parse %O"),

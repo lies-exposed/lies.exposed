@@ -63,7 +63,7 @@
     "@types/express": "^5.0.6",
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/jsonwebtoken": "^9.0.9",
-    "@types/node-telegram-bot-api": "^0.64.15",
+
     "@typescript/native": "npm:typescript@^7.0.2",
     "axios": "^1.20.0",
     "debug": "^4.4.0",
@@ -105,7 +105,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "fp-ts": "^2.16.10",
     "instagram-private-api": "^1.46.1",
-    "node-telegram-bot-api": "^0.66.0",
+    "node-telegram-bot-api": "^2.1.0",
     "pdfjs-dist": "^6.2.108",
     "puppeteer-core": "^25.11.0",
     "puppeteer-extra": "^3.3.6",

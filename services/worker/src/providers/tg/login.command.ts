@@ -2,6 +2,7 @@ import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { type Message } from "node-telegram-bot-api";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError } from "#io/worker.error.js";
 
@@ -13,7 +14,7 @@ export const loginCommand = ({
   env: _env,
   ..._restCtx
 }: WorkerContext): TGBotProvider => {
-  tg.api.onText(/\/login\s(.*)/, (msg, match) => {
+  tg.onText(/\/login\s(.*)/, (msg: Message, match) => {
     logger.debug.log(`Login with %O`, match);
     const userId = msg.from?.id;
     if (!userId || !match || match[1] === "") {
@@ -43,36 +44,33 @@ export const loginCommand = ({
           if (telegramTokenMatch) {
             return pipe(
               db.update(UserEntity, a.value.id, { telegramId: userId + "" }),
-              fp.TE.chain(() => {
-                return fp.TE.tryCatch(
-                  () =>
-                    tg.api.sendMessage(
-                      msg.chat.id,
-                      `User ${commandContext.email} linked to TG user ${userId}`,
-                    ),
-                  toWorkerError,
-                );
-              }),
+              fp.TE.chain(() =>
+                pipe(
+                  tg.post(
+                    `User ${commandContext.email} linked to TG user ${userId}`,
+                    msg.message_id,
+                  ),
+                  fp.TE.mapLeft((e) => toWorkerError(e)),
+                  fp.TE.map(() => undefined),
+                ),
+              ),
             );
           }
 
-          return fp.TE.tryCatch(
-            () =>
-              tg.api.sendMessage(
-                msg.chat.id,
-                `Invalid token for user ${commandContext.email}`,
-              ),
-            toWorkerError,
+          return pipe(
+            tg.post(
+              `Invalid token for user ${commandContext.email}`,
+              msg.message_id,
+            ),
+            fp.TE.mapLeft((e) => toWorkerError(e)),
+            fp.TE.map(() => undefined),
           );
         }
 
-        return fp.TE.tryCatch(
-          () =>
-            tg.api.sendMessage(
-              msg.chat.id,
-              `User ${commandContext.email} not found`,
-            ),
-          toWorkerError,
+        return pipe(
+          tg.post(`User ${commandContext.email} not found`, msg.message_id),
+          fp.TE.mapLeft((e) => toWorkerError(e)),
+          fp.TE.map(() => undefined),
         );
       }),
       throwTE,
