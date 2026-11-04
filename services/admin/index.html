@@ -28,11 +28,9 @@
         font-size: 16px !important;
       }
 
-      /* Remove tap highlight on mobile */
-      -webkit-tap-highlight-color: transparent;
-
-      /* Prevent text selection on long press (except for inputs) */
+      /* Prevent tap highlight and text selection on long press (except for inputs) */
       body {
+        -webkit-tap-highlight-color: transparent;
         -webkit-user-select: none;
         user-select: none;
       }
