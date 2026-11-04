@@ -1,6 +1,6 @@
 ARG NODE_VERSION=26
 
-FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS dev
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-pnpm-latest AS dev
 
 WORKDIR /usr/src/app
 
@@ -34,7 +34,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm agent fetch --prod
 
 RUN pnpm agent --prod deploy --legacy /prod/agent
 
-FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS production
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-pnpm-latest AS production
 
 WORKDIR /prod/agent
 

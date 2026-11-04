@@ -59,6 +59,5 @@
     "eslint": "^10.10.0",
     "tsx": "^4.23.15",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
-  },
-  "packageManager": "pnpm@12.17.0"
+  }
 }

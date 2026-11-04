@@ -5,7 +5,7 @@ FROM node:${NODE_VERSION}-alpine AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN npm i -g pnpm@latest-11
+RUN npm i -g pnpm@latest-12
 
 FROM base AS dev
 

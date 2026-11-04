@@ -2,7 +2,7 @@
 
 ARG NODE_VERSION=26
 
-FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS base
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-pnpm-latest AS base
 
 COPY ./package.json /usr/src/app/package.json
 COPY ./pnpm-lock.yaml /usr/src/app/pnpm-lock.yaml

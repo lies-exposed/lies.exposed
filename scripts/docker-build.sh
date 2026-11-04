@@ -3,7 +3,7 @@
 set -x
 
 NODE_VERSION=26
-PNPM_VERSION=11
+PNPM_VERSION=12
 
 BASE_IMAGE=liexp-base
 API_IMAGE=liexp-api
