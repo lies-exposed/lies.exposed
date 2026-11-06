@@ -32,7 +32,7 @@ ENV CI="true"
 
 RUN pnpm api fetch --prod
 
-RUN pnpm api --prod deploy --legacy /prod/api
+RUN pnpm api --prod deploy /prod/api
 
 FROM node:${NODE_VERSION}-bookworm-slim AS production
 

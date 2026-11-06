@@ -32,7 +32,7 @@ ENV CI="true"
 
 RUN pnpm worker fetch --prod
 
-RUN pnpm worker --prod deploy --legacy /prod/worker
+RUN pnpm worker --prod deploy /prod/worker
 
 FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-pnpm-latest AS production
 
