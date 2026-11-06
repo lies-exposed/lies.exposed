@@ -93,6 +93,5 @@
     "vite-plugin-css-injected-by-js": "^5.0.2",
     "vite-plugin-optimizer": "^1.4.3",
     "vitest": "^5.0.0"
-  },
-  "packageManager": "pnpm@11.26.0"
+  }
 }

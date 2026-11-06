@@ -116,6 +116,5 @@
     "wink-eng-lite-web-model": "^1.8.0",
     "wink-nlp": "^2.3.0",
     "wink-nlp-utils": "^2.1.0"
-  },
-  "packageManager": "pnpm@11.26.0"
+  }
 }

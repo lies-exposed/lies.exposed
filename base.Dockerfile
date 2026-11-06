@@ -3,7 +3,7 @@ ARG NODE_VERSION=26
 FROM node:${NODE_VERSION}-bookworm-slim AS base
 
 
-ARG PNPM_VERSION=11
+ARG PNPM_VERSION=12
 
 FROM base AS pnpm
 

@@ -43,6 +43,5 @@
   "peerDependencies": {
     "effect": "^3",
     "fp-ts": "^2"
-  },
-  "packageManager": "pnpm@11.26.0"
+  }
 }

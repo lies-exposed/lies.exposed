@@ -47,6 +47,5 @@
     "vite": "^8",
     "vite-plugin-css-injected-by-js": "^4",
     "vite-plugin-optimizer": "^1"
-  },
-  "packageManager": "pnpm@11.26.0"
+  }
 }

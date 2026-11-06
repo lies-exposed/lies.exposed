@@ -46,7 +46,7 @@ ENV CI="true"
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm web fetch --prod
 
-RUN pnpm web --prod deploy --legacy /prod/web
+RUN pnpm web --prod deploy /prod/web
 
 WORKDIR /prod/web
 
