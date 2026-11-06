@@ -481,7 +481,7 @@ importers:
         version: 10.10.0(jiti@2.7.0)(supports-color@8.1.1)
       eslint-import-resolver-typescript:
         specifier: ^4.4.5
-        version: 4.4.5(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.71.1(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-node@0.3.9(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-import@2.32.0)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
+        version: 4.4.5(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.71.1(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-node@0.3.9(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
       eslint-plugin-import-x:
         specifier: ^4.17.1
         version: 4.17.1(@typescript-eslint/utils@8.71.1(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-node@0.3.9(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
@@ -515,7 +515,7 @@ importers:
         version: 10.10.0(jiti@2.7.0)(supports-color@8.1.1)
       eslint-import-resolver-typescript:
         specifier: ^4.4.5
-        version: 4.4.5(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.71.1(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-node@0.3.9(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-import@2.32.0)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
+        version: 4.4.5(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.71.1(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-node@0.3.9(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
       eslint-plugin-fp-ts:
         specifier: ^0.5.1
         version: 0.5.1(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
@@ -594,7 +594,7 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
         version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)
@@ -676,7 +676,7 @@ importers:
         version: 6.2.108
       react-admin:
         specifier: ^5.15.5
-        version: 5.15.5(@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1)
+        version: 5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1)
       typescript:
         specifier: npm:@typescript/typescript6@^6.0.2
         version: '@typescript/typescript6@6.0.2'
@@ -797,7 +797,7 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)
@@ -905,13 +905,13 @@ importers:
         version: 5.15.5(@tanstack/react-query@5.105.1(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.89.0(@types/react@18.3.27)(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       ra-ui-materialui:
         specifier: ^5.15.5
-        version: 5.15.5(f6c4d5de87b16c93d8e6f410fee7efe0)
+        version: 5.15.5(57530bcf3f883d718db7794619befe3f)
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-admin:
         specifier: ^5.15.5
-        version: 5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1)
+        version: 5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1)
       react-audio-player:
         specifier: ^0.17.0
         version: 0.17.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1074,7 +1074,7 @@ importers:
         version: 16.3.3(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)
@@ -1588,7 +1588,7 @@ importers:
         version: 5.105.1(@types/react@18.3.27)(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))
       '@visx/gradient':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -1688,7 +1688,7 @@ importers:
         version: 5.105.1(@types/react@18.3.27)(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)
@@ -3139,31 +3139,8 @@ packages:
       '@types/react':
         optional: true
 
-  '@mui/private-theming@9.4.0':
-    resolution: {integrity: sha512-qQpX/2XPGDz5F2OIWzo4kkorURlDeXGKytRQudXCdLS5TuwKsMKaZyx77LZEVSB73c7o3UrLWwQ/goRuHBdtjw==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      '@types/react': ^17.0.0 || ^18.0.0 || ^19.0.0
-      react: ^17.0.0 || ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
   '@mui/styled-engine@7.3.10':
     resolution: {integrity: sha512-WxE9SiF8xskAQqGjsp0poXCkCqsoXFEsSr0HBXfApmGHR+DBnXRp+z46Vsltg4gpPM4Z96DeAQRpeAOnhNg7Ng==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      '@emotion/react': ^11.4.1
-      '@emotion/styled': ^11.3.0
-      react: ^17.0.0 || ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@emotion/react':
-        optional: true
-      '@emotion/styled':
-        optional: true
-
-  '@mui/styled-engine@9.4.0':
-    resolution: {integrity: sha512-SlqVEYqnyEgXMFW4JuIDMelyhKzoWBJ85v2mNCQd0XtU0uk7U9E1zaJZ06XqodhA8oJrb+4Q+3E/JlwBe4jWkw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       '@emotion/react': ^11.4.1
@@ -3191,22 +3168,6 @@ packages:
       '@types/react':
         optional: true
 
-  '@mui/system@9.2.0':
-    resolution: {integrity: sha512-YvUJwKoGVtbnOm2PyPi5TvX2d1rOA6sqSpEWVs4WmXNIaFTuYmNUaVdU2o1NKUEe31URnD3E8ZVUMcsLQXwcYg==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      '@emotion/react': ^11.5.0
-      '@emotion/styled': ^11.3.0
-      '@types/react': ^17.0.0 || ^18.0.0 || ^19.0.0
-      react: ^17.0.0 || ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@emotion/react':
-        optional: true
-      '@emotion/styled':
-        optional: true
-      '@types/react':
-        optional: true
-
   '@mui/types@7.4.12':
     resolution: {integrity: sha512-iKNAF2u9PzSIj40CjvKJWxFXJo122jXVdrmdh0hMYd+FR+NuJMkr/L88XwWLCRiJ5P1j+uyac25+Kp6YC4hu6w==}
     peerDependencies:
@@ -3215,26 +3176,8 @@ packages:
       '@types/react':
         optional: true
 
-  '@mui/types@9.4.0':
-    resolution: {integrity: sha512-13DH0Oniua4WmGqeYbQAZqmiN7r4nfd0zwIoGJ5QeJwyIHgEmf+LkRw/jV1HZb6AiUoHX8Oxf4xgalq3vYHcIw==}
-    peerDependencies:
-      '@types/react': ^17.0.0 || ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
   '@mui/utils@7.3.11':
     resolution: {integrity: sha512-XTjGnifwteg71/ij+0e7Y7d+hwyntMYP5wPoA/g2drdGH+Flkvjwy0OfrVpKBbaOvofq4zU/LIyUZyKgmWu18g==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      '@types/react': ^17.0.0 || ^18.0.0 || ^19.0.0
-      react: ^17.0.0 || ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  '@mui/utils@9.4.0':
-    resolution: {integrity: sha512-WkzY8uYtqUDyGKPShrRQRBomfMQHddlsyKu/gRRESYO24tDPD2z0xRE8CBoUsWqpBa+YrFs9KixiS7kQRjsPAQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       '@types/react': ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -4392,9 +4335,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@rtsao/scc@1.1.0':
-    resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
-
   '@sentry/browser-utils@11.10.0':
     resolution: {integrity: sha512-P/bYHTgj76sYBYCZa524YoZ/hZac2XCW3i3qShrMXnh7s63x1cweUjD7BDVDb0L/lGMwtuObuZeRnCif4hWLNg==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
@@ -5066,9 +5006,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/json5@0.0.29':
-    resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
 
   '@types/jsonwebtoken@9.0.10':
     resolution: {integrity: sha512-asx5hIG9Qmf/1oStypjanR7iKTv0gXQ1Ov/jfrX6kS/EO0OFni8orbmGCn0672NHR3kXHwpAwR+B368ZGN/2rA==}
@@ -5825,10 +5762,6 @@ packages:
     resolution: {integrity: sha512-CVvd6FHg1Z3POpBLxO6E6zr+rSKEQ9L6rZHAaY7lLfhKsWYUBBOuMs0e9o24oopj6H+geRCX0YJ+TJLBK2eHyQ==}
     engines: {node: '>= 0.4'}
 
-  array.prototype.findlastindex@1.2.6:
-    resolution: {integrity: sha512-F/TKATkzseUExPlfvmwQKGITM3DGTK+vkAsCZoDc5daVygbJBnjEUCbgkAvVFsgfXfX4YIqZ/27G3k3tdXrTxQ==}
-    engines: {node: '>= 0.4'}
-
   array.prototype.flat@1.3.3:
     resolution: {integrity: sha512-rwG/ja1neyLqCuGZ5YYrznA62D4mZXg0i1cIskIUKSiqF3Cje9/wXAls9B9s1Wa2fomMsIv8czB8jZcPmxCXFg==}
     engines: {node: '>= 0.4'}
@@ -6178,7 +6111,6 @@ packages:
 
   concat-stream@2.0.0:
     resolution: {integrity: sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==}
-    engines: {'0': node >= 6.0}
 
   content-disposition@1.0.1:
     resolution: {integrity: sha512-oIXISMynqSqm241k6kcQ5UwttDILMK4BiurCfGEREw6+X9jkkpEe5T9FZaApyLGGOnFuyMWZpdolTXMtvEJ08Q==}
@@ -6841,27 +6773,6 @@ packages:
       eslint-plugin-import-x:
         optional: true
 
-  eslint-module-utils@2.14.0:
-    resolution: {integrity: sha512-W2WCRZ9Dqntd+2u8jJcVMV2PKulc6RdLgUUoh/yQr3uB6lo/ZOeGx11sv60/8S4QFFKNslAlWhr9u0Ef7ZW6Ig==}
-    engines: {node: '>=4'}
-    peerDependencies:
-      '@typescript-eslint/parser': '*'
-      eslint: '*'
-      eslint-import-resolver-node: '*'
-      eslint-import-resolver-typescript: '*'
-      eslint-import-resolver-webpack: '*'
-    peerDependenciesMeta:
-      '@typescript-eslint/parser':
-        optional: true
-      eslint:
-        optional: true
-      eslint-import-resolver-node:
-        optional: true
-      eslint-import-resolver-typescript:
-        optional: true
-      eslint-import-resolver-webpack:
-        optional: true
-
   eslint-plugin-fp-ts@0.5.1:
     resolution: {integrity: sha512-LQ9X0aZYmr1FwlveQ7wGQ/WdZPKjO8qWDvzoCiejlv+hAuyyDMhiqHLG65k2iQs1a2S9sDzT4VxWxxul5eGKwg==}
     engines: {node: '>=0.10.0'}
@@ -6879,16 +6790,6 @@ packages:
       '@typescript-eslint/utils':
         optional: true
       eslint-import-resolver-node:
-        optional: true
-
-  eslint-plugin-import@2.32.0:
-    resolution: {integrity: sha512-whOE1HFo/qJDyX4SnXzP4N6zOWn79WhnCUY/iDR0mPfQZO8wcYE4JClzI2oZrhBnnMUCBCHZhO6VQyoBU95mZA==}
-    engines: {node: '>=4'}
-    peerDependencies:
-      '@typescript-eslint/parser': '*'
-      eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8 || ^9
-    peerDependenciesMeta:
-      '@typescript-eslint/parser':
         optional: true
 
   eslint-plugin-prettier@5.5.6:
@@ -7042,7 +6943,6 @@ packages:
 
   extsprintf@1.3.0:
     resolution: {integrity: sha512-11Ndz7Nv+mvAC1j0ktTa7fAb0vLyGGX+rMHNBYQviQDGU0Hw7lhctJANqbPhu9nV9/izT/IntTgZ7Im/9LJs9g==}
-    engines: {'0': node >=0.6.0}
 
   fast-check@3.23.2:
     resolution: {integrity: sha512-h5+1OzzfCC3Ef7VbtKdcv7zsstUQwUDlYpUTvjeUsJAssPgLn7QzbboPtL5ro04Mq0rPOsMzl7q5hIbRs2wD1A==}
@@ -7438,6 +7338,7 @@ packages:
   image-size@0.7.5:
     resolution: {integrity: sha512-Hiyv+mXHfFEP7LzUL/llg9RwFxxY+o9N3JVLIeG5E7iFIFAalxvRU9UZthBdYDEVnzHMgjnKJPPpay5BWf1g9g==}
     engines: {node: '>=6.9.0'}
+    deprecated: Please migrate to image-size@2.x
     hasBin: true
 
   immutable-json-patch@6.0.3:
@@ -7795,10 +7696,6 @@ packages:
 
   json2mq@0.2.0:
     resolution: {integrity: sha512-SzoRg7ux5DWTII9J2qkrZrqV1gt+rTaoufMxEzXbS26Uid0NwaJd123HcoB80TgubEppxxIGdNxCx50fEoEWQA==}
-
-  json5@1.0.2:
-    resolution: {integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==}
-    hasBin: true
 
   json5@2.2.3:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
@@ -8453,10 +8350,6 @@ packages:
 
   object.fromentries@2.0.8:
     resolution: {integrity: sha512-k6E21FzySsSK5a21KRADBd/NGneRegFO5pLHfdQLpRDETUNJueLXs3WCzyQ3tFRDYgbq3KHGXfTbi2bs8WQ6rQ==}
-    engines: {node: '>= 0.4'}
-
-  object.groupby@1.0.3:
-    resolution: {integrity: sha512-+Lhy3TQTuzXI5hevh8sBGqbmurHbbIjAi0Z4S63nthVLmLxfbj4T54a4CfZrXIrt9iP4mVAPYMo/v99taj3wjQ==}
     engines: {node: '>= 0.4'}
 
   object.values@1.2.1:
@@ -9875,9 +9768,6 @@ packages:
   ts-xor@1.3.0:
     resolution: {integrity: sha512-RLXVjliCzc1gfKQFLRpfeD0rrWmjnSTgj7+RFhoq3KRkUYa8LE/TIidYOzM5h+IdFBDSjjSgk9Lto9sdMfDFEA==}
 
-  tsconfig-paths@3.15.0:
-    resolution: {integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==}
-
   tsconfig-paths@4.2.0:
     resolution: {integrity: sha512-NoZ4roiN7LnbKn9QqE1amc9DJfzvZXxF4xDavcOWt1BPkdx+m+0gJuPM+S0vCe7zTJMYUP0R8pO2XMr+Y8oLIg==}
     engines: {node: '>=6'}
@@ -10177,7 +10067,6 @@ packages:
 
   verror@1.10.0:
     resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
-    engines: {'0': node >=0.6.0}
 
   vfile-message@4.0.3:
     resolution: {integrity: sha512-QTHzsGd1EhbZs4AsQ20JX1rC3cOlt/IWJruk893DfLRr57lcnOeMaWG4K0JrRta4mIJZKth2Au3mM3u03/JWKw==}
@@ -11913,7 +11802,7 @@ snapshots:
     dependencies:
       '@hono/node-server': 2.1.6(hono@4.13.14)
       ajv: 8.20.0
-      ajv-formats: 3.0.1(ajv@8.20.0)
+      ajv-formats: 3.0.1
       content-type: 1.0.5
       cors: 2.8.6
       cross-spawn: 7.0.6
@@ -11998,29 +11887,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.27
 
-  '@mui/private-theming@9.4.0(@types/react@18.3.27)(react@18.3.1)':
-    dependencies:
-      '@babel/runtime': 7.29.7
-      '@mui/utils': 9.4.0(@types/react@18.3.27)(react@18.3.1)
-      prop-types: 15.8.1
-      react: 18.3.1
-    optionalDependencies:
-      '@types/react': 18.3.27
-
   '@mui/styled-engine@7.3.10(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(react@18.3.1)':
-    dependencies:
-      '@babel/runtime': 7.29.7
-      '@emotion/cache': 11.14.0
-      '@emotion/serialize': 1.3.3
-      '@emotion/sheet': 1.4.0
-      csstype: 3.2.3
-      prop-types: 15.8.1
-      react: 18.3.1
-    optionalDependencies:
-      '@emotion/react': 11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1)
-      '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1)
-
-  '@mui/styled-engine@9.4.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.29.7
       '@emotion/cache': 11.14.0
@@ -12049,29 +11916,7 @@ snapshots:
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1)
       '@types/react': 18.3.27
 
-  '@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)':
-    dependencies:
-      '@babel/runtime': 7.29.7
-      '@mui/private-theming': 9.4.0(@types/react@18.3.27)(react@18.3.1)
-      '@mui/styled-engine': 9.4.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(react@18.3.1)
-      '@mui/types': 9.4.0(@types/react@18.3.27)
-      '@mui/utils': 9.4.0(@types/react@18.3.27)(react@18.3.1)
-      clsx: 2.1.1
-      csstype: 3.2.3
-      prop-types: 15.8.1
-      react: 18.3.1
-    optionalDependencies:
-      '@emotion/react': 11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1)
-      '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1)
-      '@types/react': 18.3.27
-
   '@mui/types@7.4.12(@types/react@18.3.27)':
-    dependencies:
-      '@babel/runtime': 7.29.7
-    optionalDependencies:
-      '@types/react': 18.3.27
-
-  '@mui/types@9.4.0(@types/react@18.3.27)':
     dependencies:
       '@babel/runtime': 7.29.7
     optionalDependencies:
@@ -12081,18 +11926,6 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.29.7
       '@mui/types': 7.4.12(@types/react@18.3.27)
-      '@types/prop-types': 15.7.15
-      clsx: 2.1.1
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-is: 19.2.8
-    optionalDependencies:
-      '@types/react': 18.3.27
-
-  '@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1)':
-    dependencies:
-      '@babel/runtime': 7.29.7
-      '@mui/types': 9.4.0(@types/react@18.3.27)
       '@types/prop-types': 15.7.15
       clsx: 2.1.1
       prop-types: 15.8.1
@@ -12823,9 +12656,6 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.60.0':
     optional: true
 
-  '@rtsao/scc@1.1.0':
-    optional: true
-
   '@sentry/browser-utils@11.10.0':
     dependencies:
       '@sentry/conventions': 0.29.0
@@ -13291,19 +13121,12 @@ snapshots:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       fp-ts: 2.16.11
 
-  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))':
+  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       axios: 1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
       fp-ts: 2.16.11
-      react-admin: 5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1)
-
-  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)(react-admin@5.15.5(@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1))':
-    dependencies:
-      '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
-      axios: 1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
-      fp-ts: 2.16.11
-      react-admin: 5.15.5(@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1)
+      react-admin: 5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1)
 
   '@ts-endpoint/resource-client@file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(fp-ts@2.16.11)':
     dependencies:
@@ -13440,7 +13263,7 @@ snapshots:
 
   '@types/d3-interpolate@3.0.1':
     dependencies:
-      '@types/d3-color': 3.1.3
+      '@types/d3-color': 3.1.0
 
   '@types/d3-interpolate@3.0.4':
     dependencies:
@@ -13464,7 +13287,7 @@ snapshots:
 
   '@types/d3-scale@4.0.2':
     dependencies:
-      '@types/d3-time': 3.0.4
+      '@types/d3-time': 3.0.0
 
   '@types/d3-scale@4.0.9':
     dependencies:
@@ -13585,9 +13408,6 @@ snapshots:
   '@types/http-errors@2.0.5': {}
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/json5@0.0.29':
-    optional: true
 
   '@types/jsonwebtoken@9.0.10':
     dependencies:
@@ -13751,8 +13571,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.69.0(@typescript/typescript6@6.0.2)(supports-color@8.1.1)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.71.1(@typescript/typescript6@6.0.2)
-      '@typescript-eslint/types': 8.71.1
+      '@typescript-eslint/tsconfig-utils': 8.69.0(@typescript/typescript6@6.0.2)
+      '@typescript-eslint/types': 8.69.0
       debug: 4.4.3(supports-color@8.1.1)
       typescript: '@typescript/typescript6@6.0.2'
     transitivePeerDependencies:
@@ -14316,8 +14136,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ajv-formats@3.0.1(ajv@8.20.0):
-    optionalDependencies:
+  ajv-formats@3.0.1:
+    dependencies:
       ajv: 8.20.0
 
   ajv@6.15.0:
@@ -14388,17 +14208,6 @@ snapshots:
       es-errors: 1.3.0
       es-object-atoms: 1.1.2
       es-shim-unscopables: 1.1.0
-
-  array.prototype.findlastindex@1.2.6:
-    dependencies:
-      call-bind: 1.0.9
-      call-bound: 1.0.4
-      define-properties: 1.2.1
-      es-abstract: 1.24.2
-      es-errors: 1.3.0
-      es-object-atoms: 1.1.2
-      es-shim-unscopables: 1.1.0
-    optional: true
 
   array.prototype.flat@1.3.3:
     dependencies:
@@ -14955,7 +14764,7 @@ snapshots:
 
   d3-geo@3.1.0:
     dependencies:
-      d3-array: 3.2.4
+      d3-array: 3.2.1
 
   d3-geo@3.1.1:
     dependencies:
@@ -15496,7 +15305,7 @@ snapshots:
       - supports-color
     optional: true
 
-  eslint-import-resolver-typescript@4.4.5(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.71.1(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-node@0.3.9(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-import@2.32.0)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1):
+  eslint-import-resolver-typescript@4.4.5(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.71.1(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-node@0.3.9(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1):
     dependencies:
       debug: 4.4.3(supports-color@8.1.1)
       eslint: 10.10.0(jiti@2.7.0)(supports-color@8.1.1)
@@ -15507,22 +15316,9 @@ snapshots:
       tinyglobby: 0.2.17
       unrs-resolver: 1.12.2
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.69.0(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-typescript@4.4.5)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
       eslint-plugin-import-x: 4.17.1(@typescript-eslint/utils@8.71.1(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-node@0.3.9(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
-
-  eslint-module-utils@2.14.0(@typescript-eslint/parser@8.69.0(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-node@0.3.9(supports-color@8.1.1))(eslint-import-resolver-typescript@4.4.5)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1):
-    dependencies:
-      debug: 3.2.7(supports-color@8.1.1)
-    optionalDependencies:
-      '@typescript-eslint/parser': 8.69.0(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
-      eslint: 10.10.0(jiti@2.7.0)(supports-color@8.1.1)
-      eslint-import-resolver-node: 0.3.9(supports-color@8.1.1)
-      eslint-import-resolver-typescript: 4.4.5(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.71.1(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-node@0.3.9(supports-color@8.1.1))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-import@2.32.0)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
-    transitivePeerDependencies:
-      - supports-color
-    optional: true
 
   eslint-plugin-fp-ts@0.5.1(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1):
     dependencies:
@@ -15552,36 +15348,6 @@ snapshots:
       eslint-import-resolver-node: 0.3.9(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
-
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.69.0(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-typescript@4.4.5)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1):
-    dependencies:
-      '@rtsao/scc': 1.1.0
-      array-includes: 3.1.9
-      array.prototype.findlastindex: 1.2.6
-      array.prototype.flat: 1.3.3
-      array.prototype.flatmap: 1.3.3
-      debug: 3.2.7(supports-color@8.1.1)
-      doctrine: 2.1.0
-      eslint: 10.10.0(jiti@2.7.0)(supports-color@8.1.1)
-      eslint-import-resolver-node: 0.3.9(supports-color@8.1.1)
-      eslint-module-utils: 2.14.0(@typescript-eslint/parser@8.69.0(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint-import-resolver-node@0.3.9(supports-color@8.1.1))(eslint-import-resolver-typescript@4.4.5)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
-      hasown: 2.0.4
-      is-core-module: 2.16.2
-      is-glob: 4.0.3
-      minimatch: 3.1.5
-      object.fromentries: 2.0.8
-      object.groupby: 1.0.3
-      object.values: 1.2.1
-      semver: 6.3.1
-      string.prototype.trimend: 1.0.10
-      tsconfig-paths: 3.15.0
-    optionalDependencies:
-      '@typescript-eslint/parser': 8.69.0(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
-    transitivePeerDependencies:
-      - eslint-import-resolver-typescript
-      - eslint-import-resolver-webpack
-      - supports-color
-    optional: true
 
   eslint-plugin-prettier@5.5.6(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1)))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(prettier@3.9.6):
     dependencies:
@@ -16553,11 +16319,6 @@ snapshots:
     dependencies:
       string-convert: 0.2.1
 
-  json5@1.0.2:
-    dependencies:
-      minimist: 1.2.8
-    optional: true
-
   json5@2.2.3: {}
 
   jsonc-parser@3.3.1: {}
@@ -17381,13 +17142,6 @@ snapshots:
       es-abstract: 1.24.2
       es-object-atoms: 1.1.2
 
-  object.groupby@1.0.3:
-    dependencies:
-      call-bind: 1.0.9
-      define-properties: 1.2.1
-      es-abstract: 1.24.2
-    optional: true
-
   object.values@1.2.1:
     dependencies:
       call-bind: 1.0.9
@@ -18013,41 +17767,12 @@ snapshots:
       - react-router
       - react-router-dom
 
-  ra-ui-materialui@5.15.5(4da04e769685438f5dd1ca8102254bb1):
-    dependencies:
-      '@mui/icons-material': 7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.27)(react@18.3.1)
-      '@mui/material': 7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mui/system': 9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)
-      '@mui/utils': 9.4.0(@types/react@18.3.27)(react@18.3.1)
-      '@tanstack/react-query': 5.105.1(@types/react@18.3.27)(react@18.3.1)
-      autosuggest-highlight: 3.3.4
-      clsx: 2.1.1
-      css-mediaquery: 0.1.2
-      csstype: 3.2.3
-      diacritic: 0.0.2
-      dompurify: 3.4.17
-      inflection: 3.0.2
-      jsonexport: 3.2.0
-      lodash: 4.18.1
-      query-string: 7.1.3
-      ra-core: 5.15.5(@tanstack/react-query@5.105.1(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.89.0(@types/react@18.3.27)(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-dropzone: 14.4.1(react@18.3.1)
-      react-error-boundary: 4.1.2(react@18.3.1)
-      react-hook-form: 7.89.0(@types/react@18.3.27)(react@18.3.1)
-      react-hotkeys-hook: 5.3.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-is: 19.2.8
-      react-router: 7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-router-dom: 7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-
-  ra-ui-materialui@5.15.5(f6c4d5de87b16c93d8e6f410fee7efe0):
+  ra-ui-materialui@5.15.5(57530bcf3f883d718db7794619befe3f):
     dependencies:
       '@mui/icons-material': 7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.27)(react@18.3.1)
       '@mui/material': 7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mui/system': 7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)
-      '@mui/utils': 9.4.0(@types/react@18.3.27)(react@18.3.1)
+      '@mui/utils': 7.3.11(@types/react@18.3.27)(react@18.3.1)
       '@tanstack/react-query': 5.105.1(@types/react@18.3.27)(react@18.3.1)
       autosuggest-highlight: 3.3.4
       clsx: 2.1.1
@@ -18092,7 +17817,7 @@ snapshots:
       strip-json-comments: 2.0.1
     optional: true
 
-  react-admin@5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1):
+  react-admin@5.15.5(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.11(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1):
     dependencies:
       '@emotion/react': 11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1)
@@ -18102,32 +17827,7 @@ snapshots:
       ra-core: 5.15.5(@tanstack/react-query@5.105.1(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.89.0(@types/react@18.3.27)(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       ra-i18n-polyglot: 5.15.5(@tanstack/react-query@5.105.1(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.89.0(@types/react@18.3.27)(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       ra-language-english: 5.15.5(@tanstack/react-query@5.105.1(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.89.0(@types/react@18.3.27)(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      ra-ui-materialui: 5.15.5(f6c4d5de87b16c93d8e6f410fee7efe0)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-hook-form: 7.89.0(@types/react@18.3.27)(react@18.3.1)
-      react-router: 7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-router-dom: 7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-    transitivePeerDependencies:
-      - '@mui/material-pigment-css'
-      - '@mui/system'
-      - '@mui/utils'
-      - '@types/react'
-      - csstype
-      - react-is
-      - supports-color
-
-  react-admin@5.15.5(@mui/system@9.2.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@9.4.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)(supports-color@8.1.1):
-    dependencies:
-      '@emotion/react': 11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1)
-      '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1)
-      '@mui/icons-material': 7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.27)(react@18.3.1)
-      '@mui/material': 7.3.11(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react@18.3.1)(supports-color@8.1.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tanstack/react-query': 5.105.1(@types/react@18.3.27)(react@18.3.1)
-      ra-core: 5.15.5(@tanstack/react-query@5.105.1(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.89.0(@types/react@18.3.27)(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      ra-i18n-polyglot: 5.15.5(@tanstack/react-query@5.105.1(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.89.0(@types/react@18.3.27)(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      ra-language-english: 5.15.5(@tanstack/react-query@5.105.1(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.89.0(@types/react@18.3.27)(react@18.3.1))(react-router-dom@7.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      ra-ui-materialui: 5.15.5(4da04e769685438f5dd1ca8102254bb1)
+      ra-ui-materialui: 5.15.5(57530bcf3f883d718db7794619befe3f)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-hook-form: 7.89.0(@types/react@18.3.27)(react@18.3.1)
@@ -19214,14 +18914,6 @@ snapshots:
       typescript: '@typescript/typescript6@6.0.2'
 
   ts-xor@1.3.0: {}
-
-  tsconfig-paths@3.15.0:
-    dependencies:
-      '@types/json5': 0.0.29
-      json5: 1.0.2
-      minimist: 1.2.8
-      strip-bom: 3.0.0
-    optional: true
 
   tsconfig-paths@4.2.0:
     dependencies:
