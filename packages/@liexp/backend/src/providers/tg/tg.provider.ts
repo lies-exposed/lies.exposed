@@ -8,6 +8,7 @@ import type { AxiosRequestConfig } from "axios";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import {
   type Bot,
+  type BotOptions,
   TelegramApiError,
   type CallbackQuery,
   type File,
@@ -89,7 +90,7 @@ const liftTGTE = <A>(p: () => Promise<A>): TE.TaskEither<TGError, A> => {
 };
 
 export interface TGBotProviderCtx {
-  client: (token: string) => Bot;
+  client: (token: string, options?: BotOptions) => Bot;
   logger: Logger;
   http: {
     get: <T>(
@@ -118,12 +119,9 @@ export const TGBotProvider = (
     ...opts,
     token: encryptedToken,
   });
-  const bot = client(opts.token);
-
-  if (opts.baseApiUrl) {
-    // @ts-expect-error — setApiUrl may not be typed in all v2 versions
-    bot.api.setApiUrl(opts.baseApiUrl);
-  }
+  // v2 has no setApiUrl: the API origin is a constructor option, and an
+  // empty value falls back to https://api.telegram.org.
+  const bot = client(opts.token, { apiRoot: opts.baseApiUrl });
 
   return {
     api: bot.api,

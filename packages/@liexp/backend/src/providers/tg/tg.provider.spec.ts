@@ -1,8 +1,27 @@
+import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { TelegramApiError } from "node-telegram-bot-api";
-import { describe, expect, it } from "vitest";
-import { TGError, toTGError } from "./tg.provider.js";
+import { describe, expect, it, vi } from "vitest";
+import { TGBotProvider, TGError, toTGError } from "./tg.provider.js";
 
 describe("tg.provider", () => {
+  describe("TGBotProvider", () => {
+    it("passes baseApiUrl to the bot client as apiRoot", () => {
+      const client = vi.fn().mockReturnValue({ api: {} });
+      TGBotProvider(
+        { client, logger: GetLogger("tg-test"), http: { get: vi.fn() } },
+        {
+          token: "123:abc",
+          chat: "chat",
+          polling: false,
+          baseApiUrl: "http://telegram.local:9008",
+        },
+      );
+      expect(client).toHaveBeenCalledWith("123:abc", {
+        apiRoot: "http://telegram.local:9008",
+      });
+    });
+  });
+
   describe("TGError", () => {
     it("should have name TGError", () => {
       const error = toTGError(new Error("Test"));
