@@ -31,6 +31,14 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 10
             timeoutSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 4010
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
           name: admin
           ports:
             - containerPort: 4010
