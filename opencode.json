@@ -12,15 +12,6 @@
   "instructions": [
     "./AGENTS.md"
   ],
-  "experimental": {
-    "policies": [
-      {
-        "action": "skill",
-        "resource": "paperclip-*",
-        "effect": "allow"
-      }
-    ]
-  },
   "mcp": {
     "graymatter": {
       "type": "local",
