@@ -455,6 +455,44 @@ const invokeAgentWithEmptyChoicesRetry = async (
   throw new Error("unreachable");
 };
 
+/**
+ * Converts the agent's final free-text answer into a JSON object matching the
+ * caller-provided JSON schema, using the model's tool-calling based structured
+ * output. Returns `undefined` on failure so callers can still fall back to
+ * parsing the textual content.
+ */
+const extractStructuredOutput = async (
+  ctx: AgentContext,
+  request: string,
+  answer: string,
+  outputSchema: Record<string, unknown>,
+): Promise<unknown> => {
+  try {
+    const model = ctx.langchain.chat.withStructuredOutput(outputSchema, {
+      name: "final_answer",
+      method: "functionCalling",
+    });
+    return await model.invoke([
+      {
+        role: "system",
+        content:
+          "Convert the assistant answer below into the requested structured output. " +
+          "Use ONLY information present in the answer. Use null for any value the answer does not state. Never invent values.",
+      },
+      {
+        role: "user",
+        content: `Original request:\n${request}\n\nAssistant answer:\n${answer}`,
+      },
+    ]);
+  } catch (e) {
+    ctx.logger.warn.log(
+      "Structured output extraction failed, falling back to content: %s",
+      e instanceof Error ? e.message : String(e),
+    );
+    return undefined;
+  }
+};
+
 const getOrCreateAgent =
   (agentType?: AgentType, aiConfig?: AIConfig) => (ctx: AgentContext) => {
     // Everything routes through the factory. With no type/config it resolves the
@@ -473,6 +511,45 @@ const getOrCreateAgent =
 // Public API
 // ---------------------------------------------------------------------------
 
+/**
+ * Compact trace of the tool calls an agent run made (name, args, and whether
+ * the tool returned an error), so a failed or low-quality job can be debugged
+ * from the logs without replaying the conversation.
+ */
+const summarizeToolTrace = (
+  messages: readonly unknown[],
+): { tool: string; args: string; error: boolean }[] =>
+  messages.flatMap((m) => {
+    const msg = m as {
+      tool_calls?: { name?: string; args?: unknown }[];
+      _getType?: () => string;
+      name?: string;
+      content?: unknown;
+    };
+    const calls = (msg.tool_calls ?? []).map((c) => ({
+      tool: c.name ?? "unknown",
+      args: JSON.stringify(c.args ?? {}).slice(0, 200),
+      error: false,
+    }));
+    if (msg._getType?.() === "tool") {
+      const content =
+        typeof msg.content === "string"
+          ? msg.content
+          : JSON.stringify(msg.content);
+      if (/^error\b/i.test(content.trim())) {
+        return [
+          ...calls,
+          {
+            tool: msg.name ?? "unknown",
+            args: content.slice(0, 200),
+            error: true,
+          },
+        ];
+      }
+    }
+    return calls;
+  });
+
 export const sendChatMessage =
   (payload: {
     message: string;
@@ -480,6 +557,7 @@ export const sendChatMessage =
     resource_context?: ResourceContext;
     aiConfig?: AIConfig;
     agent_type?: AgentType;
+    output_schema?: Record<string, unknown>;
   }) =>
   (ctx: AgentContext): TE.TaskEither<ServerError, ChatResponse> => {
     const conversationId = payload.conversation_id ?? uuid();
@@ -512,14 +590,38 @@ export const sendChatMessage =
               ServerError.fromUnknown,
             ),
           ),
-          TE.map((result) => {
+          TE.chain((result) => {
             const { messages } = result as { messages: AIMessage[] };
+            ctx.logger.info.log(
+              "chat %s (%s): tool trace %O",
+              conversationId,
+              payload.agent_type ?? "default",
+              summarizeToolTrace(messages),
+            );
             const lastMessage = messages[messages.length - 1];
             const content =
               typeof lastMessage?.content === "string"
                 ? lastMessage.content
                 : JSON.stringify(lastMessage?.content ?? "No response");
-
+            const outputSchema = payload.output_schema;
+            if (!outputSchema) {
+              return TE.right({ lastMessage, content, structured: undefined });
+            }
+            return pipe(
+              TE.tryCatch(
+                () =>
+                  extractStructuredOutput(
+                    ctx,
+                    payload.message,
+                    content,
+                    outputSchema,
+                  ),
+                ServerError.fromUnknown,
+              ),
+              TE.map((structured) => ({ lastMessage, content, structured })),
+            );
+          }),
+          TE.map(({ lastMessage, content, structured }) => {
             const userMessage: ChatMessage = {
               id: uuid(),
               content: payload.message,
@@ -531,6 +633,9 @@ export const sendChatMessage =
               content,
               role: "assistant",
               timestamp: new Date().toISOString(),
+              ...(structured !== undefined
+                ? { structured_output: structured }
+                : {}),
             };
 
             conversations.set(conversationId, [
@@ -579,6 +684,16 @@ export const sendChatMessage =
           }),
         ),
       ),
+      TE.mapLeft((e) => {
+        ctx.logger.error.log(
+          "chat %s (%s) failed: %s\n%O",
+          conversationId,
+          payload.agent_type ?? "default",
+          e.message,
+          e.details,
+        );
+        return e;
+      }),
     );
   };
 

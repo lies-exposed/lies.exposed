@@ -1,7 +1,3 @@
-import {
-  fetchDomainSpecificMetadata,
-  fetchWaybackSnapshotContent,
-} from "@liexp/backend/lib/providers/URLMetadata.provider.js";
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
@@ -11,19 +7,16 @@ import {
   CreateQueueTextData,
   CreateQueueURLData,
 } from "@liexp/io/lib/http/Queue/index.js";
-import axios from "axios";
 import { Schema } from "effect";
-import { toAIBotError } from "../../../common/error/index.js";
+import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
+import { type AIBotError, toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
+import { parseISODate } from "../entityMatching.js";
+import { fetchURLContent, type PageContent } from "../pageContent.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-const defaultQuestion = `Return the requested information in JSON format with fields: title (string), description (string), publishDate (string in 'YYYY-MM-DD' format or empty string if not published).`;
-
-// Below this, scraped title+content is treated as a failed fetch (bot-block /
-// error page) rather than real article content, so the job fails visibly
-// instead of silently completing with empty metadata.
-const MIN_SCRAPED_CONTENT_LENGTH = 50;
+const defaultQuestion = `Return the requested information in JSON format with fields: title (string), description (string), publishDate (string in 'YYYY-MM-DD' format, or null if the content does not state it — never guess), thumbnailUrl (absolute URL or null).`;
 
 const UpdateLinkStructuredResponse = Schema.Struct({
   title: Schema.String.annotations({
@@ -32,9 +25,9 @@ const UpdateLinkStructuredResponse = Schema.Struct({
   description: Schema.String.annotations({
     description: "The description of the link",
   }),
-  publishDate: Schema.String.annotations({
+  publishDate: Schema.NullOr(Schema.String).annotations({
     description:
-      "The date the content was published in 'YYYY-MM-DD' format (empty string if not published, fallback to 1st day of the year if unknown)",
+      "The date the content was published in 'YYYY-MM-DD' format, ONLY if stated in the content. Null if unknown — never guess.",
   }),
   thumbnailUrl: Schema.NullOr(URL).annotations({
     description:
@@ -54,224 +47,24 @@ const isTextData = (
   Schema.is(CreateQueueTextData)(data);
 
 const getPageContentRTE = (
-  ctx: ClientContext,
   data: (typeof CreateQueueEmbeddingTypeData.Type)["data"],
-) => {
+): ReaderTaskEither<ClientContext, AIBotError, PageContent> => {
   if (isURLData(data) && data.url) {
-    const url = data.url;
-
-    // Last-resort fallback: fetch the latest Wayback Machine snapshot of the
-    // page. The Internet Archive's crawler fetched it, not our infra, so it
-    // sidesteps live bot-detection (Akamai/PerimeterX) entirely. Used when
-    // the live puppeteer scrape errors out or comes back too short/blocked.
-    const fromWayback = pipe(
-      fp.TE.fromTask(() => fetchWaybackSnapshotContent(axios, url)),
-      fp.TE.chain((snap) => {
-        if (!snap) {
-          return fp.TE.left(
-            new Error(`No Wayback Machine snapshot available for ${url}`),
-          );
-        }
-        const scraped = (snap.title + snap.content).trim();
-        return scraped.length < MIN_SCRAPED_CONTENT_LENGTH
-          ? fp.TE.left(
-              new Error(
-                `Wayback snapshot content also too short (${String(scraped.length)} chars) for ${url}`,
-              ),
-            )
-          : fp.TE.right({
-              title: snap.title,
-              content: snap.content,
-              publishDate: null,
-            });
-      }),
-    );
-
-    // Fallback: generic puppeteer scrape for pages without a provider API.
-    const fromPuppeteer = pipe(
-      ctx.puppeteer.getBrowserFirstPage(url, {
-        defaultViewport: { width: 1280, height: 800 },
-      }),
-      fp.TE.chain((page) =>
-        fp.TE.tryCatch(
-          async () => {
-            // No manual UA override here: the stealth plugin (see
-            // puppeteer.load.ts) already sets a UA consistent with the real
-            // Chromium build's Client Hints headers (Sec-CH-UA-*). Overriding
-            // it with a hardcoded string desyncs navigator.userAgent from
-            // those headers, which is itself a bot-detection signal.
-            await page.setExtraHTTPHeaders({
-              Accept:
-                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
-              "Accept-Language": "en-US,en;q=0.9",
-            });
-            // "networkidle0" never fires on pages with persistent background
-            // requests (ads/analytics/live-blog polling) — many news sites
-            // (e.g. reuters.com) hang until the 30s timeout despite the
-            // article content having loaded long before. "domcontentloaded"
-            // plus a short settle delay for client-rendered content below is
-            // enough since we only read static meta tags and DOM text.
-            await page.goto(url, {
-              waitUntil: "domcontentloaded",
-              timeout: 30000,
-            });
-            await page
-              .waitForSelector("body", { timeout: 2000 })
-              .catch(() => {});
-            await new Promise((resolve) => setTimeout(resolve, 1500));
-            const { title, content } = await page.evaluate(() => {
-              const meta = (sel: string): string =>
-                document.querySelector(sel)?.getAttribute("content")?.trim() ??
-                "";
-              const text = (el: Element | null): string =>
-                el?.textContent?.replace(/\s+/g, " ").trim() ?? "";
-
-              // Title: prefer the article heading / og:title / citation_title
-              // over document.title, which on many platforms is the site name
-              // (e.g. "PubMed") rather than the article title.
-              const siteName = meta("meta[property='og:site_name']");
-              let title =
-                text(document.querySelector("h1")) ||
-                meta("meta[property='og:title']") ||
-                meta("meta[name='citation_title']") ||
-                (document.title || "").trim();
-              // Strip a trailing " - SiteName" / " | SiteName" suffix.
-              if (siteName) {
-                title = title
-                  .replace(new RegExp(`\\s*[-|–—]\\s*${siteName}\\s*$`), "")
-                  .trim();
-              }
-
-              // Description from article-specific meta tags (the real abstract
-              // on academic pages, og:description on articles). This is the
-              // strongest signal and is included up front so the model gets the
-              // article content even when body extraction is weak.
-              const metaDescription =
-                meta("meta[name='citation_abstract']") ||
-                meta("meta[name='description']") ||
-                meta("meta[property='og:description']");
-
-              const body = document.body;
-              let articleText = "";
-              if (body) {
-                // Article-specific containers first, generic page regions last,
-                // so we capture the article rather than the whole page shell.
-                const selectors = [
-                  ".abstract-content",
-                  "#abstract",
-                  ".abstract",
-                  ".abstract-section",
-                  "article",
-                  "[role='main']",
-                  "main",
-                ];
-                for (const sel of selectors) {
-                  const el = body.querySelector(sel);
-                  const t = text(el);
-                  if (t.length > 50) {
-                    articleText = t;
-                    break;
-                  }
-                }
-                if (articleText.length < 50) {
-                  const clone = body.cloneNode(true) as HTMLElement;
-                  for (const el of clone.querySelectorAll(
-                    "nav, footer, header, aside, script, style",
-                  )) {
-                    el.parentNode?.removeChild(el);
-                  }
-                  articleText = text(clone);
-                }
-              }
-
-              const content = [metaDescription, articleText]
-                .filter(Boolean)
-                .join("\n\n");
-              return {
-                title,
-                content:
-                  content.length > 8000
-                    ? content.substring(0, 8000) + "\n\n[Content truncated...]"
-                    : content,
-              };
-            });
-            await page.close();
-            return { title, content, publishDate: null };
-          },
-          (e) => (e instanceof Error ? e : new Error(String(e))),
-        ),
-      ),
-      fp.TE.chain(({ title, content, publishDate }) => {
-        const scraped = (title + content).trim();
-        return scraped.length < MIN_SCRAPED_CONTENT_LENGTH
-          ? fp.TE.left(
-              new Error(
-                `Scraped content too short (${String(scraped.length)} chars) for ${url} — likely a bot-block or error page rather than the real article`,
-              ),
-            )
-          : fp.TE.right({ title, content, publishDate });
-      }),
-      // Live scrape failed outright (nav error/timeout) or was bot-blocked
-      // (guard above) — try a Wayback Machine snapshot before giving up.
-      // Log the real puppeteer failure here: fromWayback's own error would
-      // otherwise be the only thing surfaced on the job, masking why the
-      // live scrape actually failed (bot-block vs. nav timeout vs. other).
-      fp.TE.orElse((puppeteerError) =>
-        pipe(
-          fp.TE.fromIO<void, never>(() => {
-            ctx.logger.error.log(
-              "Puppeteer scrape failed for %s, falling back to Wayback: %s",
-              url,
-              puppeteerError.message,
-            );
-          }),
-          fp.TE.chain(() => fromWayback),
-          fp.TE.mapLeft(
-            (waybackError) =>
-              new Error(
-                `${waybackError.message} (puppeteer error: ${puppeteerError.message})`,
-              ),
-          ),
-        ),
-      ),
-      fp.TE.mapLeft(toAIBotError),
-    );
-
-    // Provider-specific extraction first: for known providers (PubMed/PMC,
-    // CrossRef DOIs, archive.org) query the authoritative API for title +
-    // abstract instead of scraping a JS app shell that yields the platform
-    // name/blurb. Falls back to puppeteer when no provider matches.
-    return pipe(
-      fp.TE.fromTask(() => fetchDomainSpecificMetadata(axios, url)),
-      fp.TE.mapLeft(toAIBotError),
-      fp.TE.chain((dm) =>
-        dm?.title && dm.description
-          ? fp.TE.right({
-              title: dm.title,
-              content: dm.description,
-              // Authoritative publish date from the provider API — the abstract
-              // text rarely contains it, so the model can't recover it.
-              publishDate: dm.date ? new Date(dm.date) : null,
-            })
-          : fromPuppeteer,
-      ),
-      fp.RTE.fromTaskEither,
-    );
+    return fetchURLContent(data.url);
   }
-  return pipe(
-    fp.TE.right({
-      content: isTextData(data) ? data.text : "",
-      title: "",
-      publishDate: null as Date | null,
-    }),
-    fp.RTE.fromTaskEither,
-  );
+  return fp.RTE.right({
+    content: isTextData(data) ? data.text : "",
+    title: "",
+    publishDate: null,
+  });
 };
 
 const transformResult = (result: UpdateLinkStructuredResponse) => ({
   title: result.title,
   description: result.description,
-  publishDate: result.publishDate !== "" ? new Date(result.publishDate) : null,
+  publishDate: pipe(parseISODate(result.publishDate), (d) =>
+    d ? new Date(d) : null,
+  ),
   thumbnailUrl: result.thumbnailUrl,
 });
 
@@ -288,9 +81,8 @@ export const updateLinkFlow: JobProcessRTE<
 
   return pipe(
     fp.RTE.Do,
-    fp.RTE.bindW("ctx", () => fp.RTE.ask<ClientContext>()),
     fp.RTE.bindW("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.bindW("pageContent", ({ ctx }) => getPageContentRTE(ctx, data)),
+    fp.RTE.bindW("pageContent", () => getPageContentRTE(data)),
     fp.RTE.bind("result", ({ prompt, pageContent }) =>
       pipe(
         AgentChatService.getStructuredOutput<
@@ -305,6 +97,7 @@ export const updateLinkFlow: JobProcessRTE<
             },
           })}\n\n${job.question ?? defaultQuestion}`,
           model: job.model ?? undefined,
+          schema: UpdateLinkStructuredResponse,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),

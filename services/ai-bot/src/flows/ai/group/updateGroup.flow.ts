@@ -38,6 +38,7 @@ export const updateGroupFlow: JobProcessRTE<
             },
           })}\n\n${job.question ?? defaultQuestion}`,
           model: job.model ?? undefined,
+          schema: GroupStructuredResponse,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),

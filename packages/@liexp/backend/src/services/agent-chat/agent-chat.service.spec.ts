@@ -1,5 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -275,6 +276,68 @@ describe("AgentChatService", () => {
       const result = await pipe(
         AgentChatService.getStructuredOutput({
           message: "Test",
+        }),
+        (fn) => fn(ctx as any),
+        (task) => task(),
+      );
+
+      expect(fp.E.isLeft(result)).toBe(true);
+    });
+  });
+
+  describe("getStructuredOutput with schema", () => {
+    const TestSchema = Schema.Struct({
+      name: Schema.String,
+      bornOn: Schema.NullOr(Schema.String),
+    });
+
+    let ctx: AgentChatServiceTestContext;
+
+    beforeEach(() => {
+      ctx = createMockContext();
+    });
+
+    const respondWith = (structured_output: unknown) =>
+      mockChatCreate(ctx, {
+        data: {
+          message: {
+            id: "msg-s",
+            role: "assistant",
+            content: "",
+            timestamp: new Date().toISOString(),
+            structured_output,
+          },
+        },
+      });
+
+    it("sends the JSON schema as output_schema and decodes the result", async () => {
+      respondWith({ name: "Ada", bornOn: null });
+
+      const result = await pipe(
+        AgentChatService.getStructuredOutput({
+          message: "Extract",
+          schema: TestSchema,
+        }),
+        (fn) => fn(ctx as any),
+        throwTE,
+      );
+
+      expect(result).toEqual({ name: "Ada", bornOn: null });
+      const body = (ctx.agent.Chat.Create as any).mock.calls[0][0].Body;
+      expect(body.output_schema).toMatchObject({
+        type: "object",
+        required: ["name", "bornOn"],
+      });
+      expect(body.output_schema.$schema).toBeUndefined();
+    });
+
+    it("returns Left when the response does not match the schema", async () => {
+      respondWith({ name: "Ada", bornOn: 12 });
+
+      const result = await pipe(
+        AgentChatService.getStructuredOutput({
+          message: "Extract",
+          schema: TestSchema,
         }),
         (fn) => fn(ctx as any),
         (task) => task(),

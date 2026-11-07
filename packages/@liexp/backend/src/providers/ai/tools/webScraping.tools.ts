@@ -1,10 +1,15 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { effectToZod } from "@liexp/shared/lib/utils/schema.utils.js";
+import axios from "axios";
 import { Schema } from "effect/index";
 import { tool } from "langchain";
 import { parseHTML } from "linkedom";
 import { type LoggerContext } from "../../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../../context/puppeteer.context.js";
+import {
+  fetchDomainSpecificMetadata,
+  fetchWaybackSnapshotContent,
+} from "../../URLMetadata.provider.js";
 import { toPuppeteerError } from "../../puppeteer.provider.js";
 
 const collapseWhitespace = (text: string): string =>
@@ -268,7 +273,8 @@ const ScrapeWebpageInputSchema = Schema.Struct({
     description: "Maximum content length (defaults to 15000 chars)",
   }),
   waitForNetworkIdle: Schema.UndefinedOr(Schema.Boolean).annotations({
-    description: "Wait for network idle before extracting content",
+    description:
+      "Wait for network idle before extracting content (default false; only for pages that render content late — many news sites never go idle and time out)",
   }),
 });
 
@@ -287,6 +293,63 @@ const scrapeWebPageInput = effectToZod(ScrapeWebpageInputSchema);
 const MAX_CONSECUTIVE_FAILURES_PER_URL = 2;
 const consecutiveFailuresByUrl = new Map<string, number>();
 
+// Below this, the extracted main content is treated as a bot-block / error
+// page rather than the real article.
+const MIN_MAIN_CONTENT_LENGTH = 200;
+
+/**
+ * Fallbacks when the live browser scrape fails or returns a bot-block page:
+ * 1. provider APIs (PubMed/PMC, CrossRef DOIs, archive.org) for title+abstract
+ * 2. the latest Wayback Machine snapshot (fetched by archive.org, not our
+ *    infra, so it sidesteps live bot-detection)
+ */
+const scrapeFallback = async (
+  url: string,
+  maxLength: number,
+): Promise<string | null> => {
+  const domain = await fetchDomainSpecificMetadata(axios, url).catch(
+    () => null,
+  );
+  if (domain?.title && domain.description) {
+    return intelligentTruncate(
+      [
+        `# Web Page Analysis\n\n**URL:** ${url}`,
+        "**Source:** provider API",
+        `**Title:** ${domain.title}`,
+        domain.date ? `**Published:** ${String(domain.date)}` : null,
+        "**Main Content:**",
+        domain.description,
+      ]
+        .filter(Boolean)
+        .join("\n\n"),
+      maxLength,
+    );
+  }
+
+  const snapshot = await fetchWaybackSnapshotContent(axios, url).catch(
+    () => null,
+  );
+  if (
+    snapshot &&
+    (snapshot.title + snapshot.content).trim().length >= MIN_MAIN_CONTENT_LENGTH
+  ) {
+    return intelligentTruncate(
+      [
+        `# Web Page Analysis\n\n**URL:** ${url}`,
+        "**Source:** Wayback Machine snapshot (live page was unavailable)",
+        snapshot.title ? `**Title:** ${snapshot.title}` : null,
+        "**Main Content:**",
+        snapshot.content,
+      ]
+        .filter(Boolean)
+        .join("\n\n"),
+      maxLength,
+    );
+  }
+
+  return null;
+};
+
 export const createWebScrapingTool = <
   C extends PuppeteerProviderContext & LoggerContext,
 >(
@@ -299,7 +362,7 @@ export const createWebScrapingTool = <
       url,
       includeMetadata = true,
       maxLength = 15000,
-      waitForNetworkIdle = true,
+      waitForNetworkIdle = false,
     } = input;
 
     if (!url) {
@@ -323,10 +386,10 @@ export const createWebScrapingTool = <
             fp.TE.tryCatch(async () => {
               const page = await browser.newPage();
 
-              // Set realistic browser headers to avoid bot detection
-              await page.setUserAgent(
-                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-              );
+              // No manual UA override: the stealth plugin (puppeteer.load.ts)
+              // already sets a UA consistent with the Chromium build's Client
+              // Hints headers; a hardcoded UA desyncs them, which is itself a
+              // bot-detection signal.
 
               // Set additional headers to mimic real browser
               await page.setExtraHTTPHeaders({
@@ -353,13 +416,14 @@ export const createWebScrapingTool = <
                 timeout: 30000,
               });
 
-              // Wait a bit more for dynamic content
-              if (waitForNetworkIdle) {
-                await page
-                  .waitForSelector("body", { timeout: 2000 })
-                  .catch(() => {
-                    // Ignore timeout, continue anyway
-                  });
+              // Short settle delay for client-rendered content.
+              await page
+                .waitForSelector("body", { timeout: 2000 })
+                .catch(() => {
+                  // Ignore timeout, continue anyway
+                });
+              if (!waitForNetworkIdle) {
+                await new Promise((resolve) => setTimeout(resolve, 1500));
               }
 
               ctx.logger.debug.log(`Extracting content from URL: ${url}`);
@@ -368,27 +432,55 @@ export const createWebScrapingTool = <
 
               return html;
             }, toPuppeteerError),
-            fp.TE.map((html) => {
+            fp.TE.chain((html) => {
               // Extract structured content and metadata
               const structuredContent = extractStructuredContentFromHTML(html);
               const metadata = extractComprehensiveMetadata(html);
 
+              if (structuredContent.content.length < MIN_MAIN_CONTENT_LENGTH) {
+                return fp.TE.left(
+                  toPuppeteerError(
+                    new Error(
+                      `page content too short (${String(structuredContent.content.length)} chars) — likely bot-blocked or an error page`,
+                    ),
+                  ),
+                );
+              }
+
               // Format for LLM consumption
-              return formatForLLM(
-                url,
-                structuredContent,
-                metadata,
-                includeMetadata,
-                maxLength,
+              return fp.TE.right(
+                formatForLLM(
+                  url,
+                  structuredContent,
+                  metadata,
+                  includeMetadata,
+                  maxLength,
+                ),
               );
             }),
           );
         },
       ),
-      fp.TE.mapLeft((e) => {
+      fp.TE.orElseW((e) => {
         const errorMessage =
           e instanceof Error ? e.message : "Unknown error occurred";
-        return `Error scraping ${url}: ${errorMessage}`;
+        ctx.logger.warn.log(
+          "scrapeWebPage: live scrape of %s failed (%s), trying fallbacks",
+          url,
+          errorMessage,
+        );
+        return pipe(
+          fp.TE.fromTask<string | null, string>(() =>
+            scrapeFallback(url, maxLength),
+          ),
+          fp.TE.chain((fallback) =>
+            fallback
+              ? fp.TE.right(fallback)
+              : fp.TE.left<string, string>(
+                  `Error scraping ${url}: ${errorMessage}`,
+                ),
+          ),
+        );
       }),
       fp.TE.fold(
         (error) => () => {

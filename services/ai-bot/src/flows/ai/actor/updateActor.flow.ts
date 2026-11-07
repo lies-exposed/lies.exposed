@@ -6,15 +6,19 @@ import {
   CreateQueueTextData,
   type CreateQueueEmbeddingTypeData,
 } from "@liexp/io/lib/http/Queue/index.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
+import { parseISODate } from "../entityMatching.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-const defaultQuestion = (actorName: string) =>
-  `Give me the requested info for actor ${actorName}. Return the response in JSON format with fields: firstName (string), lastName (string), username (string in lowercase format firstName-lastName), description (string), bornOn (string in ISO format YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.sssZ), diedOn (string in ISO format or empty string if still alive), keywords (array of strings).`;
+const defaultQuestion =
+  "Verify the information with the searchWeb tool and return the requested JSON object. Only include facts confirmed by the sources you list.";
 
 const ActorStructuredResponse = Schema.Struct({
   firstName: Schema.String,
@@ -23,37 +27,96 @@ const ActorStructuredResponse = Schema.Struct({
     description:
       "The user's unique username (in the lowercase format of <firstName-lastName>)",
   }),
-  description: Schema.String,
-  bornOn: Schema.String.annotations({
-    description:
-      "Birth date in ISO format (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.sssZ)",
+  description: Schema.String.annotations({
+    description: "Factual biography, max 200 words, plain text",
   }),
-  diedOn: Schema.String.annotations({
+  bornOn: Schema.NullOr(Schema.String).annotations({
     description:
-      "Death date in ISO format (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.sssZ), if applicable. Otherwise empty string.",
+      "Birth date in ISO format (YYYY-MM-DD) confirmed by a source, otherwise null",
+  }),
+  diedOn: Schema.NullOr(Schema.String).annotations({
+    description:
+      "Death date in ISO format (YYYY-MM-DD) confirmed by a source, null if alive or unknown",
   }),
   keywords: Schema.Array(Schema.String),
+  sources: Schema.Array(Schema.String).annotations({
+    description: "URLs of the sources used to verify the information",
+  }),
 }).annotations({ description: "Actor information in a structured format" });
 
 type ActorStructuredResponse = typeof ActorStructuredResponse.Type;
 
+interface ActorSubject {
+  id: string;
+  fullName: string | null;
+  currentDescription: string;
+}
+
+/**
+ * Resolves who the job is about. The queue job id is the actor id, so we
+ * fetch the actor to get an unambiguous full name; `job.data.text` (the
+ * current excerpt, or the name when there is none) is only extra context.
+ */
+const getActorSubject =
+  (jobId: string, text: string) =>
+  (ctx: ClientContext): TaskEither<never, ActorSubject> =>
+    pipe(
+      ctx.api.Actor.Get({ Params: { id: jobId } }),
+      fp.TE.map((r): ActorSubject => ({
+        id: r.data.id,
+        fullName: r.data.fullName,
+        currentDescription:
+          r.data.excerpt && isValidValue(r.data.excerpt)
+            ? getTextContents(r.data.excerpt)
+            : "",
+      })),
+      fp.TE.orElse((e) => {
+        ctx.logger.warn.log(
+          "updateActorFlow: cannot fetch actor %s (%s), using job text only",
+          jobId,
+          e.message,
+        );
+        return fp.TE.right<never, ActorSubject>({
+          id: jobId,
+          fullName: null,
+          currentDescription: text,
+        });
+      }),
+    );
+
+const describeSubject = (subject: ActorSubject): string =>
+  [
+    subject.fullName ? `Full name: ${subject.fullName}` : null,
+    `Platform id: ${subject.id}`,
+    subject.currentDescription
+      ? `Current description on the platform (may be incomplete or wrong, verify it):\n${subject.currentDescription}`
+      : null,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
 export const updateActorFlow: JobProcessRTE<
   CreateQueueEmbeddingTypeData,
-  Omit<ActorStructuredResponse, "description"> & { excerpt: BlockNoteDocument }
+  Omit<ActorStructuredResponse, "description" | "bornOn" | "diedOn"> & {
+    excerpt: BlockNoteDocument;
+    bornOn: string | null;
+    diedOn: string | null;
+  }
 > = (job) => {
   return pipe(
     fp.RTE.Do,
-    fp.RTE.bind("actor", () =>
+    fp.RTE.bind("text", () =>
       pipe(
         fp.RTE.fromEither(
           Schema.decodeUnknownEither(CreateQueueTextData)(job.data),
         ),
         fp.RTE.mapLeft(toAIBotError),
-        fp.RTE.map((actor) => actor.text),
+        fp.RTE.map((data) => data.text),
       ),
     ),
+    fp.RTE.bindW("subject", ({ text }) => getActorSubject(job.id, text)),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.bind("result", ({ prompt, actor }) =>
+    fp.RTE.bind("result", ({ prompt, subject }) =>
       pipe(
         AgentChatService.getStructuredOutput<
           ClientContext,
@@ -61,28 +124,32 @@ export const updateActorFlow: JobProcessRTE<
         >({
           message: `${prompt({
             vars: {
-              text: actor,
+              text: describeSubject(subject),
             },
-          })}\n\n${
-            job.question ??
-            ("text" in job.data
-              ? defaultQuestion(job.data.text)
-              : "Extract the information from the text. Return in JSON format.")
-          }`,
+          })}\n\n${job.question ?? defaultQuestion}`,
+          conversationId: null,
           model: job.model ?? undefined,
+          // researcher agent has searchWeb + scrapeWebPage for verification
+          agentType: "researcher",
+          schema: ActorStructuredResponse,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),
     ),
     LoggerService.RTE.debug("updateActorFlow output %O"),
-    fp.RTE.map(({ result }) => ({
-      excerpt: toInitialValue(result.description),
-      firstName: result.firstName,
-      lastName: result.lastName,
-      username: result.username,
-      bornOn: result.bornOn,
-      diedOn: result.diedOn,
-      keywords: result.keywords,
-    })),
+    fp.RTE.map(({ result }) => {
+      // Without at least one source the dates are unverified: drop them.
+      const verified = result.sources.length > 0;
+      return {
+        excerpt: toInitialValue(result.description),
+        firstName: result.firstName,
+        lastName: result.lastName,
+        username: result.username,
+        bornOn: verified ? parseISODate(result.bornOn) : null,
+        diedOn: verified ? parseISODate(result.diedOn) : null,
+        keywords: result.keywords,
+        sources: result.sources,
+      };
+    }),
   );
 };

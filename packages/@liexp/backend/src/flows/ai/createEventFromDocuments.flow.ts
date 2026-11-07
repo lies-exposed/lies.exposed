@@ -34,7 +34,6 @@ export const createEventFromDocuments = <
       pipe(
         AgentChatService.getStructuredOutput<C, EventCommonProps>({
           message: `${prompt.toFormattedString()}\n\n${question}`,
-          schema: jsonSchema,
         }),
         fp.RTE.mapLeft(toAPIError),
       ),

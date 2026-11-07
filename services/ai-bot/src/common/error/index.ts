@@ -52,3 +52,37 @@ export const report = (err: AIBotError): string => {
 
   return `[${err.name}] ${err.message} (${err.status}):\n${parsedError.join("\n")}`;
 };
+
+/**
+ * Plain, JSON-safe representation of an error to store on `queue.error`.
+ *
+ * Error instances keep `message`/`stack` as non-enumerable properties, so
+ * persisting the instance as-is (`error: e`) loses exactly the information
+ * needed to debug a failed job.
+ */
+export interface JobError {
+  name: string;
+  message: string;
+  status: string | null;
+  details: string[];
+  failedAt: string;
+}
+
+export const toJobError = (e: unknown): JobError => {
+  const err = toAIBotError(e);
+  const details = !err.details
+    ? []
+    : Schema.is(Schema.Array(Schema.String))(err.details)
+      ? err.details
+      : decodeIOErrorDetails(err.details);
+
+  return {
+    name: err.name || "Error",
+    message: err.message || "Unknown error",
+    status: err.status ? String(err.status) : null,
+    // Stack traces can be long: keep the first lines, enough to locate the
+    // failure without bloating the queue row.
+    details: details.map((d) => d.split("\n").slice(0, 15).join("\n")),
+    failedAt: new Date().toISOString(),
+  };
+};

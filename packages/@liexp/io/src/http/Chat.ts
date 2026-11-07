@@ -183,6 +183,12 @@ export const ChatRequest = Schema.Struct({
   aiConfig: Schema.optional(AIConfig),
   // Which specialized agent to use
   agent_type: Schema.optional(AgentType),
+  // JSON schema the final answer must conform to. When set, the agent runs a
+  // final structured-output step and returns the result in
+  // `message.structured_output`.
+  output_schema: Schema.optional(
+    Schema.Record({ key: Schema.String, value: Schema.Unknown }),
+  ),
 }).annotations({
   title: "ChatRequest",
   description:
