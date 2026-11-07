@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/eslint-config@0.8.1) (2026-11-07)
+
+
+### Miscellaneous
+
+* **@liexp/eslint-config:** Synchronize monorepo versions
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...@liexp/eslint-config@0.8.0) (2026-11-07)
 
 

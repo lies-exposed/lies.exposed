@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.8.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/backend@0.8.1) (2026-11-07)
+
+
+### Bug Fixes
+
+* **backend:** pass Telegram API root as Bot constructor option ([#3989](https://github.com/lies-exposed/lies.exposed/issues/3989)) ([212981c](https://github.com/lies-exposed/lies.exposed/commit/212981c2134621fcd50371890bd373353a4278af))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.8.1
+    * @liexp/io bumped to 0.8.1
+    * @liexp/shared bumped to 0.8.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.8.1
+    * @liexp/test bumped to 0.8.1
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...@liexp/backend@0.8.0) (2026-11-07)
 
 
