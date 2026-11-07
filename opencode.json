@@ -12,6 +12,11 @@
   "instructions": [
     "./AGENTS.md"
   ],
+  "permission": {
+    "skill": {
+      "paperclip-*": "allow"
+    }
+  },
   "mcp": {
     "graymatter": {
       "type": "local",
