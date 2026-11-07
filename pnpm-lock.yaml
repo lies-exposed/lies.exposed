@@ -1090,6 +1090,9 @@ importers:
       express:
         specifier: ^5.2.1
         version: 5.2.1(supports-color@8.1.1)
+      express-rate-limit:
+        specifier: ^8.5.2
+        version: 8.5.2(express@5.2.1(supports-color@8.1.1))
       fp-ts:
         specifier: ^2.16.10
         version: 2.16.11
