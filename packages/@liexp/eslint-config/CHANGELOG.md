@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...@liexp/eslint-config@0.8.0) (2026-11-07)
+
+
+### Miscellaneous
+
+* bump pnpm 12 ([#3981](https://github.com/lies-exposed/lies.exposed/issues/3981)) ([4eb0322](https://github.com/lies-exposed/lies.exposed/commit/4eb0322b7081ee4620ba42ac1217c15cd75ed019))
+
 ## [0.7.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.1...@liexp/eslint-config@0.7.0) (2026-10-28)
 
 

@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...admin@0.8.0) (2026-11-07)
+
+
+### Bug Fixes
+
+* **web:** add standard mobile-web-app-capable meta tag ([#3934](https://github.com/lies-exposed/lies.exposed/issues/3934)) ([da96ae4](https://github.com/lies-exposed/lies.exposed/commit/da96ae41806ffe30dbd29dcfdca1b392042a3a2c))
+
+
+### Miscellaneous
+
+* bump pnpm 12 ([#3981](https://github.com/lies-exposed/lies.exposed/issues/3981)) ([4eb0322](https://github.com/lies-exposed/lies.exposed/commit/4eb0322b7081ee4620ba42ac1217c15cd75ed019))
+* **deps:** migrate node-telegram-bot-api to v2.1.0 ([#3977](https://github.com/lies-exposed/lies.exposed/issues/3977)) ([24f9659](https://github.com/lies-exposed/lies.exposed/commit/24f9659486123640e6c5da0c1f9a6f65b8457ef1))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.8.0
+    * @liexp/core bumped to 0.8.0
+    * @liexp/io bumped to 0.8.0
+    * @liexp/shared bumped to 0.8.0
+    * @liexp/ui bumped to 0.8.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.8.0
+    * @liexp/test bumped to 0.8.0
+
 ## [0.7.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.6.1...admin@0.7.0) (2026-10-28)
 
 
