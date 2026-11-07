@@ -1,9 +1,9 @@
+import { IOError } from "@ts-endpoint/core";
 import { pipe } from "fp-ts/lib/function.js";
 import { describe, test, expect, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { throwTE } from "../../utils/fp.utils.js";
 import { PDFProvider, PDFError } from "../pdf/pdf.provider.js";
-import { IOError } from "@ts-endpoint/core";
 
 const mockPdfDoc = (pages: string[]) => {
   return {
