@@ -1,27 +1,29 @@
-import { describe, test, expect, vi } from "vitest";
-import { pipe } from "fp-ts/lib/function.js";
 import * as O from "fp-ts/lib/Option.js";
-import { Schema } from "effect";
+import { describe, test, expect, vi } from "vitest";
 import { getTextContents } from "./getTextContents.js";
 import { getTextContentsCapped } from "./getTextContentsCapped.js";
 import { isValidValue } from "./isValidValue.js";
 import { transform, relationsTransformer } from "./transform.utils.js";
-import { toParagraph, toInitialValue, StringToBlockNoteDocument } from "./utils.js";
-import { DEFAULT_EVENT_INLINE_ID } from "./eventInline.specs.js";
-import { DEFAULT_ID } from "./MediaBlock.specs.js";
-import { DEFAULT_ACTOR_ID } from "./actorInline.specs.js";
-import { DEFAULT_LINK_ENTITY_ID } from "./linkEntityInline.specs.js";
-import { DEFAULT_EVENT_INLINE_ID as DUMMY } from "./eventInline.specs.js";
-import { eventInlineSpec } from "./eventInline.specs.js";
-import { mediaBlockSpecs } from "./MediaBlock.specs.js";
-import { eventBlockSpecs } from "./EventBlock.specs.js";
-import { actorInlineSpec } from "./actorInline.specs.js";
-import { areaInlineSpec } from "./areaInline.specs.ts";
-import { groupInlineSpec } from "./groupInline.specs.ts";
-import { keywordInlineSpec } from "./keywordInline.specs.ts";
-import { linkEntityInlineSpec } from "./linkEntityInline.specs.ts";
-import { relationInlineSpec } from "./relationInline.specs.ts";
-import type { BNBlock } from "./type.js";
+import {
+  toParagraph,
+  toInitialValue,
+  StringToBlockNoteDocument,
+} from "./utils.js";
+import {
+  DEFAULT_EVENT_INLINE_ID,
+  DEFAULT_ID,
+  DEFAULT_ACTOR_ID,
+  DEFAULT_LINK_ENTITY_ID,
+  eventInlineSpec,
+  mediaBlockSpecs,
+  eventBlockSpecs,
+  actorInlineSpec,
+  areaInlineSpec,
+  groupInlineSpec,
+  keywordInlineSpec,
+  linkEntityInlineSpec,
+  relationInlineSpec,
+} from "./";
 
 describe("blocknote providers", () => {
   describe("isValidValue", () => {
@@ -126,7 +128,12 @@ describe("blocknote providers", () => {
           id: "1",
           props: {},
           content: [
-            { type: "text", text: "Para text", content: "Para text", styles: {} },
+            {
+              type: "text",
+              text: "Para text",
+              content: "Para text",
+              styles: {},
+            },
           ],
           children: [],
         },
@@ -159,9 +166,7 @@ describe("blocknote providers", () => {
           type: "paragraph",
           id: "1",
           props: {},
-          content: [
-            { type: "text", text: "Hi", content: "Hi", styles: {} },
-          ],
+          content: [{ type: "text", text: "Hi", content: "Hi", styles: {} }],
           children: [],
         },
       ];
@@ -175,7 +180,12 @@ describe("blocknote providers", () => {
           id: "1",
           props: {},
           content: [
-            { type: "text", text: "Hello World", content: "Hello World", styles: {} },
+            {
+              type: "text",
+              text: "Hello World",
+              content: "Hello World",
+              styles: {},
+            },
           ],
           children: [],
         },
@@ -275,7 +285,12 @@ describe("blocknote providers", () => {
           props: {},
           content: [],
           children: [
-            { type: "text", text: "FromChildren", content: "FromChildren", styles: {} },
+            {
+              type: "text",
+              text: "FromChildren",
+              content: "FromChildren",
+              styles: {},
+            },
           ],
         },
       ];
@@ -290,8 +305,20 @@ describe("blocknote providers", () => {
 
     test("skips numberedListItem, bulletListItem, table blocks", () => {
       const doc: any = [
-        { type: "numberedListItem", id: "1", props: {}, content: [], children: [] },
-        { type: "bulletListItem", id: "2", props: {}, content: [], children: [] },
+        {
+          type: "numberedListItem",
+          id: "1",
+          props: {},
+          content: [],
+          children: [],
+        },
+        {
+          type: "bulletListItem",
+          id: "2",
+          props: {},
+          content: [],
+          children: [],
+        },
         { type: "table", id: "3", props: {}, content: [], children: [] },
       ];
       const spy = vi.fn(() => O.some(["item"]));
@@ -344,7 +371,13 @@ describe("blocknote providers", () => {
             {
               type: "actor",
               id: "actor-1",
-              props: { id: "actor-1", fullName: "John", className: "", displayAvatar: true, displayFullName: true },
+              props: {
+                id: "actor-1",
+                fullName: "John",
+                className: "",
+                displayAvatar: true,
+                displayFullName: true,
+              },
               content: [],
               children: [],
             },
@@ -366,7 +399,12 @@ describe("blocknote providers", () => {
             {
               type: "group",
               id: "group-1",
-              props: { id: "group-1", name: "Group", className: "", displayAvatar: true },
+              props: {
+                id: "group-1",
+                name: "Group",
+                className: "",
+                displayAvatar: true,
+              },
               content: [],
               children: [],
             },
@@ -438,7 +476,12 @@ describe("blocknote providers", () => {
             {
               type: "area",
               id: "area-1",
-              props: { id: "area-1", className: "", displayLabel: true, displayFeaturedImage: false },
+              props: {
+                id: "area-1",
+                className: "",
+                displayLabel: true,
+                displayFeaturedImage: false,
+              },
               content: [],
               children: [],
             },
@@ -460,7 +503,11 @@ describe("blocknote providers", () => {
             {
               type: "link-entity",
               id: "link-1",
-              props: { id: "link-1", url: "http://example.com", title: "Example" },
+              props: {
+                id: "link-1",
+                url: "http://example.com",
+                title: "Example",
+              },
               content: [],
               children: [],
             },
@@ -502,8 +549,20 @@ describe("blocknote providers", () => {
 
     test("skips numberedListItem, bulletListItem, table for relations", () => {
       const doc: any = [
-        { type: "numberedListItem", id: "1", props: {}, content: [], children: [] },
-        { type: "bulletListItem", id: "2", props: {}, content: [], children: [] },
+        {
+          type: "numberedListItem",
+          id: "1",
+          props: {},
+          content: [],
+          children: [],
+        },
+        {
+          type: "bulletListItem",
+          id: "2",
+          props: {},
+          content: [],
+          children: [],
+        },
         { type: "table", id: "3", props: {}, content: [], children: [] },
       ];
       const result = relationsTransformer(doc);
@@ -518,7 +577,13 @@ describe("blocknote providers", () => {
           id: "1",
           props: {},
           content: [
-            { type: "actor", id: "actor-1", props: { id: "actor-1" }, content: [], children: [] },
+            {
+              type: "actor",
+              id: "actor-1",
+              props: { id: "actor-1" },
+              content: [],
+              children: [],
+            },
           ],
           children: [],
         },
@@ -527,7 +592,13 @@ describe("blocknote providers", () => {
           id: "2",
           props: {},
           content: [
-            { type: "actor", id: "actor-1", props: { id: "actor-1" }, content: [], children: [] },
+            {
+              type: "actor",
+              id: "actor-1",
+              props: { id: "actor-1" },
+              content: [],
+              children: [],
+            },
           ],
           children: [],
         },
@@ -619,12 +690,14 @@ describe("blocknote providers", () => {
           type: "paragraph",
           id: "1",
           props: {},
-          content: [{ type: "text", text: "Hello", content: "Hello", styles: {} }],
+          content: [
+            { type: "text", text: "Hello", content: "Hello", styles: {} },
+          ],
           children: [],
         },
       ];
       // The encode path uses getTextContents internally
-      expect(getTextContents(doc as any)).toBe("Hello");
+      expect(getTextContents(doc)).toBe("Hello");
     });
 
     test("encode path handles multi-paragraph", () => {
@@ -633,18 +706,22 @@ describe("blocknote providers", () => {
           type: "paragraph",
           id: "1",
           props: {},
-          content: [{ type: "text", text: "Line1", content: "Line1", styles: {} }],
+          content: [
+            { type: "text", text: "Line1", content: "Line1", styles: {} },
+          ],
           children: [],
         },
         {
           type: "paragraph",
           id: "2",
           props: {},
-          content: [{ type: "text", text: "Line2", content: "Line2", styles: {} }],
+          content: [
+            { type: "text", text: "Line2", content: "Line2", styles: {} },
+          ],
           children: [],
         },
       ];
-      expect(getTextContents(doc as any)).toBe("Line1\nLine2");
+      expect(getTextContents(doc)).toBe("Line1\nLine2");
     });
 
     test("decode path uses toInitialValue", () => {
@@ -674,7 +751,9 @@ describe("blocknote providers", () => {
   describe("inline specs", () => {
     test("eventInlineSpec has correct structure", () => {
       expect(eventInlineSpec.type).toBe("event-inline");
-      expect(eventInlineSpec.propSchema.id.default).toBe(DEFAULT_EVENT_INLINE_ID);
+      expect(eventInlineSpec.propSchema.id.default).toBe(
+        DEFAULT_EVENT_INLINE_ID,
+      );
       expect(eventInlineSpec.content).toBe("none");
     });
 
@@ -701,7 +780,9 @@ describe("blocknote providers", () => {
 
     test("linkEntityInlineSpec has correct structure", () => {
       expect(linkEntityInlineSpec.type).toBe("link-entity");
-      expect(linkEntityInlineSpec.propSchema.id.default).toBe(DEFAULT_LINK_ENTITY_ID);
+      expect(linkEntityInlineSpec.propSchema.id.default).toBe(
+        DEFAULT_LINK_ENTITY_ID,
+      );
       expect(linkEntityInlineSpec.content).toBe("none");
     });
 

@@ -1,11 +1,17 @@
 import type { AxiosInstance } from "axios";
-import * as axiosModule from "axios";
-import { pipe } from "fp-ts/lib/function.js";
+import type * as axiosModule from "axios";
 import * as E from "fp-ts/lib/Either.js";
+import { pipe } from "fp-ts/lib/function.js";
 import { describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { throwTE } from "../../utils/fp.utils.js";
-import { HTTPProvider, HTTPError, toHTTPError, fromValidationErrors, liftFetch } from "./http.provider.js";
+import {
+  HTTPProvider,
+  HTTPError,
+  toHTTPError,
+  fromValidationErrors,
+  liftFetch,
+} from "./http.provider.js";
 
 // Mock axios
 vi.mock("axios", async (importOriginal) => {
@@ -225,9 +231,7 @@ describe("liftFetch", () => {
   it("lifts successful fetch with decode that transforms", async () => {
     const mockResponse = { data: { name: "test" } };
     const lp = vi.fn(() => Promise.resolve(mockResponse));
-    const decode = vi.fn((d: any) =>
-      E.right({ id: "1", ...d }),
-    );
+    const decode = vi.fn((d: any) => E.right({ id: "1", ...d }));
 
     const result = await pipe(liftFetch(lp, decode), throwTE);
     expect(result).toEqual({ id: "1", name: "test" });
@@ -237,34 +241,38 @@ describe("liftFetch", () => {
     const axiosError = new Error("Network Error") as any;
     axiosError.isAxiosError = true;
     axiosError.response = { status: 500 };
-    const lp = vi.fn(() => Promise.reject(axiosError));
+    const lp = vi.fn(() => Promise.reject(new Error("Network Error")));
     const decode = vi.fn();
 
-    await expect(
-      pipe(liftFetch(lp, decode), throwTE),
-    ).rejects.toBeInstanceOf(HTTPError);
+    await expect(pipe(liftFetch(lp, decode), throwTE)).rejects.toBeInstanceOf(
+      HTTPError,
+    );
   });
 
   it("handles decode failure in liftFetch", async () => {
     const mockResponse = { data: { invalid: true } };
     const lp = vi.fn(() => Promise.resolve(mockResponse));
     const decode = vi.fn(() => {
-      const parseError = { _tag: "Type", path: ["id"], message: "Expected string" };
+      const parseError = {
+        _tag: "Type",
+        path: ["id"],
+        message: "Expected string",
+      };
       return E.left(parseError);
     });
 
-    await expect(
-      pipe(liftFetch(lp, decode), throwTE),
-    ).rejects.toBeInstanceOf(HTTPError);
+    await expect(pipe(liftFetch(lp, decode), throwTE)).rejects.toBeInstanceOf(
+      HTTPError,
+    );
   });
 
   it("handles non-axios error in liftFetch", async () => {
     const lp = vi.fn(() => Promise.reject(new Error("Random error")));
     const decode = vi.fn();
 
-    await expect(
-      pipe(liftFetch(lp, decode), throwTE),
-    ).rejects.toBeInstanceOf(HTTPError);
+    await expect(pipe(liftFetch(lp, decode), throwTE)).rejects.toBeInstanceOf(
+      HTTPError,
+    );
   });
 });
 
