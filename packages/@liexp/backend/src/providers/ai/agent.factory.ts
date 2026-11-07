@@ -8,7 +8,7 @@
 import path from "path";
 import { type StructuredToolInterface } from "@langchain/core/tools";
 import { MemorySaver } from "@langchain/langgraph";
-import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
+import { type MCPAdapter } from "@langchain/mcp-adapters";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import type { AgentType, AIConfig } from "@liexp/io/lib/http/Chat.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
@@ -122,7 +122,7 @@ export const AGENT_CONFIGS: Record<
 };
 
 interface AgentFactoryOptions {
-  mcpClient: MultiServerMCPClient | null;
+  mcpClient: MCPAdapter | null;
   /** CLI executor tool used exclusively by the platform agent */
   cliTool: StructuredToolInterface;
   /** Per-provider API keys — used when an override switches to a different provider */

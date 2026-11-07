@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@langchain/anthropic": "^1.5.10",
-    "@langchain/mcp-adapters": "^1.1.4",
+    "@langchain/mcp-adapters": "^2.0.1",
     "@langchain/openai": "^1.5.13",
     "@langchain/xai": "^1.4.13",
     "@liexp/backend": "workspace:*",
