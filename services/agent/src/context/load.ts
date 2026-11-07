@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import path from "path";
-import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
+import { type MCPAdapter } from "@langchain/mcp-adapters";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { GetAgentFactory } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
@@ -185,12 +185,12 @@ export const getAgentContext =
 
     /**
      * Retry MCP connection using fp-ts TaskEither pattern with exponential backoff.
-     * Retries only the initializeConnections() call, keeping the client instance alive.
-     * The MultiServerMCPClient handles runtime reconnections separately (maxAttempts: 5,
+     * Retries only the listToolsets() call, keeping the client instance alive.
+     * The MCPAdapter handles runtime reconnections separately (maxAttempts: 5,
      * delayMs: 10s). This retryConnect handles initial startup failures.
      */
     const retryConnect = (
-      mcpClient: MultiServerMCPClient,
+      mcpClient: MCPAdapter,
       attempt = 1,
       maxAttempts = 10,
       baseDelayMs = 1000,
@@ -198,7 +198,7 @@ export const getAgentContext =
     ): TE.TaskEither<Error, void> =>
       pipe(
         TE.tryCatch(
-          () => mcpClient.initializeConnections(),
+          () => mcpClient.listToolsets(),
           (error) =>
             error instanceof Error ? error : new Error(String(error)),
         ),
