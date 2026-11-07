@@ -12,10 +12,14 @@
   "instructions": [
     "./AGENTS.md"
   ],
-  "permission": {
-    "skill": {
-      "paperclip-*": "allow"
-    }
+  "experimental": {
+    "policies": [
+      {
+        "action": "skill",
+        "resource": "paperclip-*",
+        "effect": "allow"
+      }
+    ]
   },
   "mcp": {
     "graymatter": {
