@@ -3,6 +3,7 @@ import * as path from "path";
 import { loadPuppeteer } from "@liexp/backend/lib/context/load/puppeteer.load.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
+import { initSentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
@@ -41,6 +42,12 @@ export const loadContext = (
     fp.TE.Do,
     fp.TE.bind("env", () =>
       pipe(loadAndParseENV(parseENV)(process.cwd()), fp.TE.fromEither),
+    ),
+    fp.TE.chainFirst(({ env }) =>
+      pipe(
+        fp.TE.fromIOEither(initSentry(env.SENTRY_DSN)),
+        fp.TE.mapLeft(toAIBotError),
+      ),
     ),
     fp.TE.bind("fs", () => fp.TE.right(GetFSClient({ client: fs }))),
     fp.TE.bind("pdf", () => fp.TE.right(PDFProvider({ client: pdfjs }))),

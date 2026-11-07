@@ -15,6 +15,10 @@ const ENV = Schema.Struct({
   // LocalAI gateway serializes/queues requests, so this must stay >= the
   // agent's own LOCALAI_TIMEOUT_MS to avoid ai-bot aborting before agent does.
   AGENT_REQUEST_TIMEOUT_MS: Schema.optional(Schema.NumberFromString),
+  // error tracking
+  SENTRY_DSN: Schema.optionalWith(Schema.NullOr(Schema.String), {
+    default: () => null,
+  }),
 }).annotations({
   title: "ENV",
 });
