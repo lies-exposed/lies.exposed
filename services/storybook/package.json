@@ -55,9 +55,9 @@
     "@types/d3": "^7.4.3",
     "@types/react": "^18.3.27",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "eslint": "^10.10.0",
+    "eslint": "^10.14.0",
     "eslint-plugin-storybook": "^10.6.5",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.10",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
   }
 }
