@@ -73,6 +73,42 @@ const processDoneJobBlockNoteResult =
     );
   };
 
+const toISODateOrNull = (value: unknown): Date | null => {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}/.test(value)) {
+    return null;
+  }
+  const date = new Date(value.substring(0, 10));
+  return isNaN(date.getTime()) ? null : date;
+};
+
+/**
+ * Fills the actor's birth/death dates from the AI result, only when they are
+ * still empty: the ai-bot actor flow returns dates only when backed by a
+ * cited source, and we never overwrite dates set by an admin.
+ */
+const processDoneJobActorDates = (job: Queue.Queue): RTE<void> => {
+  const bornOn = toISODateOrNull(job.result?.bornOn);
+  const diedOn = toISODateOrNull(job.result?.diedOn);
+  if (!bornOn && !diedOn) {
+    return fp.RTE.of(undefined);
+  }
+  return pipe(
+    ActorRepository.findOneOrFail({ where: { id: Equal(job.id) } }),
+    fp.RTE.chain((actor) => {
+      const update = {
+        ...(bornOn && !actor.bornOn ? { bornOn } : {}),
+        ...(diedOn && !actor.diedOn ? { diedOn } : {}),
+      };
+      return Object.keys(update).length === 0
+        ? fp.RTE.of(undefined)
+        : pipe(
+            ActorRepository.save([{ ...actor, ...update }]),
+            fp.RTE.map(() => undefined),
+          );
+    }),
+  );
+};
+
 const resolveToActorIds = (values: unknown[]): RTE<UUID[]> =>
   pipe(
     values,
@@ -287,6 +323,7 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
       if (job.resource === ACTORS.literals[0]) {
         return pipe(
           processDoneJobBlockNoteResult(ActorRepository)(job),
+          fp.RTE.chain(() => processDoneJobActorDates(job)),
           fp.RTE.map(() => job),
         );
       }

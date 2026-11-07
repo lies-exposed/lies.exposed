@@ -2,6 +2,7 @@ import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import { type ClientContextRTE } from "../../types.js";
+import { failedJobUpdate } from "./job-retry.js";
 import { type AIBotError, toAIBotError } from "#common/error/index.js";
 
 type JobProcessors = (
@@ -59,12 +60,18 @@ const processJob =
               () => toAIBotError(new Error("No results returned")),
             ),
             fp.TE.fold(
-              (e) =>
-                fp.T.of({
-                  ...job,
-                  error: e,
-                  status: "failed",
-                } as Queue.Queue),
+              (e) => {
+                const update = failedJobUpdate(job, e);
+                ctx.logger.error.log(
+                  "Job %s (%s) failed (attempt %d): %s — %s",
+                  job.id,
+                  job.type,
+                  update.error.attempts,
+                  e.message,
+                  update.status === "pending" ? "will retry" : "giving up",
+                );
+                return fp.T.of({ ...job, ...update } as Queue.Queue);
+              },
               (result) =>
                 fp.T.of({
                   ...job,
@@ -80,12 +87,7 @@ const processJob =
           const updatedJob = pipe(
             result,
             fp.E.fold(
-              (e) =>
-                ({
-                  ...job,
-                  error: e,
-                  status: "failed",
-                }) as Queue.Queue,
+              (e) => ({ ...job, ...failedJobUpdate(job, e) }) as Queue.Queue,
               (r) => r,
             ),
           );

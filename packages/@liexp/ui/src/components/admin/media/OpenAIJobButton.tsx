@@ -23,7 +23,7 @@ interface OpenAIPromptButtonProps<A extends RaRecord> {
 }
 
 export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
-  model = "gpt-4",
+  model,
   prompt,
   question,
   description,

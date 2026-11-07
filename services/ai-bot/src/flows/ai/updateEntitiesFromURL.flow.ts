@@ -1,12 +1,18 @@
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { EditActorBody } from "@liexp/io/lib/http/Actor.js";
+import { EditGroupBody } from "@liexp/io/lib/http/Group.js";
 import { type UpdateEntitiesFromURLTypeData } from "@liexp/io/lib/http/Queue/index.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { toAIBotError } from "../../common/error/index.js";
 import { type ClientContext } from "../../context.js";
 import { type ClientContextRTE } from "../../types.js";
+import { parseISODate, pickExactMatch } from "./entityMatching.js";
+import { fetchURLContent, type PageContent } from "./pageContent.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 // --- Structured AI response schemas (all properties required for OpenAI structured output) ---
@@ -25,13 +31,13 @@ const ActorInfoSchema = Schema.Struct({
     description:
       "A short biography or description of the actor based on the source",
   }),
-  bornOn: Schema.String.annotations({
+  bornOn: Schema.NullOr(Schema.String).annotations({
     description:
-      "Birth date in ISO format (YYYY-MM-DD) or empty string if unknown",
+      "Birth date in ISO format (YYYY-MM-DD) ONLY if explicitly stated in the source, otherwise null",
   }),
-  diedOn: Schema.String.annotations({
+  diedOn: Schema.NullOr(Schema.String).annotations({
     description:
-      "Death date in ISO format (YYYY-MM-DD) or empty string if still alive or unknown",
+      "Death date in ISO format (YYYY-MM-DD) ONLY if explicitly stated in the source, otherwise null",
   }),
   keywords: Schema.Array(Schema.String).annotations({
     description: "Relevant keywords describing the actor",
@@ -75,6 +81,27 @@ interface UpdateEntitiesFromURLResult {
 }
 
 // --- Per-entity update helpers ---
+//
+// Safety rules (a previous version corrupted prod data by editing the first
+// fuzzy-search hit and overwriting its excerpt with article-scoped text):
+// - only an unambiguous, normalized exact name match is updated
+// - only EMPTY fields are filled; existing curated data is never overwritten
+// - the entity name is never changed
+
+/**
+ * Edit bodies use `OptionFromUndefinedOr` for every field ("undefined = keep
+ * current"), so the encoded payload must list every key. Start from all
+ * `undefined` and set only the fields we want to fill.
+ */
+const keepAllFields = <F extends Schema.Struct.Fields>(
+  s: Schema.Struct<F>,
+): { [K in keyof Schema.Struct.Encoded<F>]: undefined } =>
+  Object.fromEntries(Object.keys(s.fields).map((k) => [k, undefined])) as {
+    [K in keyof Schema.Struct.Encoded<F>]: undefined;
+  };
+
+const isEmptyExcerpt = (excerpt: unknown): boolean =>
+  !isValidValue(excerpt) || getTextContents(excerpt).trim() === "";
 
 const searchAndUpdateActor =
   (actor: ActorInfoSchema): ClientContextRTE<string | null> =>
@@ -83,33 +110,52 @@ const searchAndUpdateActor =
       ctx.api.Actor.List({
         Query: {
           q: actor.fullName,
-          _end: "5",
+          _end: "10",
           _start: "0",
         },
       }),
       fp.TE.chain((response) => {
-        const matches = response.data;
-        if (matches.length === 0) {
+        const match = pickExactMatch(actor.fullName, response.data, (a) => [
+          a.fullName,
+          a.username,
+        ]);
+        if (!match) {
           return fp.TE.right(null as string | null);
         }
 
-        const match = matches[0];
+        const bornOn = parseISODate(actor.bornOn);
+        const diedOn = parseISODate(actor.diedOn);
+        const body = {
+          ...(isEmptyExcerpt(match.excerpt) && actor.description.trim()
+            ? { excerpt: toInitialValue(actor.description) }
+            : {}),
+          ...(!match.bornOn && bornOn ? { bornOn } : {}),
+          ...(!match.diedOn && diedOn ? { diedOn } : {}),
+        };
+
+        if (Object.keys(body).length === 0) {
+          return fp.TE.right(null as string | null);
+        }
 
         return pipe(
           ctx.api.Actor.Edit({
             Params: { id: match.id },
             Body: {
-              fullName: actor.fullName,
-              excerpt: toInitialValue(actor.description),
-              bornOn: actor.bornOn ? new Date(actor.bornOn) : undefined,
-              diedOn: actor.diedOn ? new Date(actor.diedOn) : undefined,
-              keywords: actor.keywords,
-            } as any,
+              ...keepAllFields(EditActorBody),
+              ...body,
+            } satisfies typeof EditActorBody.Encoded,
           }),
           fp.TE.map(() => match.id as string | null),
         );
       }),
-      fp.TE.orElse(() => fp.TE.right(null as string | null)),
+      fp.TE.orElse((e) => {
+        ctx.logger.warn.log(
+          "Failed to update actor %s: %s",
+          actor.fullName,
+          e.message,
+        );
+        return fp.TE.right(null as string | null);
+      }),
     );
 
 const searchAndUpdateGroup =
@@ -118,32 +164,47 @@ const searchAndUpdateGroup =
     pipe(
       ctx.api.Group.List({
         Query: {
-          name: group.name,
-          _end: "5",
+          q: group.name,
+          _end: "10",
           _start: "0",
         },
       }),
       fp.TE.chain((response) => {
-        const matches = response.data;
-        if (matches.length === 0) {
+        const match = pickExactMatch(group.name, response.data, (g) => [
+          g.name,
+          g.username,
+        ]);
+        if (
+          !match ||
+          !isEmptyExcerpt(match.excerpt) ||
+          !group.description.trim()
+        ) {
           return fp.TE.right(null as string | null);
         }
-
-        const match = matches[0];
 
         return pipe(
           ctx.api.Group.Edit({
             Params: { id: match.id },
             Body: {
-              name: group.name,
+              ...keepAllFields(EditGroupBody),
               excerpt: toInitialValue(group.description),
-            } as any,
+            } satisfies typeof EditGroupBody.Encoded,
           }),
           fp.TE.map(() => match.id as string | null),
         );
       }),
-      fp.TE.orElse(() => fp.TE.right(null as string | null)),
+      fp.TE.orElse((e) => {
+        ctx.logger.warn.log(
+          "Failed to update group %s: %s",
+          group.name,
+          e.message,
+        );
+        return fp.TE.right(null as string | null);
+      }),
     );
+
+const uniq = (ids: readonly (string | null)[]): string[] =>
+  Array.from(new Set(ids.filter((r): r is string => r !== null)));
 
 // --- Flow ---
 
@@ -170,35 +231,66 @@ export const updateEntitiesFromURLFlow: JobProcessRTE<
           fp.TE.mapLeft(toAIBotError),
         ),
     ),
-    fp.RTE.bind("extracted", ({ link }) =>
+    // Pre-fetch the page so the model reasons over its actual text. When the
+    // fetch fails we fall back to the URL alone and let the agent's own
+    // scraping tool try, instead of failing the job outright.
+    fp.RTE.bindW(
+      "pageContent",
+      ({ link }) =>
+        (ctx: ClientContext) =>
+          pipe(
+            fetchURLContent(link.url)(ctx),
+            fp.TE.map((c): PageContent | null => c),
+            fp.TE.orElseW((e) => {
+              ctx.logger.warn.log(
+                "updateEntitiesFromURLFlow: cannot fetch %s (%s), sending URL only",
+                link.url,
+                e.message,
+              );
+              return fp.TE.right<never, PageContent | null>(null);
+            }),
+          ),
+    ),
+    fp.RTE.bind("extracted", ({ link, pageContent }) =>
       pipe(
         AgentChatService.getStructuredOutput<
           ClientContext,
           ExtractedEntitiesSchema
         >({
-          message: `Extract all mentioned actors and groups from the following URL: ${link.url}\n\n${job.question ?? defaultQuestion}`,
+          message: pageContent
+            ? [
+                `Extract all mentioned actors and groups from the following article (source: ${link.url}).`,
+                "Only use the article text below; do not add people or organizations that are not mentioned in it.",
+                "",
+                pageContent.title,
+                pageContent.content,
+                "",
+                job.question ?? defaultQuestion,
+              ].join("\n")
+            : `Extract all mentioned actors and groups from the following URL: ${link.url}\n\n${job.question ?? defaultQuestion}`,
           conversationId: null,
           model: job.model ?? undefined,
+          schema: ExtractedEntitiesSchema,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),
     ),
     fp.RTE.bind("actorResults", ({ extracted }) =>
-      fp.A.traverse(fp.RTE.ApplicativePar)(searchAndUpdateActor)(
+      fp.A.traverse(fp.RTE.ApplicativeSeq)(searchAndUpdateActor)(
         extracted.actors,
       ),
     ),
     fp.RTE.bind("groupResults", ({ extracted }) =>
-      fp.A.traverse(fp.RTE.ApplicativePar)(searchAndUpdateGroup)(
+      fp.A.traverse(fp.RTE.ApplicativeSeq)(searchAndUpdateGroup)(
         extracted.groups,
       ),
     ),
     fp.RTE.map(({ extracted, actorResults, groupResults }) => ({
-      updatedActors: actorResults.filter((r): r is string => r !== null),
+      updatedActors: uniq(actorResults),
       unmatchedActors: extracted.actors
         .filter((_, i) => actorResults[i] === null)
         .map((a) => a.fullName),
-      updatedGroups: groupResults.filter((r): r is string => r !== null),
+      updatedGroups: uniq(groupResults),
       unmatchedGroups: extracted.groups
         .filter((_, i) => groupResults[i] === null)
         .map((g) => g.name),

@@ -1,7 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type AgentType } from "@liexp/io/lib/http/Chat.js";
 import { type AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { type API } from "@ts-endpoint/resource-client";
-import { type Schema } from "effect";
+import { JSONSchema, ParseResult, Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type LoggerContext } from "../../context/logger.context.js";
@@ -51,9 +52,17 @@ interface StructuredOutputOptions<T> {
    */
   model?: string | null;
   /**
-   * Optional schema for validation (currently used for documentation only)
+   * Optional specialized agent to run the request with (e.g. "researcher"
+   * for web-verified answers). Defaults to the agent service default.
    */
-  schema?: Schema.Schema<T, unknown, never>;
+  agentType?: AgentType;
+  /**
+   * Optional schema. When provided it is sent to the agent as a JSON schema
+   * (`output_schema`) so the final answer is produced via structured output,
+   * and the parsed response is decoded with it: a response that does not
+   * match fails the request instead of propagating malformed data.
+   */
+  schema?: Schema.Schema<T, any, never>;
   /**
    * Optional flag to extract JSON from markdown code blocks
    * @default false
@@ -80,6 +89,23 @@ export const extractJsonFromMarkdown = (content: string): string => {
   }
 
   return content;
+};
+
+/**
+ * Builds the JSON schema sent to the agent. Returns undefined for schemas
+ * that cannot be represented (e.g. declarations without JSON annotations).
+ */
+export const toOutputJSONSchema = (
+  schema: Schema.Schema<any, any, never>,
+): Record<string, unknown> | undefined => {
+  try {
+    const { $schema: _ignored, ...jsonSchema } = JSONSchema.make(
+      schema,
+    ) as unknown as { $schema?: string } & Record<string, unknown>;
+    return jsonSchema;
+  } catch {
+    return undefined;
+  }
 };
 
 /**
@@ -164,6 +190,10 @@ export const AgentChatService = {
             message: options.message,
             conversation_id: options.conversationId ?? null,
             model: options.model ?? undefined,
+            agent_type: options.agentType,
+            output_schema: options.schema
+              ? toOutputJSONSchema(options.schema)
+              : undefined,
           },
         }),
         fp.TE.chainEitherK((response) => {
@@ -187,6 +217,30 @@ export const AgentChatService = {
                   message.structured_output,
                   options.extractFromMarkdown ?? true,
                 );
+
+            if (options.schema) {
+              const decoded = Schema.decodeUnknownEither(options.schema)(
+                parsed,
+              );
+              if (decoded._tag === "Left") {
+                const issues = ParseResult.TreeFormatter.formatErrorSync(
+                  decoded.left,
+                );
+                ctx.logger.error.log(
+                  "AgentChatService response does not match schema: %s",
+                  issues,
+                );
+                return fp.E.left(
+                  new Error(
+                    `Agent response does not match the expected schema: ${issues}`,
+                  ),
+                );
+              }
+              ctx.logger.debug.log(
+                "AgentChatService successfully parsed and decoded response",
+              );
+              return fp.E.right(decoded.right);
+            }
 
             ctx.logger.debug.log(
               "AgentChatService successfully parsed response",
