@@ -33,6 +33,7 @@ Route by task type. Read the relevant L2 module first; load L3 data only when ne
 9. **Memory first.** At the **start of every session**, call `memory_search` with `agent_id` and a query matching the task. This recalls prior decisions, conventions, and context — never start cold.
 10. **CodeGraph first.** Before any grep/find/read/edit, call `codegraph_explore` with the symbol names, file names, or question. It returns verbatim source plus call paths in one call — replaces the grep+read loop. Pass `projectPath` for monorepo sub-projects.
 11. **Graphify on demand.** Use `skill("graphify")` for any question about architecture, file relationships, or project content — especially when `graphify-out/` already exists.
+12. **Paperclip tasks.** To create or manage Paperclip issues from this repo, use the user-scope skills `paperclip-issue` (create/comment/update), `paperclip-plan-to-issue` (plan doc → parent + sub-issues) and `paperclip-implement-issue`. They read creds from `~/.env` (`PAPERCLIP_*`).
 
 ---
 
