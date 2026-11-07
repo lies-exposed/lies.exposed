@@ -115,7 +115,7 @@ export const makeContext = (
         TGBotProvider(
           {
             logger: serverLogger,
-            client: (token: string) => new Bot(token),
+            client: (token, options) => new Bot(token, options),
             http: HTTPProvider(impl.http.client),
           },
           {
