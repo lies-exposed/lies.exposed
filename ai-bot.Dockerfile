@@ -1,6 +1,6 @@
 ARG NODE_VERSION=26
 
-FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-pnpm-latest AS dev
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS dev
 
 WORKDIR /home/node
 
@@ -23,7 +23,7 @@ WORKDIR /home/node/services/ai-bot
 
 CMD ["pnpm", "docker:dev"]
 
-FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-pnpm-latest AS deps
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS deps
 
 WORKDIR /home/node
 
@@ -35,7 +35,7 @@ RUN pnpm add pdfjs-dist@^5 \
     puppeteer-extra-plugin-stealth@^2
 
 
-FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-pnpm-latest AS production
+FROM ghcr.io/lies-exposed/liexp-base:${NODE_VERSION}-latest AS production
 
 WORKDIR /home/node
 
