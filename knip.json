@@ -108,6 +108,9 @@
       "project": [
         "src/**/*.ts",
         "test/**/*.ts"
+      ],
+      "ignore": [
+        "src/cli/standalone-cli.ts"
       ]
     },
     "services/storybook": {
