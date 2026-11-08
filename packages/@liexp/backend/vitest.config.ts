@@ -1,4 +1,4 @@
-import { extendBaseConfig } from "./src/test/vitest.base-config";
+import { extendBaseConfig } from "./src/test/vitest.base-config.ts";
 
 export default extendBaseConfig(import.meta.url, (toAlias) => ({
   test: {

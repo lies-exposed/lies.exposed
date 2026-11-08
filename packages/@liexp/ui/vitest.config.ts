@@ -5,7 +5,6 @@ export default defineConfig({
   test: {
     name: "@liexp/ui",
     root: import.meta.dirname,
-    fsModuleCache: true,
     globals: true,
     pool: "forks",
     watch: false,

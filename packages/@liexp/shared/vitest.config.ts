@@ -5,12 +5,8 @@ export default defineConfig({
   test: {
     name: "@liexp/shared",
     root: import.meta.dirname,
-    fsModuleCache: true,
     globals: true,
     pool: "forks",
-    isolate: false,
-    maxWorkers: 3,
-    sequence: { groupOrder: 5 },
     include: [import.meta.dirname + "/src/**/*.spec.ts"],
     watch: false,
     coverage: {
