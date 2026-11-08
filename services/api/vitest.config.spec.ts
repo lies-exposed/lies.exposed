@@ -4,6 +4,7 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
   root: toAlias("./"),
   test: {
     name: "api-spec",
+    fsModuleCache: true,
     root: toAlias("./"),
     globals: true,
     watch: false,
