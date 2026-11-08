@@ -1,42 +1,50 @@
-# HOM-1285 — Add Actor MCP tools (find, create, edit)
-
 ## Summary
 
-Add 3 MCP tools for actor management to the lies.exposed API service:
-
-- **findActors** — Search and list actors with filtering, sorting, and pagination
-- **createActor** — Create a new actor in the database
-- **editActor** — Update an existing actor in the database
+Migrate groups/links/actors/events MCP tools to use a typed `defineMcpTool` helper that converts Effect schema to both Zod (for MCP inputSchema) and provides typed handler input via `Schema.decodeUnknownSync`.
 
 ## Changes
 
-### New Files
-- `services/api/src/routes/mcp/tools/actors.tool.ts` — MCP tool implementations (406 lines)
+### New file
+- `services/api/src/routes/mcp/tools/helpers.ts`: `defineMcpTool` helper
 
-### Modified Files
-- `packages/@liexp/backend/src/providers/ai/toolNames.constants.ts` — Added `FIND_ACTORS`, `CREATE_ACTOR`, `EDIT_ACTOR` constants
-- `services/api/src/routes/mcp/tools/index.ts` — Registered `registerActorsTools`
+### Migrated files (5 files, 608 insertions, 840 deletions)
+- `groups.tool.ts`: 3 tools (find, create, edit)
+- `links.tool.ts`: 3 tools (find, create, edit)
+- `actors.tool.ts`: 3 tools (find, create, edit)
+- `events.tool.ts`: 3 tools (find, create, edit)
 
-## Implementation Details
+## Pattern Change
 
-The tools follow the existing `links.tool.ts` pattern:
-- **Input validation**: Uses `effectToZodStruct` to convert Effect schemas to Zod schemas for MCP input validation
-- **Error handling**: Uses fp-ts `pipe` + `TE` (TaskEither) for functional error handling
-- **Backend integration**: Uses existing backend queries (`fetchActors`) and flows (`createActor`, `editActor`)
-- **Context passing**: Tools receive `ServerContext` for database access and logging
+**Before:**
+```typescript
+const inputSchema = effectToZodStruct(Schema.Struct({ ... }));
+server.registerTool(name, { inputSchema }, async (opts) => {
+  const { field } = opts ?? {};  // opts is unknown, needs casting
+});
+```
+
+**After:**
+```typescript
+const tool = defineMcpTool(Schema.Struct({ ... }), async (input) => {
+  const { field } = input;  // input is fully typed
+});
+server.registerTool(name, { inputSchema: tool.inputSchema }, tool.handler);
+```
 
 ## Acceptance Criteria
 
-- [x] All 3 tools register and are callable via MCP endpoint
-- [x] Input validation works against effect schemas
-- [x] Create returns created actor or `{ success: true }` for Wikipedia path
-- [x] Edit returns updated actor
+- [x] api/routes/mcp `any` lines reduced (from ~24 to ~8)
+- [x] All 4 tool files migrated (groups, links, actors, events)
+- [x] Single atomic PR (5 files, within 10 file limit)
+- [x] No `effectToZodStruct` usage in migrated files
+- [x] ESLint passes (remaining warnings are flow function type mismatches, not MCP input related)
 
 ## Verification
 
 ```
-pnpm --filter api exec tsc --noEmit 2>&1 | grep "actors\.tool\.ts"
-# No errors in actors.tool.ts
+# any cast count in api/routes/mcp
+HEAD: ~24
+Working tree: ~8
 ```
 
-All TypeScript errors in the api package are pre-existing test file issues unrelated to this change.
+Remaining `any` casts are in flow function return types and Option type narrowing, which are structural issues unrelated to MCP input handling.
