@@ -23,3 +23,7 @@ export const EDIT_SETTING = "editSetting";
 export const FIND_AREAS = "findAreas";
 export const CREATE_AREA = "createArea";
 export const EDIT_AREA = "editArea";
+
+export const FIND_MEDIA = "findMedia";
+export const CREATE_MEDIA = "createMedia";
+export const EDIT_MEDIA = "editMedia";
