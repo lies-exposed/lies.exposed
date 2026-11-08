@@ -1,4 +1,9 @@
 import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
+import {
+  CREATE_GROUP,
+  EDIT_GROUP,
+  FIND_GROUPS,
+} from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Group } from "@liexp/io/lib/http/Group.js";
@@ -11,10 +16,6 @@ import type { ServerContext } from "#context/context.type.js";
 import { createGroup } from "#flows/groups/createGroup.flow.js";
 // eslint-disable-next-line import-x/no-unresolved
 import { editGroup } from "#flows/groups/editGroup.flow.js";
-
-const FIND_GROUPS = "findGroups";
-const CREATE_GROUP = "createGroup";
-const EDIT_GROUP = "editGroup";
 
 const groupToOutput = (group: Group): Record<string, unknown> => ({
   id: group.id,

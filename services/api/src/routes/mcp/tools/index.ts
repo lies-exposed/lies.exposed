@@ -7,8 +7,6 @@ import { registerGroupsTools } from "./groups.tool.js";
 import { registerLinksTools } from "./links.tool.js";
 
 export const registerTools = (server: McpServer, ctx: ServerContext) => {
-  // All resource tools (actors, groups, areas, links, media, nations, events)
-  // are handled by the agent CLI tool — no MCP tools needed.
   registerActorsTools(server, ctx);
   registerBlockNoteTools(server);
   registerGroupsTools(server, ctx);
