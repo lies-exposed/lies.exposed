@@ -11,16 +11,5 @@
   "model": "localai/qwen3.6-35b-a3b",
   "instructions": [
     "./AGENTS.md"
-  ],
-  "mcp": {
-    "mem0": {
-      "type": "remote",
-      "url": "https://mem0.ascariandrea.it/mcp",
-      "headers": {
-        "CF-Access-Client-Id": "{env:CF_ACCESS_CLIENT_ID}",
-        "CF-Access-Client-Secret": "{env:CF_ACCESS_CLIENT_SECRET}"
-      },
-      "enabled": true
-    }
-  }
+  ]
 }
