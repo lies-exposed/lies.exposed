@@ -212,10 +212,10 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
         };
 
         // Call createMediaFlow with context (no user for MCP tools)
-        const te = ((createMediaFlow as any)(
-          createBody,
-          null,
-        ))(ctx);
+        const te = createMediaFlow(
+          createBody as Parameters<typeof createMediaFlow>[0],
+          null as Parameters<typeof createMediaFlow>[1],
+        )(ctx);
         const result = await pipe(
           te,
           fp.TE.map((results: MediaEntity[]) => results.map(mediaToOutput)),
