@@ -106,16 +106,29 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
         const result = await pipe(
           te,
           fp.TE.map(([groups, total]) => ({
-            groups: groups.map((g) =>
-              pipe(
-                GroupIO.decodeSingle(g),
-                fp.E.map(groupToOutput),
-                fp.E.getOrElse(() => {
-                  ctx.logger.error.log("decode group error: %O", err);
-                  return { id: g.id, name: g.name };
-                }),
-              ),
-            ),
+            groups: groups.map((g) => {
+              const decoded = GroupIO.decodeSingle(g);
+              if (fp.E.isRight(decoded)) {
+                return groupToOutput(decoded.right);
+              }
+              ctx.logger.error.log("decode group error: %O", decoded.left);
+              return {
+                id: g.id,
+                name: g.name,
+                username: undefined,
+                kind: "Public" as const,
+                color: "",
+                avatar: undefined,
+                members: [],
+                subGroups: [],
+                body: undefined,
+                excerpt: undefined,
+                startDate: undefined,
+                endDate: undefined,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              };
+            }),
             total,
           })),
         )();
