@@ -19,6 +19,16 @@ import {
 
 const createUUID = (id: string): UUID => id as UUID;
 
+const emptyRelations: Events.EventRelationIds = {
+  areas: [],
+  actors: [],
+  groups: [],
+  groupsMembers: [],
+  keywords: [],
+  media: [],
+  links: [],
+};
+
 const createBaseEvent = (
   type: Events.EventType,
   payload: Record<string, unknown>,
@@ -494,5 +504,218 @@ describe("EventHelper", () => {
 
   it("should have transform method", () => {
     expect(EventHelper.transform).toBeDefined();
+  });
+});
+
+describe("eventRelationIdsMonoid", () => {
+  it("should return empty relation ids", () => {
+    const empty = eventRelationIdsMonoid.empty;
+    expect(empty.keywords).toEqual([]);
+    expect(empty.actors).toEqual([]);
+    expect(empty.groups).toEqual([]);
+    expect(empty.groupsMembers).toEqual([]);
+    expect(empty.media).toEqual([]);
+    expect(empty.links).toEqual([]);
+    expect(empty.areas).toEqual([]);
+  });
+
+  it("should concat relation ids without duplicates", () => {
+    const a: Events.EventRelationIds = {
+      keywords: [createUUID("k1"), createUUID("k2")],
+      actors: [createUUID("a1")],
+      groups: [createUUID("g1")],
+      groupsMembers: [],
+      media: [createUUID("m1")],
+      links: [createUUID("l1")],
+      areas: [],
+    };
+
+    const b: Events.EventRelationIds = {
+      keywords: [createUUID("k2"), createUUID("k3")],
+      actors: [createUUID("a2")],
+      groups: [createUUID("g1"), createUUID("g2")],
+      groupsMembers: [],
+      media: [createUUID("m2")],
+      links: [],
+      areas: [],
+    };
+
+    const result = eventRelationIdsMonoid.concat(a, b);
+
+    expect(result.keywords).toHaveLength(3);
+    expect(result.keywords).toContain("k1");
+    expect(result.keywords).toContain("k2");
+    expect(result.keywords).toContain("k3");
+    expect(result.actors).toHaveLength(2);
+    expect(result.groups).toHaveLength(2);
+    expect(result.media).toHaveLength(2);
+  });
+});
+
+describe("takeEventRelations", () => {
+  it("should aggregate relation ids from multiple events", () => {
+    const event1 = createBaseEvent(EVENT_TYPES.UNCATEGORIZED, {
+      title: "Event 1",
+      actors: [createUUID("actor-1")],
+      groups: [createUUID("group-1")],
+      groupsMembers: [],
+    });
+
+    const event2 = createBaseEvent(EVENT_TYPES.UNCATEGORIZED, {
+      title: "Event 2",
+      actors: [createUUID("actor-2")],
+      groups: [createUUID("group-2")],
+      groupsMembers: [],
+    });
+
+    const result = takeEventRelations([event1, event2]);
+
+    expect(result.actors).toHaveLength(2);
+    expect(result.groups).toHaveLength(2);
+  });
+
+  it("should return empty for empty array", () => {
+    const result = takeEventRelations([]);
+
+    expect(result.actors).toEqual([]);
+    expect(result.groups).toEqual([]);
+    expect(result.keywords).toEqual([]);
+  });
+
+  it("should deduplicate relation ids across events", () => {
+    const event1 = createBaseEvent(EVENT_TYPES.UNCATEGORIZED, {
+      title: "Event 1",
+      actors: [createUUID("shared-actor")],
+      groups: [],
+      groupsMembers: [],
+    });
+
+    const event2 = createBaseEvent(EVENT_TYPES.UNCATEGORIZED, {
+      title: "Event 2",
+      actors: [createUUID("shared-actor")],
+      groups: [],
+      groupsMembers: [],
+    });
+
+    const result = takeEventRelations([event1, event2]);
+
+    expect(result.actors).toHaveLength(1);
+    expect(result.actors).toContain("shared-actor");
+  });
+});
+
+describe("eventsInDateRange edge cases", () => {
+  it("should handle empty events array", () => {
+    const result = eventsInDateRange({
+      minDate: fp.O.some(new Date("2024-01-01")),
+      maxDate: fp.O.some(new Date("2024-12-31")),
+    })([]);
+
+    expect(result).toEqual([]);
+  });
+
+  it("should handle single event", () => {
+    const event = createBaseEvent(
+      EVENT_TYPES.UNCATEGORIZED,
+      { title: "Single Event", actors: [], groups: [], groupsMembers: [] },
+      { date: new Date("2024-06-15") },
+    );
+
+    const result = eventsInDateRange({
+      minDate: fp.O.none,
+      maxDate: fp.O.none,
+    })([event]);
+
+    expect(result.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("should exclude events outside range", () => {
+    const events = [
+      createBaseEvent(
+        EVENT_TYPES.UNCATEGORIZED,
+        { title: "Before", actors: [], groups: [], groupsMembers: [] },
+        { date: new Date("2023-01-01") },
+      ),
+      createBaseEvent(
+        EVENT_TYPES.UNCATEGORIZED,
+        { title: "After", actors: [], groups: [], groupsMembers: [] },
+        { date: new Date("2025-12-31") },
+      ),
+    ];
+
+    const result = eventsInDateRange({
+      minDate: fp.O.some(new Date("2024-01-01")),
+      maxDate: fp.O.some(new Date("2024-12-31")),
+    })(events);
+
+    expect(result).toHaveLength(0);
+  });
+});
+
+describe("toGetNetworkQuery edge cases", () => {
+  it("should return null for empty arrays", () => {
+    const relationIds: Events.EventRelationIds = {
+      keywords: [],
+      actors: [],
+      groups: [],
+      groupsMembers: [],
+      media: [],
+      links: [],
+      areas: [],
+    };
+
+    const result = toGetNetworkQuery(relationIds);
+
+    expect(result.keywords).toBeNull();
+    expect(result.actors).toBeNull();
+    expect(result.groups).toBeNull();
+  });
+
+  it("should return non-null for single item arrays", () => {
+    const relationIds: Events.EventRelationIds = {
+      keywords: [createUUID("k1")],
+      actors: [createUUID("a1")],
+      groups: [createUUID("g1")],
+      groupsMembers: [],
+      media: [],
+      links: [],
+      areas: [],
+    };
+
+    const result = toGetNetworkQuery(relationIds);
+
+    expect(result.keywords).not.toBeNull();
+    expect(result.actors).not.toBeNull();
+    expect(result.groups).not.toBeNull();
+  });
+});
+
+describe("getTitle edge cases", () => {
+  it("should return quote title with truncated quote when no details", () => {
+    const actor = createActor("actor-1", "John Doe");
+    const event = createBaseEvent(EVENT_TYPES.QUOTE, {
+      quote:
+        "This is a very long quote that should be truncated when displayed in the title",
+      subject: { type: "Actor", id: createUUID("actor-1") },
+    });
+    const relations = { ...emptyRelations, actors: [actor] };
+
+    const result = getTitle(event, relations);
+
+    expect(result).toContain("John Doe - ");
+    expect(result).toContain("This is a very long");
+  });
+
+  it("should return quote title with '...' when quote is short", () => {
+    const actor = createActor("actor-1", "Jane Doe");
+    const event = createBaseEvent(EVENT_TYPES.QUOTE, {
+      quote: "Short",
+      subject: { type: "Actor", id: createUUID("actor-1") },
+    });
+    const relations = { ...emptyRelations, actors: [actor] };
+
+    const result = getTitle(event, relations);
+
+    expect(result).toBe("Jane Doe - Short...");
   });
 });
