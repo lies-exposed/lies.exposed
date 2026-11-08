@@ -10,13 +10,17 @@ import { type Simplify } from "effect/Schema";
  * // { id: undefined, name: undefined, email: undefined }
  * ```
  */
-export const partial = <T>(): Simplify<Partial<T>> & Record<keyof T, undefined> =>
-  new Proxy({} as Partial<T>, {
-    get: (_target, prop) => undefined,
-    has: (_target, _prop) => true,
-    ownKeys: () => [],
-    getOwnPropertyDescriptor: () => ({
-      enumerable: true,
-      configurable: true,
-    }),
-  }) as Simplify<Partial<T>> & Record<keyof T, undefined>;
+export const partial = <T>(): Simplify<Partial<T>> &
+  Record<keyof T, undefined> =>
+  new Proxy(
+    {},
+    {
+      get: (_target, _prop) => undefined,
+      has: (_target, _prop) => true,
+      ownKeys: () => [],
+      getOwnPropertyDescriptor: () => ({
+        enumerable: true,
+        configurable: true,
+      }),
+    },
+  ) as Simplify<Partial<T>> & Record<keyof T, undefined>;
