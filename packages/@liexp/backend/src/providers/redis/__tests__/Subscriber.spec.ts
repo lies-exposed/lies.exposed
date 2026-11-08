@@ -18,12 +18,9 @@ describe("Subscriber", () => {
 
   const mockPubSub = RedisPubSub("test-channel", (data: unknown) => {
     if (typeof data === "string") return { _tag: "Right", right: data };
+    if (typeof data === "object" && data !== null)
+      return { _tag: "Right", right: data };
     return { _tag: "Left", left: new Error("parse error") };
-  });
-
-  const mockSubscribe = vi.fn().mockReturnValue({
-    _tag: "Right",
-    right: undefined,
   });
 
   const mockCtx = {
@@ -32,15 +29,17 @@ describe("Subscriber", () => {
   };
 
   it("returns a subscriber with subscribe method", () => {
-    const sub = Subscriber(mockPubSub as any, mockSubscribe);
+    const sub = Subscriber(mockPubSub as any, vi.fn());
     expect(typeof sub.subscribe).toBe("function");
     expect(typeof sub.publish).toBe("function");
     expect(sub.channel).toBe("test-channel");
   });
 
   it("subscribe calls redis.client.subscribe", async () => {
-    const sub = Subscriber(mockPubSub as any, mockSubscribe);
-    const handler = await sub.subscribe(mockCtx)();
+    const handlerFn = vi.fn();
+    const sub = Subscriber(mockPubSub as any, handlerFn);
+    const result = await sub.subscribe(mockCtx)();
+    const handler = result._tag === "Right" ? result.right : undefined;
 
     expect(mockRedis.client.subscribe).toHaveBeenCalledWith("test-channel");
     expect(mockLogger.debug.log).toHaveBeenCalledWith(
@@ -50,13 +49,17 @@ describe("Subscriber", () => {
   });
 
   it("handler decodes and processes messages", async () => {
-    const handlerFn = vi.fn().mockReturnValue({
-      _tag: "Right",
-      right: undefined,
+    const handlerFn = vi.fn().mockImplementation(() => {
+      return (_ctx: any) => () =>
+        Promise.resolve({
+          _tag: "Right",
+          right: undefined,
+        } as any);
     });
 
     const sub = Subscriber(mockPubSub as any, handlerFn);
-    const handler = await sub.subscribe(mockCtx)();
+    const result = await sub.subscribe(mockCtx)();
+    const handler = result._tag === "Right" ? result.right : undefined;
 
     await handler(JSON.stringify({ test: "data" }));
 
@@ -64,13 +67,17 @@ describe("Subscriber", () => {
   });
 
   it("handler logs errors when message handling fails", async () => {
-    const handlerFn = vi.fn().mockReturnValue({
-      _tag: "Left",
-      left: new Error("handler error"),
+    const handlerFn = vi.fn().mockImplementation(() => {
+      return (_ctx: any) => () =>
+        Promise.resolve({
+          _tag: "Left",
+          left: new Error("handler error"),
+        } as any);
     });
 
     const sub = Subscriber(mockPubSub as any, handlerFn);
-    const handler = await sub.subscribe(mockCtx)();
+    const result = await sub.subscribe(mockCtx)();
+    const handler = result._tag === "Right" ? result.right : undefined;
 
     await handler(JSON.stringify({ test: "data" }));
 
@@ -82,13 +89,17 @@ describe("Subscriber", () => {
   });
 
   it("handler logs success when message is processed", async () => {
-    const handlerFn = vi.fn().mockReturnValue({
-      _tag: "Right",
-      right: { processed: true },
+    const handlerFn = vi.fn().mockImplementation(() => {
+      return (_ctx: any) => () =>
+        Promise.resolve({
+          _tag: "Right",
+          right: { processed: true },
+        } as any);
     });
 
     const sub = Subscriber(mockPubSub as any, handlerFn);
-    const handler = await sub.subscribe(mockCtx)();
+    const result = await sub.subscribe(mockCtx)();
+    const handler = result._tag === "Right" ? result.right : undefined;
 
     await handler(JSON.stringify({ test: "data" }));
 
@@ -108,7 +119,8 @@ describe("Subscriber", () => {
     }));
 
     const sub = Subscriber(pubSub as any, handlerFn);
-    const handler = await sub.subscribe(mockCtx)();
+    const result = await sub.subscribe(mockCtx)();
+    const handler = result._tag === "Right" ? result.right : undefined;
 
     await handler(JSON.stringify({ test: "data" }));
 

@@ -67,7 +67,7 @@ describe("toError", () => {
   });
 
   it("logs error message", () => {
-    toError(mockLogger as any)(new Error("test"));
+    toError(mockLogger as any)()(new Error("test"));
     expect(mockLogger.error.log).toHaveBeenCalledWith(
       "An error occurred %O",
       expect.any(Error),
