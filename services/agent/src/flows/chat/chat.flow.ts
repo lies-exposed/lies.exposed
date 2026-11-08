@@ -753,7 +753,7 @@ export const sendChatMessageStream = (payload: {
 
     // Inject relevant memories from past conversations (gracefully degrades
     // when memory is not configured or unavailable).
-    const messageWithMemories = injectMemories(enhancedMessage, ctx);
+    const messageWithMemories = await injectMemories(enhancedMessage, ctx);
 
     ctx.logger.debug.log(
       "sendChatMessageStream — agent_type: %s, aiConfig: %O",
