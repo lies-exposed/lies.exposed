@@ -6,9 +6,9 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchActors } from "@liexp/backend/lib/queries/actors/fetchActors.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import type { GetListActorQuery } from "@liexp/io/lib/http/Actor.js";
 import type { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
