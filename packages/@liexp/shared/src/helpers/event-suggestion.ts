@@ -12,7 +12,7 @@ type SuggestionLink =
   | { fromURL: boolean; url: string & Brand<"URL">; publishDate: Date | null };
 
 export const getSuggestions =
-  (createExcerptValue: (b: string) => Promise<string>) =>
+  (createExcerptValue: (b: unknown) => Promise<string | undefined>) =>
   async (
     m: Metadata,
     link: O.Option<http.Link.Link>,

@@ -8,6 +8,7 @@ import * as React from "react";
 import { Button, useDataProvider } from "react-admin";
 import { useNavigate } from "react-router";
 import { toBNDocument } from "../../Common/BlockNote/utils/utils.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { Box, MenuItem, Select, Stack } from "../../mui/index.js";
 
 export const CreateEventFromMediaButton: React.FC = () => {
@@ -20,7 +21,10 @@ export const CreateEventFromMediaButton: React.FC = () => {
   );
 
   const handleSubmit = async (media: Media): Promise<void> => {
-    const suggestion = await getSuggestions(toBNDocument)(
+    const suggestion = await getSuggestions(async (v) => {
+      const doc = await toBNDocument(v);
+      return doc ? getTextContents(doc as never) : undefined;
+    })(
       {
         title: media.label ?? media.description?.substring(0, 100),
         description: media.description,
