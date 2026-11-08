@@ -363,7 +363,8 @@ export const useSendMessage = ({
           error instanceof TypeError &&
           (error.message.includes("Error in input stream") ||
             error.message.includes("The stream has already been consumed") ||
-            error.message.includes("network error"));
+            error.message.includes("network error") ||
+            error.message.includes("fetch failed"));
 
         if (!isBenign) {
           // eslint-disable-next-line no-console
