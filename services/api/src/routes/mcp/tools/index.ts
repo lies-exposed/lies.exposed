@@ -5,6 +5,7 @@ import { registerBlockNoteTools } from "./blockNoteToText.tool.js";
 import { registerEventsTools } from "./events.tool.js";
 import { registerGroupsTools } from "./groups.tool.js";
 import { registerLinksTools } from "./links.tool.js";
+import { registerSettingsTools } from "./settings.tool.js";
 
 export const registerTools = (server: McpServer, ctx: ServerContext) => {
   registerActorsTools(server, ctx);
@@ -12,4 +13,5 @@ export const registerTools = (server: McpServer, ctx: ServerContext) => {
   registerGroupsTools(server, ctx);
   registerLinksTools(server, ctx);
   registerEventsTools(server, ctx);
+  registerSettingsTools(server, ctx);
 };
