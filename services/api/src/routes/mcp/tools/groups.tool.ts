@@ -71,7 +71,7 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       title: "Find groups",
       description:
         "Search and list groups in the database with filtering, sorting, and pagination.",
-      annotations: { title: "Find groups" },
+      annotations: { title: "Find groups", readOnlyHint: true },
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
       inputSchema: findGroupsInputSchema as unknown as {
         query?: any;
@@ -216,7 +216,7 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Create group",
       description: "Create a new group in the database.",
-      annotations: { title: "Create group" },
+      annotations: { title: "Create group", destructiveHint: true },
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
       inputSchema: createGroupInputSchema as unknown as {
         name: any;
@@ -339,7 +339,7 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Edit group",
       description: "Edit an existing group in the database.",
-      annotations: { title: "Edit group" },
+      annotations: { title: "Edit group", destructiveHint: true },
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
       inputSchema: editGroupInputSchema as unknown as {
         id: any;

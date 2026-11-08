@@ -73,7 +73,7 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
       title: "Find links",
       description:
         "Search and list links in the database with filtering, sorting, and pagination.",
-      annotations: { title: "Find links" },
+      annotations: { title: "Find links", readOnlyHint: true },
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
       inputSchema: findLinksInputSchema as unknown as {
         query?: any;
@@ -153,7 +153,7 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
       title: "Create link",
       description:
         "Create a new link with URL deduplication and metadata enrichment. If a link with the same URL exists, returns it. Otherwise fetches metadata from the URL and creates a new link.",
-      annotations: { title: "Create link" },
+      annotations: { title: "Create link", destructiveHint: true },
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
       inputSchema: createLinkInputSchema as unknown as { url?: any },
     },
@@ -292,7 +292,7 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
       title: "Edit link",
       description:
         "Update a link's title, description, url, status, publishDate, events, or keywords. Only provided fields are updated.",
-      annotations: { title: "Edit link" },
+      annotations: { title: "Edit link", destructiveHint: true },
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
       inputSchema: editLinkInputSchema as unknown as {
         id?: any;
