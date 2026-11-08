@@ -76,7 +76,9 @@ export const editEventQuery =
               ...baseProps,
               type: input.type,
               payload: mergedPayload,
-              ...commonData,
+              ...(input.links !== undefined ? { links: commonData.links } : {}),
+              ...(input.keywords !== undefined ? { keywords: commonData.keywords } : {}),
+              ...(input.media !== undefined ? { media: commonData.media } : {}),
             };
             return TE.right(event);
           }
@@ -97,7 +99,9 @@ export const editEventQuery =
             return TE.right({
               ...storedEvent,
               ...baseProps,
-              ...commonData,
+              ...(input.links !== undefined ? { links: commonData.links } : {}),
+              ...(input.keywords !== undefined ? { keywords: commonData.keywords } : {}),
+              ...(input.media !== undefined ? { media: commonData.media } : {}),
               type,
               payload: mergedPayload,
             });

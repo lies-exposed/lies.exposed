@@ -796,7 +796,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const editBody: any = {
           type: (input.type ?? storedEvent.type) as Events.EventType,
-          body: O.fromNullable(input.excerpt),
+          body: O.fromNullable(input.body),
           excerpt: O.fromNullable(input.excerpt),
           date: input.date
             ? O.some(new Date(input.date))
@@ -806,10 +806,18 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
               ? O.some(input.draft)
               : (O.none as unknown as O.Option<boolean>),
           payload: mergedPayload as any,
-          links: O.fromNullable(input.links),
-          media: O.fromNullable(input.media),
-          keywords: O.fromNullable(input.keywords),
         };
+
+        // Only include relations if explicitly provided (partial update)
+        if (input.links !== undefined) {
+          editBody.links = O.fromNullable(input.links);
+        }
+        if (input.media !== undefined) {
+          editBody.media = O.fromNullable(input.media);
+        }
+        if (input.keywords !== undefined) {
+          editBody.keywords = O.fromNullable(input.keywords);
+        }
 
         // Execute the edit event query
         const editTE = editEventQuery(storedEvent, editBody)(ctx);
