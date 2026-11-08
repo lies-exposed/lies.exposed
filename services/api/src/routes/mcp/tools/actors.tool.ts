@@ -83,16 +83,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       description:
         "Search and list actors in the database with filtering, sorting, and pagination.",
       annotations: { title: "Find actors", readOnlyHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: findActorsInputSchema as unknown as {
-        fullName?: any;
-        memberIn?: any;
-        withDeleted?: any;
-        sort?: any;
-        order?: any;
-        start?: any;
-        end?: any;
-      },
+      inputSchema: findActorsInputSchema,
     },
     async (opts) => {
       const { fullName, memberIn, withDeleted, sort, order, start, end } =
@@ -189,18 +180,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       description:
         "Create a new actor in the database. Accepts username and fullName as required fields, with optional metadata like color, dates, and media.",
       annotations: { title: "Create actor", destructiveHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: createActorInputSchema as unknown as {
-        username?: any;
-        fullName?: any;
-        color?: any;
-        excerpt?: any;
-        nationalities?: any;
-        body?: any;
-        avatar?: any;
-        bornOn?: any;
-        diedOn?: any;
-      },
+      inputSchema: createActorInputSchema,
     },
     async (opts) => {
       const {
@@ -323,20 +303,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       description:
         "Update an existing actor in the database. Provide the actor ID and any fields to update.",
       annotations: { title: "Edit actor", destructiveHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: editActorInputSchema as unknown as {
-        id?: any;
-        username?: any;
-        fullName?: any;
-        color?: any;
-        excerpt?: any;
-        nationalities?: any;
-        body?: any;
-        avatar?: any;
-        bornOn?: any;
-        diedOn?: any;
-        memberIn?: any;
-      },
+      inputSchema: editActorInputSchema,
     },
     async (opts) => {
       const {

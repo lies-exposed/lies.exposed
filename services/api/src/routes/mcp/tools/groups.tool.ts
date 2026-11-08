@@ -3,13 +3,10 @@ import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Group } from "@liexp/io/lib/http/Group.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
-import { Schema } from "effect";
-// eslint-disable-next-line import-x/order, @typescript-eslint/consistent-type-imports
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { Schema } from "effect";
 import type { ServerContext } from "#context/context.type.js";
-// eslint-disable-next-line import-x/no-unresolved
 import { createGroup } from "#flows/groups/createGroup.flow.js";
-// eslint-disable-next-line import-x/no-unresolved
 import { editGroup } from "#flows/groups/editGroup.flow.js";
 
 const FIND_GROUPS = "findGroups";
@@ -72,14 +69,8 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       description:
         "Search and list groups in the database with filtering, sorting, and pagination.",
       annotations: { title: "Find groups", readOnlyHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: findGroupsInputSchema as unknown as {
-        query?: any;
-        sort?: any;
-        order?: any;
-        start?: any;
-        end?: any;
-      },
+
+      inputSchema: findGroupsInputSchema,
     },
     async (opts) => {
       const { query, sort, order, start, end } = opts ?? {};
@@ -217,18 +208,8 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       title: "Create group",
       description: "Create a new group in the database.",
       annotations: { title: "Create group", destructiveHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: createGroupInputSchema as unknown as {
-        name: any;
-        username: any;
-        color: any;
-        kind: any;
-        excerpt?: any;
-        body?: any;
-        startDate?: any;
-        endDate?: any;
-        members?: any;
-      },
+
+      inputSchema: createGroupInputSchema,
     },
     async (opts) => {
       const {
@@ -340,19 +321,8 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       title: "Edit group",
       description: "Edit an existing group in the database.",
       annotations: { title: "Edit group", destructiveHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: editGroupInputSchema as unknown as {
-        id: any;
-        name?: any;
-        username?: any;
-        color?: any;
-        kind?: any;
-        excerpt?: any;
-        body?: any;
-        startDate?: any;
-        endDate?: any;
-        members?: any;
-      },
+
+      inputSchema: editGroupInputSchema,
     },
     async (opts) => {
       const {
