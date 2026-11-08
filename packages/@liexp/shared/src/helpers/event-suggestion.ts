@@ -1,12 +1,18 @@
 import { type UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { http } from "@liexp/io/lib/index.js";
+import { type Brand } from "effect/Brand";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type Metadata } from "page-metadata-parser";
 
+/** Type matching EventSuggestionLinks: UUID or { fromURL, url, publishDate } */
+type SuggestionLink =
+  | UUID
+  | { fromURL: boolean; url: string & Brand<"URL">; publishDate: Date | null };
+
 export const getSuggestions =
-  (createExcerptValue: (b: string) => Promise<any>) =>
+  (createExcerptValue: (b: unknown) => Promise<string | undefined>) =>
   async (
     m: Metadata,
     link: O.Option<http.Link.Link>,
@@ -55,13 +61,14 @@ export const getSuggestions =
       O.alt(() => media),
     );
 
-    const suggestedEventLinks = pipe(
+    const suggestedEventLinks: SuggestionLink[] = pipe(
       link,
       O.map((l) => [l.id]),
-      O.getOrElse((): any[] => [
+      O.getOrElse<SuggestionLink[]>(() => [
         {
-          url: m.url,
-          publishDate: urlDate.toISOString(),
+          fromURL: true,
+          url: m.url as unknown as string & Brand<"URL">,
+          publishDate: urlDate,
         },
       ]),
     );

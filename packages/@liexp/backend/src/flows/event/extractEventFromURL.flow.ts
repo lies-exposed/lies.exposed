@@ -7,6 +7,7 @@ import {
 } from "@liexp/io/lib/http/Events/EventType.js";
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { firstNonEmpty } from "@liexp/shared/lib/utils/string.utils.js";
 import { parse } from "date-fns";
@@ -237,7 +238,7 @@ const extractByProvider =
           TE.chain(({ link, relations }) =>
             TE.tryCatch(() => {
               const suggestionMaker = getSuggestions((v) =>
-                Promise.resolve(toInitialValue(v)),
+                Promise.resolve(getTextContents(toInitialValue(v) ?? [])),
               );
 
               return suggestionMaker(metadata, link, O.none, relations);

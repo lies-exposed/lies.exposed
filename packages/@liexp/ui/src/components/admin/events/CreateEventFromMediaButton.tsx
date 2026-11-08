@@ -2,6 +2,7 @@ import { type Media } from "@liexp/io/lib/http/Media/Media.js";
 import * as io from "@liexp/io/lib/index.js";
 import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import * as O from "fp-ts/lib/Option.js";
 import { useRecordContext } from "ra-core";
 import * as React from "react";
@@ -20,7 +21,10 @@ export const CreateEventFromMediaButton: React.FC = () => {
   );
 
   const handleSubmit = async (media: Media): Promise<void> => {
-    const suggestion = await getSuggestions(toBNDocument)(
+    const suggestion = await getSuggestions(async (v) => {
+      const doc = await toBNDocument(v);
+      return doc ? getTextContents(doc as never) : undefined;
+    })(
       {
         title: media.label ?? media.description?.substring(0, 100),
         description: media.description,

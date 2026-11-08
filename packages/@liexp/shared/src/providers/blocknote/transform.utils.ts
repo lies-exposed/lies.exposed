@@ -1,6 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { type EventRelationIds } from "@liexp/io/lib/http/Events/index.js";
+import { type Brand } from "effect/Brand";
 import { type Option } from "fp-ts/lib/Option.js";
 import { DEFAULT_EVENT_INLINE_ID } from "./eventInline.specs.js";
 import { isValidValue } from "./isValidValue.js";
@@ -82,22 +83,35 @@ const inlineRelationsPluginSerializer = (
     case "media":
     case "event":
     case "link-entity": {
-      const pp: any = p;
       return pipe(
-        pp.props?.id,
+        (p as { props?: { id?: string } }).props?.id ?? undefined,
         fp.O.fromNullable,
-        fp.O.map((id) => [{ id, type: p.type as InlineRelation["type"] }]),
+        fp.O.map(
+          (id) =>
+            [
+              {
+                id: id as string & Brand<"UUID">,
+                type: p.type as InlineRelation["type"],
+              },
+            ] as InlineRelation[],
+        ),
       );
     }
     case "event-inline": {
-      const pp: any = p;
-      if (pp.props?.id === DEFAULT_EVENT_INLINE_ID) {
+      if (
+        (p as { props?: { id?: string } }).props?.id === DEFAULT_EVENT_INLINE_ID
+      ) {
         return fp.O.none;
       }
       return pipe(
-        pp.props?.id,
+        (p as { props?: { id?: string } }).props?.id ?? undefined,
         fp.O.fromNullable,
-        fp.O.map((id) => [{ id, type: "event" }]),
+        fp.O.map(
+          (id) =>
+            [
+              { id: id as string & Brand<"UUID">, type: "event" },
+            ] as InlineRelation[],
+        ),
       );
     }
     case "numberedListItem":
