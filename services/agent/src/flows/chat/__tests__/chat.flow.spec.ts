@@ -896,6 +896,32 @@ describe("chat.flow", () => {
       if (get._tag === "Right") expect(get.right.length).toBeGreaterThan(0);
     });
 
+    test("passes a resolved string (not a Promise) to streamEvents when memory is configured", async () => {
+      const streamEvents = vi
+        .fn()
+        .mockImplementation(() => asyncEvents([chatModelEvent("ok")]));
+      ctx = createMockContext({
+        memoryClient: {
+          addMemory: vi.fn().mockReturnValue(TE.right(undefined)),
+          searchMemories: vi
+            .fn()
+            .mockReturnValue(
+              TE.right([{ id: "m1", memory: "user likes tests", score: 0.9 }]),
+            ),
+        } as any,
+        agentFactory: vi
+          .fn()
+          .mockReturnValue(TE.right({ invoke: vi.fn(), streamEvents })),
+      });
+
+      const events = await collect(ctx, "hello");
+
+      expect(events.filter((e) => e.type === "error")).toEqual([]);
+      const input = streamEvents.mock.calls[0][0] as { messages: unknown[] };
+      expect(typeof input.messages[0]).toBe("string");
+      expect(input.messages[0]).toContain("hello");
+    });
+
     test("message_start and message_end include usedProvider when aiConfig is given", async () => {
       const events: any[] = [];
       for await (const e of sendChatMessageStream({
