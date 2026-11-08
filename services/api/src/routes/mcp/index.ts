@@ -61,7 +61,28 @@ export const MakeMCPRoutes: Route = (router, ctx) => {
       await server.connect(transport);
     }
 
-    await transport.handleRequest(req, res, req.body);
+    try {
+      await transport.handleRequest(req, res, req.body);
+    } catch (err) {
+      // If the SDK didn't already send a response, return a JSON-RPC error.
+      if (!res.writableEnded) {
+        const message =
+          err instanceof Error ? err.message : "Unknown error";
+        res.status(200).json({
+          jsonrpc: "2.0",
+          id: (req.body as { id?: number })?.id ?? null,
+          error: { code: -32603, message },
+        });
+      }
+      // If the SDK already sent a response (e.g. 500 Express error),
+      // log the error but don't try to send another response.
+      else {
+        ctx.logger.error.log(
+          "MCP transport error (response already sent):",
+          err instanceof Error ? err.message : String(err),
+        );
+      }
+    }
   });
 
   // Reusable handler for GET and DELETE requests
