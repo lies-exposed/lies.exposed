@@ -10,6 +10,7 @@ export default defineConfig({
     pool: "forks",
     isolate: false,
     maxWorkers: 3,
+    sequence: { groupOrder: 5 },
     include: [import.meta.dirname + "/src/**/*.spec.ts"],
     watch: false,
     coverage: {
