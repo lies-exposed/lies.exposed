@@ -1,6 +1,5 @@
-/**
- * Constants for tool names used in the system.
- */
-
-// BlockNote tools
 export const BLOCK_NOTE_TO_TEXT = "blockNoteToText";
+
+export const FIND_LINKS = "findLinks";
+export const CREATE_LINK = "createLink";
+export const EDIT_LINK = "editLink";
