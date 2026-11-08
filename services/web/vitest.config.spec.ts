@@ -10,8 +10,10 @@ export default defineProject({
   },
   test: {
     name: "web-spec",
+    fsModuleCache: true,
     globals: true,
-    pool: "vmForks",
+    pool: "threads",
+    isolate: false,
     watch: false,
     environment: "node",
     include: ["src/**/*.spec.ts", "src/**/*.test.ts"],

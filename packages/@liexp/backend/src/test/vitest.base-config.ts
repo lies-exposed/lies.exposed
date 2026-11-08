@@ -33,6 +33,7 @@ export const extendBaseConfig = (
         pool: "vmForks",
         sequence: { groupOrder: 1 },
         watch: false,
+        fsModuleCache: true,
         alias: {
           sharp: toBackendAlias("lib/test/mocks/sharp.mock.js"),
           canvas: toBackendAlias("lib/test/mocks/canvas.mock.js"),
