@@ -27,7 +27,8 @@ export interface ToolStrategyOptions {
    * - `string` - retry the tool call with the provided message
    * - function - retry with the provided message or throw the error
    */
-  handleError?: boolean | string | ((error: any) => Promise<string> | string);
+  handleError?:
+    boolean | string | ((error: unknown) => Promise<string> | string);
 }
 
 /**

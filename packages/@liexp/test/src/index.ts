@@ -8,6 +8,8 @@ import * as Nation from "./arbitrary/Nation.arbitrary.js";
 import * as Story from "./arbitrary/Story.arbitrary.js";
 import * as UUID from "./arbitrary/common/UUID.arbitrary.js";
 import * as Event from "./arbitrary/events/index.arbitrary.js";
+import * as helpers from "./helpers/partial.js";
+import * as mockHelpers from "./helpers/mockOf.js";
 
 const Arbs = {
   UUID,
@@ -21,4 +23,4 @@ const Arbs = {
   Event,
 };
 
-export { fc, Actor, Area, Group, Link, Media, Event, Nation, Story, Arbs };
+export { fc, Actor, Area, Group, Link, Media, Event, Nation, Story, Arbs, helpers, mockHelpers };

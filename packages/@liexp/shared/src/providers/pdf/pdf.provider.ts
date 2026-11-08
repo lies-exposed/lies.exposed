@@ -12,7 +12,7 @@ export class PDFError extends IOError {
 
 export type { PDFDocumentProxy };
 
-const toError = (e: any): IOError => {
+const toError = (e: unknown): IOError => {
   if (e instanceof IOError) {
     return e;
   }
@@ -25,10 +25,10 @@ const toError = (e: any): IOError => {
     });
   }
 
-  return new PDFError(e, {
+  return new PDFError(String(e), {
     kind: "ServerError",
     status: "500",
-    meta: e.stack,
+    meta: e instanceof Error ? e.stack : undefined,
   });
 };
 

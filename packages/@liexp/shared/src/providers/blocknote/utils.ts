@@ -41,7 +41,7 @@ const toInitialValueS = (value: string): BlockNoteDocument => {
 
 function toInitialValue(v: string): BlockNoteDocument;
 function toInitialValue(v: unknown): BlockNoteDocument | undefined;
-function toInitialValue(v: any): BlockNoteDocument | undefined {
+function toInitialValue(v: unknown): BlockNoteDocument | undefined {
   if (typeof v === "string") {
     return toInitialValueS(v);
   }
@@ -83,7 +83,7 @@ export const StringToBlockNoteDocument = Schema.transformOrFail(
     },
     encode: (doc, _options, ast) => {
       try {
-        return ParseResult.succeed(getTextContents(doc as any));
+        return ParseResult.succeed(getTextContents(doc as BlockNoteDocument));
       } catch (e) {
         return ParseResult.fail(
           new ParseResult.Type(

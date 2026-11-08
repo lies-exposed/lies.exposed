@@ -29,7 +29,7 @@ const serializeMeta = (v: unknown): string =>
  *   "[object Object]".
  */
 const detailsToStrings = (
-  details: IOErrorDetails<any>,
+  details: IOErrorDetails<never>,
 ): string[] | undefined => {
   if (details.kind === "DecodingError") {
     return details.errors.length > 0 ? details.errors.map(String) : undefined;
@@ -105,7 +105,9 @@ export const toAPIError = (e: unknown): APIError => {
 /**
  * Formats IOErrorDetails as a single newline-separated string for logging.
  */
-export const reportIOErrorDetails = (details: IOErrorDetails<any>): string => {
+export const reportIOErrorDetails = (
+  details: IOErrorDetails<never>,
+): string => {
   if (!details) return "";
   return (detailsToStrings(details) ?? []).join("\n");
 };
@@ -115,7 +117,7 @@ export const reportIOErrorDetails = (details: IOErrorDetails<any>): string => {
  * Handles all error kinds: DecodingError, ClientError, ServerError, NetworkError.
  */
 export const decodeIOErrorDetails = (
-  details: IOErrorDetails<any>,
+  details: IOErrorDetails<never>,
 ): string[] => {
   return detailsToStrings(details) ?? [];
 };
