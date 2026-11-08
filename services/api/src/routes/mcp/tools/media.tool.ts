@@ -1,6 +1,6 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import * as O from "fp-ts/lib/Option.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -23,9 +23,7 @@ const mediaToOutput = (media: MediaEntity) => ({
   thumbnail: media.thumbnail ?? undefined,
   type: media.type,
   extra: media.extra ?? undefined,
-  events: (media.events ?? []).map((e) =>
-    Schema.is(UUID)(e) ? e : e.id,
-  ),
+  events: (media.events ?? []).map((e) => (Schema.is(UUID)(e) ? e : e.id)),
   links: (media.links ?? []).map((l) =>
     Schema.is(UUID)(l) ? l : l.id,
   ),
@@ -353,8 +351,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       try {
         // First, fetch the existing media to get its type
         const existingMedia = await ctx.db.manager.findOne(
-          MediaEntity,
-          {
+          MediaEntity, {
             where: { id },
             relations: ["creator"],
           } as any,
@@ -369,11 +366,11 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
         // Build EditMediaBody for the flow (following actors.tool.ts pattern)
         const flowInput: Record<string, unknown> = {
           type: currentType,
-          thumbnail: thumbnail !== undefined ? thumbnail : undefined,
-          location: location !== undefined ? location : undefined,
-          label: label !== undefined ? label : undefined,
-          description: description !== undefined ? description : undefined,
-          extra: extra !== undefined ? extra : undefined,
+          thumbnail: thumbnail ?? undefined,
+          location: location ?? undefined,
+          label: label ?? undefined,
+          description: description ?? undefined,
+          extra: extra ?? undefined,
           events: events ?? [],
           links: links ?? [],
           keywords: keywords ?? [],
@@ -393,7 +390,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
         )(ctx);
         const result = await pipe(
           te,
-          fp.TE.map((r) => mediaToOutput(r as MediaEntity)),
+          fp.TE.map((r) => mediaToOutput(r)),
         )();
 
         if (fp.E.isLeft(result)) {
