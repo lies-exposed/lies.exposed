@@ -48,16 +48,16 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "storybook": "^10.6.5",
-    "vite": "^8.2.4"
+    "vite": "^8.3.6"
   },
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@types/d3": "^7.4.3",
     "@types/react": "^18.3.27",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "eslint": "^10.10.0",
+    "eslint": "^10.14.0",
     "eslint-plugin-storybook": "^10.6.5",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.10",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
   }
 }
