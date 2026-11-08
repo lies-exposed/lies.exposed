@@ -23,6 +23,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc -b tsconfig.build.json",
+    "build:cli": "tsx esbuild.standalone-cli.ts",
     "clean": "rm -rf build",
     "cli": "node build/cli/cli.js",
     "cli:dev": "node src/cli/cli.ts",
@@ -77,6 +78,7 @@
     "@types/prompts": "^2.4.9",
     "@types/supertest": "^7.2.1",
     "@typescript/native": "npm:typescript@^7.0.2",
+    "esbuild": "^0.25.0",
     "eslint": "^10.10.0",
     "msw": "^2.15.0",
     "supertest": "^7.1.0",
