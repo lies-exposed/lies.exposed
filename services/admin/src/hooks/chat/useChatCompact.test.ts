@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { type SetupServer, setupServer } from "msw/node";
 import {
   describe,
@@ -27,7 +27,7 @@ describe("useChatCompact", () => {
 
   beforeAll(() => {
     mswServer = setupServer();
-    mswServer.listen({ onUnhandledRequest: "error" });
+    mswServer.listen({ onUnhandledFrame: "error" });
   });
 
   afterEach(() => {

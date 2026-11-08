@@ -2,7 +2,7 @@ import * as MediaIO from "@liexp/io/lib/http/Media/Media.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Media as MediaArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 import { mswServer } from "../../../test/mswServer.js";
 import { actorFindAvatar } from "../actors/actor-find-avatar.js";

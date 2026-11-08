@@ -6,7 +6,7 @@ import { mswServer } from "./mswServer.js";
  * Registered as a setupFile so it runs once per worker, before any test file.
  */
 beforeAll(() => {
-  mswServer.listen({ onUnhandledRequest: "error" });
+  mswServer.listen({ onUnhandledFrame: "error" });
 });
 
 afterEach(() => {
