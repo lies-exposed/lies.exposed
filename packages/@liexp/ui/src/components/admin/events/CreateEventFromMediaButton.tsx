@@ -2,13 +2,13 @@ import { type Media } from "@liexp/io/lib/http/Media/Media.js";
 import * as io from "@liexp/io/lib/index.js";
 import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import * as O from "fp-ts/lib/Option.js";
 import { useRecordContext } from "ra-core";
 import * as React from "react";
 import { Button, useDataProvider } from "react-admin";
 import { useNavigate } from "react-router";
 import { toBNDocument } from "../../Common/BlockNote/utils/utils.js";
-import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { Box, MenuItem, Select, Stack } from "../../mui/index.js";
 
 export const CreateEventFromMediaButton: React.FC = () => {
