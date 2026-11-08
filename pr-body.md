@@ -1,62 +1,34 @@
-# HOM-46: Migrate TypeORM from v0.3 to v1
+# HOM-1270 — Add tests for untested utility files
 
 ## Summary
 
-Migrated TypeORM from v0.3.31 to v1.0 across the Lies Exposed monorepo.
+Added unit tests for 11 utility files in `@liexp/shared/src/utils/` that previously had no test coverage.
 
-## Changes Made
+## Files Changed (11 new test files)
 
-### Core Changes
-- **Import renames**: `PostgresConnectionOptions` → `PostgresDataSourceOptions` in `database.provider.ts`
-- **Property rename**: `e.connection` → `e.dataSource` in transaction block
-- **Removed `loadRelationCountAndMap`**: Replaced with correlated sub-query in `upsertPinnedMessage.flow.ts`
-- **Version bumps**: Updated typeorm in `packages/@liexp/backend/package.json`, `services/api/package.json`, `services/worker/package.json`
+| Source File | Test File | Tests |
+|---|---|---|
+| `APIError.utils.ts` | `APIError.utils.spec.ts` | 18 tests |
+| `ByGroupOrActorUtils.ts` | `ByGroupOrActorUtils.spec.ts` | 1 test |
+| `asset.utils.ts` | `asset.utils.spec.ts` | 1 test |
+| `defaultSites.ts` | `defaultSites.spec.ts` | 2 tests |
+| `env.utils.ts` | `env.utils.spec.ts` | 5 tests |
+| `isServer.ts` | `isServer.spec.ts` | 2 tests |
+| `media.utils.ts` | `media.utils.spec.ts` | 2 tests |
+| `promise.utils.ts` | `promise.utils.spec.ts` | 6 tests |
+| `string.utils.ts` | `string.utils.spec.ts` | 5 tests |
+| `structured-output.utils.ts` | `structured-output.utils.spec.ts` | 5 tests |
+| `throwValidationErrors.ts` | `throwValidationErrors.spec.ts` | 2 tests |
 
-### String Relations → Object Syntax
-Converted ~70 occurrences of string-based `relations` arrays to object syntax across the codebase:
-- `relations: ["avatar"]` → `relations: { avatar: true }`
-- `relations: ["actor", "relatedActor"]` → `relations: { actor: true, relatedActor: true }`
-- `relations: ["memberIn", "memberIn.group"]` → `relations: { memberIn: { group: true } }`
-- Applied to controllers, flows, queries, and test files
+## Test Results
 
-### String Select → Object Syntax
-Converted 4 occurrences of string-based `select` arrays:
-- `select: ["id", "fullName", "avatar"]` → `select: { id: true, fullName: true, avatar: true }`
+```
+Test Files  39 passed (39)
+Tests       581 passed (581)
+```
 
-### Removed Deprecated APIs
-- Removed `printSql()` call from `takeLinkScreeenshot.subscriber.ts` (removed in TypeORM v1)
+All tests pass. No existing tests were modified.
 
-### TypeORM v1 Compatibility Fixes
-- **Fixed `invalidWhereValuesBehavior`**: TypeORM v1 defaults to throwing on undefined/null values in where clauses. Updated `queueList.controller.ts` to build where clause dynamically, only including defined filter values.
+## Risk Assessment
 
-### Storybook Restorations
-- Restored `EventsNetworkGraphBox.stories.tsx` with updated imports and Vite-compatible Storybook setup
-- Fixed `HierarchyNetworkGraphBox.stories.tsx` (codemod corrupted relations lines)
-
-### Test & Build Fixes
-- Removed `pglite-datasource.ts` test utility (no longer needed)
-- Fixed prettier indentation in worker service files
-- Updated e2e test files for new relations syntax
-
-### Files Modified
-- **packages/@liexp/backend**: database.provider.ts, buildActorRelationTree.flow.ts, parseURL.flow.ts, upsertPinnedMessage.flow.ts, extractRelationsFromText.flow.ts, validateStoryPublish.flow.ts, data-source.spec.ts
-- **packages/@liexp/ui**: AutocompleteEventInput.tsx, ActorTemplate.tsx, EventsFlowGraphFormTab.tsx, EventsNetworkGraphFormTab.tsx
-- **services/api**: 30+ controller files, flow files, test files, migration files
-- **services/worker**: backfill-link-publish-dates.ts, processOpenAIJobsDone.job.ts, takeLinkScreeenshot.subscriber.ts, update-event-payload-url-refs.ts
-- **services/storybook**: EventsNetworkGraphBox.stories.tsx, HierarchyNetworkGraphBox.stories.tsx
-- **Test files**: mergeActor.e2e.ts, mergeEvents.e2e.ts, validateStoryPublish.flow.spec.ts
-
-### Not Changed (still compatible)
-- `loadRelationIds` and `loadAllRelationIds` relations arrays (still accept string arrays in v1.0)
-- Migration files (use stable QueryRunner API)
-- Test setup files
-
-## Verification
-
-After `pnpm install`:
-1. Type check: `pnpm -C packages/@liexp/backend run typecheck`
-2. Build: `pnpm -C packages/@liexp/backend run build`
-3. Run migrations against test DB
-4. Integration tests
-
-Co-Authored-By: Paperclip <noreply@paperclip.ing>
+**Low risk** — only adds new test files, no changes to production code.
