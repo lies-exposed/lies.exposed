@@ -213,9 +213,7 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
             title: linkEntity.title,
             url: linkEntity.url,
             keywords: [],
-            creator: { id: user.id } as Parameters<
-              typeof ctx.db.save
-            >[1][0]["creator"],
+            creator: { id: user.id },
           },
         ])();
 
