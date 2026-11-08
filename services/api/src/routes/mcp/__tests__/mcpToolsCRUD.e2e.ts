@@ -39,7 +39,8 @@ async function callMcpTool(
   expect([401, 403]).not.toContain(initResponse.status);
 
   // Extract session ID from the response header
-  const sessionId = initResponse.headers["mcp-session-id"] as string | undefined;
+  const sessionId = initResponse.headers["mcp-session-id"] as
+    string | undefined;
   expect(sessionId).toBeDefined();
   expect(typeof sessionId).toBe("string");
 
@@ -80,7 +81,10 @@ async function callMcpTool(
   expect([401, 403]).not.toContain(response.status);
 
   if (response.status !== 200) {
-    Test.ctx.logger.debug.log(`Tool ${toolName} response status:`, response.status);
+    Test.ctx.logger.debug.log(
+      `Tool ${toolName} response status:`,
+      response.status,
+    );
     Test.ctx.logger.debug.log("Response body:", response.body);
   }
 
@@ -93,7 +97,10 @@ async function callMcpTool(
   }
 
   const resultBody = body.result as Record<string, unknown> | undefined;
-  const content = resultBody?.content as Array<{ text?: string; type?: string }>;
+  const content = resultBody?.content as readonly {
+    text?: string;
+    type?: string;
+  }[];
   if (!content || content.length === 0) {
     throw new Error(`MCP tool ${toolName} returned no content`);
   }
@@ -138,7 +145,12 @@ describe("MCP CRUD Tools E2E Tests", () => {
   // ============================================================
   describe("Actors CRUD", () => {
     test("findActors - returns paginated results", async () => {
-      const result = await callMcpTool(Test, serviceClientToken, "findActors", {});
+      const result = await callMcpTool(
+        Test,
+        serviceClientToken,
+        "findActors",
+        {},
+      );
       expect(result).toHaveProperty("actors");
       expect(Array.isArray(result.actors)).toBe(true);
       expect(result).toHaveProperty("total");
@@ -173,7 +185,12 @@ describe("MCP CRUD Tools E2E Tests", () => {
   // ============================================================
   describe("Groups CRUD", () => {
     test("findGroups - returns paginated results", async () => {
-      const result = await callMcpTool(Test, serviceClientToken, "findGroups", {});
+      const result = await callMcpTool(
+        Test,
+        serviceClientToken,
+        "findGroups",
+        {},
+      );
       expect(result).toHaveProperty("groups");
       expect(Array.isArray(result.groups)).toBe(true);
       expect(result).toHaveProperty("total");
@@ -207,7 +224,12 @@ describe("MCP CRUD Tools E2E Tests", () => {
   // ============================================================
   describe("Events CRUD", () => {
     test("findEvents - returns paginated results", async () => {
-      const result = await callMcpTool(Test, serviceClientToken, "findEvents", {});
+      const result = await callMcpTool(
+        Test,
+        serviceClientToken,
+        "findEvents",
+        {},
+      );
       expect(result).toHaveProperty("events");
       expect(Array.isArray(result.events)).toBe(true);
       expect(result).toHaveProperty("total");
@@ -233,7 +255,12 @@ describe("MCP CRUD Tools E2E Tests", () => {
   // ============================================================
   describe("Links CRUD", () => {
     test("findLinks - returns paginated results", async () => {
-      const result = await callMcpTool(Test, serviceClientToken, "findLinks", {});
+      const result = await callMcpTool(
+        Test,
+        serviceClientToken,
+        "findLinks",
+        {},
+      );
       expect(result).toHaveProperty("links");
       expect(Array.isArray(result.links)).toBe(true);
       expect(result).toHaveProperty("total");
