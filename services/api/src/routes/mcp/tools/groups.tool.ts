@@ -226,18 +226,20 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       } = opts ?? {};
 
       try {
+        // Build AddGroupBody for direct creation
+        // All fields must be present (even undefined) for Schema.Struct validation
         const createBody: Record<string, unknown> = {
           name,
           username,
           color,
           kind,
           avatar: undefined,
+          excerpt: excerpt ?? undefined,
+          body: body ?? undefined,
+          startDate: startDate ? new Date(startDate) : undefined,
+          endDate: endDate ? new Date(endDate) : undefined,
+          members: members ?? [],
         };
-        if (excerpt !== undefined) createBody.excerpt = excerpt;
-        if (body !== undefined) createBody.body = body;
-        if (startDate !== undefined) createBody.startDate = new Date(startDate);
-        if (endDate !== undefined) createBody.endDate = new Date(endDate);
-        if (members !== undefined) createBody.members = members;
 
         // createGroup returns TEReader<Group> (already decoded)
         const te = createGroup(createBody as any)(ctx);

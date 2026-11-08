@@ -41,6 +41,7 @@ export const MakeMCPRoutes: Route = (router, ctx) => {
         onsessioninitialized: (sessionId) => {
           transports[sessionId] = transport;
         },
+        enableJsonResponse: true,
       });
 
       transport.onclose = () => {

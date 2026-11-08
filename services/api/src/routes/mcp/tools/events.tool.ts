@@ -522,12 +522,12 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
                 ...rest
               } = input as Record<string, unknown>;
               return {
-                title: input.title,
-                actors: input.actors,
-                groups: input.groups,
-                groupsMembers: input.groupsMembers,
-                location: input.location,
-                endDate: input.endDate,
+                title: input.title ?? "",
+                actors: input.actors ?? [],
+                groups: input.groups ?? [],
+                groupsMembers: input.groupsMembers ?? [],
+                location: input.location ?? undefined,
+                endDate: input.endDate ?? undefined,
                 ...rest,
               };
             }
