@@ -15,3 +15,7 @@ export const EDIT_GROUP = "editGroup";
 export const FIND_EVENTS = "findEvents";
 export const CREATE_EVENT = "createEvent";
 export const EDIT_EVENT = "editEvent";
+
+export const FIND_SETTINGS = "findSettings";
+export const CREATE_SETTING = "createSetting";
+export const EDIT_SETTING = "editSetting";
