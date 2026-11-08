@@ -71,7 +71,6 @@ helm/config/env
 
 # AI
 .opencode
-.graymatter
 
 # Git worktrees
 .worktrees
