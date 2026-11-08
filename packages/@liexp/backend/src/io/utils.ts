@@ -7,7 +7,13 @@ import { fp } from "@liexp/core/lib/fp/index.js";
  */
 export const mapIds = <T extends { id: string }>(
   entities: readonly T[],
-): string[] => Array.from(pipe(entities, fp.A.map((e) => e.id)));
+): string[] =>
+  Array.from(
+    pipe(
+      entities,
+      fp.A.map((e) => e.id),
+    ),
+  );
 
 /**
  * Extract a single ID from an optional entity relation.
