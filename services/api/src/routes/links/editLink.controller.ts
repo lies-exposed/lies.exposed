@@ -212,10 +212,10 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                     events.map((e) => {
                       return {
                         ...e,
-                        links: (e.links as any[] as string[])
+                        links: (e.links as string[])
                           .filter((l) => l !== link.id)
                           .map((l) => ({ id: l }))
-                          .concat({ id: link.id } as any),
+                          .concat([{ id: link.id }]),
                       };
                     }),
                   ),
@@ -230,7 +230,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
               }),
             ),
             TE.chain((finalLink) => {
-              const newStatus = (linkUpdate as any).status;
+              const newStatus = (linkUpdate as { status?: string }).status;
               if (
                 previousStatus !== APPROVED.literals[0] &&
                 newStatus === APPROVED.literals[0]

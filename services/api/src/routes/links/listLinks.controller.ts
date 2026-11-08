@@ -19,14 +19,7 @@ export const MakeListLinksRoute: Route = (r, ctx) => {
       ),
       TE.chainEitherK(([results, total]) =>
         pipe(
-          results.map((r) => ({
-            ...r,
-            creator: (r.creator?.id as any) ?? null,
-            events: r.events.map((e) => e.id) as any[],
-            keywords: r.keywords.map((e) => e.id) as any[],
-            socialPosts: r.socialPosts ?? [],
-          })),
-          (links) => LinkIO.decodeMany(links),
+          LinkIO.decodeMany(results),
           E.map((data) => ({ data, total })),
         ),
       ),

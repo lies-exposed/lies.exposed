@@ -19,15 +19,7 @@ export const MakeListMediaRoute: Route = (r, ctx) => {
       })(ctx),
       TE.chainEitherK(([data, total]) =>
         pipe(
-          data,
-          fp.A.map((d) => ({
-            ...d,
-            links: d.links.map((l) => l.id) as any[],
-            events: d.events.map((e) => e.id) as any[],
-            keywords: d.keywords.map((e) => e.id) as any[],
-            areas: d.areas.map((e) => e.id) as any[],
-          })),
-          (mm) => MediaIO.decodeMany(mm),
+          MediaIO.decodeMany(data),
           E.map((results) => ({
             total,
             data: results,
