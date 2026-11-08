@@ -908,7 +908,7 @@ describe("chat.flow", () => {
             .mockReturnValue(
               TE.right([{ id: "m1", memory: "user likes tests", score: 0.9 }]),
             ),
-        } as any,
+        },
         agentFactory: vi
           .fn()
           .mockReturnValue(TE.right({ invoke: vi.fn(), streamEvents })),
