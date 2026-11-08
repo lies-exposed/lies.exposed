@@ -149,17 +149,19 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       fullName: Schema.String.annotations({
         description: "Full name of the actor (required)",
       }),
-      color: Schema.optional(Schema.String).annotations({
-        description: "Hex color without # (default: random)",
+      color: Schema.String.annotations({
+        description: "Hex color without # (required)",
       }),
-      excerpt: Schema.optional(Schema.String).annotations({
-        description: "Short description as plain text (default: null)",
+      excerpt: Schema.optional(Schema.Any).annotations({
+        description:
+          "Short description as BlockNote document (array of blocks with type, id, props, content, children)",
       }),
       nationalities: Schema.optional(Schema.Array(Schema.String)).annotations({
         description: "Array of nationality UUIDs (default: [])",
       }),
-      body: Schema.optional(Schema.String).annotations({
-        description: "Full body content as plain text (default: null)",
+      body: Schema.optional(Schema.Any).annotations({
+        description:
+          "Full body content as BlockNote document (array of blocks with type, id, props, content, children)",
       }),
       avatar: Schema.optional(Schema.String).annotations({
         description: "Avatar media UUID (default: null)",
@@ -201,19 +203,26 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
 
       try {
         // Build AddActorBody for direct creation
+        // All fields must be present (even undefined) for Schema.Struct validation
         const bodyInput: Record<string, unknown> = {
           username,
           fullName,
+          color: color ?? "",
+          excerpt: excerpt ?? [
+            {
+              type: "paragraph",
+              id: "default",
+              props: {},
+              content: "",
+              children: [],
+            },
+          ],
+          nationalities: nationalities ?? [],
+          body: body ?? undefined,
+          avatar: avatar ?? undefined,
+          bornOn: bornOn ?? undefined,
+          diedOn: diedOn ?? undefined,
         };
-        if (color) bodyInput.color = color;
-        if (excerpt) bodyInput.excerpt = excerpt;
-        if (nationalities && nationalities.length > 0) {
-          bodyInput.nationalities = nationalities;
-        }
-        if (body) bodyInput.body = body;
-        if (avatar) bodyInput.avatar = avatar;
-        if (bornOn) bodyInput.bornOn = new Date(bornOn);
-        if (diedOn) bodyInput.diedOn = new Date(diedOn);
 
         // Call createActor flow with context
         const te = createActor(bodyInput as Parameters<typeof createActor>[0])(
