@@ -153,13 +153,15 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
         description: "Hex color without # (required)",
       }),
       excerpt: Schema.optional(Schema.Any).annotations({
-        description: "Short description as BlockNote document (array of blocks with type, id, props, content, children)",
+        description:
+          "Short description as BlockNote document (array of blocks with type, id, props, content, children)",
       }),
       nationalities: Schema.optional(Schema.Array(Schema.String)).annotations({
         description: "Array of nationality UUIDs (default: [])",
       }),
       body: Schema.optional(Schema.Any).annotations({
-        description: "Full body content as BlockNote document (array of blocks with type, id, props, content, children)",
+        description:
+          "Full body content as BlockNote document (array of blocks with type, id, props, content, children)",
       }),
       avatar: Schema.optional(Schema.String).annotations({
         description: "Avatar media UUID (default: null)",
@@ -206,7 +208,15 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
           username,
           fullName,
           color: color ?? "",
-          excerpt: excerpt ?? [{ type: "paragraph", id: "default", props: {}, content: "", children: [] }],
+          excerpt: excerpt ?? [
+            {
+              type: "paragraph",
+              id: "default",
+              props: {},
+              content: "",
+              children: [],
+            },
+          ],
           nationalities: nationalities ?? [],
           body: body ?? undefined,
           avatar: avatar ?? undefined,
