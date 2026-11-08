@@ -9,7 +9,7 @@ import {
 import { fetchLinks } from "@liexp/backend/lib/queries/links/fetchLinks.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
-import { URL } from "@liexp/io/lib/http/Common/index.js";
+import { URL, UUID } from "@liexp/io/lib/http/Common/index.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
@@ -74,14 +74,8 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
       description:
         "Search and list links in the database with filtering, sorting, and pagination.",
       annotations: { title: "Find links", readOnlyHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: findLinksInputSchema as unknown as {
-        query?: any;
-        sort?: any;
-        order?: any;
-        start?: any;
-        end?: any;
-      },
+
+      inputSchema: findLinksInputSchema,
     },
     async (opts) => {
       const { query, sort, order, start, end } = opts ?? {};
@@ -253,7 +247,7 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
   // --- editLink ---
   const editLinkInputSchema = effectToZodStruct(
     Schema.Struct({
-      id: Schema.String.annotations({
+      id: UUID.annotations({
         description: "UUID of the link to edit (required)",
       }),
       title: Schema.UndefinedOr(Schema.String).annotations({
@@ -293,17 +287,8 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
       description:
         "Update a link's title, description, url, status, publishDate, events, or keywords. Only provided fields are updated.",
       annotations: { title: "Edit link", destructiveHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: editLinkInputSchema as unknown as {
-        id?: any;
-        title?: any;
-        description?: any;
-        url?: any;
-        status?: any;
-        publishDate?: any;
-        events?: any;
-        keywords?: any;
-      },
+
+      inputSchema: editLinkInputSchema,
     },
     async (opts) => {
       const {

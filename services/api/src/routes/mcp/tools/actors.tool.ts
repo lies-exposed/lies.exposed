@@ -6,9 +6,12 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchActors } from "@liexp/backend/lib/queries/actors/fetchActors.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import type { GetListActorQuery } from "@liexp/io/lib/http/Actor.js";
+import type { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
+import * as O from "effect/Option";
 import type { ServerContext } from "#context/context.type.js";
 import { createActor } from "#flows/actors/createActor.flow.js";
 import { editActor } from "#flows/actors/editActor.flow.js";
@@ -19,7 +22,9 @@ const actorToOutput = (actor: ActorEntity) => ({
   fullName: actor.fullName,
   color: actor.color ?? undefined,
   excerpt: actor.excerpt ?? undefined,
-  nationalities: (actor.nationalities as { id: string }[]).map((n) => n.id),
+  nationalities: ((actor.nationalities ?? []) as { id: string }[]).map(
+    (n) => n.id,
+  ),
   body: actor.body ?? undefined,
   avatar: actor.avatar
     ? typeof actor.avatar === "string"
@@ -28,7 +33,7 @@ const actorToOutput = (actor: ActorEntity) => ({
     : undefined,
   bornOn: actor.bornOn ?? undefined,
   diedOn: actor.diedOn ?? undefined,
-  memberIn: (actor.memberIn as { id: string }[]).map((m) => m.id),
+  memberIn: ((actor.memberIn ?? []) as { id: string }[]).map((m) => m.id),
   createdAt: actor.createdAt.toISOString(),
   updatedAt: actor.updatedAt.toISOString(),
 });
@@ -48,6 +53,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       }),
       sort: Schema.optional(
         Schema.Union(
+          Schema.Literal("fullName"),
           Schema.Literal("username"),
           Schema.Literal("createdAt"),
           Schema.Literal("updatedAt"),
@@ -61,10 +67,10 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       ).annotations({
         description: 'Sort order: "ASC" for ascending or "DESC" for descending',
       }),
-      start: Schema.optional(Schema.NumberFromString).annotations({
+      start: Schema.optional(Schema.Number).annotations({
         description: "Pagination start index",
       }),
-      end: Schema.optional(Schema.NumberFromString).annotations({
+      end: Schema.optional(Schema.Number).annotations({
         description: "Pagination end index",
       }),
     }),
@@ -77,43 +83,28 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       description:
         "Search and list actors in the database with filtering, sorting, and pagination.",
       annotations: { title: "Find actors", readOnlyHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: findActorsInputSchema as unknown as {
-        fullName?: any;
-        memberIn?: any;
-        withDeleted?: any;
-        sort?: any;
-        order?: any;
-        start?: any;
-        end?: any;
-      },
+      inputSchema: findActorsInputSchema,
     },
     async (opts) => {
       const { fullName, memberIn, withDeleted, sort, order, start, end } =
         opts ?? {};
 
-      const actorQuery: Record<string, unknown> = {};
-      if (fullName) {
-        actorQuery.q = fullName;
-      }
-      if (memberIn && memberIn.length > 0) {
-        actorQuery.memberIn = memberIn;
-      }
-      if (withDeleted !== undefined) {
-        actorQuery.withDeleted = withDeleted;
-      }
-      if (sort) {
-        actorQuery._sort = sort;
-      }
-      if (order) {
-        actorQuery._order = order;
-      }
-      if (start !== undefined) {
-        actorQuery._start = Number(start);
-      }
-      if (end !== undefined) {
-        actorQuery._end = Number(end);
-      }
+      // fetchActors expects effect Options for every query field
+      const actorQuery: Partial<GetListActorQuery> = {
+        ...(fullName ? { q: O.some(fullName) } : {}),
+        ...(memberIn && memberIn.length > 0
+          ? {
+              memberIn: O.some(memberIn as readonly UUID[]),
+            }
+          : {}),
+        ...(withDeleted !== undefined
+          ? { withDeleted: O.some(withDeleted) }
+          : {}),
+        ...(sort ? { _sort: O.some(sort) } : {}),
+        ...(order ? { _order: O.some(order) } : {}),
+        ...(start !== undefined ? { _start: O.some(Number(start)) } : {}),
+        ...(end !== undefined ? { _end: O.some(Number(end)) } : {}),
+      };
 
       try {
         const te = fetchActors(actorQuery)(ctx);
@@ -189,18 +180,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       description:
         "Create a new actor in the database. Accepts username and fullName as required fields, with optional metadata like color, dates, and media.",
       annotations: { title: "Create actor", destructiveHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: createActorInputSchema as unknown as {
-        username?: any;
-        fullName?: any;
-        color?: any;
-        excerpt?: any;
-        nationalities?: any;
-        body?: any;
-        avatar?: any;
-        bornOn?: any;
-        diedOn?: any;
-      },
+      inputSchema: createActorInputSchema,
     },
     async (opts) => {
       const {
@@ -323,20 +303,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       description:
         "Update an existing actor in the database. Provide the actor ID and any fields to update.",
       annotations: { title: "Edit actor", destructiveHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: editActorInputSchema as unknown as {
-        id?: any;
-        username?: any;
-        fullName?: any;
-        color?: any;
-        excerpt?: any;
-        nationalities?: any;
-        body?: any;
-        avatar?: any;
-        bornOn?: any;
-        diedOn?: any;
-        memberIn?: any;
-      },
+      inputSchema: editActorInputSchema,
     },
     async (opts) => {
       const {
