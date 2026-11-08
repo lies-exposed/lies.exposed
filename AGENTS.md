@@ -30,7 +30,7 @@ Route by task type. Read the relevant L2 module first; load L3 data only when ne
 6. **fp-ts everywhere.** Use `pipe` + `TaskEither`/`ReaderTaskEither`. Never mix imperative style.
 7. **pnpm workspace.** Use `pnpm --filter <service> <script>` from repo root.
 8. **Context update as final task.** After completing work, check §Self-Update Rules and append any durable findings.
-9. **Memory first.** At the **start of every session**, call `memory_search` with `agent_id` and a query matching the task. This recalls prior decisions, conventions, and context — never start cold.
+9. **Memory first (mem0, mandatory).** At the **start of every session**, call `memory_search` with `scope: "<agent ID>"` and a query matching the task. This recalls prior decisions, conventions, and context — never start cold. Before finishing, call `memory_add` for every durable conclusion (§Persistent Memory). Skipping either is a rule violation.
 10. **CodeGraph first.** Before any grep/find/read/edit, call `codegraph_explore` with the symbol names, file names, or question. It returns verbatim source plus call paths in one call — replaces the grep+read loop. Pass `projectPath` for monorepo sub-projects.
 11. **Graphify on demand.** Use `skill("graphify")` for any question about architecture, file relationships, or project content — especially when `graphify-out/` already exists.
 12. **Paperclip tasks.** To create or manage Paperclip issues from this repo, use the user-scope skills `paperclip-issue` (create/comment/update), `paperclip-plan-to-issue` (plan doc → parent + sub-issues) and `paperclip-implement-issue`. They read creds from `~/.env` (`PAPERCLIP_*`).
@@ -122,59 +122,39 @@ context/
     playbooks.jsonl       ← L3: reproducible bugs, footguns
 ```
 
-## Persistent Memory (GrayMatter)
+## Persistent Memory (mem0)
 
-GrayMatter gives AI agents persistent memory across sessions via five MCP tools. Install: `curl -sSL -o graymatter.tar.gz https://github.com/angelnicolasc/graymatter/releases/download/v0.6.0/graymatter_0.6.0_linux_amd64.tar.gz && tar -xzf graymatter.tar.gz && sudo mv graymatter /usr/local/bin/`
+mem0 is the **only** persistent agent memory. Use it via three MCP tools. Memory use is mandatory, not optional.
 
-| Tool | Required params | Optional |
-|------|----------------|----------|
-| `memory_search` | `agent_id`, `query` | `top_k` (default `8`) |
-| `memory_add` | `agent_id`, `text` | — |
-| `memory_reflect` | `action` (`add`|`update`|`forget`|`link`), **`agent`** | `text`, `target` |
-| `checkpoint_save` | `agent_id` | `state` (JSON-encoded string) |
-| `checkpoint_resume` | `agent_id` | — |
+| Tool | Required params | Notes |
+|------|----------------|-------|
+| `memory_search` | `scope`, `query` | Search before answering and before adding |
+| `memory_add` | `scope`, `text` | `infer=True` distills facts; `infer=False` stores verbatim (logs, traces) |
+| `memory_forget` | `memory_id` (from a search result) | Remove stale or wrong memories |
 
-> ⚠️ **`memory_reflect` uses `agent`, not `agent_id`.** The other four use `agent_id`.
+Pass `scope: "<agent ID>"` on **every** call.
 
-## Identity
+### Agent IDs
 
-Use `agent_id` of the form `lies-exposed-<role>` (e.g. `lies-exposed-api`, `lies-exposed-frontend`).
+Form `lies-exposed-<role>`: `lies-exposed-api`, `lies-exposed-frontend`, `lies-exposed-agent`, `lies-exposed-worker`, `lies-exposed-infra`. Project-wide conventions go in `__shared__`.
 
-## Shared facts (`__shared__`)
+### Enforced workflow
 
-Project-wide conventions go in the reserved namespace `__shared__`:
+1. **Session start / before any task** → `memory_search` (task-matching query). No exceptions, even for "small" tasks.
+2. **Before answering** a question that depends on prior context → `memory_search` first.
+3. **On tool or build failure** → `memory_search` for the error before debugging.
+4. **After learning** a preference, convention, decision (with its *why*) or gotcha → `memory_add` immediately, not at the end.
+5. **User corrects you / fact is stale** → `memory_forget` the old entry, then `memory_add` the fixed fact.
+6. **Dedup:** search before adding; consolidate — never add a third entry on the same topic.
+7. **Task switch / session end** → broad `memory_search`, forget duplicates and stale entries.
+8. Structured reference → `context/` files; conclusions → mem0.
 
-```jsonc
-{ "tool": "memory_add", "args": {
-    "agent_id": "__shared__",
-    "text":     "Project convention: all timestamps stored as UTC ISO-8601"
-}}
-```
-
-## When to call which
-
-- **Before answering** any question that depends on prior context → `memory_search` first
-- **After learning** a user preference, project convention, or making a non-obvious decision → `memory_add`
-- **When the user corrects you** or a fact becomes stale → `memory_reflect` with `action="update"`
-- **At the start of a session** that may resume a long task → `checkpoint_resume`. **Before stopping** mid-task → `checkpoint_save`
-
-## Don't store
+### Don't store
 
 - Conversation logs — store the *conclusion*, not the dialogue
-- Transient state (current file, line numbers) — use `checkpoint_save` instead
+- Transient state (current file, line numbers)
 - Secrets, credentials, API keys — never
 - Things already in code, README, or this file
+
 *For technical implementation details see the source code in `services/` and `packages/`.*
 
-<!-- graymatter:instructions:begin — managed by `graymatter init`; edits inside this block are overwritten -->
-## Memory (GrayMatter)
-
-This project has persistent agent memory via the `graymatter` MCP tools:
-
-- `memory_search` (`agent_id`, `query`) — call at the **start of a task** when prior context might matter.
-- `memory_add` (`agent_id`, `text`) — call whenever you learn something **durable**: user preferences, decisions, conventions, gotchas.
-- `memory_reflect` (`action`, `agent`, `text`/`target`) — update or forget stale facts. ⚠ takes `agent`, not `agent_id`.
-- `checkpoint_save` / `checkpoint_resume` (`agent_id`) — snapshot/restore session state before major refactors or across restarts.
-
-Use a stable `agent_id` of the form `<project>-<role>` (e.g. `myapp-backend`). Store conclusions, not conversation logs. Err on the side of remembering.
-<!-- graymatter:instructions:end -->
