@@ -19,3 +19,7 @@ export const EDIT_EVENT = "editEvent";
 export const FIND_SETTINGS = "findSettings";
 export const CREATE_SETTING = "createSetting";
 export const EDIT_SETTING = "editSetting";
+
+export const FIND_AREAS = "findAreas";
+export const CREATE_AREA = "createArea";
+export const EDIT_AREA = "editArea";
