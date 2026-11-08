@@ -125,10 +125,10 @@ describe("MCP CRUD Tools E2E Tests", () => {
       typeof result.result === "object" &&
       "content" in result.result
     ) {
-      const content = result.result.content as Array<{
+      const content = result.result.content as {
         type?: string;
         text?: string;
-      }>;
+      }[];
       if (Array.isArray(content) && content.length > 0) {
         const text = content[0]?.text ?? "";
         if (
