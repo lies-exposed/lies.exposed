@@ -18,7 +18,10 @@ const settingToOutput = (setting: SettingEntity): Record<string, unknown> => ({
   updatedAt: setting.updatedAt.toISOString(),
 });
 
-export const registerSettingsTools = (server: McpServer, ctx: ServerContext) => {
+export const registerSettingsTools = (
+  server: McpServer,
+  ctx: ServerContext,
+) => {
   // --- findSettings ---
   const findSettingsInputSchema = effectToZodStruct(
     Schema.Struct({
@@ -152,7 +155,9 @@ export const registerSettingsTools = (server: McpServer, ctx: ServerContext) => 
       try {
         const te = pipe(
           ctx.db.save(SettingEntity, [{ id: key, value }]),
-          TE.chain(() => ctx.db.findOneOrFail(SettingEntity, { where: { id: key } })),
+          TE.chain(() =>
+            ctx.db.findOneOrFail(SettingEntity, { where: { id: key } }),
+          ),
         );
         const result = await te();
 
@@ -220,7 +225,9 @@ export const registerSettingsTools = (server: McpServer, ctx: ServerContext) => 
             if (value !== undefined) update.value = value;
             return ctx.db.save(SettingEntity, [update]);
           }),
-          TE.chain(() => ctx.db.findOneOrFail(SettingEntity, { where: { id } })),
+          TE.chain(() =>
+            ctx.db.findOneOrFail(SettingEntity, { where: { id } }),
+          ),
         );
         const result = await te();
 
