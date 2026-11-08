@@ -30,7 +30,7 @@ export const Subscriber = <
         await ctx.redis.client.subscribe(pubSub.channel);
         ctx.logger.debug.log(`Subscribed to channel ${pubSub.channel}`);
       }, toRedisError),
-      fp.TE.chainTaskK(() => {
+      fp.TE.map(() => {
         const hanlder = (message: string) =>
           pipe(
             pubSub.decoder(JSON.parse(message)),
@@ -64,7 +64,7 @@ export const Subscriber = <
             ),
           )(ctx);
 
-        return fp.T.of((message: string) => hanlder(message)());
+        return (message: string) => hanlder(message)();
       }),
     );
   },
