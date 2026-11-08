@@ -1,10 +1,10 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import * as O from "fp-ts/lib/Option.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
+import * as O from "fp-ts/lib/Option.js";
 import type { ServerContext } from "#context/context.type.js";
 import { createMediaFlow } from "#flows/media/createMedia.flow.js";
 import { editMedia } from "#flows/media/editMedia.flow.js";
@@ -24,15 +24,9 @@ const mediaToOutput = (media: MediaEntity) => ({
   type: media.type,
   extra: media.extra ?? undefined,
   events: (media.events ?? []).map((e) => (Schema.is(UUID)(e) ? e : e.id)),
-  links: (media.links ?? []).map((l) =>
-    Schema.is(UUID)(l) ? l : l.id,
-  ),
-  keywords: (media.keywords ?? []).map((k) =>
-    Schema.is(UUID)(k) ? k : k.id,
-  ),
-  areas: (media.areas ?? []).map((a) =>
-    Schema.is(UUID)(a) ? a : a.id,
-  ),
+  links: (media.links ?? []).map((l) => (Schema.is(UUID)(l) ? l : l.id)),
+  keywords: (media.keywords ?? []).map((k) => (Schema.is(UUID)(k) ? k : k.id)),
+  areas: (media.areas ?? []).map((a) => (Schema.is(UUID)(a) ? a : a.id)),
   creator:
     media.creator && Schema.is(UUID)(media.creator)
       ? media.creator
@@ -95,9 +89,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       };
 
       try {
-        const te = fetchManyMedia(
-          mediaQuery as Parameters<typeof fetchManyMedia>[0],
-        )(ctx);
+        const te = fetchManyMedia(mediaQuery)(ctx);
         const result = await pipe(
           te,
           fp.TE.map(([results, total]) => ({
@@ -137,8 +129,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
         description: "URL or path of the media file (required)",
       }),
       type: Schema.String.annotations({
-        description:
-          'MIME type of the media (e.g., "image/jpeg", "video/mp4")',
+        description: 'MIME type of the media (e.g., "image/jpeg", "video/mp4")',
       }),
       label: Schema.optional(Schema.String).annotations({
         description: "Display label for the media (defaults to location)",
@@ -249,28 +240,29 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       id: Schema.String.annotations({
         description: "UUID of the media to edit (required)",
       }),
-      thumbnail: Schema.optional(Schema.Union(Schema.String, Schema.Null))
-        .annotations({
-          description:
-            "New thumbnail URL, null to remove, or undefined to keep current",
-        }),
+      thumbnail: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).annotations({
+        description:
+          "New thumbnail URL, null to remove, or undefined to keep current",
+      }),
       location: Schema.optional(Schema.String).annotations({
         description: "New location URL or undefined to keep current",
       }),
       label: Schema.optional(Schema.String).annotations({
         description: "New display label or undefined to keep current",
       }),
-      description: Schema.optional(Schema.Union(Schema.String, Schema.Null))
-        .annotations({
-          description:
-            "New description, null to clear, or undefined to keep current",
-        }),
-      extra: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.Any })).annotations(
-        {
-          description:
-            "New extra metadata object or undefined to keep current",
-        },
-      ),
+      description: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).annotations({
+        description:
+          "New description, null to clear, or undefined to keep current",
+      }),
+      extra: Schema.optional(
+        Schema.Record({ key: Schema.String, value: Schema.Any }),
+      ).annotations({
+        description: "New extra metadata object or undefined to keep current",
+      }),
       events: Schema.optional(Schema.Array(Schema.String)).annotations({
         description:
           "Array of event UUIDs to associate, or undefined to keep current",
@@ -287,30 +279,27 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
         description:
           "Array of area UUIDs to associate, or undefined to keep current",
       }),
-      creator: Schema.optional(Schema.Union(Schema.String, Schema.Null))
-        .annotations({
-          description:
-            "New creator UUID, null to remove, or undefined to keep current",
-        }),
-      overrideThumbnail: Schema.optional(Schema.Boolean).annotations({
+      creator: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).annotations({
         description:
-          "If true, regenerate thumbnail from the media location",
+          "New creator UUID, null to remove, or undefined to keep current",
+      }),
+      overrideThumbnail: Schema.optional(Schema.Boolean).annotations({
+        description: "If true, regenerate thumbnail from the media location",
       }),
       overrideExtra: Schema.optional(Schema.Boolean).annotations({
-        description:
-          "If true, regenerate extra metadata from the media",
+        description: "If true, regenerate extra metadata from the media",
       }),
       transfer: Schema.optional(Schema.Boolean).annotations({
         description:
           "If true, transfer media from external provider to local storage",
       }),
       transferThumbnail: Schema.optional(Schema.Boolean).annotations({
-        description:
-          "If true, transfer thumbnail from external provider",
+        description: "If true, transfer thumbnail from external provider",
       }),
       restore: Schema.optional(Schema.Boolean).annotations({
-        description:
-          "If true, restore a previously deleted media entry",
+        description: "If true, restore a previously deleted media entry",
       }),
     }),
   );
@@ -350,12 +339,10 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
 
       try {
         // First, fetch the existing media to get its type
-        const existingMedia = await ctx.db.manager.findOne(
-          MediaEntity, {
-            where: { id },
-            relations: ["creator"],
-          } as any,
-        );
+        const existingMedia = await ctx.db.manager.findOne(MediaEntity, {
+          where: { id },
+          relations: ["creator"],
+        } as any);
 
         if (!existingMedia) {
           throw new Error(`Media with id ${id} not found`);
