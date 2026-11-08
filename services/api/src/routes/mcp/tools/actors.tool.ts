@@ -1,4 +1,4 @@
-import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import type { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import {
   FIND_ACTORS,
   CREATE_ACTOR,
@@ -6,11 +6,10 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchActors } from "@liexp/backend/lib/queries/actors/fetchActors.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
-import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
-import { type ServerContext } from "#context/context.type.js";
+import type { ServerContext } from "#context/context.type.js";
 import { createActor } from "#flows/actors/createActor.flow.js";
 import { editActor } from "#flows/actors/editActor.flow.js";
 
@@ -41,7 +40,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       fullName: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full name to search for (partial match supported)",
       }),
-      memberIn: Schema.optional(Schema.Array(UUID)).annotations({
+      memberIn: Schema.optional(Schema.Array(Schema.String)).annotations({
         description: "Array of group UUIDs the actor is a member of",
       }),
       withDeleted: Schema.UndefinedOr(Schema.Boolean).annotations({
@@ -165,13 +164,13 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       excerpt: Schema.optional(Schema.String).annotations({
         description: "Short description as plain text (default: null)",
       }),
-      nationalities: Schema.optional(Schema.Array(UUID)).annotations({
+      nationalities: Schema.optional(Schema.Array(Schema.String)).annotations({
         description: "Array of nationality UUIDs (default: [])",
       }),
       body: Schema.optional(Schema.String).annotations({
         description: "Full body content as plain text (default: null)",
       }),
-      avatar: Schema.optional(UUID).annotations({
+      avatar: Schema.optional(Schema.String).annotations({
         description: "Avatar media UUID (default: null)",
       }),
       bornOn: Schema.optional(Schema.String).annotations({
@@ -274,7 +273,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
   // --- editActor ---
   const editActorInputSchema = effectToZodStruct(
     Schema.Struct({
-      id: UUID.annotations({
+      id: Schema.String.annotations({
         description: "UUID of the actor to edit",
       }),
       username: Schema.UndefinedOr(Schema.String).annotations({
@@ -291,13 +290,13 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
         description:
           "Short description of the actor as plain text or null to keep current",
       }),
-      nationalities: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+      nationalities: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
         description: "Array of nationality UUIDs or undefined to keep current",
       }),
       body: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full body content as plain text or null to keep current",
       }),
-      avatar: Schema.UndefinedOr(UUID).annotations({
+      avatar: Schema.UndefinedOr(Schema.String).annotations({
         description: "Avatar media UUID or null to keep current",
       }),
       bornOn: Schema.UndefinedOr(Schema.String).annotations({
@@ -308,7 +307,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
         description:
           "Death date in ISO format (YYYY-MM-DD) or null to keep current",
       }),
-      memberIn: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+      memberIn: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
         description:
           "Array of group memberships as UUIDs or undefined to keep current",
       }),
