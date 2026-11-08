@@ -290,7 +290,9 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
         description:
           "Short description of the actor as plain text or null to keep current",
       }),
-      nationalities: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
+      nationalities: Schema.UndefinedOr(
+        Schema.Array(Schema.String),
+      ).annotations({
         description: "Array of nationality UUIDs or undefined to keep current",
       }),
       body: Schema.UndefinedOr(Schema.String).annotations({
