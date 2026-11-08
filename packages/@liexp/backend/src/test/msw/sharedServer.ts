@@ -4,7 +4,7 @@ import { setupServer } from "msw/node";
 /**
  * Single shared MSW server for the whole test process.
  *
- * Only one `setupServer()` instance may be active per Node.js process: MSW v2
+ * Only one `setupServer()` instance may be active per Node.js process: MSW
  * uses `@mswjs/interceptors`, which patches the global `fetch` / `http` client
  * at module scope. A second instance stacks its interceptors on top of the
  * first, so requests start resolving against the wrong handler set.
@@ -35,7 +35,7 @@ export const registerMswHandlers = (...handlers: RequestHandler[]): void => {
   if (!listening) {
     sharedMswServer.listen({
       // Allow non-mocked requests to pass through to the real network.
-      onUnhandledRequest: "warn",
+      onUnhandledFrame: "warn",
     });
     listening = true;
   }

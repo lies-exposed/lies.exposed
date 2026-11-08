@@ -32,7 +32,7 @@ import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, render as tlRender } from "@testing-library/react";
 import type { RenderResult } from "@testing-library/react";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { setupServer } from "msw/node";
 import * as React from "react";
 import { MemoryRouter } from "react-router";
@@ -55,7 +55,7 @@ const mswServer = setupServer(
 );
 
 beforeAll(() => {
-  mswServer.listen({ onUnhandledRequest: "warn" });
+  mswServer.listen({ onUnhandledFrame: "warn" });
 });
 
 afterEach(() => {

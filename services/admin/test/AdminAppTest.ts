@@ -5,7 +5,7 @@ import { registerMswHandlers } from "@liexp/backend/lib/test/msw/sharedServer.js
 import { GetLogger, type Logger } from "@liexp/core/lib/logger/index.js";
 import { fc } from "@liexp/test/lib/index.js";
 import type * as e from "express";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
 import { AdminProxyENV } from "../src/server/io/ENV.js";

@@ -1,6 +1,6 @@
 import type { AIConfig, ChatRequest } from "@liexp/io/lib/http/Chat.js";
 import { renderHook, act, waitFor } from "@testing-library/react";
-import { type DefaultBodyType, http, HttpResponse } from "msw";
+import { type DefaultBodyType, http, HttpResponse } from "msw/http";
 import { type SetupServer, setupServer } from "msw/node";
 import {
   describe,
@@ -46,7 +46,7 @@ describe("useStreamingChat", () => {
   beforeAll(() => {
     mswServer = setupServer(http.all("*", agentProxyHandler));
 
-    mswServer.listen({ onUnhandledRequest: "error" });
+    mswServer.listen({ onUnhandledFrame: "error" });
   });
 
   beforeEach(() => {
