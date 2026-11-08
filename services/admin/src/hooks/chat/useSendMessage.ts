@@ -6,6 +6,10 @@ import type {
 } from "@liexp/io/lib/http/Chat.js";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useCallback, useRef } from "react";
+import {
+  reportChatClientError,
+  reportChatStreamError,
+} from "./reportChatError.js";
 import { estimateTokens, type StreamingChatState } from "./types.js";
 import { callCompactApi } from "./useChatCompact.js";
 
@@ -188,6 +192,15 @@ const processStream = async (
             // eslint-disable-next-line no-console
             console.log("Received SSE event:", event.type, event);
           }
+          if (event.type === "error") {
+            // Side effect kept outside the setState updater (StrictMode runs
+            // updaters twice).
+            reportChatStreamError(event, {
+              conversationId: request.conversation_id,
+              provider: request.aiConfig?.provider,
+              model: request.aiConfig?.model,
+            });
+          }
           setState((prev) =>
             applySseEvent(prev, event, currentMessageIdRef, request, (err) => {
               streamError = err;
@@ -369,6 +382,11 @@ export const useSendMessage = ({
         if (!isBenign) {
           // eslint-disable-next-line no-console
           console.error("Streaming error:", error);
+          reportChatClientError(error, {
+            conversationId: request.conversation_id,
+            provider: aiConfig?.provider,
+            model: aiConfig?.model,
+          });
           setState((prev) => ({
             ...prev,
             isLoading: false,

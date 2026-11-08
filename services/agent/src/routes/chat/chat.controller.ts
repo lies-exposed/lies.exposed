@@ -12,6 +12,7 @@ import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { type HTTPStreamResponse } from "@ts-endpoint/express/lib/HTTPResponse.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { captureChatError, toChatErrorEvent } from "#flows/chat/chat.errors.js";
 import {
   deleteChatConversation,
   getChatConversation,
@@ -126,11 +127,14 @@ export const MakeSendChatMessageStreamRoute: Route = (r, ctx) => {
             } catch (error) {
               ctx.logger.error.log("Streaming error: %O", error);
               // Send error as SSE event
-              const errorEvent = {
-                type: "error",
-                timestamp: new Date().toISOString(),
-                error: error instanceof Error ? error.message : "Unknown error",
-              };
+              captureChatError(ctx, error, {
+                agentType: body.agent_type,
+                provider: body.aiConfig?.provider,
+                model: body.aiConfig?.model,
+                conversationId: body.conversation_id,
+                messageLength: body.message.length,
+              });
+              const errorEvent = toChatErrorEvent(error, "Unknown error");
               yield `data: ${JSON.stringify(errorEvent)}\n\n`;
             }
           })(),

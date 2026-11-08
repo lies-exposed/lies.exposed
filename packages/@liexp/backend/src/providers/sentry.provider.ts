@@ -9,6 +9,10 @@ export interface SentryOptions {
    * Defaults to 401 and 404.
    */
   ignoredStatuses?: string[];
+  /** Release identifier, e.g. the service version. */
+  release?: string;
+  /** Deployment environment, e.g. `production`. Defaults to `NODE_ENV`. */
+  environment?: string;
 }
 
 /**
@@ -27,6 +31,11 @@ export const initSentry = (
 
     Sentry.init({
       dsn,
+      release: options.release ?? process.env.SENTRY_RELEASE,
+      environment:
+        options.environment ??
+        process.env.SENTRY_ENVIRONMENT ??
+        process.env.NODE_ENV,
       // Passing `integrations: []` replaces @sentry/node's default
       // integration set instead of adding to it, dropping
       // OnUncaughtException/OnUnhandledRejection — only errors explicitly
