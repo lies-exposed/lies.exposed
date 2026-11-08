@@ -55,7 +55,7 @@ export const MakeMCPRoutes: Route = (router, ctx) => {
       });
 
       registerResources(server, ctx);
-      registerTools(server);
+      registerTools(server, ctx);
 
       await server.connect(transport);
     }
