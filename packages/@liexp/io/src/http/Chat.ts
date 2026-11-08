@@ -274,6 +274,10 @@ export const ChatStreamEvent = Schema.Struct({
   role: Schema.optional(ChatRole),
   // Error information
   error: Schema.optional(Schema.String),
+  // Machine-readable error code (e.g. LangChain `lc_error_code`), `UNKNOWN` otherwise
+  error_code: Schema.optional(Schema.String),
+  // Error class name (e.g. `TypeError`)
+  error_name: Schema.optional(Schema.String),
   // Token usage information (provided at message_end or estimated during streaming)
   usage: Schema.optional(
     Schema.Struct({

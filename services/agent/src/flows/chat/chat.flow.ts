@@ -15,6 +15,11 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AIMessage } from "langchain";
 import { type AgentContext } from "../../context/context.type.js";
 import { formatMemoriesForPrompt } from "../../memory/client.js";
+import {
+  type ChatErrorMeta,
+  captureChatError,
+  toChatErrorEvent,
+} from "./chat.errors.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -753,6 +758,13 @@ export const sendChatMessageStream = (payload: {
 
     // Inject relevant memories from past conversations (gracefully degrades
     // when memory is not configured or unavailable).
+    const errorMeta: ChatErrorMeta = {
+      conversationId,
+      agentType: payload.agent_type,
+      provider: payload.aiConfig?.provider,
+      model: payload.aiConfig?.model,
+      messageLength: payload.message.length,
+    };
     const messageWithMemories = await injectMemories(enhancedMessage, ctx);
 
     ctx.logger.debug.log(
@@ -768,9 +780,13 @@ export const sendChatMessageStream = (payload: {
       )(ctx)();
 
       if (agentResult._tag === "Left") {
+        ctx.logger.error.log("getOrCreateAgent failed: %O", agentResult.left);
+        captureChatError(ctx, agentResult.left, errorMeta);
         yield {
-          type: "error",
-          timestamp: new Date().toISOString(),
+          ...toChatErrorEvent(
+            agentResult.left,
+            "Failed to create agent with requested provider",
+          ),
           error: "Failed to create agent with requested provider",
         } satisfies ChatStreamEvent;
         return;
@@ -904,12 +920,11 @@ export const sendChatMessageStream = (payload: {
       }
     } catch (error) {
       ctx.logger.error.log("stream error: %O", error);
-      yield {
-        type: "error",
-        timestamp: new Date().toISOString(),
-        error:
-          error instanceof Error ? error.message : "Unknown streaming error",
-      } satisfies ChatStreamEvent;
+      captureChatError(ctx, error, errorMeta);
+      yield toChatErrorEvent(
+        error,
+        "Unknown streaming error",
+      ) satisfies ChatStreamEvent;
     }
   };
 };
