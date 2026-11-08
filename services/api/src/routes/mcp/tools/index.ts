@@ -2,6 +2,7 @@ import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { type ServerContext } from "../../../context/context.type.js";
 import { registerActorsTools } from "./actors.tool.js";
 import { registerBlockNoteTools } from "./blockNoteToText.tool.js";
+import { registerEventsTools } from "./events.tool.js";
 import { registerGroupsTools } from "./groups.tool.js";
 import { registerLinksTools } from "./links.tool.js";
 
@@ -12,4 +13,5 @@ export const registerTools = (server: McpServer, ctx: ServerContext) => {
   registerBlockNoteTools(server);
   registerGroupsTools(server, ctx);
   registerLinksTools(server, ctx);
+  registerEventsTools(server, ctx);
 };
