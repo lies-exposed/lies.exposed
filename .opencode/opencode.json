@@ -14,6 +14,14 @@
       "type": "local",
       "command": ["codegraph", "serve", "--mcp"],
       "enabled": true
+    },
+    "lies-exposed-local": {
+      "type": "local",
+      "command": ["npx", "-y", "mcp-remote", "https://api.liexp.dev/mcp"],
+      "environment": {
+        "NODE_EXTRA_CA_CERTS": "./_data/certs/liexp.dev.crt"
+      },
+      "enabled": true
     }
   },
   "permission": {
