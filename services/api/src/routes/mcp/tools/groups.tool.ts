@@ -6,10 +6,10 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Group } from "@liexp/io/lib/http/Group.js";
-import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
+import { type CreateGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
+import { defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 import { createGroup } from "#flows/groups/createGroup.flow.js";
 import { editGroup } from "#flows/groups/editGroup.flow.js";
@@ -33,7 +33,7 @@ const groupToOutput = (group: Group): Record<string, unknown> => ({
 
 export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
   // --- findGroups ---
-  const findGroupsInputSchema = effectToZodStruct(
+  const findGroupsTool = defineMcpTool(
     Schema.Struct({
       query: Schema.UndefinedOr(Schema.String).annotations({
         description:
@@ -61,20 +61,8 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
         description: "Pagination limit (default: 20)",
       }),
     }),
-  );
-
-  server.registerTool(
-    FIND_GROUPS,
-    {
-      title: "Find groups",
-      description:
-        "Search and list groups in the database with filtering, sorting, and pagination.",
-      annotations: { title: "Find groups", readOnlyHint: true },
-
-      inputSchema: findGroupsInputSchema,
-    },
-    async (opts) => {
-      const { query, sort, order, start, end } = opts ?? {};
+    async (input) => {
+      const { query, sort, order, start, end } = input;
 
       const groupQuery: Record<string, unknown> = {};
       if (query) {
@@ -149,8 +137,20 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
     },
   );
 
+  server.registerTool(
+    FIND_GROUPS,
+    {
+      title: "Find groups",
+      description:
+        "Search and list groups in the database with filtering, sorting, and pagination.",
+      annotations: { title: "Find groups", readOnlyHint: true },
+      inputSchema: findGroupsTool.inputSchema,
+    },
+    findGroupsTool.handler,
+  );
+
   // --- createGroup ---
-  const createGroupInputSchema = effectToZodStruct(
+  const createGroupTool = defineMcpTool(
     Schema.Struct({
       name: Schema.String.annotations({
         description: "Name of the group (required)",
@@ -168,87 +168,88 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       ).annotations({
         description: "Visibility type of the group (Public or Private)",
       }),
-      excerpt: Schema.UndefinedOr(Schema.Any).annotations({
+      excerpt: Schema.UndefinedOr(Schema.Unknown).annotations({
         description: "Short description of the group",
       }),
-      body: Schema.UndefinedOr(Schema.Any).annotations({
+      body: Schema.UndefinedOr(Schema.Unknown).annotations({
         description: "Full description of the group",
       }),
       startDate: Schema.UndefinedOr(Schema.String).annotations({
         description: "Group establishment or start date (ISO 8601 string)",
       }),
       endDate: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Group dissolution or end date (ISO 8601 string)",
+        description: "Group end date (ISO 8601 string)",
+      }),
+      avatar: Schema.UndefinedOr(Schema.Any).annotations({
+        description: "Avatar URL or ID",
       }),
       members: Schema.UndefinedOr(
-        Schema.Array(
-          Schema.Struct({
-            actor: Schema.String.annotations({
-              description: "Actor UUID for the member",
-            }),
-            body: Schema.Any.annotations({
-              description: "Description of the membership",
-            }),
-            startDate: Schema.String.annotations({
-              description: "Membership start date (ISO 8601 string)",
-            }),
-            endDate: Schema.UndefinedOr(Schema.String).annotations({
-              description: "Membership end date (ISO 8601 string)",
-            }),
-          }),
-        ),
+        Schema.Array(Schema.Union(Schema.String, Schema.Any)),
       ).annotations({
-        description: "List of members with their details",
+        description:
+          "Initial member list (array of actor UUIDs or member objects)",
+      }),
+      search: Schema.UndefinedOr(Schema.String).annotations({
+        description:
+          "Wikipedia search query to find an existing group (if provided, name/username/color are ignored)",
       }),
     }),
-  );
-
-  server.registerTool(
-    CREATE_GROUP,
-    {
-      title: "Create group",
-      description: "Create a new group in the database.",
-      annotations: { title: "Create group", destructiveHint: true },
-
-      inputSchema: createGroupInputSchema,
-    },
-    async (opts) => {
-      const {
-        name,
-        username,
-        color,
-        kind,
-        excerpt,
-        body,
-        startDate,
-        endDate,
-        members,
-      } = opts ?? {};
-
+    async (input) => {
       try {
-        // Build AddGroupBody for direct creation
-        // All fields must be present (even undefined) for Schema.Struct validation
-        const createBody: Record<string, unknown> = {
-          name,
-          username,
-          color,
-          kind,
-          avatar: undefined,
-          excerpt: excerpt ?? undefined,
-          body: body ?? undefined,
-          startDate: startDate ? new Date(startDate) : undefined,
-          endDate: endDate ? new Date(endDate) : undefined,
-          members: members ?? [],
+        if (input.search) {
+          // Wikipedia search mode - use CreateGroupBody
+          const createBody: CreateGroupBody = {
+            search: input.search,
+          };
+          const te = createGroup(createBody)(ctx);
+          const result = await pipe(
+            te,
+            fp.TE.map((g) => {
+              if ("success" in g) {
+                return { success: true };
+              }
+              return groupToOutput(g);
+            }),
+          )();
+
+          if (fp.E.isLeft(result)) {
+            throw new Error(
+              (result.left as Error).message ?? "Failed to create group",
+            );
+          }
+
+          return {
+            content: [
+              {
+                text: JSON.stringify({ group: result.right }),
+                type: "text" as const,
+              },
+            ],
+          };
+        }
+
+        // Direct creation mode
+        const createBody: CreateGroupBody = {
+          name: input.name,
+          username: input.username,
+          color: input.color,
+          kind: input.kind ?? "Public",
+          excerpt: input.excerpt ?? undefined,
+          body: input.body ?? undefined,
+          startDate: input.startDate ? new Date(input.startDate) : undefined,
+          endDate: input.endDate ? new Date(input.endDate) : undefined,
+          avatar: input.avatar ?? undefined,
+          members: input.members ?? [],
         };
 
-        // createGroup returns TEReader<Group> (already decoded)
-        const te = createGroup(createBody as any)(ctx);
-
+        const te = createGroup(createBody)(ctx);
         const result = await pipe(
           te,
-          fp.TE.mapLeft((err) => {
-            ctx.logger.error.log("createGroup error: %O", err);
-            return err;
+          fp.TE.map((g) => {
+            if ("success" in g) {
+              return { success: true };
+            }
+            return groupToOutput(g);
           }),
         )();
 
@@ -261,9 +262,7 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
         return {
           content: [
             {
-              text: JSON.stringify({
-                group: groupToOutput(result.right as Group),
-              }),
+              text: JSON.stringify({ group: result.right }),
               type: "text" as const,
             },
           ],
@@ -278,17 +277,29 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
     },
   );
 
+  server.registerTool(
+    CREATE_GROUP,
+    {
+      title: "Create group",
+      description:
+        "Create a new group in the database. Provide name, username, color, and optionally a Wikipedia search query.",
+      annotations: { title: "Create group", destructiveHint: true },
+      inputSchema: createGroupTool.inputSchema,
+    },
+    createGroupTool.handler,
+  );
+
   // --- editGroup ---
-  const editGroupInputSchema = effectToZodStruct(
+  const editGroupTool = defineMcpTool(
     Schema.Struct({
       id: Schema.String.annotations({
-        description: "Group UUID (required)",
+        description: "ID of the group to edit (required)",
       }),
       name: Schema.UndefinedOr(Schema.String).annotations({
-        description: "New group name",
+        description: "New name",
       }),
       username: Schema.UndefinedOr(Schema.String).annotations({
-        description: "New unique username",
+        description: "New username",
       }),
       color: Schema.UndefinedOr(Schema.String).annotations({
         description: "New color in hex format without #",
@@ -296,12 +307,12 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       kind: Schema.UndefinedOr(
         Schema.Union(Schema.Literal("Public"), Schema.Literal("Private")),
       ).annotations({
-        description: "New visibility type (Public or Private)",
+        description: "New visibility type",
       }),
-      excerpt: Schema.UndefinedOr(Schema.Any).annotations({
+      excerpt: Schema.UndefinedOr(Schema.Unknown).annotations({
         description: "New short description",
       }),
-      body: Schema.UndefinedOr(Schema.Any).annotations({
+      body: Schema.UndefinedOr(Schema.Unknown).annotations({
         description: "New full description",
       }),
       startDate: Schema.UndefinedOr(Schema.String).annotations({
@@ -311,57 +322,37 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
         description: "New end date (ISO 8601 string)",
       }),
       members: Schema.UndefinedOr(
-        Schema.Array(Schema.Union(Schema.String, Schema.Any)),
+        Schema.Array(Schema.Union(Schema.String, Schema.Unknown)),
       ).annotations({
         description: "New member list (array of actor UUIDs or member objects)",
       }),
     }),
-  );
-
-  server.registerTool(
-    EDIT_GROUP,
-    {
-      title: "Edit group",
-      description: "Edit an existing group in the database.",
-      annotations: { title: "Edit group", destructiveHint: true },
-
-      inputSchema: editGroupInputSchema,
-    },
-    async (opts) => {
-      const {
-        id,
-        name,
-        username,
-        color,
-        kind,
-        excerpt,
-        body,
-        startDate,
-        endDate,
-        members,
-      } = opts ?? {};
-
+    async (input) => {
       try {
-        if (!id) {
-          throw new Error("Group id is required for editing");
-        }
-
-        const editBody: Record<string, unknown> = { id };
-        if (name !== undefined) editBody.name = name;
-        if (username !== undefined) editBody.username = username;
-        if (color !== undefined) editBody.color = color;
-        if (kind !== undefined) editBody.kind = kind;
-        if (excerpt !== undefined) editBody.excerpt = excerpt;
-        if (body !== undefined) editBody.body = body;
-        if (startDate !== undefined) editBody.startDate = new Date(startDate);
-        if (endDate !== undefined) editBody.endDate = new Date(endDate);
-        if (members !== undefined) editBody.members = members;
+        const editBody: Record<string, unknown> = { id: input.id };
+        if (input.name !== undefined) editBody.name = input.name;
+        if (input.username !== undefined) editBody.username = input.username;
+        if (input.color !== undefined) editBody.color = input.color;
+        if (input.kind !== undefined) editBody.kind = input.kind;
+        if (input.excerpt !== undefined) editBody.excerpt = input.excerpt;
+        if (input.body !== undefined) editBody.body = input.body;
+        if (input.startDate !== undefined)
+          editBody.startDate = new Date(input.startDate);
+        if (input.endDate !== undefined)
+          editBody.endDate = new Date(input.endDate);
+        if (input.members !== undefined) editBody.members = input.members;
 
         // editGroup returns TEReader<GroupEntity>, decode with GroupIO
+        // Note: We cast to `any` because editGroup expects a different body shape
+        // than what we construct here (partial update vs full body).
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const te = editGroup(editBody as any)(ctx);
 
         const result = await pipe(
           te,
+          // GroupIO.decodeSingle expects GroupEntity, but we have the decoded result
+          // from editGroup. The cast is safe because the decoder validates at runtime.
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           fp.TE.chainEitherK((g) => GroupIO.decodeSingle(g as any)),
           fp.TE.mapLeft((err) => {
             ctx.logger.error.log("editGroup error: %O", err);
@@ -391,5 +382,16 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
         );
       }
     },
+  );
+
+  server.registerTool(
+    EDIT_GROUP,
+    {
+      title: "Edit group",
+      description: "Edit an existing group in the database.",
+      annotations: { title: "Edit group", destructiveHint: true },
+      inputSchema: editGroupTool.inputSchema,
+    },
+    editGroupTool.handler,
   );
 };

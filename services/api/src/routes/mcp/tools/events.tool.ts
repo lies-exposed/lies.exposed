@@ -7,15 +7,13 @@ import {
 import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.query.js";
 import { editEventQuery } from "@liexp/backend/lib/queries/events/editEvent.query.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
-import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
 import type * as Events from "@liexp/io/lib/http/Events/index.js";
-import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
-import { Equal } from "typeorm";
+import { defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 
 const eventToOutput = (event: Events.Event): Record<string, unknown> => ({
@@ -41,7 +39,7 @@ const eventToOutput = (event: Events.Event): Record<string, unknown> => ({
 
 export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
   // --- findEvents ---
-  const findEventsInputSchema = effectToZodStruct(
+  const findEventsTool = defineMcpTool(
     Schema.Struct({
       query: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full-text search query",
@@ -69,20 +67,9 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
         description: "Pagination limit (default: 20)",
       }),
     }),
-  );
-
-  server.registerTool(
-    FIND_EVENTS,
-    {
-      title: "Find events",
-      description:
-        "Search and list events in the database with filtering, sorting, and pagination.",
-      annotations: { title: "Find events" },
-      inputSchema: findEventsInputSchema,
-    },
-    async (opts) => {
+    async (input) => {
       const { query, actors, groups, type, startDate, endDate, start, end } =
-        opts ?? {};
+        input;
 
       const typeFilter = pipe(
         O.fromNullable(type),
@@ -120,18 +107,13 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
           skip,
           take,
           order: { date: "ASC" as const },
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } as any)(ctx);
+        })(ctx);
 
         const result = await pipe(
           te,
           fp.TE.map((output) => ({
             events: output.results.map((e) =>
-              pipe(
-                e,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (ev: any) => eventToOutput(ev as Events.Event),
-              ),
+              eventToOutput(e as unknown as Events.Event),
             ),
             total: output.total,
             totals: output.totals,
@@ -164,8 +146,20 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
     },
   );
 
+  server.registerTool(
+    FIND_EVENTS,
+    {
+      title: "Find events",
+      description:
+        "Search and list events in the database with filtering, sorting, and pagination.",
+      annotations: { title: "Find events" },
+      inputSchema: findEventsTool.inputSchema,
+    },
+    findEventsTool.handler,
+  );
+
   // --- createEvent ---
-  const createEventInputSchema = effectToZodStruct(
+  const createEventTool = defineMcpTool(
     Schema.Struct({
       type: Schema.Union(
         Schema.Literal("Uncategorized"),
@@ -178,398 +172,195 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
         Schema.Literal("Documentary"),
       ).annotations({
         description:
-          "Event type (required): Uncategorized | Death | Quote | Transaction | ScientificStudy | Book | Patent | Documentary",
-      }),
-      date: Schema.String.annotations({
-        description: "Event date (required) YYYY-MM-DD",
-      }),
-      draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
-        description: "Draft flag (default: false)",
+          "Event type: Death, ScientificStudy, Patent, Documentary, Transaction, Book, Quote, Uncategorized",
       }),
       excerpt: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Short excerpt text as plain text",
+        description: "Short excerpt or summary",
+      }),
+      body: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Full body content",
+      }),
+      date: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Event date in ISO 8601 format (YYYY-MM-DD)",
+      }),
+      draft: Schema.UndefinedOr(Schema.Boolean).annotations({
+        description: "Whether the event is a draft (default: false)",
       }),
       links: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
-        description: "Comma-separated link UUIDs",
+        description: "Array of related link UUIDs",
       }),
       media: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
-        description: "Comma-separated media UUIDs",
+        description: "Array of media UUIDs",
       }),
       keywords: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
-        description: "Comma-separated keyword UUIDs",
+        description: "Array of keyword UUIDs",
       }),
-      // Uncategorized / Death / Quote / etc. payloads
+      // Documentary-specific fields
       title: Schema.UndefinedOr(Schema.String).annotations({
-        description:
-          "Event title (required for Uncategorized, Transaction, ScientificStudy, Book, Patent, Documentary)",
+        description: "Title (for Documentary, Patent, ScientificStudy)",
       }),
-      actors: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
-        description: "Comma-separated actor UUIDs (Uncategorized payload)",
+      description: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Description (for Documentary, Patent, ScientificStudy)",
       }),
-      groups: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
-        description: "Comma-separated group UUIDs (Uncategorized payload)",
-      }),
-      groupsMembers: Schema.UndefinedOr(
-        Schema.Array(Schema.String),
-      ).annotations({
-        description:
-          "Comma-separated group-member UUIDs (Uncategorized payload)",
-      }),
-      location: Schema.UndefinedOr(Schema.String).annotations({
-        description:
-          "Area UUID for event location (Uncategorized/Death payload)",
-      }),
-      endDate: Schema.UndefinedOr(Schema.String).annotations({
-        description: "End date YYYY-MM-DD (Uncategorized payload)",
-      }),
-      // Death payload
-      victim: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Actor UUID of the victim (Death payload, required)",
-      }),
-      // Quote payload
-      actor: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Actor UUID who made the quote (Quote payload)",
-      }),
-      quote: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Quote text (Quote payload)",
-      }),
-      details: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Additional details (Quote payload)",
-      }),
-      // Transaction payload
-      total: Schema.UndefinedOr(Schema.NumberFromString).annotations({
-        description: "Transaction total amount (Transaction payload)",
-      }),
-      currency: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Currency code e.g. USD (Transaction payload)",
-      }),
-      fromType: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Sender subject type: actor | group (Transaction payload)",
-      }),
-      fromId: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Sender subject UUID (Transaction payload)",
-      }),
-      toType: Schema.UndefinedOr(Schema.String).annotations({
-        description:
-          "Recipient subject type: actor | group (Transaction payload)",
-      }),
-      toId: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Recipient subject UUID (Transaction payload)",
-      }),
-      // ScientificStudy payload
-      studyUrl: Schema.UndefinedOr(Schema.String).annotations({
-        description:
-          "Link UUID for the study URL (ScientificStudy payload, required)",
+      summary: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Summary (for Documentary, Patent, ScientificStudy)",
       }),
       image: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Media UUID for the study image (ScientificStudy payload)",
-      }),
-      publisher: Schema.UndefinedOr(Schema.String).annotations({
         description:
-          "Actor UUID of the publisher (ScientificStudy/Book payload)",
+          "Image/media UUID (for Documentary, Patent, ScientificStudy)",
       }),
-      authors: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated actor UUIDs of authors",
-      }),
-      pdf: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Media UUID for the PDF (Book payload)",
-      }),
-      audio: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Media UUID for audio (Book payload)",
-      }),
-      ownerActors: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated actor UUIDs as patent owners",
-      }),
-      ownerGroups: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated group UUIDs as patent owners",
-      }),
-      source: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Link UUID as patent source",
-      }),
-      documentaryMedia: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Media UUID for the documentary",
+      // Documentary-specific
+      documentaryMedia: Schema.UndefinedOr(
+        Schema.Array(Schema.String),
+      ).annotations({
+        description: "Documentary media UUIDs (for Documentary type)",
       }),
       website: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Link UUID for the documentary website",
+        description: "Website URL (for Documentary type)",
       }),
-      authorActors: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated actor UUIDs as documentary authors",
+      authorActors: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations(
+        {
+          description: "Author actor UUIDs (for Documentary type)",
+        },
+      ),
+      authorGroups: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations(
+        {
+          description: "Author group UUIDs (for Documentary type)",
+        },
+      ),
+      subjectActors: Schema.UndefinedOr(
+        Schema.Array(Schema.String),
+      ).annotations({
+        description: "Subject actor UUIDs (for Documentary type)",
       }),
-      authorGroups: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated group UUIDs as documentary authors",
+      subjectGroups: Schema.UndefinedOr(
+        Schema.Array(Schema.String),
+      ).annotations({
+        description: "Subject group UUIDs (for Documentary type)",
       }),
-      subjectActors: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated actor UUIDs as documentary subjects",
+      // Book-specific
+      publisher: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Publisher name (for Book type)",
       }),
-      subjectGroups: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated group UUIDs as documentary subjects",
+      authors: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
+        description: "Author names (for Book type)",
+      }),
+      pdf: Schema.UndefinedOr(Schema.String).annotations({
+        description: "PDF URL (for Book type)",
+      }),
+      audio: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Audio URL (for Book type)",
+      }),
+      // Patent-specific
+      publicationDate: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Publication date (for Patent type)",
+      }),
+      patentNumber: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Patent number (for Patent type)",
+      }),
+      applicant: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Applicant name (for Patent type)",
+      }),
+      ownerActors: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
+        description: "Owner actor UUIDs (for Patent type)",
+      }),
+      ownerGroups: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
+        description: "Owner group UUIDs (for Patent type)",
+      }),
+      // Transaction-specific
+      amount: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Transaction amount (for Transaction type)",
+      }),
+      currency: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Currency code (for Transaction type)",
+      }),
+      source: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Source (for Transaction type)",
       }),
     }),
-  );
-
-  server.registerTool(
-    CREATE_EVENT,
-    {
-      title: "Create event",
-      description:
-        "Create a new event of any type (Uncategorized, Death, Quote, Transaction, ScientificStudy, Book, Patent, Documentary).",
-      annotations: { title: "Create event" },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: createEventInputSchema as unknown as Record<string, any>,
-    },
-    async (opts) => {
-      const input = opts ?? {};
-      const { type, date } = input;
-      if (!type || !date) {
-        throw new Error("type and date are required");
-      }
-
+    async (input) => {
       try {
-        // Build the payload based on event type
-        const buildPayload = (): Record<string, unknown> => {
-          switch (type) {
-            case EVENT_TYPES.DEATH: {
-              const { _location, _endDate, ...rest } = input as Record<
-                string,
-                unknown
-              >;
-              return {
-                victim: input.victim,
-                location: input.location,
-                ...rest,
-              };
-            }
-            case EVENT_TYPES.QUOTE: {
-              const { _location, _endDate, _victim, ...rest } = input as Record<
-                string,
-                unknown
-              >;
-              return {
-                actor: input.actor,
-                quote: input.quote,
-                details: input.details,
-                ...rest,
-              };
-            }
-            case EVENT_TYPES.TRANSACTION: {
-              const {
-                _location,
-                _endDate,
-                _victim,
-                _actor,
-                _quote,
-                _details,
-                ...rest
-              } = input as Record<string, unknown>;
-              return {
-                total: input.total,
-                currency: input.currency,
-                fromType: input.fromType,
-                fromId: input.fromId,
-                toType: input.toType,
-                toId: input.toId,
-                ...rest,
-              };
-            }
-            case EVENT_TYPES.SCIENTIFIC_STUDY: {
-              const {
-                _location,
-                _endDate,
-                _victim,
-                _actor,
-                _quote,
-                _details,
-                _total,
-                _currency,
-                _fromType,
-                _fromId,
-                _toType,
-                _toId,
-                ...rest
-              } = input as Record<string, unknown>;
-              return {
-                title: input.title,
-                url: input.studyUrl,
-                image: input.image,
-                publisher: input.publisher,
-                authors: input.authors,
-                ...rest,
-              };
-            }
-            case EVENT_TYPES.BOOK: {
-              const {
-                _location,
-                _endDate,
-                _victim,
-                _actor,
-                _quote,
-                _details,
-                _total,
-                _currency,
-                _fromType,
-                _fromId,
-                _toType,
-                _toId,
-                _studyUrl,
-                _image,
-                _publisher,
-                _authors,
-                ...rest
-              } = input as Record<string, unknown>;
-              return {
-                title: input.title,
-                pdf: input.pdf,
-                audio: input.audio,
-                authors: input.authors,
-                publisher: input.publisher,
-                ...rest,
-              };
-            }
-            case EVENT_TYPES.PATENT: {
-              const {
-                _location,
-                _endDate,
-                _victim,
-                _actor,
-                _quote,
-                _details,
-                _total,
-                _currency,
-                _fromType,
-                _fromId,
-                _toType,
-                _toId,
-                _studyUrl,
-                _image,
-                _publisher,
-                _authors,
-                _pdf,
-                _audio,
-                ...rest
-              } = input as Record<string, unknown>;
-              return {
-                title: input.title,
-                ownerActors: input.ownerActors,
-                ownerGroups: input.ownerGroups,
-                source: input.source,
-                ...rest,
-              };
-            }
-            case EVENT_TYPES.DOCUMENTARY: {
-              const {
-                _location,
-                _endDate,
-                _victim,
-                _actor,
-                _quote,
-                _details,
-                _total,
-                _currency,
-                _fromType,
-                _fromId,
-                _toType,
-                _toId,
-                _studyUrl,
-                _image,
-                _publisher,
-                _authors,
-                _pdf,
-                _audio,
-                _ownerActors,
-                _ownerGroups,
-                _source,
-                ...rest
-              } = input as Record<string, unknown>;
-              return {
-                title: input.title,
-                media: input.documentaryMedia,
-                website: input.website,
-                authorActors: input.authorActors,
-                authorGroups: input.authorGroups,
-                subjectActors: input.subjectActors,
-                subjectGroups: input.subjectGroups,
-                ...rest,
-              };
-            }
-            case EVENT_TYPES.UNCATEGORIZED:
-            default: {
-              const {
-                _victim,
-                _actor,
-                _quote,
-                _details,
-                _total,
-                _currency,
-                _fromType,
-                _fromId,
-                _toType,
-                _toId,
-                _studyUrl,
-                _image,
-                _publisher,
-                _authors,
-                _pdf,
-                _audio,
-                _ownerActors,
-                _ownerGroups,
-                _source,
-                _documentaryMedia,
-                _website,
-                _authorActors,
-                _authorGroups,
-                _subjectActors,
-                _subjectGroups,
-                ...rest
-              } = input as Record<string, unknown>;
-              return {
-                title: input.title ?? "",
-                actors: input.actors ?? [],
-                groups: input.groups ?? [],
-                groupsMembers: input.groupsMembers ?? [],
-                location: input.location ?? undefined,
-                endDate: input.endDate ?? undefined,
-                ...rest,
-              };
-            }
-          }
-        };
+        // Build type-specific payload fields first
+        const payload: Record<string, unknown> = {};
 
-        // Build the CreateEventPlainBody
-        const createBody: Events.CreateEventPlainBody = {
-          type,
-          date: new Date(date),
-          draft: input.draft ?? false,
-          body: input.body ?? undefined,
+        // Documentary fields
+        if (input.title !== undefined) payload.title = input.title;
+        if (input.description !== undefined)
+          payload.description = input.description;
+        if (input.summary !== undefined) payload.summary = input.summary;
+        if (input.image !== undefined) payload.image = input.image;
+        if (input.documentaryMedia !== undefined)
+          payload.documentaryMedia = input.documentaryMedia;
+        if (input.website !== undefined) payload.website = input.website;
+        if (input.authorActors !== undefined)
+          payload.authorActors = input.authorActors;
+        if (input.authorGroups !== undefined)
+          payload.authorGroups = input.authorGroups;
+        if (input.subjectActors !== undefined)
+          payload.subjectActors = input.subjectActors;
+        if (input.subjectGroups !== undefined)
+          payload.subjectGroups = input.subjectGroups;
+
+        // Book fields
+        if (input.publisher !== undefined) payload.publisher = input.publisher;
+        if (input.authors !== undefined) payload.authors = input.authors;
+        if (input.pdf !== undefined) payload.pdf = input.pdf;
+        if (input.audio !== undefined) payload.audio = input.audio;
+
+        // Patent fields
+        if (input.publicationDate !== undefined)
+          payload.publicationDate = input.publicationDate;
+        if (input.patentNumber !== undefined)
+          payload.patentNumber = input.patentNumber;
+        if (input.applicant !== undefined) payload.applicant = input.applicant;
+        if (input.ownerActors !== undefined)
+          payload.ownerActors = input.ownerActors;
+        if (input.ownerGroups !== undefined)
+          payload.ownerGroups = input.ownerGroups;
+
+        // Transaction fields
+        if (input.amount !== undefined) payload.amount = input.amount;
+        if (input.currency !== undefined) payload.currency = input.currency;
+        if (input.source !== undefined) payload.source = input.source;
+
+        // Build the event body based on type
+        // Cast to CreateEventPlainBody since TypeScript can't narrow the union
+        const baseBody: Events.CreateEventPlainBody = {
+          type: input.type as Events.EventType,
           excerpt: input.excerpt ?? undefined,
+          body: input.body ?? undefined,
+          date: input.date ? new Date(input.date) : undefined,
+          draft: input.draft ?? false,
           links: input.links ?? [],
           media: input.media ?? [],
           keywords: input.keywords ?? [],
-          payload: buildPayload() as any,
-        };
+          payload,
+        } as Events.CreateEventPlainBody;
 
-        // Execute the create event query
-        const te = createEventQuery(createBody)(ctx);
+        const te = createEventQuery(baseBody)(ctx);
         const result = await pipe(
           te,
-          fp.TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
-          fp.TE.chain(([event]) =>
+          fp.TE.chain((event) =>
             ctx.db.findOneOrFail(EventV2Entity, {
-              where: { id: Equal(event.id) },
+              where: { id: event.id as UUID },
               relations: { media: true, links: true, keywords: true },
             }),
           ),
+          fp.TE.map((event) => ({
+            event: eventToOutput(event as unknown as Events.Event),
+          })),
         )();
 
         if (fp.E.isLeft(result)) {
-          throw new Error("Failed to create event");
+          throw new Error(
+            (result.left as Error).message ?? "Failed to create event",
+          );
         }
 
         return {
           content: [
             {
-              text: JSON.stringify({
-                event: eventToOutput(result.right as Events.Event),
-              }),
+              text: JSON.stringify(result.right),
               type: "text" as const,
             },
           ],
@@ -584,11 +375,23 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
     },
   );
 
+  server.registerTool(
+    CREATE_EVENT,
+    {
+      title: "Create event",
+      description:
+        "Create a new event of any type (Uncategorized, Death, Quote, Transaction, ScientificStudy, Book, Patent, Documentary).",
+      annotations: { title: "Create event", destructiveHint: true },
+      inputSchema: createEventTool.inputSchema,
+    },
+    createEventTool.handler,
+  );
+
   // --- editEvent ---
-  const editEventInputSchema = effectToZodStruct(
+  const editEventTool = defineMcpTool(
     Schema.Struct({
       id: Schema.String.annotations({
-        description: "UUID of the event to edit (required)",
+        description: "ID of the event to edit (required)",
       }),
       type: Schema.UndefinedOr(
         Schema.Union(
@@ -602,199 +405,177 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
           Schema.Literal("Documentary"),
         ),
       ).annotations({
-        description:
-          "Event type (optional, for type change): Uncategorized | Death | Quote | Transaction | ScientificStudy | Book | Patent | Documentary",
-      }),
-      date: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Event date YYYY-MM-DD",
-      }),
-      draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
-        description: "Draft flag",
+        description: "New event type",
       }),
       excerpt: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Short excerpt text as plain text",
+        description: "New excerpt",
+      }),
+      body: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New body content",
+      }),
+      date: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New date in ISO 8601 format (YYYY-MM-DD)",
+      }),
+      draft: Schema.UndefinedOr(Schema.Boolean).annotations({
+        description: "New draft status",
       }),
       links: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
-        description: "Comma-separated link UUIDs",
+        description: "New related link UUIDs",
       }),
       media: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
-        description: "Comma-separated media UUIDs",
+        description: "New media UUIDs",
       }),
       keywords: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
-        description: "Comma-separated keyword UUIDs",
+        description: "New keyword UUIDs",
       }),
-      // All payload fields (same as create, all optional for partial update)
+      // Documentary-specific fields
       title: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Event title",
+        description: "New title (for Documentary, Patent, ScientificStudy)",
       }),
-      actors: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
-        description: "Comma-separated actor UUIDs",
+      description: Schema.UndefinedOr(Schema.String).annotations({
+        description:
+          "New description (for Documentary, Patent, ScientificStudy)",
       }),
-      groups: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
-        description: "Comma-separated group UUIDs",
-      }),
-      groupsMembers: Schema.UndefinedOr(
-        Schema.Array(Schema.String),
-      ).annotations({
-        description: "Comma-separated group-member UUIDs",
-      }),
-      location: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Area UUID for event location",
-      }),
-      endDate: Schema.UndefinedOr(Schema.String).annotations({
-        description: "End date YYYY-MM-DD",
-      }),
-      victim: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Actor UUID of the victim",
-      }),
-      actor: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Actor UUID who made the quote",
-      }),
-      quote: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Quote text",
-      }),
-      details: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Additional details",
-      }),
-      total: Schema.UndefinedOr(Schema.NumberFromString).annotations({
-        description: "Transaction total amount",
-      }),
-      currency: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Currency code",
-      }),
-      fromType: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Sender subject type: actor | group",
-      }),
-      fromId: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Sender subject UUID",
-      }),
-      toType: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Recipient subject type: actor | group",
-      }),
-      toId: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Recipient subject UUID",
-      }),
-      studyUrl: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Link UUID for the study URL",
+      summary: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New summary (for Documentary, Patent, ScientificStudy)",
       }),
       image: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Media UUID",
+        description:
+          "New image/media UUID (for Documentary, Patent, ScientificStudy)",
       }),
-      publisher: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Actor UUID of the publisher",
-      }),
-      authors: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated actor UUIDs of authors",
-      }),
-      pdf: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Media UUID for the PDF",
-      }),
-      audio: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Media UUID for audio",
-      }),
-      ownerActors: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated actor UUIDs as patent owners",
-      }),
-      ownerGroups: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated group UUIDs as patent owners",
-      }),
-      source: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Link UUID as patent source",
-      }),
-      documentaryMedia: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Media UUID for the documentary",
+      documentaryMedia: Schema.UndefinedOr(
+        Schema.Array(Schema.String),
+      ).annotations({
+        description: "New documentary media UUIDs (for Documentary type)",
       }),
       website: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Link UUID for the documentary website",
+        description: "New website URL (for Documentary type)",
       }),
-      authorActors: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated actor UUIDs as documentary authors",
+      authorActors: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations(
+        {
+          description: "New author actor UUIDs (for Documentary type)",
+        },
+      ),
+      authorGroups: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations(
+        {
+          description: "New author group UUIDs (for Documentary type)",
+        },
+      ),
+      subjectActors: Schema.UndefinedOr(
+        Schema.Array(Schema.String),
+      ).annotations({
+        description: "New subject actor UUIDs (for Documentary type)",
       }),
-      authorGroups: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated group UUIDs as documentary authors",
+      subjectGroups: Schema.UndefinedOr(
+        Schema.Array(Schema.String),
+      ).annotations({
+        description: "New subject group UUIDs (for Documentary type)",
       }),
-      subjectActors: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated actor UUIDs as documentary subjects",
+      publisher: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New publisher name (for Book type)",
       }),
-      subjectGroups: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Comma-separated group UUIDs as documentary subjects",
+      authors: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
+        description: "New author names (for Book type)",
+      }),
+      pdf: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New PDF URL (for Book type)",
+      }),
+      audio: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New audio URL (for Book type)",
+      }),
+      publicationDate: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New publication date (for Patent type)",
+      }),
+      patentNumber: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New patent number (for Patent type)",
+      }),
+      applicant: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New applicant name (for Patent type)",
+      }),
+      ownerActors: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
+        description: "New owner actor UUIDs (for Patent type)",
+      }),
+      ownerGroups: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
+        description: "New owner group UUIDs (for Patent type)",
+      }),
+      amount: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New transaction amount (for Transaction type)",
+      }),
+      currency: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New currency code (for Transaction type)",
+      }),
+      source: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New source (for Transaction type)",
       }),
     }),
-  );
-
-  server.registerTool(
-    EDIT_EVENT,
-    {
-      title: "Edit event",
-      description:
-        "Edit an existing event by ID. Supports partial updates for all event types.",
-      annotations: { title: "Edit event" },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: editEventInputSchema as unknown as Record<string, any>,
-    },
-    async (opts) => {
-      const input = opts ?? {};
-      const { id } = input;
-      if (!id) {
-        throw new Error("id is required");
-      }
-
+    async (input) => {
       try {
         // Find the existing event
         const foundEither = await ctx.db.findOneOrFail(EventV2Entity, {
-          where: { id: Equal(id) },
+          where: { id: input.id },
           relations: { media: true, links: true, keywords: true },
         })();
 
         if (fp.E.isLeft(foundEither)) {
-          throw new Error(`Event not found: ${id}`);
+          throw new Error(`Event not found: ${input.id}`);
         }
 
         const storedEvent = foundEither.right;
 
-        // Build the EditEventBody with Option-wrapped fields
-        // Use foldOptionals to unwrap the payload like editEventQuery does
-        const unwrappedPayload = foldOptionals({
-          title: input.title,
-          actors: input.actors,
-          groups: input.groups,
-          groupsMembers: input.groupsMembers,
-          location: input.location,
-          endDate: input.endDate,
-          victim: input.victim,
-          actor: input.actor,
-          quote: input.quote,
-          details: input.details,
-          total: input.total,
-          currency: input.currency,
-          fromType: input.fromType,
-          fromId: input.fromId,
-          toType: input.toType,
-          toId: input.toId,
-          studyUrl: input.studyUrl,
-          image: input.image,
-          publisher: input.publisher,
-          authors: input.authors,
-          pdf: input.pdf,
-          audio: input.audio,
-          ownerActors: input.ownerActors,
-          ownerGroups: input.ownerGroups,
-          source: input.source,
-          documentaryMedia: input.documentaryMedia,
-          website: input.website,
-          authorActors: input.authorActors,
-          authorGroups: input.authorGroups,
-          subjectActors: input.subjectActors,
-          subjectGroups: input.subjectGroups,
-        });
+        // Build type-specific payload updates
+        const payloadUpdates: Record<string, unknown> = {};
+        if (input.title !== undefined) payloadUpdates.title = input.title;
+        if (input.description !== undefined)
+          payloadUpdates.description = input.description;
+        if (input.summary !== undefined) payloadUpdates.summary = input.summary;
+        if (input.image !== undefined) payloadUpdates.image = input.image;
+        if (input.documentaryMedia !== undefined)
+          payloadUpdates.documentaryMedia = input.documentaryMedia;
+        if (input.website !== undefined) payloadUpdates.website = input.website;
+        if (input.authorActors !== undefined)
+          payloadUpdates.authorActors = input.authorActors;
+        if (input.authorGroups !== undefined)
+          payloadUpdates.authorGroups = input.authorGroups;
+        if (input.subjectActors !== undefined)
+          payloadUpdates.subjectActors = input.subjectActors;
+        if (input.subjectGroups !== undefined)
+          payloadUpdates.subjectGroups = input.subjectGroups;
+        if (input.publisher !== undefined)
+          payloadUpdates.publisher = input.publisher;
+        if (input.authors !== undefined) payloadUpdates.authors = input.authors;
+        if (input.pdf !== undefined) payloadUpdates.pdf = input.pdf;
+        if (input.audio !== undefined) payloadUpdates.audio = input.audio;
+        if (input.publicationDate !== undefined)
+          payloadUpdates.publicationDate = input.publicationDate;
+        if (input.patentNumber !== undefined)
+          payloadUpdates.patentNumber = input.patentNumber;
+        if (input.applicant !== undefined)
+          payloadUpdates.applicant = input.applicant;
+        if (input.ownerActors !== undefined)
+          payloadUpdates.ownerActors = input.ownerActors;
+        if (input.ownerGroups !== undefined)
+          payloadUpdates.ownerGroups = input.ownerGroups;
+        if (input.amount !== undefined) payloadUpdates.amount = input.amount;
+        if (input.currency !== undefined)
+          payloadUpdates.currency = input.currency;
+        if (input.source !== undefined) payloadUpdates.source = input.source;
+
+        // Merge with stored payload
+        const unwrappedPayload: Record<string, unknown> = {};
+        for (const [key, value] of Object.entries(payloadUpdates)) {
+          if (value !== undefined) {
+            unwrappedPayload[key] = value;
+          }
+        }
 
         const mergedPayload = {
           ...storedEvent.payload,
           ...unwrappedPayload,
         };
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const editBody: any = {
+        // Build EditEventBody - type is narrowed by switch in editEventQuery
+        // Cast to EditEventBody since TypeScript can't narrow the union
+        const editBody: Events.EditEventBody = {
           type: (input.type ?? storedEvent.type) as Events.EventType,
           body: O.fromNullable(input.body),
           excerpt: O.fromNullable(input.excerpt),
@@ -805,19 +586,16 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
             input.draft !== undefined
               ? O.some(input.draft)
               : (O.none as unknown as O.Option<boolean>),
-          payload: mergedPayload as any,
-        };
-
-        // Only include relations if explicitly provided (partial update)
-        if (input.links !== undefined) {
-          editBody.links = O.fromNullable(input.links);
-        }
-        if (input.media !== undefined) {
-          editBody.media = O.fromNullable(input.media);
-        }
-        if (input.keywords !== undefined) {
-          editBody.keywords = O.fromNullable(input.keywords);
-        }
+          payload: mergedPayload as Record<string, unknown>,
+          links:
+            input.links !== undefined ? O.fromNullable(input.links) : undefined,
+          media:
+            input.media !== undefined ? O.fromNullable(input.media) : undefined,
+          keywords:
+            input.keywords !== undefined
+              ? O.fromNullable(input.keywords)
+              : undefined,
+        } as Events.EditEventBody;
 
         // Execute the edit event query
         const editTE = editEventQuery(storedEvent, editBody)(ctx);
@@ -826,7 +604,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
           fp.TE.chain((edited) => ctx.db.save(EventV2Entity, [edited])),
           fp.TE.chain(([event]) =>
             ctx.db.findOneOrFail(EventV2Entity, {
-              where: { id: Equal(event.id) },
+              where: { id: event.id },
               relations: { media: true, links: true, keywords: true },
             }),
           ),
@@ -854,5 +632,17 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
         );
       }
     },
+  );
+
+  server.registerTool(
+    EDIT_EVENT,
+    {
+      title: "Edit event",
+      description:
+        "Edit an existing event in the database. Provide the event ID and fields to update.",
+      annotations: { title: "Edit event", destructiveHint: true },
+      inputSchema: editEventTool.inputSchema,
+    },
+    editEventTool.handler,
   );
 };
