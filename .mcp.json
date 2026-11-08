@@ -13,6 +13,14 @@
       "type": "http",
       "url": "https://mcp.context7.com/mcp"
     },
+    "mem0": {
+      "type": "http",
+      "url": "https://mem0.ascariandrea.it/mcp",
+      "headers": {
+        "CF-Access-Client-Id": "${CF_ACCESS_CLIENT_ID}",
+        "CF-Access-Client-Secret": "${CF_ACCESS_CLIENT_SECRET}"
+      }
+    },
     "playwright": {
       "args": [
         "@playwright/mcp@latest"
