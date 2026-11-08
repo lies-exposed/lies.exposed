@@ -7,8 +7,11 @@ import {
 import { fetchActors } from "@liexp/backend/lib/queries/actors/fetchActors.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
+import type { GetListActorQuery } from "@liexp/io/lib/http/Actor.js";
+import type { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
+import * as O from "effect/Option";
 import type { ServerContext } from "#context/context.type.js";
 import { createActor } from "#flows/actors/createActor.flow.js";
 import { editActor } from "#flows/actors/editActor.flow.js";
@@ -19,7 +22,9 @@ const actorToOutput = (actor: ActorEntity) => ({
   fullName: actor.fullName,
   color: actor.color ?? undefined,
   excerpt: actor.excerpt ?? undefined,
-  nationalities: (actor.nationalities as { id: string }[]).map((n) => n.id),
+  nationalities: ((actor.nationalities ?? []) as { id: string }[]).map(
+    (n) => n.id,
+  ),
   body: actor.body ?? undefined,
   avatar: actor.avatar
     ? typeof actor.avatar === "string"
@@ -28,7 +33,7 @@ const actorToOutput = (actor: ActorEntity) => ({
     : undefined,
   bornOn: actor.bornOn ?? undefined,
   diedOn: actor.diedOn ?? undefined,
-  memberIn: (actor.memberIn as { id: string }[]).map((m) => m.id),
+  memberIn: ((actor.memberIn ?? []) as { id: string }[]).map((m) => m.id),
   createdAt: actor.createdAt.toISOString(),
   updatedAt: actor.updatedAt.toISOString(),
 });
@@ -48,6 +53,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       }),
       sort: Schema.optional(
         Schema.Union(
+          Schema.Literal("fullName"),
           Schema.Literal("username"),
           Schema.Literal("createdAt"),
           Schema.Literal("updatedAt"),
@@ -61,10 +67,10 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       ).annotations({
         description: 'Sort order: "ASC" for ascending or "DESC" for descending',
       }),
-      start: Schema.optional(Schema.NumberFromString).annotations({
+      start: Schema.optional(Schema.Number).annotations({
         description: "Pagination start index",
       }),
-      end: Schema.optional(Schema.NumberFromString).annotations({
+      end: Schema.optional(Schema.Number).annotations({
         description: "Pagination end index",
       }),
     }),
@@ -92,28 +98,22 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       const { fullName, memberIn, withDeleted, sort, order, start, end } =
         opts ?? {};
 
-      const actorQuery: Record<string, unknown> = {};
-      if (fullName) {
-        actorQuery.q = fullName;
-      }
-      if (memberIn && memberIn.length > 0) {
-        actorQuery.memberIn = memberIn;
-      }
-      if (withDeleted !== undefined) {
-        actorQuery.withDeleted = withDeleted;
-      }
-      if (sort) {
-        actorQuery._sort = sort;
-      }
-      if (order) {
-        actorQuery._order = order;
-      }
-      if (start !== undefined) {
-        actorQuery._start = Number(start);
-      }
-      if (end !== undefined) {
-        actorQuery._end = Number(end);
-      }
+      // fetchActors expects effect Options for every query field
+      const actorQuery: Partial<GetListActorQuery> = {
+        ...(fullName ? { q: O.some(fullName) } : {}),
+        ...(memberIn && memberIn.length > 0
+          ? {
+              memberIn: O.some(memberIn as readonly UUID[]),
+            }
+          : {}),
+        ...(withDeleted !== undefined
+          ? { withDeleted: O.some(withDeleted) }
+          : {}),
+        ...(sort ? { _sort: O.some(sort) } : {}),
+        ...(order ? { _order: O.some(order) } : {}),
+        ...(start !== undefined ? { _start: O.some(Number(start)) } : {}),
+        ...(end !== undefined ? { _end: O.some(Number(end)) } : {}),
+      };
 
       try {
         const te = fetchActors(actorQuery)(ctx);
