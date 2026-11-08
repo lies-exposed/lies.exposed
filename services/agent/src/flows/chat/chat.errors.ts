@@ -19,7 +19,7 @@ export const getErrorCode = (error: unknown): string => {
   return typeof code === "string" && code.length > 0 ? code : "UNKNOWN";
 };
 
-export const getErrorName = (error: unknown): string =>
+const getErrorName = (error: unknown): string =>
   error instanceof Error ? error.name : typeof error;
 
 /** Build an SSE `error` event carrying structured error fields. */
