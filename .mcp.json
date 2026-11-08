@@ -27,6 +27,18 @@
       ],
       "command": "npx",
       "type": "stdio"
+    },
+    "lies-exposed-local": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://api.liexp.dev/mcp"
+      ],
+      "env": {
+        "NODE_EXTRA_CA_CERTS": "./_data/certs/liexp.dev.crt"
+      }
     }
   }
 }
