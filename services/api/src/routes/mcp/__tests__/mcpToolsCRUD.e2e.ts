@@ -48,11 +48,17 @@ describe("MCP CRUD Tools E2E Tests", () => {
       });
 
     // Extract session ID from response headers (MCP SDK v1.x puts it in headers, not body)
-    mcpSessionId = initResponse.headers['mcp-session-id'];
+    mcpSessionId = initResponse.headers["mcp-session-id"];
 
     // Log the initialize response for debugging
-    Test.ctx.logger.debug.log("Initialize response:", JSON.stringify(initResponse.body, null, 2));
-    Test.ctx.logger.debug.log("Initialize session headers:", initResponse.headers);
+    Test.ctx.logger.debug.log(
+      "Initialize response:",
+      JSON.stringify(initResponse.body, null, 2),
+    );
+    Test.ctx.logger.debug.log(
+      "Initialize session headers:",
+      initResponse.headers,
+    );
     Test.ctx.logger.debug.log("Extracted session ID:", mcpSessionId);
 
     // Send initialized notification if we got a session ID
@@ -107,13 +113,29 @@ describe("MCP CRUD Tools E2E Tests", () => {
     // MCP protocol: errors are at top level { jsonrpc, id, error }
     if (result.error) return true;
     // Or nested in result: { jsonrpc, id, result: { error } }
-    if (result.result && typeof result.result === "object" && "error" in result.result) return true;
+    if (
+      result.result &&
+      typeof result.result === "object" &&
+      "error" in result.result
+    )
+      return true;
     // With enableJsonResponse: true, errors may be in content text
-    if (result.result && typeof result.result === "object" && "content" in result.result) {
-      const content = result.result.content as Array<{ type?: string; text?: string }>;
+    if (
+      result.result &&
+      typeof result.result === "object" &&
+      "content" in result.result
+    ) {
+      const content = result.result.content as Array<{
+        type?: string;
+        text?: string;
+      }>;
       if (Array.isArray(content) && content.length > 0) {
         const text = content[0]?.text ?? "";
-        if (typeof text === "string" && (text.startsWith("MCP error") || text.startsWith("Failed to"))) return true;
+        if (
+          typeof text === "string" &&
+          (text.startsWith("MCP error") || text.startsWith("Failed to"))
+        )
+          return true;
       }
     }
     return false;
@@ -376,13 +398,24 @@ describe("MCP CRUD Tools E2E Tests", () => {
         username: uniqueUsername,
         fullName: `CRUD Test Actor ${Date.now()}`,
         color: "1a73e8",
-        excerpt: [{ type: "paragraph", id: "default", props: {}, content: "Test actor excerpt", children: [] }],
+        excerpt: [
+          {
+            type: "paragraph",
+            id: "default",
+            props: {},
+            content: "Test actor excerpt",
+            children: [],
+          },
+        ],
         nationalities: [],
       });
 
       // Check for errors first - log details if failed
       if (hasError(result)) {
-        const errorMsg = result.result?.content?.[0]?.text ?? result.error?.message ?? JSON.stringify(result);
+        const errorMsg =
+          result.result?.content?.[0]?.text ??
+          result.error?.message ??
+          JSON.stringify(result);
         Test.ctx.logger.error.log("createActor error:", errorMsg);
         expect.fail(`createActor failed: ${errorMsg}`);
       }
@@ -404,7 +437,15 @@ describe("MCP CRUD Tools E2E Tests", () => {
         username: uniqueUsername,
         color: "e81a1a",
         kind: "Public",
-        excerpt: [{ type: "paragraph", id: "test-id", props: {}, content: "", children: [{ text: "Test group created via MCP CRUD tests" }] }],
+        excerpt: [
+          {
+            type: "paragraph",
+            id: "test-id",
+            props: {},
+            content: "",
+            children: [{ text: "Test group created via MCP CRUD tests" }],
+          },
+        ],
       });
 
       // Check for errors first
@@ -426,8 +467,24 @@ describe("MCP CRUD Tools E2E Tests", () => {
         type: "Uncategorized",
         date: "2024-06-15",
         title: "Test Event via MCP CRUD",
-        excerpt: [{ type: "paragraph", id: "test-id", props: {}, content: "", children: [{ text: "Test event created via MCP CRUD tests" }] }],
-        body: [{ type: "paragraph", id: "test-id", props: {}, content: "", children: [{ text: "This is a test event body for CRUD testing." }] }],
+        excerpt: [
+          {
+            type: "paragraph",
+            id: "test-id",
+            props: {},
+            content: "",
+            children: [{ text: "Test event created via MCP CRUD tests" }],
+          },
+        ],
+        body: [
+          {
+            type: "paragraph",
+            id: "test-id",
+            props: {},
+            content: "",
+            children: [{ text: "This is a test event body for CRUD testing." }],
+          },
+        ],
       });
 
       // Check for errors first
@@ -459,7 +516,10 @@ describe("MCP CRUD Tools E2E Tests", () => {
       const data = JSON.parse(content.text);
       expect(data).toHaveProperty("link");
       expect(data.link).toHaveProperty("id");
-      expect(data.link).toHaveProperty("url", "https://example.com/test-crud-link");
+      expect(data.link).toHaveProperty(
+        "url",
+        "https://example.com/test-crud-link",
+      );
     });
   });
 
