@@ -66,8 +66,7 @@ export const MakeMCPRoutes: Route = (router, ctx) => {
     } catch (err) {
       // If the SDK didn't already send a response, return a JSON-RPC error.
       if (!res.writableEnded) {
-        const message =
-          err instanceof Error ? err.message : "Unknown error";
+        const message = err instanceof Error ? err.message : "Unknown error";
         res.status(200).json({
           jsonrpc: "2.0",
           id: (req.body as { id?: number })?.id ?? null,
