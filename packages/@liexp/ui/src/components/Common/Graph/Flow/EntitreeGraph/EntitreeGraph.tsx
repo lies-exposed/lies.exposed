@@ -7,6 +7,7 @@ import {
   useNodesState,
   useEdgesState,
   useReactFlow,
+  type Connection,
 } from "@xyflow/react";
 import * as React from "react";
 import { useTheme } from "../../../../../theme/index.js";
@@ -15,6 +16,7 @@ import {
   PADDING_SM,
 } from "../../../../../theme/styleUtils.js";
 import { CustomNode } from "./CustomNode.js";
+import { type EntitreeTreeEntry } from "./layout-elements.js";
 import { layoutElements } from "./layout-elements.js";
 
 import "@xyflow/react/dist/style.css";
@@ -24,7 +26,7 @@ const nodeTypes = {
 };
 
 interface EntitreeGraphProps {
-  tree: any;
+  tree: Record<string | number, EntitreeTreeEntry>;
   rootId: string;
   onActorClick?: (id: string) => void;
 }
@@ -107,7 +109,7 @@ const EntitreeGraphInner: React.FC<EntitreeGraphProps> = ({
   }, [tree, rootId]);
 
   const onConnect = React.useCallback(
-    (params: any) =>
+    (params: Connection) =>
       setEdges((eds) =>
         addEdge(
           { ...params, type: ConnectionLineType.SmoothStep, animated: true },
