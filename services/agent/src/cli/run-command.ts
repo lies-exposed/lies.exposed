@@ -60,13 +60,11 @@ const runCliCommand =
     ) => TaskEither<CommandError, unknown>,
   ) =>
   (ctx: CLIContext, args: string[]): Promise<void> =>
-    // Schema.Struct<Fields> Context can't be proven `never` at the generic
-    // level; safe because all CLI schemas carry no Effect dependencies (R=never).
     runCommand(
       ctx,
-      schema as any as Schema.Schema<
+      schema as unknown as Schema.Schema<
         Schema.Schema.Type<Schema.Struct<Fields>>,
-        any,
+        unknown,
         never
       >,
       parseArgsFromSchema(schema, args),

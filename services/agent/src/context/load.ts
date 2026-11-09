@@ -76,7 +76,7 @@ const getLangchainConfig = (env: ENV) => {
     }
     case "anthropic":
       return {
-        baseURL: undefined as any,
+        baseURL: undefined as string | undefined,
         apiKey: env.ANTHROPIC_API_KEY!,
         maxRetries: env.LOCALAI_MAX_RETRIES,
         provider: "anthropic" as const,
@@ -120,7 +120,7 @@ export const getAgentContext =
 
     const langchainConfig = getLangchainConfig(env);
     const langchain = GetLangchainProvider({
-      baseURL: langchainConfig.baseURL,
+      baseURL: langchainConfig.baseURL!,
       apiKey: langchainConfig.apiKey,
       maxRetries: langchainConfig.maxRetries,
       provider: langchainConfig.provider,
@@ -162,7 +162,7 @@ export const getAgentContext =
     agentLogger.debug.log("Initializing Puppeteer provider...");
     // Initialize Puppeteer provider
     const puppeteerProvider = GetPuppeteerProvider(
-      puppeteer as any as VanillaPuppeteer,
+      puppeteer as unknown as VanillaPuppeteer,
       {},
       puppeteer.KnownDevices,
     );

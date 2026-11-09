@@ -264,6 +264,12 @@ export const resolveSkill = (
   return { _tag: "Candidates", matches: ranked.slice(0, 3) };
 };
 
+const LoadSkillInputSchema = z.object({
+  skill_name: z
+    .string()
+    .describe("Exact skill name, or a short description of the task"),
+});
+
 /**
  * Create the load_skill tool that agents use to fetch full skill content on demand.
  * Accepts either an exact skill name or a short task description; the latter is
@@ -271,8 +277,8 @@ export const resolveSkill = (
  */
 export function createLoadSkillTool(
   skills: Skill[],
-): ReturnType<typeof tool<any, any, any, any>> {
-  return tool<any, any, any, any>(
+): ReturnType<typeof tool<any, string, never, "load_skill">> {
+  return tool<any, string, never, "load_skill">(
     (input: { skill_name: string }) => {
       const result = resolveSkill(skills, input.skill_name);
       if (result._tag === "Loaded") {
@@ -292,11 +298,7 @@ export function createLoadSkillTool(
       name: "load_skill",
       description:
         "Load the full workflow of a skill into your context. Pass the exact skill name from the Available Skills list, or — if unsure which skill fits — a short description of the task (e.g. 'create death event', 'who funded this group'); the best match is loaded or the closest candidates are returned.",
-      schema: z.object({
-        skill_name: z
-          .string()
-          .describe("Exact skill name, or a short description of the task"),
-      }),
+      schema: LoadSkillInputSchema,
     },
   );
 }

@@ -82,7 +82,7 @@ Examples: "actor list --fullName=Obama --end=5", "event list --query=vaccine --e
 type CliInput = typeof CliInputSchema.Type;
 
 export const createCliExecutorTool = (cliBinPath: string) =>
-  tool<any, any, any, any>(
+  tool<any, string, never, "liexp_cli">(
     async (input: CliInput): Promise<string> => {
       try {
         const args = parseCommandArgs(input.command);
