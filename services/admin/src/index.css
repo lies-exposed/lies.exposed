@@ -393,8 +393,8 @@ body {
   }
 
   /* Hide less important columns on mobile */
-  .MuiDataGrid-columnHeader:nth-child(n+4),
-  .MuiDataGrid-cell:nth-child(n+4) {
+  .MuiDataGrid-columnHeader:nth-child(n + 4),
+  .MuiDataGrid-cell:nth-child(n + 4) {
     display: none;
   }
 

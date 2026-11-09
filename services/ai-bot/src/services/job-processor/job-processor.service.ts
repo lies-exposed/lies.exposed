@@ -17,7 +17,7 @@ export type JobProcessRTE<
   job: Omit<Queue.Queue, "data" | "type"> & Q & { question: string | null },
 ) => ClientContextRTE<R>;
 
-type JobTypesMap = Record<Queue.QueueTypes, JobProcessRTE<any, any>>;
+type JobTypesMap = Record<Queue.QueueTypes, JobProcessRTE<unknown, unknown>>;
 
 const processJob =
   <Q extends Pick<Queue.Queue, "type" | "data">>(
@@ -100,7 +100,7 @@ const processJob =
                 resource: job.resource,
               },
               Body: {
-                ...(updatedJob as any),
+                ...updatedJob,
                 createdAt: updatedJob.createdAt.toISOString(),
                 updatedAt: new Date().toISOString(),
                 deletedAt: updatedJob.deletedAt?.toISOString() ?? null,

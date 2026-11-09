@@ -9,7 +9,9 @@ import { loadImplementation } from "../context/load.js";
 import { makeContext } from "../context/make.js";
 import { ENV } from "../io/env.js";
 
-export const startContext = async (env?: any): Promise<WorkerContext> => {
+export const startContext = async (
+  env?: Record<string, unknown>,
+): Promise<WorkerContext> => {
   loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? ".env");
   if (process.env.NODE_ENV === "development") {
     loadENV(process.cwd(), ".env.local", true);

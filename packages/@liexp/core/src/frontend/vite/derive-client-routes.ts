@@ -4,11 +4,11 @@
  */
 export interface ServerRoute {
   path: string;
-  route: React.ComponentType<any>;
+  route: React.ComponentType<Record<string, unknown>>;
   queries?: (
-    queryProvider: any,
-    config: any,
-  ) => (params: any) => Promise<any[]>;
+    queryProvider: unknown,
+    config: unknown,
+  ) => (params: unknown) => Promise<unknown[]>;
 }
 
 /**

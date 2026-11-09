@@ -122,10 +122,12 @@ const transformGroup =
       return data;
     }
 
-    const newMembers = (data.newMembers ?? []).map((m: any) => ({
-      ...m,
-      body: m.excerpt ?? null,
-    }));
+    const newMembers = (data.newMembers ?? []).map(
+      (m: Record<string, unknown>) => ({
+        ...m,
+        body: m.excerpt ?? null,
+      }),
+    );
     const members = (data.members ?? []).concat(newMembers);
 
     // Extract newAvatarUpload from data

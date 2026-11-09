@@ -38,7 +38,10 @@ export interface EventsView extends CommonViewArgs {
 //   );
 // }
 
-type NavigateToResource = (f: { id?: string }, search?: any) => void;
+type NavigateToResource = (
+  f: { id?: string },
+  search?: Record<string, unknown>,
+) => void;
 
 interface NavigationHooks {
   index: NavigateToResource;
@@ -49,7 +52,7 @@ interface NavigationHooks {
   keywords: NavigateToResource;
   media: NavigateToResource;
   links: NavigateToResource;
-  stories: (f: { path?: string }, search?: any) => void;
+  stories: (f: { path?: string }, search?: Record<string, unknown>) => void;
 }
 
 export function useNavigateToResource(): NavigationHooks {
@@ -58,13 +61,15 @@ export function useNavigateToResource(): NavigationHooks {
   return React.useMemo(() => {
     const navigateToResource =
       <K extends keyof NavigationHooks>(resourceName: K) =>
-      (f: any, search?: any): void => {
+      (f: Record<string, unknown>, search?: Record<string, unknown>): void => {
         switch (resourceName) {
           case "index":
             n.navigateTo("/");
             break;
           case "stories": {
-            const path = f.path ? `/${f.path}` : "";
+            const path = (f as { path?: string }).path
+              ? `/${(f as { path?: string }).path}`
+              : "";
             n.navigateTo(`/${resourceName}${path}`, search);
             break;
           }
@@ -75,7 +80,9 @@ export function useNavigateToResource(): NavigationHooks {
           case "keywords":
           case "links":
           case "groups": {
-            const id = f.id ? `/${f.id}` : "";
+            const id = (f as { id?: string }).id
+              ? `/${(f as { id?: string }).id}`
+              : "";
             n.navigateTo(`/${resourceName}${id}`, search);
             break;
           }

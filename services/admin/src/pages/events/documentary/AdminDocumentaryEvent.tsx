@@ -23,6 +23,7 @@ import {
   TextInput,
   type CreateProps,
   type ListProps,
+  type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
@@ -73,7 +74,7 @@ export const DocumentaryCreate: React.FC<CreateProps> = () => {
   return (
     <Create
       title="Create a Documentary"
-      transform={(data: any) =>
+      transform={(data: RaRecord) =>
         transformEvent(dataProvider)(uuid(), data).then((record) => ({
           ...record,
           payload: {
