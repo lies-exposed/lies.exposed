@@ -19,35 +19,110 @@ export interface ForcedNetworkGraphProps {
   id: string;
   nodes: { data: unknown; index?: number; id?: string | number }[];
   // given d in nodes, returns a unique identifier (string)
-  nodeId: (n: { data: unknown; index?: number; id?: string | number }) => string;
+  nodeId: (n: {
+    data: unknown;
+    index?: number;
+    id?: string | number;
+  }) => string;
   links: NetworkLink[];
   // given d in links, returns a node identifier string
-  linkSource?: (l: { source: string | number; target: string | number; value?: number; fill?: string; sourceType?: string; stroke?: string }) => string;
+  linkSource?: (l: {
+    source: string | number;
+    target: string | number;
+    value?: number;
+    fill?: string;
+    sourceType?: string;
+    stroke?: string;
+  }) => string;
   // given d in links, returns a node identifier string
-  linkTarget?: (l: { source: string | number; target: string | number; value?: number; fill?: string; sourceType?: string; stroke?: string }) => string;
+  linkTarget?: (l: {
+    source: string | number;
+    target: string | number;
+    value?: number;
+    fill?: string;
+    sourceType?: string;
+    stroke?: string;
+  }) => string;
   // given d in nodes, returns an (ordinal) value for color
-  nodeGroup: (d: { data: unknown; index?: number; id?: string | number }) => number;
+  nodeGroup: (d: {
+    data: unknown;
+    index?: number;
+    id?: string | number;
+  }) => number;
   // an array of ordinal values representing the node groups
   nodeGroups: string[];
   // given d in nodes, a title string
-  nodeTitle?: (d: { data: unknown; index?: number; id?: string | number }) => string;
+  nodeTitle?: (d: {
+    data: unknown;
+    index?: number;
+    id?: string | number;
+  }) => string;
   // node stroke fill (if not using a group color encoding)
   nodeFill?: string;
   // node stroke color
   nodeStroke?: string;
   nodeStrokeWidth?: number; // node stroke width, in pixels
   nodeStrokeOpacity?: number; // node stroke opacity
-  nodeRadius?: (n: { data: unknown; index?: number; id?: string | number }) => number; // node radius, in pixels
-  nodeStrength?: number | ((l: { source: string | number; target: string | number; value?: number; fill?: string; sourceType?: string; stroke?: string }) => number);
+  nodeRadius?: (n: {
+    data: unknown;
+    index?: number;
+    id?: string | number;
+  }) => number; // node radius, in pixels
+  nodeStrength?:
+    | number
+    | ((l: {
+        source: string | number;
+        target: string | number;
+        value?: number;
+        fill?: string;
+        sourceType?: string;
+        stroke?: string;
+      }) => number);
   // link stroke color
-  linkStroke?: string | ((l: { source: string | number; target: string | number; value?: number; fill?: string; sourceType?: string; stroke?: string }) => string);
+  linkStroke?:
+    | string
+    | ((l: {
+        source: string | number;
+        target: string | number;
+        value?: number;
+        fill?: string;
+        sourceType?: string;
+        stroke?: string;
+      }) => string);
   // link stroke opacity
-  linkStrokeOpacity?: number | ((l: { source: string | number; target: string | number; value?: number; fill?: string; sourceType?: string; stroke?: string }) => number);
+  linkStrokeOpacity?:
+    | number
+    | ((l: {
+        source: string | number;
+        target: string | number;
+        value?: number;
+        fill?: string;
+        sourceType?: string;
+        stroke?: string;
+      }) => number);
   // given d in links, returns a stroke width in pixels
-  linkStrokeWidth?: number | ((l: { source: string | number; target: string | number; value?: number; fill?: string; sourceType?: string; stroke?: string }) => number);
+  linkStrokeWidth?:
+    | number
+    | ((l: {
+        source: string | number;
+        target: string | number;
+        value?: number;
+        fill?: string;
+        sourceType?: string;
+        stroke?: string;
+      }) => number);
   // link stroke linecap
   linkStrokeLinecap?: string;
-  linkStrength?: number | ((l: { source: string | number; target: string | number; value?: number; fill?: string; sourceType?: string; stroke?: string }) => number);
+  linkStrength?:
+    | number
+    | ((l: {
+        source: string | number;
+        target: string | number;
+        value?: number;
+        fill?: string;
+        sourceType?: string;
+        stroke?: string;
+      }) => number);
   // an array of color strings, for the node groups
   colors?: string[];
   // outer width, in pixels
@@ -56,7 +131,11 @@ export interface ForcedNetworkGraphProps {
   height?: number;
   // when this promise resolves, stop the simulation
   invalidation?: (() => Promise<unknown>) | null;
-  onClick?: (n: { data: unknown; index?: number; id?: string | number }) => void;
+  onClick?: (n: {
+    data: unknown;
+    index?: number;
+    id?: string | number;
+  }) => void;
 }
 
 export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
@@ -115,13 +194,24 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       nodeGroup == null ? null : d3.scaleOrdinal(nodeGroups, colors);
 
     // Replace the input nodes and links with mutable objects for the simulation.
-    const nodes: SimulationNode<unknown>[] = d3.map(_nodes, ({ data: _, index: idx }, i) => ({
-      index: idx ?? i,
-      id: String(N[i]),
-      data: _,
-    }));
+    const nodes: SimulationNode<unknown>[] = d3.map(
+      _nodes,
+      ({ data: _, index: idx }, i) => ({
+        index: idx ?? i,
+        id: String(N[i]),
+        data: _,
+      }),
+    );
 
-    const links: { source: string | number; target: string | number; value?: number; fill?: string; sourceType?: string; stroke?: string; index: number }[] = d3.map(_links, (_, i) => ({
+    const links: {
+      source: string | number;
+      target: string | number;
+      value?: number;
+      fill?: string;
+      sourceType?: string;
+      stroke?: string;
+      index: number;
+    }[] = d3.map(_links, (_, i) => ({
       index: i,
       source: LS[i],
       target: LT[i],
@@ -135,11 +225,9 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
     // Construct the forces.
     const forceNode = d3.forceManyBody();
 
-    const forceLink = d3
-      .forceLink(links)
-      .id(({ index: i }) => {
-        return N[i ?? 0];
-      });
+    const forceLink = d3.forceLink(links).id(({ index: i }) => {
+      return N[i ?? 0];
+    });
 
     if (nodeStrength !== undefined) forceNode.strength(nodeStrength);
     if (linkStrength !== undefined) forceLink.strength(linkStrength);
@@ -454,19 +542,37 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         });
     }
 
-    function drag(this: SVGGElement, simulation: d3.Simulation<unknown, undefined>): d3.DragSimulation<unknown> {
-      function dragstarted(event: d3.D3DragEvent<SVGGElement, unknown, unknown>, d: unknown): void {
+    function drag(
+      this: SVGGElement,
+      simulation: d3.Simulation<unknown, undefined>,
+    ): d3.DragSimulation<unknown> {
+      function dragstarted(
+        event: d3.D3DragEvent<SVGGElement, unknown, unknown>,
+        d: unknown,
+      ): void {
         if (!event.active) simulation.alphaTarget(0.3).restart();
-        d = Object.assign(d || {}, { fx: event.x, fy: event.y }) as typeof d;
+        const node = d as { fx?: number; fy?: number };
+        node.fx = event.x;
+        node.fy = event.y;
       }
 
-      function dragged(event: d3.D3DragEvent<SVGGElement, unknown, unknown>, d: unknown): void {
-        d = Object.assign(d || {}, { fx: event.x, fy: event.y }) as typeof d;
+      function dragged(
+        event: d3.D3DragEvent<SVGGElement, unknown, unknown>,
+        d: unknown,
+      ): void {
+        const node = d as { fx?: number; fy?: number };
+        node.fx = event.x;
+        node.fy = event.y;
       }
 
-      function dragended(event: d3.D3DragEvent<SVGGElement, unknown, unknown>, d: unknown): void {
+      function dragended(
+        event: d3.D3DragEvent<SVGGElement, unknown, unknown>,
+        d: unknown,
+      ): void {
         if (!event.active) simulation.alphaTarget(0);
-        d = Object.assign(d || {}, { fx: null, fy: null }) as typeof d;
+        const node = d as { fx?: number; fy?: number };
+        node.fx = null;
+        node.fy = null;
       }
 
       return d3

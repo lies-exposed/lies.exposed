@@ -1,4 +1,5 @@
 // import chroma from "chroma-js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import {
   sankey,
   sankeyLeft,
@@ -7,9 +8,8 @@ import {
   sankeyLinkHorizontal,
 } from "d3-sankey";
 import * as React from "react";
-import { EventIcon, EventTypeColor } from "../Icons/index.js";
-import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { alpha, Box, Typography } from "../../mui/index.js";
+import { EventIcon, EventTypeColor } from "../Icons/index.js";
 
 export const nodeWidth = 45;
 export const nodePadding = 10;
@@ -89,7 +89,7 @@ const SankeyNode: React.FC<SankeyNodeData> = ({
               <image
                 x={0}
                 y={0}
-                xlinkHref={props.avatar as string}
+                xlinkHref={props.avatar!}
                 width={imageD}
                 height={imageD}
                 preserveAspectRatio="xMidYMid slice"
@@ -103,7 +103,7 @@ const SankeyNode: React.FC<SankeyNodeData> = ({
             r={imageD / 2}
             fill={`url(#${imageId})`}
           />
-          <title>{props.fullName as string ?? props.name as string ?? props.tag as string}</title>
+          <title>{props.fullName! ?? props.name! ?? props.tag!}</title>
         </svg>
       </g>
     );
@@ -143,7 +143,9 @@ const SankeyNode: React.FC<SankeyNodeData> = ({
 };
 
 const SankeyLink: React.FC<{ link: SankeyLinkData }> = ({ link }) => {
-  const d = sankeyLinkHorizontal()(link as unknown as d3.SankeyLinkGeneral<{}>);
+  const d = sankeyLinkHorizontal()(
+    link as unknown as d3.SankeyLinkGeneral<Record<string, unknown>>,
+  );
 
   return (
     <path
@@ -194,7 +196,11 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
   } => {
     const sankeyGraph = props.graph as unknown as {
       nodes: { id: string | number }[];
-      links: { source: { id: string | number }; target: { id: string | number }; value: number }[];
+      links: {
+        source: { id: string | number };
+        target: { id: string | number };
+        value: number;
+      }[];
     };
     const result = sankey()
       .nodeWidth(nodeWidth)
