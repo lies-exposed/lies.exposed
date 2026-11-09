@@ -16,6 +16,7 @@ import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { GetResourceClient } from "@ts-endpoint/resource-client";
 import * as axios from "axios";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import * as O from "fp-ts/lib/Option.js";
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import { AIBotConfig } from "./config.js";
 import { type ClientContext } from "./context.js";
@@ -34,6 +35,41 @@ const configProvider = ConfigProviderReader(configFile, AIBotConfig);
 // LocalAI gateway serializes/queues requests and can leave agent waiting
 // close to its own timeout before responding.
 const DEFAULT_AGENT_REQUEST_TIMEOUT_MS = 30 * 60 * 1000;
+
+/**
+ * ZeroClaw adapter for ai-bot (WS7).
+ *
+ * When ZEROCLOW_ENABLED is true, the ai-bot forwards agent calls to the
+ * ZeroClaw webhook instead of the legacy agent service. ZeroClaw exposes
+ * MCP tools for actor/group/link via its Paperclip webhook; the adapter
+ * translates between the agent endpoint format and ZeroClaw's NDJSON stream.
+ */
+interface ZeroClawAdapter {
+  readonly agentId: string;
+  readonly webhookUrl: string;
+}
+
+/** Raw ZeroClaw config from schema (all fields optional strings/bools) */
+type RawZeroClawConfig = NonNullable<AIBotConfig["zeroclow"]>;
+
+/**
+ * Safely extract a ZeroClawAdapter from the optional schema config.
+ * Returns None if zeroclow is not configured or enabled is false.
+ */
+const createZeroClawAdapter = (
+  raw: O.Option<RawZeroClawConfig>,
+): O.Option<ZeroClawAdapter> =>
+  pipe(
+    raw,
+    O.chain((zc) =>
+      zc.enabled && zc.webhookUrl
+        ? O.some({
+            agentId: zc.agentId ?? "lies_exposed",
+            webhookUrl: zc.webhookUrl,
+          })
+        : O.none,
+    ),
+  );
 
 export const loadContext = (
   getToken: () => string | null,
@@ -84,16 +120,41 @@ export const loadContext = (
         }),
       ),
     ),
-    fp.TE.bind("agent", ({ config, env }) =>
+    fp.TE.bind("zeroclow", ({ config }) =>
       fp.TE.right(
+        createZeroClawAdapter(
+          config.config.zeroclow
+            ? O.some(config.config.zeroclow)
+            : O.none,
+        ),
+      ),
+    ),
+    fp.TE.bind("agent", ({ config, env, zeroclow }) => {
+      // WS7: when ZeroClaw is enabled, use its webhook URL instead of the
+      // legacy agent URL. The ZeroClaw webhook accepts the same agent endpoint
+      // payloads and returns NDJSON responses.
+      const baseURL = pipe(
+        zeroclow,
+        O.map((zc) => zc.webhookUrl),
+        O.getOrElse(() => config.config.agent.url.toString()),
+      );
+
+      const hasZeroClaw = pipe(
+        zeroclow,
+        O.fold(() => false, () => true),
+      );
+
+      return fp.TE.right(
         GetResourceClient(
           axios.default.create({
-            baseURL: config.config.agent.url,
+            baseURL,
             timeout:
               env.AGENT_REQUEST_TIMEOUT_MS ?? DEFAULT_AGENT_REQUEST_TIMEOUT_MS,
-            headers: {
-              Authorization: `Bearer ${env.AGENT_API_KEY}`,
-            },
+            headers: hasZeroClaw
+              ? {}
+              : {
+                  Authorization: `Bearer ${env.AGENT_API_KEY}`,
+                },
           }),
           AgentEndpoints,
           {
@@ -102,12 +163,12 @@ export const loadContext = (
             ),
           },
         ),
-      ),
-    ),
+      );
+    }),
     fp.TE.bind("token", ({ env, logger }) =>
       pipe(
         env.API_TOKEN,
-        fp.O.fold(
+        O.fold(
           () =>
             fp.TE.left(
               toAIBotError(
@@ -132,6 +193,7 @@ export const loadContext = (
         apiRestClient,
         api,
         agent,
+        zeroclow,
       }) => {
         apiRestClient.interceptors.request.use((req) => {
           const token = getToken();
@@ -141,7 +203,21 @@ export const loadContext = (
           return req;
         });
 
-        logger.info.log("AI BOT config %O", config.config);
+        const hasZeroClaw = pipe(
+          zeroclow,
+          O.fold(() => false, () => true),
+        );
+
+        logger.info.log("AI BOT config %O", {
+          ...config.config,
+          zeroclow: hasZeroClaw
+            ? pipe(
+                zeroclow,
+                O.map((zc) => ({ enabled: true, agentId: zc.agentId })),
+                O.getOrElse(() => ({ enabled: true, agentId: "lies_exposed" })),
+              )
+            : { enabled: false },
+        });
 
         return {
           env,
