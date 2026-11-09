@@ -34,7 +34,7 @@ interface TextContentPart {
 /**
  * Guard: check whether a value looks like a content part with a `type` field.
  */
-export const isTextContentPart = (value: unknown): value is TextContentPart =>
+const isTextContentPart = (value: unknown): value is TextContentPart =>
   typeof value === "object" &&
   value !== null &&
   "type" in value &&
@@ -44,7 +44,7 @@ export const isTextContentPart = (value: unknown): value is TextContentPart =>
  * Guard: check whether a value looks like an AIMessage (has `content`,
  * optional `usage_metadata`).
  */
-export const isAIMessageLike = (
+const isAIMessageLike = (
   value: unknown,
 ): value is {
   content: string | unknown[];
