@@ -14,7 +14,7 @@ export interface ConfigProvider<C extends Record<string, unknown>> {
 
 export const ConfigProviderReader =
   <
-    C extends Schema.Schema<unknown>,
+    C extends Schema.Schema.AnyNoContext,
     R extends FSClientContext = FSClientContext,
   >(
     path: string,

@@ -17,7 +17,7 @@ export type JobProcessRTE<
   job: Omit<Queue.Queue, "data" | "type"> & Q & { question: string | null },
 ) => ClientContextRTE<R>;
 
-type JobTypesMap = Record<Queue.QueueTypes, JobProcessRTE<unknown, unknown>>;
+type JobTypesMap = Record<Queue.QueueTypes, JobProcessRTE<never, unknown>>;
 
 const processJob =
   <Q extends Pick<Queue.Queue, "type" | "data">>(
@@ -135,7 +135,10 @@ export const GetJobProcessor = (types: JobTypesMap): JobProcessors => {
           );
         }
 
-        return processJob(job, types[job.type])(ctx);
+        return processJob(
+          job,
+          types[job.type] as JobProcessRTE<typeof job>,
+        )(ctx);
       }),
     );
   };

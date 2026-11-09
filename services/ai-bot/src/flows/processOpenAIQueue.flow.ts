@@ -113,7 +113,16 @@ export const processOpenAIQueue = (dryRun: boolean): ClientContextRTE<void> =>
     ),
     fp.RTE.map(() => undefined),
     fp.RTE.orElse((e) => (ctx) => {
-      const axiosError = (e as { details?: { meta?: unknown } })?.details?.meta;
+      const axiosError = (
+        e as {
+          details?: {
+            meta?: {
+              config?: { url?: string };
+              response?: { data?: unknown; status?: number };
+            };
+          };
+        }
+      )?.details?.meta;
       const requestUrl: string | undefined = axiosError?.config?.url;
       const responseBody: unknown = axiosError?.response?.data;
       const httpStatus: number | undefined = axiosError?.response?.status;
