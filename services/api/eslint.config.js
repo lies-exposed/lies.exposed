@@ -13,7 +13,7 @@ const eslintConfig = defineConfig(...baseConfig, {
     "import-x/no-unresolved": [
       "error",
       {
-        ignore: ["^@modelcontextprotocol/sdk/server/.*\\.js$"],
+        ignore: ["^@modelcontextprotocol/sdk/server/.*\\.js$", "^#.*"],
       },
     ],
   },

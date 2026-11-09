@@ -8,10 +8,10 @@ import { fetchActors } from "@liexp/backend/lib/queries/actors/fetchActors.query
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import type { GetListActorQuery } from "@liexp/io/lib/http/Actor.js";
 import type { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
-import { defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 import { createActor } from "#flows/actors/createActor.flow.js";
 import { editActor } from "#flows/actors/editActor.flow.js";
@@ -40,7 +40,7 @@ const actorToOutput = (actor: ActorEntity) => ({
 
 export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
   // --- findActors ---
-  const findActorsTool = defineMcpTool(
+  const findActorsInputSchema = effectToZodStruct(
     Schema.Struct({
       fullName: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full name to search for (partial match supported)",
@@ -74,9 +74,20 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
         description: "Pagination end index",
       }),
     }),
-    async (input) => {
+  );
+
+  server.registerTool(
+    FIND_ACTORS,
+    {
+      title: "Find actors",
+      description:
+        "Search and list actors in the database with filtering, sorting, and pagination.",
+      annotations: { title: "Find actors", readOnlyHint: true },
+      inputSchema: findActorsInputSchema,
+    },
+    async (opts) => {
       const { fullName, memberIn, withDeleted, sort, order, start, end } =
-        input;
+        opts ?? {};
 
       // fetchActors expects effect Options for every query field
       const actorQuery: Partial<GetListActorQuery> = {
@@ -129,20 +140,8 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
     },
   );
 
-  server.registerTool(
-    FIND_ACTORS,
-    {
-      title: "Find actors",
-      description:
-        "Search and list actors in the database with filtering, sorting, and pagination.",
-      annotations: { title: "Find actors", readOnlyHint: true },
-      inputSchema: findActorsTool.inputSchema,
-    },
-    findActorsTool.handler,
-  );
-
   // --- createActor ---
-  const createActorTool = defineMcpTool(
+  const createActorInputSchema = effectToZodStruct(
     Schema.Struct({
       username: Schema.String.annotations({
         description: "Unique username for the actor (required)",
@@ -168,31 +167,67 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
         description: "Avatar media UUID (default: null)",
       }),
       bornOn: Schema.optional(Schema.String).annotations({
-        description: "Birth date in ISO format (YYYY-MM-DD) (default: null)",
+        description: "Birth date in ISO format YYYY-MM-DD (default: null)",
       }),
       diedOn: Schema.optional(Schema.String).annotations({
-        description: "Death date in ISO format (YYYY-MM-DD) (default: null)",
-      }),
-      memberIn: Schema.optional(Schema.Array(Schema.String)).annotations({
-        description: "Array of group memberships as UUIDs (default: [])",
+        description: "Death date in ISO format YYYY-MM-DD (default: null)",
       }),
     }),
-    async (input) => {
+  );
+
+  server.registerTool(
+    CREATE_ACTOR,
+    {
+      title: "Create actor",
+      description:
+        "Create a new actor in the database. Accepts username and fullName as required fields, with optional metadata like color, dates, and media.",
+      annotations: { title: "Create actor", destructiveHint: true },
+      inputSchema: createActorInputSchema,
+    },
+    async (opts) => {
+      const {
+        username,
+        fullName,
+        color,
+        excerpt,
+        nationalities,
+        body,
+        avatar,
+        bornOn,
+        diedOn,
+      } = opts ?? {};
+
+      if (!username || !fullName) {
+        throw new Error("username and fullName are required");
+      }
+
       try {
-        const createBody = {
-          username: input.username,
-          fullName: input.fullName,
-          color: input.color ?? undefined,
-          excerpt: input.excerpt ?? undefined,
-          nationalities: input.nationalities ?? [],
-          body: input.body ?? undefined,
-          avatar: input.avatar ?? undefined,
-          bornOn: input.bornOn ?? undefined,
-          diedOn: input.diedOn ?? undefined,
-          memberIn: input.memberIn ?? [],
+        // Build AddActorBody for direct creation
+        // All fields must be present (even undefined) for Schema.Struct validation
+        const bodyInput: Record<string, unknown> = {
+          username,
+          fullName,
+          color: color ?? "",
+          excerpt: excerpt ?? [
+            {
+              type: "paragraph",
+              id: "default",
+              props: {},
+              content: "",
+              children: [],
+            },
+          ],
+          nationalities: nationalities ?? [],
+          body: body ?? undefined,
+          avatar: avatar ?? undefined,
+          bornOn: bornOn ?? undefined,
+          diedOn: diedOn ?? undefined,
         };
 
-        const te = createActor(createBody)(ctx);
+        // Call createActor flow with context
+        const te = createActor(bodyInput as Parameters<typeof createActor>[0])(
+          ctx,
+        );
         const result = await pipe(
           te,
           fp.TE.map((r) =>
@@ -224,46 +259,36 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
     },
   );
 
-  server.registerTool(
-    CREATE_ACTOR,
-    {
-      title: "Create actor",
-      description:
-        "Create a new actor in the database. Provide username, fullName, and optional fields.",
-      annotations: { title: "Create actor", destructiveHint: true },
-      inputSchema: createActorTool.inputSchema,
-    },
-    createActorTool.handler,
-  );
-
   // --- editActor ---
-  const editActorTool = defineMcpTool(
+  const editActorInputSchema = effectToZodStruct(
     Schema.Struct({
       id: Schema.String.annotations({
-        description: "ID of the actor to edit (required)",
+        description: "UUID of the actor to edit",
       }),
       username: Schema.UndefinedOr(Schema.String).annotations({
-        description: "New username or null to keep current",
+        description: "Unique username for the actor or null to keep current",
       }),
       fullName: Schema.UndefinedOr(Schema.String).annotations({
-        description: "New full name or null to keep current",
+        description: "Full name of the actor or null to keep current",
       }),
       color: Schema.UndefinedOr(Schema.String).annotations({
-        description: "New hex color without # or null to keep current",
+        description:
+          "Color associated with the actor (hex format, without #) or null to keep current",
       }),
       excerpt: Schema.UndefinedOr(Schema.String).annotations({
-        description: "New short description or null to keep current",
+        description:
+          "Short description of the actor as plain text or null to keep current",
       }),
       nationalities: Schema.UndefinedOr(
         Schema.Array(Schema.String),
       ).annotations({
-        description: "New nationality UUIDs or undefined to keep current",
+        description: "Array of nationality UUIDs or undefined to keep current",
       }),
       body: Schema.UndefinedOr(Schema.String).annotations({
-        description: "New body content or null to keep current",
+        description: "Full body content as plain text or null to keep current",
       }),
       avatar: Schema.UndefinedOr(Schema.String).annotations({
-        description: "New avatar media UUID or null to keep current",
+        description: "Avatar media UUID or null to keep current",
       }),
       bornOn: Schema.UndefinedOr(Schema.String).annotations({
         description:
@@ -278,7 +303,18 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
           "Array of group memberships as UUIDs or undefined to keep current",
       }),
     }),
-    async (input) => {
+  );
+
+  server.registerTool(
+    EDIT_ACTOR,
+    {
+      title: "Edit actor",
+      description:
+        "Update an existing actor in the database. Provide the actor ID and any fields to update.",
+      annotations: { title: "Edit actor", destructiveHint: true },
+      inputSchema: editActorInputSchema,
+    },
+    async (opts) => {
       const {
         id,
         username,
@@ -291,7 +327,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
         bornOn,
         diedOn,
         memberIn,
-      } = input;
+      } = opts ?? {};
 
       if (!id) {
         throw new Error("Actor ID is required");
@@ -343,17 +379,5 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
         );
       }
     },
-  );
-
-  server.registerTool(
-    EDIT_ACTOR,
-    {
-      title: "Edit actor",
-      description:
-        "Update an existing actor in the database. Provide the actor ID and any fields to update.",
-      annotations: { title: "Edit actor", destructiveHint: true },
-      inputSchema: editActorTool.inputSchema,
-    },
-    editActorTool.handler,
   );
 };

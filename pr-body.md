@@ -1,50 +1,43 @@
+# HOM-1284: MCP CRUD Tools Refactoring + E2E Tests
+
 ## Summary
 
-Migrate groups/links/actors/events MCP tools to use a typed `defineMcpTool` helper that converts Effect schema to both Zod (for MCP inputSchema) and provides typed handler input via `Schema.decodeUnknownSync`.
+Refactors MCP CRUD tools (Actors, Groups, Events, Links) to use direct `server.registerTool()` with `effectToZodStruct` instead of the `defineMcpTool` helper abstraction. Removes unused tool modules (media, nations, stories) and their helpers. Adds E2E tests for all CRUD operations.
 
 ## Changes
 
-### New file
-- `services/api/src/routes/mcp/tools/helpers.ts`: `defineMcpTool` helper
+### Refactored MCP Tools
+- **`actors.tool.ts`**, **`groups.tool.ts`**, **`events.tool.ts`**, **`links.tool.ts`**: Replaced `defineMcpTool` helper with direct `server.registerTool()` calls. Input schemas now use `effectToZodStruct` from `@liexp/shared` directly. Removed the intermediate `defineMcpTool` wrapper that converted Effect schemas to both Zod and typed handler input.
+- **`helpers.ts`**: Deleted — no longer needed after removing `defineMcpTool` abstraction.
 
-### Migrated files (5 files, 608 insertions, 840 deletions)
-- `groups.tool.ts`: 3 tools (find, create, edit)
-- `links.tool.ts`: 3 tools (find, create, edit)
-- `actors.tool.ts`: 3 tools (find, create, edit)
-- `events.tool.ts`: 3 tools (find, create, edit)
+### Removed Unused Tools
+- **`media.tool.ts`**, **`nations.tool.ts`**, **`stories.tool.ts`**: Deleted (unused via MCP endpoint).
+- **`index.ts`**: Removed imports and registrations for deleted tools.
+- **`toolNames.constants.ts`**: Removed `FIND_MEDIA`, `CREATE_MEDIA`, `EDIT_MEDIA`, `FIND_STORIES`, `CREATE_STORY`, `EDIT_STORY` constants.
 
-## Pattern Change
+### E2E Tests
+- **`mcpToolsCRUD.e2e.ts`**: Added comprehensive E2E tests for all CRUD operations on Actors, Groups, Events, and Links. Each test uses a fresh MCP session via `callMcpTool()` helper.
 
-**Before:**
-```typescript
-const inputSchema = effectToZodStruct(Schema.Struct({ ... }));
-server.registerTool(name, { inputSchema }, async (opts) => {
-  const { field } = opts ?? {};  // opts is unknown, needs casting
-});
-```
-
-**After:**
-```typescript
-const tool = defineMcpTool(Schema.Struct({ ... }), async (input) => {
-  const { field } = input;  // input is fully typed
-});
-server.registerTool(name, { inputSchema: tool.inputSchema }, tool.handler);
-```
-
-## Acceptance Criteria
-
-- [x] api/routes/mcp `any` lines reduced (from ~24 to ~8)
-- [x] All 4 tool files migrated (groups, links, actors, events)
-- [x] Single atomic PR (5 files, within 10 file limit)
-- [x] No `effectToZodStruct` usage in migrated files
-- [x] ESLint passes (remaining warnings are flow function type mismatches, not MCP input related)
+### Config Fixes
+- **`eslint.config.js`**: Added `^#.*` to `import-x/no-unresolved` ignore pattern so `#flows/*` imports resolve correctly.
 
 ## Verification
 
-```
-# any cast count in api/routes/mcp
-HEAD: ~24
-Working tree: ~8
+```bash
+# Lint (with increased heap for large project)
+node --max-old-space-size=4096 node_modules/.bin/eslint --cache services/api/src/routes/mcp/
+# Result: 0 errors, 5 warnings (pre-existing @typescript-eslint/no-explicit-any)
+
+# E2E Tests
+pnpm --filter api run test:e2e -- --run
+# Result: 96 test files passed, 299 tests passed, 2 skipped
 ```
 
-Remaining `any` casts are in flow function return types and Option type narrowing, which are structural issues unrelated to MCP input handling.
+## Diff Stats
+
+- 13 files changed, 1099 insertions(+), 2451 deletions(-)
+- Net reduction: ~1350 lines (removed abstractions + unused tools)
+
+## Related
+
+HOM-1284: Add MCP CRUD tools to lies.exposed API service
