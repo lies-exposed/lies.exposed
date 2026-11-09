@@ -12,12 +12,13 @@ import {
 } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AdminProxyContext } from "../context/index.js";
+import type { ChatRequest, ChatResponse } from "../zeroclow/adapter.js";
 
 export const registerAgentProxyRoutes = (
   router: Router,
   ctx: AdminProxyContext,
 ): void => {
-  const { logger, m2m, agent, env } = ctx;
+  const { logger, m2m, agent, zeroclow, env } = ctx;
 
   // Rate limiter (per authenticated user)
   const chatRateLimiter = makeRateLimiter({
@@ -58,14 +59,68 @@ export const registerAgentProxyRoutes = (
       const correlationId = generateCorrelationId();
 
       logger.info.log(
-        "Proxying chat request (correlation: %s, user: %s, ip: %s, provider: %s)",
+        "Proxying chat request (correlation: %s, user: %s, ip: %s, provider: %s, zeroclow: %s)",
         correlationId,
         req.user?.id ?? "unknown",
         req.ip,
         req.body.aiConfig?.provider ?? "default",
+        zeroclow ? "enabled" : "disabled",
       );
 
-      // Pass request through to agent — let it handle validation
+      // ZeroClaw path (WS7) — non-streaming, no conversation tracking
+      if (zeroclow) {
+        const chatReq: ChatRequest = {
+          message: req.body.message ?? req.body.text ?? "",
+          conversation_id: req.body.conversation_id ?? null,
+          model: req.body.model ?? req.body.aiConfig?.model,
+          aiConfig: req.body.aiConfig,
+        };
+
+        pipe(
+          TE.fromIO(() => m2m.getToken()),
+          TE.chain(() => zeroclow.sendMessage(chatReq, logger)),
+          TE.fold(
+            (error: unknown) => () => {
+              logger.error.log(
+                "ZeroClaw chat error: %O (correlation: %s)",
+                error,
+                correlationId,
+              );
+              const err = error as Error;
+              if (err.message?.includes("webhook")) {
+                res.status(503).json({
+                  error: "Service unavailable",
+                  message: "ZeroClaw webhook unreachable",
+                });
+                return Promise.resolve();
+              }
+              res.status(500).json({
+                error: "Internal server error",
+                message: "Failed to process chat request via ZeroClaw",
+              });
+              return Promise.resolve();
+            },
+            (response: ChatResponse) => () => {
+              logger.info.log(
+                "ZeroClaw chat successful (correlation: %s)",
+                correlationId,
+              );
+              res.status(200).json(response);
+              return Promise.resolve();
+            },
+          ),
+        )().catch((e) => {
+          logger.error.log(
+            "Unexpected error in ZeroClaw proxy handler: %O (correlation: %s)",
+            e,
+            correlationId,
+          );
+          next(e);
+        });
+        return;
+      }
+
+      // Legacy agent path
       pipe(
         TE.fromIO(() => m2m.getToken()),
         TE.chain(() =>
@@ -157,7 +212,9 @@ export const registerAgentProxyRoutes = (
   /**
    * GET /api/proxy/agent/chat/conversations
    *
-   * List chat conversations
+   * List chat conversations.
+   * - ZeroClaw does not track conversations; returns empty list.
+   * - Legacy agent: proxies to agent service.
    * - Requires authentication (AdminRead permission)
    * - Rate limited per authenticated user
    */
@@ -169,6 +226,16 @@ export const registerAgentProxyRoutes = (
     (req: Request, res: Response, next: NextFunction) => {
       const correlationId = generateCorrelationId();
 
+      // ZeroClaw: no conversation tracking
+      if (zeroclow) {
+        logger.info.log(
+          "ZeroClaw: returning empty conversations list (correlation: %s)",
+          correlationId,
+        );
+        res.status(200).json({ data: [], total: 0 });
+        return Promise.resolve();
+      }
+
       logger.info.log(
         "Proxying list conversations request (correlation: %s, user: %s, ip: %s)",
         correlationId,
@@ -176,7 +243,7 @@ export const registerAgentProxyRoutes = (
         req.ip,
       );
 
-      pipe(
+      return pipe(
         TE.fromIO(() => m2m.getToken()),
         TE.chain(() =>
           pipe(
@@ -227,7 +294,9 @@ export const registerAgentProxyRoutes = (
   /**
    * GET /api/proxy/agent/chat/conversations/:id
    *
-   * Get a specific conversation
+   * Get a specific conversation.
+   * - ZeroClaw does not track conversations; returns 404.
+   * - Legacy agent: proxies to agent service.
    * - Requires authentication (AdminRead permission)
    * - Rate limited per authenticated user
    */
@@ -240,6 +309,20 @@ export const registerAgentProxyRoutes = (
       const correlationId = generateCorrelationId();
       const { id } = req.params;
 
+      // ZeroClaw: no conversation tracking
+      if (zeroclow) {
+        logger.info.log(
+          "ZeroClaw: conversation not found (correlation: %s, id: %s)",
+          correlationId,
+          id,
+        );
+        res.status(404).json({
+          error: "Not found",
+          message: "Conversation tracking not supported by ZeroClaw",
+        });
+        return Promise.resolve();
+      }
+
       logger.info.log(
         "Proxying get conversation request (correlation: %s, user: %s, ip: %s, id: %s)",
         correlationId,
@@ -248,7 +331,7 @@ export const registerAgentProxyRoutes = (
         id,
       );
 
-      pipe(
+      return pipe(
         TE.fromIO(() => m2m.getToken()),
         TE.chain(() =>
           pipe(
@@ -304,7 +387,9 @@ export const registerAgentProxyRoutes = (
   /**
    * DELETE /api/proxy/agent/chat/conversations/:id
    *
-   * Delete a conversation
+   * Delete a chat conversation.
+   * - ZeroClaw does not track conversations; returns 200 (no-op).
+   * - Legacy agent: proxies to agent service.
    * - Requires authentication (AdminRead permission)
    * - Rate limited per authenticated user
    */
@@ -317,6 +402,17 @@ export const registerAgentProxyRoutes = (
       const correlationId = generateCorrelationId();
       const { id } = req.params;
 
+      // ZeroClaw: no conversation tracking
+      if (zeroclow) {
+        logger.info.log(
+          "ZeroClaw: conversation delete is no-op (correlation: %s, id: %s)",
+          correlationId,
+          id,
+        );
+        res.status(200).json({ data: true });
+        return Promise.resolve();
+      }
+
       logger.info.log(
         "Proxying delete conversation request (correlation: %s, user: %s, ip: %s, id: %s)",
         correlationId,
@@ -325,7 +421,7 @@ export const registerAgentProxyRoutes = (
         id,
       );
 
-      pipe(
+      return pipe(
         TE.fromIO(() => m2m.getToken()),
         TE.chain(() =>
           pipe(
@@ -633,6 +729,7 @@ export const registerAgentProxyRoutes = (
     res.status(200).json({
       status: "ok",
       service: "admin-proxy",
+      zeroclow: zeroclow ? "enabled" : "disabled",
       timestamp: new Date().toISOString(),
     });
   });
@@ -641,7 +738,8 @@ export const registerAgentProxyRoutes = (
    * GET /api/proxy/agent/providers
    *
    * Proxy provider listing to agent service.
-   * The agent is the source of truth for available providers/models.
+   * - ZeroClaw does not expose providers; returns empty list.
+   * - Legacy agent: proxies to agent service.
    * - Requires authentication (AdminRead permission)
    */
   router.get(
@@ -650,13 +748,23 @@ export const registerAgentProxyRoutes = (
     (req: Request, res: Response, next: NextFunction) => {
       const correlationId = generateCorrelationId();
 
+      // ZeroClaw: no provider listing
+      if (zeroclow) {
+        logger.info.log(
+          "ZeroClaw: returning empty providers list (correlation: %s)",
+          correlationId,
+        );
+        res.status(200).json({ data: [] });
+        return Promise.resolve();
+      }
+
       logger.info.log(
         "Proxying providers list request (correlation: %s, user: %s)",
         correlationId,
         req.user?.id ?? "unknown",
       );
 
-      pipe(
+      return pipe(
         TE.fromIO(() => m2m.getToken()),
         TE.chain(() =>
           pipe(

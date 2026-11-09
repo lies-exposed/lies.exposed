@@ -7,6 +7,7 @@ import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type AdminProxyENV } from "../io/ENV.js";
+import { createZeroClawAdapter, type ZeroClawAdapter } from "../zeroclow/adapter.js";
 
 type TEControllerError<A> = TaskEither<ServerError, A>;
 
@@ -15,6 +16,8 @@ export interface AdminProxyContext {
   jwt: ReturnType<typeof GetJWTProvider>;
   m2m: ReturnType<typeof makeM2MTokenProvider>;
   agent: ReturnType<typeof makeAgentClient>;
+  /** ZeroClaw adapter — present when ZEROCLOW_ENABLED is true */
+  zeroclow: ZeroClawAdapter | null;
   env: AdminProxyENV;
 }
 
@@ -26,6 +29,7 @@ export interface AdminProxyContext {
  * - JWT provider with shared secret
  * - M2M token provider for ServiceClient auth
  * - Agent HTTP client with M2M auth
+ * - ZeroClaw adapter (WS7) — optional, disabled when ZEROCLOW_ENABLED is false
  */
 export const makeAdminProxyContext = (
   env: AdminProxyENV,
@@ -79,11 +83,19 @@ export const makeAdminProxyContext = (
         TE.right,
       ),
     ),
-    TE.map(({ jwt, m2m, agent }) => ({
+    TE.bind("zeroclow", ({ jwt, m2m }) =>
+      pipe(
+        createZeroClawAdapter(env),
+        TE.map((adapter) => adapter),
+        TE.orElse(() => TE.right(null as unknown as ZeroClawAdapter)),
+      ),
+    ),
+    TE.map(({ jwt, m2m, agent, zeroclow }) => ({
       logger,
       jwt,
       m2m,
       agent,
+      zeroclow: zeroclow as ZeroClawAdapter | null,
       env,
     })),
   );

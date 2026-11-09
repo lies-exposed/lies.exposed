@@ -59,6 +59,11 @@ export const AdminProxyENV = Schema.Struct({
   // Rate limiting
   RATE_LIMIT_WINDOW_MS: Schema.NumberFromString,
   RATE_LIMIT_MAX_REQUESTS: Schema.NumberFromString,
+
+  // ZeroClaw adapter (WS7) — feature-flagged replacement for agent-proxy
+  ZEROCLOW_ENABLED: Schema.optional(Schema.Boolean),
+  ZEROCLOW_WEBHOOK_URL: Schema.optional(URL),
+  ZEROCLOW_AGENT_ID: Schema.optional(Schema.String),
 }).annotations({
   title: "AdminProxyENV",
   description: "Environment variables for admin proxy server",
