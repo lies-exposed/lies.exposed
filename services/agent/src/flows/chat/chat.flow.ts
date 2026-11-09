@@ -25,6 +25,32 @@ import {
 // Types
 // ---------------------------------------------------------------------------
 
+/** Content part from a LangChain message (string or structured parts array). */
+interface TextContentPart {
+  type: string;
+  text?: string;
+}
+
+/**
+ * Guard: check whether a value looks like a content part with a `type` field.
+ */
+export const isTextContentPart = (value: unknown): value is TextContentPart =>
+  typeof value === "object" &&
+  value !== null &&
+  "type" in value &&
+  typeof (value as TextContentPart).type === "string";
+
+/**
+ * Guard: check whether a value looks like an AIMessage (has `content`,
+ * optional `usage_metadata`).
+ */
+export const isAIMessageLike = (
+  value: unknown,
+): value is {
+  content: string | unknown[];
+  usage_metadata?: { input_tokens?: number; output_tokens?: number };
+} => typeof value === "object" && value !== null && "content" in value;
+
 // ---------------------------------------------------------------------------
 // In-memory conversation store
 // ---------------------------------------------------------------------------
@@ -185,14 +211,14 @@ const extractContentText = (raw: { content?: unknown }): string =>
     ? raw.content
     : Array.isArray(raw.content)
       ? raw.content
-          .filter((part: any) => part.type === "text")
-          .map((part: any) => String(part.text ?? ""))
+          .filter(isTextContentPart)
+          .map((part) => String(part.text ?? ""))
           .join("")
       : "";
 
 const extractTokenUsage = (chunk: AIMessage): TokenUsage | null => {
-  const meta = (chunk as unknown as { usage_metadata?: unknown })
-    .usage_metadata;
+  const meta =
+    (isAIMessageLike(chunk) ? chunk.usage_metadata : undefined) ?? null;
   if (!meta || typeof meta !== "object") return null;
   const u = meta as { input_tokens?: number; output_tokens?: number };
   if (u.input_tokens === undefined && u.output_tokens === undefined)
@@ -229,7 +255,7 @@ export const processStreamEvent = (
     // Support both the plain object form and the serialized form.
     const rawChunk = (event.data as { chunk?: Record<string, unknown> }).chunk;
     if (!rawChunk) return [[], state];
-    const chunk = rawChunk as unknown as AIMessage;
+    const chunk = rawChunk as AIMessage;
 
     // Native streaming yields real AIMessageChunks: content is a string or an
     // array of content parts ([{ type: "text", text: "..." }]).
@@ -238,8 +264,8 @@ export const processStreamEvent = (
         ? rawChunk.content
         : Array.isArray(rawChunk.content)
           ? rawChunk.content
-              .filter((part: any) => part.type === "text")
-              .map((part: any) => String(part.text ?? ""))
+              .filter(isTextContentPart)
+              .map((part) => String(part.text ?? ""))
               .join("")
           : "";
 
@@ -251,8 +277,8 @@ export const processStreamEvent = (
         ? rawChunk.reasoning
         : Array.isArray(rawChunk.reasoning)
           ? rawChunk.reasoning
-              .filter((part: any) => part.type === "text")
-              .map((part: any) => String(part.text ?? ""))
+              .filter(isTextContentPart)
+              .map((part) => String(part.text ?? ""))
               .join("")
           : "");
 
@@ -294,7 +320,10 @@ export const processStreamEvent = (
   // streamed deltas, to avoid duplicating content for genuine streaming providers.
   if (event.event === "on_chat_model_end") {
     const output = (event.data as { output?: unknown }).output;
-    const tokenUpdate = output ? extractTokenUsage(output as AIMessage) : null;
+    const tokenUpdate =
+      output && isAIMessageLike(output)
+        ? extractTokenUsage(output as AIMessage)
+        : null;
     const tokens = tokenUpdate ?? state.tokens;
 
     if (state.sawStreamDelta || !output) {
@@ -350,12 +379,13 @@ export const processStreamEvent = (
     // LangGraph wraps tool results in ToolMessage objects; extract the plain string content.
     const extractResult = (output: unknown): string => {
       if (typeof output === "string") return output;
-      const content = (output as any)?.content;
+      if (!isAIMessageLike(output)) return JSON.stringify(output);
+      const content = output.content;
       if (typeof content === "string") return content;
       if (Array.isArray(content)) {
         return content
-          .filter((c: any) => c.type === "text")
-          .map((c: any) => String(c.text ?? ""))
+          .filter(isTextContentPart)
+          .map((c) => String(c.text ?? ""))
           .join("");
       }
       return JSON.stringify(output);

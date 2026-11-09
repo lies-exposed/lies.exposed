@@ -271,8 +271,10 @@ export const resolveSkill = (
  */
 export function createLoadSkillTool(
   skills: Skill[],
-): ReturnType<typeof tool<any, any, any, any>> {
-  return tool<any, any, any, any>(
+): ReturnType<
+  typeof tool<{ skill_name: string }, string, never, "load_skill">
+> {
+  return tool<{ skill_name: string }, string, never, "load_skill">(
     (input: { skill_name: string }) => {
       const result = resolveSkill(skills, input.skill_name);
       if (result._tag === "Loaded") {

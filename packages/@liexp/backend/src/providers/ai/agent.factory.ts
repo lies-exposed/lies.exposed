@@ -152,7 +152,8 @@ const createAgentWithProvider = (
 
   logger.debug.log(
     "Agent created with chat model: %O",
-    (chat as unknown as { model?: string }).model ?? "unknown",
+    ("model" in chat ? (chat as { model?: string }).model : undefined) ??
+      "unknown",
   );
 
   return agent;
