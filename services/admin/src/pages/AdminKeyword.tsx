@@ -61,7 +61,7 @@ export const KeywordEdit: React.FC = () => {
           <KeywordTGPostButton />
         </Stack>
       }
-      transform={({ newEvents, ...r }: Record<string, unknown>) => {
+      transform={({ newEvents, ...r }: any) => {
         return {
           ...r,
           color: toColor(r.color),

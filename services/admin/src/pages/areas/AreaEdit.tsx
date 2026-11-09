@@ -36,7 +36,7 @@ const transformArea = ({
   newMediaRef = [],
   newEvents: _newEvents,
   ...area
-}: http.Area.Area): http.Area.Area => {
+}: any): http.Area.Area => {
   const media = transformMedia(newMediaRef);
   return {
     ...area,

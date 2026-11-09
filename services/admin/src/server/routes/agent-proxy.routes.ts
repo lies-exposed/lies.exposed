@@ -140,7 +140,10 @@ export const registerAgentProxyRoutes = (
         ),
         TE.fold(
           (error: unknown) => () => {
-            const err = error as { message?: unknown };
+            const err = error as {
+              message?: unknown;
+              response?: { status?: number };
+            };
 
             // Handle validation errors
             if ((err.message as string | undefined)?.includes("Provider")) {
@@ -606,8 +609,9 @@ export const registerAgentProxyRoutes = (
           if (res.writableEnded) return false;
           res.write(data);
           // flush() is added by compression middleware to force-flush buffered data
-          if (typeof (res as Record<string, unknown>).flush === "function") {
-            (res as Record<string, unknown>).flush();
+          const flushable = res as typeof res & { flush?: () => void };
+          if (typeof flushable.flush === "function") {
+            flushable.flush();
           }
           return true;
         };
