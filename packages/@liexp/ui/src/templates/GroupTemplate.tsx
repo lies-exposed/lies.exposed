@@ -171,7 +171,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 group={group.id}
                 width={400}
                 onNodeClick={(n) => {
-                  onEventClick(n.data as unknown as SearchEvent);
+                  onEventClick(n.data);
                 }}
                 onLinkClick={() => {
                   // navigateTo.events(

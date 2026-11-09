@@ -1,5 +1,4 @@
 // import chroma from "chroma-js";
-import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import {
   sankey,
   sankeyLeft,
@@ -14,46 +13,31 @@ import { EventIcon, EventTypeColor } from "../Icons/index.js";
 export const nodeWidth = 45;
 export const nodePadding = 10;
 
-export interface SankeyNodeData {
-  id: string;
-  x0: number;
-  x1: number;
-  y0: number;
-  y1: number;
-  type?: string;
-  payload?: Record<string, unknown>;
-  avatar?: string;
-  fullName?: string;
-  name?: string;
-  tag?: string;
-  onClick?: (event: unknown) => void;
-  [key: string]: unknown;
-}
-
-export interface SankeyLinkData {
-  source: SankeyNodeData;
-  target: SankeyNodeData;
-  value: number;
-  stroke?: string;
-  path?: string;
-  [key: string]: unknown;
-}
-
-const SankeyNode: React.FC<SankeyNodeData> = ({
+const SankeyNode: React.FC<any> = ({
+  _color,
+  _x,
+  _y,
   x0,
   x1,
   y0,
   y1,
-  type,
+  _height,
+  _outerColor,
+  _innerColor,
   payload,
   id,
+  type,
   onClick,
   ...props
 }) => {
   const width = x1 - x0;
   const rectHeight = y1 - y0;
 
+  // console.log({ x, y, x0, x1, y0, y1, height, ...props });
   if (type === undefined) {
+    // console.log("draw avatar");
+    // console.log({ x, y, x0, x1, y0, y1, height, ...props });
+    // return <circle cy={y1 - 5} cx={x1 - 5} r={10} fill={`#${color}`} />;
     const imageId = `relation-${id}`;
     const imageD = width - nodePadding / 2;
     return (
@@ -64,7 +48,7 @@ const SankeyNode: React.FC<SankeyNodeData> = ({
         width={width}
         height={rectHeight}
         onClick={() =>
-          onClick?.({
+          onClick({
             ...props,
             id,
             payload,
@@ -89,7 +73,7 @@ const SankeyNode: React.FC<SankeyNodeData> = ({
               <image
                 x={0}
                 y={0}
-                xlinkHref={props.avatar!}
+                xlinkHref={props.avatar}
                 width={imageD}
                 height={imageD}
                 preserveAspectRatio="xMidYMid slice"
@@ -103,7 +87,7 @@ const SankeyNode: React.FC<SankeyNodeData> = ({
             r={imageD / 2}
             fill={`url(#${imageId})`}
           />
-          <title>{props.fullName! ?? props.name! ?? props.tag!}</title>
+          <title>{props.fullName ?? props.name ?? props.tag}</title>
         </svg>
       </g>
     );
@@ -111,41 +95,36 @@ const SankeyNode: React.FC<SankeyNodeData> = ({
 
   const iconD = width - nodePadding;
 
-  const eventTypeColor =
-    type in EventTypeColor
-      ? (EventTypeColor as Record<string, string>)[type]
-      : undefined;
-
   return (
     <g
       key={id}
       x={x0}
       y={y0}
-      onClick={() => onClick?.({ ...props, payload, id })}
+      onClick={() => onClick({ ...props, payload, id })}
     >
       <rect
         x={x0}
         y={y0}
         width={width}
         height={rectHeight}
-        fill={eventTypeColor ? alpha(eventTypeColor, 0.2) : "transparent"}
+        fill={alpha((EventTypeColor as any)[type], 0.2)}
       />
       <EventIcon
-        type={type as Event["type"]}
+        type={type}
         width={iconD}
         height={iconD}
         x={x0 + nodePadding / 2}
         y={y0 + rectHeight / 2 - iconD / 2}
       />
-      <title>{(payload as { title?: string })?.title}</title>
+      <title>{payload.title}</title>
     </g>
   );
 };
 
-const SankeyLink: React.FC<{ link: SankeyLinkData }> = ({ link }) => {
-  const d = sankeyLinkHorizontal()(
-    link as unknown as d3.SankeyLinkGeneral<Record<string, unknown>>,
-  );
+const SankeyLink: React.FC<{ link: any }> = ({ link }) => {
+  // console.log("link", link);
+
+  const d = sankeyLinkHorizontal()(link);
 
   return (
     <path
@@ -159,15 +138,14 @@ const SankeyLink: React.FC<{ link: SankeyLinkData }> = ({ link }) => {
     />
   );
 };
-
 interface SankeyGraphProps {
   width: number;
   height: number;
   graph: {
-    links: SankeyLinkData[];
-    nodes: SankeyNodeData[];
+    links: any[];
+    nodes: any[];
   };
-  onEventClick: (e: unknown) => void;
+  onEventClick: (e: any) => void;
 }
 
 const SankeyGraph: React.FC<SankeyGraphProps> = ({
@@ -191,33 +169,34 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
   }
 
   const graph = React.useMemo((): {
-    nodes: SankeyNodeData[];
-    links: SankeyLinkData[];
+    nodes: any[];
+    links: any[];
   } => {
-    const sankeyGraph = props.graph as unknown as {
-      nodes: { id: string | number }[];
-      links: {
-        source: { id: string | number };
-        target: { id: string | number };
-        value: number;
-      }[];
-    };
-    const result = sankey()
+    // console.log("graph", props.graph);
+
+    const graph = sankey()
       .nodeWidth(nodeWidth)
       .nodePadding(nodePadding)
-      .nodeId((n: { id: string | number }) => String(n.id))
+      .nodeId((n: any) => n.id)
       .nodeAlign(sankeyLeft)
       .extent([
         [0, 0],
         [width, height],
-      ])(sankeyGraph);
+      ])(props.graph);
 
-    return {
-      nodes: result.nodes as unknown as SankeyNodeData[],
-      links: result.links as unknown as SankeyLinkData[],
-    };
+    // const color = chroma.scale("Set3").classes(nodes.length);
+
+    // const colorScale = d3.scaleLinear().domain([0, nodes.length]).range([0, 1]);
+
+    return graph;
   }, [props.graph.nodes.length, props.graph.links.length, width, height]);
 
+  // const graph = React.useMemo(() => {
+  //   return sankey().update(_graph);
+  // }, [_graph.nodes.length, _graph.links.length, width, height]);
+
+  // console.log(props.graph.nodes[0]);
+  // console.log(props.graph.links[0]);
   return (
     <svg width={width} height={height}>
       <g style={{ mixBlendMode: "multiply" }} width={width} height={height}>

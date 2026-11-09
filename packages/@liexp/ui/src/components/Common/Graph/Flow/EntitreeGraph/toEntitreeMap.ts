@@ -42,7 +42,6 @@ export interface EntitreeNode {
   partnerIds: string[];
   isSpouse: boolean;
   isSibling: boolean;
-  [key: string]: unknown;
 }
 
 export type EntitreeMap = Record<string, EntitreeNode>;

@@ -13,8 +13,6 @@ import * as React from "react";
 type HierarchyLinkedNode<N> = N & {
   incoming: [HierarchyLinkedNode<N>, HierarchyLinkedNode<N>][];
   outgoing: [HierarchyLinkedNode<N>, HierarchyLinkedNode<N>][];
-  path?: SVGPathElement;
-  text?: SVGTextElement;
 };
 
 function bilink(
@@ -27,7 +25,7 @@ function bilink(
   const leaves = root.leaves();
   for (const d of leaves) {
     d.incoming = [];
-    d.outgoing = (d.data.targets ?? []).map((i) => [d, map.get(i)!]);
+    d.outgoing = (d.data.targets ?? []).map((i) => [d, map.get(i) as any]);
   }
   for (const d of root.leaves())
     for (const o of d.outgoing) {
@@ -50,11 +48,11 @@ const colorout = "#f00";
 const colornone = "#ccc";
 
 export interface HierarchicalEdgeBundlingOnClickProps {
-  onNodeClick: (n: HierarchyPointNode<HierarchicalEdgeBundlingDatum>) => void;
+  onNodeClick: (n: HierarchyPointNode<any>) => void;
   onLinkClick: (
     l: [
-      HierarchyLinkedNode<HierarchyPointNode<HierarchicalEdgeBundlingDatum>>,
-      HierarchyLinkedNode<HierarchyPointNode<HierarchicalEdgeBundlingDatum>>,
+      HierarchyLinkedNode<HierarchyPointNode<any>>,
+      HierarchyLinkedNode<HierarchyPointNode<any>>,
     ],
   ) => void;
 }
@@ -108,38 +106,25 @@ export function HierarchicalEdgeBundling({
     const data = getData();
 
     const hierarchy = d3
-      .hierarchy(
-        data as {
-          children: { id: string; children: HierarchicalEdgeBundlingDatum[] }[];
-        },
-      )
+      .hierarchy<HierarchicalEdgeBundlingDatum>(data as any)
       .sort(
-        (a, b) => d3.ascending(a.height, b.height) ?? d3.ascending(a.id, b.id),
+        (a, b) =>
+          d3.ascending(a.height, b.height) ??
+          d3.ascending(a.data.id, b.data.id),
       );
 
-    const root = tree(
-      bilink(
-        hierarchy as unknown as HierarchyLinkedNode<
-          d3.HierarchyNode<HierarchicalEdgeBundlingDatum>
-        >,
-      ),
-    ) as HierarchyLinkedNode<
+    const root = tree(bilink(hierarchy as any) as any) as HierarchyLinkedNode<
       d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
     >;
 
     const svg = d3
       .select(svgRef.current)
       .html(null)
-      .attr("viewBox", [-width / 2, -width / 2, width, width] as [
-        number,
-        number,
-        number,
-        number,
-      ]);
+      .attr("viewBox", [-width / 2, -width / 2, width, width] as any);
 
     const hovered = function (
       this: SVGElement,
-      _index: number,
+      _: any,
       d: HierarchyLinkedNode<
         d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
       >,
@@ -149,19 +134,11 @@ export function HierarchicalEdgeBundling({
       const incoming = d.incoming ?? [];
       const outgoing = d.outgoing ?? [];
 
-      const incomingPaths = incoming
-        .map(([source]) => source.path)
-        .filter((p) => p !== undefined) as SVGPathElement[];
-      const incomingTexts = incoming
-        .map(([source]) => source.text)
-        .filter((t) => t !== undefined) as SVGTextElement[];
+      const incomingPaths = incoming.map((d: any) => d.path);
+      const incomingTexts = incoming.map(([d]: any) => d.text);
 
-      const outgoingPaths = outgoing
-        .map(([, target]) => target.path)
-        .filter((p) => p !== undefined) as SVGPathElement[];
-      const outgoingText = outgoing
-        .map(([, target]) => target.text)
-        .filter((t) => t !== undefined) as SVGTextElement[];
+      const outgoingPaths = outgoing.map((d: any) => d.path);
+      const outgoingText = outgoing.map(([, d]: any) => d.text);
 
       d3.select(this).attr("font-weight", "bold");
       d3.select(this).attr("cursor", "pointer");
@@ -180,7 +157,7 @@ export function HierarchicalEdgeBundling({
 
     const outed = function (
       this: SVGElement,
-      _index: number,
+      _: any,
       d: HierarchyLinkedNode<
         d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
       >,
@@ -190,28 +167,12 @@ export function HierarchicalEdgeBundling({
       const incoming = d.incoming ?? [];
       const outgoing = d.outgoing ?? [];
       d3.select(this).attr("font-weight", null);
-      d3.selectAll(
-        incoming
-          .map(([source]) => source.path)
-          .filter((p) => p !== undefined) as SVGPathElement[],
-      ).attr("stroke", null);
-      d3.selectAll(
-        incoming
-          .map(([source]) => source.text)
-          .filter((t) => t !== undefined) as SVGTextElement[],
-      )
+      d3.selectAll(incoming.map((d: any) => d.path)).attr("stroke", null);
+      d3.selectAll(incoming.map(([d]: [any, any]) => d.text))
         .attr("fill", null)
         .attr("font-weight", null);
-      d3.selectAll(
-        outgoing
-          .map(([, target]) => target.path)
-          .filter((p) => p !== undefined) as SVGPathElement[],
-      ).attr("stroke", null);
-      d3.selectAll(
-        outgoing
-          .map(([, target]) => target.text)
-          .filter((t) => t !== undefined) as SVGTextElement[],
-      )
+      d3.selectAll(outgoing.map((d: any) => d.path)).attr("stroke", null);
+      d3.selectAll(outgoing.map(([, d]: [any, any]) => d.text))
         .attr("fill", null)
         .attr("font-weight", null);
     };
@@ -235,15 +196,8 @@ export function HierarchicalEdgeBundling({
         .attr("text-anchor", (d) => (d.x < Math.PI ? "start" : "end"))
         .attr("transform", (d) => (d.x >= Math.PI ? "rotate(180)" : null))
         .text((d) => d.data.label)
-        .each(function (this: SVGGElement) {
-          const textEl = this.querySelector("text")!;
-          if (textEl) {
-            (
-              d3.select(this).datum() as HierarchyLinkedNode<
-                d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
-              >
-            ).text = textEl;
-          }
+        .each(function (d: any) {
+          d.text = this;
         })
         .on("mouseover", hovered)
         .on("mouseout", outed)
@@ -307,14 +261,8 @@ export function HierarchicalEdgeBundling({
       .style("mix-blend-mode", "multiply")
       .style("cursor", "pointer")
       .attr("d", ([i, o]) => line(i.path(o)))
-      .each(function (this: SVGGElement) {
-        const pathEl = this.querySelector("path")!;
-        if (pathEl) {
-          const datum = d3.select(this).datum();
-          if (datum && Array.isArray(datum)) {
-            (datum[0] as { path?: SVGPathElement }).path = pathEl;
-          }
-        }
+      .each(function (d: any) {
+        d.path = this;
       })
       .on("click", (_, d) => {
         onLinkClick(d);
