@@ -177,7 +177,7 @@ describe("runAgent", () => {
     };
     const ctx = createMockContext();
 
-    await throwTE(runAgent([] as any, chain as any)(ctx as any));
+    await throwTE(runAgent([] as Messages, chain as Agent)(ctx as LoggerContext));
 
     expect(ctx.logger.debug.log).toHaveBeenCalledWith("Output %s", "");
   });
