@@ -1,3 +1,4 @@
+import type * as fs from "fs";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { subHours } from "date-fns";
@@ -31,14 +32,14 @@ describe("getOlderThanOr", () => {
     appTest.ctx.fs.objectExists.mockReturnValueOnce(fp.TE.right(true));
     appTest.ctx.fs._fs = {
       statSync: vi.fn().mockReturnValue({ mtime: subHours(new Date(), 2) }),
-    } as any;
+    } as Partial<typeof fs>;
     appTest.ctx.fs.getObject.mockReturnValueOnce(
       fp.TE.right(JSON.stringify(cachedData)),
     );
 
     const rte = fp.RTE.right<GetOlderThanOrContext, Error, typeof cachedData>({
-      different: "data",
-    } as any);
+      foo: "bar",
+    });
 
     const result = await pipe(
       getOlderThanOr(fileName, hours)(rte)(appTest.ctx),
@@ -84,7 +85,7 @@ describe("getOlderThanOr", () => {
     appTest.ctx.fs.objectExists.mockReturnValueOnce(fp.TE.right(true));
     appTest.ctx.fs._fs = {
       statSync: vi.fn().mockReturnValue({ mtime: subHours(new Date(), 48) }),
-    } as any;
+    } as Partial<typeof fs>;
     appTest.ctx.fs.writeObject.mockReturnValueOnce(fp.TE.right(undefined));
 
     const rte = fp.RTE.right<GetOlderThanOrContext, Error, typeof freshData>(
@@ -152,7 +153,7 @@ describe("getOlderThanOr", () => {
     appTest.ctx.fs.objectExists.mockReturnValueOnce(fp.TE.right(true));
     appTest.ctx.fs._fs = {
       statSync: vi.fn().mockReturnValue({ mtime: subHours(new Date(), 1) }),
-    } as any;
+    } as Partial<typeof fs>;
     appTest.ctx.fs.getObject.mockReturnValueOnce(
       fp.TE.left(
         new FSError("Read error", {
