@@ -1,5 +1,5 @@
 import { type Schema } from "effect";
-import type { PluginOption, type ServerOptions, type WatchOptions } from "vite";
+import type { AppType, PluginOption, ServerOptions, WatchOptions } from "vite";
 
 /**
  * Configuration for monorepo package HMR support

@@ -37,6 +37,7 @@
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.prod pnpm dev",
     "docker:dev": "pnpm dev",
     "lint": "eslint --cache src",
+    "lint:ci": "eslint src",
     "migration:gen": "pnpm typeorm-ts migration:generate -d ./ormconfig.js",
     "migration:revert": "pnpm typeorm-ts migration:revert -d ./ormconfig.js",
     "migration:run": "pnpm typeorm-ts migration:run -d ./ormconfig.js",

@@ -29,6 +29,7 @@
     "dev": "tsx --watch src/run.ts",
     "docker:dev": "node --watch build/run.js",
     "lint": "eslint --cache src",
+    "lint:ci": "eslint src",
     "start": "node build/run.js",
     "test": "vitest",
     "test:coverage": "vitest --run --coverage --project agent-spec",

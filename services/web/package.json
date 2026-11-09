@@ -22,6 +22,7 @@
     "dev": "DOTENV_CONFIG_PATH=.env node --import tsx/esm -r dotenv/config --watch-path=./src ./src/server/server.tsx",
     "docker:dev": "tsx --tsconfig tsconfig.server.json -r dotenv/config --watch-path=./src ./src/server/server.tsx",
     "lint": "eslint --cache src",
+    "lint:ci": "eslint src",
     "scripts:make-avatars-mock": "tsx ./scripts/make-avatars-mock.ts",
     "serve": "node ./build/server/server.js",
     "test": "vitest",

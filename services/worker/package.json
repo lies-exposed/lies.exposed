@@ -27,6 +27,7 @@
     "dev": "node --watch build/run.js",
     "docker:dev": "node --watch build/run.js",
     "lint": "eslint --cache src",
+    "lint:ci": "eslint src",
     "bin:run": "node ./build/bin/cli.js",
     "bin:generate-thumbnails": "node ./build/bin/cli.js generate-missing-thumbnails",
     "bin:upsert-nlp-entities": "node ./build/bin/cli.js upsert-nlp-entities",
