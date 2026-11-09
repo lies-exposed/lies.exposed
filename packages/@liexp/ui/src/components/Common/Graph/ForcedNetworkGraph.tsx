@@ -223,7 +223,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
     }));
 
     // Construct the forces.
-    const forceNode = d3.forceManyBody();
+    const forceNode = d3.forceManyBody<SimulationNode<unknown>>();
 
     const forceLink = d3.forceLink(links).id(({ index: i }) => {
       return N[i ?? 0];
