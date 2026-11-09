@@ -10,6 +10,7 @@ import * as UUID from "./arbitrary/common/UUID.arbitrary.js";
 import * as Event from "./arbitrary/events/index.arbitrary.js";
 import * as mockHelpers from "./helpers/mockOf.js";
 import * as helpers from "./helpers/partial.js";
+import * as ctxHelper from "./helpers/ctx.js";
 
 const Arbs = {
   UUID,
@@ -36,4 +37,5 @@ export {
   Arbs,
   helpers,
   mockHelpers,
+  ctxHelper,
 };

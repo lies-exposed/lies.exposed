@@ -5,6 +5,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { ctxHelper } from "@liexp/test";
 import * as tests from "@liexp/test";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import { beforeEach, describe, expect, test, vi } from "vitest";
@@ -103,7 +104,7 @@ describe("mergeEventsFlow", () => {
       const singleId = tests.fc.sample(tests.fc.uuid(), 1)[0] as UUID;
 
       const result = await pipe(mergeEventsFlow([singleId]), (rte) =>
-        rte(ctx as unknown as ServerContext),
+        rte(ctxHelper.ctx(ctx)),
       )();
 
       expect(result._tag).toBe("Left");
@@ -115,7 +116,7 @@ describe("mergeEventsFlow", () => {
 
     test("Should return BadRequestError when empty array provided", async () => {
       const result = await pipe(mergeEventsFlow([]), (rte) =>
-        rte(ctx as unknown as ServerContext),
+        rte(ctxHelper.ctx(ctx)),
       )();
 
       expect(result._tag).toBe("Left");
@@ -131,7 +132,7 @@ describe("mergeEventsFlow", () => {
       mockTERightOnce(ctx.db.find, () => []);
 
       const result = await pipe(mergeEventsFlow(nonExistentIds), (rte) =>
-        rte(ctx as unknown as ServerContext),
+        rte(ctxHelper.ctx(ctx)),
       )();
 
       expect(result._tag).toBe("Left");
@@ -160,7 +161,7 @@ describe("mergeEventsFlow", () => {
 
       const result = await pipe(
         mergeEventsFlow([event.id, nonExistentId]),
-        (rte) => rte(ctx as unknown as ServerContext),
+        (rte) => rte(ctxHelper.ctx(ctx)),
       )();
 
       expect(result._tag).toBe("Left");
@@ -215,7 +216,7 @@ describe("mergeEventsFlow", () => {
       mockSuccessfulMerge([event1, event2], event1);
 
       const result = await pipe(mergeEventsFlow([event1Id, event2Id]), (rte) =>
-        rte(ctx as unknown as ServerContext),
+        rte(ctxHelper.ctx(ctx)),
       )();
 
       expect(result._tag).toBe("Right");
@@ -277,7 +278,7 @@ describe("mergeEventsFlow", () => {
 
       const result = await pipe(
         mergeEventsFlow([event1Id, event2Id, event3Id]),
-        (rte) => rte(ctx as unknown as ServerContext),
+        (rte) => rte(ctxHelper.ctx(ctx)),
       )();
 
       expect(result._tag).toBe("Right");
@@ -376,7 +377,7 @@ describe("mergeEventsFlow", () => {
       });
 
       const result = await pipe(mergeEventsFlow([targetId, sourceId]), (rte) =>
-        rte(ctx as unknown as ServerContext),
+        rte(ctxHelper.ctx(ctx)),
       )();
 
       expect(result._tag).toBe("Right");
@@ -430,7 +431,7 @@ describe("mergeEventsFlow", () => {
       });
 
       const result = await pipe(mergeEventsFlow([targetId, sourceId]), (rte) =>
-        rte(ctx as unknown as ServerContext),
+        rte(ctxHelper.ctx(ctx)),
       )();
 
       expect(result._tag).toBe("Right");
@@ -478,7 +479,7 @@ describe("mergeEventsFlow", () => {
       mockSuccessfulMerge([emptyEvent1, emptyEvent2], emptyEvent1);
 
       const result = await pipe(mergeEventsFlow([event1Id, event2Id]), (rte) =>
-        rte(ctx as unknown as ServerContext),
+        rte(ctxHelper.ctx(ctx)),
       )();
 
       expect(result._tag).toBe("Right");
@@ -522,7 +523,7 @@ describe("mergeEventsFlow", () => {
       mockSuccessfulMerge([event1, event2], event1);
 
       const result = await pipe(mergeEventsFlow([event1Id, event2Id]), (rte) =>
-        rte(ctx as unknown as ServerContext),
+        rte(ctxHelper.ctx(ctx)),
       )();
 
       expect(result._tag).toBe("Right");
@@ -567,7 +568,7 @@ describe("mergeEventsFlow", () => {
       });
 
       await pipe(mergeEventsFlow([targetId, sourceId]), (rte) =>
-        rte(ctx as unknown as ServerContext),
+        rte(ctxHelper.ctx(ctx)),
       )();
 
       expect(softDeletedIds).toEqual([sourceId]);
