@@ -76,7 +76,20 @@ describe("extractThumbnail", () => {
     };
 
     const ctx = createMockContext();
-    const result = await pipe(extractThumbnail(media)(ctx as LoggerContext & ENVContext & ConfigContext & FSClientContext & HTTPProviderContext & PDFProviderContext & FFMPEGProviderContext & PuppeteerProviderContext & ImgProcClientContext), throwTE);
+    const result = await pipe(
+      extractThumbnail(media)(
+        ctx as LoggerContext &
+          ENVContext &
+          ConfigContext &
+          FSClientContext &
+          HTTPProviderContext &
+          PDFProviderContext &
+          FFMPEGProviderContext &
+          PuppeteerProviderContext &
+          ImgProcClientContext,
+      ),
+      throwTE,
+    );
 
     expect(extractThumbnailFromImage).toHaveBeenCalledWith(
       expect.objectContaining({ type: "image/jpeg" }),
@@ -98,7 +111,20 @@ describe("extractThumbnail", () => {
     };
 
     const ctx = createMockContext();
-    await pipe(extractThumbnail(media)(ctx as LoggerContext & ENVContext & ConfigContext & FSClientContext & HTTPProviderContext & PDFProviderContext & FFMPEGProviderContext & PuppeteerProviderContext & ImgProcClientContext), throwTE);
+    await pipe(
+      extractThumbnail(media)(
+        ctx as LoggerContext &
+          ENVContext &
+          ConfigContext &
+          FSClientContext &
+          HTTPProviderContext &
+          PDFProviderContext &
+          FFMPEGProviderContext &
+          PuppeteerProviderContext &
+          ImgProcClientContext,
+      ),
+      throwTE,
+    );
 
     expect(extractThumbnailFromImage).toHaveBeenCalled();
     expect(extractThumbnailFromPDF).not.toHaveBeenCalled();
@@ -117,7 +143,20 @@ describe("extractThumbnail", () => {
     };
 
     const ctx = createMockContext();
-    await pipe(extractThumbnail(media)(ctx as LoggerContext & ENVContext & ConfigContext & FSClientContext & HTTPProviderContext & PDFProviderContext & FFMPEGProviderContext & PuppeteerProviderContext & ImgProcClientContext), throwTE);
+    await pipe(
+      extractThumbnail(media)(
+        ctx as LoggerContext &
+          ENVContext &
+          ConfigContext &
+          FSClientContext &
+          HTTPProviderContext &
+          PDFProviderContext &
+          FFMPEGProviderContext &
+          PuppeteerProviderContext &
+          ImgProcClientContext,
+      ),
+      throwTE,
+    );
 
     expect(extractThumbnailFromPDF).toHaveBeenCalledWith(
       expect.objectContaining({ type: "application/pdf" }),
@@ -135,7 +174,20 @@ describe("extractThumbnail", () => {
     };
 
     const ctx = createMockContext();
-    await pipe(extractThumbnail(media)(ctx as LoggerContext & ENVContext & ConfigContext & FSClientContext & HTTPProviderContext & PDFProviderContext & FFMPEGProviderContext & PuppeteerProviderContext & ImgProcClientContext), throwTE);
+    await pipe(
+      extractThumbnail(media)(
+        ctx as LoggerContext &
+          ENVContext &
+          ConfigContext &
+          FSClientContext &
+          HTTPProviderContext &
+          PDFProviderContext &
+          FFMPEGProviderContext &
+          PuppeteerProviderContext &
+          ImgProcClientContext,
+      ),
+      throwTE,
+    );
 
     expect(extractMP4Thumbnail).toHaveBeenCalledWith(
       expect.objectContaining({ type: "video/mp4" }),
@@ -151,7 +203,20 @@ describe("extractThumbnail", () => {
     };
 
     const ctx = createMockContext();
-    const result = await pipe(extractThumbnail(media)(ctx as LoggerContext & ENVContext & ConfigContext & FSClientContext & HTTPProviderContext & PDFProviderContext & FFMPEGProviderContext & PuppeteerProviderContext & ImgProcClientContext), throwTE);
+    const result = await pipe(
+      extractThumbnail(media)(
+        ctx as LoggerContext &
+          ENVContext &
+          ConfigContext &
+          FSClientContext &
+          HTTPProviderContext &
+          PDFProviderContext &
+          FFMPEGProviderContext &
+          PuppeteerProviderContext &
+          ImgProcClientContext,
+      ),
+      throwTE,
+    );
 
     expect(extractThumbnailFromImage).not.toHaveBeenCalled();
     expect(extractThumbnailFromPDF).not.toHaveBeenCalled();
@@ -168,7 +233,20 @@ describe("extractThumbnail", () => {
     };
 
     const ctx = createMockContext();
-    const result = await pipe(extractThumbnail(media)(ctx as LoggerContext & ENVContext & ConfigContext & FSClientContext & HTTPProviderContext & PDFProviderContext & FFMPEGProviderContext & PuppeteerProviderContext & ImgProcClientContext), throwTE);
+    const result = await pipe(
+      extractThumbnail(media)(
+        ctx as LoggerContext &
+          ENVContext &
+          ConfigContext &
+          FSClientContext &
+          HTTPProviderContext &
+          PDFProviderContext &
+          FFMPEGProviderContext &
+          PuppeteerProviderContext &
+          ImgProcClientContext,
+      ),
+      throwTE,
+    );
 
     expect(extractThumbnailFromImage).not.toHaveBeenCalled();
     expect(result).toHaveLength(0);
@@ -186,7 +264,20 @@ describe("extractThumbnail", () => {
     };
 
     const ctx = createMockContext();
-    await pipe(extractThumbnail(media)(ctx as LoggerContext & ENVContext & ConfigContext & FSClientContext & HTTPProviderContext & PDFProviderContext & FFMPEGProviderContext & PuppeteerProviderContext & ImgProcClientContext), throwTE);
+    await pipe(
+      extractThumbnail(media)(
+        ctx as LoggerContext &
+          ENVContext &
+          ConfigContext &
+          FSClientContext &
+          HTTPProviderContext &
+          PDFProviderContext &
+          FFMPEGProviderContext &
+          PuppeteerProviderContext &
+          ImgProcClientContext,
+      ),
+      throwTE,
+    );
 
     expect(extractThumbnailFromIframe).toHaveBeenCalledWith(
       expect.objectContaining({ type: "iframe/video" }),
@@ -214,7 +305,20 @@ describe("extractThumbnail", () => {
     };
 
     const ctx = createMockContext();
-    const result = await pipe(extractThumbnail(media)(ctx as LoggerContext & ENVContext & ConfigContext & FSClientContext & HTTPProviderContext & PDFProviderContext & FFMPEGProviderContext & PuppeteerProviderContext & ImgProcClientContext), throwTE);
+    const result = await pipe(
+      extractThumbnail(media)(
+        ctx as LoggerContext &
+          ENVContext &
+          ConfigContext &
+          FSClientContext &
+          HTTPProviderContext &
+          PDFProviderContext &
+          FFMPEGProviderContext &
+          PuppeteerProviderContext &
+          ImgProcClientContext,
+      ),
+      throwTE,
+    );
 
     expect(resizeThumbnailFlow).toHaveBeenCalledTimes(2);
     expect(result).toHaveLength(2);
@@ -236,7 +340,17 @@ describe("extractThumbnail", () => {
     };
 
     const ctx = createMockContext();
-    const result = await extractThumbnail(media)(ctx as LoggerContext & ENVContext & ConfigContext & FSClientContext & HTTPProviderContext & PDFProviderContext & FFMPEGProviderContext & PuppeteerProviderContext & ImgProcClientContext)();
+    const result = await extractThumbnail(media)(
+      ctx as LoggerContext &
+        ENVContext &
+        ConfigContext &
+        FSClientContext &
+        HTTPProviderContext &
+        PDFProviderContext &
+        FFMPEGProviderContext &
+        PuppeteerProviderContext &
+        ImgProcClientContext,
+    )();
 
     expect(result._tag).toBe("Left");
   });
@@ -253,7 +367,20 @@ describe("extractThumbnail", () => {
     };
 
     const ctx = createMockContext();
-    const result = await pipe(extractThumbnail(media)(ctx as LoggerContext & ENVContext & ConfigContext & FSClientContext & HTTPProviderContext & PDFProviderContext & FFMPEGProviderContext & PuppeteerProviderContext & ImgProcClientContext), throwTE);
+    const result = await pipe(
+      extractThumbnail(media)(
+        ctx as LoggerContext &
+          ENVContext &
+          ConfigContext &
+          FSClientContext &
+          HTTPProviderContext &
+          PDFProviderContext &
+          FFMPEGProviderContext &
+          PuppeteerProviderContext &
+          ImgProcClientContext,
+      ),
+      throwTE,
+    );
 
     expect(result[0].Key).toContain(TEST_UUID);
   });

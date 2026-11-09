@@ -36,7 +36,9 @@ describe(readExifMetadataFromImage.name, () => {
     const location = "https://example.com/photo.jpg";
     const fakeBuffer = Buffer.from("fake-image-data");
 
-    (fetchAsBuffer as ReturnType<typeof vi.fn>).mockReturnValueOnce(() => fp.TE.right(fakeBuffer));
+    (fetchAsBuffer as ReturnType<typeof vi.fn>).mockReturnValueOnce(() =>
+      fp.TE.right(fakeBuffer),
+    );
 
     mockTERightOnce(mockImgProc.readExif, () => ({
       "Image Width": { value: 1920, description: "1920" },
@@ -56,7 +58,9 @@ describe(readExifMetadataFromImage.name, () => {
     const location = "https://example.com/photo.jpg";
     const fakeBuffer = Buffer.from("no-exif-data");
 
-    (fetchAsBuffer as ReturnType<typeof vi.fn>).mockReturnValueOnce(() => fp.TE.right(fakeBuffer));
+    (fetchAsBuffer as ReturnType<typeof vi.fn>).mockReturnValueOnce(() =>
+      fp.TE.right(fakeBuffer),
+    );
 
     mockTERightOnce(mockImgProc.readExif, () => ({}));
 
@@ -73,7 +77,9 @@ describe(readExifMetadataFromImage.name, () => {
     const location = "https://example.com/missing.jpg";
     const fetchError = { name: "HTTPError", message: "Not found", status: 404 };
 
-    (fetchAsBuffer as ReturnType<typeof vi.fn>).mockReturnValueOnce(() => fp.TE.left(fetchError));
+    (fetchAsBuffer as ReturnType<typeof vi.fn>).mockReturnValueOnce(() =>
+      fp.TE.left(fetchError),
+    );
 
     const result = await readExifMetadataFromImage(location)(ctx)();
 
@@ -84,7 +90,9 @@ describe(readExifMetadataFromImage.name, () => {
     const location = "https://example.com/corrupt.jpg";
     const fakeBuffer = Buffer.from("corrupt");
 
-    (fetchAsBuffer as ReturnType<typeof vi.fn>).mockReturnValueOnce(() => fp.TE.right(fakeBuffer));
+    (fetchAsBuffer as ReturnType<typeof vi.fn>).mockReturnValueOnce(() =>
+      fp.TE.right(fakeBuffer),
+    );
 
     mockImgProc.readExif.mockImplementationOnce(() =>
       fp.TE.left({

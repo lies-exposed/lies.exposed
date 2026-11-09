@@ -1,10 +1,10 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type VideoPlatformMatch } from "@liexp/shared/lib/helpers/media.helper.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "fp-ts/lib/Option.js";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import type * as puppeteer from "puppeteer-core";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -69,7 +69,10 @@ describe(parsePlatformMedia.name, () => {
   });
 
   const testURL = "https://www.youtube.com/watch?v=test123" as string;
-  const testMatch = { platform: "youtube", id: "test123" } as VideoPlatformMatch;
+  const testMatch = {
+    platform: "youtube",
+    id: "test123",
+  } as VideoPlatformMatch;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -134,7 +137,7 @@ describe(parsePlatformMedia.name, () => {
     const mediaId = uuid();
     const existingMedia = Object.assign(new MediaEntity(), {
       id: mediaId,
-      location: "https://www.youtube.com/embed/test123" as string,
+      location: "https://www.youtube.com/embed/test123",
       description: "Existing video",
       extra: null,
     });
@@ -223,9 +226,7 @@ describe(parsePlatformMedia.name, () => {
     appTest.ctx.db.findOne.mockReturnValueOnce(fp.TE.right(O.none));
     appTest.ctx.db.save.mockReturnValueOnce(fp.TE.right([savedMedia]));
 
-    vi.mocked(extractMediaExtra).mockReturnValue(() =>
-      fp.TE.right(extraInfo as Record<string, unknown>),
-    );
+    vi.mocked(extractMediaExtra).mockReturnValue(() => fp.TE.right(extraInfo));
 
     vi.mocked(MediaRepository.save).mockReturnValue(() =>
       fp.TE.right([savedMedia]),
@@ -248,7 +249,7 @@ describe(parsePlatformMedia.name, () => {
 
   it("should return Left when extractMediaFromPlatform fails", async () => {
     vi.mocked(extractMediaFromPlatform).mockReturnValue(() =>
-      fp.TE.left({ name: "ServerError", message: "extract failed" } as Error),
+      fp.TE.left({ name: "ServerError", message: "extract failed" }),
     );
 
     const te = parsePlatformMedia(
@@ -274,7 +275,10 @@ describe(parsePlatformMedia.name, () => {
     );
 
     appTest.ctx.db.findOne.mockReturnValueOnce(
-      fp.TE.left({ name: "DBError", message: "db error" } as unknown as DBError),
+      fp.TE.left({
+        name: "DBError",
+        message: "db error",
+      } as unknown as DBError),
     );
 
     const te = parsePlatformMedia(

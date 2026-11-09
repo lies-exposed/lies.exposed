@@ -92,7 +92,10 @@ describe("GetQueueProvider", () => {
 
   it("getJob finds a job by resource and id", async () => {
     const provider = GetQueueProvider.queue("test");
-    const result = await provider.getJob("actors", "1")({} as Partial<DatabaseContext>)();
+    const result = await provider.getJob(
+      "actors",
+      "1",
+    )({} as Partial<DatabaseContext>)();
     expect(result._tag).toBe("Right");
   });
 
@@ -104,7 +107,9 @@ describe("GetQueueProvider", () => {
 
   it("listJobs filters by resource", async () => {
     const provider = GetQueueProvider.queue("test");
-    const result = await provider.listJobs({ resource: "actors" })({} as Partial<DatabaseContext>)();
+    const result = await provider.listJobs({ resource: "actors" })(
+      {} as Partial<DatabaseContext>,
+    )();
     expect(result._tag).toBe("Right");
   });
 
@@ -156,7 +161,10 @@ describe("GetQueueProvider", () => {
 
   it("deleteJob deletes a job", async () => {
     const provider = GetQueueProvider.queue("test");
-    const result = await provider.deleteJob("actors", "1")({} as Partial<DatabaseContext>)();
+    const result = await provider.deleteJob(
+      "actors",
+      "1",
+    )({} as Partial<DatabaseContext>)();
     expect(result._tag).toBe("Right");
   });
 });

@@ -1,6 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
+import type * as logger from "@liexp/core/lib/logger/index.js";
 import type { AxiosInstance } from "axios";
-import * as logger from "@liexp/core/lib/logger/index.js";
+import { describe, expect, it, vi } from "vitest";
 import { GetLocalSpaceProvider } from "./local-space.provider.js";
 
 describe("local-space.provider", () => {

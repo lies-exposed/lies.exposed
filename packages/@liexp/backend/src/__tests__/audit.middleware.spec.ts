@@ -151,11 +151,12 @@ describe("audit.middleware", () => {
       )[1];
       finishHandler();
 
-      const completionLog = (mockLogger.info.log as ReturnType<typeof vi.fn>)
-        .mock.calls.find(
-          (call: [string, number, number, number, number, string]) =>
-            call[0].includes("Request completed"),
-        );
+      const completionLog = (
+        mockLogger.info.log as ReturnType<typeof vi.fn>
+      ).mock.calls.find(
+        (call: [string, number, number, number, number, string]) =>
+          call[0].includes("Request completed"),
+      );
       const duration = completionLog[4];
 
       // Allow for timer imprecision - timers may resolve slightly earlier than requested

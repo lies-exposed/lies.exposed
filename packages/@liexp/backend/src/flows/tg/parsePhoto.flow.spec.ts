@@ -1,9 +1,9 @@
+import type { Readable } from "stream";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { type PhotoSize } from "node-telegram-bot-api";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
-import { type PhotoSize } from "node-telegram-bot-api";
-import type { Readable } from "stream";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -201,7 +201,7 @@ describe(parsePhoto.name, () => {
     appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
     vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.left({ name: "ServerError", message: "upload failed" } as Error),
+      fp.TE.left({ name: "ServerError", message: "upload failed" }),
     );
 
     const te = parsePhoto("desc", photos)(appTest.ctx);

@@ -1,9 +1,9 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { describe, expect, it, vi } from "vitest";
-import { updateEventFromDocuments } from "./updateEventFromDocuments.flow.js";
 import type { LangchainContext } from "../../context/langchain.context.js";
 import type { LoggerContext } from "../../context/logger.context.js";
+import { updateEventFromDocuments } from "./updateEventFromDocuments.flow.js";
 
 const createMockContext = (chatResponse?: unknown) => ({
   logger: {
@@ -58,7 +58,11 @@ describe("updateEventFromDocuments", () => {
     const ctx = createMockContext({ content: JSON.stringify(eventProps) });
 
     const result = await pipe(
-      updateEventFromDocuments("Death", mockPromptFn, "question")(ctx as Partial<LangchainContext & LoggerContext>),
+      updateEventFromDocuments(
+        "Death",
+        mockPromptFn,
+        "question",
+      )(ctx as Partial<LangchainContext & LoggerContext>),
       throwTE,
     );
 
@@ -70,7 +74,11 @@ describe("updateEventFromDocuments", () => {
     const ctx = createMockContext({ content: eventProps });
 
     const result = await pipe(
-      updateEventFromDocuments("Book", mockPromptFn, "question")(ctx as Partial<LangchainContext & LoggerContext>),
+      updateEventFromDocuments(
+        "Book",
+        mockPromptFn,
+        "question",
+      )(ctx as Partial<LangchainContext & LoggerContext>),
       throwTE,
     );
 
@@ -82,7 +90,11 @@ describe("updateEventFromDocuments", () => {
     const ctx = createMockContext({ content: "{}" });
 
     await pipe(
-      updateEventFromDocuments("Quote", promptFn, "question")(ctx as Partial<LangchainContext & LoggerContext>),
+      updateEventFromDocuments(
+        "Quote",
+        promptFn,
+        "question",
+      )(ctx as Partial<LangchainContext & LoggerContext>),
       throwTE,
     );
 

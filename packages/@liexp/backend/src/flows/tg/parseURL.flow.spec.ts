@@ -65,7 +65,7 @@ describe(parseURLs.name, () => {
         puppeteer: mock(),
         space: mock(),
       }),
-      env: { DEFAULT_PAGE_SIZE: 20 } as unknown as ENVContext['env'],
+      env: { DEFAULT_PAGE_SIZE: 20 } as unknown as ENVContext["env"],
     },
   };
 
@@ -229,7 +229,7 @@ describe(parseURLs.name, () => {
     vi.mocked(fromURL).mockReturnValue(() => fp.TE.right(newLink));
     // Screenshot fails
     vi.mocked(takeLinkScreenshot).mockReturnValue(() =>
-      fp.TE.left({ name: "PuppeteerError", message: "timeout" } as Error),
+      fp.TE.left({ name: "PuppeteerError", message: "timeout" }),
     );
 
     vi.mocked(GetQueueProvider.queue).mockReturnValue({
@@ -253,7 +253,9 @@ describe(parseURLs.name, () => {
     const dbError = { name: "DBError", message: "db error" };
     const validUrl = "https://example.com/db-fail" as string;
 
-    appTest.ctx.db.findOne.mockReturnValueOnce(fp.TE.left(dbError as unknown as DBError));
+    appTest.ctx.db.findOne.mockReturnValueOnce(
+      fp.TE.left(dbError as unknown as DBError),
+    );
 
     const te = parseURLs(O.some([validUrl]), testUser, mockPage)(appTest.ctx);
     const outcome = await te();

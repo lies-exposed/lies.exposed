@@ -1,5 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import type { Document } from "node-telegram-bot-api";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { type ConfigContext } from "../../context/config.context.js";
@@ -13,11 +14,10 @@ import { type QueuesProviderContext } from "../../context/queue.context.js";
 import { type RedisContext } from "../../context/redis.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type MediaEntity } from "../../entities/Media.entity.js";
+import { ServerError } from "../../errors/index.js";
 import { mockedContext } from "../../test/context.js";
 import { uploadAndCreate } from "../media/uploadAndCreate.flow.js";
 import { parseDocument } from "./parseDocument.flow.js";
-import type { Document } from "node-telegram-bot-api";
-import { ServerError } from "../../errors/index.js";
 
 vi.mock("../media/uploadAndCreate.flow.js", () => ({
   uploadAndCreate: vi.fn(),

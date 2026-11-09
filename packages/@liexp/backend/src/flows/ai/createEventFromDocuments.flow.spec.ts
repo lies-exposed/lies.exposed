@@ -2,9 +2,9 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { describe, expect, it, vi } from "vitest";
-import { createEventFromDocuments } from "./createEventFromDocuments.flow.js";
 import type { LangchainContext } from "../../context/langchain.context.js";
 import type { LoggerContext } from "../../context/logger.context.js";
+import { createEventFromDocuments } from "./createEventFromDocuments.flow.js";
 
 const createMockContext = (chatResult?: unknown) => {
   const chatCreate = vi.fn().mockImplementation(() =>

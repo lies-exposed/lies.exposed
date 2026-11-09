@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Redis } from "ioredis";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { makeCacheMiddleware } from "../express/middleware/cache.middleware.js";
 import type { RedisClient } from "../providers/redis/redis.provider.js";
 

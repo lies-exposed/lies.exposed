@@ -1,5 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
 import type { BraveSearch } from "brave-search";
+import { describe, expect, it, vi } from "vitest";
 import { ServerError } from "../../errors/ServerError.js";
 import { GetBraveProvider } from "../brave.provider.js";
 
@@ -16,7 +16,9 @@ describe("GetBraveProvider", () => {
 
   it("calls client.webSearch with query and default options", async () => {
     const mockResponse = { web: { results: [] } };
-    (mockClient.webSearch as ReturnType<BraveSearch['webSearch']>).mockResolvedValue(mockResponse);
+    (
+      mockClient.webSearch as ReturnType<BraveSearch["webSearch"]>
+    ).mockResolvedValue(mockResponse);
 
     const provider = GetBraveProvider(mockClient);
     const result = await provider.webSearch("test query")();
@@ -30,7 +32,9 @@ describe("GetBraveProvider", () => {
 
   it("merges custom options with defaults", async () => {
     const mockResponse = { web: { results: [] } };
-    (mockClient.webSearch as ReturnType<BraveSearch['webSearch']>).mockResolvedValue(mockResponse);
+    (
+      mockClient.webSearch as ReturnType<BraveSearch["webSearch"]>
+    ).mockResolvedValue(mockResponse);
 
     const provider = GetBraveProvider(mockClient);
     await provider.webSearch("test query", { count: 10 })();
@@ -43,7 +47,9 @@ describe("GetBraveProvider", () => {
   });
 
   it("returns Left on client error", async () => {
-    (mockClient.webSearch as ReturnType<BraveSearch['webSearch']>).mockRejectedValue(new Error("API error"));
+    (
+      mockClient.webSearch as ReturnType<BraveSearch["webSearch"]>
+    ).mockRejectedValue(new Error("API error"));
 
     const provider = GetBraveProvider(mockClient);
     const result = await provider.webSearch("test query")();

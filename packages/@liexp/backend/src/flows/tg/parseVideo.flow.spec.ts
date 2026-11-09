@@ -1,9 +1,9 @@
+import type { Readable } from "stream";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { type Video } from "node-telegram-bot-api";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
-import { type Video } from "node-telegram-bot-api";
-import type { Readable } from "stream";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -128,7 +128,7 @@ describe(parseVideo.name, () => {
       .mockReturnValueOnce(fp.TE.right(mockStream)); // second: video
 
     vi.mocked(upload).mockReturnValue(() =>
-      fp.TE.right({ Location: thumbLocation } as { Location: string }),
+      fp.TE.right({ Location: thumbLocation }),
     );
 
     vi.mocked(uploadAndCreate).mockReturnValue(() => fp.TE.right(fakeMedia));
@@ -193,7 +193,7 @@ describe(parseVideo.name, () => {
       .mockReturnValueOnce(fp.TE.right(mockStream)); // second: video
 
     vi.mocked(upload).mockReturnValue(() =>
-      fp.TE.left({ name: "SpaceError", message: "upload failed" } as Error),
+      fp.TE.left({ name: "SpaceError", message: "upload failed" }),
     );
 
     const te = parseVideo("desc", video)(appTest.ctx);
@@ -214,7 +214,7 @@ describe(parseVideo.name, () => {
     appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
     vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.left({ name: "ServerError", message: "create failed" } as Error),
+      fp.TE.left({ name: "ServerError", message: "create failed" }),
     );
 
     const te = parseVideo("desc", video)(appTest.ctx);

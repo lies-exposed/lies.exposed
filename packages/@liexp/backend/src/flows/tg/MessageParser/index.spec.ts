@@ -2,9 +2,9 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "fp-ts/lib/Option.js";
+import type { Message } from "node-telegram-bot-api";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
-import type { Message } from "node-telegram-bot-api";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type DatabaseContext } from "../../../context/db.context.js";
 import { type ENVContext } from "../../../context/env.context.js";
@@ -253,7 +253,10 @@ describe("MessageParser", () => {
       } as Message;
 
       vi.mocked(parsePhoto).mockReturnValue(() =>
-        fp.TE.left({ name: "ServerError", message: "download failed" } as Error),
+        fp.TE.left({
+          name: "ServerError",
+          message: "download failed",
+        }),
       );
 
       const parser = MessageParser(message);
