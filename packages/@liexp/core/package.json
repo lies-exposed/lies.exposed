@@ -18,7 +18,8 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf lib",
-    "lint": "eslint src",
+    "lint": "eslint --cache src",
+    "lint:ci": "eslint src",
     "test": "echo 'No tests configured for @liexp/core'",
     "watch": "tsc -b -w"
   },
