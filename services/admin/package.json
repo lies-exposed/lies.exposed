@@ -17,7 +17,7 @@
     "dev": "vite dev",
     "dev:server": "tsx watch src/server/server.tsx",
     "docker:dev": "tsx --tsconfig tsconfig.server.json --watch-path=./src ./src/server/server.tsx",
-    "lint": "eslint --cache src",
+    "lint": "eslint src",
     "serve": "node build/server/server.js",
     "start": "vite start",
     "test": "vitest",

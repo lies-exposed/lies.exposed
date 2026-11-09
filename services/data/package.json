@@ -10,7 +10,7 @@
     "clean": "rm -rf build",
     "clean:data": "rm -rf ./public/media/actors ./public/media/groups ./public/media/images",
     "develop": "DOTENV_CONFIG_PATH=../../.env.local node --import tsx/esm -r dotenv/config src/serve.ts",
-    "lint": "eslint --cache src",
+    "lint": "eslint src",
     "serve": "pnpm tsx:dev ./src/serve",
     "start": "node -r dotenv/config build/serve.js",
     "test:e2e": "vitest -c vitest.e2e.config.ts",

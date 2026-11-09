@@ -20,7 +20,7 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf lib",
-    "lint": "eslint --cache src",
+    "lint": "eslint src",
     "test": "vitest",
     "watch": "tsc -b -w"
   },
