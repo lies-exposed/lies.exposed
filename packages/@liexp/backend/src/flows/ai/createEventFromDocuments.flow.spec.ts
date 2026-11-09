@@ -3,8 +3,10 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { describe, expect, it, vi } from "vitest";
 import { createEventFromDocuments } from "./createEventFromDocuments.flow.js";
+import type { LangchainContext } from "../../context/langchain.context.js";
+import type { LoggerContext } from "../../context/logger.context.js";
 
-const createMockContext = (chatResult?: any) => {
+const createMockContext = (chatResult?: unknown) => {
   const chatCreate = vi.fn().mockImplementation(() =>
     TE.right(
       chatResult ?? {
@@ -49,7 +51,7 @@ describe("createEventFromDocuments", () => {
         mockPromptFn,
         {},
         "What is this event?",
-      )(ctx as any),
+      )(ctx as Partial<LangchainContext & LoggerContext & { agent: unknown }>),
       throwTE,
     );
 
@@ -73,7 +75,7 @@ describe("createEventFromDocuments", () => {
         promptFn,
         {},
         "question",
-      )(ctx as any),
+      )(ctx as Partial<LangchainContext & LoggerContext & { agent: unknown }>),
       throwTE,
     );
 
@@ -92,7 +94,7 @@ describe("createEventFromDocuments", () => {
         promptFn,
         {},
         "q",
-      )(ctx as any),
+      )(ctx as Partial<LangchainContext & LoggerContext & { agent: unknown }>),
       throwTE,
     );
 
@@ -125,7 +127,7 @@ describe("createEventFromDocuments", () => {
       mockPromptFn,
       {},
       "q",
-    )(ctx as any)();
+    )(ctx as Partial<LangchainContext & LoggerContext & { agent: unknown }>)();
 
     expect(result._tag).toBe("Left");
   });

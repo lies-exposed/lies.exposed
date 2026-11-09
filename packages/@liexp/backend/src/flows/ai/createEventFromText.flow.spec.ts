@@ -2,6 +2,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { describe, expect, it, vi } from "vitest";
 import { getCreateEventPromptPartial } from "./createEventFromText.flow.js";
+import type { LoggerContext } from "../../context/logger.context.js";
 
 const createMockContext = () => ({
   logger: {
@@ -19,7 +20,7 @@ describe("getCreateEventPromptPartial", () => {
     const ctx = createMockContext();
 
     await pipe(
-      getCreateEventPromptPartial(promptTemplate, "Death")(ctx as any),
+      getCreateEventPromptPartial(promptTemplate, "Death")(ctx as Partial<LoggerContext>),
       throwTE,
     );
 
@@ -38,7 +39,7 @@ describe("getCreateEventPromptPartial", () => {
     const ctx = createMockContext();
 
     const result = await pipe(
-      getCreateEventPromptPartial(promptTemplate, "Book")(ctx as any),
+      getCreateEventPromptPartial(promptTemplate, "Book")(ctx as Partial<LoggerContext>),
       throwTE,
     );
 
@@ -62,7 +63,7 @@ describe("getCreateEventPromptPartial", () => {
       const ctx = createMockContext();
 
       const result = await pipe(
-        getCreateEventPromptPartial(promptTemplate, type)(ctx as any),
+        getCreateEventPromptPartial(promptTemplate, type)(ctx as Partial<LoggerContext>),
         throwTE,
       );
 
@@ -78,7 +79,7 @@ describe("getCreateEventPromptPartial", () => {
     const ctx = createMockContext();
 
     await pipe(
-      getCreateEventPromptPartial(promptTemplate, "Quote")(ctx as any),
+      getCreateEventPromptPartial(promptTemplate, "Quote")(ctx as Partial<LoggerContext>),
       throwTE,
     );
 
