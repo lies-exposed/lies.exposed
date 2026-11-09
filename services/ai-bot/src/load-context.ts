@@ -15,8 +15,8 @@ import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js"
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { GetResourceClient } from "@ts-endpoint/resource-client";
 import * as axios from "axios";
-import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import * as O from "fp-ts/lib/Option.js";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import { AIBotConfig } from "./config.js";
 import { type ClientContext } from "./context.js";
@@ -123,9 +123,7 @@ export const loadContext = (
     fp.TE.bind("zeroclow", ({ config }) =>
       fp.TE.right(
         createZeroClawAdapter(
-          config.config.zeroclow
-            ? O.some(config.config.zeroclow)
-            : O.none,
+          config.config.zeroclow ? O.some(config.config.zeroclow) : O.none,
         ),
       ),
     ),
@@ -141,7 +139,10 @@ export const loadContext = (
 
       const hasZeroClaw = pipe(
         zeroclow,
-        O.fold(() => false, () => true),
+        O.fold(
+          () => false,
+          () => true,
+        ),
       );
 
       return fp.TE.right(
@@ -205,7 +206,10 @@ export const loadContext = (
 
         const hasZeroClaw = pipe(
           zeroclow,
-          O.fold(() => false, () => true),
+          O.fold(
+            () => false,
+            () => true,
+          ),
         );
 
         logger.info.log("AI BOT config %O", {
