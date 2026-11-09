@@ -114,13 +114,15 @@ export function HierarchicalEdgeBundling({
         },
       )
       .sort(
-        (a, b) =>
-          d3.ascending(a.height, b.height) ??
-          d3.ascending(a.data.id, b.data.id),
+        (a, b) => d3.ascending(a.height, b.height) ?? d3.ascending(a.id, b.id),
       );
 
     const root = tree(
-      bilink(hierarchy as d3.HierarchyNode<HierarchicalEdgeBundlingDatum>),
+      bilink(
+        hierarchy as unknown as HierarchyLinkedNode<
+          d3.HierarchyNode<HierarchicalEdgeBundlingDatum>
+        >,
+      ),
     ) as HierarchyLinkedNode<
       d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
     >;
@@ -149,17 +151,17 @@ export function HierarchicalEdgeBundling({
 
       const incomingPaths = incoming
         .map(([source]) => source.path)
-        .filter((p): p is SVGPathElement => p !== undefined);
+        .filter((p) => p !== undefined) as SVGPathElement[];
       const incomingTexts = incoming
         .map(([source]) => source.text)
-        .filter((t): t is SVGTextElement => t !== undefined);
+        .filter((t) => t !== undefined) as SVGTextElement[];
 
       const outgoingPaths = outgoing
         .map(([, target]) => target.path)
-        .filter((p): p is SVGPathElement => p !== undefined);
+        .filter((p) => p !== undefined) as SVGPathElement[];
       const outgoingText = outgoing
         .map(([, target]) => target.text)
-        .filter((t): t is SVGTextElement => t !== undefined);
+        .filter((t) => t !== undefined) as SVGTextElement[];
 
       d3.select(this).attr("font-weight", "bold");
       d3.select(this).attr("cursor", "pointer");
@@ -191,24 +193,24 @@ export function HierarchicalEdgeBundling({
       d3.selectAll(
         incoming
           .map(([source]) => source.path)
-          .filter((p): p is SVGPathElement => p !== undefined),
+          .filter((p) => p !== undefined) as SVGPathElement[],
       ).attr("stroke", null);
       d3.selectAll(
         incoming
           .map(([source]) => source.text)
-          .filter((t): t is SVGTextElement => t !== undefined),
+          .filter((t) => t !== undefined) as SVGTextElement[],
       )
         .attr("fill", null)
         .attr("font-weight", null);
       d3.selectAll(
         outgoing
           .map(([, target]) => target.path)
-          .filter((p): p is SVGPathElement => p !== undefined),
+          .filter((p) => p !== undefined) as SVGPathElement[],
       ).attr("stroke", null);
       d3.selectAll(
         outgoing
           .map(([, target]) => target.text)
-          .filter((t): t is SVGTextElement => t !== undefined),
+          .filter((t) => t !== undefined) as SVGTextElement[],
       )
         .attr("fill", null)
         .attr("font-weight", null);

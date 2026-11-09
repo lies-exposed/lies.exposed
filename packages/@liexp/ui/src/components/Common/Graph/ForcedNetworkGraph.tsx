@@ -531,8 +531,18 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
 
       node.attr("cx", (d) => d.x ?? 10).attr("cy", (d) => d.y ?? 10);
       text
-        .attr("dx", (d: SimulationNode<unknown>) => d.x + nodeRadius(d) * 2)
-        .attr("dy", (d: SimulationNode<unknown>) => d.y - nodeRadius(d) * 2);
+        .attr(
+          "dx",
+          (d) =>
+            (d as SimulationNode<unknown>).x +
+            nodeRadius(d as SimulationNode<unknown>) * 2,
+        )
+        .attr(
+          "dy",
+          (d) =>
+            (d as SimulationNode<unknown>).y -
+            nodeRadius(d as SimulationNode<unknown>) * 2,
+        );
 
       // actorOrGroupImage.attr("x", 0).attr("y", 0);
 
