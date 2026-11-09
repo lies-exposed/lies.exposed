@@ -135,8 +135,8 @@ export const EventsSankeyGraph: React.FC<EventsSankeyGraphProps> = (props) => {
               <Grid size={{ md: 12 }}>
                 <div style={{ width: "100%" }}>
                   <SankeyGraph
-                    {...networkProps}
-                    onEventClick={props.onEventClick}
+                    {...(networkProps as unknown as SankeyGraphProps)}
+                    onEventClick={props.onEventClick as (e: unknown) => void}
                   />
                   {/* <Network<NetworkLink, EventNetworkDatum>
                     onDoubleClick={() => {}}

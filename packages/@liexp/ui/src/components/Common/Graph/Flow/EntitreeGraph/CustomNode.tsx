@@ -15,12 +15,25 @@ import {
   FONT_SIZE_BADGE,
   FONT_SIZE_NODE,
 } from "../../../../../theme/styleUtils.js";
+import {
+  type EntitreeTreeEntry,
+  type RelationType,
+} from "./layout-elements.js";
 
 const { Top, Bottom, Left, Right } = Position;
 
 type NodeRole = "root" | "spouse" | "partner" | "sibling" | "default";
 
-const getNodeRole = (data: any): NodeRole => {
+interface CustomNodeData extends EntitreeTreeEntry {
+  isRoot?: boolean;
+  isSpouse?: boolean;
+  isSibling?: boolean;
+  isPartner?: boolean;
+  label?: string;
+  direction?: string;
+}
+
+const getNodeRole = (data: CustomNodeData): NodeRole => {
   if (data.isRoot) return "root";
   if (data.isPartner) return "partner";
   if (data.isSpouse) return "spouse";
@@ -28,7 +41,8 @@ const getNodeRole = (data: any): NodeRole => {
   return "default";
 };
 
-export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
+export const CustomNode: React.FC<{ data: CustomNodeData }> = memo(
+  ({ data }) => {
   const theme = useTheme();
   const { isSpouse, isSibling, fullName, avatar, direction } = data;
 
@@ -43,7 +57,7 @@ export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
     borderColor = theme.palette.grey[300];
   } else {
     // For spouse, partner, sibling - use relationship colors
-    borderColor = getRelationshipColor(theme, role as any);
+    borderColor = getRelationshipColor(theme, role as RelationType);
   }
 
   // Theme-aware styles

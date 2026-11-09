@@ -68,26 +68,48 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
     [],
   );
 
+  const nodeData = React.useMemo(
+    () =>
+      props.graph.nodes.map((n) => ({
+        data: n.data,
+        index: 0,
+        id: n.data.id,
+      })),
+    [props.graph.nodes],
+  );
+
+  const linkData = React.useMemo(
+    () =>
+      props.graph.links.map((l) => ({
+        source: l.source,
+        target: l.target,
+        value: l.value,
+        fill: l.fill,
+        sourceType: l.sourceType,
+        stroke: l.stroke,
+      })),
+    [props.graph.links],
+  );
+
   return (
     <ForcedNetworkGraph
       id={`events-network`}
       width={width}
       height={height}
-      nodes={props.graph.nodes}
-      links={props.graph.links}
-      linkSource={(l) => l.source}
-      linkTarget={(l) => l.target}
+      nodes={nodeData}
+      links={linkData as NetworkLink[]}
+      linkSource={(l) => String(l.source)}
+      linkTarget={(l) => String(l.target)}
       onClick={(m) => {
-        if (m.data) {
-          if (m.data.type === ACTORS.literals[0]) {
-            onActorClick?.(m);
-          } else if (m.data.type === GROUPS.literals[0]) {
-            onGroupClick?.(m);
-          } else if (m.data.type === KEYWORDS.literals[0]) {
-            onKeywordClick?.(m);
-          } else {
-            onEventClick?.(m);
-          }
+        const data = m.data as { type: string };
+        if (data.type === ACTORS.literals[0]) {
+          onActorClick?.(m.data as Actor.Actor);
+        } else if (data.type === GROUPS.literals[0]) {
+          onGroupClick?.(m.data as Group.Group);
+        } else if (data.type === KEYWORDS.literals[0]) {
+          onKeywordClick?.(m.data as Keyword.Keyword);
+        } else {
+          onEventClick?.(m.data as SearchEvent);
         }
       }}
       nodeGroups={[
@@ -96,23 +118,26 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
         GROUPS.literals[0],
       ]}
       colors={colors}
-      nodeId={(n) => n.data.id}
-      linkStrokeWidth={(l) => l.value}
-      linkStrength={(l) => l.value}
-      linkStroke={(l) => l.fill}
+      nodeId={(n) => String((n.data as { id: string }).id)}
+      linkStrokeWidth={(l) => l.value ?? 0}
+      linkStrength={(l) => l.value ?? 0}
+      linkStroke={(l) => l.fill ?? ''}
       nodeTitle={(n) => {
-        // console.log('node title', n);
-        if (n.data.type === KEYWORDS.literals[0]) {
-          return n.data.tag;
-        } else if (n.data.type === GROUPS.literals[0]) {
-          return n.data.name;
-        } else if (n.data.type === ACTORS.literals[0]) {
-          return n.data.fullName;
+        const data = n.data as { type: string; tag?: string; name?: string; fullName?: string; title?: string };
+        if (data.type === KEYWORDS.literals[0]) {
+          return data.tag ?? '';
+        } else if (data.type === GROUPS.literals[0]) {
+          return data.name ?? '';
+        } else if (data.type === ACTORS.literals[0]) {
+          return data.fullName ?? '';
         }
 
-        return n.data.title;
+        return data.title ?? '';
       }}
-      nodeRadius={(n) => (n.data.count ?? 0) + 10}
+      nodeRadius={(n) => {
+        const data = n.data as { count?: number };
+        return (data.count ?? 0) + 10;
+      }}
       // nodeStrength={(n) => {
       //   if (n.type === KEYWORDS.value) {
       //     return 1 / n.count;
@@ -124,31 +149,32 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
       //   return 10;
       // }}
       nodeGroup={(n) => {
-        if (n.data.fullName) {
+        const data = n.data as { type: string; fullName?: string; tag?: string; name?: string };
+        if (data.fullName) {
           return 0;
         }
 
-        if (n.data.tag) {
+        if (data.tag) {
           return 1;
         }
 
-        if (n.data.name) {
+        if (data.name) {
           return 2;
         }
 
-        if (Schema.is(EventTypes.DEATH)(n.data.type)) {
+        if (Schema.is(EventTypes.DEATH)(data.type)) {
           return 3;
         }
 
-        if (Schema.is(EventTypes.DOCUMENTARY)(n.data.type)) {
+        if (Schema.is(EventTypes.DOCUMENTARY)(data.type)) {
           return 3;
         }
 
-        if (Schema.is(EventTypes.SCIENTIFIC_STUDY)(n.data.type)) {
+        if (Schema.is(EventTypes.SCIENTIFIC_STUDY)(data.type)) {
           return 3;
         }
 
-        if (Schema.is(EventTypes.PATENT)(n.data.type)) {
+        if (Schema.is(EventTypes.PATENT)(data.type)) {
           return 3;
         }
 
