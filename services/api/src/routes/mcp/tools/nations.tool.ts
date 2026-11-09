@@ -1,11 +1,10 @@
-import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { NationEntity } from "@liexp/backend/lib/entities/Nation.entity.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
-import type * as TE from "fp-ts/lib/TaskEither.js";
-import * as fp from "fp-ts/lib/taskEither.js";
-import { type NationEntity } from "@liexp/backend/lib/entities/Nation.entity.js";
-import { type ServerContext } from "../../../context/context.type.js";
-import { defineMcpTool } from "./helpers.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import type { ServerContext } from "#context/context.type.js";
 
 const FIND_NATIONS = "findNations";
 
@@ -23,39 +22,56 @@ const nationToOutput = (nation: NationEntity): Record<string, unknown> => ({
 
 export const registerNationsTools = (server: McpServer, ctx: ServerContext) => {
   // --- findNations ---
-  const findNationsTool = defineMcpTool(
+  const findNationsInputSchema = effectToZodStruct(
     Schema.Struct({
       name: Schema.UndefinedOr(Schema.String).annotations({
         description: "Name to search for (partial match supported)",
       }),
-      start: Schema.optional(Schema.Number).annotations({
+      start: Schema.UndefinedOr(Schema.Number).annotations({
         description: "Pagination start index",
       }),
-      end: Schema.optional(Schema.Number).annotations({
+      end: Schema.UndefinedOr(Schema.Number).annotations({
         description: "Pagination end index",
       }),
     }),
-    async (input) => {
-      const { name, start, end } = input;
+  );
 
-      const findOptions: Parameters<
-        typeof ctx.db.findAndCount
-      >[1] = {
-        ...(name ? { where: { name: name } } : {}),
-        ...(start !== undefined ? { skip: Number(start) } : {}),
-        ...(end !== undefined ? { take: Number(end) } : {}),
+  server.registerTool(
+    FIND_NATIONS,
+    {
+      title: "Find nations",
+      description:
+        "Search and list nations in the database with filtering and pagination.",
+      annotations: { title: "Find nations", readOnlyHint: true },
+      inputSchema: findNationsInputSchema,
+    },
+    async (opts) => {
+      const { name, start, end } = opts ?? {};
+
+      const where: Record<string, unknown> = {};
+      if (name) {
+        where.name = { like: `%${name}%` };
+      }
+
+      const findOptions: Record<string, unknown> = {
+        where,
       };
+      if (start !== undefined) {
+        findOptions.skip = Number(start);
+      }
+      if (end !== undefined) {
+        findOptions.take = Number(end) - Number(start ?? 0);
+      }
 
       try {
-        const te: TE.TaskEither<unknown, [NationEntity[], number]> =
-          ctx.db.findAndCount(NationEntity, findOptions);
-        const result = await pipe(
-          te,
-          fp.TE.map(([nations, total]) => ({
+        const te = pipe(
+          ctx.db.findAndCount(NationEntity, findOptions),
+          TE.map(([nations, total]) => ({
             nations: nations.map(nationToOutput),
             total,
           })),
-        )();
+        );
+        const result = await te();
 
         if (fp.E.isLeft(result)) {
           throw new Error(
@@ -79,16 +95,5 @@ export const registerNationsTools = (server: McpServer, ctx: ServerContext) => {
         );
       }
     },
-  );
-
-  server.registerTool(
-    FIND_NATIONS,
-    {
-      title: FIND_NATIONS,
-      titleLocalized: "",
-      description: "Find nations by name with pagination support",
-      inputSchema: findNationsTool.inputSchema,
-    },
-    findNationsTool.handler,
   );
 };
