@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import type { DatabaseContext } from "../../context/db.context.js";
 import { QueueIO } from "../../io/queue.io.js";
 import { QueueRepository } from "../../services/entity-repository.service.js";
 import { GetQueueProvider } from "../queue.provider.js";
@@ -85,25 +86,25 @@ describe("GetQueueProvider", () => {
       resource: "actors",
       type: "openai-summarize",
       data: { text: "test" },
-    })({} as any)();
+    })({} as Partial<DatabaseContext>)();
     expect(result._tag).toBe("Right");
   });
 
   it("getJob finds a job by resource and id", async () => {
     const provider = GetQueueProvider.queue("test");
-    const result = await provider.getJob("actors", "1")({} as any)();
+    const result = await provider.getJob("actors", "1")({} as Partial<DatabaseContext>)();
     expect(result._tag).toBe("Right");
   });
 
   it("listJobs finds all jobs", async () => {
     const provider = GetQueueProvider.queue("test");
-    const result = await provider.listJobs()({} as any)();
+    const result = await provider.listJobs()({} as Partial<DatabaseContext>)();
     expect(result._tag).toBe("Right");
   });
 
   it("listJobs filters by resource", async () => {
     const provider = GetQueueProvider.queue("test");
-    const result = await provider.listJobs({ resource: "actors" })({} as any)();
+    const result = await provider.listJobs({ resource: "actors" })({} as Partial<DatabaseContext>)();
     expect(result._tag).toBe("Right");
   });
 
@@ -114,7 +115,7 @@ describe("GetQueueProvider", () => {
       resource: "actors",
       type: "openai-summarize",
       status: "pending",
-    })({} as any)();
+    })({} as Partial<DatabaseContext>)();
     expect(result._tag).toBe("Right");
     if (result._tag === "Right") {
       expect(result.right).toBe(true);
@@ -132,7 +133,7 @@ describe("GetQueueProvider", () => {
       resource: "actors",
       type: "openai-summarize",
       status: "pending",
-    })({} as any)();
+    })({} as Partial<DatabaseContext>)();
     expect(result._tag).toBe("Right");
     if (result._tag === "Right") {
       expect(result.right).toBe(false);
@@ -149,13 +150,13 @@ describe("GetQueueProvider", () => {
         status: "pending",
       },
       "completed",
-    )({} as any)();
+    )({} as Partial<DatabaseContext>)();
     expect(result._tag).toBe("Right");
   });
 
   it("deleteJob deletes a job", async () => {
     const provider = GetQueueProvider.queue("test");
-    const result = await provider.deleteJob("actors", "1")({} as any)();
+    const result = await provider.deleteJob("actors", "1")({} as Partial<DatabaseContext>)();
     expect(result._tag).toBe("Right");
   });
 });

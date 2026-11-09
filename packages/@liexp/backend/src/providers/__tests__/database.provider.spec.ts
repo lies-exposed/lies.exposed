@@ -1,6 +1,7 @@
 import type { DataSource, EntityManager } from "typeorm";
 import { describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
+import * as logger from "@liexp/core/lib/logger/index.js";
 import { toDBError, DBError } from "../orm/database.provider.js";
 
 describe("database.provider", () => {
@@ -101,7 +102,7 @@ describe("GetDatabaseClient", () => {
 
     const client = GetDatabaseClient({
       connection: mockDs,
-      logger: mockLogger as any,
+      logger: mockLogger as Partial<logger.Logger>,
     });
 
     expect(client.manager).toBeDefined();
@@ -114,7 +115,7 @@ describe("GetDatabaseClient", () => {
 
     const client = GetDatabaseClient({
       connection: mockDs,
-      logger: mockLogger as any,
+      logger: mockLogger as Partial<logger.Logger>,
     });
 
     expect(typeof client.formatQuery).toBe("function");
@@ -127,7 +128,7 @@ describe("GetDatabaseClient", () => {
 
     const client = GetDatabaseClient({
       connection: mockDs,
-      logger: mockLogger as any,
+      logger: mockLogger as Partial<logger.Logger>,
     });
 
     expect(typeof client.findOne).toBe("function");
