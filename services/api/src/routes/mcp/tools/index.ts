@@ -7,6 +7,7 @@ import { registerEventsTools } from "./events.tool.js";
 import { registerGroupsTools } from "./groups.tool.js";
 import { registerLinksTools } from "./links.tool.js";
 import { registerMediaTools } from "./media.tool.js";
+import { registerNationsTools } from "./nations.tool.js";
 import { registerSettingsTools } from "./settings.tool.js";
 
 export const registerTools = (server: McpServer, ctx: ServerContext) => {
@@ -16,6 +17,7 @@ export const registerTools = (server: McpServer, ctx: ServerContext) => {
   registerGroupsTools(server, ctx);
   registerLinksTools(server, ctx);
   registerMediaTools(server, ctx);
+  registerNationsTools(server, ctx);
   registerEventsTools(server, ctx);
   registerSettingsTools(server, ctx);
 };
