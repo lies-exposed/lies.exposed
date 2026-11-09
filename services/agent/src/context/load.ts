@@ -120,7 +120,7 @@ export const getAgentContext =
 
     const langchainConfig = getLangchainConfig(env);
     const langchain = GetLangchainProvider({
-      baseURL: langchainConfig.baseURL,
+      baseURL: langchainConfig.baseURL!,
       apiKey: langchainConfig.apiKey,
       maxRetries: langchainConfig.maxRetries,
       provider: langchainConfig.provider,

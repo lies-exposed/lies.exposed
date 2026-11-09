@@ -255,7 +255,7 @@ export const processStreamEvent = (
     // Support both the plain object form and the serialized form.
     const rawChunk = (event.data as { chunk?: Record<string, unknown> }).chunk;
     if (!rawChunk) return [[], state];
-    const chunk = rawChunk as AIMessage;
+    const chunk = rawChunk as unknown as AIMessage;
 
     // Native streaming yields real AIMessageChunks: content is a string or an
     // array of content parts ([{ type: "text", text: "..." }]).
