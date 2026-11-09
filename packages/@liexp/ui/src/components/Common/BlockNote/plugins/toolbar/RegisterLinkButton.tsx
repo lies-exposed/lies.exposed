@@ -11,7 +11,10 @@ import {
 } from "@blocknote/react";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { URL } from "@liexp/io/lib/http/Common/URL.js";
-import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
+import {
+  type BNESchemaEditor,
+  type BNInlineContent,
+} from "@liexp/shared/lib/providers/blocknote/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
@@ -29,7 +32,7 @@ const getUrlFromBlocks = (
 ): string | null => {
   for (const block of blocks) {
     if ("content" in block && Array.isArray(block.content)) {
-      const text = (block.content as any[])
+      const text = (block.content as BNInlineContent[])
         .filter((c) => c.type === "text")
         .map((c) => c.text as string)
         .join("")
@@ -95,7 +98,7 @@ export const RegisterLinkFormattingButton: React.FC = () => {
               url: `/links/${link.id}`,
               title: link.title ?? link.url ?? "",
             },
-          } as any,
+          } as BNInlineContent,
         ],
       });
     } catch (_e) {
@@ -149,7 +152,7 @@ const RegisterLinkToolbarButton: React.FC<
       const result = await pipe(
         api.Link.Create({
           Body: {
-            url: url as any,
+            url: url as string,
             status: "DRAFT",
             events: [],
           },

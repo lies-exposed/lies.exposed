@@ -24,7 +24,7 @@ import {
   useRedirect,
   type RaRecord,
 } from "react-admin";
-import { useDropzone } from "react-dropzone";
+import { useDropzone, type DropzoneFile, type DropEvent } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import {
   uploadFile,
@@ -43,16 +43,45 @@ import {
 } from "../../mui/index.js";
 import { useProgressBar } from "../common/ProgressBar.js";
 
+interface MediaFormData {
+  description: string;
+  type: string;
+  location: {
+    src: File;
+    title: string;
+  };
+  id?: string;
+  _type?: "fromFile" | "fromURL";
+  url?: string;
+  events?: string[];
+  links?: string[];
+  newLinks?: { ids: string[] }[];
+  keywords?: string[];
+  newKeywords?: string[];
+  areas?: string[];
+  newAreas?: string[];
+  newEvents?: string[];
+}
+
+interface UploadedMedia extends RaRecord {
+  type: string;
+  location: { type: string };
+  events?: string[];
+  links?: string[];
+  keywords?: string[];
+  areas?: string[];
+}
+
 const transformMedia =
   (apiProvider: APIRESTClient) =>
-  async (data: RaRecord, options: UploadFileOptions): Promise<RaRecord> => {
+  async (data: MediaFormData, options: UploadFileOptions): Promise<UploadedMedia> => {
     const mediaTask =
-      data._type === "fromFile" && data.location.rawFile
+      data._type === "fromFile" && data.location.src
         ? uploadFile(apiProvider)(
             "media",
-            data.id.toString(),
-            data.location.rawFile,
-            data.location.rawFile.type,
+            data.id?.toString() ?? "",
+            data.location.src,
+            data.location.src.type,
             options,
           )
         : data._type === "fromURL" && data.url
@@ -61,7 +90,7 @@ const transformMedia =
 
     const events = (data.events ?? []).concat(data.newEvents ?? []);
     const links = (data.links ?? []).concat(
-      (data.newLinks ?? []).flatMap((l: any) => l.ids),
+      (data.newLinks ?? []).flatMap((l) => l.ids),
     );
     const keywords = (data.keywords ?? []).concat(data.newKeywords ?? []);
     const areas = (data.areas ?? []).concat(data.newAreas ?? []);
@@ -70,7 +99,7 @@ const transformMedia =
       mediaTask,
       TE.map((media) => ({
         ...data,
-        id: data.id.toString(),
+        id: data.id ?? "",
         ...media,
         events,
         links,
@@ -104,10 +133,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const defaultMultipleMediaFormValues: { files: any[] } = {
+const defaultMultipleMediaFormValues: { files: MediaFormData[] } = {
   files: [],
 };
-export const MediaCreateMany: React.FC<any> = (_props) => {
+export const MediaCreateMany: React.FC<Record<string, never>> = (_props) => {
   const apiProvider = useDataProvider();
   const redirect = useRedirect();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -119,8 +148,8 @@ export const MediaCreateMany: React.FC<any> = (_props) => {
 
   const onDrop = (
     newFiles: File[],
-    _rejectedFiles: any[],
-    _event: any,
+    _rejectedFiles: DropzoneFile[],
+    _event: DropEvent,
   ): void => {
     const record = getValues();
     const updatedFiles = [
@@ -149,7 +178,7 @@ export const MediaCreateMany: React.FC<any> = (_props) => {
     onDrop,
   });
 
-  const uploadMedia = async (files: any[], uploaded: any[]): Promise<any[]> => {
+  const uploadMedia = async (files: MediaFormData[], uploaded: UploadedMedia[]): Promise<UploadedMedia[]> => {
     const [first, ...rest] = files;
     if (first) {
       const media = await transformMedia(apiProvider)(first, {
@@ -168,10 +197,10 @@ export const MediaCreateMany: React.FC<any> = (_props) => {
     return uploaded;
   };
 
-  const onSubmit = async (data: any): Promise<void> => {
+  const onSubmit = async (data: { files: MediaFormData[] }): Promise<void> => {
     setIsSubmitting(true);
 
-    const files = data.files.map(({ location, ...f }: any) => ({
+    const files = data.files.map(({ location, ...f }) => ({
       ...f,
       id: uuid(),
       _type: "fromFile",

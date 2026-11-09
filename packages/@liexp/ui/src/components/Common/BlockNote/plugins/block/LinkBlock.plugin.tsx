@@ -1,7 +1,7 @@
 import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
+import { type BNESchemaEditor, BNInlineContent } from "@liexp/shared/lib/providers/blocknote/index.js";
 import { Schema } from "effect";
 import * as React from "react";
 import { LinksBox } from "../../../../../containers/link/LinksBox.js";
@@ -98,7 +98,7 @@ export const LinkBlockPluginControl: React.FC<{
         <Grid size={{ xs: 12, sm: 12, md: 12 }}>
           <AutocompleteLinkInput
             discrete={false}
-            selectedItems={selectedItems as any[]}
+            selectedItems={selectedItems as Link.Link[]}
             onChange={(items) => {
               setS({ ...s, links: items });
             }}
@@ -178,7 +178,7 @@ export const linkBlock = createReactBlockSpec(
       return (
         <Stack direction="column" width={"100%"}>
           <EditMenu
-            editor={editor as any}
+            editor={editor}
             onClick={() => {
               onChange({
                 id: DEFAULT_ID,

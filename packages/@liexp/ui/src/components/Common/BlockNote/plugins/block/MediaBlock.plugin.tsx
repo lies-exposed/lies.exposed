@@ -1,7 +1,7 @@
 import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
+import { type BNESchemaEditor, BNInlineContent } from "@liexp/shared/lib/providers/blocknote/index.js";
 import {
   mediaBlockSpecs,
   DEFAULT_ID,
@@ -92,7 +92,7 @@ export const MediaBlockPluginControl: React.FC<{
   });
 
   const selectedItems = React.useMemo(
-    () => ([] as any[]).concat(s.media ? s.media : []),
+    () => (s.media ? (s.media as readonly { id: string }[]) : []),
     [s.media],
   );
 
@@ -195,7 +195,7 @@ export const mediaBlock = createReactBlockSpec(mediaBlockSpecs, {
     return (
       <Stack direction="column" width={"100%"}>
         <EditMenu
-          editor={editor as any}
+          editor={editor}
           onClick={() => {
             onChange({
               id: DEFAULT_ID,

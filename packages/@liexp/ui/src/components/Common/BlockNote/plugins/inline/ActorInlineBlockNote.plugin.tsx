@@ -26,7 +26,7 @@ export const actorItem = (editor: BNESchemaEditor) => ({
       {
         type: "actor",
         props: {
-          id: undefined as any,
+          id: undefined as string | undefined,
           fullName: "",
           className: "",
           displayAvatar: true,

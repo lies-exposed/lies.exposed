@@ -83,7 +83,9 @@ export interface BNEditorProps {
 }
 
 const ThemedBlockNoteView =
-  (theme: "light" | "dark"): React.FC<any> =>
+  (theme: "light" | "dark"): React.FC<
+    React.ComponentProps<typeof BlockNoteView>
+  > =>
   (props) => <BlockNoteView {...props} theme={theme} />;
 
 const createStyledBlockNoteView = (theme: "light" | "dark") =>

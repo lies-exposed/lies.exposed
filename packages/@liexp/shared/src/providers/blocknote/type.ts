@@ -41,6 +41,7 @@ export type RealBlockNoteSchema = BlockNoteSchema<
 >;
 
 export type BNBlock = RealBlockNoteSchema["Block"];
+export type BNInlineContent = RealBlockNoteSchema["InlineContent"];
 export type BNESchemaEditor = RealBlockNoteSchema["BlockNoteEditor"];
 export type BNEditorDocument =
   RealBlockNoteSchema["BlockNoteEditor"]["document"];

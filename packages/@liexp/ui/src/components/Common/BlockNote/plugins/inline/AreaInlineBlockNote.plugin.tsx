@@ -25,7 +25,7 @@ export const areaItem = (editor: BNESchemaEditor) => ({
       {
         type: "area",
         props: {
-          id: undefined as any,
+          id: undefined as string | undefined,
           className: "",
           displayLabel: true,
           displayFeaturedImage: false,

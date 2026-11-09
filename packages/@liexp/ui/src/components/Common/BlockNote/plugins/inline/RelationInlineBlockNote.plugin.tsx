@@ -1,6 +1,7 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
 import {
   type BNESchemaEditor,
+  type BNInlineContent,
   relationInlineSpec,
 } from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
@@ -34,7 +35,7 @@ export const relationItem = (editor: BNESchemaEditor) => ({
         type: "relation",
         props: {
           relation: "actor",
-          id: undefined as any,
+          id: undefined as string | undefined,
         },
       },
     ]);
@@ -48,8 +49,8 @@ export const relationItem = (editor: BNESchemaEditor) => ({
 export const RelationInlineContentComponent: React.FC<{
   editor: BNESchemaEditor;
   relation?: string;
-  relationProps?: any;
-  relationRenderer: Record<string, (props: any) => React.ReactNode>;
+  relationProps?: Record<string, unknown>;
+  relationRenderer: Record<string, (props: Record<string, unknown>) => React.ReactNode>;
   id?: string;
 }> = ({
   editor,
@@ -65,7 +66,7 @@ export const RelationInlineContentComponent: React.FC<{
 
   const removeItem = React.useCallback(() => {
     const pos = editor.getTextCursorPosition();
-    const blockContent = pos.block.content as any[];
+    const blockContent = pos.block.content as BNInlineContent[];
 
     const updatedBlockContent = blockContent.flatMap((t) => {
       const isRelationType = t.type === "relation";
@@ -179,10 +180,10 @@ export const RelationInlineContentComponent: React.FC<{
       size: "small",
       selectedItems: [],
       autoFocus: true,
-      onChange: (a: any[]) => {
+      onChange: (a: readonly { id: string }[]) => {
         const currentBlock =
           editor.document.find((tt) =>
-            ((tt.content as any[]) ?? []).find((t) => {
+            ((tt.content as BNInlineContent[]) ?? []).find((t) => {
               return (
                 t.type === "relation" ||
                 (t.type === relation &&
@@ -194,7 +195,7 @@ export const RelationInlineContentComponent: React.FC<{
           ) ?? editor.getTextCursorPosition().block;
 
         if (currentBlock) {
-          const updatedBlockContent = (currentBlock.content as any[]).map(
+          const updatedBlockContent = (currentBlock.content as BNInlineContent[]).map(
             (t) =>
               t.type === "relation" ||
               (t.type === relation &&
@@ -202,7 +203,7 @@ export const RelationInlineContentComponent: React.FC<{
               (t.type === _relation && t.props.id === _id) ||
               (t.type === relation && t.props.id === id)
                 ? {
-                    type: relation as any as "actor",
+                    type: relation as "actor" | "group" | "keyword" | "area",
                     props: {
                       ...relationProps,
                       id: a[0].id,

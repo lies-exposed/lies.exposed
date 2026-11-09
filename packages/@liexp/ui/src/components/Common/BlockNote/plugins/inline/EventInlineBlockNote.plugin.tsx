@@ -3,6 +3,7 @@ import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import {
   DEFAULT_EVENT_INLINE_ID,
   type BNESchemaEditor,
+  type BNInlineContent,
   eventInlineSpec,
 } from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
@@ -42,7 +43,7 @@ const EventInlineContentComponent: React.FC<{
 
   const removeItem = React.useCallback(() => {
     const pos = editor.getTextCursorPosition();
-    const blockContent = pos.block.content as any[];
+    const blockContent = pos.block.content as BNInlineContent[];
     const updatedBlockContent = blockContent.flatMap((t) =>
       t.type === "event-inline" && t.props.id === id ? [] : [t],
     );
@@ -53,7 +54,7 @@ const EventInlineContentComponent: React.FC<{
     (newId: string, newTitle: string) => {
       const currentBlock =
         editor.document.find((block) =>
-          ((block.content as any[]) ?? []).find(
+          ((block.content as BNInlineContent[]) ?? []).find(
             (t) =>
               t.type === "event-inline" &&
               (t.props.id === _id || t.props.id === id),
@@ -61,7 +62,7 @@ const EventInlineContentComponent: React.FC<{
         ) ?? editor.getTextCursorPosition().block;
 
       if (currentBlock) {
-        const updatedBlockContent = (currentBlock.content as any[]).map((t) =>
+        const updatedBlockContent = (currentBlock.content as BNInlineContent[]).map((t) =>
           t.type === "event-inline" && (t.props.id === _id || t.props.id === id)
             ? {
                 type: "event-inline" as const,

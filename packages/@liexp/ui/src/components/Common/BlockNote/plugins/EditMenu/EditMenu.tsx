@@ -12,7 +12,7 @@ export const relationItem = (editor: BNESchemaEditor) => ({
         type: "relation",
         props: {
           relation: "actor",
-          id: undefined as any as string,
+          id: undefined as string | undefined,
         },
       },
     ]);

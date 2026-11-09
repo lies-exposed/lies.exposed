@@ -26,8 +26,8 @@ export const groupItem = (editor: BNESchemaEditor) => ({
       {
         type: "group",
         props: {
-          id: undefined as any,
-          name: undefined as any,
+          id: undefined as string | undefined,
+          name: undefined as string | undefined,
           className: "",
           displayAvatar: true,
         },

@@ -7,6 +7,7 @@ import { type Events } from "@liexp/io/lib/http/index.js";
 import {
   eventBlockSpecs,
   type BNESchemaEditor,
+  type BNInlineContent,
 } from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
 import EventsBox from "../../../../../containers/EventsBox.js";
@@ -164,7 +165,7 @@ export const eventBlock = createReactBlockSpec(eventBlockSpecs, {
 
     return (
       <EditMenu
-        editor={editor as any}
+        editor={editor}
         onClick={() => {
           onChange(DEFAULT_ID);
         }}
