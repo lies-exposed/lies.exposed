@@ -1,0 +1,22 @@
+{
+  "packages/@liexp/core/src/frontend/vite/config.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  },
+  "packages/@liexp/core/src/frontend/vite/derive-client-routes.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 5
+    }
+  },
+  "packages/@liexp/core/src/frontend/vite/type.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  },
+  "packages/@liexp/core/src/git/info.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  }
+}

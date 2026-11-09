@@ -1,0 +1,1225 @@
+{
+  "src/app/config.hooks.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/app/config.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/app/index.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/context/context.type.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/context/index.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/context/load.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/actors/createActor.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/actors/editActor.flow.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/actors/mergeActor.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/flows/admin/links/getLinkAdminStats.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/flows/admin/queues/getQueueAdminStats.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/event-suggestion/searchEventSuggestion.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/events/fetchByRelations.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/flows/events/fetchEventsRelations.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/events/fetchWithRelations.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/flows/events/mergeEvents.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/events/scientific-studies/createFromPlainObject.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/events/scientific-studies/createScientificStudy.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/flows/flow.types.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/flows/graphs/createFlowGraph.flow.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 6
+    },
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/groups/editGroup.flow.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 2
+    },
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/links/link.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/flows/media/createMedia.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/media/createMediaFromURL.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/flows/media/editMedia.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/flows/networks/createEventNetworkGraph.flow.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/flows/networks/createNetworkGraph.flow.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/migrations/1653734131242-LinkMediaEntity.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 4
+    }
+  },
+  "src/queries/media/fetchManyMedia.query.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/actor-relations/ActorRelation.route.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/actor-relations/createActorRelation.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/actor-relations/deleteActorRelation.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/actor-relations/editActorRelation.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/actor-relations/getActorRelation.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/actor-relations/getActorRelationTree.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/actor-relations/listActorRelation.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/actors/actors.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/actors/createActor.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/actors/deleteActor.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/actors/editActor.controller.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 3
+    },
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/actors/getActor.controller.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/actors/linkActorEvents.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/actors/listActor.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/actors/mergeActor.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/actors/unlinkActorEvents.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/admin/admin.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/admin/areas/searchCoordinates.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/admin/images/buildImage.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/admin/links/getLinkStats.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 4
+    }
+  },
+  "src/routes/admin/media/getMediaStats.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/admin/nlp/extractEntitiesWithNLP.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/admin/queues/getQueueStats.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 4
+    }
+  },
+  "src/routes/admin/queues/queueCreate.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/admin/queues/queueDelete.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/admin/queues/queueEdit.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/admin/queues/queueGet.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/admin/queues/queueList.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/admin/queues/queueProcess.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/admin/queues/queues.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/areas/Areas.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/areas/createArea.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/areas/deleteArea.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/areas/editArea.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/areas/getArea.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/areas/listArea.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/endpoint.subscriber.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/books/book.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/books/createBook.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/books/editBook.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/books/getBook.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/books/getBookList.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/createEvent.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/deaths/createDeath.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/deaths/death.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/deaths/deleteDeath.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/deaths/editDeath.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/deaths/getDeath.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/deaths/getListDeath.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/deleteEvent.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/deleteEventSuggestion.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/documentary/createDocumentary.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/documentary/documentary.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/documentary/editDocumentary.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/documentary/getDocumentary.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/documentary/getListDocumentaries.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/editEvent.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/editManyEvents.route.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/events/event.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/getEvent.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/getEventFromLink.controller.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/events/listEvents.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/patents/createPatent.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/patents/editPatent.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/patents/getListPatent.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/patents/getPatent.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/patents/patent.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/quotes/createQuote.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/quotes/deleteQuote.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/quotes/editQuote.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/quotes/getQuotes.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/quotes/listQuotes.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/quotes/quote.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/scientific-study/ScientificStudyRoute.route.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/scientific-study/createScientificStudy.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/events/scientific-study/deleteScientificStudy.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/scientific-study/editScientificStudy.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/scientific-study/extractScientificStudyFromUrl.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/scientific-study/getScientificStudy.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/scientific-study/listScientificStudy.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/searchEvents.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/searchEventsFromProviders.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/events/suggestions/createEventFromSuggestion.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/suggestions/createEventSuggestion.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/suggestions/editEventSuggestion.controller.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/suggestions/eventSuggestion.io.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 4
+    },
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/suggestions/getEventSuggestion.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/suggestions/getEventSuggestionList.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/events/transactions/createTransaction.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/transactions/editTransaction.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/events/transactions/getListTransaction.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/transactions/getTransaction.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/events/transactions/transaction.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/github-repo-stats/githubRepoStats.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/github-repo-stats/listGithubRepoStats.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/graphs/createGraph.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/graphs/editFlowGraph.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 5
+    }
+  },
+  "src/routes/graphs/editGraph.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/graphs/getFlowGraph.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/graphs/getGraph.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/graphs/graph.io.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/graphs/graphs.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/graphs/listGraphs.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/groups-members/GroupMember.route.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/groups-members/createGroupMember.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/groups-members/deleteGroupMember.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/groups-members/editGroupMember.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/groups-members/getGroupMember.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/groups-members/listGroupMembers.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/groups/createGroup.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/groups/deleteGroup.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/groups/editGroup.controller.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 3
+    },
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/groups/getGroup.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/groups/getGroups.controller.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/groups/groups.route.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/groups/linkGroupEvents.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/groups/unlinkGroupEvents.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/healthcheck/getHealthcheck.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/healthcheck/healthcheck.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/index.ts": {
+    "import-x/no-unresolved": {
+      "count": 28
+    }
+  },
+  "src/routes/keywords/createKeyword.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/keywords/deleteKeyword.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/keywords/editKeyword.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/keywords/getKeyword.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/keywords/keywords.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/keywords/keywordsDistribution.controller.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/keywords/listKeyword.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/links/LinkRoute.route.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/links/createLink.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/links/createManyLink.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 4
+    }
+  },
+  "src/routes/links/deleteLink.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/links/editLink.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/links/editLinkMetadata.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/links/getLink.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/links/listLinks.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/links/submitLink.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 4
+    }
+  },
+  "src/routes/links/takeLinkScreenshot.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/mcp/tools/actors.tool.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/mcp/tools/groups.tool.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/mcp/tools/media.tool.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/mcp/tools/nations.tool.ts": {
+    "prettier/prettier": {
+      "count": 1
+    }
+  },
+  "src/routes/media/createMedia.route.ts": {
+    "import-x/no-unresolved": {
+      "count": 4
+    }
+  },
+  "src/routes/media/deleteMedia.route.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/media/editMedia.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/media/generateMediaThumbnails.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/media/getMedia.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/media/listMedia.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/media/media.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/nations/getNation.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/nations/listNation.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/nations/nations.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/networks/editNetwork.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 4
+    }
+  },
+  "src/routes/networks/getNetwork.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 4
+    }
+  },
+  "src/routes/networks/networks.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/open-graph/getMetadata.route.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/open-graph/openGraph.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/pages/addPage.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/pages/deleteManyPage.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/pages/deletePage.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/pages/editPage.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/pages/getPage.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/pages/listPage.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/pages/page.io.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/pages/pages.route.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/route.types.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/settings/setting.io.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/settings/settingCreate.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/settings/settingDelete.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/settings/settingEdit.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/settings/settingGet.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/settings/settingList.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/settings/settings.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/social-posts/createSocialPost.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/social-posts/editSocialPost.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/social-posts/getSocialPost.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/social-posts/listSocialPost.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/social-posts/publishSocialPost.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/social-posts/socialPost.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/stats/getStats.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/stats/stats.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/stories/createStory.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/stories/deleteStory.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/stories/editStory.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/stories/getStory.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/stories/listStory.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/stories/stories.route.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/uploads/getSignedURL.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/uploads/upload.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/uploads/uploadFile.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/uploads/uploadMultipartFile.controller.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/users/User.routes.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/users/user.io.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/routes/users/userCreate.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/users/userDelete.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/users/userEdit.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/users/userGet.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/users/userList.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/users/userLogin.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/users/userMe.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/users/userMeEdit.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/routes/users/userSignUp.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 2
+    }
+  },
+  "src/routes/users/userTGTokenGenerate.controller.ts": {
+    "import-x/no-unresolved": {
+      "count": 3
+    }
+  },
+  "src/run.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/scripts/database.dump.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/types/TEControllerError.ts": {
+    "import-x/no-unresolved": {
+      "count": 1
+    }
+  },
+  "src/utils/serviceClientTokenGenerator.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  }
+}

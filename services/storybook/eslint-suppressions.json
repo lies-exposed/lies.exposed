@@ -1,0 +1,17 @@
+{
+  "src/stories/graphs/EventsSankeyGraph.stories.tsx": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  },
+  "src/stories/pages/StoryPageContent.stories.tsx": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  },
+  ".storybook/preview.tsx": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 2
+    }
+  }
+}

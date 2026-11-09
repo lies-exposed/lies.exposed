@@ -1,0 +1,37 @@
+{
+  "src/client/index.tsx": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  },
+  "src/client/pages/events/BooksPage.tsx": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 2
+    }
+  },
+  "src/client/pages/events/DocumentariesPage.tsx": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 2
+    }
+  },
+  "src/client/pages/profile/UserEditMe.tsx": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  },
+  "src/client/pages/stories/EditStoryPage.tsx": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  },
+  "src/client/routes.tsx": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 42
+    }
+  },
+  "src/client/utils/location.utils.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 4
+    }
+  }
+}

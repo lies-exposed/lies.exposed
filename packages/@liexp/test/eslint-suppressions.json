@@ -1,0 +1,7 @@
+{
+  "src/arbitrary/events/TransactionEvent.arbitrary.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 2
+    }
+  }
+}

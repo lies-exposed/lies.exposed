@@ -131,7 +131,7 @@ const config = defineConfig(
 
       // TypeScript ESLint rules - enabled
       "@typescript-eslint/return-await": ["error"],
-      "@typescript-eslint/no-explicit-any": ["warn"],
+      "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/consistent-type-imports": [
         "error",
         {
@@ -166,7 +166,7 @@ const config = defineConfig(
 
   // Test file overrides
   {
-    files: ["test/**/*.ts", "**/*.spec.ts", "**/*.e2e.ts"],
+    files: ["test/**/*.ts", "**/*.spec.ts", "**/*.test.ts", "**/*.e2e.ts"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
     },
