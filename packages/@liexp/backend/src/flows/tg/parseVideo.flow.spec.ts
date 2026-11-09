@@ -2,6 +2,8 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
+import { type Video } from "node-telegram-bot-api";
+import type { Readable } from "stream";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -51,8 +53,8 @@ describe(parseVideo.name, () => {
     }),
   };
 
-  const mockStream = { pipe: vi.fn() } as any;
-  const mockThumbStream = { pipe: vi.fn() } as any;
+  const mockStream = { pipe: vi.fn() } as Readable;
+  const mockThumbStream = { pipe: vi.fn() } as Readable;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -66,7 +68,7 @@ describe(parseVideo.name, () => {
       height: 1080,
       duration: 60,
       thumb: undefined,
-    } as any;
+    } as Video;
 
     const description = "Test video description";
     const fakeMedia = { id: "media-id" } as MediaEntity;
@@ -113,7 +115,7 @@ describe(parseVideo.name, () => {
       height: 1080,
       duration: 60,
       thumbnail: thumbFile,
-    } as any;
+    } as Video;
 
     const description = "Video with thumbnail";
     const fakeMedia = { id: "media-id" } as MediaEntity;
@@ -126,7 +128,7 @@ describe(parseVideo.name, () => {
       .mockReturnValueOnce(fp.TE.right(mockStream)); // second: video
 
     vi.mocked(upload).mockReturnValue(() =>
-      fp.TE.right({ Location: thumbLocation } as any),
+      fp.TE.right({ Location: thumbLocation } as { Location: string }),
     );
 
     vi.mocked(uploadAndCreate).mockReturnValue(() => fp.TE.right(fakeMedia));
@@ -159,7 +161,7 @@ describe(parseVideo.name, () => {
       file_unique_id: "video-unique-id",
       duration: 30,
       thumb: undefined,
-    } as any;
+    } as Video;
 
     appTest.ctx.tg.getFileStream.mockReturnValueOnce(
       fp.TE.left(new Error("stream error")),
@@ -184,14 +186,14 @@ describe(parseVideo.name, () => {
       file_unique_id: "video-unique-id",
       duration: 30,
       thumbnail: thumbFile,
-    } as any;
+    } as Video;
 
     appTest.ctx.tg.getFileStream
       .mockReturnValueOnce(fp.TE.right(mockThumbStream)) // first: thumb
       .mockReturnValueOnce(fp.TE.right(mockStream)); // second: video
 
     vi.mocked(upload).mockReturnValue(() =>
-      fp.TE.left({ name: "SpaceError", message: "upload failed" } as any),
+      fp.TE.left({ name: "SpaceError", message: "upload failed" } as Error),
     );
 
     const te = parseVideo("desc", video)(appTest.ctx);
@@ -207,12 +209,12 @@ describe(parseVideo.name, () => {
       file_unique_id: "video-unique-id",
       duration: 30,
       thumb: undefined,
-    } as any;
+    } as Video;
 
     appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
     vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.left({ name: "ServerError", message: "create failed" } as any),
+      fp.TE.left({ name: "ServerError", message: "create failed" } as Error),
     );
 
     const te = parseVideo("desc", video)(appTest.ctx);
@@ -227,7 +229,7 @@ describe(parseVideo.name, () => {
       file_unique_id: "unique-desc-id",
       duration: 30,
       thumb: undefined,
-    } as any;
+    } as Video;
 
     const fakeMedia = { id: "media-id" } as MediaEntity;
 

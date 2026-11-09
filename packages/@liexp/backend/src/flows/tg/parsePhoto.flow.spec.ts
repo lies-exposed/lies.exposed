@@ -2,6 +2,8 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
+import { type PhotoSize } from "node-telegram-bot-api";
+import type { Readable } from "stream";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -46,7 +48,7 @@ describe(parsePhoto.name, () => {
     }),
   };
 
-  const mockStream = { pipe: vi.fn() } as any;
+  const mockStream = { pipe: vi.fn() } as Readable;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -70,7 +72,7 @@ describe(parsePhoto.name, () => {
         width: 320,
         height: 240,
       },
-    ] as any[];
+    ] as PhotoSize[];
 
     const description = "Test photo";
     const fakeMedia = { id: "media-id" } as MediaEntity;
@@ -115,7 +117,7 @@ describe(parsePhoto.name, () => {
         width: 640,
         height: 480,
       },
-    ] as any[];
+    ] as PhotoSize[];
 
     const description = "Multiple photos";
     const fakeMedia1 = { id: "media-id-1" } as MediaEntity;
@@ -147,7 +149,7 @@ describe(parsePhoto.name, () => {
         width: 800,
         height: 600,
       },
-    ] as any[];
+    ] as PhotoSize[];
 
     const fakeMedia = { id: "media-id" } as MediaEntity;
 
@@ -173,7 +175,7 @@ describe(parsePhoto.name, () => {
         width: 320,
         height: 240,
       },
-    ] as any[];
+    ] as PhotoSize[];
 
     appTest.ctx.tg.getFileStream.mockReturnValueOnce(
       fp.TE.left(new Error("stream error")),
@@ -194,12 +196,12 @@ describe(parsePhoto.name, () => {
         width: 320,
         height: 240,
       },
-    ] as any[];
+    ] as PhotoSize[];
 
     appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
     vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.left({ name: "ServerError", message: "upload failed" } as any),
+      fp.TE.left({ name: "ServerError", message: "upload failed" } as Error),
     );
 
     const te = parsePhoto("desc", photos)(appTest.ctx);
@@ -222,7 +224,7 @@ describe(parsePhoto.name, () => {
         width: 200,
         height: 200,
       },
-    ] as any[];
+    ] as PhotoSize[];
 
     const calls: string[] = [];
 

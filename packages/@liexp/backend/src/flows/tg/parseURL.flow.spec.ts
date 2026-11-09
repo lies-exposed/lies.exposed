@@ -12,9 +12,11 @@ import { type QueuesProviderContext } from "../../context/queue.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { LinkEntity } from "../../entities/Link.entity.js";
+import { type MediaEntity } from "../../entities/Media.entity.js";
 import { type UserEntity } from "../../entities/User.entity.js";
 import { fromURL } from "../../flows/links/link.flow.js";
 import { takeLinkScreenshot } from "../../flows/links/takeLinkScreenshot.flow.js";
+import { type DBError } from "../../providers/orm/index.js";
 import { GetQueueProvider } from "../../providers/queue.provider.js";
 import { LinkRepository } from "../../services/entity-repository.service.js";
 import { mockedContext } from "../../test/context.js";
@@ -52,7 +54,7 @@ type TestContext = LoggerContext &
   ENVContext;
 
 describe(parseURLs.name, () => {
-  const mockPage = {} as any;
+  const mockPage = {} as unknown as puppeteer.Page;
 
   const appTest = {
     ctx: {
@@ -63,7 +65,7 @@ describe(parseURLs.name, () => {
         puppeteer: mock(),
         space: mock(),
       }),
-      env: { DEFAULT_PAGE_SIZE: 20 } as any,
+      env: { DEFAULT_PAGE_SIZE: 20 } as unknown as ENVContext['env'],
     },
   };
 
@@ -99,7 +101,7 @@ describe(parseURLs.name, () => {
   it("should filter out excluded telegram profile URLs", async () => {
     vi.mocked(LinkRepository.save).mockReturnValue(() => fp.TE.right([]));
 
-    const excludedUrl = "https://t.me/some_channel" as any;
+    const excludedUrl = "https://t.me/some_channel" as string;
 
     const result = await pipe(
       parseURLs(O.some([excludedUrl]), testUser, mockPage)(appTest.ctx),
@@ -114,10 +116,10 @@ describe(parseURLs.name, () => {
     const linkId = uuid();
     const existingLink = new LinkEntity();
     existingLink.id = linkId;
-    existingLink.url = "https://example.com/article" as any;
+    existingLink.url = "https://example.com/article" as string;
     existingLink.image = null;
 
-    const validUrl = "https://example.com/article" as any;
+    const validUrl = "https://example.com/article" as string;
 
     // Link is found in db
     appTest.ctx.db.findOne.mockReturnValueOnce(
@@ -146,10 +148,10 @@ describe(parseURLs.name, () => {
     const linkId = uuid();
     const newLink = new LinkEntity();
     newLink.id = linkId;
-    newLink.url = "https://example.com/news" as any;
-    newLink.image = { thumbnail: "thumb.jpg" } as any;
+    newLink.url = "https://example.com/news" as string;
+    newLink.image = { thumbnail: "thumb.jpg" } as unknown as MediaEntity;
 
-    const validUrl = "https://example.com/news" as any;
+    const validUrl = "https://example.com/news" as string;
 
     // Link is NOT found in db
     appTest.ctx.db.findOne.mockReturnValueOnce(fp.TE.right(O.none));
@@ -160,7 +162,7 @@ describe(parseURLs.name, () => {
     // Queue addJob resolves successfully
     vi.mocked(GetQueueProvider.queue).mockReturnValue({
       addJob: vi.fn().mockReturnValue(() => fp.TE.right({})),
-    } as any);
+    } as unknown as ReturnType<typeof GetQueueProvider.queue>);
 
     vi.mocked(LinkRepository.save).mockReturnValue(() =>
       fp.TE.right([newLink]),
@@ -179,30 +181,30 @@ describe(parseURLs.name, () => {
     const linkId = uuid();
     const newLink = new LinkEntity();
     newLink.id = linkId;
-    newLink.url = "https://example.com/no-thumb" as any;
+    newLink.url = "https://example.com/no-thumb" as string;
     // No thumbnail on image
-    newLink.image = { thumbnail: null } as any;
+    newLink.image = { thumbnail: null } as unknown as MediaEntity;
 
     const screenshotLink = {
       ...newLink,
       image: { thumbnail: "new-thumb.jpg" },
     };
 
-    const validUrl = "https://example.com/no-thumb" as any;
+    const validUrl = "https://example.com/no-thumb" as string;
 
     appTest.ctx.db.findOne.mockReturnValueOnce(fp.TE.right(O.none));
 
     vi.mocked(fromURL).mockReturnValue(() => fp.TE.right(newLink));
     vi.mocked(takeLinkScreenshot).mockReturnValue(() =>
-      fp.TE.right(screenshotLink as any),
+      fp.TE.right(screenshotLink as unknown as LinkEntity),
     );
 
     vi.mocked(GetQueueProvider.queue).mockReturnValue({
       addJob: vi.fn().mockReturnValue(() => fp.TE.right({})),
-    } as any);
+    } as unknown as ReturnType<typeof GetQueueProvider.queue>);
 
     vi.mocked(LinkRepository.save).mockReturnValue(() =>
-      fp.TE.right([screenshotLink as any]),
+      fp.TE.right([screenshotLink as unknown as LinkEntity]),
     );
 
     const result = await pipe(
@@ -218,21 +220,21 @@ describe(parseURLs.name, () => {
     const linkId = uuid();
     const newLink = new LinkEntity();
     newLink.id = linkId;
-    newLink.url = "https://example.com/screenshot-fail" as any;
+    newLink.url = "https://example.com/screenshot-fail" as string;
     newLink.image = null;
 
-    const validUrl = "https://example.com/screenshot-fail" as any;
+    const validUrl = "https://example.com/screenshot-fail" as string;
 
     appTest.ctx.db.findOne.mockReturnValueOnce(fp.TE.right(O.none));
     vi.mocked(fromURL).mockReturnValue(() => fp.TE.right(newLink));
     // Screenshot fails
     vi.mocked(takeLinkScreenshot).mockReturnValue(() =>
-      fp.TE.left({ name: "PuppeteerError", message: "timeout" } as any),
+      fp.TE.left({ name: "PuppeteerError", message: "timeout" } as Error),
     );
 
     vi.mocked(GetQueueProvider.queue).mockReturnValue({
       addJob: vi.fn().mockReturnValue(() => fp.TE.right({})),
-    } as any);
+    } as unknown as ReturnType<typeof GetQueueProvider.queue>);
 
     vi.mocked(LinkRepository.save).mockReturnValue(() =>
       fp.TE.right([newLink]),
@@ -249,9 +251,9 @@ describe(parseURLs.name, () => {
 
   it("should return a Left when db.findOne fails", async () => {
     const dbError = { name: "DBError", message: "db error" };
-    const validUrl = "https://example.com/db-fail" as any;
+    const validUrl = "https://example.com/db-fail" as string;
 
-    appTest.ctx.db.findOne.mockReturnValueOnce(fp.TE.left(dbError as any));
+    appTest.ctx.db.findOne.mockReturnValueOnce(fp.TE.left(dbError as unknown as DBError));
 
     const te = parseURLs(O.some([validUrl]), testUser, mockPage)(appTest.ctx);
     const outcome = await te();

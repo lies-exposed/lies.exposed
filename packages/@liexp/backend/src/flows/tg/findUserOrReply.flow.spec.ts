@@ -63,7 +63,7 @@ describe(findUserOrReplyFlow.name, () => {
 
     mockTERightOnce(appTest.ctx.db.findOneOrFail, () => null);
 
-    mockTg.api.sendMessage.mockResolvedValueOnce({} as any);
+    mockTg.api.sendMessage.mockResolvedValueOnce({} as ReturnType<typeof vi.fn>);
 
     let taskExecuted = false;
     const task = (_u: UserEntity) => {
@@ -86,7 +86,7 @@ describe(findUserOrReplyFlow.name, () => {
   it("should return None when no userId is provided", async () => {
     const chatId = 111111111;
 
-    mockTg.api.sendMessage.mockResolvedValueOnce({} as any);
+    mockTg.api.sendMessage.mockResolvedValueOnce({} as ReturnType<typeof vi.fn>);
 
     let taskExecuted = false;
     const task = (_u: UserEntity) => {
