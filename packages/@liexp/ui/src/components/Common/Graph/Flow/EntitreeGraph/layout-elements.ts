@@ -1,5 +1,5 @@
 import { type Edge, type Node, Position } from "@xyflow/react";
-import { layoutFromMap } from "entitree-flex";
+import { layoutFromMap, type TreeNode } from "entitree-flex";
 import { type Theme } from "../../../../../theme/index.js";
 import { getRelationshipColor } from "../../../../../theme/styleUtils.js";
 
@@ -32,6 +32,27 @@ const entitreeSettings = {
 
 export type RelationType = "parent_child" | "spouse" | "partner" | "sibling";
 
+export interface EntitreeTreeEntry {
+  id: string | number;
+  name?: string;
+  fullName?: string;
+  siblings?: string[];
+  partnerIds?: string[];
+  spouses?: string[];
+  children?: string[];
+  parents?: string[];
+  x?: number;
+  y?: number;
+  [key: string]: unknown;
+}
+
+type EntitreeNode = TreeNode<EntitreeTreeEntry>;
+
+interface EntitreeEdge {
+  source: EntitreeNode;
+  target: EntitreeNode;
+}
+
 const { Top, Bottom, Left, Right } = Position;
 
 /**
@@ -39,7 +60,7 @@ const { Top, Bottom, Left, Right } = Position;
  * Used to determine edge styling and node positioning.
  */
 const resolveRelationType = (
-  sourceNode: any,
+  sourceNode: EntitreeTreeEntry,
   targetId: string,
 ): RelationType => {
   const siblings: string[] = sourceNode?.siblings ?? [];
@@ -53,17 +74,17 @@ const resolveRelationType = (
 };
 
 export const layoutElements = (
-  tree: any,
+  tree: Record<string | number, EntitreeTreeEntry>,
   rootId: string | number,
   direction = "TB",
   theme?: Theme,
 ): { nodes: Node[]; edges: Edge[] } => {
   const isTreeHorizontal = direction === "LR";
 
-  let entitreeNodes: any[];
-  let entitreeEdges: any[];
+  let entitreeNodes: EntitreeNode[];
+  let entitreeEdges: EntitreeEdge[];
   try {
-    const result = layoutFromMap<any>(rootId, tree, {
+    const result = layoutFromMap<EntitreeTreeEntry>(rootId, tree, {
       ...entitreeSettings,
       orientation: isTreeHorizontal
         ? Orientation.Horizontal
@@ -94,9 +115,9 @@ export const layoutElements = (
   };
   const nodeRoles = new Map<string, RelationType>();
 
-  entitreeEdges.forEach((edge: any) => {
-    const sId: string = edge.source.id;
-    const tId: string = edge.target.id;
+  entitreeEdges.forEach((edge: EntitreeEdge) => {
+    const sId = String(edge.source.id);
+    const tId = String(edge.target.id);
     const rel = resolveRelationType(tree[sId], tId);
     const existing = nodeRoles.get(tId);
     if (!existing || rolePriority[rel] < rolePriority[existing]) {
@@ -104,9 +125,9 @@ export const layoutElements = (
     }
   });
 
-  entitreeEdges.forEach((edge: any) => {
-    const sourceId: string = edge.source.id;
-    const targetId: string = edge.target.id;
+  entitreeEdges.forEach((edge: EntitreeEdge) => {
+    const sourceId = String(edge.source.id);
+    const targetId = String(edge.target.id);
 
     const sourceNode = tree[sourceId];
     const relationType = resolveRelationType(sourceNode, targetId);
@@ -150,11 +171,11 @@ export const layoutElements = (
     } as Edge);
   });
 
-  entitreeNodes.forEach((node: any) => {
+  entitreeNodes.forEach((node: EntitreeNode) => {
     const isRoot = node?.id === rootId;
 
     // Use the primary role derived from edges (parent_child wins over sibling)
-    const primaryRole = nodeRoles.get(node.id);
+    const primaryRole = nodeRoles.get(String(node.id));
     const isSpouse = primaryRole === "spouse";
     const isSibling = primaryRole === "sibling";
     const isPartner = primaryRole === "partner";
@@ -176,7 +197,7 @@ export const layoutElements = (
     }
 
     nodes.push({
-      id: node.id,
+      id: String(node.id),
       type: "custom",
       sourcePosition,
       targetPosition,

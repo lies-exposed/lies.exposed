@@ -1,8 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import {
-  isNonEmpty,
-  type NonEmptyArray,
-} from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
+import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { ACTORS } from "@liexp/io/lib/http/Actor.js";
 import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
 import { GROUPS } from "@liexp/io/lib/http/Group.js";
@@ -42,7 +39,9 @@ import {
   SANKEY_GRAPH_MARGIN,
 } from "../../theme/styleUtils.js";
 import { type NetworkScale } from "../Common/Graph/Network/Network.js";
-import SankeyGraph from "../Common/Graph/SankeyGraph.js";
+import SankeyGraph, {
+  type SankeyGraphProps,
+} from "../Common/Graph/SankeyGraph.js";
 import { Box, Grid } from "../mui/index.js";
 
 type GroupByItem = Actor.Actor | Group.Group | Keyword.Keyword;
@@ -135,8 +134,8 @@ export const EventsSankeyGraph: React.FC<EventsSankeyGraphProps> = (props) => {
               <Grid size={{ md: 12 }}>
                 <div style={{ width: "100%" }}>
                   <SankeyGraph
-                    {...networkProps}
-                    onEventClick={props.onEventClick}
+                    {...(networkProps as unknown as SankeyGraphProps)}
+                    onEventClick={props.onEventClick as (e: unknown) => void}
                   />
                   {/* <Network<NetworkLink, EventNetworkDatum>
                     onDoubleClick={() => {}}
@@ -701,17 +700,17 @@ export function createEventNetworkGraphProps({
     }),
   );
 
-  const groupByArray: NonEmptyArray<GroupByItem> = Map.toArray(S.Ord)(
-    groupByItems,
-  ).flatMap(([_k, items]) => items) as any;
+  const groupByArray: GroupByItem[] = Map.toArray(S.Ord)(groupByItems).flatMap(
+    ([_k, items]) => items,
+  );
 
   const groupByScale = ordinalScale({
-    domain: groupByArray.map((gb: any) =>
+    domain: groupByArray.map((gb) =>
       groupBy === "actor"
-        ? gb.username
+        ? (gb as Actor.Actor).username
         : groupBy === "group"
-          ? gb.name
-          : gb.tag,
+          ? (gb as Group.Group).name
+          : (gb as Keyword.Keyword).tag,
     ),
     range: groupByArray.map((t) => `#${t.color}`),
   });
@@ -748,10 +747,10 @@ export function createEventNetworkGraphProps({
 
   // console.log("group by nodes", groupingByNodes);
   const nodes = [
-    ...(actorsArray as any),
-    ...(groupsArray as any),
+    ...actorsArray,
+    ...groupsArray,
     ...eventNodes,
-  ];
+  ] as unknown as EventNetworkDatum[];
   // console.log("all nodes", nodes);
 
   const links = [
