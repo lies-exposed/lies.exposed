@@ -40,6 +40,7 @@ The component automatically detects the environment and uses the appropriate age
 The AdminChat component communicates with the agent service via HTTP requests to the `/v1/chat/message` endpoint.
 
 ### Request Format
+
 ```json
 {
   "message": "User's message",
@@ -48,6 +49,7 @@ The AdminChat component communicates with the agent service via HTTP requests to
 ```
 
 ### Response Format
+
 ```json
 {
   "message": "AI assistant response",
@@ -70,6 +72,7 @@ The AdminChat component communicates with the agent service via HTTP requests to
 ## Error Handling
 
 The component includes comprehensive error handling:
+
 - Network connectivity issues
 - Service unavailability
 - Invalid responses
@@ -78,6 +81,7 @@ The component includes comprehensive error handling:
 ## Styling
 
 The component uses Material-UI theming and includes:
+
 - Floating action button design
 - Modal chat interface
 - Message bubbles with proper styling

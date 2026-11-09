@@ -4,7 +4,7 @@ const baseLogger = debug("@liexp");
 
 export interface FPTSLogger {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  log: (message: string, ...args: any[]) => void;
+  log: (message: string, ...args: unknown[]) => void;
 }
 
 export interface Logger {

@@ -9,6 +9,7 @@ import {
   DateInput,
   SimpleForm,
   type CreateProps,
+  type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import { Grid } from "@liexp/ui/lib/components/mui/index.js";
@@ -20,7 +21,7 @@ const BookCreate: React.FC<CreateProps> = () => {
   return (
     <Create
       title="Add a book"
-      transform={(data: any) => {
+      transform={(data: RaRecord) => {
         return transformEvent(dataProvider)(uuid(), data).then((record) => ({
           ...record,
           payload: {

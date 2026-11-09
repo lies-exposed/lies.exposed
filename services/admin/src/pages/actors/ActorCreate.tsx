@@ -111,7 +111,7 @@ export const transformActor =
       }),
       fp.TE.chainFirst(() =>
         pipe(
-          newRelationsAsSource.map((r: any) =>
+          newRelationsAsSource.map((r: Record<string, unknown>) =>
             fp.TE.tryCatch(() => {
               return dataProvider.create("actor-relations", {
                 data: transformActorRelation({
@@ -132,7 +132,7 @@ export const transformActor =
         id,
         avatar: avatarMedia?.id,
         memberIn: (data.memberIn ?? []).concat(
-          newMemberIn.map((m: any) => ({
+          newMemberIn.map((m: Record<string, unknown>) => ({
             ...m,
             endDate: m.endDate !== "" ? m.endDate : undefined,
           })),

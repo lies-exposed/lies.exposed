@@ -27,7 +27,10 @@ export const importFromKMZ: CommandFlow = async (ctx, args) => {
     TE.tryCatch(() => {
       return parseKMZ.toJson(path.resolve(process.cwd(), pathToKMZ));
     }, fp.E.toError),
-    TE.map((f: any): GEOFeature[] => f.features),
+    TE.map(
+      (f: unknown): GEOFeature[] =>
+        (f as { features?: GEOFeature[] })?.features ?? [],
+    ),
     throwTE,
   );
 

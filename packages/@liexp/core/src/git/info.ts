@@ -31,7 +31,7 @@ export const getGitInfo = (): GitInfo => {
             (e) => e as Error,
           ),
         ),
-        E.map((pkg: any) => pkg?.version ?? "0.0.0"),
+        E.map((pkg: { version?: string }) => pkg?.version ?? "0.0.0"),
       ),
     ),
     E.getOrElse(() => "0.0.0"),

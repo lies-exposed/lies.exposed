@@ -29,7 +29,7 @@ export const SearchEventCodec = <
   payloadOverride: PayloadP,
 ): SearchEventCodec<EventFields, PayloadP> => {
   const payloadT = eventType.payload as Schema.Struct<{
-    payload: Schema.Struct<any>;
+    payload: Schema.Struct<{ payload: Schema.Struct<Schema.Struct.Fields> }>;
   }>;
 
   const codec = Schema.Struct({

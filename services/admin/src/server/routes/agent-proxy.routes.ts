@@ -140,10 +140,10 @@ export const registerAgentProxyRoutes = (
         ),
         TE.fold(
           (error: unknown) => () => {
-            const err = error as any;
+            const err = error as { message?: unknown };
 
             // Handle validation errors
-            if (err.message?.includes("Provider")) {
+            if ((err.message as string | undefined)?.includes("Provider")) {
               logger.warn.log(
                 "Provider validation failed: %s (correlation: %s)",
                 err.message,
@@ -192,7 +192,8 @@ export const registerAgentProxyRoutes = (
             logger.info.log(
               "Chat request successful (correlation: %s, used provider: %s)",
               correlationId,
-              (response as any)?.usedProvider?.provider ?? "default",
+              (response as { usedProvider?: { provider?: string } })
+                ?.usedProvider?.provider ?? "default",
             );
             res.status(200).json(response);
             return Promise.resolve();
@@ -605,8 +606,8 @@ export const registerAgentProxyRoutes = (
           if (res.writableEnded) return false;
           res.write(data);
           // flush() is added by compression middleware to force-flush buffered data
-          if (typeof (res as any).flush === "function") {
-            (res as any).flush();
+          if (typeof (res as Record<string, unknown>).flush === "function") {
+            (res as Record<string, unknown>).flush();
           }
           return true;
         };

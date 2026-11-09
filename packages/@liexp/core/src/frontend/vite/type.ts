@@ -1,5 +1,5 @@
 import { type Schema } from "effect";
-import { type AppType, type ServerOptions, type WatchOptions } from "vite";
+import type { PluginOption, type ServerOptions, type WatchOptions } from "vite";
 
 /**
  * Configuration for monorepo package HMR support
@@ -38,7 +38,7 @@ export interface GetViteConfigParams<A extends Schema.Struct.Fields> {
   html?: {
     templatePath: string;
   };
-  plugins: any[];
+  plugins: PluginOption[];
   /**
    * Monorepo HMR support for @liexp/* packages
    *
