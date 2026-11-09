@@ -252,7 +252,8 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
 
       text.style(
         "font-size",
-        (k: any) => `${(nodeRadius(k) * 2) / Math.sqrt(transform.k)}px`,
+        (k: d3.SimulationNodeDatum) =>
+          `${(nodeRadius(k) * 2) / Math.sqrt(transform.k)}px`,
       );
 
       actorOrGroupImage
@@ -502,8 +503,14 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
     node.exit().remove();
 
     svg
-      .call(zoom as any)
-      .call(zoom.transform.bind(zoom) as any, d3.zoomIdentity);
+      .call(zoom as d3.ZoomBehavior<SVGSVGElement, unknown>)
+      .call(
+        zoom.transform.bind(zoom) as unknown as (
+          selection: d3.Selection<SVGSVGElement, unknown, null, undefined>,
+          transform: d3.ZoomTransform,
+        ) => void,
+        d3.zoomIdentity,
+      );
 
     if (invalidation !== null) {
       void invalidation().then(() => simulation.stop());
@@ -524,8 +531,8 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
 
       node.attr("cx", (d) => d.x ?? 10).attr("cy", (d) => d.y ?? 10);
       text
-        .attr("dx", (d: any) => d.x + nodeRadius(d) * 2)
-        .attr("dy", (d: any) => d.y - nodeRadius(d) * 2);
+        .attr("dx", (d: SimulationNode<unknown>) => d.x + nodeRadius(d) * 2)
+        .attr("dy", (d: SimulationNode<unknown>) => d.y - nodeRadius(d) * 2);
 
       // actorOrGroupImage.attr("x", 0).attr("y", 0);
 
@@ -544,39 +551,52 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
 
     function drag(
       this: SVGGElement,
-      simulation: d3.Simulation<unknown, undefined>,
-    ): d3.DragSimulation<unknown> {
+      simulation: d3.Simulation<d3.SimulationNodeDatum, undefined>,
+    ): d3.DragBehavior<
+      SVGGElement,
+      d3.SimulationNodeDatum,
+      d3.SimulationNodeDatum
+    > {
       function dragstarted(
-        event: d3.D3DragEvent<SVGGElement, unknown, unknown>,
-        d: unknown,
+        event: d3.D3DragEvent<
+          SVGGElement,
+          d3.SimulationNodeDatum,
+          d3.SimulationNodeDatum
+        >,
+        d: d3.SimulationNodeDatum,
       ): void {
         if (!event.active) simulation.alphaTarget(0.3).restart();
-        const node = d as { fx?: number; fy?: number };
-        node.fx = event.x;
-        node.fy = event.y;
+        d.fx = event.x;
+        d.fy = event.y;
       }
 
       function dragged(
-        event: d3.D3DragEvent<SVGGElement, unknown, unknown>,
-        d: unknown,
+        event: d3.D3DragEvent<
+          SVGGElement,
+          d3.SimulationNodeDatum,
+          d3.SimulationNodeDatum
+        >,
+        d: d3.SimulationNodeDatum,
       ): void {
-        const node = d as { fx?: number; fy?: number };
-        node.fx = event.x;
-        node.fy = event.y;
+        d.fx = event.x;
+        d.fy = event.y;
       }
 
       function dragended(
-        event: d3.D3DragEvent<SVGGElement, unknown, unknown>,
-        d: unknown,
+        event: d3.D3DragEvent<
+          SVGGElement,
+          d3.SimulationNodeDatum,
+          d3.SimulationNodeDatum
+        >,
+        d: d3.SimulationNodeDatum,
       ): void {
         if (!event.active) simulation.alphaTarget(0);
-        const node = d as { fx?: number; fy?: number };
-        node.fx = null;
-        node.fy = null;
+        d.fx = undefined;
+        d.fy = undefined;
       }
 
       return d3
-        .drag<SVGGElement, unknown>()
+        .drag<SVGGElement, d3.SimulationNodeDatum>()
         .on("start", dragstarted)
         .on("drag", dragged)
         .on("end", dragended);

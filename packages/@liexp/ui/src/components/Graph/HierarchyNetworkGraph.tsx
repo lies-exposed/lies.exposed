@@ -123,18 +123,24 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
       nodeId={(n) => String((n.data as { id: string }).id)}
       linkStrokeWidth={(l) => l.value ?? 0}
       linkStrength={(l) => l.value ?? 0}
-      linkStroke={(l) => l.fill ?? ''}
+      linkStroke={(l) => l.fill ?? ""}
       nodeTitle={(n) => {
-        const data = n.data as { type: string; tag?: string; name?: string; fullName?: string; title?: string };
+        const data = n.data as {
+          type: string;
+          tag?: string;
+          name?: string;
+          fullName?: string;
+          title?: string;
+        };
         if (data.type === KEYWORDS.literals[0]) {
-          return data.tag ?? '';
+          return data.tag ?? "";
         } else if (data.type === GROUPS.literals[0]) {
-          return data.name ?? '';
+          return data.name ?? "";
         } else if (data.type === ACTORS.literals[0]) {
-          return data.fullName ?? '';
+          return data.fullName ?? "";
         }
 
-        return data.title ?? '';
+        return data.title ?? "";
       }}
       nodeRadius={(_n) => 14}
       // nodeStrength={(n) => {
@@ -148,7 +154,12 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
       //   return 5;
       // }}
       nodeGroup={(n) => {
-        const data = n.data as { type: string; fullName?: string; tag?: string; name?: string };
+        const data = n.data as {
+          type: string;
+          fullName?: string;
+          tag?: string;
+          name?: string;
+        };
         if (data.fullName) {
           return 0;
         }

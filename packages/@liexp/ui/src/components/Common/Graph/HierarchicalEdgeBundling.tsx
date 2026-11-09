@@ -108,7 +108,11 @@ export function HierarchicalEdgeBundling({
     const data = getData();
 
     const hierarchy = d3
-      .hierarchy<HierarchicalEdgeBundlingDatum, number>(data as d3.HierarchyInputNode<HierarchicalEdgeBundlingDatum, number>)
+      .hierarchy(
+        data as {
+          children: { id: string; children: HierarchicalEdgeBundlingDatum[] }[];
+        },
+      )
       .sort(
         (a, b) =>
           d3.ascending(a.height, b.height) ??
@@ -143,11 +147,19 @@ export function HierarchicalEdgeBundling({
       const incoming = d.incoming ?? [];
       const outgoing = d.outgoing ?? [];
 
-      const incomingPaths = incoming.map(([source]) => source.path).filter((p): p is SVGPathElement => p !== undefined);
-      const incomingTexts = incoming.map(([source]) => source.text).filter((t): t is SVGTextElement => t !== undefined);
+      const incomingPaths = incoming
+        .map(([source]) => source.path)
+        .filter((p): p is SVGPathElement => p !== undefined);
+      const incomingTexts = incoming
+        .map(([source]) => source.text)
+        .filter((t): t is SVGTextElement => t !== undefined);
 
-      const outgoingPaths = outgoing.map(([, target]) => target.path).filter((p): p is SVGPathElement => p !== undefined);
-      const outgoingText = outgoing.map(([, target]) => target.text).filter((t): t is SVGTextElement => t !== undefined);
+      const outgoingPaths = outgoing
+        .map(([, target]) => target.path)
+        .filter((p): p is SVGPathElement => p !== undefined);
+      const outgoingText = outgoing
+        .map(([, target]) => target.text)
+        .filter((t): t is SVGTextElement => t !== undefined);
 
       d3.select(this).attr("font-weight", "bold");
       d3.select(this).attr("cursor", "pointer");
@@ -176,12 +188,28 @@ export function HierarchicalEdgeBundling({
       const incoming = d.incoming ?? [];
       const outgoing = d.outgoing ?? [];
       d3.select(this).attr("font-weight", null);
-      d3.selectAll(incoming.map(([source]) => source.path).filter((p): p is SVGPathElement => p !== undefined)).attr("stroke", null);
-      d3.selectAll(incoming.map(([source]) => source.text).filter((t): t is SVGTextElement => t !== undefined))
+      d3.selectAll(
+        incoming
+          .map(([source]) => source.path)
+          .filter((p): p is SVGPathElement => p !== undefined),
+      ).attr("stroke", null);
+      d3.selectAll(
+        incoming
+          .map(([source]) => source.text)
+          .filter((t): t is SVGTextElement => t !== undefined),
+      )
         .attr("fill", null)
         .attr("font-weight", null);
-      d3.selectAll(outgoing.map(([, target]) => target.path).filter((p): p is SVGPathElement => p !== undefined)).attr("stroke", null);
-      d3.selectAll(outgoing.map(([, target]) => target.text).filter((t): t is SVGTextElement => t !== undefined))
+      d3.selectAll(
+        outgoing
+          .map(([, target]) => target.path)
+          .filter((p): p is SVGPathElement => p !== undefined),
+      ).attr("stroke", null);
+      d3.selectAll(
+        outgoing
+          .map(([, target]) => target.text)
+          .filter((t): t is SVGTextElement => t !== undefined),
+      )
         .attr("fill", null)
         .attr("font-weight", null);
     };
@@ -206,9 +234,13 @@ export function HierarchicalEdgeBundling({
         .attr("transform", (d) => (d.x >= Math.PI ? "rotate(180)" : null))
         .text((d) => d.data.label)
         .each(function (this: SVGGElement) {
-          const textEl = this.querySelector("text") as SVGTextElement;
+          const textEl = this.querySelector("text")!;
           if (textEl) {
-            (d3.select(this).datum() as HierarchyLinkedNode<d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>>).text = textEl;
+            (
+              d3.select(this).datum() as HierarchyLinkedNode<
+                d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
+              >
+            ).text = textEl;
           }
         })
         .on("mouseover", hovered)
@@ -274,7 +306,7 @@ export function HierarchicalEdgeBundling({
       .style("cursor", "pointer")
       .attr("d", ([i, o]) => line(i.path(o)))
       .each(function (this: SVGGElement) {
-        const pathEl = this.querySelector("path") as SVGPathElement;
+        const pathEl = this.querySelector("path")!;
         if (pathEl) {
           const datum = d3.select(this).datum();
           if (datum && Array.isArray(datum)) {

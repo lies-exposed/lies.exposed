@@ -169,50 +169,52 @@ export const layoutElements = (
     } as Edge);
   });
 
-  entitreeNodes.forEach((node: { id: string | number; x?: number; y?: number }) => {
-    const isRoot = node?.id === rootId;
+  entitreeNodes.forEach(
+    (node: { id: string | number; x?: number; y?: number }) => {
+      const isRoot = node?.id === rootId;
 
-    // Use the primary role derived from edges (parent_child wins over sibling)
-    const primaryRole = nodeRoles.get(node.id);
-    const isSpouse = primaryRole === "spouse";
-    const isSibling = primaryRole === "sibling";
-    const isPartner = primaryRole === "partner";
+      // Use the primary role derived from edges (parent_child wins over sibling)
+      const primaryRole = nodeRoles.get(node.id);
+      const isSpouse = primaryRole === "spouse";
+      const isSibling = primaryRole === "sibling";
+      const isPartner = primaryRole === "partner";
 
-    let sourcePosition: string;
-    let targetPosition: string;
+      let sourcePosition: string;
+      let targetPosition: string;
 
-    if (isSpouse) {
-      // Spouses on the right
-      sourcePosition = isTreeHorizontal ? Bottom : Right;
-      targetPosition = isTreeHorizontal ? Top : Left;
-    } else if (isPartner || isSibling) {
-      // Partners and siblings on the left
-      sourcePosition = isTreeHorizontal ? Top : Left;
-      targetPosition = isTreeHorizontal ? Bottom : Right;
-    } else {
-      sourcePosition = isTreeHorizontal ? Right : Bottom;
-      targetPosition = isTreeHorizontal ? Left : Top;
-    }
+      if (isSpouse) {
+        // Spouses on the right
+        sourcePosition = isTreeHorizontal ? Bottom : Right;
+        targetPosition = isTreeHorizontal ? Top : Left;
+      } else if (isPartner || isSibling) {
+        // Partners and siblings on the left
+        sourcePosition = isTreeHorizontal ? Top : Left;
+        targetPosition = isTreeHorizontal ? Bottom : Right;
+      } else {
+        sourcePosition = isTreeHorizontal ? Right : Bottom;
+        targetPosition = isTreeHorizontal ? Left : Top;
+      }
 
-    nodes.push({
-      id: node.id,
-      type: "custom",
-      sourcePosition,
-      targetPosition,
-      width: nodeWidth,
-      height: nodeHeight,
-      position: { x: node.x, y: node.y },
-      data: {
-        ...node,
-        label: node.name,
-        direction,
-        isRoot,
-        isSpouse,
-        isSibling,
-        isPartner,
-      },
-    } as Node);
-  });
+      nodes.push({
+        id: node.id,
+        type: "custom",
+        sourcePosition,
+        targetPosition,
+        width: nodeWidth,
+        height: nodeHeight,
+        position: { x: node.x, y: node.y },
+        data: {
+          ...node,
+          label: node.name,
+          direction,
+          isRoot,
+          isSpouse,
+          isSibling,
+          isPartner,
+        },
+      } as Node);
+    },
+  );
 
   return { nodes, edges };
 };
