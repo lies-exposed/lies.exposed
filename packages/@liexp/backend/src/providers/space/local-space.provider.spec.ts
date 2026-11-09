@@ -1,4 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
+import type { AxiosInstance } from "axios";
+import * as logger from "@liexp/core/lib/logger/index.js";
 import { GetLocalSpaceProvider } from "./local-space.provider.js";
 
 describe("local-space.provider", () => {
@@ -8,13 +10,13 @@ describe("local-space.provider", () => {
       defaults: {
         baseURL: "http://data.localhost",
       },
-    };
+    } as unknown as AxiosInstance;
     const mockLogger = {
       debug: { log: vi.fn() },
       extend: vi.fn(() => ({
         debug: { log: vi.fn() },
       })),
-    };
+    } as unknown as logger.Logger;
 
     return { mockClient, mockLogger };
   };
@@ -24,8 +26,8 @@ describe("local-space.provider", () => {
       const { mockClient, mockLogger } = createMockContext();
 
       const provider = GetLocalSpaceProvider({
-        client: mockClient as any,
-        logger: mockLogger as any,
+        client: mockClient,
+        logger: mockLogger,
       });
 
       const result = await provider.getEndpoint("test-bucket")();
@@ -42,8 +44,8 @@ describe("local-space.provider", () => {
       });
 
       const provider = GetLocalSpaceProvider({
-        client: mockClient as any,
-        logger: mockLogger as any,
+        client: mockClient,
+        logger: mockLogger,
       });
 
       const result = await provider.getObject({
@@ -60,8 +62,8 @@ describe("local-space.provider", () => {
       const { mockClient, mockLogger } = createMockContext();
 
       const provider = GetLocalSpaceProvider({
-        client: mockClient as any,
-        logger: mockLogger as any,
+        client: mockClient,
+        logger: mockLogger,
       });
 
       const result = await provider.deleteObject({
@@ -81,8 +83,8 @@ describe("local-space.provider", () => {
       const { mockClient, mockLogger } = createMockContext();
 
       const provider = GetLocalSpaceProvider({
-        client: mockClient as any,
-        logger: mockLogger as any,
+        client: mockClient,
+        logger: mockLogger,
       });
 
       const result = await provider.upload({
@@ -102,8 +104,8 @@ describe("local-space.provider", () => {
       const { mockClient, mockLogger } = createMockContext();
 
       const provider = GetLocalSpaceProvider({
-        client: mockClient as any,
-        logger: mockLogger as any,
+        client: mockClient,
+        logger: mockLogger,
       });
 
       const result = await provider.listObjects({ Bucket: "test" })();
@@ -120,8 +122,8 @@ describe("local-space.provider", () => {
       const { mockClient, mockLogger } = createMockContext();
 
       const provider = GetLocalSpaceProvider({
-        client: mockClient as any,
-        logger: mockLogger as any,
+        client: mockClient,
+        logger: mockLogger,
       });
 
       const result = await provider.getSignedUrl({
@@ -142,8 +144,8 @@ describe("local-space.provider", () => {
       const { mockClient, mockLogger } = createMockContext();
 
       const provider = GetLocalSpaceProvider({
-        client: mockClient as any,
-        logger: mockLogger as any,
+        client: mockClient,
+        logger: mockLogger,
       });
 
       const result = await provider.createBucket({ Bucket: "test-bucket" })();
