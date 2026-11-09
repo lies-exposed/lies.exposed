@@ -1,7 +1,7 @@
 import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { type BNESchemaEditor, BNInlineContent } from "@liexp/shared/lib/providers/blocknote/index.js";
+import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
 import {
   mediaBlockSpecs,
   DEFAULT_ID,

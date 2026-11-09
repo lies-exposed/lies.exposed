@@ -2,7 +2,6 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import {
   type BNESchemaEditor,
   type BNBlock,
-  type BNInlineContent,
   type BNEditorDocument,
 } from "@liexp/shared/lib/providers/blocknote/index.js";
 import { transform } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";

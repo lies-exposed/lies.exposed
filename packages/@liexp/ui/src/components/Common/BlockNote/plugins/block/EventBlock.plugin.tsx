@@ -7,7 +7,6 @@ import { type Events } from "@liexp/io/lib/http/index.js";
 import {
   eventBlockSpecs,
   type BNESchemaEditor,
-  type BNInlineContent,
 } from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
 import EventsBox from "../../../../../containers/EventsBox.js";
