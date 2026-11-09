@@ -1,8 +1,8 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
 import {
   type BNESchemaEditor,
-  type BNInlineContent,
   relationInlineSpec,
+  DEFAULT_RELATION_ID,
 } from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
 import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput.js";
@@ -35,7 +35,7 @@ export const relationItem = (editor: BNESchemaEditor) => ({
         type: "relation",
         props: {
           relation: "actor",
-          id: undefined as string | undefined,
+          id: DEFAULT_RELATION_ID,
         },
       },
     ]);
@@ -66,7 +66,7 @@ export const RelationInlineContentComponent: React.FC<{
 
   const removeItem = React.useCallback(() => {
     const pos = editor.getTextCursorPosition();
-    const blockContent = pos.block.content as BNInlineContent[];
+    const blockContent = pos.block.content as any[];
 
     const updatedBlockContent = blockContent.flatMap((t) => {
       const isRelationType = t.type === "relation";
@@ -183,7 +183,7 @@ export const RelationInlineContentComponent: React.FC<{
       onChange: (a: readonly { id: string }[]) => {
         const currentBlock =
           editor.document.find((tt) =>
-            ((tt.content as BNInlineContent[]) ?? []).find((t) => {
+            ((tt.content as any[]) ?? []).find((t) => {
               return (
                 t.type === "relation" ||
                 (t.type === relation &&
@@ -195,7 +195,7 @@ export const RelationInlineContentComponent: React.FC<{
           ) ?? editor.getTextCursorPosition().block;
 
         if (currentBlock) {
-          const updatedBlockContent = (currentBlock.content as BNInlineContent[]).map(
+          const updatedBlockContent = (currentBlock.content as any[]).map(
             (t) =>
               t.type === "relation" ||
               (t.type === relation &&

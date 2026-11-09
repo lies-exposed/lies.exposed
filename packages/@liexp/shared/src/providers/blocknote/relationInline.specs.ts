@@ -1,6 +1,6 @@
 import { type InlineContentConfig } from "@blocknote/core";
 
-const DEFAULT_RELATION_ID = "missing-relation-id";
+export const DEFAULT_RELATION_ID = "missing-relation-id";
 
 export const relationInlineSpec = {
   type: "relation",
