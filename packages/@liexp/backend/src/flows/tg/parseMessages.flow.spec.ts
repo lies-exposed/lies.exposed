@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Either } from "fp-ts/lib/Either.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
@@ -19,8 +20,10 @@ import { type RedisContext } from "../../context/redis.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { mockedContext } from "../../test/context.js";
-import { createFromTGMessage } from "./createFromTGMessage.flow.js";
+import { createFromTGMessage, type EventResult } from "./createFromTGMessage.flow.js";
 import { parseTGMessageFileFlow } from "./parseMessages.flow.js";
+import type { BACKEND_ENV } from "../../io/ENV.js";
+import { type TGError } from "../../providers/tg/tg.provider.js";
 
 // Mock createFromTGMessage which has deep database/network dependencies
 vi.mock("./createFromTGMessage.flow.js", () => ({
@@ -58,7 +61,7 @@ describe(parseTGMessageFileFlow.name, () => {
         redis: mock(),
         fs: mock(),
       }),
-      env: { DEFAULT_PAGE_SIZE: 20 } as any,
+      env: { DEFAULT_PAGE_SIZE: 20 } as Partial<BACKEND_ENV>,
     },
   };
 
@@ -132,7 +135,7 @@ describe(parseTGMessageFileFlow.name, () => {
   it("should return Left when fs.getObject fails", async () => {
     const fsError = { name: "FSError", message: "file not found" };
 
-    appTest.ctx.fs.getObject.mockReturnValueOnce(fp.TE.left(fsError as any));
+    appTest.ctx.fs.getObject.mockReturnValueOnce(fp.TE.left(fsError as Error));
 
     const te = parseTGMessageFileFlow(filePath, false)(appTest.ctx);
     const outcome = await te();
@@ -148,7 +151,7 @@ describe(parseTGMessageFileFlow.name, () => {
 
     const parseError = new Error("parse failed");
     vi.mocked(createFromTGMessage).mockReturnValue(() =>
-      fp.TE.left(parseError as any),
+      fp.TE.left(parseError as Error),
     );
 
     const te = parseTGMessageFileFlow(filePath, false)(appTest.ctx);
@@ -156,7 +159,7 @@ describe(parseTGMessageFileFlow.name, () => {
 
     expect(outcome._tag).toBe("Left");
     // error is wrapped via toTGError
-    expect((outcome as any).left.name).toBe("TGError");
+    expect((outcome as Either<TGError, EventResult>).left.name).toBe("TGError");
   });
 
   it("should return Left when deleteFile is true but fs.deleteObject fails", async () => {
@@ -170,7 +173,7 @@ describe(parseTGMessageFileFlow.name, () => {
 
     const deleteError = { name: "FSError", message: "cannot delete" };
     appTest.ctx.fs.deleteObject.mockReturnValueOnce(
-      fp.TE.left(deleteError as any),
+      fp.TE.left(deleteError as Error),
     );
 
     const te = parseTGMessageFileFlow(filePath, true)(appTest.ctx);

@@ -16,6 +16,8 @@ import { type MediaEntity } from "../../entities/Media.entity.js";
 import { mockedContext } from "../../test/context.js";
 import { uploadAndCreate } from "../media/uploadAndCreate.flow.js";
 import { parseDocument } from "./parseDocument.flow.js";
+import type { Document } from "node-telegram-bot-api";
+import { ServerError } from "../../errors/index.js";
 
 vi.mock("../media/uploadAndCreate.flow.js", () => ({
   uploadAndCreate: vi.fn(),
@@ -46,7 +48,7 @@ describe(parseDocument.name, () => {
     }),
   };
 
-  const mockStream = { pipe: vi.fn() } as any;
+  const mockStream = { pipe: vi.fn() } as ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -58,7 +60,7 @@ describe(parseDocument.name, () => {
       file_unique_id: "doc-unique-id",
       file_name: "test.pdf",
       mime_type: "application/pdf",
-    } as any;
+    } as Document;
 
     const fakeMedia = { id: "some-media-id" } as MediaEntity;
 
@@ -92,7 +94,7 @@ describe(parseDocument.name, () => {
       file_unique_id: "doc-unique-id",
       file_name: "video.mp4",
       mime_type: "video/mp4",
-    } as any;
+    } as Document;
 
     appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
@@ -109,7 +111,7 @@ describe(parseDocument.name, () => {
       file_unique_id: "doc-unique-id",
       file_name: "test.pdf",
       mime_type: "application/pdf",
-    } as any;
+    } as Document;
 
     const streamError = new Error("Stream error");
     appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.left(streamError));
@@ -127,12 +129,12 @@ describe(parseDocument.name, () => {
       file_unique_id: "doc-unique-id",
       file_name: "test.pdf",
       mime_type: "application/pdf",
-    } as any;
+    } as Document;
 
     appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
     vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.left({ name: "ServerError", message: "upload failed" } as any),
+      fp.TE.left(ServerError.fromUnknown(new Error("upload failed"))),
     );
 
     const te = parseDocument(doc)(appTest.ctx);
@@ -147,7 +149,7 @@ describe(parseDocument.name, () => {
       file_unique_id: "doc-unique-id",
       file_name: "document",
       mime_type: "application/pdf",
-    } as any;
+    } as Document;
 
     const fakeMedia = { id: "some-media-id" } as MediaEntity;
 

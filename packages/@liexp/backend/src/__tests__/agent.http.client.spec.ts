@@ -11,7 +11,7 @@ describe("agent.http.client", () => {
     info: { log: vi.fn() },
     warn: { log: vi.fn() },
     error: { log: vi.fn() },
-  } as any;
+  } as unknown as Logger;
 
   const id = uuid();
   const userId = uuid();
@@ -86,9 +86,9 @@ describe("agent.http.client", () => {
         jwt: mockJWT,
         logger: mockLogger,
         getPayload: () => ({
-          id: "service-id" as any,
-          userId: "user-id" as any,
-          permissions: ["AdminRead"] as any[],
+          id: "service-id" as string,
+          userId: "user-id" as string,
+          permissions: ["AdminRead"] as string[],
         }),
       });
 

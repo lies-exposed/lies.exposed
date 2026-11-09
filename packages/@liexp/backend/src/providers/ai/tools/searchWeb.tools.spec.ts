@@ -1,8 +1,10 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { describe, expect, it, vi } from "vitest";
 import { createSearchWebTool } from "./searchWeb.tools.js";
+import type { BraveProviderContext } from "../../../context/brave.context.js";
+import type { LoggerContext } from "../../../context/logger.context.js";
 
-const createMockContext = (webSearchResult?: any) => ({
+const createMockContext = (webSearchResult?: unknown) => ({
   logger: {
     info: { log: vi.fn() },
     debug: { log: vi.fn() },
@@ -33,20 +35,20 @@ const createMockContext = (webSearchResult?: any) => ({
 describe("createSearchWebTool", () => {
   it("creates a tool with name 'searchWeb'", () => {
     const ctx = createMockContext();
-    const tool = createSearchWebTool(ctx as any);
+    const tool = createSearchWebTool(ctx as Partial<BraveProviderContext & LoggerContext>);
     expect(tool.name).toBe("searchWeb");
   });
 
   it("has a non-empty description", () => {
     const ctx = createMockContext();
-    const tool = createSearchWebTool(ctx as any);
+    const tool = createSearchWebTool(ctx as Partial<BraveProviderContext & LoggerContext>);
     expect(tool.description.length).toBeGreaterThan(0);
     expect(tool.description).toContain("EXTERNAL WEB");
   });
 
   it("calls brave.webSearch with the query and keywords combined", async () => {
     const ctx = createMockContext();
-    const tool = createSearchWebTool(ctx as any);
+    const tool = createSearchWebTool(ctx as Partial<BraveProviderContext & LoggerContext>);
 
     await tool.invoke({
       query: "climate change",
@@ -64,7 +66,7 @@ describe("createSearchWebTool", () => {
 
   it("formats results with numbered list and URLs", async () => {
     const ctx = createMockContext();
-    const tool = createSearchWebTool(ctx as any);
+    const tool = createSearchWebTool(ctx as Partial<BraveProviderContext & LoggerContext>);
 
     const result = await tool.invoke({
       query: "test query",
@@ -82,7 +84,7 @@ describe("createSearchWebTool", () => {
 
   it("returns 'No results found' message when results are empty", async () => {
     const ctx = createMockContext({ web: { results: [] } });
-    const tool = createSearchWebTool(ctx as any);
+    const tool = createSearchWebTool(ctx as Partial<BraveProviderContext & LoggerContext>);
 
     const result = await tool.invoke({
       query: "obscure topic",
@@ -102,7 +104,7 @@ describe("createSearchWebTool", () => {
       .mockImplementation(() =>
         fp.TE.left({ name: "BraveError", message: "API limit exceeded" }),
       );
-    const tool = createSearchWebTool(ctx as any);
+    const tool = createSearchWebTool(ctx as Partial<BraveProviderContext & LoggerContext>);
 
     const result = await tool.invoke({
       query: "test",
@@ -117,7 +119,7 @@ describe("createSearchWebTool", () => {
 
   it("passes count and offset to brave.webSearch when provided", async () => {
     const ctx = createMockContext();
-    const tool = createSearchWebTool(ctx as any);
+    const tool = createSearchWebTool(ctx as Partial<BraveProviderContext & LoggerContext>);
 
     await tool.invoke({
       query: "test",
@@ -135,7 +137,7 @@ describe("createSearchWebTool", () => {
 
   it("passes freshness date when date is provided", async () => {
     const ctx = createMockContext();
-    const tool = createSearchWebTool(ctx as any);
+    const tool = createSearchWebTool(ctx as Partial<BraveProviderContext & LoggerContext>);
 
     await tool.invoke({
       query: "test",
@@ -153,7 +155,7 @@ describe("createSearchWebTool", () => {
 
   it("passes undefined freshness when no date provided", async () => {
     const ctx = createMockContext();
-    const tool = createSearchWebTool(ctx as any);
+    const tool = createSearchWebTool(ctx as Partial<BraveProviderContext & LoggerContext>);
 
     await tool.invoke({
       query: "test",
@@ -171,7 +173,7 @@ describe("createSearchWebTool", () => {
 
   it("includes thumbnail URL in result when available", async () => {
     const ctx = createMockContext();
-    const tool = createSearchWebTool(ctx as any);
+    const tool = createSearchWebTool(ctx as Partial<BraveProviderContext & LoggerContext>);
 
     const result = await tool.invoke({
       query: "test",
@@ -209,7 +211,7 @@ describe("createSearchWebTool", () => {
         ],
       },
     });
-    const tool = createSearchWebTool(ctx as any);
+    const tool = createSearchWebTool(ctx as Partial<BraveProviderContext & LoggerContext>);
 
     const result = await tool.invoke({
       query: "multi",

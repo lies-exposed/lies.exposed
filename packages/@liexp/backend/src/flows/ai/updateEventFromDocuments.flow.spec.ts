@@ -2,8 +2,10 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { describe, expect, it, vi } from "vitest";
 import { updateEventFromDocuments } from "./updateEventFromDocuments.flow.js";
+import type { LangchainContext } from "../../context/langchain.context.js";
+import type { LoggerContext } from "../../context/logger.context.js";
 
-const createMockContext = (chatResponse?: any) => ({
+const createMockContext = (chatResponse?: unknown) => ({
   logger: {
     info: { log: vi.fn() },
     debug: { log: vi.fn() },
@@ -35,7 +37,7 @@ describe("updateEventFromDocuments", () => {
         "Death",
         mockPromptFn,
         "What happened?",
-      )(ctx as any),
+      )(ctx as Partial<LangchainContext & LoggerContext>),
       throwTE,
     );
 
@@ -56,7 +58,7 @@ describe("updateEventFromDocuments", () => {
     const ctx = createMockContext({ content: JSON.stringify(eventProps) });
 
     const result = await pipe(
-      updateEventFromDocuments("Death", mockPromptFn, "question")(ctx as any),
+      updateEventFromDocuments("Death", mockPromptFn, "question")(ctx as Partial<LangchainContext & LoggerContext>),
       throwTE,
     );
 
@@ -68,7 +70,7 @@ describe("updateEventFromDocuments", () => {
     const ctx = createMockContext({ content: eventProps });
 
     const result = await pipe(
-      updateEventFromDocuments("Book", mockPromptFn, "question")(ctx as any),
+      updateEventFromDocuments("Book", mockPromptFn, "question")(ctx as Partial<LangchainContext & LoggerContext>),
       throwTE,
     );
 
@@ -80,7 +82,7 @@ describe("updateEventFromDocuments", () => {
     const ctx = createMockContext({ content: "{}" });
 
     await pipe(
-      updateEventFromDocuments("Quote", promptFn, "question")(ctx as any),
+      updateEventFromDocuments("Quote", promptFn, "question")(ctx as Partial<LangchainContext & LoggerContext>),
       throwTE,
     );
 
@@ -101,7 +103,7 @@ describe("updateEventFromDocuments", () => {
       "ScientificStudy",
       mockPromptFn,
       "question",
-    )(ctx as any)();
+    )(ctx as Partial<LangchainContext & LoggerContext>)();
 
     expect(result._tag).toBe("Left");
   });
@@ -113,7 +115,7 @@ describe("updateEventFromDocuments", () => {
       "Patent",
       mockPromptFn,
       "question",
-    )(ctx as any)();
+    )(ctx as Partial<LangchainContext & LoggerContext>)();
 
     expect(result._tag).toBe("Left");
   });
@@ -126,7 +128,7 @@ describe("updateEventFromDocuments", () => {
         "Transaction",
         mockPromptFn,
         "question",
-      )(ctx as any),
+      )(ctx as Partial<LangchainContext & LoggerContext>),
       throwTE,
     );
 

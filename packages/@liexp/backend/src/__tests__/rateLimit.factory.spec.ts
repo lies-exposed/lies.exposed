@@ -9,7 +9,7 @@ describe("rateLimit.factory", () => {
     info: { log: vi.fn() },
     warn: { log: vi.fn() },
     error: { log: vi.fn() },
-  } as any;
+  } as unknown as Logger;
 
   let mockRequest: Partial<Request>;
 
@@ -22,7 +22,7 @@ describe("rateLimit.factory", () => {
       headers: {},
       socket: {
         remoteAddress: "127.0.0.1",
-      } as any,
+      },
     };
   });
 

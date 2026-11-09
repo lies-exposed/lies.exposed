@@ -6,8 +6,8 @@ import {
 
 vi.mock("@langchain/openai", () => {
   const ChatOpenAI = vi.fn().mockImplementation(function (
-    this: any,
-    opts: any,
+    this: Record<string, unknown>,
+    opts: Record<string, unknown>,
   ) {
     this.model = opts?.model;
     this.withConfig = vi.fn().mockReturnValue(this);
@@ -17,8 +17,8 @@ vi.mock("@langchain/openai", () => {
     this.invoke = vi.fn();
   });
   const OpenAIEmbeddings = vi.fn().mockImplementation(function (
-    this: any,
-    opts: any,
+    this: Record<string, unknown>,
+    opts: Record<string, unknown>,
   ) {
     this.model = opts?.model;
   });
@@ -27,8 +27,8 @@ vi.mock("@langchain/openai", () => {
 
 vi.mock("@langchain/anthropic", () => {
   const ChatAnthropic = vi.fn().mockImplementation(function (
-    this: any,
-    opts: any,
+    this: Record<string, unknown>,
+    opts: Record<string, unknown>,
   ) {
     this.model = opts?.model;
     this.stream = vi.fn();
@@ -38,7 +38,7 @@ vi.mock("@langchain/anthropic", () => {
 });
 
 vi.mock("@langchain/xai", () => {
-  const ChatXAI = vi.fn().mockImplementation(function (this: any, opts: any) {
+  const ChatXAI = vi.fn().mockImplementation(function (this: Record<string, unknown>, opts: Record<string, unknown>) {
     this.model = opts?.model;
     this.stream = vi.fn();
     this.invoke = vi.fn();
@@ -96,7 +96,7 @@ describe("GetLangchainProvider", () => {
 
   it("uses gpt-4o as default chat model for openai provider", () => {
     const provider = GetLangchainProvider(baseOpts);
-    expect((provider.chat as any).model).toBe("gpt-4o");
+    expect((provider.chat as Record<string, unknown>).model).toBe("gpt-4o");
   });
 
   it("uses claude-sonnet as default chat model for anthropic provider", () => {
@@ -104,7 +104,7 @@ describe("GetLangchainProvider", () => {
       ...baseOpts,
       provider: "anthropic",
     });
-    expect((provider.chat as any).model).toContain("claude");
+    expect((provider.chat as Record<string, unknown>).model).toContain("claude");
   });
 
   it("uses custom chat model when provided", () => {
@@ -112,12 +112,12 @@ describe("GetLangchainProvider", () => {
       ...baseOpts,
       models: { chat: "gpt-4o-mini" },
     });
-    expect((provider.chat as any).model).toBe("gpt-4o-mini");
+    expect((provider.chat as Record<string, unknown>).model).toBe("gpt-4o-mini");
   });
 
   it("uses text-embedding-ada-002 as default embedding model", () => {
     const provider = GetLangchainProvider(baseOpts);
-    expect((provider.embeddings as any).model).toBe("text-embedding-ada-002");
+    expect((provider.embeddings as Record<string, unknown>).model).toBe("text-embedding-ada-002");
   });
 
   it("uses custom embedding model when provided", () => {
@@ -125,7 +125,7 @@ describe("GetLangchainProvider", () => {
       ...baseOpts,
       models: { embeddings: "text-embedding-3-small" },
     });
-    expect((provider.embeddings as any).model).toBe("text-embedding-3-small");
+    expect((provider.embeddings as Record<string, unknown>).model).toBe("text-embedding-3-small");
   });
 
   describe("cfAccess", () => {

@@ -3,6 +3,8 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { resizeThumbnailFlow } from "./thumbnailResize.flow.js";
+import { type ConfigContext } from "../../../context/config.context.js";
+import { type ImgProcClientContext } from "../../../context/index.js";
 
 const createMockContext = () => {
   const config = {
@@ -42,7 +44,7 @@ describe("resizeThumbnailFlow", () => {
     const inputBuffer = new ArrayBuffer(1024);
 
     const result = await pipe(
-      resizeThumbnailFlow(inputBuffer)(ctx as any),
+      resizeThumbnailFlow(inputBuffer)(ctx as ConfigContext & ImgProcClientContext),
       throwTE,
     );
 
@@ -53,7 +55,7 @@ describe("resizeThumbnailFlow", () => {
   it("should call imgProc.run with a function", async () => {
     const inputBuffer = new ArrayBuffer(512);
 
-    await pipe(resizeThumbnailFlow(inputBuffer)(ctx as any), throwTE);
+    await pipe(resizeThumbnailFlow(inputBuffer)(ctx as ConfigContext & ImgProcClientContext), throwTE);
 
     expect(ctx.imgProc.run).toHaveBeenCalled();
   });
@@ -77,7 +79,7 @@ describe("resizeThumbnailFlow", () => {
     const inputBuffer = new ArrayBuffer(256);
 
     const result = await resizeThumbnailFlow(inputBuffer)(
-      ctxWithError as any,
+      ctxWithError as ConfigContext & ImgProcClientContext,
     )();
 
     expect(result._tag).toBe("Left");

@@ -109,7 +109,7 @@ describe(findOneByLocationOrElse.name, () => {
 
     const result = await pipe(
       findOneByLocationOrElse(
-        { image: null as any },
+        { image: null as string | null },
         () => ({}),
         creator,
       )(appTest.ctx),

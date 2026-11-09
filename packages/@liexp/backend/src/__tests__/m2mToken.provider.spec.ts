@@ -1,6 +1,7 @@
 import type { Logger } from "@liexp/core/lib/logger/index.js";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { JWTProvider } from "../providers/jwt/jwt.provider.js";
+import type { ServiceClientConfig } from "../providers/m2mToken.provider.js";
 import {
   buildServiceClientPayload,
   getServiceClientToken,
@@ -13,19 +14,19 @@ describe("m2mToken.provider", () => {
     info: { log: vi.fn() },
     warn: { log: vi.fn() },
     error: { log: vi.fn() },
-  } as any;
+  } as unknown as Logger;
 
   const mockJWT: JWTProvider = {
-    signClient: vi.fn((_payload: any) => () => "mock-signed-token"),
+    signClient: vi.fn((_payload: unknown) => () => "mock-signed-token"),
     signUser: vi.fn(),
     verifyClient: vi.fn(),
     verifyUser: vi.fn(),
   };
 
-  const mockConfig = {
-    id: "service-client-id-123" as any,
-    userId: "user-id-456" as any,
-    permissions: ["AdminRead", "ChatCreate"] as any[],
+  const mockConfig: ServiceClientConfig = {
+    id: "service-client-id-123",
+    userId: "user-id-456",
+    permissions: ["AdminRead", "ChatCreate"],
   };
 
   beforeEach(() => {
@@ -45,9 +46,9 @@ describe("m2mToken.provider", () => {
 
     it("should build payload with empty permissions array", () => {
       const payload = buildServiceClientPayload({
-        id: "test-id" as any,
-        userId: "test-user" as any,
-        permissions: [] as any[],
+        id: "test-id",
+        userId: "test-user",
+        permissions: [] as const,
       });
 
       expect(payload.permissions).toEqual([]);

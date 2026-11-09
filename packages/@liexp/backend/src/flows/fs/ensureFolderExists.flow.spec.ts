@@ -1,3 +1,4 @@
+import type * as fs from "fs";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -27,7 +28,7 @@ describe(ensureFolderExists.name, () => {
     appTest.ctx.fs._fs = {
       existsSync: vi.fn().mockReturnValue(true),
       mkdirSync: mkdirSyncMock,
-    } as any;
+    } as Partial<typeof fs>;
 
     const result = await pipe(
       ensureFolderExists(filePath)(appTest.ctx),
@@ -48,7 +49,7 @@ describe(ensureFolderExists.name, () => {
     appTest.ctx.fs._fs = {
       existsSync: vi.fn().mockReturnValue(false),
       mkdirSync: mkdirSyncMock,
-    } as any;
+    } as Partial<typeof fs>;
 
     const result = await pipe(
       ensureFolderExists(filePath)(appTest.ctx),
@@ -72,7 +73,7 @@ describe(ensureFolderExists.name, () => {
         throw new Error("Permission denied");
       }),
       mkdirSync: vi.fn(),
-    } as any;
+    } as Partial<typeof fs>;
 
     const either = await pipe(ensureFolderExists(filePath)(appTest.ctx))();
 
@@ -90,7 +91,7 @@ describe(ensureFolderExists.name, () => {
       mkdirSync: vi.fn().mockImplementation(() => {
         throw new Error("mkdir failed");
       }),
-    } as any;
+    } as Partial<typeof fs>;
 
     const either = await pipe(ensureFolderExists(filePath)(appTest.ctx))();
 
@@ -107,7 +108,7 @@ describe(ensureFolderExists.name, () => {
     appTest.ctx.fs._fs = {
       existsSync: existsSyncMock,
       mkdirSync: vi.fn(),
-    } as any;
+    } as Partial<typeof fs>;
 
     await pipe(ensureFolderExists(filePath)(appTest.ctx), throwTE);
 

@@ -1,3 +1,4 @@
+import type * as fs from "fs";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { subHours } from "date-fns";
@@ -30,7 +31,7 @@ describe(olderThan.name, () => {
     appTest.ctx.fs.objectExists.mockReturnValueOnce(fp.TE.right(true));
     appTest.ctx.fs._fs = {
       statSync: vi.fn().mockReturnValue({ mtime: oldDate }),
-    } as any;
+    } as Partial<typeof fs>;
 
     const result = await pipe(olderThan(filePath, hours)(appTest.ctx), throwTE);
 
@@ -47,7 +48,7 @@ describe(olderThan.name, () => {
     appTest.ctx.fs.objectExists.mockReturnValueOnce(fp.TE.right(true));
     appTest.ctx.fs._fs = {
       statSync: vi.fn().mockReturnValue({ mtime: recentDate }),
-    } as any;
+    } as Partial<typeof fs>;
 
     const result = await pipe(olderThan(filePath, hours)(appTest.ctx), throwTE);
 
@@ -74,7 +75,7 @@ describe(olderThan.name, () => {
     appTest.ctx.fs.objectExists.mockReturnValueOnce(fp.TE.right(true));
     appTest.ctx.fs._fs = {
       statSync: vi.fn().mockReturnValue({ mtime: exactThresholdDate }),
-    } as any;
+    } as Partial<typeof fs>;
 
     const result = await pipe(olderThan(filePath, hours)(appTest.ctx), throwTE);
 

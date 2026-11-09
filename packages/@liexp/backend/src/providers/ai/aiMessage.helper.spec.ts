@@ -1,7 +1,9 @@
+import { type Logger } from "@liexp/core/lib/index.js";
+import { type AIMessage } from "langchain";
 import { describe, expect, it, vi } from "vitest";
 import { AIMessageLogger } from "./aiMessage.helper.js";
 
-const createMockLogger = () => ({
+const createMockLogger = (): Logger => ({
   info: { log: vi.fn() },
   debug: { log: vi.fn() },
   warn: { log: vi.fn() },
@@ -15,9 +17,9 @@ describe("AIMessageLogger", () => {
     const message = {
       type: "ai",
       content: "Hello",
-    } as any;
+    } as AIMessage;
 
-    AIMessageLogger(logger as any)(message);
+    AIMessageLogger(logger)(message);
 
     expect(logger.info.log).toHaveBeenCalled();
   });
@@ -31,9 +33,9 @@ describe("AIMessageLogger", () => {
         { name: "search", args: { query: "test" } },
         { name: "fetch", args: { url: "https://example.com" } },
       ],
-    } as any;
+    } as AIMessage;
 
-    AIMessageLogger(logger as any)(message);
+    AIMessageLogger(logger)(message);
 
     expect(logger.info.log).toHaveBeenCalledWith("[ai] Run tool: %s", "search");
     expect(logger.debug.log).toHaveBeenCalledWith("Tool arguments: %O", {
@@ -47,9 +49,9 @@ describe("AIMessageLogger", () => {
       type: "ai",
       content: "",
       invalid_tool_calls: [{ name: "unknown_tool", error: "Tool not found" }],
-    } as any;
+    } as AIMessage;
 
-    AIMessageLogger(logger as any)(message);
+    AIMessageLogger(logger)(message);
 
     expect(logger.error.log).toHaveBeenCalledWith(
       "[ai] Invalid tool call: %O",
@@ -63,9 +65,9 @@ describe("AIMessageLogger", () => {
       type: "tool",
       content: "Here is the result",
       tool_call_id: "call_123",
-    } as any;
+    } as AIMessage;
 
-    AIMessageLogger(logger as any)(message);
+    AIMessageLogger(logger)(message);
 
     expect(logger.debug.log).toHaveBeenCalledWith(
       "[tool] Tool call ID: %s",
@@ -82,9 +84,9 @@ describe("AIMessageLogger", () => {
         model: "claude-3-sonnet",
         finish_reason: "stop",
       },
-    } as any;
+    } as AIMessage;
 
-    AIMessageLogger(logger as any)(message);
+    AIMessageLogger(logger)(message);
 
     expect(logger.debug.log).toHaveBeenCalledWith(
       "[ai] Model: %s",
@@ -106,9 +108,9 @@ describe("AIMessageLogger", () => {
         output_tokens: 50,
         total_tokens: 150,
       },
-    } as any;
+    } as AIMessage;
 
-    AIMessageLogger(logger as any)(message);
+    AIMessageLogger(logger)(message);
 
     expect(logger.info.log).toHaveBeenCalledWith(
       "[ai] Token usage: input=%d, output=%d, total=%d",
@@ -124,9 +126,9 @@ describe("AIMessageLogger", () => {
       type: "tool",
       content: "Tool result",
       name: "search_results",
-    } as any;
+    } as AIMessage;
 
-    AIMessageLogger(logger as any)(message);
+    AIMessageLogger(logger)(message);
 
     expect(logger.debug.log).toHaveBeenCalledWith(
       "[tool] Name: %s",
@@ -139,9 +141,9 @@ describe("AIMessageLogger", () => {
     const message = {
       type: "ai",
       content: "This is a test message",
-    } as any;
+    } as AIMessage;
 
-    AIMessageLogger(logger as any)(message);
+    AIMessageLogger(logger)(message);
 
     expect(logger.info.log).toHaveBeenCalledWith("[ai] This is a test message");
   });
@@ -155,9 +157,9 @@ describe("AIMessageLogger", () => {
     const message = {
       type: "ai",
       content: complexContent,
-    } as any;
+    } as AIMessage;
 
-    AIMessageLogger(logger as any)(message);
+    AIMessageLogger(logger)(message);
 
     expect(logger.info.log).toHaveBeenCalledWith(
       "[ai] Content: %O",
@@ -170,9 +172,9 @@ describe("AIMessageLogger", () => {
     const message = {
       type: "ai",
       content: "",
-    } as any;
+    } as AIMessage;
 
-    AIMessageLogger(logger as any)(message);
+    AIMessageLogger(logger)(message);
 
     expect(logger.info.log).not.toHaveBeenCalled();
   });

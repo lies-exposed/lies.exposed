@@ -4,6 +4,7 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
+import type { Message } from "node-telegram-bot-api";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type DatabaseContext } from "../../../context/db.context.js";
 import { type ENVContext } from "../../../context/env.context.js";
@@ -88,7 +89,7 @@ describe("MessageParser", () => {
     }),
   };
 
-  const mockPage = {} as any;
+  const mockPage = {} as ReturnType<typeof vi.fn>;
   const testUser = Object.assign(new UserEntity(), { id: uuid() });
 
   beforeEach(() => {
@@ -108,7 +109,7 @@ describe("MessageParser", () => {
         message_id: 1,
         text: "no document",
         date: 123,
-      } as any;
+      } as Message;
 
       const parser = MessageParser(message);
 
@@ -131,7 +132,7 @@ describe("MessageParser", () => {
         message_id: 1,
         date: 123,
         document,
-      } as any;
+      } as Message;
 
       vi.mocked(parseDocument).mockReturnValue(() => fp.TE.right([docId]));
 
@@ -150,7 +151,7 @@ describe("MessageParser", () => {
         text: "no photos",
         date: 123,
         photo: [],
-      } as any;
+      } as Message;
 
       const parser = MessageParser(message);
       const result = await pipe(parser.parsePhoto(appTest.ctx), throwTE);
@@ -180,7 +181,7 @@ describe("MessageParser", () => {
         date: 123,
         caption: "Test caption",
         photo,
-      } as any;
+      } as Message;
 
       vi.mocked(parsePhoto).mockReturnValue(() => fp.TE.right([photoId]));
 
@@ -217,7 +218,7 @@ describe("MessageParser", () => {
         message_id: 1,
         date: 123,
         photo,
-      } as any;
+      } as Message;
 
       vi.mocked(parsePhoto).mockReturnValue(() => fp.TE.right([uuid()]));
 
@@ -249,10 +250,10 @@ describe("MessageParser", () => {
         message_id: 1,
         date: 123,
         photo,
-      } as any;
+      } as Message;
 
       vi.mocked(parsePhoto).mockReturnValue(() =>
-        fp.TE.left({ name: "ServerError", message: "download failed" } as any),
+        fp.TE.left({ name: "ServerError", message: "download failed" } as Error),
       );
 
       const parser = MessageParser(message);
@@ -269,7 +270,7 @@ describe("MessageParser", () => {
         message_id: 1,
         text: "no video",
         date: 123,
-      } as any;
+      } as Message;
 
       const parser = MessageParser(message);
       const result = await pipe(parser.parseVideo(appTest.ctx), throwTE);
@@ -293,7 +294,7 @@ describe("MessageParser", () => {
         date: 123,
         caption: "My video caption",
         video,
-      } as any;
+      } as Message;
 
       vi.mocked(parseVideo).mockReturnValue(() => fp.TE.right([videoId]));
 
@@ -319,7 +320,7 @@ describe("MessageParser", () => {
         date: 123,
         video,
         // No caption or text
-      } as any;
+      } as Message;
 
       vi.mocked(parseVideo).mockReturnValue(() => fp.TE.right([videoId]));
 
@@ -341,7 +342,7 @@ describe("MessageParser", () => {
         text: "plain text no URLs",
         date: 123,
         entities: [],
-      } as any;
+      } as Message;
 
       vi.mocked(parseURLs).mockImplementation((_urls) => () => fp.TE.right([]));
 

@@ -3,6 +3,8 @@ import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
+import type { Message } from "node-telegram-bot-api";
+import type * as puppeteer from "puppeteer-core";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -66,7 +68,7 @@ describe(createFromTGMessage.name, () => {
     }),
   };
 
-  const mockMetadata = { type: "text" } as any;
+  const mockMetadata = { type: "text" } as Record<string, unknown>;
 
   const adminUser = Object.assign(new UserEntity(), {
     id: uuid(),
@@ -77,7 +79,7 @@ describe(createFromTGMessage.name, () => {
     browser: vi
       .fn()
       .mockReturnValue({ close: vi.fn().mockResolvedValue(undefined) }),
-  } as any;
+  } as unknown as puppeteer.Page;
 
   const _mockParserResult = {
     link: [],
@@ -110,7 +112,7 @@ describe(createFromTGMessage.name, () => {
       text: "Hello world",
       date: 1234567890,
       entities: [],
-    } as any;
+    } as Message;
 
     vi.mocked(getOneAdminOrFail).mockReturnValue(fp.TE.right(adminUser));
 
@@ -142,7 +144,7 @@ describe(createFromTGMessage.name, () => {
       text: "#breaking news today",
       date: 1234567890,
       entities: [{ type: "hashtag", offset: 0, length: 9 }],
-    } as any;
+    } as Message;
 
     vi.mocked(getOneAdminOrFail).mockReturnValue(fp.TE.right(adminUser));
 
@@ -171,7 +173,7 @@ describe(createFromTGMessage.name, () => {
       text: "test",
       date: 1234567890,
       entities: [],
-    } as any;
+    } as Message;
 
     vi.mocked(getOneAdminOrFail).mockReturnValue(fp.TE.right(adminUser));
 
@@ -196,7 +198,6 @@ describe(createFromTGMessage.name, () => {
     // pdfMedia is merged into photos
     expect(result.photos).toContain(mediaId1);
     expect(result.photos).toContain(pdfId);
-    // platformMedia is merged into videos
     expect(result.videos).toContain(mediaId2);
     expect(result.videos).toContain(platformId);
   });
@@ -207,7 +208,7 @@ describe(createFromTGMessage.name, () => {
       text: "no entities here",
       date: 1234567890,
       // entities is undefined
-    } as any;
+    } as Message;
 
     vi.mocked(getOneAdminOrFail).mockReturnValue(fp.TE.right(adminUser));
 
@@ -231,10 +232,10 @@ describe(createFromTGMessage.name, () => {
       text: "test",
       date: 1234567890,
       entities: [],
-    } as any;
+    } as Message;
 
     vi.mocked(getOneAdminOrFail).mockReturnValue(
-      fp.TE.left({ name: "DBError", message: "no admin found" } as any),
+      fp.TE.left({ name: "DBError", message: "no admin found" } as Error),
     );
 
     const te = createFromTGMessage(message, mockMetadata)(appTest.ctx);
@@ -250,7 +251,7 @@ describe(createFromTGMessage.name, () => {
       text: "test",
       date: 1234567890,
       entities: [],
-    } as any;
+    } as Message;
 
     vi.mocked(getOneAdminOrFail).mockReturnValue(fp.TE.right(adminUser));
 
@@ -276,7 +277,7 @@ describe(createFromTGMessage.name, () => {
       text: "test",
       date: 1234567890,
       entities: [],
-    } as any;
+    } as Message;
 
     vi.mocked(getOneAdminOrFail).mockReturnValue(fp.TE.right(adminUser));
 
@@ -287,7 +288,7 @@ describe(createFromTGMessage.name, () => {
     vi.mocked(MessageParser).mockReturnValue(
       makeParser({
         parseURLs: () => () =>
-          fp.TE.left({ name: "TGError", message: "parse error" } as any),
+          fp.TE.left({ name: "TGError", message: "parse error" } as Error),
       }),
     );
 

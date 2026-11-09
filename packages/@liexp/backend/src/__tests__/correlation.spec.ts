@@ -133,7 +133,8 @@ describe("correlation utils", () => {
       middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       const requestId = mockRequest.correlationId;
-      const responseId = (mockResponse.setHeader as any).mock.calls[0][1];
+      const responseId = (mockResponse.setHeader as ReturnType<typeof vi.fn>)
+        .mock.calls[0][1];
 
       expect(requestId).toBe(responseId);
     });

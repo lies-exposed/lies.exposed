@@ -1,4 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
+import type * as logger from "@liexp/core/lib/logger/index.js";
+import type ExifReader from "exifreader";
 import {
   decodeExifTag,
   toImgProcError,
@@ -26,25 +28,25 @@ describe("imgproc.provider", () => {
     });
 
     it("should return value if tag has value property", () => {
-      const tag = { value: 42 } as any;
+      const tag = { value: 42 } as ExifReader.XmpTag;
       const result = decodeExifTag(tag);
       expect(result).toBe(42);
     });
 
     it("should return undefined if tag has no value property", () => {
-      const tag = { description: "test" } as any;
+      const tag = { description: "test" } as ExifReader.XmpTag;
       const result = decodeExifTag(tag);
       expect(result).toBeUndefined();
     });
 
     it("should handle ExifReader.XmpTag", () => {
-      const tag = { value: 100, description: "test" } as any;
+      const tag = { value: 100, description: "test" } as ExifReader.XmpTag;
       const result = decodeExifTag(tag);
       expect(result).toBe(100);
     });
 
     it("should handle TypedTag", () => {
-      const tag = { value: 200 } as any;
+      const tag = { value: 200 } as ExifReader.TypedTag<number>;
       const result = decodeExifTag(tag);
       expect(result).toBe(200);
     });
@@ -64,7 +66,7 @@ describe("imgproc.provider", () => {
       const error = new Error("Test error");
       const result = toImgProcError(error);
 
-      expect((result.details as any).meta).toBeDefined();
+      expect((result.details as { kind: string; status: string; meta?: string }).meta).toBeDefined();
     });
 
     it("should handle non-Error values", () => {
@@ -108,7 +110,7 @@ describe("imgproc.provider", () => {
     it("should return ImgProcError for Error", () => {
       const mockLogger = {
         error: { log: vi.fn() },
-      } as any;
+      } as logger.Logger;
 
       const result = toErrorReader(mockLogger)(new Error("Test"));
 
@@ -119,7 +121,7 @@ describe("imgproc.provider", () => {
     it("should log the error", () => {
       const mockLogger = {
         error: { log: vi.fn() },
-      } as any;
+      } as logger.Logger;
 
       toErrorReader(mockLogger)(new Error("Test"));
 
@@ -129,7 +131,7 @@ describe("imgproc.provider", () => {
     it("should return ImgProcError for non-Error values", () => {
       const mockLogger = {
         error: { log: vi.fn() },
-      } as any;
+      } as logger.Logger;
 
       const result = toErrorReader(mockLogger)("Unknown");
 
@@ -157,8 +159,8 @@ describe("imgproc.provider", () => {
         const { mockLogger, mockClient, mockExifR } = createMockConfig();
         mockClient.mockResolvedValue(Buffer.from("test"));
         const client = MakeImgProcClient({
-          logger: mockLogger as any,
-          client: mockClient as any,
+          logger: mockLogger as logger.Logger,
+          client: mockClient as typeof sharp,
           exifR: mockExifR,
         });
 
@@ -172,8 +174,8 @@ describe("imgproc.provider", () => {
       it("should return error when function throws", async () => {
         const { mockLogger, mockClient, mockExifR } = createMockConfig();
         const client = MakeImgProcClient({
-          logger: mockLogger as any,
-          client: mockClient as any,
+          logger: mockLogger as logger.Logger,
+          client: mockClient as typeof sharp,
           exifR: mockExifR,
         });
 
@@ -195,8 +197,8 @@ describe("imgproc.provider", () => {
         mockExifR.load.mockResolvedValue(mockTags);
 
         const client = MakeImgProcClient({
-          logger: mockLogger as any,
-          client: mockClient as any,
+          logger: mockLogger as logger.Logger,
+          client: mockClient as typeof sharp,
           exifR: mockExifR,
         });
 
@@ -213,8 +215,8 @@ describe("imgproc.provider", () => {
         mockExifR.load.mockRejectedValue(new Error("Invalid image"));
 
         const client = MakeImgProcClient({
-          logger: mockLogger as any,
-          client: mockClient as any,
+          logger: mockLogger as logger.Logger,
+          client: mockClient as typeof sharp,
           exifR: mockExifR,
         });
 

@@ -1,8 +1,10 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { type VideoPlatformMatch } from "@liexp/shared/lib/helpers/media.helper.js";
 import * as O from "fp-ts/lib/Option.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type * as puppeteer from "puppeteer-core";
 import { mock } from "vitest-mock-extended";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -15,6 +17,7 @@ import { type LoggerContext } from "../../context/logger.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { MediaEntity } from "../../entities/Media.entity.js";
 import { UserEntity } from "../../entities/User.entity.js";
+import { type DBError } from "../../providers/orm/database.provider.js";
 import { MediaRepository } from "../../services/entity-repository.service.js";
 import { mockedContext } from "../../test/context.js";
 import { extractMediaExtra } from "../media/extra/extractMediaExtra.flow.js";
@@ -58,15 +61,15 @@ describe(parsePlatformMedia.name, () => {
     }),
   };
 
-  const mockPage = {} as any;
+  const mockPage = {} as unknown as puppeteer.Page;
 
   const testUser = Object.assign(new UserEntity(), {
     id: uuid(),
     username: "admin",
   });
 
-  const testURL = "https://www.youtube.com/watch?v=test123" as any;
-  const testMatch = { platform: "youtube", id: "test123" } as any;
+  const testURL = "https://www.youtube.com/watch?v=test123" as string;
+  const testMatch = { platform: "youtube", id: "test123" } as VideoPlatformMatch;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -75,7 +78,7 @@ describe(parsePlatformMedia.name, () => {
   it("should create new media when not found in database", async () => {
     const mediaId = uuid();
     const platformMedia = {
-      location: "https://www.youtube.com/embed/test123" as any,
+      location: "https://www.youtube.com/embed/test123" as string,
       type: "iframe/video-youtube",
       description: "Test video",
     };
@@ -88,7 +91,7 @@ describe(parsePlatformMedia.name, () => {
     });
 
     vi.mocked(extractMediaFromPlatform).mockReturnValue(() =>
-      fp.TE.right(platformMedia as any),
+      fp.TE.right(platformMedia as unknown as Partial<MediaEntity>),
     );
 
     // Media not found in DB
@@ -131,19 +134,19 @@ describe(parsePlatformMedia.name, () => {
     const mediaId = uuid();
     const existingMedia = Object.assign(new MediaEntity(), {
       id: mediaId,
-      location: "https://www.youtube.com/embed/test123" as any,
+      location: "https://www.youtube.com/embed/test123" as string,
       description: "Existing video",
       extra: null,
     });
 
     const platformMedia = {
-      location: "https://www.youtube.com/embed/test123" as any,
+      location: "https://www.youtube.com/embed/test123" as string,
       type: "iframe/video-youtube",
       description: "Test video",
     };
 
     vi.mocked(extractMediaFromPlatform).mockReturnValue(() =>
-      fp.TE.right(platformMedia as any),
+      fp.TE.right(platformMedia as unknown as Partial<MediaEntity>),
     );
 
     // Media found in DB
@@ -176,7 +179,7 @@ describe(parsePlatformMedia.name, () => {
     };
 
     vi.mocked(extractMediaFromPlatform).mockReturnValue(() =>
-      fp.TE.right(platformMedia as any),
+      fp.TE.right(platformMedia as unknown as Partial<MediaEntity>),
     );
 
     // When location is falsy, media array is empty []
@@ -199,7 +202,7 @@ describe(parsePlatformMedia.name, () => {
   it("should merge extra info when extractMediaExtra returns extra data", async () => {
     const mediaId = uuid();
     const platformMedia = {
-      location: "https://www.youtube.com/embed/test123" as any,
+      location: "https://www.youtube.com/embed/test123" as string,
       type: "iframe/video-youtube",
       description: "Test video",
     };
@@ -214,14 +217,14 @@ describe(parsePlatformMedia.name, () => {
     const extraInfo = { thumbnails: [{ url: "https://thumb.jpg" }] };
 
     vi.mocked(extractMediaFromPlatform).mockReturnValue(() =>
-      fp.TE.right(platformMedia as any),
+      fp.TE.right(platformMedia as unknown as Partial<MediaEntity>),
     );
 
     appTest.ctx.db.findOne.mockReturnValueOnce(fp.TE.right(O.none));
     appTest.ctx.db.save.mockReturnValueOnce(fp.TE.right([savedMedia]));
 
     vi.mocked(extractMediaExtra).mockReturnValue(() =>
-      fp.TE.right(extraInfo as any),
+      fp.TE.right(extraInfo as Record<string, unknown>),
     );
 
     vi.mocked(MediaRepository.save).mockReturnValue(() =>
@@ -245,7 +248,7 @@ describe(parsePlatformMedia.name, () => {
 
   it("should return Left when extractMediaFromPlatform fails", async () => {
     vi.mocked(extractMediaFromPlatform).mockReturnValue(() =>
-      fp.TE.left({ name: "ServerError", message: "extract failed" } as any),
+      fp.TE.left({ name: "ServerError", message: "extract failed" } as Error),
     );
 
     const te = parsePlatformMedia(
@@ -262,16 +265,16 @@ describe(parsePlatformMedia.name, () => {
 
   it("should return Left when db.findOne fails", async () => {
     const platformMedia = {
-      location: "https://www.youtube.com/embed/test123" as any,
+      location: "https://www.youtube.com/embed/test123" as string,
       type: "iframe/video-youtube",
     };
 
     vi.mocked(extractMediaFromPlatform).mockReturnValue(() =>
-      fp.TE.right(platformMedia as any),
+      fp.TE.right(platformMedia as unknown as Partial<MediaEntity>),
     );
 
     appTest.ctx.db.findOne.mockReturnValueOnce(
-      fp.TE.left({ name: "DBError", message: "db error" } as any),
+      fp.TE.left({ name: "DBError", message: "db error" } as unknown as DBError),
     );
 
     const te = parsePlatformMedia(

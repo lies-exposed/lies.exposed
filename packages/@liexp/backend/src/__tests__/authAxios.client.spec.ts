@@ -31,8 +31,8 @@ describe("authAxios.client", () => {
   };
 
   const mockJWT: JWTProvider = {
-    signClient: vi.fn((_payload: any) => () => "client-token-123"),
-    signUser: vi.fn((_payload: any) => () => "user-token-456"),
+    signClient: vi.fn((_payload: unknown) => () => "client-token-123"),
+    signUser: vi.fn((_payload: unknown) => () => "user-token-456"),
     verifyClient: vi.fn(),
     verifyUser: vi.fn(),
   };
@@ -75,7 +75,7 @@ describe("authAxios.client", () => {
         jwt: mockJWT,
         logger: mockLogger,
         signAs: "user",
-        getPayload: () => customPayload as any,
+        getPayload: () => customPayload as ServiceClient,
       });
 
       expect(client).toBeDefined();

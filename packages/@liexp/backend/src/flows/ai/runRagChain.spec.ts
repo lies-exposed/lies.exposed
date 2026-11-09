@@ -1,5 +1,8 @@
+import type { Messages } from "@langchain/langgraph";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { describe, expect, it, vi } from "vitest";
+import type { Agent } from "../../providers/ai/agent.factory.js";
+import type { LoggerContext } from "../../context/logger.context.js";
 import { runAgent } from "./runRagChain.js";
 
 const createMockContext = () => ({
@@ -29,9 +32,9 @@ describe("runAgent", () => {
 
       const result = await throwTE(
         runAgent(
-          [{ role: "user", content: "hello" }] as any,
-          chain as any,
-        )(ctx as any),
+          [{ role: "user", content: "hello" }] as Messages,
+          chain as Agent,
+        )(ctx as LoggerContext),
       );
 
       expect(result).toBe("");
@@ -53,7 +56,7 @@ describe("runAgent", () => {
       const ctx = createMockContext();
 
       const result = await throwTE(
-        runAgent([] as any, chain as any)(ctx as any),
+        runAgent([] as Messages, chain as Agent)(ctx as LoggerContext),
       );
 
       expect(result).toContain('"first"');
@@ -75,7 +78,7 @@ describe("runAgent", () => {
       const ctx = createMockContext();
 
       const result = await throwTE(
-        runAgent([] as any, chain as any)(ctx as any),
+        runAgent([] as Messages, chain as Agent)(ctx as LoggerContext),
       );
 
       expect(result).toBe(JSON.stringify(structuredResponse));
@@ -99,7 +102,7 @@ describe("runAgent", () => {
       const ctx = createMockContext();
 
       const result = await throwTE(
-        runAgent([] as any, chain as any)(ctx as any),
+        runAgent([] as Messages, chain as Agent)(ctx as LoggerContext),
       );
 
       expect(result).toBe(JSON.stringify(structured));
@@ -112,7 +115,7 @@ describe("runAgent", () => {
       };
       const ctx = createMockContext();
 
-      const result = await runAgent([] as any, chain as any)(ctx as any)();
+      const result = await runAgent([] as Messages, chain as Agent)(ctx as LoggerContext)();
 
       expect(result._tag).toBe("Left");
     });
@@ -128,7 +131,7 @@ describe("runAgent", () => {
       const ctx = createMockContext();
 
       const result = await throwTE(
-        runAgent([] as any, chain as any, "invoke")(ctx as any),
+        runAgent([] as Messages, chain as Agent, "invoke")(ctx as LoggerContext),
       );
 
       expect(chain.invoke).toHaveBeenCalledWith({ messages: [] });
@@ -143,10 +146,10 @@ describe("runAgent", () => {
       const ctx = createMockContext();
 
       const result = await runAgent(
-        [] as any,
-        chain as any,
+        [] as Messages,
+        chain as Agent,
         "invoke",
-      )(ctx as any)();
+      )(ctx as LoggerContext)();
 
       expect(result._tag).toBe("Left");
     });
@@ -159,7 +162,7 @@ describe("runAgent", () => {
     };
     const ctx = createMockContext();
 
-    await throwTE(runAgent([] as any, chain as any, "stream")(ctx as any));
+    await throwTE(runAgent([] as Messages, chain as Agent, "stream")(ctx as LoggerContext));
 
     expect(ctx.logger.debug.log).toHaveBeenCalledWith(
       "Running sequence in mode %s",
@@ -174,7 +177,7 @@ describe("runAgent", () => {
     };
     const ctx = createMockContext();
 
-    await throwTE(runAgent([] as any, chain as any)(ctx as any));
+    await throwTE(runAgent([] as Messages, chain as Agent)(ctx as LoggerContext));
 
     expect(ctx.logger.debug.log).toHaveBeenCalledWith("Output %s", "");
   });

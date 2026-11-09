@@ -6,6 +6,7 @@ import { type ConfigContext } from "../../../context/config.context.js";
 import { type HTTPProviderContext } from "../../../context/http.context.js";
 import { type ImgProcClientContext } from "../../../context/index.js";
 import { type LoggerContext } from "../../../context/logger.context.js";
+import { type ServerError } from "../../../errors/ServerError.js";
 import { mockedContext } from "../../../test/context.js";
 import { readExifMetadataFromImage } from "../readExifMetadataFromImage.flow.js";
 import type { SimpleImageMedia } from "../thumbnails/extractThumbnailFromImage.flow.js";
@@ -42,9 +43,9 @@ describe(extractImageTypeExtra.name, () => {
     const media: SimpleImageMedia = {
       location: "https://example.com/image.jpg",
       thumbnail: null,
-    } as any;
+    } as SimpleImageMedia;
 
-    (readExifMetadataFromImage as any).mockReturnValueOnce(
+    (readExifMetadataFromImage as ReturnType<typeof vi.fn>).mockReturnValueOnce(
       fp.RTE.right({ width: 800, height: 600 }),
     );
 
@@ -59,13 +60,13 @@ describe(extractImageTypeExtra.name, () => {
     const media: SimpleImageMedia = {
       location: "https://example.com/image.jpg",
       thumbnail: "https://example.com/thumb.jpg",
-    } as any;
+    } as SimpleImageMedia;
 
-    (readExifMetadataFromImage as any).mockReturnValueOnce(
+    (readExifMetadataFromImage as ReturnType<typeof vi.fn>).mockReturnValueOnce(
       fp.RTE.right({ width: 1024, height: 768 }),
     );
 
-    (extractThumbnailsExtra as any).mockReturnValueOnce(
+    (extractThumbnailsExtra as ReturnType<typeof vi.fn>).mockReturnValueOnce(
       fp.RTE.right({
         thumbnailWidth: 200,
         thumbnailHeight: 150,
@@ -85,14 +86,14 @@ describe(extractImageTypeExtra.name, () => {
     const media: SimpleImageMedia = {
       location: "https://example.com/bad.jpg",
       thumbnail: null,
-    } as any;
+    } as SimpleImageMedia;
 
-    (readExifMetadataFromImage as any).mockReturnValueOnce(
+    (readExifMetadataFromImage as ReturnType<typeof vi.fn>).mockReturnValueOnce(
       fp.RTE.left({
         name: "ServerError",
         message: "fetch failed",
         status: 500,
-      }),
+      } as ServerError),
     );
 
     const result = await extractImageTypeExtra(media)(ctx)();
