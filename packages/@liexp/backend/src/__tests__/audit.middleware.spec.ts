@@ -97,9 +97,9 @@ describe("audit.middleware", () => {
       middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       // Trigger response completion by calling the finish event handler
-      const onMock = mockResponse.on as any;
+      const onMock = mockResponse.on as ReturnType<typeof vi.fn>;
       const finishHandler = onMock.mock.calls.find(
-        (call: any[]) => call[0] === "finish",
+        (call: [string, () => void]) => call[0] === "finish",
       )[1];
       finishHandler();
 
@@ -120,9 +120,9 @@ describe("audit.middleware", () => {
       middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       // Trigger response completion by calling the finish event handler
-      const onMock = mockResponse.on as any;
+      const onMock = mockResponse.on as ReturnType<typeof vi.fn>;
       const finishHandler = onMock.mock.calls.find(
-        (call: any[]) => call[0] === "finish",
+        (call: [string, () => void]) => call[0] === "finish",
       )[1];
       finishHandler();
 
@@ -145,15 +145,17 @@ describe("audit.middleware", () => {
       await new Promise((resolve) => setTimeout(resolve, 50));
 
       // Trigger response completion by calling the finish event handler
-      const onMock = mockResponse.on as any;
+      const onMock = mockResponse.on as ReturnType<typeof vi.fn>;
       const finishHandler = onMock.mock.calls.find(
-        (call: any[]) => call[0] === "finish",
+        (call: [string, () => void]) => call[0] === "finish",
       )[1];
       finishHandler();
 
-      const completionLog = (mockLogger.info.log as any).mock.calls.find(
-        (call: any[]) => call[0].includes("Request completed"),
-      );
+      const completionLog = (mockLogger.info.log as ReturnType<typeof vi.fn>)
+        .mock.calls.find(
+          (call: [string, number, number, number, number, string]) =>
+            call[0].includes("Request completed"),
+        );
       const duration = completionLog[4];
 
       // Allow for timer imprecision - timers may resolve slightly earlier than requested

@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import type { Redis } from "ioredis";
 import { makeCacheMiddleware } from "../express/middleware/cache.middleware.js";
 import type { RedisClient } from "../providers/redis/redis.provider.js";
 
@@ -21,7 +22,7 @@ const makeRedisMock = (
     ...overrides,
   };
   return {
-    client: client as any,
+    client: client as Redis,
     get: vi.fn(),
     set: vi.fn(),
   };
@@ -117,7 +118,7 @@ describe("makeCacheMiddleware", () => {
       await middleware(req as Request, res, next);
 
       // Simulate route handler calling res.json
-      (res as any).json({ data: { id: "some-uuid" } });
+      res.json({ data: { id: "some-uuid" } });
 
       await new Promise((r) => setTimeout(r, 10));
 
@@ -161,7 +162,7 @@ describe("makeCacheMiddleware", () => {
 
       // Simulate the route handler calling res.json
       const body = { data: [{ id: "1" }], total: 1 };
-      (res as any).json(body);
+      res.json(body);
 
       await vi.waitUntil(() => setex.mock.calls.length > 0);
 
@@ -255,7 +256,7 @@ describe("makeCacheMiddleware", () => {
     it("does not crash when setex() returns undefined (test mock)", async () => {
       const redis = makeRedisMock({
         get: vi.fn().mockResolvedValue(null),
-        setex: vi.fn().mockReturnValue(undefined) as any,
+        setex: vi.fn().mockReturnValue(undefined) as ReturnType<typeof vi.fn>,
       });
       const middleware = makeCacheMiddleware(redis, config);
       const res = makeResMock();
@@ -264,7 +265,7 @@ describe("makeCacheMiddleware", () => {
       await vi.waitUntil(() => next.mock.calls.length > 0);
 
       // Should not throw when res.json is called
-      expect(() => (res as any).json({ data: [] })).not.toThrow();
+      expect(() => res.json({ data: [] })).not.toThrow();
     });
   });
 
@@ -380,7 +381,7 @@ describe("makeCacheMiddleware", () => {
       await vi.waitUntil(() => next.mock.calls.length > 0);
 
       res.statusCode = 404;
-      (res as any).json({ error: "not found" });
+      res.json({ error: "not found" });
 
       await new Promise((r) => setTimeout(r, 10));
 
