@@ -2,6 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
+import { type MockedContext } from "../../../test/context.js";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type ENVContext } from "../../../context/env.context.js";
 import { type FFMPEGProviderContext } from "../../../context/ffmpeg.context.js";
@@ -10,6 +11,7 @@ import { type HTTPProviderContext } from "../../../context/http.context.js";
 import { type ImgProcClientContext } from "../../../context/index.js";
 import { type LoggerContext } from "../../../context/logger.context.js";
 import { type SpaceContext } from "../../../context/space.context.js";
+import { type MediaExtra } from "@liexp/io/lib/http/Media/index.js";
 import { MediaEntity } from "../../../entities/Media.entity.js";
 import { mockedContext } from "../../../test/context.js";
 import { extractImageTypeExtra } from "./extractImageTypeExtra.flow.js";
@@ -51,7 +53,7 @@ describe("extractMediaExtra", () => {
     imgProc: mockImgProc,
     space: mockSpace,
     fs: mockFs,
-  } as any);
+  } as MockedContext<ExtractMediaContext>);
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -61,7 +63,7 @@ describe("extractMediaExtra", () => {
     const media = new MediaEntity();
     media.id = "media-img-1";
     media.type = "image/jpeg";
-    media.location = "https://example.com/photo.jpg" as any;
+    media.location = "https://example.com/photo.jpg" as string;
     media.extra = null;
 
     const imageExtra = {
@@ -73,11 +75,11 @@ describe("extractMediaExtra", () => {
       needRegenerateThumbnail: true,
     };
 
-    (extractImageTypeExtra as any).mockReturnValueOnce(
+    (extractImageTypeExtra as ReturnType<typeof vi.fn>).mockReturnValueOnce(
       fp.RTE.right(imageExtra),
     );
 
-    (extractThumbnailsExtra as any).mockReturnValueOnce(
+    (extractThumbnailsExtra as ReturnType<typeof vi.fn>).mockReturnValueOnce(
       fp.RTE.right({
         thumbnailWidth: 0,
         thumbnailHeight: 0,
@@ -90,14 +92,14 @@ describe("extractMediaExtra", () => {
 
     expect(extractImageTypeExtra).toHaveBeenCalledWith(media);
     expect(result).toBeDefined();
-    expect((result as any).width).toBe(1920);
+    expect((result as NonNullable<typeof result>).width).toBe(1920);
   });
 
   it("should call extractMP4Extra for mp4 type media", async () => {
     const media = new MediaEntity();
     media.id = "media-mp4-1";
     media.type = "video/mp4";
-    media.location = "https://example.com/video.mp4" as any;
+    media.location = "https://example.com/video.mp4" as string;
     media.thumbnail = null;
     media.extra = null;
 
@@ -109,9 +111,9 @@ describe("extractMediaExtra", () => {
       thumbnailHeight: 0,
     };
 
-    (extractMP4Extra as any).mockReturnValueOnce(fp.RTE.right(videoExtra));
+    (extractMP4Extra as ReturnType<typeof vi.fn>).mockReturnValueOnce(fp.RTE.right(videoExtra));
 
-    (extractThumbnailsExtra as any).mockReturnValueOnce(
+    (extractThumbnailsExtra as ReturnType<typeof vi.fn>).mockReturnValueOnce(
       fp.RTE.right({
         thumbnailWidth: 0,
         thumbnailHeight: 0,
@@ -123,19 +125,19 @@ describe("extractMediaExtra", () => {
     const result = await pipe(extractMediaExtra(media)(ctx), throwTE);
 
     expect(extractMP4Extra).toHaveBeenCalledWith(media);
-    expect((result as any).duration).toBe(120);
+    expect((result as NonNullable<typeof result>).duration).toBe(120);
   });
 
   it("should use media.extra for unsupported media types", async () => {
-    const existingExtra = { width: 300, height: 200, thumbnails: [] } as any;
+    const existingExtra = { width: 300, height: 200, thumbnails: [] } as MediaExtra;
     const media = new MediaEntity();
     media.id = "media-other-1";
     media.type = "application/pdf";
-    media.location = "https://example.com/doc.pdf" as any;
+    media.location = "https://example.com/doc.pdf" as string;
     media.thumbnail = null;
     media.extra = existingExtra;
 
-    (extractThumbnailsExtra as any).mockReturnValueOnce(
+    (extractThumbnailsExtra as ReturnType<typeof vi.fn>).mockReturnValueOnce(
       fp.RTE.right({
         thumbnailWidth: 0,
         thumbnailHeight: 0,
@@ -155,12 +157,12 @@ describe("extractMediaExtra", () => {
     const media = new MediaEntity();
     media.id = "media-fail";
     media.type = "image/jpeg";
-    media.location = "https://example.com/fail.jpg" as any;
+    media.location = "https://example.com/fail.jpg" as string;
     media.thumbnail = null;
     media.extra = null;
 
-    (extractImageTypeExtra as any).mockReturnValueOnce(
-      fp.RTE.left({ name: "ServerError", message: "exif error", status: 500 }),
+    (extractImageTypeExtra as ReturnType<typeof vi.fn>).mockReturnValueOnce(
+      fp.RTE.left({ name: "ServerError", message: "exif error", status: 500 } as Error),
     );
 
     const result = await extractMediaExtra(media)(ctx)();

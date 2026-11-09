@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { type HTTPProviderContext } from "../../context/http.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
+import { type ServerError } from "../../errors/ServerError.js";
 import { mockedContext } from "../../test/context.js";
 import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
 import { checkMediaAccessibility } from "./checkMediaAccessibility.flow.js";
@@ -21,7 +22,7 @@ describe(checkMediaAccessibility.name, () => {
   });
 
   it("should return accessible=true when HTTP GET succeeds", async () => {
-    const url = "https://example.com/image.jpg" as any;
+    const url = "https://example.com/image.jpg" as string;
     mockTERightOnce(mockHttp.get, () => ({ data: "stream" }));
 
     const result = await pipe(checkMediaAccessibility(url)(ctx), throwTE);
@@ -32,7 +33,7 @@ describe(checkMediaAccessibility.name, () => {
   });
 
   it("should call http.get with browser-like headers", async () => {
-    const url = "https://example.com/photo.png" as any;
+    const url = "https://example.com/photo.png" as string;
     mockTERightOnce(mockHttp.get, () => ({}));
 
     await pipe(checkMediaAccessibility(url)(ctx), throwTE);
@@ -50,12 +51,12 @@ describe(checkMediaAccessibility.name, () => {
   });
 
   it("should return Left with HTTPError when HTTP GET fails", async () => {
-    const url = "https://example.com/missing.jpg" as any;
+    const url = "https://example.com/missing.jpg" as string;
     const httpError = {
       name: "HTTPError",
       message: "Not Found",
       status: 404,
-    } as any;
+    } as Error;
 
     mockHttp.get.mockImplementationOnce(() => TE.left(httpError));
 
@@ -68,7 +69,7 @@ describe(checkMediaAccessibility.name, () => {
   });
 
   it("should extract origin correctly from URL for Referer header", async () => {
-    const url = "https://cdn.example.org/path/to/image.webp" as any;
+    const url = "https://cdn.example.org/path/to/image.webp" as string;
     mockTERightOnce(mockHttp.get, () => ({}));
 
     await pipe(checkMediaAccessibility(url)(ctx), throwTE);

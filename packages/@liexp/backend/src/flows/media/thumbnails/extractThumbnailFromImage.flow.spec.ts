@@ -2,6 +2,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { type HTTPProviderContext } from "../../../context/http.context.js";
 import { extractThumbnailFromImage } from "./extractThumbnailFromImage.flow.js";
 
 const createMockContext = () => {
@@ -25,7 +26,7 @@ describe("extractThumbnailFromImage", () => {
   it("should return array buffer from image URL", async () => {
     const imageData = new ArrayBuffer(1024);
     const media = {
-      id: "123" as any,
+      id: "123" as string,
       location: "https://example.com/image.jpg",
       type: "image/jpeg" as const,
     };
@@ -33,7 +34,7 @@ describe("extractThumbnailFromImage", () => {
     ctx.http.get = vi.fn().mockReturnValue(TE.right(imageData));
 
     const result = await pipe(
-      extractThumbnailFromImage(media)(ctx as any),
+      extractThumbnailFromImage(media)(ctx as HTTPProviderContext),
       throwTE,
     );
 
@@ -53,7 +54,7 @@ describe("extractThumbnailFromImage", () => {
     }
 
     const media = {
-      id: "456" as any,
+      id: "456" as string,
       location: "https://example.com/photo.png",
       type: "image/png" as const,
     };
@@ -61,7 +62,7 @@ describe("extractThumbnailFromImage", () => {
     ctx.http.get = vi.fn().mockReturnValue(TE.right(originalBuffer));
 
     const result = await pipe(
-      extractThumbnailFromImage(media)(ctx as any),
+      extractThumbnailFromImage(media)(ctx as HTTPProviderContext),
       throwTE,
     );
 
@@ -72,7 +73,7 @@ describe("extractThumbnailFromImage", () => {
 
   it("should return Left when HTTP request fails", async () => {
     const media = {
-      id: "789" as any,
+      id: "789" as string,
       location: "https://example.com/missing.jpg",
       type: "image/jpeg" as const,
     };
@@ -85,7 +86,7 @@ describe("extractThumbnailFromImage", () => {
       }),
     );
 
-    const result = await extractThumbnailFromImage(media)(ctx)();
+    const result = await extractThumbnailFromImage(media)(ctx as HTTPProviderContext)();
 
     expect(result._tag).toBe("Left");
   });
@@ -93,7 +94,7 @@ describe("extractThumbnailFromImage", () => {
   it("should handle different image types", async () => {
     const imageData = new ArrayBuffer(256);
     const media = {
-      id: "abc" as any,
+      id: "abc" as string,
       location: "https://example.com/image.webp",
       type: "image/webp" as const,
     };
@@ -101,7 +102,7 @@ describe("extractThumbnailFromImage", () => {
     ctx.http.get = vi.fn().mockReturnValue(TE.right(imageData));
 
     const result = await pipe(
-      extractThumbnailFromImage(media)(ctx as any),
+      extractThumbnailFromImage(media)(ctx as HTTPProviderContext),
       throwTE,
     );
 

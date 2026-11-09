@@ -12,6 +12,7 @@ import * as tests from "@liexp/test/lib/index.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
+import { type MediaEntity } from "../../entities/Media.entity.js";
 import { mockedContext } from "../../test/context.js";
 import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
 import { sharpInstanceMocks } from "../../test/mocks/sharp.mock.js";
@@ -78,7 +79,7 @@ describe(uploadAndCreate.name, () => {
     const mockQueue = {
       addJob: addJob,
     };
-    Test.ctx.queue.queue.mockReturnValueOnce(mockQueue as any);
+    Test.ctx.queue.queue.mockReturnValueOnce(mockQueue as ReturnType<typeof vi.fn>);
 
     const response = await pipe(
       uploadAndCreate(
@@ -302,7 +303,7 @@ describe(uploadAndCreate.name, () => {
         extra: undefined,
       }));
 
-    Test.ctx.db.findOneOrFail.mockResolvedValueOnce(media as any);
+    Test.ctx.db.findOneOrFail.mockResolvedValueOnce(media as MediaEntity);
 
     Test.mocks.axios.get.mockImplementation(() => {
       return Promise.resolve({ data: Buffer.from([]) });
