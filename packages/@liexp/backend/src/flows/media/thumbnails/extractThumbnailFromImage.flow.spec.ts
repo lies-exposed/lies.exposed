@@ -86,7 +86,7 @@ describe("extractThumbnailFromImage", () => {
       }),
     );
 
-    const result = await extractThumbnailFromImage(media)(ctx as HTTPProviderContext)();
+    const result = await extractThumbnailFromImage(media)(ctx)();
 
     expect(result._tag).toBe("Left");
   });

@@ -1,5 +1,4 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
-import { fp } from "@liexp/core/lib/fp/index.js";
+import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 
 /**
  * Map entity relation arrays to their ID arrays.

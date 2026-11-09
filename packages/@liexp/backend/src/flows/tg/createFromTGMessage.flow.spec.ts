@@ -1,10 +1,10 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import { mock } from "vitest-mock-extended";
 import type { Message } from "node-telegram-bot-api";
 import type * as puppeteer from "puppeteer-core";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { mock } from "vitest-mock-extended";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -235,7 +235,7 @@ describe(createFromTGMessage.name, () => {
     } as Message;
 
     vi.mocked(getOneAdminOrFail).mockReturnValue(
-      fp.TE.left({ name: "DBError", message: "no admin found" } as Error),
+      fp.TE.left({ name: "DBError", message: "no admin found" }),
     );
 
     const te = createFromTGMessage(message, mockMetadata)(appTest.ctx);
@@ -288,7 +288,7 @@ describe(createFromTGMessage.name, () => {
     vi.mocked(MessageParser).mockReturnValue(
       makeParser({
         parseURLs: () => () =>
-          fp.TE.left({ name: "TGError", message: "parse error" } as Error),
+          fp.TE.left({ name: "TGError", message: "parse error" }),
       }),
     );
 

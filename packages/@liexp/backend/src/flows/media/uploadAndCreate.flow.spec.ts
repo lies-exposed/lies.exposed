@@ -79,7 +79,9 @@ describe(uploadAndCreate.name, () => {
     const mockQueue = {
       addJob: addJob,
     };
-    Test.ctx.queue.queue.mockReturnValueOnce(mockQueue as ReturnType<typeof vi.fn>);
+    Test.ctx.queue.queue.mockReturnValueOnce(
+      mockQueue as ReturnType<typeof vi.fn>,
+    );
 
     const response = await pipe(
       uploadAndCreate(

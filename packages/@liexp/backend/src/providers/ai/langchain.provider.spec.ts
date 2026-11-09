@@ -38,7 +38,10 @@ vi.mock("@langchain/anthropic", () => {
 });
 
 vi.mock("@langchain/xai", () => {
-  const ChatXAI = vi.fn().mockImplementation(function (this: Record<string, unknown>, opts: Record<string, unknown>) {
+  const ChatXAI = vi.fn().mockImplementation(function (
+    this: Record<string, unknown>,
+    opts: Record<string, unknown>,
+  ) {
     this.model = opts?.model;
     this.stream = vi.fn();
     this.invoke = vi.fn();
@@ -104,7 +107,9 @@ describe("GetLangchainProvider", () => {
       ...baseOpts,
       provider: "anthropic",
     });
-    expect((provider.chat as Record<string, unknown>).model).toContain("claude");
+    expect((provider.chat as Record<string, unknown>).model).toContain(
+      "claude",
+    );
   });
 
   it("uses custom chat model when provided", () => {
@@ -112,12 +117,16 @@ describe("GetLangchainProvider", () => {
       ...baseOpts,
       models: { chat: "gpt-4o-mini" },
     });
-    expect((provider.chat as Record<string, unknown>).model).toBe("gpt-4o-mini");
+    expect((provider.chat as Record<string, unknown>).model).toBe(
+      "gpt-4o-mini",
+    );
   });
 
   it("uses text-embedding-ada-002 as default embedding model", () => {
     const provider = GetLangchainProvider(baseOpts);
-    expect((provider.embeddings as Record<string, unknown>).model).toBe("text-embedding-ada-002");
+    expect((provider.embeddings as Record<string, unknown>).model).toBe(
+      "text-embedding-ada-002",
+    );
   });
 
   it("uses custom embedding model when provided", () => {
@@ -125,7 +134,9 @@ describe("GetLangchainProvider", () => {
       ...baseOpts,
       models: { embeddings: "text-embedding-3-small" },
     });
-    expect((provider.embeddings as Record<string, unknown>).model).toBe("text-embedding-3-small");
+    expect((provider.embeddings as Record<string, unknown>).model).toBe(
+      "text-embedding-3-small",
+    );
   });
 
   describe("cfAccess", () => {

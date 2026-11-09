@@ -1,8 +1,8 @@
 import type { Messages } from "@langchain/langgraph";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { describe, expect, it, vi } from "vitest";
-import type { Agent } from "../../providers/ai/agent.factory.js";
 import type { LoggerContext } from "../../context/logger.context.js";
+import type { Agent } from "../../providers/ai/agent.factory.js";
 import { runAgent } from "./runRagChain.js";
 
 const createMockContext = () => ({
@@ -115,7 +115,10 @@ describe("runAgent", () => {
       };
       const ctx = createMockContext();
 
-      const result = await runAgent([] as Messages, chain as Agent)(ctx as LoggerContext)();
+      const result = await runAgent(
+        [] as Messages,
+        chain as Agent,
+      )(ctx as LoggerContext)();
 
       expect(result._tag).toBe("Left");
     });
@@ -131,7 +134,11 @@ describe("runAgent", () => {
       const ctx = createMockContext();
 
       const result = await throwTE(
-        runAgent([] as Messages, chain as Agent, "invoke")(ctx as LoggerContext),
+        runAgent(
+          [] as Messages,
+          chain as Agent,
+          "invoke",
+        )(ctx as LoggerContext),
       );
 
       expect(chain.invoke).toHaveBeenCalledWith({ messages: [] });
@@ -162,7 +169,9 @@ describe("runAgent", () => {
     };
     const ctx = createMockContext();
 
-    await throwTE(runAgent([] as Messages, chain as Agent, "stream")(ctx as LoggerContext));
+    await throwTE(
+      runAgent([] as Messages, chain as Agent, "stream")(ctx as LoggerContext),
+    );
 
     expect(ctx.logger.debug.log).toHaveBeenCalledWith(
       "Running sequence in mode %s",
@@ -177,7 +186,9 @@ describe("runAgent", () => {
     };
     const ctx = createMockContext();
 
-    await throwTE(runAgent([] as Messages, chain as Agent)(ctx as LoggerContext));
+    await throwTE(
+      runAgent([] as Messages, chain as Agent)(ctx as LoggerContext),
+    );
 
     expect(ctx.logger.debug.log).toHaveBeenCalledWith("Output %s", "");
   });

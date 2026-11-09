@@ -1,6 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
 import type * as logger from "@liexp/core/lib/logger/index.js";
 import type ExifReader from "exifreader";
+import { describe, expect, it, vi } from "vitest";
 import {
   decodeExifTag,
   toImgProcError,
@@ -66,7 +66,10 @@ describe("imgproc.provider", () => {
       const error = new Error("Test error");
       const result = toImgProcError(error);
 
-      expect((result.details as { kind: string; status: string; meta?: string }).meta).toBeDefined();
+      expect(
+        (result.details as { kind: string; status: string; meta?: string })
+          .meta,
+      ).toBeDefined();
     });
 
     it("should handle non-Error values", () => {
