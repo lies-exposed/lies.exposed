@@ -1,6 +1,8 @@
 // import chroma from "chroma-js";
 import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import {
+  type SankeyGraph as D3SankeyGraph,
+  type SankeyLink as D3SankeyLink,
   sankey,
   sankeyLeft,
   // sankeyJustify,
@@ -38,6 +40,11 @@ export interface SankeyLinkData {
   path?: string;
   [key: string]: unknown;
 }
+
+interface SankeyNodeDatum {
+  id: string | number;
+}
+type SankeyLinkDatum = Record<string, never>;
 
 const SankeyNode: React.FC<SankeyNodeData> = ({
   x0,
@@ -143,8 +150,8 @@ const SankeyNode: React.FC<SankeyNodeData> = ({
 };
 
 const SankeyLink: React.FC<{ link: SankeyLinkData }> = ({ link }) => {
-  const d = sankeyLinkHorizontal()(
-    link as unknown as d3.SankeyLinkGeneral<Record<string, unknown>>,
+  const d = sankeyLinkHorizontal<SankeyNodeDatum, SankeyLinkDatum>()(
+    link as unknown as D3SankeyLink<SankeyNodeDatum, SankeyLinkDatum>,
   );
 
   return (
@@ -160,7 +167,7 @@ const SankeyLink: React.FC<{ link: SankeyLinkData }> = ({ link }) => {
   );
 };
 
-interface SankeyGraphProps {
+export interface SankeyGraphProps {
   width: number;
   height: number;
   graph: {
@@ -194,18 +201,14 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
     nodes: SankeyNodeData[];
     links: SankeyLinkData[];
   } => {
-    const sankeyGraph = props.graph as unknown as {
-      nodes: { id: string | number }[];
-      links: {
-        source: { id: string | number };
-        target: { id: string | number };
-        value: number;
-      }[];
-    };
-    const result = sankey()
+    const sankeyGraph = props.graph as unknown as D3SankeyGraph<
+      SankeyNodeDatum,
+      SankeyLinkDatum
+    >;
+    const result = sankey<SankeyNodeDatum, SankeyLinkDatum>()
       .nodeWidth(nodeWidth)
       .nodePadding(nodePadding)
-      .nodeId((n: { id: string | number }) => String(n.id))
+      .nodeId((n) => String(n.id))
       .nodeAlign(sankeyLeft)
       .extent([
         [0, 0],

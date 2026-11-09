@@ -73,7 +73,9 @@ export function HierarchicalEdgeBundling({
 
   const radius = width / 2;
 
-  const tree = d3.cluster().size([2 * Math.PI, radius - 100]);
+  const tree = d3
+    .cluster<HierarchicalEdgeBundlingDatum>()
+    .size([2 * Math.PI, radius - 100]);
 
   const getData = (): {
     children: { id: string; children: HierarchicalEdgeBundlingDatum[] }[];
@@ -307,10 +309,10 @@ export function HierarchicalEdgeBundling({
       .style("mix-blend-mode", "multiply")
       .style("cursor", "pointer")
       .attr("d", ([i, o]) => line(i.path(o)))
-      .each(function (this: SVGGElement) {
-        const pathEl = this.querySelector("path")!;
+      .each(function (this: d3.BaseType) {
+        const pathEl = (this as Element | null)?.querySelector("path");
         if (pathEl) {
-          const datum = d3.select(this).datum();
+          const datum = d3.select(this as Element).datum();
           if (datum && Array.isArray(datum)) {
             (datum[0] as { path?: SVGPathElement }).path = pathEl;
           }

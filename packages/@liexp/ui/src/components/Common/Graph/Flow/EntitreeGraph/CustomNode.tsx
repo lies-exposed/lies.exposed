@@ -30,6 +30,7 @@ interface CustomNodeData extends EntitreeTreeEntry {
   isSibling?: boolean;
   isPartner?: boolean;
   label?: string;
+  avatar?: string;
   direction?: string;
 }
 

@@ -1,5 +1,5 @@
 import { type Edge, type Node, Position } from "@xyflow/react";
-import { layoutFromMap } from "entitree-flex";
+import { layoutFromMap, type TreeNode } from "entitree-flex";
 import { type Theme } from "../../../../../theme/index.js";
 import { getRelationshipColor } from "../../../../../theme/styleUtils.js";
 
@@ -46,9 +46,11 @@ export interface EntitreeTreeEntry {
   [key: string]: unknown;
 }
 
+type EntitreeNode = TreeNode<EntitreeTreeEntry>;
+
 interface EntitreeEdge {
-  source: { id: string | number };
-  target: { id: string | number };
+  source: EntitreeNode;
+  target: EntitreeNode;
 }
 
 const { Top, Bottom, Left, Right } = Position;
@@ -79,10 +81,10 @@ export const layoutElements = (
 ): { nodes: Node[]; edges: Edge[] } => {
   const isTreeHorizontal = direction === "LR";
 
-  let entitreeNodes: { id: string | number; x?: number; y?: number }[];
+  let entitreeNodes: EntitreeNode[];
   let entitreeEdges: EntitreeEdge[];
   try {
-    const result = layoutFromMap<string | number>(rootId, tree, {
+    const result = layoutFromMap<EntitreeTreeEntry>(rootId, tree, {
       ...entitreeSettings,
       orientation: isTreeHorizontal
         ? Orientation.Horizontal
@@ -114,8 +116,8 @@ export const layoutElements = (
   const nodeRoles = new Map<string, RelationType>();
 
   entitreeEdges.forEach((edge: EntitreeEdge) => {
-    const sId: string = edge.source.id;
-    const tId: string = edge.target.id;
+    const sId = String(edge.source.id);
+    const tId = String(edge.target.id);
     const rel = resolveRelationType(tree[sId], tId);
     const existing = nodeRoles.get(tId);
     if (!existing || rolePriority[rel] < rolePriority[existing]) {
@@ -124,8 +126,8 @@ export const layoutElements = (
   });
 
   entitreeEdges.forEach((edge: EntitreeEdge) => {
-    const sourceId: string = edge.source.id;
-    const targetId: string = edge.target.id;
+    const sourceId = String(edge.source.id);
+    const targetId = String(edge.target.id);
 
     const sourceNode = tree[sourceId];
     const relationType = resolveRelationType(sourceNode, targetId);
@@ -169,52 +171,50 @@ export const layoutElements = (
     } as Edge);
   });
 
-  entitreeNodes.forEach(
-    (node: { id: string | number; x?: number; y?: number }) => {
-      const isRoot = node?.id === rootId;
+  entitreeNodes.forEach((node: EntitreeNode) => {
+    const isRoot = node?.id === rootId;
 
-      // Use the primary role derived from edges (parent_child wins over sibling)
-      const primaryRole = nodeRoles.get(node.id);
-      const isSpouse = primaryRole === "spouse";
-      const isSibling = primaryRole === "sibling";
-      const isPartner = primaryRole === "partner";
+    // Use the primary role derived from edges (parent_child wins over sibling)
+    const primaryRole = nodeRoles.get(String(node.id));
+    const isSpouse = primaryRole === "spouse";
+    const isSibling = primaryRole === "sibling";
+    const isPartner = primaryRole === "partner";
 
-      let sourcePosition: string;
-      let targetPosition: string;
+    let sourcePosition: string;
+    let targetPosition: string;
 
-      if (isSpouse) {
-        // Spouses on the right
-        sourcePosition = isTreeHorizontal ? Bottom : Right;
-        targetPosition = isTreeHorizontal ? Top : Left;
-      } else if (isPartner || isSibling) {
-        // Partners and siblings on the left
-        sourcePosition = isTreeHorizontal ? Top : Left;
-        targetPosition = isTreeHorizontal ? Bottom : Right;
-      } else {
-        sourcePosition = isTreeHorizontal ? Right : Bottom;
-        targetPosition = isTreeHorizontal ? Left : Top;
-      }
+    if (isSpouse) {
+      // Spouses on the right
+      sourcePosition = isTreeHorizontal ? Bottom : Right;
+      targetPosition = isTreeHorizontal ? Top : Left;
+    } else if (isPartner || isSibling) {
+      // Partners and siblings on the left
+      sourcePosition = isTreeHorizontal ? Top : Left;
+      targetPosition = isTreeHorizontal ? Bottom : Right;
+    } else {
+      sourcePosition = isTreeHorizontal ? Right : Bottom;
+      targetPosition = isTreeHorizontal ? Left : Top;
+    }
 
-      nodes.push({
-        id: node.id,
-        type: "custom",
-        sourcePosition,
-        targetPosition,
-        width: nodeWidth,
-        height: nodeHeight,
-        position: { x: node.x, y: node.y },
-        data: {
-          ...node,
-          label: node.name,
-          direction,
-          isRoot,
-          isSpouse,
-          isSibling,
-          isPartner,
-        },
-      } as Node);
-    },
-  );
+    nodes.push({
+      id: String(node.id),
+      type: "custom",
+      sourcePosition,
+      targetPosition,
+      width: nodeWidth,
+      height: nodeHeight,
+      position: { x: node.x, y: node.y },
+      data: {
+        ...node,
+        label: node.name,
+        direction,
+        isRoot,
+        isSpouse,
+        isSibling,
+        isPartner,
+      },
+    } as Node);
+  });
 
   return { nodes, edges };
 };

@@ -39,7 +39,9 @@ import {
   SANKEY_GRAPH_MARGIN,
 } from "../../theme/styleUtils.js";
 import { type NetworkScale } from "../Common/Graph/Network/Network.js";
-import SankeyGraph, { type SankeyNodeData } from "../Common/Graph/SankeyGraph.js";
+import SankeyGraph, {
+  type SankeyGraphProps,
+} from "../Common/Graph/SankeyGraph.js";
 import { Box, Grid } from "../mui/index.js";
 
 type GroupByItem = Actor.Actor | Group.Group | Keyword.Keyword;
@@ -698,9 +700,9 @@ export function createEventNetworkGraphProps({
     }),
   );
 
-  const groupByArray: GroupByItem[] = Map.toArray(S.Ord)(
-    groupByItems,
-  ).flatMap(([_k, items]) => items);
+  const groupByArray: GroupByItem[] = Map.toArray(S.Ord)(groupByItems).flatMap(
+    ([_k, items]) => items,
+  );
 
   const groupByScale = ordinalScale({
     domain: groupByArray.map((gb) =>
@@ -748,7 +750,7 @@ export function createEventNetworkGraphProps({
     ...actorsArray,
     ...groupsArray,
     ...eventNodes,
-  ] as unknown as SankeyNodeData[];
+  ] as unknown as EventNetworkDatum[];
   // console.log("all nodes", nodes);
 
   const links = [
