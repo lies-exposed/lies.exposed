@@ -1,4 +1,3 @@
-import { type http } from "@liexp/io/lib/index.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { MapInput } from "@liexp/ui/lib/components/admin/MapInput.js";
 import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/AreaTGPostButton.js";
@@ -19,6 +18,7 @@ import {
   useRecordContext,
   useRefresh,
   type EditProps,
+  type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
 import { EditToolbar } from "@liexp/ui/lib/components/admin/toolbar/index.js";
@@ -36,7 +36,7 @@ const transformArea = ({
   newMediaRef = [],
   newEvents: _newEvents,
   ...area
-}: http.Area.Area): http.Area.Area => {
+}: RaRecord): RaRecord => {
   const media = transformMedia(newMediaRef);
   return {
     ...area,

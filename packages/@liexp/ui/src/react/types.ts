@@ -26,7 +26,7 @@ export type AsyncDataRoute = BaseRoute & {
   ) => <P, Q, _A>(
     params: P,
     query: Q | undefined,
-  ) => Promise<AsyncDataRouteQuery<unknown, unknown, unknown>[]>;
+  ) => Promise<AsyncDataRouteQuery<any, any, any>[]>;
 };
 
 export const isAsyncDataRoute = (r: ServerRoute): r is AsyncDataRoute =>

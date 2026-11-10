@@ -1,5 +1,5 @@
-import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { createReactInlineContentSpec } from "@blocknote/react";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   type BNESchemaEditor,
   actorInlineSpec,
@@ -53,11 +53,7 @@ export const actorItem = (editor: BNESchemaEditor) => ({
 export const actorInlineContentSpec = createReactInlineContentSpec(
   actorInlineSpec,
   {
-    render: ({
-      inlineContent: {
-        props,
-      },
-    }): React.ReactNode => {
+    render: ({ inlineContent: { props } }): React.ReactNode => {
       const actorProps = props as ActorInlineProps;
       return (
         <BlockNoteEditorContext.Consumer>
@@ -67,7 +63,10 @@ export const actorInlineContentSpec = createReactInlineContentSpec(
                 editor={editor}
                 relation="actor"
                 id={actorProps.id}
-                relationProps={{ displayFullName: actorProps.displayFullName, id: actorProps.id }}
+                relationProps={{
+                  displayFullName: actorProps.displayFullName,
+                  id: actorProps.id,
+                }}
                 relationRenderer={{
                   actor: (props) => (
                     <ActorChipBox

@@ -5,7 +5,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { type HTTPProviderContext } from "../../context/http.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
-import { type ServerError } from "../../errors/ServerError.js";
 import { mockedContext } from "../../test/context.js";
 import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
 import { checkMediaAccessibility } from "./checkMediaAccessibility.flow.js";

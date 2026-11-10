@@ -51,6 +51,7 @@ export const parseTGMessage: CommandFlow = async (ctx, args): Promise<void> => {
 
       return right;
     }),
+    fp.T.map(() => undefined),
     fp.TE.fromTask,
     throwTE,
   );

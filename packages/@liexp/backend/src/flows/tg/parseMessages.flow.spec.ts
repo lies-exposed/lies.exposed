@@ -1,6 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { type Either } from "fp-ts/lib/Either.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { type ConfigContext } from "../../context/config.context.js";
@@ -20,12 +19,8 @@ import { type RedisContext } from "../../context/redis.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import type { BACKEND_ENV } from "../../io/ENV.js";
-import { type TGError } from "../../providers/tg/tg.provider.js";
 import { mockedContext } from "../../test/context.js";
-import {
-  createFromTGMessage,
-  type EventResult,
-} from "./createFromTGMessage.flow.js";
+import { createFromTGMessage } from "./createFromTGMessage.flow.js";
 import { parseTGMessageFileFlow } from "./parseMessages.flow.js";
 
 // Mock createFromTGMessage which has deep database/network dependencies

@@ -13,6 +13,7 @@ import {
   SimpleForm,
   TextInput,
   type CreateProps,
+  type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
@@ -24,9 +25,7 @@ const PatentCreate: React.FC<CreateProps> = (props) => {
     <Create
       title="Create a Patent Event"
       {...props}
-      transform={(data: Record<string, unknown>) =>
-        transformEvent(dataProvider)(uuid(), data)
-      }
+      transform={(data: RaRecord) => transformEvent(dataProvider)(uuid(), data)}
     >
       <SimpleForm>
         <TextInput source="payload.title" />

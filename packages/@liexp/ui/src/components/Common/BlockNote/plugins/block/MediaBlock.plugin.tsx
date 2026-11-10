@@ -93,7 +93,8 @@ export const MediaBlockPluginControl: React.FC<{
   });
 
   const selectedItems = React.useMemo(
-    () => (s.media ? (s.media as unknown as Media.Media[]) : ([] as Media.Media[])),
+    () =>
+      s.media ? (s.media as unknown as Media.Media[]) : ([] as Media.Media[]),
     [s.media],
   );
 

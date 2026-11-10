@@ -7,7 +7,10 @@ import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type AdminProxyENV } from "../io/ENV.js";
-import { createZeroClawAdapter, type ZeroClawAdapter } from "../zeroclow/adapter.js";
+import {
+  createZeroClawAdapter,
+  type ZeroClawAdapter,
+} from "../zeroclow/adapter.js";
 
 type TEControllerError<A> = TaskEither<ServerError, A>;
 
@@ -83,7 +86,7 @@ export const makeAdminProxyContext = (
         TE.right,
       ),
     ),
-    TE.bind("zeroclow", ({ jwt, m2m }) =>
+    TE.bind("zeroclow", () =>
       pipe(
         createZeroClawAdapter(env),
         TE.map((adapter) => adapter),

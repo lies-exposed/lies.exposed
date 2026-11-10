@@ -1,7 +1,7 @@
 import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
-import { type Link } from "@liexp/io/lib/http/Link.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Link } from "@liexp/io/lib/http/Link.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
 import { Schema } from "effect";
 import * as React from "react";

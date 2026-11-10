@@ -75,7 +75,10 @@ interface UploadedMedia extends RaRecord {
 
 const transformMedia =
   (apiProvider: APIRESTClient) =>
-  async (data: MediaFormData, options: UploadFileOptions): Promise<UploadedMedia> => {
+  async (
+    data: MediaFormData,
+    options: UploadFileOptions,
+  ): Promise<UploadedMedia> => {
     const loc = data.location as { src?: File; rawFile?: File; title?: string };
     const file = loc.rawFile ?? loc.src;
     const mediaTask =
@@ -99,17 +102,23 @@ const transformMedia =
     const areas = (data.areas ?? []).concat(data.newAreas ?? []);
 
     return pipe(
-      mediaTask as TE.TaskEither<unknown, { type: MediaType; location: { src: File; title: string } }>,
-      TE.map((media) => ({
-        ...data,
-        id: data.id ?? "",
-        ...media,
-        type: media.type as string,
-        events,
-        links,
-        keywords,
-        areas,
-      }) as unknown as UploadedMedia),
+      mediaTask as TE.TaskEither<
+        unknown,
+        { type: MediaType; location: { src: File; title: string } }
+      >,
+      TE.map(
+        (media) =>
+          ({
+            ...data,
+            id: data.id ?? "",
+            ...media,
+            type: media.type as string,
+            events,
+            links,
+            keywords,
+            areas,
+          }) as unknown as UploadedMedia,
+      ),
       throwTE,
     );
   };
@@ -176,13 +185,18 @@ export const MediaCreateMany: React.FC<Record<string, never>> = (_props) => {
     },
   });
 
-  const uploadMedia = async (files: MediaFormData[], uploaded: UploadedMedia[]): Promise<UploadedMedia[]> => {
+  const uploadMedia = async (
+    files: MediaFormData[],
+    uploaded: UploadedMedia[],
+  ): Promise<UploadedMedia[]> => {
     const [first, ...rest] = files;
     if (first) {
       const media = await transformMedia(apiProvider)(first, {
         onUploadProgress,
       }).then((m) =>
-        apiProvider.create("media", { data: m }).then((r) => r.data as UploadedMedia),
+        apiProvider
+          .create("media", { data: m })
+          .then((r) => r.data as UploadedMedia),
       );
 
       const record = getValues();

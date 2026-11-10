@@ -1,3 +1,4 @@
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { type Keyword } from "@liexp/io/lib/http/Keyword.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
@@ -61,7 +62,10 @@ export const KeywordEdit: React.FC = () => {
           <KeywordTGPostButton />
         </Stack>
       }
-      transform={({ newEvents, ...r }: Record<string, unknown>) => {
+      transform={({
+        newEvents,
+        ...r
+      }: Keyword & { newEvents: Event[]; events: Event[] }) => {
         return {
           ...r,
           color: toColor(r.color),

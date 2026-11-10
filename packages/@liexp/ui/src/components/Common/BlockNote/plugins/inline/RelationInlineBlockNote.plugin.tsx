@@ -50,7 +50,10 @@ export const RelationInlineContentComponent: React.FC<{
   editor: BNESchemaEditor;
   relation?: string;
   relationProps?: Record<string, unknown>;
-  relationRenderer: Record<string, (props: Record<string, unknown>) => React.ReactNode>;
+  relationRenderer: Record<
+    string,
+    (props: Record<string, unknown>) => React.ReactNode
+  >;
   id?: string;
 }> = ({
   editor,
