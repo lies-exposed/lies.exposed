@@ -1161,8 +1161,8 @@ importers:
         specifier: ^3.0.4
         version: 3.0.4(@types/node@26.5.0)(@typescript/typescript6@6.0.2)(graphql@16.14.2)(supports-color@8.1.1)(vite@8.3.5(@types/node@26.5.0)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.82.0)(terser@5.37.0)(tsx@4.23.15)(yaml@2.9.1))
       supertest:
-        specifier: ^7.2.2
-        version: 7.2.2(supports-color@8.1.1)
+        specifier: ^7.3.2
+        version: 7.3.2(supports-color@8.1.1)
       tsx:
         specifier: ^4.23.15
         version: 4.23.15
@@ -1288,8 +1288,8 @@ importers:
         specifier: ^3.0.4
         version: 3.0.4(@types/node@26.5.0)(@typescript/typescript6@6.0.2)(graphql@16.14.2)(supports-color@8.1.1)(vite@8.3.5(@types/node@26.5.0)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.82.0)(terser@5.37.0)(tsx@4.23.15)(yaml@2.9.1))
       supertest:
-        specifier: ^7.1.0
-        version: 7.2.2(supports-color@8.1.1)
+        specifier: ^7.3.2
+        version: 7.3.2(supports-color@8.1.1)
       tsx:
         specifier: ^4.23.15
         version: 4.23.15
@@ -1533,8 +1533,8 @@ importers:
         specifier: ^3.23.2
         version: 3.23.2
       supertest:
-        specifier: ^7.2.2
-        version: 7.2.2(supports-color@8.1.1)
+        specifier: ^7.3.2
+        version: 7.3.2(supports-color@8.1.1)
       typeorm-pglite:
         specifier: ^0.3.4
         version: 0.3.4(@electric-sql/pglite@0.5.8)
@@ -1775,8 +1775,8 @@ importers:
         specifier: ^3.0.4
         version: 3.0.4(@types/node@26.5.0)(@typescript/typescript6@6.0.2)(graphql@16.14.2)(supports-color@8.1.1)(vite@8.3.5(@types/node@26.5.0)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.82.0)(terser@5.37.0)(tsx@4.23.15)(yaml@2.9.1))
       supertest:
-        specifier: ^7.2.2
-        version: 7.2.2(supports-color@8.1.1)
+        specifier: ^7.3.2
+        version: 7.3.2(supports-color@8.1.1)
       tsx:
         specifier: ^4.23.15
         version: 4.23.15
@@ -9705,12 +9705,12 @@ packages:
   stylis@4.2.0:
     resolution: {integrity: sha512-Orov6g6BB1sDfYgzWfTHDOxamtX1bE/zo104Dh9e6fqJ3PooipYyfJ0pUmrZO2wAvO8YbEyeFrkV91XTsGMSrw==}
 
-  superagent@10.3.0:
-    resolution: {integrity: sha512-B+4Ik7ROgVKrQsXTV0Jwp2u+PXYLSlqtDAhYnkkD+zn3yg8s/zjA2MeGayPoY/KICrbitwneDHrjSotxKL+0XQ==}
+  superagent@10.4.2:
+    resolution: {integrity: sha512-u+PFV+VKiAKKzJqnCvveNya3N+pR/8jUZs/ek6jRfE41fpSCNdFY61L7NYmSgB6I9TTFM50ywoPXRKgw2k3wKw==}
     engines: {node: '>=14.18.0'}
 
-  supertest@7.2.2:
-    resolution: {integrity: sha512-oK8WG9diS3DlhdUkcFn4tkNIiIbBx9lI2ClF8K+b2/m8Eyv47LSawxUzZQSNKUrVb2KsqeTDCcjAAVPYaSLVTA==}
+  supertest@7.3.2:
+    resolution: {integrity: sha512-hR0dKRUE+PwZhHLdq/GRhf97HbUQte+AhbpWBQ9nh02tpjujVJj0GY4aygd1dAKdNZ7UZexWHpeItyJi/jLsgw==}
     engines: {node: '>=14.18.0'}
 
   supports-color@8.1.1:
@@ -19040,7 +19040,7 @@ snapshots:
 
   stylis@4.2.0: {}
 
-  superagent@10.3.0(supports-color@8.1.1):
+  superagent@10.4.2(supports-color@8.1.1):
     dependencies:
       component-emitter: 1.3.1
       cookiejar: 2.1.4
@@ -19054,11 +19054,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  supertest@7.2.2(supports-color@8.1.1):
+  supertest@7.3.2(supports-color@8.1.1):
     dependencies:
       cookie-signature: 1.2.2
       methods: 1.1.2
-      superagent: 10.3.0(supports-color@8.1.1)
+      superagent: 10.4.2(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
