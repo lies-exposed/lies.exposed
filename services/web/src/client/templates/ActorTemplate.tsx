@@ -12,7 +12,7 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
   // const params = useParams();
   const navigateToResource = useNavigateToResource();
   const { tab: _tab = "0", ...query } = useRouteQuery();
-  const tab = parseInt(_tab, 10);
+  const tab = parseInt(typeof _tab === "string" ? _tab : "0", 10);
 
   return (
     <QueriesRenderer

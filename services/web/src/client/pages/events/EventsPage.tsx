@@ -26,7 +26,9 @@ const useEventsPageQuery = (): GetSearchEventsQueryInput & {
 } => {
   const query = useRouteQuery();
 
-  const hashQuery = useQueryFromHash(query.hash);
+  const hashQuery = useQueryFromHash(
+    typeof query.hash === "string" ? query.hash : "",
+  );
   return React.useMemo(() => {
     return {
       ...query,

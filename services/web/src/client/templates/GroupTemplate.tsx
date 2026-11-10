@@ -9,7 +9,7 @@ import { useNavigateToResource } from "../utils/location.utils.js";
 const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
   const navigateTo = useNavigateToResource();
   const { tab: _tab = "0", ...query } = useRouteQuery();
-  const tab = parseInt(_tab, 10);
+  const tab = parseInt(typeof _tab === "string" ? _tab : "0", 10);
 
   return (
     <QueriesRenderer

@@ -546,7 +546,7 @@ export const routes: ServerRoute[] = [
     path: "/events",
     route: () => <EventsPage />,
     queries: (Q, conf) => async (params, query: any) => {
-      const q = hashToQuery(query.hash);
+      const q: any = hashToQuery(query.hash);
 
       q.hash = query.hash;
       q.startDate = query.startDate;
@@ -568,8 +568,8 @@ export const routes: ServerRoute[] = [
             {
               ...q,
               hash: undefined,
-              _start: 0,
-              _end: 20,
+              _start: "0",
+              _end: "20",
             },
             false,
           ),

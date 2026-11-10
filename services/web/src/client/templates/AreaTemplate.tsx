@@ -10,7 +10,7 @@ import { useNavigateToResource } from "../utils/location.utils.js";
 const AreaTemplate: React.FC<{ areaId: UUID }> = ({ areaId }) => {
   const navigateToResource = useNavigateToResource();
   const { tab: _tab = "0" } = useRouteQuery();
-  const tab = parseInt(_tab, 10);
+  const tab = parseInt(typeof _tab === "string" ? _tab : "0", 10);
 
   return (
     <QueriesRenderer
