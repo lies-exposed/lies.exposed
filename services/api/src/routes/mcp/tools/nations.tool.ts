@@ -13,9 +13,7 @@ const nationToOutput = (nation: NationEntity): Record<string, unknown> => ({
   name: nation.name,
   isoCode: nation.isoCode,
   description: nation.description ?? undefined,
-  actors: (nation.actors ?? []).map((a) =>
-    typeof a === "string" ? a : a.id,
-  ),
+  actors: (nation.actors ?? []).map((a) => (typeof a === "string" ? a : a.id)),
   createdAt: nation.createdAt.toISOString(),
   updatedAt: nation.updatedAt.toISOString(),
 });
