@@ -21,6 +21,10 @@ permissions:
   pull-requests: write
   packages: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
@@ -34,16 +38,27 @@ jobs:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
-  # Setup: Install deps and build (only when release is created)
-  setup:
+  # Warm the pnpm store + packages build caches on main so PRs can restore them.
+  # Runs on every push to main (cheap); everything below runs only on release.
+  warm-cache:
     needs: [release-please]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
 
       - uses: ./.github/actions/install-deps
-        with:
-          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - uses: ./.github/actions/build-packages
+
+  # Setup: build ai-bot (only when release is created)
+  setup:
+    needs: [release-please]
+    if: needs.release-please.outputs.releases_created == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/install-deps
 
       - uses: ./.github/actions/build-packages
 
@@ -59,14 +74,13 @@ jobs:
 
   # Build and sync Storybook to MinIO (only when release is created)
   storybook:
-    needs: [release-please, setup]
+    needs: [release-please]
+    if: needs.release-please.outputs.releases_created == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
 
       - uses: ./.github/actions/install-deps
-        with:
-          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
 
@@ -80,7 +94,6 @@ jobs:
           pnpm storybook build:app
 
       - name: Install MinIO Client
-        if: needs.release-please.outputs.releases_created == 'true'
         uses: hostwithquantum/setup-mc@v1.2.0
         with:
           alias-name: lies-exposed-space
@@ -89,7 +102,6 @@ jobs:
           alias-secret-key: ${{ secrets.MINIO_SECRET_KEY }}
 
       - name: Sync Storybook to MinIO
-        if: needs.release-please.outputs.releases_created == 'true'
         run: |
           mc mirror --overwrite --remove \
             services/storybook/build \
@@ -98,6 +110,7 @@ jobs:
   # Build and push Docker images in parallel (only when release is created)
   deploy:
     needs: [release-please, setup]
+    if: needs.release-please.outputs.releases_created == 'true'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -157,6 +170,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           push: ${{ needs.release-please.outputs.releases_created == 'true' }}
+          cache_scope: ${{ matrix.service }}
           build-args: |
             DOTENV_CONFIG_PATH=${{ matrix.service == 'admin' && '.env.prod' || matrix.service == 'web' && '.env.prod' || '.env' }}
             VITE_VERSION=${{ steps.pkg-version.outputs.version }}

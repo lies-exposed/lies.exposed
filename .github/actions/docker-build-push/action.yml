@@ -25,11 +25,15 @@ inputs:
   build-args:
     required: false
     description: "Docker build args"
+  cache_scope:
+    required: true
+    description: "GHA cache scope; use a distinct value per image to avoid cache overwrites"
 
 runs:
   using: "composite"
   steps:
     - name: Log in to registry
+      if: inputs.push == 'true'
       uses: docker/login-action@v4
       with:
         registry: ${{ inputs.registry }}
@@ -50,6 +54,6 @@ runs:
         tags: ${{ inputs.image_name }}
         build-args: ${{ inputs.build-args }}
         platforms: linux/amd64
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+        cache-from: type=gha,scope=${{ inputs.cache_scope }}
+        cache-to: type=gha,mode=max,scope=${{ inputs.cache_scope }}
 

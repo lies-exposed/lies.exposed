@@ -1,11 +1,6 @@
 name: Install Deps
 
-description: Install deps with pnpm
-
-inputs:
-  hash:
-    required: true
-    description: "The hash obtain from hashFiles('**/pnpm-lock.yaml')"
+description: Install deps with pnpm (store cached by pnpm/action-setup)
 
 runs:
   using: "composite"
@@ -14,24 +9,14 @@ runs:
       with:
         node-version: 26
 
+    # `cache: true` restores/saves the pnpm store keyed on pnpm-lock.yaml,
+    # with a prefix restore-key fallback (replaces manual actions/cache steps).
     - uses: pnpm/action-setup@v6.1.1
       name: Install pnpm
       with:
         run_install: false
-
-    - name: Get pnpm store directory
-      shell: bash
-      run: |
-        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-    - uses: actions/cache@v6
-      name: Setup pnpm cache
-      with:
-        path: ${{ env.STORE_PATH }}
-        key: ${{ runner.os }}-pnpm-store-${{ inputs.hash }}
-        restore-keys: |
-          ${{ runner.os }}-pnpm-store-
+        cache: true
 
     - name: Install dependencies
       shell: bash
-      run: pnpm install
+      run: pnpm install --frozen-lockfile --prefer-offline

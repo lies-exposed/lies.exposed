@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # Determine which services need CI based on changed files
   detect-changes:
@@ -16,6 +20,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       needs-install: ${{ steps.filter.outputs.needs-install }}
       any-code: ${{ steps.filter.outputs.any-code }}
+      has-matrix: ${{ steps.set-matrix.outputs.has-matrix }}
     steps:
       - uses: actions/checkout@v7
 
@@ -29,6 +34,7 @@ jobs:
               - "pnpm-workspace.yaml"
             admin:
               - ".github/workflows/**"
+              - ".github/actions/**"
               - "packages/@liexp/core/src/**"
               - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/src/**"
@@ -38,6 +44,7 @@ jobs:
               - "base.Dockerfile"
             agent:
               - ".github/workflows/**"
+              - ".github/actions/**"
               - "packages/@liexp/core/src/**"
               - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/src/**"
@@ -47,6 +54,7 @@ jobs:
               - "base.Dockerfile"
             ai-bot:
               - ".github/workflows/**"
+              - ".github/actions/**"
               - "packages/@liexp/core/src/**"
               - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/src/**"
@@ -56,6 +64,7 @@ jobs:
               - "base.Dockerfile"
             api:
               - ".github/workflows/**"
+              - ".github/actions/**"
               - "packages/@liexp/core/**"
               - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/**"
@@ -65,13 +74,16 @@ jobs:
               - "base.Dockerfile"
             packages:
               - ".github/workflows/**"
+              - ".github/actions/**"
               - "packages/**"
             storybook:
               - ".github/workflows/**"
+              - ".github/actions/**"
               - "packages/@liexp/**/src/**"
               - "services/storybook/**"
             web:
               - ".github/workflows/**"
+              - ".github/actions/**"
               - "packages/@liexp/core/src/**"
               - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/src/**"
@@ -81,6 +93,7 @@ jobs:
               - "base.Dockerfile"
             worker:
               - ".github/workflows/**"
+              - ".github/actions/**"
               - "packages/@liexp/core/src/**"
               - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/src/**"
@@ -90,6 +103,7 @@ jobs:
               - "base.Dockerfile"
             root:
               - ".github/workflows/**"
+              - ".github/actions/**"
               - "knip.json"
               - "package.json"
               - "pnpm-lock.yaml"
@@ -100,6 +114,7 @@ jobs:
               - "packages/**"
               - "services/**"
               - ".github/workflows/**"
+              - ".github/actions/**"
               - "**/package.json"
               - "pnpm-lock.yaml"
               - "pnpm-workspace.yaml"
@@ -149,28 +164,31 @@ jobs:
           )
           joined=$(IFS=,; echo "${items[*]}")
           echo "matrix={\"include\":[$joined]}" >> $GITHUB_OUTPUT
+          if [[ ${#items[@]} -gt 0 ]]; then echo "has-matrix=true" >> $GITHUB_OUTPUT; else echo "has-matrix=false" >> $GITHUB_OUTPUT; fi
 
-  # Install dependencies and build packages (shared cache for all jobs)
+  # Install dependencies and build packages once; warms the caches for all jobs
+  # (avoids every matrix leg rebuilding packages in parallel on a cache miss)
   install:
     needs: detect-changes
-    if: needs.detect-changes.outputs.needs-install == 'true'
+    if: needs.detect-changes.outputs.any-code == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
 
       - uses: ./.github/actions/install-deps
-        with:
-          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
 
   # CI job - lint, build, spec tests, and e2e tests (with conditional DB services)
   ci:
     needs: [detect-changes, install]
+    # !cancelled(): still run (and report red/green) if the cache-warming
+    # install job failed; legs rebuild packages themselves in that case.
     if: |
-      always() &&
-      (needs.install.result == 'success' || needs.install.result == 'skipped') &&
-      needs.detect-changes.outputs.any-code == 'true'
+      !cancelled() &&
+      needs.detect-changes.result == 'success' &&
+      needs.detect-changes.outputs.any-code == 'true' &&
+      needs.detect-changes.outputs.has-matrix == 'true'
     runs-on: ubuntu-latest
 
     # Conditional services - only start when matrix.needs_db is true
@@ -195,7 +213,6 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 5
       matrix: ${{ fromJSON(needs.detect-changes.outputs.matrix) }}
 
     name: CI ${{ matrix.service }}
@@ -204,8 +221,6 @@ jobs:
       - uses: actions/checkout@v7
 
       - uses: ./.github/actions/setup-workspace
-        with:
-          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Build ${{ matrix.service }}
         if: ${{ matrix.build_command }}
@@ -250,16 +265,14 @@ jobs:
   knip-report:
     needs: [detect-changes, install]
     if: |
-      always() &&
-      (needs.install.result == 'success' || needs.install.result == 'skipped') &&
+      !cancelled() &&
+      needs.detect-changes.result == 'success' &&
       needs.detect-changes.outputs.any-code == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
 
       - uses: ./.github/actions/setup-workspace
-        with:
-          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Post the knip results
         run: pnpm knip
