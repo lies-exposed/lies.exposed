@@ -13,7 +13,7 @@ import { type CommandFlow } from "./command.type.js";
  *
  * @returns void
  */
-export const parseTGMessage: CommandFlow = async (ctx, args): Promise<void> => {
+export const parseTGMessage: CommandFlow = async (ctx, args): Promise<any> => {
   const [tgNumber, _deleteFile] = args;
 
   const messagesFolder = path.resolve(process.cwd(), `temp/tg/messages`);

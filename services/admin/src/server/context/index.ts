@@ -86,7 +86,7 @@ export const makeAdminProxyContext = (
         TE.right,
       ),
     ),
-    TE.bind("zeroclow", ({ jwt, m2m }) =>
+    TE.bind("zeroclow", () =>
       pipe(
         createZeroClawAdapter(env),
         TE.map((adapter) => adapter),

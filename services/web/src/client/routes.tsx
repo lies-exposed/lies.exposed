@@ -75,7 +75,7 @@ const RedirectToEventsRoute: React.FC = () => {
 const githubQuery = (
   Q: EndpointsQueryProvider<Endpoints, QueryProviderCustomQueries>,
   _conf: Configuration,
-): AsyncDataRouteQuery<unknown, { owner: string; repo: string }, unknown> => ({
+): AsyncDataRouteQuery<any, any, any> => ({
   queryKey: Q.GithubRepoStats.list.getKey(undefined, {
     owner: "lies-exposed",
     repo: "lies.exposed",
@@ -96,14 +96,14 @@ const linkRoute: ServerRoute = {
   },
   queries:
     (Q, conf) =>
-    async ({ linkId }: { linkId: string }) =>
+    async ({ linkId }: any) =>
       Promise.resolve([
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Link.get.getKey({ id: linkId }),
           queryFn: Q.Link.get.fetch,
         },
-      ] as AsyncDataRouteQuery<unknown, unknown, unknown>[]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
 };
 
 const linksRoute: ServerRoute = {
@@ -115,7 +115,7 @@ const linksRoute: ServerRoute = {
       {
         queryKey: Q.Link.list.getKey(undefined),
         queryFn: Q.Link.list.fetch,
-      } as AsyncDataRouteQuery<unknown, unknown, unknown>,
+      } as AsyncDataRouteQuery<any, any, any>,
     ]),
 };
 
@@ -209,7 +209,7 @@ export const routes: ServerRoute[] = [
             }),
             queryFn: Q.Stats.list.fetch,
           },
-        ] as AsyncDataRouteQuery<unknown, unknown, unknown>[]),
+        ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // actors page
   {
@@ -229,7 +229,7 @@ export const routes: ServerRoute[] = [
           {
             queryKey: Q.Actor.get.getKey({ id: actorId }),
             queryFn: Q.Actor.get.fetch,
-          } as AsyncDataRouteQuery<unknown, unknown, unknown>,
+          } as AsyncDataRouteQuery<any, any, any>,
           {
             queryKey: Q.Group.list.getKey(
               undefined,
@@ -242,14 +242,14 @@ export const routes: ServerRoute[] = [
               // false,
             ),
             queryFn: Q.Group.list.fetch,
-          } as AsyncDataRouteQuery<unknown, unknown, unknown>,
+          } as AsyncDataRouteQuery<any, any, any>,
           {
             queryKey: Q.Stats.list.getKey(undefined, {
               id: actorId,
               type: StatsType.members[1].literals[0],
             }),
             queryFn: Q.Stats.list.fetch,
-          } as AsyncDataRouteQuery<unknown, unknown, unknown>,
+          } as AsyncDataRouteQuery<any, any, any>,
         ]),
   },
   // event page
@@ -381,7 +381,7 @@ export const routes: ServerRoute[] = [
         {
           queryKey: Q.Keyword.get.getKey({ id: params.keywordId }),
           queryFn: Q.Keyword.get.fetch,
-        } as AsyncDataRouteQuery<unknown, unknown, unknown>,
+        } as AsyncDataRouteQuery<any, any, any>,
         {
           queryKey: Q.Stats.list.getKey(
             undefined,
@@ -414,7 +414,7 @@ export const routes: ServerRoute[] = [
           {
             queryKey: Q.Area.get.getKey({ id: areaId }),
             queryFn: Q.Area.get.fetch,
-          } as AsyncDataRouteQuery<unknown, unknown, unknown>,
+          } as AsyncDataRouteQuery<any, any, any>,
         ]),
   },
   // media
@@ -435,7 +435,7 @@ export const routes: ServerRoute[] = [
           {
             queryKey: Q.Media.get.getKey({ id: mediaId }),
             queryFn: Q.Media.get.fetch,
-          } as AsyncDataRouteQuery<unknown, unknown, unknown>,
+          } as AsyncDataRouteQuery<any, any, any>,
         ]),
   },
   // links
@@ -539,96 +539,94 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Actor.list.getKey(undefined),
           queryFn: Q.Actor.list.fetch,
         },
-      ] as AsyncDataRouteQuery<unknown, unknown, unknown>[]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // events
   {
     path: "/events",
     route: () => <EventsPage />,
-    queries:
-      (Q, conf) =>
-      async (params, query: Record<string, unknown> | undefined) => {
-        const q = hashToQuery(query.hash);
+    queries: (Q, conf) => async (params, query: any) => {
+      const q = hashToQuery(query.hash);
 
-        q.hash = query.hash;
-        q.startDate = query.startDate;
-        q.endDate = query.endDate;
-        q.media = query.media ?? [];
-        q.locations = query.locations ?? [];
-        q._sort = q._sort ?? "date";
-        q.type = q.type ?? EventType.members.map((t) => t.literals[0]);
-        q.keywords = q.keywords ?? [];
-        q.actors = q.actors ?? [];
-        q.groups = q.groups ?? [];
-        q.groupsMembers = q.groupsMembers ?? [];
+      q.hash = query.hash;
+      q.startDate = query.startDate;
+      q.endDate = query.endDate;
+      q.media = query.media ?? [];
+      q.locations = query.locations ?? [];
+      q._sort = q._sort ?? "date";
+      q.type = q.type ?? EventType.members.map((t) => t.literals[0]);
+      q.keywords = q.keywords ?? [];
+      q.actors = q.actors ?? [];
+      q.groups = q.groups ?? [];
+      q.groupsMembers = q.groupsMembers ?? [];
 
-        return Promise.resolve([
-          ...commonQueries.flatMap((c) => c(Q, conf)),
-          {
-            queryKey: Q.Event.Custom.SearchEvents.getKey(
-              undefined,
-              {
-                ...q,
-                hash: undefined,
-                _start: 0,
-                _end: 20,
-              },
-              false,
-            ),
-            queryFn: Q.Event.Custom.SearchEvents.fetch,
-          },
-          {
-            queryKey: Q.Actor.list.getKey(
-              undefined,
-              {
-                ids: q.actors,
-                _end: q.actors.length.toString(),
-              },
-              // true,
-            ),
-            queryFn: Q.Actor.list.fetch,
-          },
-          {
-            queryKey: Q.Group.list.getKey(
-              undefined,
-              {
-                ids: q.groups,
-                _end: q.groups.length.toString(),
-              },
-              // true,
-            ),
-            queryFn: Q.Group.list.fetch,
-          },
-          {
-            queryKey: Q.GroupMember.list.getKey(
-              undefined,
-              {
-                ids: q.groupsMembers,
-                _end: q.groupsMembers.length.toString(),
-              },
-              // true,
-            ),
-            queryFn: Q.GroupMember.list.fetch,
-          },
-          {
-            queryKey: Q.Keyword.list.getKey(
-              undefined,
-              {
-                ids: q.keywords,
-                _sort: "updatedAt",
-                _order: "DESC",
-                _end: q.keywords.length.toString(),
-              },
-              // true,
-            ),
-            queryFn: Q.Keyword.list.fetch,
-          },
-          {
-            queryKey: getSearchEventsInfiniteQueryKey(q),
-            queryFn: Q.Event.Custom.SearchEvents.fetch,
-          },
-        ]);
-      },
+      return Promise.resolve([
+        ...commonQueries.flatMap((c) => c(Q, conf)),
+        {
+          queryKey: Q.Event.Custom.SearchEvents.getKey(
+            undefined,
+            {
+              ...q,
+              hash: undefined,
+              _start: 0,
+              _end: 20,
+            },
+            false,
+          ),
+          queryFn: Q.Event.Custom.SearchEvents.fetch,
+        },
+        {
+          queryKey: Q.Actor.list.getKey(
+            undefined,
+            {
+              ids: q.actors,
+              _end: q.actors.length.toString(),
+            },
+            // true,
+          ),
+          queryFn: Q.Actor.list.fetch,
+        },
+        {
+          queryKey: Q.Group.list.getKey(
+            undefined,
+            {
+              ids: q.groups,
+              _end: q.groups.length.toString(),
+            },
+            // true,
+          ),
+          queryFn: Q.Group.list.fetch,
+        },
+        {
+          queryKey: Q.GroupMember.list.getKey(
+            undefined,
+            {
+              ids: q.groupsMembers,
+              _end: q.groupsMembers.length.toString(),
+            },
+            // true,
+          ),
+          queryFn: Q.GroupMember.list.fetch,
+        },
+        {
+          queryKey: Q.Keyword.list.getKey(
+            undefined,
+            {
+              ids: q.keywords,
+              _sort: "updatedAt",
+              _order: "DESC",
+              _end: q.keywords.length.toString(),
+            },
+            // true,
+          ),
+          queryFn: Q.Keyword.list.fetch,
+        },
+        {
+          queryKey: getSearchEventsInfiniteQueryKey(q),
+          queryFn: Q.Event.Custom.SearchEvents.fetch,
+        },
+      ]);
+    },
   },
   {
     path: "/books",
