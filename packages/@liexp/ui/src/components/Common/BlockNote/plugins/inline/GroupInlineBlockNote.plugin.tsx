@@ -1,5 +1,5 @@
-import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { createReactInlineContentSpec } from "@blocknote/react";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   type BNESchemaEditor,
   groupInlineSpec,
@@ -51,11 +51,7 @@ export const groupItem = (editor: BNESchemaEditor) => ({
 export const groupInlineContentSpec = createReactInlineContentSpec(
   groupInlineSpec,
   {
-    render: ({
-      inlineContent: {
-        props,
-      },
-    }): React.ReactNode => {
+    render: ({ inlineContent: { props } }): React.ReactNode => {
       const groupProps = props as GroupInlineProps;
       return (
         <BlockNoteEditorContext.Consumer>
@@ -65,7 +61,11 @@ export const groupInlineContentSpec = createReactInlineContentSpec(
                 editor={editor}
                 relation="group"
                 id={groupProps.id}
-                relationProps={{ id: groupProps.id, name: groupProps.name, className: groupProps.className }}
+                relationProps={{
+                  id: groupProps.id,
+                  name: groupProps.name,
+                  className: groupProps.className,
+                }}
                 relationRenderer={{
                   group: (props) => (
                     <GroupChipBox

@@ -1,5 +1,5 @@
-import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { createReactInlineContentSpec } from "@blocknote/react";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   type BNESchemaEditor,
   keywordInlineSpec,
@@ -42,9 +42,7 @@ export const keywordItem = (editor: BNESchemaEditor) => ({
 export const keywordInlineContentSpec = createReactInlineContentSpec(
   keywordInlineSpec,
   {
-    render: ({
-      inlineContent: { type, props: rawProps },
-    }): React.ReactNode => {
+    render: ({ inlineContent: { type, props: rawProps } }): React.ReactNode => {
       const props = (rawProps ?? { id: "" }) as KeywordInlineProps;
       return (
         <BlockNoteEditorContext.Consumer>
