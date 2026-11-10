@@ -78,7 +78,7 @@ export function useNavigateToResource(): NavigationHooks {
               : "";
             n.navigateTo(
               `/${resourceName}${path}`,
-              search as Record<string, string | string[]>,
+              search!,
             );
             break;
           }
@@ -94,7 +94,7 @@ export function useNavigateToResource(): NavigationHooks {
               : "";
             n.navigateTo(
               `/${resourceName}${id}`,
-              search as Record<string, string | string[]>,
+              search!,
             );
             break;
           }

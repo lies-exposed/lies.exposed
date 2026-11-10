@@ -68,7 +68,7 @@ const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
             onTabChange={(t) => {
               navigateTo.groups({ id: groupId }, { tab: String(t) });
             }}
-            onQueryChange={(q) => {
+            onQueryChange={() => {
               navigateTo.groups({ id: groupId }, { tab: String(tab) });
             }}
             onEventClick={(e) => {

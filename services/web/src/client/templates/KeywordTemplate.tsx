@@ -84,7 +84,7 @@ const KeywordPage: React.FC<{ keywordId: UUID }> = ({ keywordId }) => {
       onGroupClick={(g) => {
         navigateTo.groups({ id: g.id }, { tab: "0" });
       }}
-      onQueryChange={(q) => {
+      onQueryChange={() => {
         navigateTo.keywords({ id: keywordId }, { tab: String(tab) });
       }}
     />
