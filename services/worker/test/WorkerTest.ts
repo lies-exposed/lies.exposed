@@ -22,10 +22,7 @@ import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provide
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
 import puppeteerMock from "@liexp/backend/lib/test/mocks/puppeteer.mock.js";
 import { mocks, type DepsMocks } from "@liexp/backend/lib/test/mocks.js";
-import {
-  getDataSource,
-  getORMConfig,
-} from "@liexp/backend/lib/utils/data-source.js";
+import { getInitializedPGliteDataSource } from "@liexp/backend/lib/test/setup/pglite-datasource.js";
 import { GetLogger, type Logger } from "@liexp/core/lib/logger/index.js";
 import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
@@ -56,7 +53,7 @@ export const loadAppContext = async (
   return pipe(
     sequenceS(TE.ApplicativePar)({
       db: pipe(
-        getDataSource(getORMConfig(process.env as unknown as ENV)),
+        getInitializedPGliteDataSource(),
         TE.chain((source) => GetTypeORMClient(source)),
       ),
       env: pipe(
@@ -128,12 +125,11 @@ export const loadAppContext = async (
 
 export const initAppTest = async (
   ctx: WorkerContext,
-  database: string,
+  _database: string,
 ): Promise<WorkerTest> => {
+  // reuse the per-worker PGlite DataSource already held by ctx.db
   const appTest = await pipe(
-    getDataSource(getORMConfig({ ...ctx.env, DB_DATABASE: database })),
-    TE.chain((source) => GetTypeORMClient(source)),
-    TE.map((db) => ({ ...ctx, db })),
+    TE.right(ctx),
     TE.map((ctx) => ({
       ctx,
       mocks,
