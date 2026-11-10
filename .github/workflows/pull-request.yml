@@ -270,6 +270,13 @@ jobs:
 
       - uses: ./.github/actions/setup-workspace
 
+      # ormconfig.js imports from api's build output
+      - name: Build api
+        uses: ./.github/actions/build-service
+        with:
+          service: api
+          build_command: pnpm api build
+
       - name: Run migrations
         env:
           DOTENV_CONFIG_PATH: ./.env.test
