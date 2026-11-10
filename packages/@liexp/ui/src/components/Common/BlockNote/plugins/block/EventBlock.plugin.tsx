@@ -164,7 +164,7 @@ export const eventBlock = createReactBlockSpec(eventBlockSpecs, {
 
     return (
       <EditMenu
-        editor={editor}
+        editor={editor as any}
         onClick={() => {
           onChange(DEFAULT_ID);
         }}

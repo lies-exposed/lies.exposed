@@ -12,7 +12,7 @@ export const relationItem = (editor: BNESchemaEditor) => ({
         type: "relation",
         props: {
           relation: "actor",
-          id: undefined as string | undefined,
+          id: "missing-relation-id",
         },
       },
     ]);

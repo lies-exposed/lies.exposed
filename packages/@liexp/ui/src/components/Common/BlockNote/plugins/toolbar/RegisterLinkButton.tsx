@@ -13,7 +13,6 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { URL } from "@liexp/io/lib/http/Common/URL.js";
 import {
   type BNESchemaEditor,
-  type BNInlineContent,
 } from "@liexp/shared/lib/providers/blocknote/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Schema } from "effect";
@@ -32,7 +31,7 @@ const getUrlFromBlocks = (
 ): string | null => {
   for (const block of blocks) {
     if ("content" in block && Array.isArray(block.content)) {
-      const text = (block.content as BNInlineContent[])
+      const text = (block.content as any[])
         .filter((c) => c.type === "text")
         .map((c) => c.text as string)
         .join("")
@@ -98,7 +97,7 @@ export const RegisterLinkFormattingButton: React.FC = () => {
               url: `/links/${link.id}`,
               title: link.title ?? link.url ?? "",
             },
-          } as BNInlineContent,
+          } as any,
         ],
       });
     } catch (_e) {
