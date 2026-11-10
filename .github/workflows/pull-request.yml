@@ -218,6 +218,8 @@ jobs:
 
       - name: Lint ${{ matrix.service }}
         if: ${{ matrix.lint_command }}
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
         run: ${{ matrix.lint_command }}
 
       - name: Build ${{ matrix.service }} app
