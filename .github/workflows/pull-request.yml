@@ -20,8 +20,10 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       needs-install: ${{ steps.filter.outputs.needs-install }}
       any-code: ${{ steps.filter.outputs.any-code }}
+      has-matrix: ${{ steps.set-matrix.outputs.has-matrix }}
     steps:
-      # No checkout needed: on pull_request dorny/paths-filter uses the GitHub API
+      - uses: actions/checkout@v7
+
       - uses: dorny/paths-filter@v4
         id: filter
         with:
@@ -31,7 +33,7 @@ jobs:
               - "pnpm-lock.yaml"
               - "pnpm-workspace.yaml"
             admin:
-              - ".github/workflows/pull-request.yml"
+              - ".github/workflows/**"
               - ".github/actions/**"
               - "packages/@liexp/core/src/**"
               - "packages/@liexp/io/src/**"
@@ -41,7 +43,7 @@ jobs:
               - "admin.Dockerfile"
               - "base.Dockerfile"
             agent:
-              - ".github/workflows/pull-request.yml"
+              - ".github/workflows/**"
               - ".github/actions/**"
               - "packages/@liexp/core/src/**"
               - "packages/@liexp/io/src/**"
@@ -51,7 +53,7 @@ jobs:
               - "agent.Dockerfile"
               - "base.Dockerfile"
             ai-bot:
-              - ".github/workflows/pull-request.yml"
+              - ".github/workflows/**"
               - ".github/actions/**"
               - "packages/@liexp/core/src/**"
               - "packages/@liexp/io/src/**"
@@ -61,7 +63,7 @@ jobs:
               - "ai-bot.Dockerfile"
               - "base.Dockerfile"
             api:
-              - ".github/workflows/pull-request.yml"
+              - ".github/workflows/**"
               - ".github/actions/**"
               - "packages/@liexp/core/**"
               - "packages/@liexp/io/src/**"
@@ -71,16 +73,16 @@ jobs:
               - "api.Dockerfile"
               - "base.Dockerfile"
             packages:
-              - ".github/workflows/pull-request.yml"
+              - ".github/workflows/**"
               - ".github/actions/**"
               - "packages/**"
             storybook:
-              - ".github/workflows/pull-request.yml"
+              - ".github/workflows/**"
               - ".github/actions/**"
               - "packages/@liexp/**/src/**"
               - "services/storybook/**"
             web:
-              - ".github/workflows/pull-request.yml"
+              - ".github/workflows/**"
               - ".github/actions/**"
               - "packages/@liexp/core/src/**"
               - "packages/@liexp/io/src/**"
@@ -90,7 +92,7 @@ jobs:
               - "web.Dockerfile"
               - "base.Dockerfile"
             worker:
-              - ".github/workflows/pull-request.yml"
+              - ".github/workflows/**"
               - ".github/actions/**"
               - "packages/@liexp/core/src/**"
               - "packages/@liexp/io/src/**"
@@ -100,7 +102,7 @@ jobs:
               - "worker.Dockerfile"
               - "base.Dockerfile"
             root:
-              - ".github/workflows/pull-request.yml"
+              - ".github/workflows/**"
               - ".github/actions/**"
               - "knip.json"
               - "package.json"
@@ -111,7 +113,7 @@ jobs:
             any-code:
               - "packages/**"
               - "services/**"
-              - ".github/workflows/pull-request.yml"
+              - ".github/workflows/**"
               - ".github/actions/**"
               - "**/package.json"
               - "pnpm-lock.yaml"
@@ -162,6 +164,7 @@ jobs:
           )
           joined=$(IFS=,; echo "${items[*]}")
           echo "matrix={\"include\":[$joined]}" >> $GITHUB_OUTPUT
+          if [[ ${#items[@]} -gt 0 ]]; then echo "has-matrix=true" >> $GITHUB_OUTPUT; else echo "has-matrix=false" >> $GITHUB_OUTPUT; fi
 
   # Install dependencies and build packages once; warms the caches for all jobs
   # (avoids every matrix leg rebuilding packages in parallel on a cache miss)
@@ -179,9 +182,13 @@ jobs:
   # CI job - lint, build, spec tests, and e2e tests (with conditional DB services)
   ci:
     needs: [detect-changes, install]
+    # !cancelled(): still run (and report red/green) if the cache-warming
+    # install job failed; legs rebuild packages themselves in that case.
     if: |
+      !cancelled() &&
+      needs.detect-changes.result == 'success' &&
       needs.detect-changes.outputs.any-code == 'true' &&
-      needs.detect-changes.outputs.matrix != '{"include":[]}'
+      needs.detect-changes.outputs.has-matrix == 'true'
     runs-on: ubuntu-latest
 
     # Conditional services - only start when matrix.needs_db is true
@@ -257,7 +264,10 @@ jobs:
   # Knip report (for any code changes)
   knip-report:
     needs: [detect-changes, install]
-    if: needs.detect-changes.outputs.any-code == 'true'
+    if: |
+      !cancelled() &&
+      needs.detect-changes.result == 'success' &&
+      needs.detect-changes.outputs.any-code == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

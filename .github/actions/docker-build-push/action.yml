@@ -26,8 +26,7 @@ inputs:
     required: false
     description: "Docker build args"
   cache_scope:
-    required: false
-    default: "buildkit"
+    required: true
     description: "GHA cache scope; use a distinct value per image to avoid cache overwrites"
 
 runs:

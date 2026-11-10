@@ -52,7 +52,7 @@ jobs:
 
   # Setup: build ai-bot (only when release is created)
   setup:
-    needs: [release-please, warm-cache]
+    needs: [release-please]
     if: needs.release-please.outputs.releases_created == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -74,7 +74,7 @@ jobs:
 
   # Build and sync Storybook to MinIO (only when release is created)
   storybook:
-    needs: [release-please, warm-cache]
+    needs: [release-please]
     if: needs.release-please.outputs.releases_created == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -169,7 +169,7 @@ jobs:
           image_name: ${{ matrix.image_tag }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          push: true
+          push: ${{ needs.release-please.outputs.releases_created == 'true' }}
           cache_scope: ${{ matrix.service }}
           build-args: |
             DOTENV_CONFIG_PATH=${{ matrix.service == 'admin' && '.env.prod' || matrix.service == 'web' && '.env.prod' || '.env' }}
