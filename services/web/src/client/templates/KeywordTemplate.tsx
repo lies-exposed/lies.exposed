@@ -4,50 +4,77 @@ import { KeywordTemplate } from "@liexp/ui/lib/templates/KeywordTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils.js";
+import { toString, toStringArray } from "../utils/query.utils.js";
 
 const KeywordPage: React.FC<{ keywordId: UUID }> = ({ keywordId }) => {
-  const { tab: _tab = "0", ...query } = useRouteQuery();
+  const rawQuery = useRouteQuery<Record<string, string | string[]>>();
   const navigateTo = useNavigateToResource();
 
   const tab = React.useMemo(
-    () => parseInt(typeof _tab === "string" ? _tab : "0", 10),
-    [_tab],
+    () => {
+      const rawTab = rawQuery.tab;
+      return typeof rawTab === "string"
+        ? parseInt(rawTab, 10)
+        : rawTab !== undefined && rawTab.length > 0
+          ? parseInt(rawTab[0], 10)
+          : 0;
+    },
+    [rawQuery.tab],
   );
+
+  const query = React.useMemo(() => {
+    const eventType = rawQuery.eventType;
+    return {
+      actors: toStringArray(rawQuery.actors) as unknown as UUID[],
+      groups: toStringArray(rawQuery.groups) as unknown as UUID[],
+      groupsMembers: toStringArray(rawQuery.groupsMembers) as unknown as UUID[],
+      keywords: toStringArray(rawQuery.keywords) as unknown as UUID[],
+      media: toStringArray(rawQuery.media) as unknown as UUID[],
+      locations: toStringArray(rawQuery.locations) as unknown as UUID[],
+      startDate: toString(rawQuery.startDate),
+      endDate: toString(rawQuery.endDate),
+      eventType:
+        eventType !== undefined
+          ? toStringArray(eventType) as ("Book" | "Death" | "Documentary" | "Patent" | "Quote" | "ScientificStudy" | "Transaction" | "Uncategorized")[]
+          : EventType.members.map((t) => t.literals[0]),
+      q: toString(rawQuery.q),
+      _order: toString(rawQuery._order),
+      _sort: toString(rawQuery._sort),
+      hash: toString(rawQuery.hash),
+      slide: rawQuery.slide !== undefined ? (toString(rawQuery.slide) === "1" ? true : false) : undefined,
+    };
+  }, [rawQuery]);
 
   return (
     <KeywordTemplate
       id={keywordId}
       tab={tab}
-      query={{
-        ...query,
-        eventType:
-          query.eventType ?? EventType.members.map((t) => t.literals[0]),
-      }}
+      query={query as any}
       onTabChange={(tab) => {
-        navigateTo.keywords({ id: keywordId }, { tab });
+        navigateTo.keywords({ id: keywordId }, { tab: String(tab) });
       }}
       onKeywordClick={(k) => {
         navigateTo.keywords(
           { id: k.id },
           {
-            tab: 1,
+            tab: "1",
           },
         );
       }}
       onEventClick={(e) => {
-        navigateTo.events({ id: e.id }, { tab: 0 });
+        navigateTo.events({ id: e.id }, { tab: "0" });
       }}
       onMediaClick={(m) => {
-        navigateTo.media({ id: m.id }, { tab: 0 });
+        navigateTo.media({ id: m.id }, { tab: "0" });
       }}
       onActorClick={(m) => {
-        navigateTo.actors({ id: m.id }, { tab: 0 });
+        navigateTo.actors({ id: m.id }, { tab: "0" });
       }}
       onGroupClick={(g) => {
-        navigateTo.groups({ id: g.id }, { tab: 0 });
+        navigateTo.groups({ id: g.id }, { tab: "0" });
       }}
       onQueryChange={(q) => {
-        navigateTo.keywords({ id: keywordId }, { ...q, tab });
+        navigateTo.keywords({ id: keywordId }, { tab: String(tab) });
       }}
     />
   );

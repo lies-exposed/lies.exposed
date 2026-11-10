@@ -79,7 +79,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 _order: "DESC",
               }}
               onActorClick={(a: ActorItem) => {
-                navigateTo.actors({ id: a.id }, { tab: 0 });
+                navigateTo.actors({ id: a.id }, { tab: "0" });
               }}
             />
           </Grid>
@@ -98,7 +98,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 _order: "DESC",
               }}
               onItemClick={(g) => {
-                navigateTo.groups({ id: g.id }, { tab: 0 });
+                navigateTo.groups({ id: g.id }, { tab: "0" });
               }}
             />
           </Grid>

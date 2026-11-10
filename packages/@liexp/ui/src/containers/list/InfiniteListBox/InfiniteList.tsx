@@ -13,7 +13,9 @@ export interface RowRendererProps<T = unknown> extends Record<string, unknown> {
   onRowInvalidate?: () => void;
 }
 
-type RowRenderer<T = unknown> = React.ForwardRefExoticComponent<RowRendererProps<T>>;
+type RowRenderer<T = unknown> = React.ForwardRefExoticComponent<
+  RowRendererProps<T>
+>;
 
 const PREFIX = "InfiniteList";
 const classes = {
@@ -29,14 +31,22 @@ const StyledList = styled("div")(() => ({
   },
 }));
 
-export interface InfiniteListProps<T = unknown>
-  extends InfiniteListBaseProps<T> {
+export interface InfiniteListProps<
+  T = unknown,
+> extends InfiniteListBaseProps<T> {
   onRowsRendered: (params: { startIndex: number; stopIndex: number }) => void;
   RowRenderer: RowRenderer<T>;
 }
 
 const InfiniteListForwardRef = <T,>(
-  { height, onRowsRendered, items, getItem, RowRenderer, ...rest }: InfiniteListProps<T>,
+  {
+    height,
+    onRowsRendered,
+    items,
+    getItem,
+    RowRenderer,
+    ...rest
+  }: InfiniteListProps<T>,
   listRef: React.Ref<unknown>,
 ) => {
   const scrollRef = React.useRef<HTMLDivElement | null>(null);

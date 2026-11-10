@@ -150,7 +150,8 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   onQueryChange,
   onEventClick,
 }) => {
-  const slide = _slide === true || (typeof _slide === "string" && _slide === "true");
+  const slide =
+    _slide === true || (typeof _slide === "string" && _slide === "true");
   const query = {
     type: EventType.members.map((t) => t.Type),
     ..._query,

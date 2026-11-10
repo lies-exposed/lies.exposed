@@ -162,7 +162,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
                 selectedActorIds: actors ?? [],
                 selectedGroupIds: groups ?? [],
                 selectedKeywordIds: keywords ?? [],
-              } as unknown as typeof s),
+              }) as unknown as typeof s,
           );
         }}
         onQueryClear={() => {}}

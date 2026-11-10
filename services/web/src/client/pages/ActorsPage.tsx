@@ -72,16 +72,16 @@ const ActorsPage: React.FC<RouteComponentProps> = (_props) => {
                     endDate: formatDate(new Date()),
                   }}
                   onEventClick={(e) => {
-                    navigateTo.events({ id: e.id }, { tab: 0 });
+                    navigateTo.events({ id: e.id }, { tab: "0" });
                   }}
                   onActorClick={(e) => {
-                    navigateTo.actors({ id: e.id }, { tab: 0 });
+                    navigateTo.actors({ id: e.id }, { tab: "0" });
                   }}
                   onGroupClick={(e) => {
-                    navigateTo.groups({ id: e.id }, { tab: 0 });
+                    navigateTo.groups({ id: e.id }, { tab: "0" });
                   }}
                   onKeywordClick={(e) => {
-                    navigateTo.keywords({ id: e.id }, { tab: 0 });
+                    navigateTo.keywords({ id: e.id }, { tab: "0" });
                   }}
                 />
               </Grid>

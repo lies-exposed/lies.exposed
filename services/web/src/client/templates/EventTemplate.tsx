@@ -5,17 +5,32 @@ import { EventTemplateUI } from "@liexp/ui/lib/templates/EventTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils.js";
+import { toStringArray } from "../utils/query.utils.js";
 
 const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
   const navigateTo = useNavigateToResource();
-  const { tab: _tab = "0", ...query } = useRouteQuery();
-  const tab = parseInt(typeof _tab === "string" ? _tab : "0", 10);
-  const filters = {
-    actors: query.actors ?? [],
-    groups: query.groups ?? [],
-    keywords: query.keywords ?? [],
-    eventType: query.eventType ?? EventType.members.map((v) => v.literals[0]),
-  };
+  const rawQuery = useRouteQuery<Record<string, string | string[]>>();
+  const tab = React.useMemo(() => {
+    const rawTab = rawQuery.tab;
+    return typeof rawTab === "string"
+      ? parseInt(rawTab, 10)
+      : rawTab !== undefined && rawTab.length > 0
+        ? parseInt(rawTab[0], 10)
+        : 0;
+  }, [rawQuery.tab]);
+
+  const filters = React.useMemo(() => {
+    const eventType = rawQuery.eventType;
+    return {
+      actors: toStringArray(rawQuery.actors) as unknown as UUID[],
+      groups: toStringArray(rawQuery.groups) as unknown as UUID[],
+      keywords: toStringArray(rawQuery.keywords) as unknown as UUID[],
+      eventType:
+        eventType !== undefined
+          ? toStringArray(eventType) as ("Book" | "Death" | "Documentary" | "Patent" | "Quote" | "ScientificStudy" | "Transaction" | "Uncategorized")[]
+          : EventType.members.map((v) => v.literals[0]),
+    };
+  }, [rawQuery]);
 
   return (
     <QueriesRenderer
@@ -26,36 +41,36 @@ const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
       render={({ event: { data: event } }) => {
         return (
           <EventTemplateUI
-            filters={filters}
+            filters={filters as any}
             event={event}
             tab={tab}
             onTabChange={(tab) => {
-              navigateTo.events({ id: event.id }, { tab });
+              navigateTo.events({ id: event.id }, { tab: String(tab) });
             }}
             onDateClick={() => {}}
             onActorClick={(a) => {
-              navigateTo.actors({ id: a.id }, { tab: 0 });
+              navigateTo.actors({ id: a.id }, { tab: "0" });
             }}
             onGroupClick={(a) => {
-              navigateTo.groups({ id: a.id }, { tab: 0 });
+              navigateTo.groups({ id: a.id }, { tab: "0" });
             }}
             onAreaClick={(a) => {
-              navigateTo.areas({ id: a.id }, { tab: 0 });
+              navigateTo.areas({ id: a.id }, { tab: "0" });
             }}
             onKeywordClick={(a) => {
-              navigateTo.keywords({ id: a.id }, { tab: 0 });
+              navigateTo.keywords({ id: a.id }, { tab: "0" });
             }}
             onLinkClick={(l) => {
-              navigateTo.links({ id: l.id }, { tab: 0 });
+              navigateTo.links({ id: l.id }, { tab: "0" });
             }}
             onMediaClick={(m) => {
-              navigateTo.media({ id: m.id }, { tab: 0 });
+              navigateTo.media({ id: m.id }, { tab: "0" });
             }}
             onGroupMemberClick={(g) => {
-              navigateTo.actors({ id: g.actor.id }, { tab: 0 });
+              navigateTo.actors({ id: g.actor.id }, { tab: "0" });
             }}
             onEventClick={(e) => {
-              navigateTo.events({ id: e.id }, { tab: 0 });
+              navigateTo.events({ id: e.id }, { tab: "0" });
             }}
           />
         );

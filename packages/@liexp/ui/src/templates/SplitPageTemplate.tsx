@@ -159,7 +159,7 @@ export interface SplitPageTemplateProps<T = Record<string, unknown>> {
   children: React.ReactNode[];
 }
 
-export const SplitPageTemplate = <T = Record<string, unknown>>(
+export const SplitPageTemplate = <T = Record<string, unknown>,>(
   props: SplitPageTemplateProps<T>,
 ) => {
   const {

@@ -18,24 +18,58 @@ import {
   useNavigateToResource,
   type EventsView,
 } from "../../utils/location.utils.js";
+import { toString, toStringArray } from "../../utils/query.utils.js";
 
 const useEventsPageQuery = (): GetSearchEventsQueryInput & {
   tab: number;
   slide?: string;
   hash: string;
 } => {
-  const query = useRouteQuery();
+  const rawQuery = useRouteQuery<Record<string, string | string[]>>();
 
-  const hashQuery = useQueryFromHash(
-    typeof query.hash === "string" ? query.hash : "",
+  const hashQuery = useQueryFromHash<GetSearchEventsQueryInput & {
+    tab: number;
+    slide?: string;
+    hash: string;
+  }>(
+    typeof rawQuery.tab === "string" ? rawQuery.tab : "",
   );
   return React.useMemo(() => {
+    // Extract tab from raw query and convert to number
+    const rawTab = rawQuery.tab;
+    const tab =
+      typeof rawTab === "string"
+        ? parseInt(rawTab, 10)
+        : rawTab !== undefined && rawTab.length > 0
+          ? parseInt(rawTab[0], 10)
+          : 0;
+
+    // Build query object with proper types
+    const query = {
+      actors: toStringArray(rawQuery.actors),
+      groups: toStringArray(rawQuery.groups),
+      groupsMembers: toStringArray(rawQuery.groupsMembers),
+      keywords: toStringArray(rawQuery.keywords),
+      media: toStringArray(rawQuery.media),
+      locations: toStringArray(rawQuery.locations),
+      startDate: toString(rawQuery.startDate),
+      endDate: toString(rawQuery.endDate),
+      eventType:
+        rawQuery.eventType !== undefined
+          ? toStringArray(rawQuery.eventType) as ("Book" | "Death" | "Documentary" | "Patent" | "Quote" | "ScientificStudy" | "Transaction" | "Uncategorized")[]
+          : undefined,
+      q: toString(rawQuery.q),
+      _order: toString(rawQuery._order) as "ASC" | "DESC" | null | undefined,
+      _sort: toString(rawQuery._sort),
+    } as unknown as GetSearchEventsQueryInput;
+
     return {
       ...query,
       ...hashQuery,
-      tab: parseInt(query.tab ?? "0", 10),
+      tab,
+      hash: toString(rawQuery.hash),
     };
-  }, [query]);
+  }, [rawQuery]);
 };
 
 type EventsPageProps = Omit<EventsView, "view">;
@@ -80,8 +114,8 @@ const EventsPage: React.FC<EventsPageProps> = () => {
             {},
             {
               hash: queryToHash({ ...params, ...update }),
-              tab,
-              slide: slide ? 1 : 0,
+              tab: String(tab),
+              slide: slide ? "1" : "0",
             },
           );
         });
@@ -92,7 +126,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   return (
     <ExploreTemplate
       hash={hash}
-      params={params}
+      params={params as any}
       tab={tab}
       slide={slide}
       onQueryChange={handleUpdateEventsSearch}

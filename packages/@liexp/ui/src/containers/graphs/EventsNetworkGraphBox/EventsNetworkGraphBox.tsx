@@ -88,11 +88,12 @@ export const EventsNetworkGraphBoxWrapper = <T extends object>({
     : React.useState(_relations);
 
   const handleRelationChange = React.useCallback(
-    (r: NetworkGroupBy) => (_: React.ChangeEvent<HTMLInputElement>, c: boolean) => {
-      setRelations(
-        !c ? relations.filter((rr) => rr !== r) : relations.concat(r),
-      );
-    },
+    (r: NetworkGroupBy) =>
+      (_: React.ChangeEvent<HTMLInputElement>, c: boolean) => {
+        setRelations(
+          !c ? relations.filter((rr) => rr !== r) : relations.concat(r),
+        );
+      },
     [relations],
   );
 
@@ -449,10 +450,12 @@ export const EventsNetworkGraphBoxWithQuery = <P extends object>({
           <EventsNetworkGraphBox
             {...props}
             type={type}
-            query={{
-              ...query,
-              ids: data[0] ? [data[0].id] : undefined,
-            } as Partial<GetNetworkQuerySerialized> & { id?: string }}
+            query={
+              {
+                ...query,
+                ids: data[0] ? [data[0].id] : undefined,
+              } as Partial<GetNetworkQuerySerialized> & { id?: string }
+            }
           />
         );
       }}

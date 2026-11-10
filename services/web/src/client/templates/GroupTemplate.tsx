@@ -5,11 +5,42 @@ import { GroupTemplate } from "@liexp/ui/lib/templates/GroupTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils.js";
+import { toString, toStringArray } from "../utils/query.utils.js";
 
 const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
   const navigateTo = useNavigateToResource();
-  const { tab: _tab = "0", ...query } = useRouteQuery();
-  const tab = parseInt(typeof _tab === "string" ? _tab : "0", 10);
+  const rawQuery = useRouteQuery<Record<string, string | string[]>>();
+  const tab = React.useMemo(() => {
+    const rawTab = rawQuery.tab;
+    return typeof rawTab === "string"
+      ? parseInt(rawTab, 10)
+      : rawTab !== undefined && rawTab.length > 0
+        ? parseInt(rawTab[0], 10)
+        : 0;
+  }, [rawQuery.tab]);
+
+  const query = React.useMemo(() => {
+    const eventType = rawQuery.eventType;
+    return {
+      actors: toStringArray(rawQuery.actors) as unknown as UUID[],
+      groups: toStringArray(rawQuery.groups) as unknown as UUID[],
+      groupsMembers: toStringArray(rawQuery.groupsMembers) as unknown as UUID[],
+      keywords: toStringArray(rawQuery.keywords) as unknown as UUID[],
+      media: toStringArray(rawQuery.media) as unknown as UUID[],
+      locations: toStringArray(rawQuery.locations) as unknown as UUID[],
+      startDate: toString(rawQuery.startDate),
+      endDate: toString(rawQuery.endDate),
+      eventType:
+        eventType !== undefined
+          ? toStringArray(eventType) as ("Book" | "Death" | "Documentary" | "Patent" | "Quote" | "ScientificStudy" | "Transaction" | "Uncategorized")[]
+          : EventType.members.map((t) => t.literals[0]),
+      q: toString(rawQuery.q),
+      _order: toString(rawQuery._order),
+      _sort: toString(rawQuery._sort),
+      hash: toString(rawQuery.hash),
+      slide: rawQuery.slide !== undefined ? (toString(rawQuery.slide) === "1" ? true : false) : undefined,
+    };
+  }, [rawQuery]);
 
   return (
     <QueriesRenderer
@@ -19,33 +50,29 @@ const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
           <GroupTemplate
             group={group}
             tab={tab}
-            query={{
-              ...query,
-              eventType:
-                query.eventType ?? EventType.members.map((t) => t.literals[0]),
-            }}
+            query={query as any}
             onTabChange={(t) => {
-              navigateTo.groups({ id: groupId }, { tab: t });
+              navigateTo.groups({ id: groupId }, { tab: String(t) });
             }}
             onQueryChange={(q) => {
-              navigateTo.groups({ id: groupId }, { ...q, tab });
+              navigateTo.groups({ id: groupId }, { tab: String(tab) });
             }}
             onEventClick={(e) => {
-              navigateTo.events({ id: e.id }, { tab: 0 });
+              navigateTo.events({ id: e.id }, { tab: "0" });
             }}
             onKeywordClick={(k) => {
               navigateTo.keywords(
                 { id: k.id },
                 {
-                  tab: 0,
+                  tab: "0",
                 },
               );
             }}
             onActorClick={(a) => {
-              navigateTo.actors({ id: a.id }, { tab: 0 });
+              navigateTo.actors({ id: a.id }, { tab: "0" });
             }}
             onGroupClick={(g) => {
-              navigateTo.groups({ id: g.id }, { ...query, tab: 0 });
+              navigateTo.groups({ id: g.id }, { tab: "0" });
             }}
           />
         );

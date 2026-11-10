@@ -35,18 +35,50 @@ export const stringifyQuery = (
   search: Record<string, string | string[]>,
 ): string => qs.stringify(search, { arrayFormat: "bracket" });
 
+/**
+ * Convert a `string | string[]` query param to a `string[]`.
+ * URL search params can be single values or arrays; this normalises them.
+ */
+export function toStringArray(value: string | string[] | undefined): string[] {
+  if (value === undefined) {
+    return [];
+  }
+  if (typeof value === "string") {
+    return value.length > 0 ? [value] : [];
+  }
+  return value;
+}
+
+/**
+ * Convert a `string | string[]` query param to a single string.
+ * When the param is an array, take the first element.
+ */
+export function toString(value: string | string[] | undefined): string {
+  if (value === undefined) {
+    return "";
+  }
+  if (typeof value === "string") {
+    return value;
+  }
+  return value[0] ?? "";
+}
+
 export function useRouteQuery<T extends Record<string, unknown>>(
   def?: T,
 ): Record<string, string | string[]> & T {
   const { search } = useLocation();
 
   return React.useMemo(
-    () => ({ ...def, ...parseQuery(search) }) as Record<string, string | string[]> & T,
+    () =>
+      ({ ...def, ...parseQuery(search) }) as Record<string, string | string[]> &
+        T,
     [search],
   );
 }
 
-export const queryToHash = <T extends Record<string, unknown>>(q: T): string => {
+export const queryToHash = <T extends Record<string, unknown>>(
+  q: T,
+): string => {
   return toBase64(toBase64(JSON.stringify(q)));
 };
 
@@ -67,7 +99,10 @@ export function useQueryFromHash<T extends Record<string, unknown>>(
 
 interface HistoryWithNavigateTo extends Location {
   navigate: NavigateFunction;
-  navigateTo: (path: string, search?: Record<string, string | string[]>) => void;
+  navigateTo: (
+    path: string,
+    search?: Record<string, string | string[]>,
+  ) => void;
 }
 
 export function useNavigateTo(): HistoryWithNavigateTo {
