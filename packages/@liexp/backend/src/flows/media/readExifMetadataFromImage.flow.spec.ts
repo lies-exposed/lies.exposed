@@ -5,7 +5,6 @@ import { mockDeep } from "vitest-mock-extended";
 import { type HTTPProviderContext } from "../../context/http.context.js";
 import { type ImgProcClientContext } from "../../context/index.js";
 import { type LoggerContext } from "../../context/logger.context.js";
-import { type ServerError } from "../../errors/index.js";
 import { mockedContext } from "../../test/context.js";
 import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
 import { fetchAsBuffer } from "../url/fetchAsBuffer.flow.js";
