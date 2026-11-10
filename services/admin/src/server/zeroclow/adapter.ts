@@ -14,8 +14,8 @@
  * agent service; this adapter only handles actor/group/link queries.
  */
 
-import type { Logger } from "@liexp/core/lib/logger/Logger.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import type { Logger } from "@liexp/core/lib/logger/Logger.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type { AdminProxyENV } from "../io/ENV.js";
 
@@ -88,9 +88,7 @@ export const createZeroClawAdapter = (
 ): TE.TaskEither<Error, ZeroClawAdapter> => {
   if (!env.ZEROCLOW_ENABLED) {
     return TE.left(
-      new Error(
-        "ZEROCLOW_ENABLED is not set — ZeroClaw adapter is disabled",
-      ),
+      new Error("ZEROCLOW_ENABLED is not set — ZeroClaw adapter is disabled"),
     );
   }
 
@@ -115,7 +113,8 @@ export const createZeroClawAdapter = (
 /**
  * Create a sendMessage function bound to a specific webhook URL and agent ID.
  */
-const createSendMessage = (webhookUrl: string, agentId: string) =>
+const createSendMessage =
+  (webhookUrl: string, agentId: string) =>
   (req: ChatRequest, logger: Logger): TE.TaskEither<Error, ChatResponse> =>
     pipe(
       TE.tryCatch(
@@ -169,10 +168,7 @@ const createSendMessage = (webhookUrl: string, agentId: string) =>
  * generate a synthetic runId and embed the chat message in the context
  * so the agent can process it.
  */
-const buildPayload = (
-  req: ChatRequest,
-  _agentId: string,
-): ZeroClawPayload => ({
+const buildPayload = (req: ChatRequest, _agentId: string): ZeroClawPayload => ({
   runId: crypto.randomUUID(),
   agentId: _agentId,
   context: {
@@ -207,7 +203,10 @@ const parseNDJSON = (body: string, logger: Logger): string => {
       }
     } catch {
       // Silently skip malformed frames
-      logger.debug.log("Skipping malformed ZeroClaw frame: %s", line.slice(0, 200));
+      logger.debug.log(
+        "Skipping malformed ZeroClaw frame: %s",
+        line.slice(0, 200),
+      );
     }
   }
 

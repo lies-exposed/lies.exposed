@@ -111,7 +111,7 @@ export const transformActor =
       }),
       fp.TE.chainFirst(() =>
         pipe(
-          newRelationsAsSource.map((r: Record<string, unknown>) =>
+          newRelationsAsSource.map((r: RaRecord) =>
             fp.TE.tryCatch(() => {
               return dataProvider.create("actor-relations", {
                 data: transformActorRelation({
