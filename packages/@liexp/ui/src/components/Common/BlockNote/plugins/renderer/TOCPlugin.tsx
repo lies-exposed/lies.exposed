@@ -21,9 +21,14 @@ interface SerializedHeader {
 const headersSerializer = (c: BNBlock): Option<SerializedHeader[]> => {
   switch (c.type) {
     case "heading": {
-      const cc = c as any;
+      const cc = c as {
+        type: "heading";
+        props: { level: number };
+        content: readonly { text: string }[];
+      };
       const text = cc.content[0]?.text ?? "Missing heading text";
-      return fp.O.some([{ text, type: c.type, level: cc.props.level ?? 6 }]);
+      const level = (cc.props.level ?? 6) as 1 | 2 | 3 | 4 | 5 | 6;
+      return fp.O.some([{ text, type: c.type, level }]);
     }
     default:
       // console.log("header not handled", c);

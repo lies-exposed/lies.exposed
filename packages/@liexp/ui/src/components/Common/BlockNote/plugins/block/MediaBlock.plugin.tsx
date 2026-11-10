@@ -1,6 +1,7 @@
 import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Media } from "@liexp/io/lib/http/index.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
 import {
   mediaBlockSpecs,
@@ -92,7 +93,7 @@ export const MediaBlockPluginControl: React.FC<{
   });
 
   const selectedItems = React.useMemo(
-    () => ([] as any[]).concat(s.media ? s.media : []),
+    () => (s.media ? (s.media as unknown as Media.Media[]) : ([] as Media.Media[])),
     [s.media],
   );
 

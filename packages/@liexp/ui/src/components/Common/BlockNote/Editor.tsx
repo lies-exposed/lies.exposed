@@ -83,7 +83,9 @@ export interface BNEditorProps {
 }
 
 const ThemedBlockNoteView =
-  (theme: "light" | "dark"): React.FC<any> =>
+  (theme: "light" | "dark"): React.FC<
+    React.ComponentProps<typeof BlockNoteView>
+  > =>
   (props) => <BlockNoteView {...props} theme={theme} />;
 
 const createStyledBlockNoteView = (theme: "light" | "dark") =>
@@ -107,7 +109,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
   const editor = useCreateBlockNote({
     schema,
     initialContent: initialContent.initialContent ?? undefined,
-  }) as unknown as BNESchemaEditor;
+  }) as unknown as BNESchemaEditor & { isEditable: boolean; document: unknown };
 
   const slashMenuItems = React.useMemo(() => {
     if (editor.isEditable) {
@@ -125,7 +127,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
     <div style={{ height: "100%", width: "100%" }}>
       <BlockNoteEditorContext.Provider value={editor}>
         <StyledBlockNoteView
-          editor={editor}
+          editor={editor as any}
           editable={!readOnly}
           slashMenu={false}
           formattingToolbar={false}
