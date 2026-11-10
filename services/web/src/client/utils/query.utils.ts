@@ -2,9 +2,7 @@
  * Convert a `string | string[]` query param to a `string[]`.
  * URL search params can be single values or arrays; this normalises them.
  */
-export function toStringArray(
-  value: string | string[] | undefined,
-): string[] {
+export function toStringArray(value: string | string[] | undefined): string[] {
   if (value === undefined) {
     return [];
   }

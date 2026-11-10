@@ -27,7 +27,16 @@ const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
       keywords: toStringArray(rawQuery.keywords) as unknown as UUID[],
       eventType:
         eventType !== undefined
-          ? toStringArray(eventType) as ("Book" | "Death" | "Documentary" | "Patent" | "Quote" | "ScientificStudy" | "Transaction" | "Uncategorized")[]
+          ? (toStringArray(eventType) as (
+              | "Book"
+              | "Death"
+              | "Documentary"
+              | "Patent"
+              | "Quote"
+              | "ScientificStudy"
+              | "Transaction"
+              | "Uncategorized"
+            )[])
           : EventType.members.map((v) => v.literals[0]),
     };
   }, [rawQuery]);

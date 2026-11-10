@@ -10,17 +10,14 @@ const KeywordPage: React.FC<{ keywordId: UUID }> = ({ keywordId }) => {
   const rawQuery = useRouteQuery<Record<string, string | string[]>>();
   const navigateTo = useNavigateToResource();
 
-  const tab = React.useMemo(
-    () => {
-      const rawTab = rawQuery.tab;
-      return typeof rawTab === "string"
-        ? parseInt(rawTab, 10)
-        : rawTab !== undefined && rawTab.length > 0
-          ? parseInt(rawTab[0], 10)
-          : 0;
-    },
-    [rawQuery.tab],
-  );
+  const tab = React.useMemo(() => {
+    const rawTab = rawQuery.tab;
+    return typeof rawTab === "string"
+      ? parseInt(rawTab, 10)
+      : rawTab !== undefined && rawTab.length > 0
+        ? parseInt(rawTab[0], 10)
+        : 0;
+  }, [rawQuery.tab]);
 
   const query = React.useMemo(() => {
     const eventType = rawQuery.eventType;
@@ -35,13 +32,27 @@ const KeywordPage: React.FC<{ keywordId: UUID }> = ({ keywordId }) => {
       endDate: toString(rawQuery.endDate),
       eventType:
         eventType !== undefined
-          ? toStringArray(eventType) as ("Book" | "Death" | "Documentary" | "Patent" | "Quote" | "ScientificStudy" | "Transaction" | "Uncategorized")[]
+          ? (toStringArray(eventType) as (
+              | "Book"
+              | "Death"
+              | "Documentary"
+              | "Patent"
+              | "Quote"
+              | "ScientificStudy"
+              | "Transaction"
+              | "Uncategorized"
+            )[])
           : EventType.members.map((t) => t.literals[0]),
       q: toString(rawQuery.q),
       _order: toString(rawQuery._order),
       _sort: toString(rawQuery._sort),
       hash: toString(rawQuery.hash),
-      slide: rawQuery.slide !== undefined ? (toString(rawQuery.slide) === "1" ? true : false) : undefined,
+      slide:
+        rawQuery.slide !== undefined
+          ? toString(rawQuery.slide) === "1"
+            ? true
+            : false
+          : undefined,
     };
   }, [rawQuery]);
 

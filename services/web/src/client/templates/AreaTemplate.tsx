@@ -11,17 +11,14 @@ const AreaTemplate: React.FC<{ areaId: UUID }> = ({ areaId }) => {
   const navigateToResource = useNavigateToResource();
   const rawQuery = useRouteQuery();
 
-  const tab = React.useMemo(
-    () => {
-      const rawTab = rawQuery.tab;
-      return typeof rawTab === "string"
-        ? parseInt(rawTab, 10)
-        : rawTab !== undefined && rawTab.length > 0
-          ? parseInt(rawTab[0], 10)
-          : 0;
-    },
-    [rawQuery.tab],
-  );
+  const tab = React.useMemo(() => {
+    const rawTab = rawQuery.tab;
+    return typeof rawTab === "string"
+      ? parseInt(rawTab, 10)
+      : rawTab !== undefined && rawTab.length > 0
+        ? parseInt(rawTab[0], 10)
+        : 0;
+  }, [rawQuery.tab]);
 
   return (
     <QueriesRenderer

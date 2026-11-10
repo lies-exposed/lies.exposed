@@ -36,13 +36,27 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
       endDate: toString(rawQuery.endDate),
       eventType:
         eventType !== undefined
-          ? toStringArray(eventType) as ("Book" | "Death" | "Documentary" | "Patent" | "Quote" | "ScientificStudy" | "Transaction" | "Uncategorized")[]
+          ? (toStringArray(eventType) as (
+              | "Book"
+              | "Death"
+              | "Documentary"
+              | "Patent"
+              | "Quote"
+              | "ScientificStudy"
+              | "Transaction"
+              | "Uncategorized"
+            )[])
           : EventType.members.map((t) => t.literals[0]),
       q: toString(rawQuery.q),
       _order: toString(rawQuery._order),
       _sort: toString(rawQuery._sort),
       hash: toString(rawQuery.hash),
-      slide: slideRaw !== undefined ? (toString(slideRaw) === "1" ? true : false) : undefined,
+      slide:
+        slideRaw !== undefined
+          ? toString(slideRaw) === "1"
+            ? true
+            : false
+          : undefined,
     };
   }, [rawQuery]);
 
@@ -66,10 +80,15 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
                 const navQuery: Record<string, string | string[]> = {};
                 for (const [key, value] of Object.entries(q)) {
                   if (value !== undefined && value !== null) {
-                    navQuery[key] = Array.isArray(value) ? value : String(value);
+                    navQuery[key] = Array.isArray(value)
+                      ? value
+                      : String(value);
                   }
                 }
-                navigateToResource.actors({ id: actor.id }, { ...navQuery, tab: String(tab) });
+                navigateToResource.actors(
+                  { id: actor.id },
+                  { ...navQuery, tab: String(tab) },
+                );
               }}
               onTabChange={(t) => {
                 navigateToResource.actors({ id: actor.id }, { tab: String(t) });

@@ -12,17 +12,14 @@ const LinkTemplate: React.FC<{ linkId: UUID }> = ({ linkId }) => {
   const navigateToResource = useNavigateToResource();
   const rawQuery = useRouteQuery<Record<string, string | string[]>>();
 
-  const tab = React.useMemo(
-    () => {
-      const rawTab = rawQuery.tab;
-      return typeof rawTab === "string"
-        ? parseInt(rawTab, 10)
-        : rawTab !== undefined && rawTab.length > 0
-          ? parseInt(rawTab[0], 10)
-          : 0;
-    },
-    [rawQuery.tab],
-  );
+  const tab = React.useMemo(() => {
+    const rawTab = rawQuery.tab;
+    return typeof rawTab === "string"
+      ? parseInt(rawTab, 10)
+      : rawTab !== undefined && rawTab.length > 0
+        ? parseInt(rawTab[0], 10)
+        : 0;
+  }, [rawQuery.tab]);
 
   return (
     <QueriesRenderer
