@@ -58,11 +58,13 @@ docker compose up -d
 ```
 
 This starts:
+
 - `web.liexp.dev` - Web application service (port 3000)
 - `api.liexp.dev` - API service (port 3001)
 - Database and other supporting services
 
 Verify web service is running:
+
 ```bash
 docker ps | grep web.liexp.dev
 ```
@@ -77,6 +79,7 @@ pnpm exec playwright install
 ```
 
 Or from repository root:
+
 ```bash
 pnpm --filter web exec playwright install
 ```
@@ -100,6 +103,7 @@ pnpm test:e2e
 ```
 
 Or from repository root:
+
 ```bash
 pnpm --filter web test:e2e
 ```
@@ -140,11 +144,11 @@ pnpm test:e2e -- --grep "mobile viewport"
 
 The tests use realistic device sizes:
 
-| Device | Width | Height | Name |
-|--------|-------|--------|------|
-| Mobile | 375px | 667px | iPhone SE |
-| Tablet | 768px | 1024px | iPad |
-| Desktop | 1440px | 900px | 1440p Monitor |
+| Device  | Width  | Height | Name          |
+| ------- | ------ | ------ | ------------- |
+| Mobile  | 375px  | 667px  | iPhone SE     |
+| Tablet  | 768px  | 1024px | iPad          |
+| Desktop | 1440px | 900px  | 1440p Monitor |
 
 These can be customized in the `VIEWPORTS` object in `responsive.spec.ts`.
 
@@ -158,6 +162,7 @@ These can be adjusted in the `beforeEach` hook if needed.
 ### Base URL
 
 The test base URL is:
+
 ```typescript
 const TEST_BASE_URL = "http://web.liexp.dev";
 ```
@@ -191,33 +196,39 @@ These are covered by other test suites (unit tests, integration tests).
 ### Common Issues
 
 #### 1. Connection Refused Error
+
 ```
 Error: connect ECONNREFUSED 127.0.0.1:3000
 ```
 
 **Solution**: Ensure Docker services are running and use correct URL:
+
 ```bash
 docker compose up -d
 # Check in test: http://web.liexp.dev (not localhost)
 ```
 
 #### 2. Timeout Waiting for Element
+
 ```
 error: Timeout 10000ms exceeded when waiting for locator
 ```
 
 **Solution**: Increase timeout or wait for page load:
+
 ```bash
 page.setDefaultTimeout(15000);
 await page.goto(url, { waitUntil: "networkidle" });
 ```
 
 #### 3. Element Not Found
+
 ```
 Error: Failed to find matching element
 ```
 
 **Solution**: Adjust CSS selectors in test. Common selectors:
+
 - `[class*='grid']` - Elements with "grid" in class name
 - `[class*='card']` - Elements with "card" in class name
 - `[role='article']` - Article role elements
@@ -225,6 +236,7 @@ Error: Failed to find matching element
 #### 4. Screenshot Differences
 
 If visual comparison tests are added, images are saved to:
+
 ```
 services/web/test-results/
 ```
@@ -242,6 +254,7 @@ To add new responsive tests:
 5. Use `page.evaluate()` for computed styles
 
 Example:
+
 ```typescript
 it("should do something responsive", async () => {
   if (!page) throw new Error("Page not initialized");

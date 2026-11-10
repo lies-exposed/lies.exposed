@@ -27,13 +27,13 @@ const useEventsPageQuery = (): GetSearchEventsQueryInput & {
 } => {
   const rawQuery = useRouteQuery<Record<string, string | string[]>>();
 
-  const hashQuery = useQueryFromHash<GetSearchEventsQueryInput & {
-    tab: number;
-    slide?: string;
-    hash: string;
-  }>(
-    typeof rawQuery.tab === "string" ? rawQuery.tab : "",
-  );
+  const hashQuery = useQueryFromHash<
+    GetSearchEventsQueryInput & {
+      tab: number;
+      slide?: string;
+      hash: string;
+    }
+  >(typeof rawQuery.tab === "string" ? rawQuery.tab : "");
   return React.useMemo(() => {
     // Extract tab from raw query and convert to number
     const rawTab = rawQuery.tab;
@@ -56,7 +56,16 @@ const useEventsPageQuery = (): GetSearchEventsQueryInput & {
       endDate: toString(rawQuery.endDate),
       eventType:
         rawQuery.eventType !== undefined
-          ? toStringArray(rawQuery.eventType) as ("Book" | "Death" | "Documentary" | "Patent" | "Quote" | "ScientificStudy" | "Transaction" | "Uncategorized")[]
+          ? (toStringArray(rawQuery.eventType) as (
+              | "Book"
+              | "Death"
+              | "Documentary"
+              | "Patent"
+              | "Quote"
+              | "ScientificStudy"
+              | "Transaction"
+              | "Uncategorized"
+            )[])
           : undefined,
       q: toString(rawQuery.q),
       _order: toString(rawQuery._order) as "ASC" | "DESC" | null | undefined,
