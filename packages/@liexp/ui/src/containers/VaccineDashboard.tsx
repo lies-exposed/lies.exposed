@@ -339,7 +339,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                                 tooltipRenderer={({ key, bar: { data } }) => {
                                   return (
                                     <div style={{ color: deathsColor(key) }}>
-                                      {key}: ({(data as any)[key]})
+                                      {key}: ({(data as Record<string, unknown>)[key]})
                                     </div>
                                   );
                                 }}

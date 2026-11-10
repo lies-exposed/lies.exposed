@@ -22,7 +22,7 @@ type InfiniteMediaListBoxProps = Omit<
     >
   > & {
     type?: "masonry";
-    getItem?: (data: any[], index: number) => any;
+    getItem?: (data: unknown[], index: number) => unknown;
   };
   onMediaClick?: (media: Media.Media) => void;
 };
@@ -77,7 +77,7 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
               );
             },
           ),
-          ...(listProps as any),
+          ...listProps,
         },
         ...props,
       }}

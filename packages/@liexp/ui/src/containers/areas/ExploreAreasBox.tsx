@@ -39,7 +39,7 @@ export const ExploreAreasBox: React.FC<ExploreAreasBoxProps> = ({
                         height={height * (2 / 3)}
                         onMapClick={(features) => {
                           if (features.length > 0) {
-                            const area: any = features[0].getProperties();
+                            const area = features[0].getProperties() as Area.Area;
                             onAreaClick(area);
                           }
                         }}

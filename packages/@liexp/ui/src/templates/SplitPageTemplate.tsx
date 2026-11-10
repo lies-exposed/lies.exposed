@@ -140,7 +140,7 @@ const isAsideSubject = (a: unknown): a is AsideSubject => {
   );
 };
 
-export interface SplitPageTemplateProps {
+export interface SplitPageTemplateProps<T = Record<string, unknown>> {
   tab: number;
   onTabChange: (t: number) => void;
   aside: React.ReactNode | AsideSubject;
@@ -154,21 +154,25 @@ export interface SplitPageTemplateProps {
   };
   resource: {
     name: ResourcesNames;
-    item: any;
+    item: T;
   };
   children: React.ReactNode[];
 }
 
-export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
-  tab,
-  onTabChange,
-  share,
-  aside,
-  asideBottom,
-  tabs: _tabs,
-  resource,
-  children,
-}) => {
+export const SplitPageTemplate = <T = Record<string, unknown>>(
+  props: SplitPageTemplateProps<T>,
+) => {
+  const {
+    tab,
+    onTabChange,
+    share,
+    aside,
+    asideBottom,
+    tabs: _tabs,
+    resource,
+    children,
+  } = props;
+
   const theme = useTheme();
 
   const isSM = useMuiMediaQuery(theme.breakpoints.down("md"));
@@ -265,7 +269,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
             <Box className={classes.editButtonBox}>
               {share ? (
                 <ShareButtons
-                  urlPath={`/${resource.name}/${resource.item.id}`}
+                  urlPath={`/${resource.name}/${(resource.item as { id: string }).id}`}
                   title={share.title}
                   message={share.message}
                   keywords={[]}
@@ -279,7 +283,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
 
               <EditButton
                 resourceName={resource.name}
-                resource={resource.item}
+                resource={resource.item as { id: string }}
               />
             </Box>
           </Box>

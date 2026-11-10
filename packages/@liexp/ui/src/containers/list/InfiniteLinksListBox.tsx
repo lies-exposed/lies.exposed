@@ -22,7 +22,7 @@ type InfiniteLinksListBoxProps = Omit<
     >
   > & {
     type?: "masonry";
-    getItem?: (data: any[], index: number) => any;
+    getItem?: (data: unknown[], index: number) => unknown;
   };
   onLinkClick?: (media: Link.Link) => void;
 };

@@ -70,7 +70,7 @@ interface EventNetworkGraphBoxWrapperProps<
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const EventsNetworkGraphBoxWrapper = <T extends any>({
+export const EventsNetworkGraphBoxWrapper = <T extends object>({
   count,
   query: { ids, eventType, ...query },
   type,
@@ -88,7 +88,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
     : React.useState(_relations);
 
   const handleRelationChange = React.useCallback(
-    (r: NetworkGroupBy) => (_: any, c: boolean) => {
+    (r: NetworkGroupBy) => (_: React.ChangeEvent<HTMLInputElement>, c: boolean) => {
       setRelations(
         !c ? relations.filter((rr) => rr !== r) : relations.concat(r),
       );
@@ -186,8 +186,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
               <ParentSize debounceTime={1000}>
                 {({ width, height }) => {
                   return props.children({
-                    ...props,
-                    ...(innerProps as any),
+                    ...innerProps,
                     width,
                     height,
                   });
@@ -423,17 +422,17 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   );
 };
 
-interface EventsNetworkGraphBoxWithQueryProps<P> extends Omit<
+interface EventsNetworkGraphBoxWithQueryProps<P extends object> extends Omit<
   EventNetworkGraphBoxProps,
   "id" | "query"
 > {
   useQuery: UseGetQueryFn<any, P, any>;
   params: Partial<P>;
-  eventsBoxQuery: any;
+  eventsBoxQuery: Partial<GetNetworkQuerySerialized>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const EventsNetworkGraphBoxWithQuery = <P extends any>({
+export const EventsNetworkGraphBoxWithQuery = <P extends object>({
   useQuery,
   params,
   eventsBoxQuery: query,
@@ -452,9 +451,8 @@ export const EventsNetworkGraphBoxWithQuery = <P extends any>({
             type={type}
             query={{
               ...query,
-              ids: data[0] ? [data[0].id] : [],
-              id: data[0]?.id,
-            }}
+              ids: data[0] ? [data[0].id] : undefined,
+            } as Partial<GetNetworkQuerySerialized> & { id?: string }}
           />
         );
       }}
