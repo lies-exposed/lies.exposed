@@ -1,3 +1,4 @@
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { createReactInlineContentSpec } from "@blocknote/react";
 import {
   type BNESchemaEditor,
@@ -16,6 +17,13 @@ export interface GroupInlineState {
   displayAvatar: boolean;
 }
 
+interface GroupInlineProps {
+  id: string;
+  name: string;
+  className: string;
+  displayAvatar: boolean;
+}
+
 // Custom Slash Menu item to insert a block after the current one.
 export const groupItem = (editor: BNESchemaEditor) => ({
   title: "Add Group Inline",
@@ -26,8 +34,8 @@ export const groupItem = (editor: BNESchemaEditor) => ({
       {
         type: "group",
         props: {
-          id: undefined as any,
-          name: undefined as any,
+          id: "",
+          name: "",
           className: "",
           displayAvatar: true,
         },
@@ -45,9 +53,10 @@ export const groupInlineContentSpec = createReactInlineContentSpec(
   {
     render: ({
       inlineContent: {
-        props: { id, name, className },
+        props,
       },
     }): React.ReactNode => {
+      const groupProps = props as GroupInlineProps;
       return (
         <BlockNoteEditorContext.Consumer>
           {(editor) =>
@@ -55,16 +64,16 @@ export const groupInlineContentSpec = createReactInlineContentSpec(
               <RelationInlineContentComponent
                 editor={editor}
                 relation="group"
-                id={id}
-                relationProps={{ id, name, className }}
+                id={groupProps.id}
+                relationProps={{ id: groupProps.id, name: groupProps.name, className: groupProps.className }}
                 relationRenderer={{
                   group: (props) => (
                     <GroupChipBox
-                      className={props.className}
+                      className={groupProps.className}
                       style={{ display: "inline-block" }}
                       displayName={true}
                       avatarSize="xsmall"
-                      id={props.id}
+                      id={props.id as UUID}
                       avatarStyle={{
                         display: "inline-block",
                         verticalAlign: "middle",
@@ -75,7 +84,7 @@ export const groupInlineContentSpec = createReactInlineContentSpec(
                 }}
               />
             ) : (
-              <Typography>{name}</Typography>
+              <Typography>{groupProps.name}</Typography>
             )
           }
         </BlockNoteEditorContext.Consumer>

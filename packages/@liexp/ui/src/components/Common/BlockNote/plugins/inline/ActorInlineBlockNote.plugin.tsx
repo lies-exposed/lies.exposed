@@ -1,3 +1,4 @@
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { createReactInlineContentSpec } from "@blocknote/react";
 import {
   type BNESchemaEditor,
@@ -16,6 +17,14 @@ export interface ActorInlineState {
   displayFullName: boolean;
 }
 
+interface ActorInlineProps {
+  id: string;
+  fullName: string;
+  className: string;
+  displayAvatar: boolean;
+  displayFullName: boolean;
+}
+
 // Custom Slash Menu item to insert a block after the current one.
 export const actorItem = (editor: BNESchemaEditor) => ({
   title: "Add Actor Inline",
@@ -26,7 +35,7 @@ export const actorItem = (editor: BNESchemaEditor) => ({
       {
         type: "actor",
         props: {
-          id: undefined as any,
+          id: "missing-id",
           fullName: "",
           className: "",
           displayAvatar: true,
@@ -46,9 +55,10 @@ export const actorInlineContentSpec = createReactInlineContentSpec(
   {
     render: ({
       inlineContent: {
-        props: { id, fullName, className, displayFullName, displayAvatar },
+        props,
       },
     }): React.ReactNode => {
+      const actorProps = props as ActorInlineProps;
       return (
         <BlockNoteEditorContext.Consumer>
           {(editor) =>
@@ -56,16 +66,16 @@ export const actorInlineContentSpec = createReactInlineContentSpec(
               <RelationInlineContentComponent
                 editor={editor}
                 relation="actor"
-                id={id}
-                relationProps={{ displayFullName, id }}
+                id={actorProps.id}
+                relationProps={{ displayFullName: actorProps.displayFullName, id: actorProps.id }}
                 relationRenderer={{
                   actor: (props) => (
                     <ActorChipBox
-                      className={className}
+                      className={actorProps.className}
                       style={{ display: "inline-block" }}
-                      displayFullName={displayFullName}
-                      displayAvatar={displayAvatar}
-                      id={props.id}
+                      displayFullName={actorProps.displayFullName}
+                      displayAvatar={actorProps.displayAvatar}
+                      id={props.id as UUID}
                       avatarStyle={{
                         display: "inline-block",
                         verticalAlign: "middle",
@@ -76,7 +86,7 @@ export const actorInlineContentSpec = createReactInlineContentSpec(
                 }}
               />
             ) : (
-              <Typography>{fullName}</Typography>
+              <Typography>{actorProps.fullName}</Typography>
             )
           }
         </BlockNoteEditorContext.Consumer>

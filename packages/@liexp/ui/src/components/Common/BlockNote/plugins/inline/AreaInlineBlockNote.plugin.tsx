@@ -1,3 +1,4 @@
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { createReactInlineContentSpec } from "@blocknote/react";
 import {
   type BNESchemaEditor,
@@ -15,6 +16,13 @@ export interface AreaInlineState {
   displayFeaturedImage: boolean;
 }
 
+interface AreaInlineProps {
+  id: string;
+  className: string;
+  displayLabel: boolean;
+  displayFeaturedImage: boolean;
+}
+
 // Custom Slash Menu item to insert a block after the current one.
 export const areaItem = (editor: BNESchemaEditor) => ({
   title: "Add Area Inline",
@@ -25,7 +33,7 @@ export const areaItem = (editor: BNESchemaEditor) => ({
       {
         type: "area",
         props: {
-          id: undefined as any,
+          id: "",
           className: "",
           displayLabel: true,
           displayFeaturedImage: false,
@@ -44,9 +52,10 @@ export const areaInlineContentSpec = createReactInlineContentSpec(
   {
     render: ({
       inlineContent: {
-        props: { id, className, displayLabel, displayFeaturedImage },
+        props,
       },
     }): React.ReactNode => {
+      const areaProps = props as AreaInlineProps;
       return (
         <BlockNoteEditorContext.Consumer>
           {(editor) =>
@@ -54,16 +63,16 @@ export const areaInlineContentSpec = createReactInlineContentSpec(
               <RelationInlineContentComponent
                 editor={editor}
                 relation="area"
-                id={id}
-                relationProps={{ id }}
+                id={areaProps.id}
+                relationProps={{ id: areaProps.id }}
                 relationRenderer={{
                   area: (props) => (
                     <AreaChipBox
-                      className={className}
+                      className={areaProps.className}
                       style={{ display: "inline-block" }}
-                      id={props.id}
-                      displayLabel={displayLabel}
-                      displayFeaturedMedia={displayFeaturedImage}
+                      id={props.id as UUID}
+                      displayLabel={areaProps.displayLabel}
+                      displayFeaturedMedia={areaProps.displayFeaturedImage}
                       onClick={() => {}}
                     />
                   ),

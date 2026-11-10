@@ -11,7 +11,9 @@ import {
 } from "@blocknote/react";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { URL } from "@liexp/io/lib/http/Common/URL.js";
-import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
+import {
+  type BNESchemaEditor,
+} from "@liexp/shared/lib/providers/blocknote/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
@@ -149,7 +151,7 @@ const RegisterLinkToolbarButton: React.FC<
       const result = await pipe(
         api.Link.Create({
           Body: {
-            url: url as any,
+            url: url as string,
             status: "DRAFT",
             events: [],
           },

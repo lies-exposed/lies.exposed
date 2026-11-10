@@ -5,6 +5,7 @@ import {
   MP4Type,
   OGGType,
   PDFType,
+  type MediaType,
 } from "@liexp/io/lib/http/Media/MediaType.js";
 import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
@@ -43,40 +44,72 @@ import {
 } from "../../mui/index.js";
 import { useProgressBar } from "../common/ProgressBar.js";
 
+interface MediaFormData {
+  description: string;
+  type: string;
+  location: {
+    src: File;
+    title: string;
+  };
+  id?: string;
+  _type?: "fromFile" | "fromURL";
+  url?: string;
+  events?: string[];
+  links?: string[];
+  newLinks?: { ids: string[] }[];
+  keywords?: string[];
+  newKeywords?: string[];
+  areas?: string[];
+  newAreas?: string[];
+  newEvents?: string[];
+}
+
+interface UploadedMedia extends RaRecord {
+  type: string;
+  location: { type: string };
+  events?: string[];
+  links?: string[];
+  keywords?: string[];
+  areas?: string[];
+}
+
 const transformMedia =
   (apiProvider: APIRESTClient) =>
-  async (data: RaRecord, options: UploadFileOptions): Promise<RaRecord> => {
+  async (data: MediaFormData, options: UploadFileOptions): Promise<UploadedMedia> => {
+    const loc = data.location as { src?: File; rawFile?: File; title?: string };
+    const file = loc.rawFile ?? loc.src;
     const mediaTask =
-      data._type === "fromFile" && data.location.rawFile
+      data._type === "fromFile" && file
         ? uploadFile(apiProvider)(
             "media",
-            data.id.toString(),
-            data.location.rawFile,
-            data.location.rawFile.type,
+            data.id?.toString() ?? "",
+            file,
+            file.type as MediaType,
             options,
           )
         : data._type === "fromURL" && data.url
           ? TE.fromEither(parseURL(data.url))
-          : TE.right({ type: data.type, location: data.location });
+          : TE.right({ type: data.type as MediaType, location: data.location });
 
     const events = (data.events ?? []).concat(data.newEvents ?? []);
     const links = (data.links ?? []).concat(
-      (data.newLinks ?? []).flatMap((l: any) => l.ids),
+      (data.newLinks ?? []).flatMap((l) => l.ids),
     );
     const keywords = (data.keywords ?? []).concat(data.newKeywords ?? []);
     const areas = (data.areas ?? []).concat(data.newAreas ?? []);
 
     return pipe(
-      mediaTask,
+      mediaTask as TE.TaskEither<unknown, { type: MediaType; location: { src: File; title: string } }>,
       TE.map((media) => ({
         ...data,
-        id: data.id.toString(),
+        id: data.id ?? "",
         ...media,
+        type: media.type as string,
         events,
         links,
         keywords,
         areas,
-      })),
+      }) as unknown as UploadedMedia),
       throwTE,
     );
   };
@@ -104,10 +137,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const defaultMultipleMediaFormValues: { files: any[] } = {
+const defaultMultipleMediaFormValues: { files: MediaFormData[] } = {
   files: [],
 };
-export const MediaCreateMany: React.FC<any> = (_props) => {
+export const MediaCreateMany: React.FC<Record<string, never>> = (_props) => {
   const apiProvider = useDataProvider();
   const redirect = useRedirect();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -116,26 +149,6 @@ export const MediaCreateMany: React.FC<any> = (_props) => {
   const { reset, getValues } = useForm({
     defaultValues: defaultMultipleMediaFormValues,
   });
-
-  const onDrop = (
-    newFiles: File[],
-    _rejectedFiles: any[],
-    _event: any,
-  ): void => {
-    const record = getValues();
-    const updatedFiles = [
-      ...record.files,
-      ...newFiles
-        .filter((f) => !record.files.some((ff) => ff.description === f.name))
-        .map((f) => ({
-          description: f.name,
-          type: f.type,
-          location: { src: f, title: f.name },
-        })),
-    ];
-
-    reset({ ...record, files: updatedFiles });
-  };
 
   const { isDragActive, getRootProps } = useDropzone({
     accept: [
@@ -146,16 +159,30 @@ export const MediaCreateMany: React.FC<any> = (_props) => {
       OGGType.literals[0],
     ].reduce((acc, k) => ({ ...acc, [k]: [] }), {}),
     multiple: true,
-    onDrop,
+    onDrop: (newFiles, _rejectedFiles, _event) => {
+      const record = getValues();
+      const updatedFiles = [
+        ...record.files,
+        ...newFiles
+          .filter((f) => !record.files.some((ff) => ff.description === f.name))
+          .map((f) => ({
+            description: f.name,
+            type: f.type,
+            location: { src: f, title: f.name },
+          })),
+      ];
+
+      reset({ ...record, files: updatedFiles });
+    },
   });
 
-  const uploadMedia = async (files: any[], uploaded: any[]): Promise<any[]> => {
+  const uploadMedia = async (files: MediaFormData[], uploaded: UploadedMedia[]): Promise<UploadedMedia[]> => {
     const [first, ...rest] = files;
     if (first) {
       const media = await transformMedia(apiProvider)(first, {
         onUploadProgress,
       }).then((m) =>
-        apiProvider.create("media", { data: m }).then((r) => r.data),
+        apiProvider.create("media", { data: m }).then((r) => r.data as UploadedMedia),
       );
 
       const record = getValues();
@@ -168,14 +195,14 @@ export const MediaCreateMany: React.FC<any> = (_props) => {
     return uploaded;
   };
 
-  const onSubmit = async (data: any): Promise<void> => {
+  const onSubmit = async (data: { files: MediaFormData[] }): Promise<void> => {
     setIsSubmitting(true);
 
-    const files = data.files.map(({ location, ...f }: any) => ({
+    const files: MediaFormData[] = data.files.map(({ location, ...f }) => ({
       ...f,
       id: uuid(),
       _type: "fromFile",
-      location: { rawFile: location.src },
+      location: { rawFile: location.src } as any,
     }));
     const media = await uploadMedia(files, []);
 
@@ -188,7 +215,7 @@ export const MediaCreateMany: React.FC<any> = (_props) => {
 
   return (
     <StyledBox className={classes.root} {...getRootProps({})}>
-      <Form record={getValues()} onSubmit={onSubmit}>
+      <Form record={getValues()} onSubmit={onSubmit as any}>
         <div {...getRootProps({ className: classes.dropArea })}>
           <p>{isDragActive ? "Drop files here" : "Drag and drop files here"}</p>
         </div>

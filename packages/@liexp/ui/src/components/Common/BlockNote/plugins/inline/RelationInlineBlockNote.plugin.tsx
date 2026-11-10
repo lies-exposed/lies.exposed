@@ -2,6 +2,7 @@ import { createReactInlineContentSpec } from "@blocknote/react";
 import {
   type BNESchemaEditor,
   relationInlineSpec,
+  DEFAULT_RELATION_ID,
 } from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
 import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput.js";
@@ -34,7 +35,7 @@ export const relationItem = (editor: BNESchemaEditor) => ({
         type: "relation",
         props: {
           relation: "actor",
-          id: undefined as any,
+          id: DEFAULT_RELATION_ID,
         },
       },
     ]);
@@ -48,8 +49,8 @@ export const relationItem = (editor: BNESchemaEditor) => ({
 export const RelationInlineContentComponent: React.FC<{
   editor: BNESchemaEditor;
   relation?: string;
-  relationProps?: any;
-  relationRenderer: Record<string, (props: any) => React.ReactNode>;
+  relationProps?: Record<string, unknown>;
+  relationRenderer: Record<string, (props: Record<string, unknown>) => React.ReactNode>;
   id?: string;
 }> = ({
   editor,
@@ -179,7 +180,7 @@ export const RelationInlineContentComponent: React.FC<{
       size: "small",
       selectedItems: [],
       autoFocus: true,
-      onChange: (a: any[]) => {
+      onChange: (a: readonly { id: string }[]) => {
         const currentBlock =
           editor.document.find((tt) =>
             ((tt.content as any[]) ?? []).find((t) => {
@@ -202,7 +203,7 @@ export const RelationInlineContentComponent: React.FC<{
               (t.type === _relation && t.props.id === _id) ||
               (t.type === relation && t.props.id === id)
                 ? {
-                    type: relation as any as "actor",
+                    type: relation as "actor" | "group" | "keyword" | "area",
                     props: {
                       ...relationProps,
                       id: a[0].id,

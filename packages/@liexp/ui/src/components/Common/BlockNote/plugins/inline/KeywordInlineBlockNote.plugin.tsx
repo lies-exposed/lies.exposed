@@ -1,3 +1,4 @@
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { createReactInlineContentSpec } from "@blocknote/react";
 import {
   type BNESchemaEditor,
@@ -13,6 +14,10 @@ export interface KeywordInlineState {
   id: string;
 }
 
+interface KeywordInlineProps {
+  id: string;
+}
+
 // Custom Slash Menu item to insert a block after the current one.
 export const keywordItem = (editor: BNESchemaEditor) => ({
   key: "keyword",
@@ -22,7 +27,9 @@ export const keywordItem = (editor: BNESchemaEditor) => ({
     editor.insertInlineContent([
       {
         type: "keyword",
-        props: undefined,
+        props: {
+          id: "",
+        },
       },
     ]);
   },
@@ -36,8 +43,9 @@ export const keywordInlineContentSpec = createReactInlineContentSpec(
   keywordInlineSpec,
   {
     render: ({
-      inlineContent: { type, props: { id } = { id: undefined } },
+      inlineContent: { type, props: rawProps },
     }): React.ReactNode => {
+      const props = (rawProps ?? { id: "" }) as KeywordInlineProps;
       return (
         <BlockNoteEditorContext.Consumer>
           {(editor) =>
@@ -45,13 +53,13 @@ export const keywordInlineContentSpec = createReactInlineContentSpec(
               <RelationInlineContentComponent
                 editor={editor}
                 relation={type}
-                id={id}
-                relationProps={{ id }}
+                id={props.id}
+                relationProps={{ id: props.id }}
                 relationRenderer={{
                   keyword: ({ id }) => (
                     <KeywordChipBox
                       style={{ display: "inline-block" }}
-                      id={id}
+                      id={id as UUID}
                       onClick={() => {}}
                     />
                   ),

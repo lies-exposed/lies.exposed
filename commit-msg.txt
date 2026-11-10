@@ -1,0 +1,8 @@
+fix(ui): type BlockNote plugins, editor, and admin media components
+
+- Add BNInlineContent type alias in shared BlockNote types
+- Type BlockNoteView props properly in Editor.tsx
+- Remove `any` casts in EditMenu, inline plugins (Actor, Area, Event, Group, Relation)
+- Import and use BNInlineContent in EventBlock, LinkBlock, MediaBlock plugins
+- Type TOCPlugin and RegisterLinkButton properly
+- Type MediaCreateMultiple with proper MediaFormData and UploadedMedia interfaces

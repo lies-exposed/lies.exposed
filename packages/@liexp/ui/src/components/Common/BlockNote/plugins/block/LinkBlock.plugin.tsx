@@ -1,5 +1,6 @@
 import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
+import { type Link } from "@liexp/io/lib/http/Link.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
 import { Schema } from "effect";
@@ -98,7 +99,7 @@ export const LinkBlockPluginControl: React.FC<{
         <Grid size={{ xs: 12, sm: 12, md: 12 }}>
           <AutocompleteLinkInput
             discrete={false}
-            selectedItems={selectedItems as any[]}
+            selectedItems={selectedItems as Link[]}
             onChange={(items) => {
               setS({ ...s, links: items });
             }}
