@@ -114,7 +114,9 @@ export const registerGraphsTools = (server: McpServer, ctx: ServerContext) => {
   );
 
   // --- createGraph ---
-  const createGraphTool = defineMcpTool(CreateGraphInputSchema, async (input) => {
+  const createGraphTool = defineMcpTool(
+    CreateGraphInputSchema,
+    async (input) => {
     const { type, label, slug, data, options } = input;
 
     try {
