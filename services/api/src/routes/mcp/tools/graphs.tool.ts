@@ -10,9 +10,9 @@ import {
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import type { ServerContext } from "#context/context.type.js";
 import { GraphIO } from "../../graphs/graph.io.js";
 import { defineMcpTool } from "./helpers.js";
+import type { ServerContext } from "#context/context.type.js";
 
 // --- Tool constants ---
 const FIND_GRAPHS = "findGraphs";
