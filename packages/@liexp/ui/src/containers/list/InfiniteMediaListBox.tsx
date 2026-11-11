@@ -78,7 +78,10 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
             },
           ),
           ...(listProps as Partial<
-            Omit<InfiniteMasonryProps, "width" | "height" | "items" | "getItem" | "CellRenderer">
+            Omit<
+              InfiniteMasonryProps,
+              "width" | "height" | "items" | "getItem" | "CellRenderer"
+            >
           >),
         },
         ...props,

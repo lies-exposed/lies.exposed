@@ -10,9 +10,9 @@ import {
 import { type GetNetworkQuerySerialized } from "@liexp/io/lib/http/Network/Network.js";
 import { type FlowGraphType } from "@liexp/io/lib/http/graphs/FlowGraph.js";
 import { Actor, Group, Keyword } from "@liexp/io/lib/http/index.js";
-import { type NodeType } from "../../components/Common/Graph/Flow/nodes/index.js";
 import * as React from "react";
 import { FullSizeLoader } from "../../components/Common/FullSizeLoader.js";
+import { type NodeType } from "../../components/Common/Graph/Flow/nodes/index.js";
 import { EventsFlowGraph } from "../../components/Graph/EventsFlowGraph.js";
 import EventsAppBar from "../../components/events/filters/EventsAppBar.js";
 import { Box } from "../../components/mui/index.js";
