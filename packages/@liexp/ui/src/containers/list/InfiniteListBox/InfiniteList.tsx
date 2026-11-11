@@ -115,11 +115,7 @@ const InfiniteListForwardRef: React.ForwardRefRenderFunction<
 
           return (
             <div
-              key={
-                item.id != null && typeof item.id === "string"
-                  ? item.id
-                  : String(virtualItem.index)
-              }
+              key={String(item.id ?? virtualItem.index)}
               data-index={virtualItem.index}
               ref={(node) => {
                 if (node) {
