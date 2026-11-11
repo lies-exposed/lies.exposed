@@ -7,6 +7,42 @@ import type { ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import type { LoggerContext } from "../../context/logger.context.js";
 import { type Agent } from "../../providers/ai/agent.factory.js";
 
+/**
+ * Pure function that classifies a stream chunk and returns the updated output.
+ *
+ * Handles three chunk types:
+ * 1. Structured response — `chunk.generate_structured_response.structuredResponse`
+ *    replaces the accumulated output.
+ * 2. Agent chunk — `chunk.agent` is appended.
+ * 3. Fallback — `chunk.content.messages` is appended (crashes if `content` is
+ *    `undefined`, matching the original behaviour).
+ */
+export const processChunk = (chunk: unknown, current: string): string => {
+  if (
+    chunk !== null &&
+    typeof chunk === "object" &&
+    "generate_structured_response" in chunk &&
+    chunk.generate_structured_response !== null &&
+    typeof chunk.generate_structured_response === "object" &&
+    "structuredResponse" in chunk.generate_structured_response
+  ) {
+    return JSON.stringify(
+      chunk.generate_structured_response.structuredResponse,
+    );
+  }
+
+  if (chunk !== null && typeof chunk === "object" && "agent" in chunk) {
+    return current + JSON.stringify(chunk.agent);
+  }
+
+  return (
+    current +
+    JSON.stringify(
+      (chunk as { content: { messages: unknown } }).content.messages,
+    )
+  );
+};
+
 const runRunnableSequence =
   <C extends LoggerContext = LoggerContext>(
     messages: Messages,
@@ -30,20 +66,7 @@ const runRunnableSequence =
 
         for await (const chunk of stream) {
           ctx.logger.debug.log("Received chunk %O", chunk);
-          if (
-            "generate_structured_response" in chunk &&
-            "structuredResponse" in chunk.generate_structured_response
-          ) {
-            output = JSON.stringify(
-              chunk.generate_structured_response.structuredResponse,
-            );
-            continue;
-          } else if ("agent" in chunk) {
-            output += JSON.stringify(chunk.agent);
-            continue;
-          }
-          output ??= "";
-          output += JSON.stringify(chunk.content.messages);
+          output = processChunk(chunk, output);
         }
       } else {
         const result = await chain.invoke({ messages });

@@ -3,7 +3,7 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { describe, expect, it, vi } from "vitest";
 import type { LoggerContext } from "../../context/logger.context.js";
 import type { Agent } from "../../providers/ai/agent.factory.js";
-import { runAgent } from "./runRagChain.js";
+import { processChunk, runAgent } from "./runRagChain.js";
 
 const createMockContext = () => ({
   logger: {
@@ -191,5 +191,62 @@ describe("runAgent", () => {
     );
 
     expect(ctx.logger.debug.log).toHaveBeenCalledWith("Output %s", "");
+  });
+});
+
+describe("processChunk", () => {
+  it("crashes for unrecognized chunk shape (no content property)", () => {
+    expect(() => processChunk({}, "")).toThrow();
+  });
+
+  it("replaces output with structured response", () => {
+    const structured = { title: "Test", date: "2024-01-01" };
+    const result = processChunk(
+      { generate_structured_response: { structuredResponse: structured } },
+      "previous",
+    );
+    expect(result).toBe(JSON.stringify(structured));
+  });
+
+  it("appends agent chunk to current output", () => {
+    const result = processChunk({ agent: "hello" }, "prefix");
+    expect(result).toBe('prefix"hello"');
+  });
+
+  it("appends multiple agent chunks in sequence", () => {
+    let output = "";
+    output = processChunk({ agent: "first" }, output);
+    output = processChunk({ agent: "second" }, output);
+    expect(output).toBe('"first""second"');
+  });
+
+  it("structured response overrides accumulated agent output", () => {
+    let output = "";
+    output = processChunk({ agent: "preliminary" }, output);
+    output = processChunk(
+      {
+        generate_structured_response: {
+          structuredResponse: { final: "answer" },
+        },
+      },
+      output,
+    );
+    expect(output).toBe(JSON.stringify({ final: "answer" }));
+  });
+
+  it("crashes when content is undefined (no optional chaining)", () => {
+    expect(() => processChunk({ content: undefined }, "")).toThrow();
+  });
+
+  it("crashes when chunk has no content property", () => {
+    expect(() => processChunk({ foo: "bar" }, "")).toThrow();
+  });
+
+  it("appends content.messages as fallback", () => {
+    const result = processChunk(
+      { content: { messages: [{ role: "user", content: "hi" }] } },
+      "",
+    );
+    expect(result).toBe(JSON.stringify([{ role: "user", content: "hi" }]));
   });
 });
