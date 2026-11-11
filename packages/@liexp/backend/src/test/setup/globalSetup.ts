@@ -9,7 +9,6 @@ import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import type { BACKEND_ENV } from "../../io/ENV.js";
-import { getDataSource, getORMConfig } from "../../utils/data-source.js";
 
 const moduleLogger = logger.GetLogger("global-setup");
 
@@ -63,19 +62,14 @@ export const createGlobalSetup = <A extends BACKEND_ENV, I = any>(
         serviceRoot,
       );
 
-      const env = await pipe(
+      // validate env early; the DB itself (in-memory PGlite) is created per
+      // worker in testSetup, so no migrations/real Postgres are needed here
+      await pipe(
         process.env,
         Schema.decodeUnknownEither(envSchema),
         TE.fromEither,
         throwTE,
       );
-      const dataSource = await pipe(getORMConfig(env), getDataSource, throwTE);
-      try {
-        await dataSource.initialize();
-        await dataSource.runMigrations();
-      } finally {
-        await dataSource.destroy();
-      }
       moduleLogger.info.log(
         "Global test setup completed - using transactional rollback for test isolation",
       );

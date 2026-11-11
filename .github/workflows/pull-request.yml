@@ -21,6 +21,7 @@ jobs:
       needs-install: ${{ steps.filter.outputs.needs-install }}
       any-code: ${{ steps.filter.outputs.any-code }}
       has-matrix: ${{ steps.set-matrix.outputs.has-matrix }}
+      migrations: ${{ steps.filter.outputs.migrations }}
     steps:
       - uses: actions/checkout@v7
 
@@ -72,6 +73,12 @@ jobs:
               - "services/api/**"
               - "api.Dockerfile"
               - "base.Dockerfile"
+            migrations:
+              - ".github/workflows/**"
+              - ".github/actions/**"
+              - "services/api/src/migrations/**"
+              - "services/api/ormconfig.js"
+              - "packages/@liexp/backend/src/entities/**"
             packages:
               - ".github/workflows/**"
               - ".github/actions/**"
@@ -137,34 +144,32 @@ jobs:
           if [[ "$NEEDS_INSTALL" == "true" ]]; then
             ADMIN=true AGENT=true AI_BOT=true API=true PACKAGES=true STORYBOOK=true WEB=true WORKER=true
           fi
+          # Required status checks (see repo ruleset) must ALWAYS report, even
+          # when a service is unaffected: a matrix leg that never exists leaves
+          # the required check pending forever and blocks merge. So every
+          # required service gets a leg with "run" true/false; unaffected legs
+          # are skipped step-by-step and still conclude as success.
           items=()
-          [[ "$ADMIN" == "true" ]] && items+=(
-            '{"service":"admin","lint_command":"pnpm admin lint:ci","build_command":"pnpm admin build","app_command":"pnpm admin build:app","app_dotenv":".env.prod","spec_command":"pnpm admin test"}'
-          )
-          [[ "$AGENT" == "true" ]] && items+=(
-            '{"service":"agent","lint_command":"pnpm agent lint:ci","build_command":"pnpm agent build","spec_command":"pnpm agent test"}'
-          )
-          [[ "$AI_BOT" == "true" ]] && items+=(
-            '{"service":"ai-bot","lint_command":"pnpm ai-bot lint:ci","build_command":"pnpm ai-bot build","spec_command":"pnpm ai-bot test"}'
-          )
-          [[ "$API" == "true" ]] && items+=(
-            '{"service":"api","lint_command":"pnpm api lint:ci","build_command":"pnpm api build","spec_command":"pnpm api test:spec","e2e_command":"pnpm api test:e2e","migration_command":"pnpm api migration:run","dotenv_path":"./.env.test","needs_db":true}'
-          )
-          [[ "$PACKAGES" == "true" ]] && items+=(
-            '{"service":"packages","lint_command":"pnpm packages lint:ci","spec_command":"pnpm packages test"}'
-          )
-          [[ "$STORYBOOK" == "true" ]] && items+=(
-            '{"service":"storybook","lint_command":"pnpm storybook lint:ci","build_command":"pnpm storybook typecheck","app_command":"pnpm storybook build:app","app_dotenv":".env.prod","spec_command":"pnpm storybook test"}'
-          )
-          [[ "$WEB" == "true" ]] && items+=(
-            '{"service":"web","lint_command":"pnpm web lint:ci","build_command":"pnpm web build","app_command":"pnpm web build:app-server","app_dotenv":".env.prod","spec_command":"pnpm web test"}'
-          )
-          [[ "$WORKER" == "true" ]] && items+=(
-            '{"service":"worker","lint_command":"pnpm worker lint:ci","build_command":"pnpm worker build","spec_command":"pnpm worker test","e2e_command":"pnpm worker test:e2e","dotenv_path":"./.env.test","needs_db":true}'
-          )
+          # add <flag> <always-report> <json-without-braces>
+          add() {
+            local flag="$1" required="$2" body="$3"
+            if [[ "$flag" == "true" ]]; then
+              items+=("{\"run\":true,$body}")
+            elif [[ "$required" == "true" ]]; then
+              items+=("{\"run\":false,$body}")
+            fi
+          }
+          add "$ADMIN" true '"service":"admin","lint_command":"pnpm admin lint:ci","build_command":"pnpm admin build","app_command":"pnpm admin build:app","app_dotenv":".env.prod","spec_command":"pnpm admin test"'
+          add "$AGENT" true '"service":"agent","lint_command":"pnpm agent lint:ci","build_command":"pnpm agent build","spec_command":"pnpm agent test"'
+          add "$AI_BOT" false '"service":"ai-bot","lint_command":"pnpm ai-bot lint:ci","build_command":"pnpm ai-bot build","spec_command":"pnpm ai-bot test"'
+          add "$API" true '"service":"api","lint_command":"pnpm api lint:ci","build_command":"pnpm api build","spec_command":"pnpm api test:spec","e2e_command":"pnpm api test:e2e","dotenv_path":"./.env.test"'
+          add "$PACKAGES" true '"service":"packages","lint_command":"pnpm packages lint:ci","spec_command":"pnpm packages test"'
+          add "$STORYBOOK" false '"service":"storybook","lint_command":"pnpm storybook lint:ci","build_command":"pnpm storybook typecheck","app_command":"pnpm storybook build:app","app_dotenv":".env.prod","spec_command":"pnpm storybook test"'
+          add "$WEB" true '"service":"web","lint_command":"pnpm web lint:ci","build_command":"pnpm web build","app_command":"pnpm web build:app-server","app_dotenv":".env.prod","spec_command":"pnpm web test"'
+          add "$WORKER" true '"service":"worker","lint_command":"pnpm worker lint:ci","build_command":"pnpm worker build","spec_command":"pnpm worker test","e2e_command":"pnpm worker test:e2e","dotenv_path":"./.env.test"'
           joined=$(IFS=,; echo "${items[*]}")
           echo "matrix={\"include\":[$joined]}" >> $GITHUB_OUTPUT
-          if [[ ${#items[@]} -gt 0 ]]; then echo "has-matrix=true" >> $GITHUB_OUTPUT; else echo "has-matrix=false" >> $GITHUB_OUTPUT; fi
+          echo "has-matrix=true" >> $GITHUB_OUTPUT
 
   # Install dependencies and build packages once; warms the caches for all jobs
   # (avoids every matrix leg rebuilding packages in parallel on a cache miss)
@@ -184,21 +189,71 @@ jobs:
     needs: [detect-changes, install]
     # !cancelled(): still run (and report red/green) if the cache-warming
     # install job failed; legs rebuild packages themselves in that case.
+    # Always run (no any-code gate): required checks must report on every PR.
+    # Unaffected legs skip their steps and conclude success.
+    if: |
+      !cancelled() &&
+      needs.detect-changes.result == 'success'
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.detect-changes.outputs.matrix) }}
+
+    name: CI ${{ matrix.service }}
+
+    steps:
+      - uses: actions/checkout@v7
+        if: ${{ matrix.run }}
+
+      - uses: ./.github/actions/setup-workspace
+        if: ${{ matrix.run }}
+
+      - name: Build ${{ matrix.service }}
+        if: ${{ matrix.run && matrix.build_command }}
+        uses: ./.github/actions/build-service
+        with:
+          service: ${{ matrix.service }}
+          build_command: ${{ matrix.build_command }}
+
+      - name: Lint ${{ matrix.service }}
+        if: ${{ matrix.run && matrix.lint_command }}
+        run: ${{ matrix.lint_command }}
+
+      - name: Build ${{ matrix.service }} app
+        if: ${{ matrix.run && matrix.app_command }}
+        env:
+          DOTENV_CONFIG_PATH: ${{ matrix.app_dotenv || '.env' }}
+        run: ${{ matrix.app_command }}
+
+      - name: Test ${{ matrix.service }} (spec)
+        if: ${{ matrix.run && matrix.spec_command }}
+        uses: ./.github/actions/test-service
+        with:
+          service: ${{ matrix.service }}
+          spec_command: ${{ matrix.spec_command }}
+          dotenv_path: ${{ matrix.dotenv_path || '.env' }}
+
+      - name: Test ${{ matrix.service }} (e2e)
+        if: ${{ matrix.run && matrix.e2e_command }}
+        uses: ./.github/actions/test-service
+        with:
+          service: ${{ matrix.service }}
+          e2e_command: ${{ matrix.e2e_command }}
+          dotenv_path: ${{ matrix.dotenv_path || '.env' }}
+
+  # Validate TypeORM migrations against real Postgres. e2e tests use in-memory
+  # PGlite with `synchronize`, so this is the only check that migrations apply.
+  migrations:
+    needs: [detect-changes, install]
     if: |
       !cancelled() &&
       needs.detect-changes.result == 'success' &&
-      needs.detect-changes.outputs.any-code == 'true' &&
-      needs.detect-changes.outputs.has-matrix == 'true'
+      needs.detect-changes.outputs.migrations == 'true'
     runs-on: ubuntu-latest
-
-    # Conditional services - only start when matrix.needs_db is true
     services:
-      redis:
-        image: ${{ matrix.needs_db && 'redis:7' || '' }}
-        ports:
-          - 6379:6379
       pg-db-test:
-        image: ${{ matrix.needs_db && 'postgres:17' || '' }}
+        image: postgres:17
         env:
           POSTGRES_USER: liexp
           POSTGRES_PASSWORD: liexp-password
@@ -210,56 +265,22 @@ jobs:
           --health-retries 5
         ports:
           - 8432:5432
-
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJSON(needs.detect-changes.outputs.matrix) }}
-
-    name: CI ${{ matrix.service }}
-
     steps:
       - uses: actions/checkout@v7
 
       - uses: ./.github/actions/setup-workspace
 
-      - name: Build ${{ matrix.service }}
-        if: ${{ matrix.build_command }}
+      # ormconfig.js imports from api's build output
+      - name: Build api
         uses: ./.github/actions/build-service
         with:
-          service: ${{ matrix.service }}
-          build_command: ${{ matrix.build_command }}
-
-      - name: Lint ${{ matrix.service }}
-        if: ${{ matrix.lint_command }}
-        run: ${{ matrix.lint_command }}
-
-      - name: Build ${{ matrix.service }} app
-        if: ${{ matrix.app_command }}
-        env:
-          DOTENV_CONFIG_PATH: ${{ matrix.app_dotenv || '.env' }}
-        run: ${{ matrix.app_command }}
-
-      - name: Test ${{ matrix.service }} (spec)
-        if: ${{ matrix.spec_command }}
-        uses: ./.github/actions/test-service
-        with:
-          service: ${{ matrix.service }}
-          spec_command: ${{ matrix.spec_command }}
-          dotenv_path: ${{ matrix.dotenv_path || '.env' }}
+          service: api
+          build_command: pnpm api build
 
       - name: Run migrations
-        if: ${{ matrix.migration_command }}
         env:
-          DOTENV_CONFIG_PATH: ${{ matrix.dotenv_path || '.env' }}
-        run: ${{ matrix.migration_command }}
-
-      - name: Test ${{ matrix.service }} (e2e)
-        if: ${{ matrix.e2e_command }}
-        uses: ./.github/actions/test-service
-        with:
-          service: ${{ matrix.service }}
-          e2e_command: ${{ matrix.e2e_command }}
-          dotenv_path: ${{ matrix.dotenv_path || '.env' }}
+          DOTENV_CONFIG_PATH: ./.env.test
+        run: pnpm api migration:run
 
   # Knip report (for any code changes)
   knip-report:

@@ -10,7 +10,7 @@ inputs:
     description: "Command to run unit/spec tests"
   e2e_command:
     required: false
-    description: "Command to run e2e/integration tests (implies DB/Redis needed)"
+    description: "Command to run e2e/integration tests"
   dotenv_path:
     required: false
     default: ".env"
@@ -37,12 +37,4 @@ runs:
       env:
         DOTENV_CONFIG_PATH: ${{ inputs.dotenv_path }}
         DEBUG: ${{ inputs.debug }}
-        # DB/Redis config for e2e tests
-        DB_HOST: localhost
-        DB_PORT: "8432"
-        DB_USER: liexp
-        DB_PASSWORD: liexp-password
-        DB_DATABASE: liexp_test
-        REDIS_HOST: localhost
-        REDIS_PORT: "6379"
       run: ${{ inputs.e2e_command }}
