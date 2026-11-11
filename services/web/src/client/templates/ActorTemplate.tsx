@@ -4,6 +4,7 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import { ActorTemplate } from "@liexp/ui/lib/templates/ActorTemplate.js";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils.js";
@@ -22,10 +23,8 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
         : 0;
   }, [rawQuery.tab]);
 
-  const query = React.useMemo(() => {
-    const eventType = rawQuery.eventType;
-    const slideRaw = rawQuery.slide;
-    return {
+  const query = React.useMemo(
+    (): SearchEventsQueryInputNoPagination => ({
       actors: toStringArray(rawQuery.actors) as UUID[],
       groups: toStringArray(rawQuery.groups) as UUID[],
       groupsMembers: toStringArray(rawQuery.groupsMembers) as UUID[],
@@ -57,8 +56,8 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
             ? true
             : false
           : undefined,
-    };
-  }, [rawQuery]);
+    }),
+    [rawQuery]);
 
   return (
     <QueriesRenderer

@@ -2,6 +2,7 @@ import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { EventType } from "@liexp/io/lib/http/Events/index.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import { GroupTemplate } from "@liexp/ui/lib/templates/GroupTemplate.js";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils.js";
@@ -19,9 +20,8 @@ const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
         : 0;
   }, [rawQuery.tab]);
 
-  const query = React.useMemo(() => {
-    const eventType = rawQuery.eventType;
-    return {
+  const query = React.useMemo(
+    (): SearchEventsQueryInputNoPagination => ({
       actors: toStringArray(rawQuery.actors) as UUID[],
       groups: toStringArray(rawQuery.groups) as UUID[],
       groupsMembers: toStringArray(rawQuery.groupsMembers) as UUID[],
@@ -53,8 +53,8 @@ const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
             ? true
             : false
           : undefined,
-    };
-  }, [rawQuery]);
+    }),
+    [rawQuery]);
 
   return (
     <QueriesRenderer

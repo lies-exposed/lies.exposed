@@ -19,9 +19,8 @@ const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
         : 0;
   }, [rawQuery.tab]);
 
-  const filters = React.useMemo(() => {
-    const eventType = rawQuery.eventType;
-    return {
+  const filters = React.useMemo(
+    (): { actors: UUID[]; groups: UUID[]; keywords: UUID[]; eventType: EventType[] } => ({
       actors: toStringArray(rawQuery.actors) as UUID[],
       groups: toStringArray(rawQuery.groups) as UUID[],
       keywords: toStringArray(rawQuery.keywords) as UUID[],
@@ -38,8 +37,8 @@ const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
               | "Uncategorized"
             )[])
           : EventType.members.map((v) => v.literals[0]),
-    };
-  }, [rawQuery]);
+    }),
+    [rawQuery]);
 
   return (
     <QueriesRenderer
