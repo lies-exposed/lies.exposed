@@ -4,6 +4,7 @@ import { registerActorsTools } from "./actors.tool.js";
 import { registerAreasTools } from "./areas.tool.js";
 import { registerBlockNoteTools } from "./blockNoteToText.tool.js";
 import { registerEventsTools } from "./events.tool.js";
+import { registerGraphsTools } from "./graphs.tool.js";
 import { registerGroupsTools } from "./groups.tool.js";
 import { registerKeywordsTools } from "./keywords.tool.js";
 import { registerLinksTools } from "./links.tool.js";
@@ -17,6 +18,7 @@ export const registerTools = (server: McpServer, ctx: ServerContext) => {
   registerActorsTools(server, ctx);
   registerAreasTools(server, ctx);
   registerBlockNoteTools(server);
+  registerGraphsTools(server, ctx);
   registerGroupsTools(server, ctx);
   registerLinksTools(server, ctx);
   registerMediaTools(server, ctx);
