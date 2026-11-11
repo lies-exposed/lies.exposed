@@ -83,9 +83,13 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
     ? [_relations, onRelationsChange]
     : React.useState(_relations);
 
-  const handleRelationChange = (r: NetworkGroupBy) => (_: any, c: boolean) => {
-    setRelations(!c ? relations.filter((rr) => rr !== r) : relations.concat(r));
-  };
+  const handleRelationChange =
+    (r: NetworkGroupBy) =>
+    (_: React.ChangeEvent<HTMLInputElement>, c: boolean) => {
+      setRelations(
+        !c ? relations.filter((rr) => rr !== r) : relations.concat(r),
+      );
+    };
   return (
     <Box style={{ height: "100%" }}>
       <QueriesRenderer
@@ -522,17 +526,16 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
   );
 };
 
-interface HierarchyNetworkGraphBoxWithQueryProps<P> extends Omit<
-  HierarchyNetworkGraphBoxProps,
-  "id" | "query"
-> {
-  useQuery: UseListQueryFn<any, P, any>;
+interface HierarchyNetworkGraphBoxWithQueryProps<
+  P extends Record<string, unknown>,
+> extends Omit<HierarchyNetworkGraphBoxProps, "id" | "query"> {
+  useQuery: UseListQueryFn<unknown, P, unknown>;
   params: Partial<P>;
-  eventsBoxQuery: any;
+  eventsBoxQuery: Partial<SearchEventsQueryInputNoPagination>;
 }
 
 export const HierarchyNetworkGraphBoxWithQuery = <
-  P extends Record<string, any>,
+  P extends Record<string, unknown>,
 >({
   useQuery,
   params,
@@ -542,11 +545,15 @@ export const HierarchyNetworkGraphBoxWithQuery = <
   return (
     <QueriesRenderer
       queries={{
-        items: useQuery({} as any, params, false),
+        items: useQuery({} as P, params, false),
       }}
       render={({ items: { data } }) => {
         return (
-          <HierarchyNetworkGraphBox {...props} id={data[0].id} query={query} />
+          <HierarchyNetworkGraphBox
+            {...props}
+            id={(data[0] as { id: string }).id}
+            query={query as HierarchyNetworkGraphBoxProps["query"]}
+          />
         );
       }}
     />

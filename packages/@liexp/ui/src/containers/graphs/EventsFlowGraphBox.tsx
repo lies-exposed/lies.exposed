@@ -10,9 +10,9 @@ import {
 import { type GetNetworkQuerySerialized } from "@liexp/io/lib/http/Network/Network.js";
 import { type FlowGraphType } from "@liexp/io/lib/http/graphs/FlowGraph.js";
 import { Actor, Group, Keyword } from "@liexp/io/lib/http/index.js";
-import { type Node } from "@xyflow/react";
 import * as React from "react";
 import { FullSizeLoader } from "../../components/Common/FullSizeLoader.js";
+import { type NodeType } from "../../components/Common/Graph/Flow/nodes/index.js";
 import { EventsFlowGraph } from "../../components/Graph/EventsFlowGraph.js";
 import EventsAppBar from "../../components/events/filters/EventsAppBar.js";
 import { Box } from "../../components/mui/index.js";
@@ -80,7 +80,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
     };
   }, [state, _query]);
 
-  const onNodeClick = (e: any, n: Node): void => {
+  const onNodeClick = (e: React.MouseEvent, n: NodeType): void => {
     switch (n.type) {
       case Actor.Actor.name: {
         const actorIds = state.selectedActorIds.includes(n.id as UUID)
@@ -114,7 +114,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
         break;
       }
       case "EventV2": {
-        onEventClick(n.data as any);
+        onEventClick((n as { data: SearchEvent.SearchEvent }).data);
         break;
       }
     }
@@ -162,7 +162,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
                 selectedActorIds: actors ?? [],
                 selectedGroupIds: groups ?? [],
                 selectedKeywordIds: keywords ?? [],
-              }) as any,
+              }) as unknown as typeof state,
           );
         }}
         onQueryClear={() => {}}
