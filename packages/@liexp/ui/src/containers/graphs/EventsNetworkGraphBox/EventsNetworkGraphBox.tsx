@@ -70,7 +70,7 @@ interface EventNetworkGraphBoxWrapperProps<
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const EventsNetworkGraphBoxWrapper = <T extends object>({
+export const EventsNetworkGraphBoxWrapper = <T extends any>({
   count,
   query: { ids, eventType, ...query },
   type,
@@ -88,12 +88,11 @@ export const EventsNetworkGraphBoxWrapper = <T extends object>({
     : React.useState(_relations);
 
   const handleRelationChange = React.useCallback(
-    (r: NetworkGroupBy) =>
-      (_: React.ChangeEvent<HTMLInputElement>, c: boolean) => {
-        setRelations(
-          !c ? relations.filter((rr) => rr !== r) : relations.concat(r),
-        );
-      },
+    (r: NetworkGroupBy) => (_: any, c: boolean) => {
+      setRelations(
+        !c ? relations.filter((rr) => rr !== r) : relations.concat(r),
+      );
+    },
     [relations],
   );
 
@@ -187,7 +186,8 @@ export const EventsNetworkGraphBoxWrapper = <T extends object>({
               <ParentSize debounceTime={1000}>
                 {({ width, height }) => {
                   return props.children({
-                    ...innerProps,
+                    ...props,
+                    ...(innerProps as any),
                     width,
                     height,
                   });
@@ -423,17 +423,17 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   );
 };
 
-interface EventsNetworkGraphBoxWithQueryProps<P extends object> extends Omit<
+interface EventsNetworkGraphBoxWithQueryProps<P> extends Omit<
   EventNetworkGraphBoxProps,
   "id" | "query"
 > {
   useQuery: UseGetQueryFn<any, P, any>;
   params: Partial<P>;
-  eventsBoxQuery: Partial<GetNetworkQuerySerialized>;
+  eventsBoxQuery: any;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const EventsNetworkGraphBoxWithQuery = <P extends object>({
+export const EventsNetworkGraphBoxWithQuery = <P extends any>({
   useQuery,
   params,
   eventsBoxQuery: query,
@@ -450,12 +450,11 @@ export const EventsNetworkGraphBoxWithQuery = <P extends object>({
           <EventsNetworkGraphBox
             {...props}
             type={type}
-            query={
-              {
-                ...query,
-                ids: data[0] ? [data[0].id] : undefined,
-              } as Partial<GetNetworkQuerySerialized> & { id?: string }
-            }
+            query={{
+              ...query,
+              ids: data[0] ? [data[0].id] : [],
+              id: data[0]?.id,
+            }}
           />
         );
       }}

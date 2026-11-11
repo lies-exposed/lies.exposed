@@ -62,8 +62,7 @@ const SearchAreaTemplate: React.FC<SearchAreaTemplateProps> = ({
                           height={height * (2 / 3)}
                           onMapClick={(features) => {
                             if (features.length > 0) {
-                              const area =
-                                features[0].getProperties() as Area.Area;
+                              const area: any = features[0].getProperties();
                               onAreaClick(area);
                             }
                           }}

@@ -3,9 +3,9 @@ import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { type InfiniteListBaseProps } from "./types.js";
 
-export interface RowRendererProps<T = unknown> extends Record<string, unknown> {
+export interface RowRendererProps extends Record<string, unknown> {
   index: number;
-  item: T;
+  item: any;
   isLast: boolean;
   isVisible: boolean;
   style: React.CSSProperties;
@@ -13,9 +13,7 @@ export interface RowRendererProps<T = unknown> extends Record<string, unknown> {
   onRowInvalidate?: () => void;
 }
 
-type RowRenderer<T = unknown> = React.ForwardRefExoticComponent<
-  RowRendererProps<T>
->;
+type RowRenderer = React.ForwardRefExoticComponent<RowRendererProps>;
 
 const PREFIX = "InfiniteList";
 const classes = {
@@ -31,23 +29,17 @@ const StyledList = styled("div")(() => ({
   },
 }));
 
-export interface InfiniteListProps<
-  T = unknown,
-> extends InfiniteListBaseProps<T> {
+export interface InfiniteListProps extends InfiniteListBaseProps {
   onRowsRendered: (params: { startIndex: number; stopIndex: number }) => void;
-  RowRenderer: RowRenderer<T>;
+  RowRenderer: RowRenderer;
 }
 
-const InfiniteListForwardRef = <T,>(
-  {
-    height,
-    onRowsRendered,
-    items,
-    getItem,
-    RowRenderer,
-    ...rest
-  }: InfiniteListProps<T>,
-  listRef: React.Ref<unknown>,
+const InfiniteListForwardRef: React.ForwardRefRenderFunction<
+  unknown,
+  InfiniteListProps
+> = (
+  { height, onRowsRendered, items, getItem, RowRenderer, ...rest },
+  listRef,
 ) => {
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -123,7 +115,11 @@ const InfiniteListForwardRef = <T,>(
 
           return (
             <div
-              key={String((item as { id?: unknown }).id ?? virtualItem.index)}
+              key={
+                item.id != null && typeof item.id === "string"
+                  ? item.id
+                  : String(virtualItem.index)
+              }
               data-index={virtualItem.index}
               ref={(node) => {
                 if (node) {

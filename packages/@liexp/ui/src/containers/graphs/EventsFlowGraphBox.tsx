@@ -80,7 +80,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
     };
   }, [state, _query]);
 
-  const onNodeClick = (e: React.MouseEvent, n: Node): void => {
+  const onNodeClick = (e: any, n: Node): void => {
     switch (n.type) {
       case Actor.Actor.name: {
         const actorIds = state.selectedActorIds.includes(n.id as UUID)
@@ -114,7 +114,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
         break;
       }
       case "EventV2": {
-        onEventClick(n.data as SearchEvent.SearchEvent);
+        onEventClick(n.data as any);
         break;
       }
     }
@@ -162,7 +162,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
                 selectedActorIds: actors ?? [],
                 selectedGroupIds: groups ?? [],
                 selectedKeywordIds: keywords ?? [],
-              }) as unknown as typeof s,
+              }) as any,
           );
         }}
         onQueryClear={() => {}}

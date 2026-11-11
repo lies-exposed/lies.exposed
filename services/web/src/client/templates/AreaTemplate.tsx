@@ -9,16 +9,8 @@ import { useNavigateToResource } from "../utils/location.utils.js";
 
 const AreaTemplate: React.FC<{ areaId: UUID }> = ({ areaId }) => {
   const navigateToResource = useNavigateToResource();
-  const rawQuery = useRouteQuery();
-
-  const tab = React.useMemo(() => {
-    const rawTab = rawQuery.tab;
-    return typeof rawTab === "string"
-      ? parseInt(rawTab, 10)
-      : rawTab !== undefined && rawTab.length > 0
-        ? parseInt(rawTab[0], 10)
-        : 0;
-  }, [rawQuery.tab]);
+  const { tab: _tab = "0" } = useRouteQuery();
+  const tab = parseInt(_tab, 10);
 
   return (
     <QueriesRenderer
@@ -38,13 +30,13 @@ const AreaTemplate: React.FC<{ areaId: UUID }> = ({ areaId }) => {
               area={area}
               tab={tab}
               onTabChange={(t) => {
-                navigateToResource.areas({ id: area.id }, { tab: String(t) });
+                navigateToResource.areas({ id: area.id }, { tab: t });
               }}
               onEventClick={(e) => {
                 navigateToResource.events({ id: e.id });
               }}
               onMediaClick={(m) => {
-                navigateToResource.media({ id: m.id }, { tab: "0" });
+                navigateToResource.media({ id: m.id }, { tab: 0 });
               }}
             />
           </Box>
