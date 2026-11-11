@@ -58,47 +58,44 @@ const runRunnableSequence = <C extends LoggerContext = LoggerContext>(
     fp.RTE.bind("ctx", () => fp.RTE.ask<C>()),
     fp.RTE.chainTaskEitherK(({ ctx }) =>
       pipe(
-        fp.TE.tryCatch(
-          async () => {
-            let output = "";
-            if (mode === "stream") {
-              const stream = await chain.stream(
-                { messages },
-                {
-                  configurable: {
-                    thread_id: uuid(),
-                  },
+        fp.TE.tryCatch(async () => {
+          let output = "";
+          if (mode === "stream") {
+            const stream = await chain.stream(
+              { messages },
+              {
+                configurable: {
+                  thread_id: uuid(),
                 },
-              );
+              },
+            );
 
-              for await (const chunk of stream) {
-                ctx.logger.debug.log("Received chunk %O", chunk);
-                if (
-                  "generate_structured_response" in chunk &&
-                  "structuredResponse" in chunk.generate_structured_response
-                ) {
-                  output = JSON.stringify(
-                    chunk.generate_structured_response.structuredResponse,
-                  );
-                  continue;
-                } else if ("agent" in chunk) {
-                  output += JSON.stringify(chunk.agent);
-                  continue;
-                }
-                output ??= "";
-                output += JSON.stringify(chunk.content.messages);
+            for await (const chunk of stream) {
+              ctx.logger.debug.log("Received chunk %O", chunk);
+              if (
+                "generate_structured_response" in chunk &&
+                "structuredResponse" in chunk.generate_structured_response
+              ) {
+                output = JSON.stringify(
+                  chunk.generate_structured_response.structuredResponse,
+                );
+                continue;
+              } else if ("agent" in chunk) {
+                output += JSON.stringify(chunk.agent);
+                continue;
               }
-            } else {
-              const result = await chain.invoke({ messages });
-              output = JSON.stringify(result.messages);
+              output ??= "";
+              output += JSON.stringify(chunk.content.messages);
             }
+          } else {
+            const result = await chain.invoke({ messages });
+            output = JSON.stringify(result.messages);
+          }
 
-            ctx.logger.debug.log("Output %s", output);
+          ctx.logger.debug.log("Output %s", output);
 
-            return output;
-          },
-          toAPIError,
-        ),
+          return output;
+        }, toAPIError),
       ),
     ),
   );
