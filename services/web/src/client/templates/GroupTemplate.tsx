@@ -21,39 +21,43 @@ const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
   }, [rawQuery.tab]);
 
   const query = React.useMemo(
-    (): SearchEventsQueryInputNoPagination => ({
-      actors: toStringArray(rawQuery.actors) as UUID[],
-      groups: toStringArray(rawQuery.groups) as UUID[],
-      groupsMembers: toStringArray(rawQuery.groupsMembers) as UUID[],
-      keywords: toStringArray(rawQuery.keywords) as UUID[],
-      media: toStringArray(rawQuery.media) as UUID[],
-      locations: toStringArray(rawQuery.locations) as UUID[],
-      startDate: toString(rawQuery.startDate),
-      endDate: toString(rawQuery.endDate),
-      eventType:
-        eventType !== undefined
-          ? (toStringArray(eventType) as (
-              | "Book"
-              | "Death"
-              | "Documentary"
-              | "Patent"
-              | "Quote"
-              | "ScientificStudy"
-              | "Transaction"
-              | "Uncategorized"
-            )[])
-          : EventType.members.map((t) => t.literals[0]),
-      q: toString(rawQuery.q),
-      _order: toString(rawQuery._order),
-      _sort: toString(rawQuery._sort),
-      hash: toString(rawQuery.hash),
-      slide:
-        rawQuery.slide !== undefined
-          ? toString(rawQuery.slide) === "1"
-            ? true
-            : false
-          : undefined,
-    }),
+    (): SearchEventsQueryInputNoPagination => {
+      const eventType = rawQuery.eventType;
+      const slideRaw = rawQuery.slide;
+      return {
+        actors: toStringArray(rawQuery.actors) as UUID[],
+        groups: toStringArray(rawQuery.groups) as UUID[],
+        groupsMembers: toStringArray(rawQuery.groupsMembers) as UUID[],
+        keywords: toStringArray(rawQuery.keywords) as UUID[],
+        media: toStringArray(rawQuery.media) as UUID[],
+        locations: toStringArray(rawQuery.locations) as UUID[],
+        startDate: toString(rawQuery.startDate),
+        endDate: toString(rawQuery.endDate),
+        eventType:
+          eventType !== undefined
+            ? (toStringArray(eventType) as (
+                | "Book"
+                | "Death"
+                | "Documentary"
+                | "Patent"
+                | "Quote"
+                | "ScientificStudy"
+                | "Transaction"
+                | "Uncategorized"
+              )[])
+            : EventType.members.map((t) => t.literals[0]),
+        q: toString(rawQuery.q),
+        _order: toString(rawQuery._order) as "ASC" | "DESC" | null | undefined,
+        _sort: toString(rawQuery._sort),
+        hash: toString(rawQuery.hash),
+        slide:
+          slideRaw !== undefined
+            ? toString(slideRaw) === "1"
+              ? true
+              : false
+            : undefined,
+      };
+    },
     [rawQuery]);
 
   return (

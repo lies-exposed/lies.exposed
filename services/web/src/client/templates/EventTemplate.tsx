@@ -20,24 +20,27 @@ const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
   }, [rawQuery.tab]);
 
   const filters = React.useMemo(
-    (): { actors: UUID[]; groups: UUID[]; keywords: UUID[]; eventType: EventType[] } => ({
-      actors: toStringArray(rawQuery.actors) as UUID[],
-      groups: toStringArray(rawQuery.groups) as UUID[],
-      keywords: toStringArray(rawQuery.keywords) as UUID[],
-      eventType:
-        eventType !== undefined
-          ? (toStringArray(eventType) as (
-              | "Book"
-              | "Death"
-              | "Documentary"
-              | "Patent"
-              | "Quote"
-              | "ScientificStudy"
-              | "Transaction"
-              | "Uncategorized"
-            )[])
-          : EventType.members.map((v) => v.literals[0]),
-    }),
+    (): { actors: UUID[]; groups: UUID[]; keywords: UUID[]; eventType: EventType[] } => {
+      const eventType = rawQuery.eventType;
+      return {
+        actors: toStringArray(rawQuery.actors) as UUID[],
+        groups: toStringArray(rawQuery.groups) as UUID[],
+        keywords: toStringArray(rawQuery.keywords) as UUID[],
+        eventType:
+          eventType !== undefined
+            ? (toStringArray(eventType) as (
+                | "Book"
+                | "Death"
+                | "Documentary"
+                | "Patent"
+                | "Quote"
+                | "ScientificStudy"
+                | "Transaction"
+                | "Uncategorized"
+              )[])
+            : EventType.members.map((v) => v.literals[0]),
+      };
+    },
     [rawQuery]);
 
   return (
