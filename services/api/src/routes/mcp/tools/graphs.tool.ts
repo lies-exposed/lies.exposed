@@ -2,11 +2,7 @@ import { GraphEntity } from "@liexp/backend/lib/entities/Graph.entity.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { type Graph } from "@liexp/io/lib/http/graphs/Graph.js";
-import {
-  CreateGraphInputSchema,
-  EditGraphInputSchema,
-  FindGraphsInputSchema,
-} from "@liexp/shared/lib/mcp/schemas/graphs.schemas.js";
+import { CreateGraphInputSchema, EditGraphInputSchema, FindGraphsInputSchema } from "@liexp/shared/lib/mcp/schemas/graphs.schemas.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -39,10 +35,7 @@ const graphEntityToOutput = (g: GraphEntity): Record<string, unknown> => ({
 });
 
 // --- Register tools ---
-export const registerGraphsTools = (
-  server: McpServer,
-  ctx: ServerContext,
-) => {
+export const registerGraphsTools = (server: McpServer, ctx: ServerContext) => {
   // --- findGraphs ---
   const findGraphsTool = defineMcpTool(
     FindGraphsInputSchema,
