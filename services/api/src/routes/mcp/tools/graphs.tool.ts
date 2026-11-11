@@ -39,10 +39,7 @@ const graphEntityToOutput = (g: GraphEntity): Record<string, unknown> => ({
 });
 
 // --- Register tools ---
-export const registerGraphsTools = (
-  server: McpServer,
-  ctx: ServerContext,
-) => {
+export const registerGraphsTools = (server: McpServer, ctx: ServerContext) => {
   // --- findGraphs ---
   const findGraphsTool = defineMcpTool(
     FindGraphsInputSchema,
