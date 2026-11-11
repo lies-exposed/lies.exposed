@@ -70,7 +70,7 @@ interface EventNetworkGraphBoxWrapperProps<
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const EventsNetworkGraphBoxWrapper = <T extends any>({
+export const EventsNetworkGraphBoxWrapper = <T extends object>({
   count,
   query: { ids, eventType, ...query },
   type,
@@ -88,7 +88,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
     : React.useState(_relations);
 
   const handleRelationChange = React.useCallback(
-    (r: NetworkGroupBy) => (_: any, c: boolean) => {
+    (r: NetworkGroupBy) => (_: React.ChangeEvent<HTMLInputElement>, c: boolean) => {
       setRelations(
         !c ? relations.filter((rr) => rr !== r) : relations.concat(r),
       );
@@ -187,7 +187,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
                 {({ width, height }) => {
                   return props.children({
                     ...props,
-                    ...(innerProps as any),
+                    ...(innerProps as T & { width: number; height: number }),
                     width,
                     height,
                   });

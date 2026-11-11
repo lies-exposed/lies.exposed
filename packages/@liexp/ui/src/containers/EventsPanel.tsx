@@ -125,8 +125,8 @@ export interface EventsQueryParams {
   endDate?: string;
   title?: string;
   type?: EventType[];
-  _sort: any;
-  _order: any;
+  _sort: string | null | undefined;
+  _order: "ASC" | "DESC" | null | undefined;
 }
 
 interface EventsPanelProps {
@@ -150,7 +150,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   onQueryChange,
   onEventClick,
 }) => {
-  const slide = (_slide as any) === "true";
+  const slide = typeof _slide === "boolean" ? _slide : _slide === "true";
   const query = {
     type: EventType.members.map((t) => t.Type),
     ..._query,

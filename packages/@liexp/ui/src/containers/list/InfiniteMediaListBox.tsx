@@ -22,7 +22,7 @@ type InfiniteMediaListBoxProps = Omit<
     >
   > & {
     type?: "masonry";
-    getItem?: (data: any[], index: number) => any;
+    getItem?: (data: readonly Media.Media[], index: number) => Media.Media;
   };
   onMediaClick?: (media: Media.Media) => void;
 };
@@ -40,11 +40,11 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
         useListQuery: (Q) => Q.Media.list,
         listProps: {
           type: "masonry",
-          getItem: (data: any[], index: number) => {
+          getItem: (data: readonly Media.Media[], index: number) => {
             return data[index];
           },
 
-          CellRenderer: React.forwardRef<any, CellRendererProps>(
+          CellRenderer: React.forwardRef<HTMLDivElement, CellRendererProps>(
             (
               {
                 item,
@@ -77,7 +77,9 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
               );
             },
           ),
-          ...(listProps as any),
+          ...(listProps as Partial<
+            Omit<InfiniteMasonryProps, "width" | "height" | "items" | "getItem" | "CellRenderer">
+          >),
         },
         ...props,
       }}
