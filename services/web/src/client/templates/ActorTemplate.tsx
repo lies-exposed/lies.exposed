@@ -26,12 +26,12 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
     const eventType = rawQuery.eventType;
     const slideRaw = rawQuery.slide;
     return {
-      actors: toStringArray(rawQuery.actors),
-      groups: toStringArray(rawQuery.groups),
-      groupsMembers: toStringArray(rawQuery.groupsMembers),
-      keywords: toStringArray(rawQuery.keywords),
-      media: toStringArray(rawQuery.media),
-      locations: toStringArray(rawQuery.locations),
+      actors: toStringArray(rawQuery.actors) as UUID[],
+      groups: toStringArray(rawQuery.groups) as UUID[],
+      groupsMembers: toStringArray(rawQuery.groupsMembers) as UUID[],
+      keywords: toStringArray(rawQuery.keywords) as UUID[],
+      media: toStringArray(rawQuery.media) as UUID[],
+      locations: toStringArray(rawQuery.locations) as UUID[],
       startDate: toString(rawQuery.startDate),
       endDate: toString(rawQuery.endDate),
       eventType:
@@ -75,7 +75,7 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
             />
             <ActorTemplate
               tab={tab}
-              query={query as any}
+              query={query}
               onQueryChange={(q) => {
                 const navQuery: Record<string, string | string[]> = {};
                 for (const [key, value] of Object.entries(q)) {

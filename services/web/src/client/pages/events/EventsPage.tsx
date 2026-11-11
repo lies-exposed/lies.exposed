@@ -135,7 +135,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   return (
     <ExploreTemplate
       hash={hash}
-      params={params as any}
+      params={params as unknown as SearchEventsQueryInputNoPagination}
       tab={tab}
       slide={slide}
       onQueryChange={handleUpdateEventsSearch}

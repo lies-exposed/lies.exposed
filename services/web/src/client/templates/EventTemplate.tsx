@@ -22,9 +22,9 @@ const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
   const filters = React.useMemo(() => {
     const eventType = rawQuery.eventType;
     return {
-      actors: toStringArray(rawQuery.actors) as unknown as UUID[],
-      groups: toStringArray(rawQuery.groups) as unknown as UUID[],
-      keywords: toStringArray(rawQuery.keywords) as unknown as UUID[],
+      actors: toStringArray(rawQuery.actors) as UUID[],
+      groups: toStringArray(rawQuery.groups) as UUID[],
+      keywords: toStringArray(rawQuery.keywords) as UUID[],
       eventType:
         eventType !== undefined
           ? (toStringArray(eventType) as (
@@ -50,7 +50,7 @@ const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
       render={({ event: { data: event } }) => {
         return (
           <EventTemplateUI
-            filters={filters as any}
+            filters={filters}
             event={event}
             tab={tab}
             onTabChange={(tab) => {

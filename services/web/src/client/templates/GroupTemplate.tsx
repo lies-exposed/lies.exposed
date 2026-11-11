@@ -22,12 +22,12 @@ const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
   const query = React.useMemo(() => {
     const eventType = rawQuery.eventType;
     return {
-      actors: toStringArray(rawQuery.actors) as unknown as UUID[],
-      groups: toStringArray(rawQuery.groups) as unknown as UUID[],
-      groupsMembers: toStringArray(rawQuery.groupsMembers) as unknown as UUID[],
-      keywords: toStringArray(rawQuery.keywords) as unknown as UUID[],
-      media: toStringArray(rawQuery.media) as unknown as UUID[],
-      locations: toStringArray(rawQuery.locations) as unknown as UUID[],
+      actors: toStringArray(rawQuery.actors) as UUID[],
+      groups: toStringArray(rawQuery.groups) as UUID[],
+      groupsMembers: toStringArray(rawQuery.groupsMembers) as UUID[],
+      keywords: toStringArray(rawQuery.keywords) as UUID[],
+      media: toStringArray(rawQuery.media) as UUID[],
+      locations: toStringArray(rawQuery.locations) as UUID[],
       startDate: toString(rawQuery.startDate),
       endDate: toString(rawQuery.endDate),
       eventType:
@@ -64,7 +64,7 @@ const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
           <GroupTemplate
             group={group}
             tab={tab}
-            query={query as any}
+            query={query}
             onTabChange={(t) => {
               navigateTo.groups({ id: groupId }, { tab: String(t) });
             }}
