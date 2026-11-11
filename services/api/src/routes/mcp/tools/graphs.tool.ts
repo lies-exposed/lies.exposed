@@ -117,56 +117,57 @@ export const registerGraphsTools = (server: McpServer, ctx: ServerContext) => {
   const createGraphTool = defineMcpTool(
     CreateGraphInputSchema,
     async (input) => {
-    const { type, label, slug, data, options } = input;
+      const { type, label, slug, data, options } = input;
 
-    try {
-      const result = await pipe(
-        TE.Do,
-        TE.bind("graph", () =>
-          ctx.db.save(GraphEntity, [
-            {
-              label,
-              slug,
-              graphType: type,
-              options: options ?? {},
-              data,
-              id: uuid(),
-            },
-          ]),
-        ),
-        TE.chain(({ graph }) =>
-          pipe(
-            ctx.db.findOneOrFail(GraphEntity, {
-              where: { id: Equal(graph[0].id) },
-            }),
-            TE.chainEitherK((d) => GraphIO.decodeSingle(d)),
+      try {
+        const result = await pipe(
+          TE.Do,
+          TE.bind("graph", () =>
+            ctx.db.save(GraphEntity, [
+              {
+                label,
+                slug,
+                graphType: type,
+                options: options ?? {},
+                data,
+                id: uuid(),
+              },
+            ]),
           ),
-        ),
-        TE.map((g) => graphToOutput(g)),
-      )();
+          TE.chain(({ graph }) =>
+            pipe(
+              ctx.db.findOneOrFail(GraphEntity, {
+                where: { id: Equal(graph[0].id) },
+              }),
+              TE.chainEitherK((d) => GraphIO.decodeSingle(d)),
+            ),
+          ),
+          TE.map((g) => graphToOutput(g)),
+        )();
 
-      if (fp.E.isLeft(result)) {
+        if (fp.E.isLeft(result)) {
+          throw new Error(
+            (result.left as Error).message ?? "Failed to create graph",
+          );
+        }
+
+        return {
+          content: [
+            {
+              text: JSON.stringify(result.right),
+              type: "text" as const,
+            },
+          ],
+        };
+      } catch (err) {
+        ctx.logger.error.log("createGraph error: %O", err);
         throw new Error(
-          (result.left as Error).message ?? "Failed to create graph",
+          `Failed to create graph: ${err instanceof Error ? err.message : String(err)}`,
+          { cause: err },
         );
       }
-
-      return {
-        content: [
-          {
-            text: JSON.stringify(result.right),
-            type: "text" as const,
-          },
-        ],
-      };
-    } catch (err) {
-      ctx.logger.error.log("createGraph error: %O", err);
-      throw new Error(
-        `Failed to create graph: ${err instanceof Error ? err.message : String(err)}`,
-        { cause: err },
-      );
-    }
-  });
+    },
+  );
 
   server.registerTool(
     CREATE_GRAPH,
