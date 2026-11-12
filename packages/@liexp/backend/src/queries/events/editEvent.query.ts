@@ -75,7 +75,7 @@ export const editEventQuery =
               ...storedEvent,
               ...baseProps,
               type: input.type,
-              payload: mergedPayload,
+              payload: mergedPayload as unknown as EditEventEntity["payload"],
               ...(input.links !== undefined ? { links: commonData.links } : {}),
               ...(input.keywords !== undefined
                 ? { keywords: commonData.keywords }
