@@ -1,4 +1,6 @@
+import type { SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
 import * as Events from "@liexp/io/lib/http/Events/index.js";
+import { ctxHelper } from "@liexp/test";
 import {
   EventsSankeyGraph,
   type EventsSankeyGraphProps,
@@ -47,7 +49,7 @@ const args: EventsSankeyGraphProps = {
   scale: "all" as const,
   groupBy: "group",
   scalePoint: O.none,
-  events: uncategorizedEvents as any[],
+  events: ctxHelper.ctx<SearchEvent[]>(uncategorizedEvents),
   includeEmptyRelations: false,
   actors: [],
   groups: [],
