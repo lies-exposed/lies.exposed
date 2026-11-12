@@ -28,7 +28,7 @@ export const getTextContents = (blocks: BNEditorDocument): string => {
       }
 
       if (p.type === "text") {
-        return fp.O.some([(p as BNTextBlock).text ?? ""]);
+        return fp.O.some([(p as unknown as BNTextBlock).text ?? ""]);
       }
       return fp.O.none;
     }),

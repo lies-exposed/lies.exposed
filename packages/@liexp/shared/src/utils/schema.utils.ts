@@ -113,7 +113,7 @@ export const effectToZod = <A>(schema: Schema.Schema<A>): z.ZodType<A> => {
       "_tag" in ast &&
       (ast as { _tag: string })._tag === "PropertySignatureDeclaration"
     ) {
-      const psd = ast as PropertySignatureDeclaration;
+      const psd = ast as unknown as PropertySignatureDeclaration;
       const inner = convert(psd.type);
       return psd.isOptional ? inner.optional() : inner;
     }
