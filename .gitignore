@@ -51,6 +51,7 @@ temp
 .env
 .env.*
 !.env.test
+!services/*/.env
 !services/storybook/.env.prod
 *.tsbuildinfo
 
