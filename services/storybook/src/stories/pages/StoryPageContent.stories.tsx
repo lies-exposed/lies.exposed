@@ -1,3 +1,5 @@
+import type { Story } from "@liexp/io/lib/http/index.js";
+import { ctxHelper } from "@liexp/test";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import {
   StoryPageContent,
@@ -55,6 +57,6 @@ const Template: StoryFn<StoryPageContentProps> = (props) => {
 
 const ArticlePageContentExample = Template.bind({});
 
-ArticlePageContentExample.args = { story: {} as any };
+ArticlePageContentExample.args = { story: ctxHelper.ctx<Story.Story>({}) };
 
 export { ArticlePageContentExample };
