@@ -230,7 +230,7 @@ describe("liftFetch", () => {
   it("lifts successful fetch with decode", async () => {
     const mockResponse = { data: { id: "1", name: "test" } };
     const lp = vi.fn(() => Promise.resolve(mockResponse));
-    const decode = vi.fn((d: any) => E.right(d));
+    const decode = vi.fn((d: unknown) => E.right(d));
 
     const result = await pipe(liftFetch(lp, decode), throwTE);
     expect(result).toEqual({ id: "1", name: "test" });
@@ -241,7 +241,7 @@ describe("liftFetch", () => {
   it("lifts successful fetch with decode that transforms", async () => {
     const mockResponse = { data: { name: "test" } };
     const lp = vi.fn(() => Promise.resolve(mockResponse));
-    const decode = vi.fn((d: any) => E.right({ id: "1", ...d }));
+    const decode = vi.fn((d: unknown) => E.right({ id: "1", ...d }));
 
     const result = await pipe(liftFetch(lp, decode), throwTE);
     expect(result).toEqual({ id: "1", name: "test" });

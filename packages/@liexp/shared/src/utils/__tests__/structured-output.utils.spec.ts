@@ -12,11 +12,11 @@ import {
 
 // Mock langchain
 vi.mock("langchain", () => ({
-  providerStrategy: vi.fn((zodSchema: any) => ({
+  providerStrategy: vi.fn((zodSchema: unknown) => ({
     type: "provider",
     zodSchema,
   })),
-  toolStrategy: vi.fn((zodSchema: any, options?: ToolStrategyOptions) => [
+  toolStrategy: vi.fn((zodSchema: unknown, options?: ToolStrategyOptions) => [
     {
       type: "tool",
       zodSchema,
@@ -28,7 +28,7 @@ vi.mock("langchain", () => ({
 
 // Mock schema.utils
 vi.mock("../schema.utils.js", () => ({
-  effectToZodObject: vi.fn((fields: any) => ({
+  effectToZodObject: vi.fn((fields: unknown) => ({
     zodType: "converted",
     fields,
   })),
