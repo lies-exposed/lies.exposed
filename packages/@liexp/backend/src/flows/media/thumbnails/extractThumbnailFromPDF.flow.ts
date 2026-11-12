@@ -2,10 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ImageType, type PDFType } from "@liexp/io/lib/http/Media/index.js";
 import { createCanvas } from "@napi-rs/canvas";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import {
-  type PDFPageProxy,
-  type RenderParameters,
-} from "pdfjs-dist/types/src/display/api.js";
+import { type PDFPageProxy } from "pdfjs-dist/types/src/display/api.js";
 import { type HTTPProviderContext } from "../../../context/http.context.js";
 import { type PDFProviderContext } from "../../../context/pdf.context.js";
 import { ServerError } from "../../../errors/ServerError.js";
@@ -36,10 +33,12 @@ export const extractThumbnailFromPDFPage = (
             : undefined;
 
         const renderContext = {
-          canvasContext: context as unknown as CanvasRenderingContext2D,
+          canvasContext: context as unknown as Parameters<
+            typeof page.render
+          >[0]["canvasContext"],
           transform,
           viewport,
-        } as RenderParameters;
+        } as unknown as Parameters<typeof page.render>[0];
 
         await page.render(renderContext).promise;
 

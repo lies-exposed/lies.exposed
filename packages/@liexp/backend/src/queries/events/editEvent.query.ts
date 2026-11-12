@@ -66,7 +66,7 @@ export const editEventQuery =
               date,
               draft,
             });
-            const unwrappedPayload = foldOptionals(payload as any);
+            const unwrappedPayload = foldOptionals(payload ?? {});
             const mergedPayload = {
               ...storedEvent.payload,
               ...unwrappedPayload,
@@ -75,7 +75,7 @@ export const editEventQuery =
               ...storedEvent,
               ...baseProps,
               type: input.type,
-              payload: mergedPayload,
+              payload: mergedPayload as unknown as EditEventEntity["payload"],
               ...(input.links !== undefined ? { links: commonData.links } : {}),
               ...(input.keywords !== undefined
                 ? { keywords: commonData.keywords }
@@ -93,7 +93,7 @@ export const editEventQuery =
               excerpt,
               body,
             });
-            const unwrappedPayload = foldOptionals(payload as any);
+            const unwrappedPayload = foldOptionals(payload ?? {});
             const mergedPayload = {
               ...storedEvent.payload,
               ...unwrappedPayload,

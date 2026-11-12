@@ -257,7 +257,7 @@ const addTextLayer =
 const addWatermarkLayer =
   <
     C extends LoggerContext &
-      ImgProcClientContext & { config: Record<string, any> },
+      ImgProcClientContext & { config: Record<string, any> }, // eslint-disable-line @typescript-eslint/no-explicit-any
   >(
     layer: WatermarkLayer,
     parent: SharpOverlayOptionsWithSize | undefined,
@@ -335,10 +335,13 @@ export const buildImageWithSharp =
         pipe(
           ctx.imgProc.run(async (sharp) => {
             ctx.logger.debug.log(`Result image sizes %O`, layers);
-            const layer: any = layers[0];
+            const layer = layers[0];
             const width = Math.ceil(layer.width);
             const height = Math.ceil(layer.height);
-            const getSizeForGravity = getSize(layer.gravity, width);
+            const getSizeForGravity = getSize(
+              (layer.gravity ?? "center") as keyof GravityEnum,
+              width,
+            );
             const frameWidth = getSizeForGravity(() => width, {
               onEast: (w) => w * 2,
               onWest: (w) => w * 2,

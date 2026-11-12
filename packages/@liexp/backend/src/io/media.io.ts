@@ -24,6 +24,7 @@ const getExtraWithDefaults = (media: MediaEntity) => {
   if (!media.extra) return undefined;
   const monoid =
     media.type === "video/mp4" ? VideoExtraMonoid : MediaExtraMonoid;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return monoid.concat(monoid.empty as any, media.extra as any);
 };
 

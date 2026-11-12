@@ -18,6 +18,7 @@ import {
 } from "node-telegram-bot-api";
 
 export interface TGBotProvider {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   api: any;
   upsertPinnedMessage: (text: string) => TE.TaskEither<Error, Message>;
   post: (
@@ -67,16 +68,20 @@ export interface TGBotProviderOpts {
 
 export class TGError extends IOError {
   name = "TGError";
+  code?: string;
+  description?: string;
 }
 
 export const toTGError = (e: unknown): TGError => {
   if (e instanceof TelegramApiError) {
-    return {
-      code: "ETELEGRAM",
-      status: e.errorCode ?? 500,
-      description: e.message,
-      parameters: e.parameters,
-    } as any;
+    const error = new TGError(e.message, {
+      kind: "ClientError",
+      status: String(e.errorCode ?? 500),
+      meta: { parameters: e.parameters },
+    });
+    error.code = "ETELEGRAM";
+    error.description = e.message;
+    return error;
   }
   return new TGError("Unknown telegram error", {
     kind: "ServerError",

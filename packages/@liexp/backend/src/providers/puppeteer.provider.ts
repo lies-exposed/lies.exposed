@@ -344,7 +344,7 @@ export const $evalManyOrUndefined =
   (p: puppeteer.Page) =>
   async <Selector extends string, _Params extends unknown[]>(
     sel: Selector[],
-    onEval: (el: puppeteer.NodeFor<Selector>) => Promise<any>,
+    onEval: (el: puppeteer.NodeFor<Selector>) => Promise<string>,
   ): Promise<string | undefined> => {
     let ret: string | undefined;
     const evall = $safeEvalOrUndefined(p);
