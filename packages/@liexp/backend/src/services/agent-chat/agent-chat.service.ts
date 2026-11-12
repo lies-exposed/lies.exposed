@@ -99,7 +99,6 @@ export const toOutputJSONSchema = (
   schema: Schema.Schema<any, any, never>, // eslint-disable-line @typescript-eslint/no-explicit-any
 ): Record<string, unknown> | undefined => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { $schema: _ignored, ...jsonSchema } = JSONSchema.make(
       schema,
     ) as unknown as { $schema?: string } & Record<string, unknown>;
@@ -144,7 +143,7 @@ export interface AgentChatServiceTestContext {
   logger: LoggerContext;
   agent: {
     Chat: {
-      Create: () => TaskEither<any, any>;
+      Create: () => TaskEither<any, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
     };
   };
 }
