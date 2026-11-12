@@ -42,6 +42,8 @@ const EventInlineContentComponent: React.FC<{
 
   const removeItem = React.useCallback(() => {
     const pos = editor.getTextCursorPosition();
+    // BlockNote's internal block content type is opaque — BlockNote's public API doesn't expose it.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const blockContent = pos.block.content as any[];
     const updatedBlockContent = blockContent.flatMap((t) =>
       t.type === "event-inline" && t.props.id === id ? [] : [t],
@@ -53,6 +55,7 @@ const EventInlineContentComponent: React.FC<{
     (newId: string, newTitle: string) => {
       const currentBlock =
         editor.document.find((block) =>
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ((block.content as any[]) ?? []).find(
             (t) =>
               t.type === "event-inline" &&
@@ -61,6 +64,7 @@ const EventInlineContentComponent: React.FC<{
         ) ?? editor.getTextCursorPosition().block;
 
       if (currentBlock) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const updatedBlockContent = (currentBlock.content as any[]).map((t) =>
           t.type === "event-inline" && (t.props.id === _id || t.props.id === id)
             ? {
