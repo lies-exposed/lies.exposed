@@ -64,7 +64,7 @@ describe("createCliExecutorTool", () => {
   });
 
   test("returns error string with exit code when exec throws", async () => {
-    const err: any = new Error("Command failed");
+    const err: Error & Record<string, unknown> = new Error("Command failed");
     err.code = 1;
     err.stderr = "actor not found";
     mockExecAsync.mockRejectedValueOnce(err);
@@ -76,7 +76,7 @@ describe("createCliExecutorTool", () => {
   });
 
   test("falls back to exit code 1 when err.code is undefined", async () => {
-    const err: any = new Error("Unknown failure");
+    const err: Error & Record<string, unknown> = new Error("Unknown failure");
     mockExecAsync.mockRejectedValueOnce(err);
 
     const result = await tool.invoke({ command: "event list" });
@@ -85,7 +85,7 @@ describe("createCliExecutorTool", () => {
   });
 
   test("omits stderr section when err.stderr is empty", async () => {
-    const err: any = new Error("Timeout");
+    const err: Error & Record<string, unknown> = new Error("Timeout");
     err.code = 124;
     err.stderr = "";
     mockExecAsync.mockRejectedValueOnce(err);
@@ -149,7 +149,7 @@ describe("createCliExecutorTool", () => {
   });
 
   test("captures full tree-formatted parse error from stderr", async () => {
-    const err: any = new Error("Command failed");
+    const err: Error & Record<string, unknown> = new Error("Command failed");
     err.code = 1;
     err.stderr = [
       "Error running link edit:",
@@ -168,7 +168,7 @@ describe("createCliExecutorTool", () => {
   });
 
   test("includes stdout note in error output when exec throws with stdout", async () => {
-    const err: any = new Error("Command failed");
+    const err: Error & Record<string, unknown> = new Error("Command failed");
     err.code = 1;
     err.stderr = "some error";
     err.stdout = "partial output";
