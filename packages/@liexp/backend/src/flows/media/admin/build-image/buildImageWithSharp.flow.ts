@@ -119,7 +119,6 @@ const addMediaImageLayer =
                 "Image Height": { value: parent.width },
               } as ExifReader.Tags)
             : pipe(
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ctx.imgProc.readExif(buf as unknown as File, {}),
                 fp.TE.mapLeft(toImgProcError),
               ),
@@ -258,7 +257,7 @@ const addTextLayer =
 const addWatermarkLayer =
   <
     C extends LoggerContext &
-      ImgProcClientContext & { config: Record<string, any> },
+      ImgProcClientContext & { config: Record<string, any> }, // eslint-disable-line @typescript-eslint/no-explicit-any
   >(
     layer: WatermarkLayer,
     parent: SharpOverlayOptionsWithSize | undefined,

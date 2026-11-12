@@ -252,7 +252,6 @@ export const GetPuppeteerProvider = (
           // fall back to the global object), with no effect on the esbuild
           // production bundle (build:es), which doesn't set keepNames.
           await p.evaluateOnNewDocument(() => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (globalThis as unknown as { __name?: unknown }).__name =
               (globalThis as unknown as { __name?: unknown }).__name ??
               ((fn: unknown) => fn);

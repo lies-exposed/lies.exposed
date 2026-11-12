@@ -10,7 +10,6 @@ export const loadPuppeteer = async (): Promise<{
     await import("puppeteer-extra-plugin-stealth");
   const { addExtra } = await import("puppeteer-extra");
   // puppeteer module needs to be cast as compatible type for addExtra
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const p = addExtra(puppeteer as unknown as Parameters<typeof addExtra>[0]);
   p.use(puppeteerStealth());
 

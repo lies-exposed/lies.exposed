@@ -24,7 +24,6 @@ export const readExifMetadataFromImage = <
     fp.RTE.chain(
       (buffer) => (ctx) =>
         pipe(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ctx.imgProc.readExif(buffer as unknown as string | File, {}),
           fp.TE.mapLeft(ServerError.fromUnknown),
         ),

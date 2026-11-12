@@ -84,12 +84,10 @@ const takeURLsFromMessageEntity =
   (acc: URL[], e: MessageEntity): URL[] => {
     if (e.type === "url" && text) {
       return acc.concat(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         text.substring(e.offset, e.offset + e.length) as unknown as URL,
       );
     }
     if (e.type === "text_link") {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return acc.concat(e.url as unknown as URL);
     }
     return acc;
