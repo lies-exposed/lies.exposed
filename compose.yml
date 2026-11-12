@@ -56,7 +56,8 @@ services:
       dockerfile: api.Dockerfile
     env_file:
       - ./services/api/.env
-      - ./services/api/.env.local
+      - path: ./services/api/.env.local
+        required: false
     environment:
       NODE_ENV: development
       DEBUG: "@liexp*"
@@ -89,7 +90,8 @@ services:
       dockerfile: worker.Dockerfile
     env_file:
       - ./services/worker/.env
-      - ./services/worker/.env.local
+      - path: ./services/worker/.env.local
+        required: false
     environment:
       TG_BOT_POLLING: "true"
       NODE_ENV: development
@@ -124,7 +126,8 @@ services:
       dockerfile: ai-bot.Dockerfile
     env_file:
       - ./services/ai-bot/.env
-      - ./services/ai-bot/.env.local
+      - path: ./services/ai-bot/.env.local
+        required: false
     command: pnpm docker:dev
     volumes:
       - ./node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs:/home/node/build/pdf.worker.mjs:readonly
@@ -214,7 +217,8 @@ services:
       dockerfile: agent.Dockerfile
     env_file:
       - ./services/agent/.env
-      - ./services/agent/.env.local
+      - path: ./services/agent/.env.local
+        required: false
     environment:
       VIRTUAL_HOST: agent.liexp.dev
       VIRTUAL_PORT: 80
