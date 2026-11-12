@@ -3,7 +3,10 @@ import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { StoryEntity } from "@liexp/backend/lib/entities/Story.entity.js";
-import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import {
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
@@ -17,19 +20,19 @@ import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Merge Events", () => {
   let Test: AppTest;
-  let user: any;
+  let user: UserTest;
   let authorizationToken: string;
-  let event1: any;
-  let event2: any;
-  let event3: any;
-  let keyword1: any;
-  let keyword2: any;
-  let keyword3: any;
-  let link1: any;
-  let link2: any;
-  let media1: any;
-  let media2: any;
-  let story: any;
+  let event1: Partial<EventV2Entity>;
+  let event2: Partial<EventV2Entity>;
+  let event3: Partial<EventV2Entity>;
+  let keyword1: Partial<KeywordEntity>;
+  let keyword2: Partial<KeywordEntity>;
+  let keyword3: Partial<KeywordEntity>;
+  let link1: Partial<LinkEntity>;
+  let link2: Partial<LinkEntity>;
+  let media1: Partial<MediaEntity>;
+  let media2: Partial<MediaEntity>;
+  let story: Partial<StoryEntity>;
 
   beforeAll(async () => {
     Test = await GetAppTest();
@@ -238,19 +241,19 @@ describe("Merge Events", () => {
 
     // Should have links from both events
     expect(mergedEvent.links).toHaveLength(2);
-    const linkIds = mergedEvent.links.map((l: any) => l.id);
+    const linkIds = mergedEvent.links.map((l: LinkEntity) => l.id);
     expect(linkIds).toContain(link1.id);
     expect(linkIds).toContain(link2.id);
 
     // Should have media from both events
     expect(mergedEvent.media).toHaveLength(2);
-    const mediaIds = mergedEvent.media.map((m: any) => m.id);
+    const mediaIds = mergedEvent.media.map((m: MediaEntity) => m.id);
     expect(mediaIds).toContain(media1.id);
     expect(mediaIds).toContain(media2.id);
 
     // Should have keywords from both events without duplicates
     expect(mergedEvent.keywords).toHaveLength(3);
-    const keywordIds = mergedEvent.keywords.map((k: any) => k.id);
+    const keywordIds = mergedEvent.keywords.map((k: KeywordEntity) => k.id);
     expect(keywordIds).toContain(keyword1.id);
     expect(keywordIds).toContain(keyword2.id);
     expect(keywordIds).toContain(keyword3.id);
@@ -347,7 +350,7 @@ describe("Merge Events", () => {
         freshEvent1,
         freshEvent2,
         freshEvent3,
-      ] as any[]),
+      ] as Partial<EventV2Entity>[]),
     );
 
     const response = await Test.req

@@ -1,7 +1,10 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import {
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { UNCATEGORIZED } from "@liexp/io/lib/http/Events/EventType.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
@@ -15,7 +18,7 @@ import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Unlink Actor Events", () => {
   let Test: AppTest;
-  let user: any;
+  let user: UserTest;
   let authorizationToken: string;
   const [avatar] = tests.fc.sample(MediaArb, 1);
   const actor = tests.fc.sample(ActorArb, 1).map((a) => ({
@@ -88,10 +91,11 @@ describe("Unlink Actor Events", () => {
     await throwTE(Test.ctx.db.save(EventV2Entity, [event]));
 
     // ensure event has actor
-    const savedRows: any[] = await Test.ctx.db.manager.query(
-      `SELECT payload FROM event WHERE id = $1`,
-      [event.id],
-    );
+    const savedRows: Record<string, unknown>[] =
+      await Test.ctx.db.manager.query(
+        `SELECT payload FROM event WHERE id = $1`,
+        [event.id],
+      );
     expect(savedRows.length).toBeGreaterThan(0);
     expect(JSON.stringify(savedRows[0].payload)).toContain(actor.id);
 
@@ -103,10 +107,11 @@ describe("Unlink Actor Events", () => {
 
     expect(res.body.data).toMatchObject({ success: true });
 
-    const updatedRows: any[] = await Test.ctx.db.manager.query(
-      `SELECT payload FROM event WHERE id = $1`,
-      [event.id],
-    );
+    const updatedRows: Record<string, unknown>[] =
+      await Test.ctx.db.manager.query(
+        `SELECT payload FROM event WHERE id = $1`,
+        [event.id],
+      );
     expect(updatedRows.length).toBeGreaterThan(0);
     expect(JSON.stringify(updatedRows[0].payload)).not.toContain(actor.id);
   });

@@ -1,6 +1,9 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
-import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import {
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { UNCATEGORIZED } from "@liexp/io/lib/http/Events/EventType.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
@@ -40,9 +43,9 @@ const createAndSaveEvents = async (
 
 describe(MakeLinkGroupEventsRoute.name, () => {
   let Test: AppTest;
-  let user: any;
+  let user: UserTest;
   let authorizationToken: string;
-  let group: any;
+  let group: Partial<GroupEntity>;
 
   beforeAll(async () => {
     Test = await GetAppTest();

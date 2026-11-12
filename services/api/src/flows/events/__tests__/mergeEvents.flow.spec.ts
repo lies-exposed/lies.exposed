@@ -1,3 +1,4 @@
+import { type EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { StoryEntity } from "@liexp/backend/lib/entities/Story.entity.js";
 import { mockedContext } from "@liexp/backend/lib/test/context.js";
 import { mockTERightOnce } from "@liexp/backend/lib/test/mocks/mock.utils.js";
@@ -22,6 +23,24 @@ import { mergeEventsFlow } from "../mergeEvents.flow.js";
 
 type MergeEventsContext = Pick<ServerContext, "db" | "logger" | "env">;
 
+/** Transaction context shape used by db.transaction callbacks */
+interface TransactionContext {
+  save: (
+    entity: typeof EventV2Entity | typeof StoryEntity,
+    data: Partial<EventV2Entity | StoryEntity>[],
+  ) => fp.TaskEither<unknown, Partial<EventV2Entity>[]>;
+  find: <E extends new () => unknown>(
+    entity: E,
+  ) => fp.TaskEither<unknown, InstanceType<E>[]>;
+  softDelete: (
+    entity: typeof EventV2Entity,
+    ids: UUID[],
+  ) => fp.TaskEither<unknown, { affected: number }>;
+  findOneOrFail: <E extends new () => unknown>(
+    entity: E,
+  ) => fp.TaskEither<unknown, InstanceType<E>>;
+}
+
 describe("mergeEventsFlow", () => {
   const createMockedContext = () => {
     const dbMock = mockDeep<ServerContext["db"]>();
@@ -45,12 +64,12 @@ describe("mergeEventsFlow", () => {
    * 3. db.transaction - wraps the save, story update, and soft delete operations
    */
   const mockSuccessfulMerge = (
-    events: any[],
-    target: any,
+    events: EventV2Entity[],
+    target: EventV2Entity,
     options: {
-      stories?: any[];
+      stories?: StoryEntity[];
       trackSoftDeleteIds?: UUID[];
-      trackSavedStoryEvents?: any[];
+      trackSavedStoryEvents?: EventV2Entity[];
     } = {},
   ) => {
     const { stories = [], trackSoftDeleteIds, trackSavedStoryEvents } = options;
@@ -66,37 +85,45 @@ describe("mergeEventsFlow", () => {
     }
 
     // 3. Mock transaction with all inner operations
-    ctx.db.transaction.mockImplementation((callback: any) => {
-      const txCtx = {
-        save: vi.fn((entity: any, data: any) => {
-          if (entity === StoryEntity && trackSavedStoryEvents) {
-            trackSavedStoryEvents.push(...(data?.[0]?.events ?? []));
-          }
-          return fp.TE.right(data ?? [target]);
-        }),
-        find: vi.fn((entity: any) => {
-          if (entity === StoryEntity) {
-            return fp.TE.right(stories);
-          }
-          return fp.TE.right([]);
-        }),
-        softDelete: vi.fn((_: any, ids: UUID[]) => {
-          if (trackSoftDeleteIds) {
-            trackSoftDeleteIds.push(...(ids ?? []));
-          }
-          return fp.TE.right({ affected: ids?.length ?? 0 });
-        }),
-        findOneOrFail: vi.fn(() =>
-          fp.TE.right({
-            ...target,
-            links: target.links?.map((l: any) => l.id ?? l) ?? [],
-            media: target.media?.map((m: any) => m.id ?? m) ?? [],
-            keywords: target.keywords?.map((k: any) => k.id ?? k) ?? [],
+    ctx.db.transaction.mockImplementation(
+      (
+        callback: (ctx: TransactionContext) => fp.TaskEither<unknown, unknown>,
+      ) => {
+        const txCtx: TransactionContext = {
+          save: vi.fn((entity, data) => {
+            if (entity === StoryEntity && trackSavedStoryEvents) {
+              const savedEvents = data?.[0]?.events;
+              if (savedEvents) {
+                trackSavedStoryEvents.push(...savedEvents);
+              }
+            }
+            return fp.TE.right(data ?? [target]);
           }),
-        ),
-      };
-      return callback(txCtx);
-    });
+          find: vi.fn((_entity) => {
+            if (_entity === StoryEntity) {
+              return fp.TE.right(stories);
+            }
+            return fp.TE.right([]);
+          }),
+          softDelete: vi.fn((_entity, ids) => {
+            if (trackSoftDeleteIds) {
+              trackSoftDeleteIds.push(...(ids ?? []));
+            }
+            return fp.TE.right({ affected: ids?.length ?? 0 });
+          }),
+          findOneOrFail: vi.fn(
+            () =>
+              fp.TE.right({
+                ...target,
+                links: target.links?.map((l) => l.id ?? l) ?? [],
+                media: target.media?.map((m) => m.id ?? m) ?? [],
+                keywords: target.keywords?.map((k) => k.id ?? k) ?? [],
+              }) as EventV2Entity,
+          ),
+        };
+        return callback(txCtx);
+      },
+    );
   };
 
   describe("Input Validation", () => {
@@ -370,7 +397,7 @@ describe("mergeEventsFlow", () => {
         events: [{ id: sourceId }],
       };
 
-      const savedStoryEvents: any[] = [];
+      const savedStoryEvents: EventV2Entity[] = [];
       mockSuccessfulMerge([targetEvent, sourceEvent], targetEvent, {
         stories: [story],
         trackSavedStoryEvents: savedStoryEvents,
@@ -383,7 +410,7 @@ describe("mergeEventsFlow", () => {
       expect(result._tag).toBe("Right");
 
       // Verify story events were updated to reference target
-      const storyEventIds = savedStoryEvents.map((e: any) => e.id);
+      const storyEventIds = savedStoryEvents.map((e) => e.id);
       expect(storyEventIds).toContain(targetId);
       expect(storyEventIds).not.toContain(sourceId);
     });
@@ -424,7 +451,7 @@ describe("mergeEventsFlow", () => {
         events: [{ id: targetId }, { id: sourceId }],
       };
 
-      const savedStoryEvents: any[] = [];
+      const savedStoryEvents: EventV2Entity[] = [];
       mockSuccessfulMerge([targetEvent, sourceEvent], targetEvent, {
         stories: [story],
         trackSavedStoryEvents: savedStoryEvents,
@@ -437,12 +464,10 @@ describe("mergeEventsFlow", () => {
       expect(result._tag).toBe("Right");
 
       // Story should reference target once (no duplicates)
-      const storyEventIds = savedStoryEvents.map((e: any) => e.id);
+      const storyEventIds = savedStoryEvents.map((e) => e.id);
       expect(storyEventIds).toContain(targetId);
       expect(storyEventIds).not.toContain(sourceId);
-      expect(storyEventIds.filter((id: UUID) => id === targetId)).toHaveLength(
-        1,
-      );
+      expect(storyEventIds.filter((id) => id === targetId)).toHaveLength(1);
     });
   });
 
