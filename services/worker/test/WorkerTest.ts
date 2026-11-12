@@ -81,15 +81,15 @@ export const loadAppContext = async (
       wp: mocks.wiki,
       rw: mocks.wiki,
       urlMetadata: {
-        fetchHTML: <E>(url: string, opts: any, toError: (e: unknown) => E) => {
+        fetchHTML: <E>(url: string, opts: { timeout?: number }, toError: (e: unknown) => E) => {
           return TE.tryCatch(
-            () => mocks.urlMetadata.fetchHTML(url, opts) as Promise<any>,
+            () => mocks.urlMetadata.fetchHTML(url, opts) as Promise<string>,
             toError,
           );
         },
         fetchMetadata: <E>(
           url: string,
-          opts: any,
+          opts: { timeout?: number },
           toError: (e: unknown) => E,
         ) => {
           return TE.tryCatch(
