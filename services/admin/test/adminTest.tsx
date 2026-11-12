@@ -108,7 +108,7 @@ const TestLink = React.forwardRef<
   HTMLAnchorElement,
   React.AnchorHTMLAttributes<HTMLAnchorElement> & { to?: string | object }
 >(({ to, children, ...props }, ref) => {
-  const href = typeof to === "string" ? to : ((to as any)?.pathname ?? "#");
+  const href = typeof to === "string" ? to : ((to as Record<string, unknown>)?.pathname ?? "#");
   return (
     <a ref={ref} href={href} {...props}>
       {children}
@@ -136,7 +136,7 @@ const makeTestRouterProvider = (routeId: string) => ({
     <>{children}</>
   ),
   // Provide the record id that useEditController looks for
-  useParams: () => ({ id: routeId }) as any,
+  useParams: (): { id: string } => ({ id: routeId }),
   // Minimal navigate stub — components that call navigate() won't crash
   useNavigate: () => () => undefined,
   // Minimal location stub
@@ -167,14 +167,14 @@ const renderWithAdminContext =
     // Only override getPermissions if the caller explicitly passed a permissions
     // array — otherwise leave whatever the test or fixture already configured.
     if ("permissions" in options) {
-      mocks.authProvider.getPermissions?.mockResolvedValue(permissions as any);
+      mocks.authProvider.getPermissions?.mockResolvedValue(permissions as unknown as ReturnType<Required<AuthProvider>["getPermissions"]>);
     }
 
     // Configure dataProvider.getOne to return the provided record (or a stub
     // matching routeId) so useEditController doesn't throw an id mismatch.
     mocks.dataProvider.getOne.mockResolvedValue({
       data: record ? { ...record, id: routeId } : { id: routeId },
-    } as any);
+    } as unknown as ReturnType<DataProvider["getOne"]>);
 
     const routerProvider = makeTestRouterProvider(routeId);
 
@@ -257,14 +257,14 @@ export const adminTest = baseTest.extend<AdminFixtures>({
 
     const dataProvider = mock<DataProvider>();
     // Default getOne returns an empty record so useEditController doesn't throw.
-    dataProvider.getOne.mockResolvedValue({ data: { id: "test-id" } } as any);
+    dataProvider.getOne.mockResolvedValue({ data: { id: "test-id" } } as unknown as Awaited<ReturnType<DataProvider["getOne"]>>);
     // Default list/many responses for Reference* fields
-    dataProvider.getList.mockResolvedValue({ data: [], total: 0 } as any);
+    dataProvider.getList.mockResolvedValue({ data: [], total: 0 } as unknown as Awaited<ReturnType<DataProvider["getList"]>>);
     dataProvider.getManyReference.mockResolvedValue({
       data: [],
       total: 0,
-    } as any);
-    dataProvider.getMany.mockResolvedValue({ data: [] } as any);
+    } as unknown as Awaited<ReturnType<DataProvider["getManyReference"]>>);
+    dataProvider.getMany.mockResolvedValue({ data: [] } as unknown as Awaited<ReturnType<DataProvider["getMany"]>>);
 
     // Shared QueryClient with retry disabled for fast test failures.
     // Passed to AdminContext so both AdminContext and any outer component

@@ -33,7 +33,7 @@ const createAgentApiHandlers = (env: AdminProxyENV) => [
     return HttpResponse.json({
       data: {
         id: fc.sample(fc.uuid(), 1)[0],
-        message: `Mock response to: ${(body as any)?.content || "unknown"}`,
+        message: `Mock response to: ${(body as Record<string, unknown>)?.content || "unknown"}`,
         timestamp: new Date().toISOString(),
         modelUsed: "mock-model",
         tokensUsed: fc.sample(fc.integer({ min: 10, max: 100 }), 1)[0],

@@ -2,6 +2,22 @@ import { describe, expect, it, beforeAll, afterAll } from "vitest";
 import { GetAdminAppTest, closeAdminAppTest } from "./AdminAppTest.js";
 import type { AdminAppTest } from "./AdminAppTest.js";
 
+interface AiConfig {
+  provider: string;
+  model?: string;
+}
+
+interface ChatMessageBody {
+  message: string;
+  conversation_id: string | null;
+  aiConfig?: AiConfig;
+  resource_context?: {
+    resource: string;
+    recordId: string | null;
+    action: string;
+  };
+}
+
 describe("Admin Provider Selection E2E", () => {
   let AdminTest: AdminAppTest;
 
@@ -233,7 +249,7 @@ describe("Admin Provider Selection E2E", () => {
           aiConfig: {
             // Missing required provider field
             model: "some-model",
-          } as any,
+          } as Partial<AiConfig>,
         })
         .expect([200, 400, 401, 422, 500]);
 
@@ -247,7 +263,7 @@ describe("Admin Provider Selection E2E", () => {
         .send({
           message: "Test",
           conversation_id: null,
-          aiConfig: {} as any,
+          aiConfig: {} as Partial<AiConfig>,
         })
         .expect([200, 400, 401, 422, 500]);
 
