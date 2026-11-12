@@ -8,6 +8,13 @@ import { Arbs, fc } from "@liexp/test/lib/index.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 import { type WorkerTest, GetAppTest } from "./WorkerTest.js";
+import { MockUpload } from "@liexp/backend/lib/test/mocks/s3.mock.js";
+
+/** Minimal type matching S3 PutObjectCommandOutput for test mocking. */
+interface S3PutObjectResult {
+  Location: string;
+  $metadata: Record<string, unknown>;
+}
 
 describe("GenerateThumbnail Subscriber", () => {
   let Test: WorkerTest;
@@ -52,7 +59,7 @@ describe("GenerateThumbnail Subscriber", () => {
     Test.mocks.s3.client.send.mockResolvedValueOnce({
       Location: thumbnailLocation,
       $metadata: {},
-    } as any);
+    } as S3PutObjectResult);
 
     // Mock image processing
     Test.mocks.axios.get.mockResolvedValueOnce({
@@ -112,7 +119,7 @@ describe("GenerateThumbnail Subscriber", () => {
 
     // Spy on Upload constructor to return our failing instance
     vi.spyOn(Test.mocks.s3.classes, "Upload").mockImplementationOnce(
-      () => mockUploadInstance as any,
+      () => mockUploadInstance as unknown as MockUpload,
     );
 
     // Mock image processing
