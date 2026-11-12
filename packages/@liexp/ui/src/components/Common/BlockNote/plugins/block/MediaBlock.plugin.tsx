@@ -197,7 +197,9 @@ export const mediaBlock = createReactBlockSpec(mediaBlockSpecs, {
     return (
       <Stack direction="column" width={"100%"}>
         <EditMenu
-          editor={editor as any}
+          // BlockNote's createReactBlockSpec render callback returns an opaque internal editor type.
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          editor={editor as unknown as any}
           onClick={() => {
             onChange({
               id: DEFAULT_ID,

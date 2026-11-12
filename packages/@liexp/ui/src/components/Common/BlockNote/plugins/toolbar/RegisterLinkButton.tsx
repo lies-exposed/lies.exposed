@@ -29,6 +29,7 @@ const getUrlFromBlocks = (
 ): string | null => {
   for (const block of blocks) {
     if ("content" in block && Array.isArray(block.content)) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const text = (block.content as any[])
         .filter((c) => c.type === "text")
         .map((c) => c.text as string)
@@ -95,6 +96,7 @@ export const RegisterLinkFormattingButton: React.FC = () => {
               url: `/links/${link.id}`,
               title: link.title ?? link.url ?? "",
             },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any,
         ],
       });

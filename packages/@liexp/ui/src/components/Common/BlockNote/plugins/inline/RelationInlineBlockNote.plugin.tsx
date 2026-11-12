@@ -69,6 +69,7 @@ export const RelationInlineContentComponent: React.FC<{
 
   const removeItem = React.useCallback(() => {
     const pos = editor.getTextCursorPosition();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const blockContent = pos.block.content as any[];
 
     const updatedBlockContent = blockContent.flatMap((t) => {
@@ -186,6 +187,7 @@ export const RelationInlineContentComponent: React.FC<{
       onChange: (a: readonly { id: string }[]) => {
         const currentBlock =
           editor.document.find((tt) =>
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ((tt.content as any[]) ?? []).find((t) => {
               return (
                 t.type === "relation" ||
@@ -198,6 +200,7 @@ export const RelationInlineContentComponent: React.FC<{
           ) ?? editor.getTextCursorPosition().block;
 
         if (currentBlock) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const updatedBlockContent = (currentBlock.content as any[]).map(
             (t) =>
               t.type === "relation" ||

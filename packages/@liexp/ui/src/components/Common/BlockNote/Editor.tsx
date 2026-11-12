@@ -127,7 +127,9 @@ export const BNEditor: React.FC<BNEditorProps> = ({
     <div style={{ height: "100%", width: "100%" }}>
       <BlockNoteEditorContext.Provider value={editor}>
         <StyledBlockNoteView
-          editor={editor as any}
+          // BlockNote's BlockNoteView expects an opaque internal editor type from useCreateBlockNote.
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          editor={editor as unknown as any}
           editable={!readOnly}
           slashMenu={false}
           formattingToolbar={false}
