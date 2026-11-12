@@ -1,5 +1,6 @@
 import { Sentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import { beforeEach, describe, expect, test, vi } from "vitest";
+import { type AgentContext } from "../../context/context.type.js";
 import {
   captureChatError,
   getErrorCode,
@@ -38,13 +39,13 @@ describe("chat.errors", () => {
 
   test("captureChatError skips when Sentry not initialised", () => {
     vi.mocked(Sentry.isInitialized).mockReturnValue(false);
-    captureChatError({} as any, new Error("x"), {});
+    captureChatError({} as Partial<AgentContext>, new Error("x"), {});
     expect(Sentry.captureException).not.toHaveBeenCalled();
   });
 
   test("captureChatError sends tags/extras without message text", () => {
     vi.mocked(Sentry.isInitialized).mockReturnValue(true);
-    captureChatError({} as any, new Error("x"), {
+    captureChatError({} as Partial<AgentContext>, new Error("x"), {
       conversationId: "c1",
       agentType: "platform",
       provider: "localai",
@@ -52,7 +53,9 @@ describe("chat.errors", () => {
       messageLength: 12,
     });
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
-    const [, opts] = vi.mocked(Sentry.captureException).mock.calls[0] as any;
+    const opts = (
+      vi.mocked(Sentry.captureException).mock.calls[0] as unknown[]
+    )[1] as Record<string, unknown>;
     expect(opts.tags).toMatchObject({
       feature: "ai-chat",
       provider: "localai",

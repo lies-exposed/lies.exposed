@@ -297,7 +297,7 @@ describe("Chat Controller E2E", () => {
         JSON.parse(line.replace("data: ", "")),
       );
 
-      const eventTypes = events.map((e: any) => e.type);
+      const eventTypes = events.map((e: unknown) => (e as { type: string }).type);
 
       expect(eventTypes).toContain("message_start");
       expect(eventTypes).toContain("message_end");
@@ -341,7 +341,7 @@ describe("Chat Controller E2E", () => {
               "Content-Type": "application/json",
             },
           },
-          (res: any) => {
+          (res: unknown) => {
             res.setEncoding("utf8");
 
             res.on("data", (chunk: string) => {
@@ -353,7 +353,7 @@ describe("Chat Controller E2E", () => {
               try {
                 await stopAppServer(server);
                 resolve();
-              } catch (err: any) {
+              } catch (err: unknown) {
                 await stopAppServer(server);
                 reject(err as Error);
               }
@@ -399,7 +399,7 @@ describe("Chat Controller E2E", () => {
         .map((p) => JSON.parse(p));
 
       // Assert we received incremental events including start/end
-      const types = parsed.map((p: any) => p.type);
+      const types = parsed.map((p: unknown) => (p as { type: string }).type);
       expect(types).toEqual(
         expect.arrayContaining(["message_start", "message_end"]),
       );

@@ -78,15 +78,12 @@ const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
   const logger = GetLogger("test-chat-flow");
 
   return {
-    env: {
-      NODE_ENV: "test",
-      JWT_SECRET: "test-secret",
-    } as any,
+    env: {} as unknown,
     logger,
-    jwt: {} as any,
-    http: {} as any,
-    puppeteer: {} as any,
-    langchain: {} as any,
+    jwt: {} as unknown,
+    http: {} as unknown,
+    puppeteer: {} as unknown,
+    langchain: {} as unknown,
     agentFactory: vi.fn().mockReturnValue(
       TE.right({
         invoke: vi.fn().mockResolvedValue({
@@ -99,9 +96,7 @@ const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
           ),
       }),
     ),
-    fs: {
-      getObject: vi.fn().mockReturnValue(TE.right("# Mock AGENTS.md")),
-    } as any,
+    fs: {} as unknown,
     ...overrides,
   };
 };
@@ -192,7 +187,7 @@ describe("parseThinkContent", () => {
       content: "hello",
       message_id: id,
     });
-    expect((events[0] as any).thinking).toBeUndefined();
+    expect((events[0] as { thinking?: unknown }).thinking).toBeUndefined();
     expect(state.inside).toBe(false);
   });
 
@@ -452,7 +447,7 @@ describe("chat.flow", () => {
         sendChatMessage({
           message: "test",
           conversation_id: null,
-          aiConfig: { provider: "openai" } as any,
+          aiConfig: { provider: "openai" } as Record<string, unknown>,
         })(ctx),
       )();
 
@@ -638,7 +633,7 @@ describe("chat.flow", () => {
       msg = "test",
       conversationId: string | null = null,
     ) => {
-      const events: any[] = [];
+      const events: unknown[] = [];
       for await (const e of sendChatMessageStream({
         message: msg,
         conversation_id: conversationId,
@@ -816,10 +811,10 @@ describe("chat.flow", () => {
       const regular = events.filter(
         (e) => e.type === "content_delta" && !e.thinking,
       );
-      const thinkText = thinking.map((e: any) => e.content).join("");
+      const thinkText = thinking.map((e: unknown) => (e as { content: string }).content).join("");
       expect(thinkText).toContain("first chunk");
       expect(thinkText).toContain("second chunk");
-      expect(regular.some((e: any) => e.content === "conclusion")).toBe(true);
+      expect(regular.some((e: unknown) => (e as { content: string }).content === "conclusion")).toBe(true);
     });
 
     test("token usage from usage_metadata is reflected in message_end", async () => {
@@ -852,7 +847,7 @@ describe("chat.flow", () => {
           .mockReturnValue(TE.left(new Error("Provider unavailable"))),
       });
 
-      const events: any[] = [];
+      const events: unknown[] = [];
       for await (const e of sendChatMessageStream({
         message: "test",
         conversation_id: null,
@@ -923,7 +918,7 @@ describe("chat.flow", () => {
     });
 
     test("message_start and message_end include usedProvider when aiConfig is given", async () => {
-      const events: any[] = [];
+      const events: unknown[] = [];
       for await (const e of sendChatMessageStream({
         message: "test",
         conversation_id: null,
