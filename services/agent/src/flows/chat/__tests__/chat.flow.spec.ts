@@ -811,10 +811,16 @@ describe("chat.flow", () => {
       const regular = events.filter(
         (e) => e.type === "content_delta" && !e.thinking,
       );
-      const thinkText = thinking.map((e: unknown) => (e as { content: string }).content).join("");
+      const thinkText = thinking
+        .map((e: unknown) => (e as { content: string }).content)
+        .join("");
       expect(thinkText).toContain("first chunk");
       expect(thinkText).toContain("second chunk");
-      expect(regular.some((e: unknown) => (e as { content: string }).content === "conclusion")).toBe(true);
+      expect(
+        regular.some(
+          (e: unknown) => (e as { content: string }).content === "conclusion",
+        ),
+      ).toBe(true);
     });
 
     test("token usage from usage_metadata is reflected in message_end", async () => {

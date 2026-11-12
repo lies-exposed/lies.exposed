@@ -297,7 +297,9 @@ describe("Chat Controller E2E", () => {
         JSON.parse(line.replace("data: ", "")),
       );
 
-      const eventTypes = events.map((e: unknown) => (e as { type: string }).type);
+      const eventTypes = events.map(
+        (e: unknown) => (e as { type: string }).type,
+      );
 
       expect(eventTypes).toContain("message_start");
       expect(eventTypes).toContain("message_end");
@@ -355,7 +357,7 @@ describe("Chat Controller E2E", () => {
                 resolve();
               } catch (err: unknown) {
                 await stopAppServer(server);
-                reject(err as Error);
+                reject(new Error(String(err)));
               }
             });
 
