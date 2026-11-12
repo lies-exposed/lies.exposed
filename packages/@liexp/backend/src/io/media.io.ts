@@ -24,7 +24,7 @@ const getExtraWithDefaults = (media: MediaEntity) => {
   if (!media.extra) return undefined;
   const monoid =
     media.type === "video/mp4" ? VideoExtraMonoid : MediaExtraMonoid;
-  return monoid.concat(monoid.empty as any, media.extra as any);
+  return monoid.concat(monoid.empty as MediaExtra, media.extra);
 };
 
 const encodeMedia = (

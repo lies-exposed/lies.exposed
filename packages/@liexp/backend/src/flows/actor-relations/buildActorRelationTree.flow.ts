@@ -206,8 +206,8 @@ export const buildActorRelationTree = <
                     "location" in actor.avatar
                       ? actor.avatar.location
                       : null,
-                  bornOn: (actor.bornOn as any) ?? null,
-                  diedOn: (actor.diedOn as any) ?? null,
+                  bornOn: actor.bornOn?.toISOString() ?? null,
+                  diedOn: actor.diedOn?.toISOString() ?? null,
                   children: childrenFiltered,
                   parents: nr.parents.filter(
                     (pId) => !visited.has(pId) && !childrenSet.has(pId),

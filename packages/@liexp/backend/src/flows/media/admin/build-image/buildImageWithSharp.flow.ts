@@ -119,6 +119,7 @@ const addMediaImageLayer =
                 "Image Height": { value: parent.width },
               } as ExifReader.Tags)
             : pipe(
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ctx.imgProc.readExif(buf as unknown as File, {}),
                 fp.TE.mapLeft(toImgProcError),
               ),
@@ -335,7 +336,7 @@ export const buildImageWithSharp =
         pipe(
           ctx.imgProc.run(async (sharp) => {
             ctx.logger.debug.log(`Result image sizes %O`, layers);
-            const layer: any = layers[0];
+            const layer = layers[0];
             const width = Math.ceil(layer.width);
             const height = Math.ceil(layer.height);
             const getSizeForGravity = getSize(layer.gravity, width);

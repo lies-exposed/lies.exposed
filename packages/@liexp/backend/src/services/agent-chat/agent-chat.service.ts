@@ -99,6 +99,7 @@ export const toOutputJSONSchema = (
   schema: Schema.Schema<any, any, never>,
 ): Record<string, unknown> | undefined => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { $schema: _ignored, ...jsonSchema } = JSONSchema.make(
       schema,
     ) as unknown as { $schema?: string } & Record<string, unknown>;

@@ -191,6 +191,7 @@ export const createSSRHandler = <
 
     const queryClient = createQueryClient();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const helmetContext = {
       helmet: undefined,
     } as unknown as ServerRendererProps["helmetContext"];

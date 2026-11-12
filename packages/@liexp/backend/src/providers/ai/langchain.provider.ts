@@ -329,6 +329,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
       // existing RunnableBinding.
       return openAIChat.withConfig({
         parallel_tool_calls: false,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       }) as unknown as ChatModel<P>;
     }
 

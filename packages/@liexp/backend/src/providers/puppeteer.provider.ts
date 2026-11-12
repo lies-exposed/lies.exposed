@@ -252,6 +252,7 @@ export const GetPuppeteerProvider = (
           // fall back to the global object), with no effect on the esbuild
           // production bundle (build:es), which doesn't set keepNames.
           await p.evaluateOnNewDocument(() => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (globalThis as unknown as { __name?: unknown }).__name =
               (globalThis as unknown as { __name?: unknown }).__name ??
               ((fn: unknown) => fn);
@@ -344,7 +345,7 @@ export const $evalManyOrUndefined =
   (p: puppeteer.Page) =>
   async <Selector extends string, _Params extends unknown[]>(
     sel: Selector[],
-    onEval: (el: puppeteer.NodeFor<Selector>) => Promise<any>,
+    onEval: (el: puppeteer.NodeFor<Selector>) => Promise<string>,
   ): Promise<string | undefined> => {
     let ret: string | undefined;
     const evall = $safeEvalOrUndefined(p);

@@ -66,7 +66,7 @@ export const editEventQuery =
               date,
               draft,
             });
-            const unwrappedPayload = foldOptionals(payload as any);
+            const unwrappedPayload = foldOptionals(payload ?? {});
             const mergedPayload = {
               ...storedEvent.payload,
               ...unwrappedPayload,
@@ -93,7 +93,7 @@ export const editEventQuery =
               excerpt,
               body,
             });
-            const unwrappedPayload = foldOptionals(payload as any);
+            const unwrappedPayload = foldOptionals(payload ?? {});
             const mergedPayload = {
               ...storedEvent.payload,
               ...unwrappedPayload,
