@@ -1,6 +1,6 @@
 import { Sentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import { type AgentContext } from "../../context/context.type.js";
+import { type AgentContext } from "../../../context/context.type.js";
 import {
   captureChatError,
   getErrorCode,
