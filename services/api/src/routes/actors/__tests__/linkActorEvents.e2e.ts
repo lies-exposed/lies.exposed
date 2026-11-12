@@ -1,6 +1,9 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import {
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { UNCATEGORIZED } from "@liexp/io/lib/http/Events/EventType.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
@@ -39,9 +42,9 @@ const createAndSaveEvents = async (
 
 describe(MakeLinkActorEventsRoute.name, () => {
   let Test: AppTest;
-  let user: any;
+  let user: UserTest;
   let authorizationToken: string;
-  let actor: any;
+  let actor: Partial<ActorEntity>;
 
   beforeAll(async () => {
     Test = await GetAppTest();

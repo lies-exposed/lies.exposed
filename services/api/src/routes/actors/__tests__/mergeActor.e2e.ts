@@ -4,7 +4,10 @@ import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { NationEntity } from "@liexp/backend/lib/entities/Nation.entity.js";
-import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import {
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
@@ -19,17 +22,17 @@ import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Merge Actor", () => {
   let Test: AppTest;
-  let user: any;
+  let user: UserTest;
   let authorizationToken: string;
-  let sourceActor: any;
-  let targetActor: any;
-  let nation1: any;
-  let nation2: any;
-  let nation3: any;
-  let group1: any;
-  let group2: any;
-  let event1: any;
-  let event2: any;
+  let sourceActor: Partial<ActorEntity>;
+  let targetActor: Partial<ActorEntity>;
+  let nation1: Partial<NationEntity>;
+  let nation2: Partial<NationEntity>;
+  let nation3: Partial<NationEntity>;
+  let group1: Partial<GroupEntity>;
+  let group2: Partial<GroupEntity>;
+  let event1: Partial<EventV2Entity>;
+  let event2: Partial<EventV2Entity>;
 
   beforeAll(async () => {
     Test = await GetAppTest();
@@ -275,9 +278,9 @@ describe("Merge Actor", () => {
     expect(updatedEvent1.payload).toMatchObject({
       actors: expect.arrayContaining([targetActor.id]),
     });
-    expect((updatedEvent1.payload as any).actors.includes(sourceActor.id)).toBe(
-      false,
-    );
+    const actors1 =
+      (updatedEvent1.payload as { actors: unknown[] | null }).actors ?? [];
+    expect(actors1.includes(sourceActor.id)).toBe(false);
 
     const updatedEvent2 = await throwTE(
       Test.ctx.db.findOneOrFail(EventV2Entity, {
@@ -285,7 +288,9 @@ describe("Merge Actor", () => {
       }),
     );
     // Should have targetActor but not sourceActor, and should not duplicate targetActor
-    expect((updatedEvent2.payload as any).actors).toEqual([targetActor.id]);
+    const actors2 =
+      (updatedEvent2.payload as { actors: unknown[] | null }).actors ?? [];
+    expect(actors2).toEqual([targetActor.id]);
 
     // Verify nationalities were merged (should have nation1, nation2, nation3 without duplicates)
     const updatedTargetActor = await throwTE(
