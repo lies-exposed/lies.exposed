@@ -1,3 +1,4 @@
+import type { IOError, IOErrorDetails } from "@ts-endpoint/core";
 import { describe, expect, it } from "vitest";
 import {
   fromIOError,
@@ -17,7 +18,7 @@ describe("APIError.utils", () => {
           errors: ["Field 'email' is required"],
           status: "600",
         },
-      } as any;
+      } as unknown as IOError;
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(400);
@@ -36,7 +37,7 @@ describe("APIError.utils", () => {
           errors: [],
           status: "600",
         },
-      } as any;
+      } as unknown as IOError;
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(400);
@@ -53,7 +54,7 @@ describe("APIError.utils", () => {
           status: "400",
           meta: { field: "email", reason: "invalid" },
         },
-      } as any;
+      } as unknown as IOError;
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(400);
@@ -72,7 +73,7 @@ describe("APIError.utils", () => {
           status: "422",
           meta: ["error1", "error2"],
         },
-      } as any;
+      } as unknown as IOError;
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -89,7 +90,7 @@ describe("APIError.utils", () => {
           status: "500",
           meta: { code: "INTERNAL" },
         },
-      } as any;
+      } as unknown as IOError;
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -106,7 +107,7 @@ describe("APIError.utils", () => {
           status: "500",
           meta: undefined,
         },
-      } as any;
+      } as unknown as IOError;
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -123,7 +124,7 @@ describe("APIError.utils", () => {
           status: "418",
           meta: null,
         },
-      } as any;
+      } as unknown as IOError;
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -140,7 +141,7 @@ describe("APIError.utils", () => {
             status: String(status),
             meta: null,
           },
-        } as any;
+        } as unknown as IOError;
 
         const result = fromIOError(ioError);
         expect(result.status).toBe(status);
@@ -157,7 +158,7 @@ describe("APIError.utils", () => {
           errors: ["parse error"],
           status: "500",
         },
-      } as any;
+      } as unknown as IOError;
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(400);
@@ -166,11 +167,15 @@ describe("APIError.utils", () => {
 
   describe("reportIOErrorDetails", () => {
     it("should return empty string for null details", () => {
-      expect(reportIOErrorDetails(null as any)).toBe("");
+      expect(
+        reportIOErrorDetails(null as unknown as IOErrorDetails<never>),
+      ).toBe("");
     });
 
     it("should return empty string for undefined details", () => {
-      expect(reportIOErrorDetails(undefined as any)).toBe("");
+      expect(
+        reportIOErrorDetails(undefined as unknown as IOErrorDetails<never>),
+      ).toBe("");
     });
 
     it("should join DecodingError errors with newlines", () => {

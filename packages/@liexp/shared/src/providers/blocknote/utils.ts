@@ -36,7 +36,7 @@ const toInitialValueS = (value: string): BlockNoteDocument => {
   return pipe(
     splits,
     NEA.map((v): BlockNoteBlock => toParagraph(v)),
-  ) as unknown as BlockNoteDocument;
+  ) as BlockNoteDocument;
 };
 
 function toInitialValue(v: string): BlockNoteDocument;

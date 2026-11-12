@@ -434,7 +434,9 @@ describe("effectToZodStruct", () => {
       expect(result.success).toBe(true);
 
       // Test individual property descriptions
-      const objectSchema = zodSchema as unknown as z.ZodObject<any>;
+      const objectSchema = zodSchema as unknown as z.ZodObject<
+        Record<string, z.ZodType>
+      >;
       expect(objectSchema.shape.name.description).toBe("Enter your full name");
       expect(objectSchema.shape.age.description).toBe("Age in years");
       expect(objectSchema.shape.email.description).toBe(
@@ -499,7 +501,9 @@ describe("effectToZodStruct", () => {
       expect(result.success).toBe(true);
 
       // Test that annotations are applied at all levels
-      const objectSchema = zodSchema as unknown as z.ZodObject<any>;
+      const objectSchema = zodSchema as unknown as z.ZodObject<
+        Record<string, z.ZodType>
+      >;
 
       // Root level
       expect(objectSchema.description).toBe(
