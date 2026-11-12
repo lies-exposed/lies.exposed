@@ -21,9 +21,8 @@ export const KeywordsBoxWrapper: React.FC<KeywordsBoxWrapperProps> = ({
     <QueriesRenderer
       queries={(Q) => ({
         keywords: Q.Keyword.list.useQuery(
-          {
-            ...(params as any),
-          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { ...(params as any) },
           undefined,
           true,
         ),

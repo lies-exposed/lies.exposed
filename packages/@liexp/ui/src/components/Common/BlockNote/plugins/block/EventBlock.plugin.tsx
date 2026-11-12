@@ -164,6 +164,7 @@ export const eventBlock = createReactBlockSpec(eventBlockSpecs, {
 
     return (
       <EditMenu
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         editor={editor as any}
         onClick={() => {
           onChange(DEFAULT_ID);

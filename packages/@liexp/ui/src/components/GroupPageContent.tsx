@@ -10,7 +10,7 @@ import { Grid, Typography } from "./mui/index.js";
 export interface GroupPageContentProps {
   group: Group.Group;
   groupsMembers: readonly GroupMember[];
-  funds: any[];
+  funds: string[];
   ownedGroups: Group.Group[];
   onMemberClick: (m: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;

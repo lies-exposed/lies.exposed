@@ -11,7 +11,7 @@ import EventListItemBase from "./EventListItemBase.js";
 interface DocumentaryListItemProps {
   item: Events.SearchEvent.SearchDocumentaryEvent;
   condensed?: boolean;
-  onClick?: (e: Events.SearchEvent.SearchDocumentaryEvent) => void;
+  onClick?: (e: Events.SearchEvent.SearchEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
   onRowInvalidate: (e: Events.SearchEvent.SearchDocumentaryEvent) => void;

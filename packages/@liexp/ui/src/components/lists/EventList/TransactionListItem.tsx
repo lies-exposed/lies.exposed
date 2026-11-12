@@ -59,7 +59,7 @@ const getSubject = (
 interface TransactionListItemProps {
   item: Events.SearchEvent.SearchTransactionEvent;
   condensed?: boolean;
-  onClick?: (e: Events.SearchEvent.SearchTransactionEvent) => void;
+  onClick?: (e: Events.SearchEvent.SearchEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
   onRowInvalidate: (e: Events.SearchEvent.SearchTransactionEvent) => void;

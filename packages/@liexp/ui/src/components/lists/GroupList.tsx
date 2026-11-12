@@ -14,7 +14,7 @@ export interface GroupItem extends Group.Group {
 interface GroupListProps {
   className?: string;
   groups: GroupItem[];
-  onItemClick: (group: GroupItem, e: any) => void;
+  onItemClick: (group: GroupItem, e: React.MouseEvent) => void;
   avatarSize?: AvatarSize;
   displayName?: boolean;
   style?: React.CSSProperties;

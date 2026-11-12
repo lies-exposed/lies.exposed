@@ -7,7 +7,7 @@ import EventListItemBase from "./EventListItemBase.js";
 
 interface ScientificStudyListItemProps {
   item: Events.SearchEvent.SearchScientificStudyEvent;
-  onClick?: (e: Events.SearchEvent.SearchScientificStudyEvent) => void;
+  onClick?: (e: Events.SearchEvent.SearchEvent) => void;
   onActorClick?: (e: io.http.Actor.Actor) => void;
   onKeywordClick?: (e: io.http.Keyword.Keyword) => void;
   onRowInvalidate: (e: Events.SearchEvent.SearchScientificStudyEvent) => void;

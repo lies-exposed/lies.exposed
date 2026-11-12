@@ -3,6 +3,7 @@ import { type EventType } from "@liexp/io/lib/http/Events/index.js";
 import { MP3Type, OGGType } from "@liexp/io/lib/http/Media/index.js";
 import type * as http from "@liexp/io/lib/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
+import { type BNEditorDocument } from "@liexp/shared/lib/providers/blocknote/type.js";
 import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -51,7 +52,7 @@ interface EventListItemBaseProps<E> {
   title: string;
   type: EventType;
   link?: http.Link.Link;
-  excerpt: any;
+  excerpt: BNEditorDocument;
   keywords: readonly http.Keyword.Keyword[];
   media: readonly http.Media.Media[];
   condensed?: boolean;
@@ -64,24 +65,26 @@ interface EventListItemBaseProps<E> {
   mediaLayout?: "slider" | "masonry";
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-const EventListItemBase = <E extends any>({
-  event: _event,
-  title,
-  link,
-  type,
-  excerpt,
-  keywords,
-  media,
-  condensed = false,
-  mediaDescription = true,
-  disableMediaAction = true,
-  links: _links,
-  onKeywordClick,
-  onRowInvalidate: _onRowInvalidate,
-  onLoad,
-  mediaLayout = "slider",
-}: EventListItemBaseProps<E>): React.ReactElement => {
+function EventListItemBase<E>(
+  props: EventListItemBaseProps<E>,
+): React.ReactElement {
+  const {
+    event: _event,
+    title,
+    link,
+    type,
+    excerpt,
+    keywords,
+    media,
+    condensed = false,
+    mediaDescription = true,
+    disableMediaAction = true,
+    links: _links,
+    onKeywordClick,
+    onRowInvalidate: _onRowInvalidate,
+    onLoad,
+    mediaLayout = "slider",
+  } = props;
   React.useEffect(() => {
     onLoad?.();
   }, [condensed, media.length, onLoad]);
@@ -177,6 +180,6 @@ const EventListItemBase = <E extends any>({
       ) : null}
     </StyledGrid>
   );
-};
+}
 
 export default EventListItemBase;

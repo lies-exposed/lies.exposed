@@ -53,8 +53,14 @@ export type NetworkProps<
 const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
   props: NetworkProps<L, N>,
 ): React.ReactElement => {
-  const handleMouseOver = (event: any, datum: any): void => {
-    const coords = localPoint(event.target.ownerSVGElement, event);
+  const handleMouseOver = (
+    event: React.MouseEvent<SVGRectElement>,
+    datum: N,
+  ): void => {
+    const target = event.target as SVGRectElement;
+    const svgElement = target.ownerSVGElement;
+    if (svgElement === null) return;
+    const coords = localPoint(svgElement, event);
     if (coords !== null) {
       if (
         props.showTooltip !== undefined &&
@@ -110,7 +116,8 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
             onDoubleClick={(event) => {
               const point = localPoint(event);
               if (point !== null) {
-                const [first, last] = A.splitAt(1)(graph.nodes as any[]);
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const [first, last] = A.splitAt(1)(graph.nodes as any[]); // visx network types
                 const nearestPoint = last.reduce((acc, n) => {
                   if (Math.abs(acc.x - point.x) < Math.abs(n.x - point.x)) {
                     return acc;
@@ -157,6 +164,7 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
             linkComponent={(props) => NetworkLink(props.link)}
             nodeComponent={(props) =>
               NetworkNode({
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ...(props as any),
                 onMouseOver: handleMouseOver,
                 onMouseOut: hideTooltip,

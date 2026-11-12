@@ -11,7 +11,7 @@ export interface KeywordItem extends Keyword.Keyword {
 interface KeywordListProps {
   style?: React.CSSProperties;
   keywords: KeywordItem[];
-  onItemClick: (t: KeywordItem, e: any) => void;
+  onItemClick: (t: KeywordItem, e: React.MouseEvent) => void;
 }
 
 export const KeywordListItem: React.FC<ListItemProps<KeywordItem>> = ({

@@ -101,9 +101,7 @@ describe("HttpProvider", () => {
   });
 
   it("should handle get error", async () => {
-    const axiosError = new Error(
-      "Network Error",
-    ) as unknown as axiosModule.AxiosError;
+    const axiosError = new Error("Network Error") as any;
     axiosError.isAxiosError = true;
     axiosError.message = "Network Error";
     axiosError.response = { status: 404 };
@@ -114,9 +112,7 @@ describe("HttpProvider", () => {
   });
 
   it("should handle post error", async () => {
-    const axiosError = new Error(
-      "Server Error",
-    ) as unknown as axiosModule.AxiosError;
+    const axiosError = new Error("Server Error") as any;
     axiosError.isAxiosError = true;
     axiosError.message = "Server Error";
     axiosError.response = { status: 500 };
@@ -127,9 +123,7 @@ describe("HttpProvider", () => {
   });
 
   it("should handle put error", async () => {
-    const axiosError = new Error(
-      "Not Found",
-    ) as unknown as axiosModule.AxiosError;
+    const axiosError = new Error("Not Found") as any;
     axiosError.isAxiosError = true;
     axiosError.message = "Not Found";
     axiosError.response = { status: 404 };
@@ -142,9 +136,7 @@ describe("HttpProvider", () => {
 
 describe("toHTTPError", () => {
   it("handles axios error with response", () => {
-    const axiosError = new Error(
-      "Network Error",
-    ) as unknown as axiosModule.AxiosError;
+    const axiosError = new Error("Network Error") as any;
     axiosError.isAxiosError = true;
     axiosError.message = "Network Error";
     axiosError.response = { status: 404 };
@@ -157,9 +149,7 @@ describe("toHTTPError", () => {
   });
 
   it("handles axios error without response (defaults to 500)", () => {
-    const axiosError = new Error(
-      "Network Error",
-    ) as unknown as axiosModule.AxiosError;
+    const axiosError = new Error("Network Error") as any;
     axiosError.isAxiosError = true;
     axiosError.message = "Network Error";
     axiosError.stack = "Error: Network Error\n    at ...";
@@ -208,7 +198,7 @@ describe("fromValidationErrors", () => {
       _tag: "Type",
       path: [],
       message: "Expected string",
-    } as unknown as { _tag: string; path: unknown[]; message: string };
+    } as any;
 
     const result = fromValidationErrors(E.left(mockParseError));
     expect(E.isLeft(result)).toBe(true);
@@ -248,9 +238,7 @@ describe("liftFetch", () => {
   });
 
   it("handles axios error in liftFetch", async () => {
-    const axiosError = new Error(
-      "Network Error",
-    ) as unknown as axiosModule.AxiosError;
+    const axiosError = new Error("Network Error") as any;
     axiosError.isAxiosError = true;
     axiosError.response = { status: 500 };
     const lp = vi.fn(() => Promise.reject(new Error("Network Error")));

@@ -29,7 +29,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 interface QuoteListItemProps {
   item: Events.SearchEvent.SearchQuoteEvent;
   condensed?: boolean;
-  onClick?: (e: Events.SearchEvent.SearchQuoteEvent) => void;
+  onClick?: (e: Events.SearchEvent.SearchEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
   onRowInvalidate: (e: Events.SearchEvent.SearchQuoteEvent) => void;

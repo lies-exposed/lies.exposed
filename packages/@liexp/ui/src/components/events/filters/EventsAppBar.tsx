@@ -202,7 +202,8 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
 
   const handleFilterChange = React.useCallback(
     (ff: EventTypeMap, _filterK: EventType) => {
-      const type = [
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const entries: [boolean, string][] = [
         [ff.Uncategorized, EVENT_TYPES.UNCATEGORIZED],
         [ff.Death, EVENT_TYPES.DEATH],
         [ff.Documentary, EVENT_TYPES.DOCUMENTARY],
@@ -211,13 +212,14 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
         [ff.Transaction, EVENT_TYPES.TRANSACTION],
         [ff.Quote, EVENT_TYPES.QUOTE],
         [ff.Book, EVENT_TYPES.BOOK],
-      ]
-        .map(([enabled, key]: any[]) => (enabled ? key : undefined))
-        .filter((a) => a !== undefined);
+      ];
+      const type = entries
+        .map(([enabled, key]) => (enabled ? key : undefined))
+        .filter((a): a is string => a !== undefined);
 
       onQueryChange({
         ...query,
-        eventType: type,
+        eventType: type as readonly EventType[],
       });
     },
     [query],
@@ -249,7 +251,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] },
+        { selected: [] as (Actor.Actor & { selected: boolean })[], unselected: [] as (Actor.Actor & { selected: boolean })[] },
       ),
       groups: groups.reduce(
         (acc, a) =>
@@ -262,7 +264,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] },
+        { selected: [] as (Group.Group & { selected: boolean })[], unselected: [] as (Group.Group & { selected: boolean })[] },
       ),
       keywords: keywords.reduce(
         (acc, a) =>
@@ -275,7 +277,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] },
+        { selected: [] as (Keyword.Keyword & { selected: boolean })[], unselected: [] as (Keyword.Keyword & { selected: boolean })[] },
       ),
     };
   }, [query, actors, groups, keywords, groupsMembers]);
@@ -379,7 +381,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     </Box>
   ) : null;
 
-  const handleActorClick = (e: any): void => {
+  const handleActorClick = (e: React.MouseEvent<HTMLElement>): void => {
     showPopover("Filter actors", e.currentTarget, (onClose) => {
       return (
         <AutocompleteActorInput
@@ -422,7 +424,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     />
   );
 
-  const handleGroupClick = (e: any): void => {
+  const handleGroupClick = (e: React.MouseEvent<HTMLElement>): void => {
     showPopover("Filter groups", e.currentTarget, (onClose) => {
       return (
         <AutocompleteGroupInput
@@ -450,7 +452,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     });
   };
 
-  const handleKeywordClick = (e: any): void => {
+  const handleKeywordClick = (e: React.MouseEvent<HTMLElement>): void => {
     showPopover("Filter keywords", e.currentTarget, (onClose) => {
       return (
         <AutocompleteKeywordInput

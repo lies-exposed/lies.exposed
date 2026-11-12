@@ -18,26 +18,30 @@ interface PackProps {
   height: number;
   pack: HierarchyNode<PackDatum>;
   variant: "text" | "circle";
-  onClick?: (d: any) => void;
+  onClick?: (d: PackDatum) => void;
 }
 
-const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
-  width,
-  height,
-  variant,
-  pack,
-  onClick,
-  showTooltip,
-  hideTooltip,
-  tooltipData,
-  tooltipOpen,
-  tooltipLeft,
-  tooltipTop,
-}) => {
+const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = (props) => {
+  const {
+    width,
+    height,
+    variant,
+    pack,
+    onClick,
+    showTooltip,
+    hideTooltip,
+    tooltipData,
+    tooltipOpen,
+    tooltipLeft,
+    tooltipTop,
+  } = props;
   const handleMouseOver =
     (datum: PackDatum) =>
-    (event: any): void => {
-      const coords = localPoint(event.target.ownerSVGElement, event);
+    (event: React.MouseEvent<SVGCircleElement>): void => {
+      const target = event.target as SVGCircleElement;
+      const svgElement = target.ownerSVGElement;
+      if (svgElement === null) return;
+      const coords = localPoint(svgElement, event);
       if (coords !== null) {
         if (showTooltip !== undefined) {
           showTooltip({
@@ -66,7 +70,7 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
               return (
                 <Group
                   key={i}
-                  onClick={() => onClick?.(circle.data)}
+                  onClick={() => onClick?.(circle.data as PackDatum)}
                   style={{
                     cursor: "pointer",
                   }}
@@ -76,9 +80,9 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
                     r={circle.r}
                     cx={circle.x}
                     cy={circle.y}
-                    fill={`#${circle.data.color}`}
+                    fill={`#${(circle.data as PackDatum).color}`}
                     onMouseLeave={hideTooltip}
-                    onMouseOver={handleMouseOver(circle.data)}
+                    onMouseOver={handleMouseOver(circle.data as PackDatum)}
                     style={style}
                   />
 
@@ -97,7 +101,7 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
                       transform: `translateX(-${circle.r / 2 + 5}px)`,
                     }}
                   >
-                    #{circle.data.label}
+                    #{(circle.data as PackDatum).label}
                   </animated.text>
                 </Group>
               );

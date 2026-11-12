@@ -34,7 +34,9 @@ export interface BarStackGraphProps<D, K extends StackKey> {
   yScale: ScaleLinear<number, number>;
   colorScale: ScaleOrdinal<K, string>;
   getX: (d: D) => string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axisBottom?: AxisProps<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axisLeft?: AxisProps<any>;
   tooltipRenderer: (d: TooltipData<D, K>) => React.ReactNode;
 }
@@ -108,6 +110,7 @@ export const BarStackGraph = <D, K extends StackKey>({
         <Group top={margin.top} left={margin.left}>
           <BarStack<D, K>
             data={data}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             keys={keys as any}
             x={getX}
             xScale={xScale}

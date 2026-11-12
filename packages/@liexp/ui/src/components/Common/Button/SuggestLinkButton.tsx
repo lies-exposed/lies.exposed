@@ -1,10 +1,11 @@
 import * as React from "react";
+import type { Color } from "@mui/material";
 import { SuggestLinkModal } from "../../Modal/SuggestLinkModal.js";
 import { Box, IconButton, Icons } from "../../mui/index.js";
 
 export interface SuggestLinkButtonProps {
   className?: string;
-  color?: any;
+  color?: Color | string;
 }
 
 const SuggestLinkButton: React.FC<SuggestLinkButtonProps> = ({
@@ -26,7 +27,8 @@ const SuggestLinkButton: React.FC<SuggestLinkButtonProps> = ({
           setOpen(!open);
         }}
       >
-        <Icons.AddCircle color={color} />
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        <Icons.AddCircle color={color as unknown as Color} />
       </IconButton>
 
       <SuggestLinkModal open={open} onClose={doClose} />

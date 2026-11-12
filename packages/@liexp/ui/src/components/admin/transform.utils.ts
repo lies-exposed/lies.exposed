@@ -18,121 +18,150 @@ import {
   type RawMedia,
 } from "../../client/admin/MediaAPI.js";
 
-export const transformLinks = (links: any[]): any[] => {
+export interface TransformMediaInput {
+  fromURL?: boolean;
+  id?: string;
+  location?: { rawFile?: RawMedia; [key: string]: unknown };
+  thumbnail?: string;
+  [key: string]: unknown;
+}
+
+export interface TransformLinkInput {
+  fromURL?: boolean;
+  url?: string;
+  publishDate?: Date;
+  ids?: string[];
+}
+
+export const transformLinks = (
+  links: TransformLinkInput[],
+): (string | { url: string; publishDate: Date })[] => {
   return links.reduce<(string | { url: string; publishDate: Date })[]>(
     (acc, l) => {
       if (l.fromURL) {
-        return acc.concat({
-          url: l.url,
+        return [...acc, {
+          url: l.url ?? "",
           publishDate: l.publishDate ?? new Date(),
-        });
+        }];
       }
-      return acc.concat(l.ids);
+      return [...acc, ...(l.ids ?? [])];
     },
     [],
   );
 };
 
-export const transformMedia = (newMedia: any[]): any[] => {
-  return newMedia.reduce((acc, m) => {
+export const transformMedia = (
+  newMedia: TransformMediaInput[],
+): (string | TransformMediaInput)[] => {
+  return newMedia.reduce<(string | TransformMediaInput)[]>((acc, m) => {
     if (m.fromURL) {
-      return acc.concat({
+      return [...acc, {
         ...m,
-        thumbnail: m.location,
-      });
+        thumbnail: m.location != null ? (m.location as unknown as string) : undefined,
+      }];
     }
 
     if (m.id) {
-      return acc.concat(m.id);
+      return [...acc, m.id];
     }
 
-    return acc.concat(m);
+    return [...acc, m];
   }, []);
 };
 
-type TransformEventFn<D = any> = (
+type TransformEventFn<D = Record<string, unknown>> = (
   data: D,
   relations: http.Events.EventRelationIds,
 ) => http.Events.CreateEventBody & { id: http.Common.UUID };
 
 export const transformDeath: TransformEventFn = (data, _relations) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const d = data as any;
   return {
-    ...data,
+    ...d,
     payload: {
-      ...data.payload,
+      ...d.payload,
       location:
-        data.payload.location === "" ? undefined : data.payload.location,
+        d.payload.location === "" ? undefined : d.payload.location,
     },
   };
 };
 
 export const transformUncategorized: TransformEventFn = (data, relations) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const d = data as any;
   const { keywords, groups, actors } = eventRelationIdsMonoid.concat(
     {
-      groups: data.payload.groups ?? [],
-      actors: data.payload.actors ?? [],
-      media: data.media ?? [],
-      keywords: data.keywords ?? [],
-      areas: data.payload.location ? [data.payload.location] : [],
+      groups: d.payload.groups ?? [],
+      actors: d.payload.actors ?? [],
+      media: d.media ?? [],
+      keywords: d.keywords ?? [],
+      areas: d.payload.location ? [d.payload.location] : [],
       groupsMembers: [],
-      links: data.links,
+      links: d.links,
     },
     { ...relations, areas: [], groupsMembers: [] },
   );
 
   return {
-    ...data,
+    ...d,
     keywords,
-    body: Array.isArray(data.body) && data.body.length > 0 ? data.body : null,
+    body: Array.isArray(d.body) && d.body.length > 0 ? d.body : null,
     payload: {
-      ...data.payload,
+      ...d.payload,
       groups,
       actors,
       location:
-        data.payload.location === "" ? undefined : data.payload.location,
+        d.payload.location === "" ? undefined : d.payload.location,
       endDate:
-        data.payload.endDate?.length > 0 ? data.payload.endDate : undefined,
+        d.payload.endDate?.length > 0 ? d.payload.endDate : undefined,
     },
   };
 };
 
 export const transformScientificStudy: TransformEventFn = (data) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const d = data as any;
   return {
-    ...data,
+    ...d,
     payload: {
-      ...data.payload,
+      ...d.payload,
       publisher:
-        data.payload.publisher === "" ? undefined : data.payload.publisher,
+        d.payload.publisher === "" ? undefined : d.payload.publisher,
     },
   };
 };
 
 export const transformQuote: TransformEventFn = (data) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const d = data as any;
   return {
-    ...data,
+    ...d,
     payload: {
-      ...data.payload,
-      quote: isValidValue(data.excerpt)
-        ? getTextContents(data.excerpt).concat("\n\n")
+      ...d.payload,
+      quote: isValidValue(d.excerpt)
+        ? getTextContents(d.excerpt).concat("\n\n")
         : "",
     },
   };
 };
 
 const transformBook: TransformEventFn = (data) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const d = data as any;
   return {
-    ...data,
+    ...d,
     payload: {
-      ...data.payload,
-      publisher: data.payload.publisher?.type
-        ? data.payload.publisher
+      ...d.payload,
+      publisher: d.payload.publisher?.type
+        ? d.payload.publisher
         : undefined,
     },
   };
 };
 
 const transformByType = (
-  data: any,
+  data: Record<string, unknown>,
   relations: http.Events.EventRelationIds,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   switch (data.type) {
@@ -161,14 +190,16 @@ export const transformEvent =
     const links = (data.links ?? []).concat(newLinks);
 
     const newMedia = transformMedia(data.newMedia ?? []);
-    const media: any[] = (data.media ?? []).concat(newMedia);
+    const media: (TransformMediaInput | string)[] = (data.media ?? []).concat(
+      newMedia,
+    );
 
     const { rawMedia, otherMedia } = media.reduce<{
-      rawMedia: RawMedia[];
-      otherMedia: any[];
+      rawMedia: TransformMediaInput[];
+      otherMedia: (TransformMediaInput | string)[];
     }>(
       (acc, m) => {
-        if (m.location?.rawFile !== undefined) {
+        if (typeof m !== "string" && m.location?.rawFile !== undefined) {
           return {
             ...acc,
             rawMedia: acc.rawMedia.concat(m),
@@ -186,12 +217,12 @@ export const transformEvent =
     );
 
     const mediaTask = pipe(
-      rawMedia.map((r: RawMedia) =>
+      rawMedia.map((r: unknown) =>
         uploadFile(dataProvider)(
           "media",
           id,
-          r.location.rawFile,
-          r.location.rawFile.type as MediaType,
+          (r as RawMedia).location.rawFile,
+          (r as RawMedia).location.rawFile.type as MediaType,
           options,
         ),
       ),
@@ -200,13 +231,18 @@ export const transformEvent =
         pipe(
           urls,
           A.zip(rawMedia),
-          A.map(([location, media]: [any, any]) => ({
-            ...media,
-            ...location,
-            thumbnail: Schema.is(http.Media.ImageType)(location.type)
-              ? location.location
-              : undefined,
-          })),
+          A.map(
+            ([location, media]: [
+              Record<string, unknown>,
+              TransformMediaInput,
+            ]) => ({
+              ...media,
+              ...location,
+              thumbnail: Schema.is(http.Media.ImageType)(location.type)
+                ? (location.location as string)
+                : undefined,
+            }),
+          ),
           A.concat(otherMedia),
         ),
       ),

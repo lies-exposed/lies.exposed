@@ -197,6 +197,7 @@ export const mediaBlock = createReactBlockSpec(mediaBlockSpecs, {
     return (
       <Stack direction="column" width={"100%"}>
         <EditMenu
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           editor={editor as any}
           onClick={() => {
             onChange({

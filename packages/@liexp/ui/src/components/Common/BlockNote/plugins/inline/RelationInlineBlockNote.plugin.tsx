@@ -69,7 +69,8 @@ export const RelationInlineContentComponent: React.FC<{
 
   const removeItem = React.useCallback(() => {
     const pos = editor.getTextCursorPosition();
-    const blockContent = pos.block.content as any[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const blockContent = pos.block.content as any[]; // BlockNote internal type
 
     const updatedBlockContent = blockContent.flatMap((t) => {
       const isRelationType = t.type === "relation";
@@ -186,18 +187,19 @@ export const RelationInlineContentComponent: React.FC<{
       onChange: (a: readonly { id: string }[]) => {
         const currentBlock =
           editor.document.find((tt) =>
-            ((tt.content as any[]) ?? []).find((t) => {
-              return (
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ((tt.content as any[]) ?? []).find(
+              (t) =>
                 t.type === "relation" ||
                 (t.type === relation &&
                   (t.props.id === undefined || t.props.id === "")) ||
                 (t.type === _relation && t.props.id === _id) ||
-                (t.type === relation && t.props.id === id)
-              );
-            }),
+                (t.type === relation && t.props.id === id),
+            ),
           ) ?? editor.getTextCursorPosition().block;
 
         if (currentBlock) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const updatedBlockContent = (currentBlock.content as any[]).map(
             (t) =>
               t.type === "relation" ||

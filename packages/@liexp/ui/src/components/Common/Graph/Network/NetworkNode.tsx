@@ -40,6 +40,7 @@ export const NetworkNode = <D extends NetworkNodeDatum>({
 
   return (
     <Group
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {...(groupProps as any)}
       onClick={() => {
         onClick(node);

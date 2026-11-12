@@ -25,10 +25,7 @@ describe("@helpers/social-post", () => {
 
   test("getSocialPostRelationIds handles null keywords", () => {
     expect(
-      getSocialPostRelationIds({
-        ...post,
-        keywords: null,
-      } as unknown as SocialPost),
+      getSocialPostRelationIds({ ...post, keywords: null as unknown as [] }),
     ).toEqual({
       keywords: [],
       media: ["m1"],
@@ -51,10 +48,7 @@ describe("@helpers/social-post", () => {
 
   test("getSocialPostRelationIds handles null media", () => {
     expect(
-      getSocialPostRelationIds({
-        ...post,
-        media: null,
-      } as unknown as SocialPost),
+      getSocialPostRelationIds({ ...post, media: null as unknown as [] }),
     ).toEqual({
       keywords: ["k1"],
       media: [],
@@ -80,8 +74,8 @@ describe("@helpers/social-post", () => {
     expect(
       getSocialPostRelationIds({
         ...post,
-        media: "not-an-array",
-      } as unknown as SocialPost),
+        media: "not-an-array" as unknown as [],
+      }),
     ).toEqual({
       keywords: ["k1"],
       media: [],
@@ -92,10 +86,7 @@ describe("@helpers/social-post", () => {
 
   test("getSocialPostRelationIds handles null actors", () => {
     expect(
-      getSocialPostRelationIds({
-        ...post,
-        actors: null,
-      } as unknown as SocialPost),
+      getSocialPostRelationIds({ ...post, actors: null as unknown as [] }),
     ).toEqual({
       keywords: ["k1"],
       media: ["m1"],
@@ -106,10 +97,7 @@ describe("@helpers/social-post", () => {
 
   test("getSocialPostRelationIds handles null groups", () => {
     expect(
-      getSocialPostRelationIds({
-        ...post,
-        groups: null,
-      } as unknown as SocialPost),
+      getSocialPostRelationIds({ ...post, groups: null as unknown as [] }),
     ).toEqual({
       keywords: ["k1"],
       media: ["m1"],
@@ -125,7 +113,7 @@ describe("@helpers/social-post", () => {
         media: null,
         actors: null,
         groups: null,
-      } as unknown as SocialPost),
+      } as unknown as typeof post),
     ).toEqual({
       keywords: [],
       media: [],
@@ -141,7 +129,7 @@ describe("@helpers/social-post", () => {
         media: [],
         actors: [],
         groups: [],
-      } as unknown as SocialPost),
+      } as unknown as typeof post),
     ).toEqual({
       keywords: [],
       media: [],

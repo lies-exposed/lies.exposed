@@ -22,7 +22,7 @@ export const TabPanel: React.FC<
   );
 };
 
-export function a11yProps(index: number): any {
+export function a11yProps(index: number): { id: string; "aria-controls": string } {
   return {
     id: `tab-${index}`,
     "aria-controls": `tabpanel-${index}`,

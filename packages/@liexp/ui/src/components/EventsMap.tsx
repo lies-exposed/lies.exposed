@@ -12,6 +12,7 @@ interface EventsMapComponentProps {
   events: readonly Events.Event[];
   center?: [number, number];
   zoom?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onMapClick: (features: any[]) => void;
 }
 
@@ -90,7 +91,7 @@ const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
 };
 
 interface EventsMapProps extends Omit<EventsMapComponentProps, "events"> {
-  filter: any;
+  filter: { title?: string; startDate?: import("fp-ts/lib/Option").Option<Date>; endDate?: import("fp-ts/lib/Option").Option<Date> } & Record<string, unknown>;
 }
 
 const EventsMap: React.FC<EventsMapProps> = (props) => {
@@ -103,11 +104,12 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
       queries={(Q) => ({
         events: Q.Event.list.useQuery(
           undefined,
-          {
-            _end: 100,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ({
+            _end: String(100),
             _field: "startDate",
             _order: "DESC",
-            title: pipe(title ?? fp.O.none, fp.O.toUndefined),
+            title: pipe(title ?? fp.O.none, fp.O.toUndefined as () => string | undefined),
             startDate:
               startDate?._tag === "Some"
                 ? startDate.value.toISOString()
@@ -117,8 +119,7 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
                 ? endDate.value.toISOString()
                 : undefined,
             ...filters,
-          },
-
+          } as any),
           false,
         ),
       })}

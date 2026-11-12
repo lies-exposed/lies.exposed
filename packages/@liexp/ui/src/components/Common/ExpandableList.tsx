@@ -54,7 +54,7 @@ export const ExpandableList = <A, D extends React.ElementType<any> = "ul">({
         }}
       >
         <List
-          {...(props as any)}
+          {...(props as unknown as React.HTMLAttributes<HTMLUListElement>)}
           getKey={getKey}
           ListItem={ListItem}
           filter={filter}
@@ -74,7 +74,7 @@ export const ExpandableList = <A, D extends React.ElementType<any> = "ul">({
       </AccordionSummary>
       <AccordionDetails>
         <List
-          {...(props as any)}
+          {...(props as unknown as React.HTMLAttributes<HTMLUListElement>)}
           getKey={getKey}
           ListItem={ListItem}
           filter={filter}

@@ -58,7 +58,7 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
   const image = _image ?? defaultMedia;
 
   const date =
-    typeof event.date === "string" ? parseISO(event.date as any) : event.date;
+    typeof event.date === "string" ? parseISO(event.date) : event.date;
 
   const handleClick = () => {
     onEventClick?.(event);

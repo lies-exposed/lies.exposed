@@ -5,6 +5,7 @@ import { geoJSONFormat } from "../../utils/map.utils.js";
 import Map, { type MapProps } from "../Map.js";
 import { AutoSizer } from "../utils/AutoSizer.js";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface AreasMapProps extends Pick<MapProps<any>, "onMapClick"> {
   center?: [number, number];
   zoom?: number;
@@ -21,7 +22,7 @@ const AreasMap: React.FC<AreasMapProps> = (props) => {
     areas,
   } = props;
 
-  const features = areas.map(({ geometry, ...datum }: any) => {
+  const features = areas.map(({ geometry, ...datum }: Area.Area) => {
     const geom = geoJSONFormat.readGeometry(geometry);
     const feature = new Feature(geom);
     feature.setProperties(datum);

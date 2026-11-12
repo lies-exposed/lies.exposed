@@ -2,7 +2,7 @@ import type * as d3 from "d3";
 import { EventTypeColor, EventTypeIconClass } from "../../../Icons/index.js";
 
 interface SvgDefs {
-  onTransform: (parent: any) => void;
+  onTransform: (parent: d3.ZoomTransform) => void;
 }
 
 export const eventIconsSvgDefs = (
@@ -27,7 +27,7 @@ export const eventIconsSvgDefs = (
   // eventIconPatternGroupRect
   eventIconPatternGroup
     .append("rect")
-    .attr("fill", (d) => (EventTypeColor as any)[d[0]])
+    .attr("fill", (d) => (EventTypeColor as Record<string, string>)[d[0]])
     .attr("x", 0)
     .attr("y", 0)
     .attr("width", circleDiameter)

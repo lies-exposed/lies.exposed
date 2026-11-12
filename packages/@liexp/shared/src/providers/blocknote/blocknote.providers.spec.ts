@@ -4,7 +4,6 @@ import { getTextContents } from "./getTextContents.js";
 import { getTextContentsCapped } from "./getTextContentsCapped.js";
 import { isValidValue } from "./isValidValue.js";
 import { transform, relationsTransformer } from "./transform.utils.js";
-import { type BNEditorDocument } from "./type.js";
 import {
   toParagraph,
   toInitialValue,
@@ -71,9 +70,7 @@ describe("blocknote providers", () => {
           children: [],
         },
       ];
-      expect(getTextContents(doc as unknown as BNEditorDocument)).toBe(
-        "Hello\nWorld",
-      );
+      expect(getTextContents(doc as any)).toBe("Hello\nWorld");
     });
 
     test("extracts text from text type blocks", () => {
@@ -87,7 +84,7 @@ describe("blocknote providers", () => {
           text: "Hello",
         },
       ];
-      expect(getTextContents(doc as unknown as BNEditorDocument)).toBe("Hello");
+      expect(getTextContents(doc as any)).toBe("Hello");
     });
 
     test("extracts nested text from paragraph content items", () => {
@@ -103,9 +100,7 @@ describe("blocknote providers", () => {
           children: [],
         },
       ];
-      expect(getTextContents(doc as unknown as BNEditorDocument)).toBe(
-        "First\nSecond",
-      );
+      expect(getTextContents(doc as any)).toBe("First\nSecond");
     });
 
     test("returns empty string for empty paragraphs", () => {
@@ -118,14 +113,12 @@ describe("blocknote providers", () => {
           children: [],
         },
       ];
-      expect(getTextContents(doc as unknown as BNEditorDocument)).toBe("");
+      expect(getTextContents(doc as any)).toBe("");
     });
 
     test("returns empty string for invalid doc", () => {
-      expect(getTextContents(undefined as unknown as BNEditorDocument)).toBe(
-        "",
-      );
-      expect(getTextContents([])).toBe("");
+      expect(getTextContents(undefined as any)).toBe("");
+      expect(getTextContents([] as any)).toBe("");
     });
 
     test("handles mixed block types", () => {
@@ -160,7 +153,7 @@ describe("blocknote providers", () => {
           text: "Text block",
         },
       ];
-      const result = getTextContents(doc as unknown as BNEditorDocument);
+      const result = getTextContents(doc as any);
       expect(result).toContain("Para text");
       expect(result).toContain("Text block");
     });
@@ -177,9 +170,7 @@ describe("blocknote providers", () => {
           children: [],
         },
       ];
-      expect(
-        getTextContentsCapped(doc as unknown as BNEditorDocument, 100),
-      ).toBe("Hi");
+      expect(getTextContentsCapped(doc as any, 100)).toBe("Hi");
     });
 
     test("caps text at maxLength and appends ellipsis", () => {
@@ -199,16 +190,12 @@ describe("blocknote providers", () => {
           children: [],
         },
       ];
-      expect(getTextContentsCapped(doc as unknown as BNEditorDocument, 5)).toBe(
-        "Hello...",
-      );
+      expect(getTextContentsCapped(doc as any, 5)).toBe("Hello...");
     });
 
     test("returns empty string for invalid doc", () => {
-      expect(
-        getTextContentsCapped(undefined as unknown as BNEditorDocument, 100),
-      ).toBe("");
-      expect(getTextContentsCapped([], 100)).toBe("");
+      expect(getTextContentsCapped(undefined as any, 100)).toBe("");
+      expect(getTextContentsCapped([] as any, 100)).toBe("");
     });
 
     test("caps at exact length", () => {
@@ -223,21 +210,15 @@ describe("blocknote providers", () => {
           children: [],
         },
       ];
-      expect(getTextContentsCapped(doc as unknown as BNEditorDocument, 5)).toBe(
-        "12345",
-      );
+      expect(getTextContentsCapped(doc as any, 5)).toBe("12345");
     });
   });
 
   describe("transform", () => {
     test("returns null for invalid document", () => {
-      expect(
-        transform(undefined as unknown as BNEditorDocument, () => O.some([])),
-      ).toBe(null);
+      expect(transform(undefined as any, () => O.some([]))).toBe(null);
       expect(transform([], () => O.some([]))).toBe(null);
-      expect(
-        transform("string" as unknown as BNEditorDocument, () => O.some([])),
-      ).toBe(null);
+      expect(transform("string" as any, () => O.some([]))).toBe(null);
     });
 
     test("transforms paragraphs using filter function", () => {
@@ -369,9 +350,7 @@ describe("blocknote providers", () => {
 
   describe("relationsTransformer", () => {
     test("returns empty relations for invalid document", () => {
-      const result = relationsTransformer(
-        undefined as unknown as BNEditorDocument,
-      );
+      const result = relationsTransformer(undefined as any);
       expect(result.actors).toEqual([]);
       expect(result.groups).toEqual([]);
       expect(result.keywords).toEqual([]);

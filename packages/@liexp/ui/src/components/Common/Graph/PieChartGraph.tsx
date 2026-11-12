@@ -22,8 +22,7 @@ export interface PieProps<S> {
   animate?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const PieChartGraph = <S extends any>({
+export const PieChartGraph = <S extends Record<string, unknown>>({
   width,
   height,
   slices,
@@ -110,13 +109,13 @@ export const PieChartGraph = <S extends any>({
 interface AnimatedStyles {
   startAngle: number;
   endAngle: number;
-  opacity: any;
+  opacity: number;
   [index: string]: unknown;
 }
 
 const fromLeaveTransition = ({
   endAngle,
-}: PieArcDatum<any>): AnimatedStyles => ({
+}: { endAngle: number }): AnimatedStyles => ({
   // enter from 360° if end angle is > 180°
   startAngle: endAngle > Math.PI ? 2 * Math.PI : 0,
   endAngle: endAngle > Math.PI ? 2 * Math.PI : 0,
@@ -125,7 +124,7 @@ const fromLeaveTransition = ({
 const enterUpdateTransition = ({
   startAngle,
   endAngle,
-}: PieArcDatum<any>): AnimatedStyles => ({
+}: { startAngle: number; endAngle: number }): AnimatedStyles => ({
   startAngle,
   endAngle,
   opacity: 1,
@@ -155,7 +154,8 @@ function AnimatedPie<Datum>({
   });
   return (
     <>
-      {transitions((values, item, transition) => {
+      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any */}
+      {(transitions as any)((values: AnimatedStyles, item: PieArcDatum<Datum>, transition: any) => {
         const [centroidX, centroidY] = path.centroid(item);
         const hasSpaceForLabel = item.endAngle - item.startAngle >= 0.1;
 
@@ -179,7 +179,9 @@ function AnimatedPie<Datum>({
               }}
             />
             {hasSpaceForLabel && (
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               <animated.g style={{ opacity: (item as any).opacity }}>
+                {/* opacity from react-spring transition */}
                 <text
                   fill="white"
                   x={centroidX}

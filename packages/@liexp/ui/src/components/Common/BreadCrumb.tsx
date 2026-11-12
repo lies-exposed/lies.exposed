@@ -5,7 +5,7 @@ import { Breadcrumbs, Link, Typography } from "../mui/index.js";
 interface BreadCrumbProps {
   view: {
     view: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
   segments: Record<string, string[]>;
 }
@@ -19,7 +19,7 @@ export const BreadCrumb: React.FC<BreadCrumbProps> = ({ view, segments }) => {
         paths.reduce<{ children: React.ReactElement[]; currentPath: string }>(
           (acc, p, i) => {
             const currentSegment = p.startsWith(":")
-              ? view[p.replace(":", "")]
+              ? String(view[p.replace(":", "")])
               : p;
             const currentPath = acc.currentPath
               .concat("%2F")

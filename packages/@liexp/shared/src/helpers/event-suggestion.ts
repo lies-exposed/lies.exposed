@@ -67,7 +67,7 @@ export const getSuggestions =
       O.getOrElse<SuggestionLink[]>(() => [
         {
           fromURL: true,
-          url: m.url as string & Brand<"URL">,
+          url: m.url as unknown as string & Brand<"URL">,
           publishDate: urlDate,
         },
       ]),

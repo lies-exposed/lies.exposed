@@ -13,7 +13,7 @@ import EventListItemBase from "./EventListItemBase.js";
 interface UncategorizedListItemProps {
   item: Events.SearchEvent.SearchUncategorizedEvent;
   condensed?: boolean;
-  onClick?: (e: Events.SearchEvent.SearchUncategorizedEvent) => void;
+  onClick?: (e: Events.SearchEvent.SearchEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onGroupClick?: (e: Group.Group) => void;
   onGroupMemberClick?: (g: GroupMember.GroupMember) => void;

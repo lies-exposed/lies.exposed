@@ -1,4 +1,6 @@
 import { UserStatus } from "@liexp/io/lib/http/User.js";
+import type * as http from "@liexp/io/lib/http/index.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import * as React from "react";
 // import { AvatarField } from "../common/AvatarField.js";
 // import { MediaField } from "../media/MediaField.js";
@@ -20,11 +22,15 @@ import {
 } from "../react-admin.js";
 import { EditTitle } from "./EditTitle.js";
 
-const UserTGTokenBox: React.FC<{ record?: any }> = ({ record: _record }) => {
+const UserTGTokenBox: React.FC<{ record?: http.User.User }> = ({ record: _record }) => {
   const record = _record ?? useRecordContext();
   const refresh = useRefresh();
-  const dataProvider: any = useDataProvider();
+  const dataProvider = useDataProvider<APIRESTClient>();
   const [generating, setGenerating] = React.useState(false);
+
+  if (!record) {
+    return null;
+  }
 
   const onTokenGenerate = (): void => {
     setGenerating(true);

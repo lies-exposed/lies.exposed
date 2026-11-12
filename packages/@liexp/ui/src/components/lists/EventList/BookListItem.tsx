@@ -10,7 +10,7 @@ import EventListItemBase from "./EventListItemBase.js";
 
 export interface BookListItemProps {
   item: Events.SearchEvent.SearchBookEvent;
-  onClick?: (e: Events.SearchEvent.SearchBookEvent) => void;
+  onClick?: (e: Events.SearchEvent.SearchEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
   onRowInvalidate: (e: Events.SearchEvent.SearchBookEvent) => void;

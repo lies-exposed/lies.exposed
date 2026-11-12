@@ -61,7 +61,7 @@ type MediaListItemProps = ListItemProps<Media> &
   Omit<MediaElementProps, "media">;
 
 export const MediaListItem: React.ForwardRefRenderFunction<
-  any,
+  React.RefObject<HTMLElement> | null,
   MediaListItemProps
 > = (
   { style, onClick, item, enableDescription, disableZoom, onLoad, itemStyle },
@@ -87,7 +87,7 @@ export const MediaListItem: React.ForwardRefRenderFunction<
           itemStyle={itemStyle}
           onClick={
             onClick
-              ? (e: any) => {
+              ? (e: React.MouseEvent) => {
                   onClick?.(item, e);
                 }
               : undefined

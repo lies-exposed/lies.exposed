@@ -3,12 +3,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import { describe, test, expect, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { throwTE } from "../../utils/fp.utils.js";
-import {
-  PDFProvider,
-  PDFError,
-  type PDFDocumentProxy,
-  type PDFProviderContext,
-} from "../pdf/pdf.provider.js";
+import { PDFProvider, PDFError } from "../pdf/pdf.provider.js";
 
 const mockPdfDoc = (pages: string[]) => {
   return {
@@ -26,7 +21,7 @@ const mockPdfDoc = (pages: string[]) => {
 
 describe("PDFProvider", () => {
   test("getDocument returns PDFDocumentProxy", async () => {
-    const client = mock<PDFProviderContext["client"]>({
+    const client = mock<any>({
       getDocument: vi.fn(() => ({ promise: Promise.resolve("doc") })),
     });
     const provider = PDFProvider({ client });
@@ -36,13 +31,8 @@ describe("PDFProvider", () => {
 
   test("getAllTextContents returns joined text", async () => {
     const doc = mockPdfDoc(["Hello", "World"]);
-    const provider = PDFProvider({
-      client: {} as PDFProviderContext["client"],
-    });
-    const result = await pipe(
-      provider.getAllTextContents(doc as unknown as PDFDocumentProxy),
-      throwTE,
-    );
+    const provider = PDFProvider({ client: {} as any });
+    const result = await pipe(provider.getAllTextContents(doc as any), throwTE);
     expect(result).toBe("HelloWorld");
   });
 
@@ -51,7 +41,7 @@ describe("PDFProvider", () => {
       getDocument: vi.fn(() => {
         throw new Error("fail");
       }),
-    } as PDFProviderContext["client"];
+    } as any;
     const provider = PDFProvider({ client });
     await expect(
       pipe(provider.getDocument(new Uint16Array()), throwTE),
@@ -65,19 +55,14 @@ describe("PDFProvider", () => {
         throw new Error("fail");
       }),
     };
-    const provider = PDFProvider({
-      client: {} as PDFProviderContext["client"],
-    });
+    const provider = PDFProvider({ client: {} as any });
     await expect(
-      pipe(
-        provider.getAllTextContents(doc as unknown as PDFDocumentProxy),
-        throwTE,
-      ),
+      pipe(provider.getAllTextContents(doc as any), throwTE),
     ).rejects.toBeInstanceOf(PDFError);
   });
 
   test("getDocument passes cMap options to client", async () => {
-    const client = mock<PDFProviderContext["client"]>({
+    const client = mock<any>({
       getDocument: vi.fn(() => ({ promise: Promise.resolve("doc") })),
     });
     const provider = PDFProvider({
@@ -100,13 +85,8 @@ describe("PDFProvider", () => {
       numPages: 0,
       getPage: vi.fn(),
     };
-    const provider = PDFProvider({
-      client: {} as PDFProviderContext["client"],
-    });
-    const result = await pipe(
-      provider.getAllTextContents(doc as unknown as PDFDocumentProxy),
-      throwTE,
-    );
+    const provider = PDFProvider({ client: {} as any });
+    const result = await pipe(provider.getAllTextContents(doc as any), throwTE);
     expect(result).toBe("");
   });
 
@@ -127,26 +107,16 @@ describe("PDFProvider", () => {
         }),
       ),
     };
-    const provider = PDFProvider({
-      client: {} as PDFProviderContext["client"],
-    });
-    const result = await pipe(
-      provider.getAllTextContents(doc as unknown as PDFDocumentProxy),
-      throwTE,
-    );
+    const provider = PDFProvider({ client: {} as any });
+    const result = await pipe(provider.getAllTextContents(doc as any), throwTE);
     expect(result).toBe("valid textmore text");
   });
 
   test("getAllTextContents handles multiple pages correctly", async () => {
     const pages = ["Page1", "Page2", "Page3"];
     const doc = mockPdfDoc(pages);
-    const provider = PDFProvider({
-      client: {} as PDFProviderContext["client"],
-    });
-    const result = await pipe(
-      provider.getAllTextContents(doc as unknown as PDFDocumentProxy),
-      throwTE,
-    );
+    const provider = PDFProvider({ client: {} as any });
+    const result = await pipe(provider.getAllTextContents(doc as any), throwTE);
     expect(result).toBe("Page1Page2Page3");
     expect(doc.getPage).toHaveBeenCalledTimes(3);
     expect(doc.getPage).toHaveBeenCalledWith(1);

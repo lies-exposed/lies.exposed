@@ -98,7 +98,7 @@ const mergeEntitiesIntoPayloadByType = (
         media: { pdf: media[0], audio: undefined },
       };
     default:
-      return basePayload as Event["payload"];
+      return basePayload as unknown as Event["payload"];
   }
 };
 

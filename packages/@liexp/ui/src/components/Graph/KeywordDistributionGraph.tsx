@@ -12,7 +12,7 @@ interface KeywordDatum extends Keyword.Keyword {
 }
 
 export interface KeywordsDistributionGraphProps {
-  data: any[];
+  data: Keyword.Keyword[];
   onClick: (k: Keyword.Keyword) => void;
 }
 
@@ -20,7 +20,8 @@ const KeywordsDistributionGraphComponent: React.FC<
   KeywordsDistributionGraphProps
 > = ({ data, onClick }) => {
   const { words, minSize, maxSize } = React.useMemo(() => {
-    const words = data
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const words = (data as any[])
       .filter((d) => d.events > 0)
       .sort((a, b) => a.events - b.events)
       .map((d): KeywordDatum => ({
@@ -62,7 +63,8 @@ const KeywordsDistributionGraphComponent: React.FC<
           random={() => 0.5}
         >
           {(cloudWords) =>
-            cloudWords.map((w: any, _i) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (cloudWords as any).map((w: any, _i: number) => {
               return (
                 <Text
                   key={w.text}

@@ -8,12 +8,6 @@ type AnySchema =
   | readonly SchemaAST.Type[]
   | SchemaAST.Type;
 
-/** Internal type for PropertySignatureDeclaration AST nodes */
-interface PropertySignatureDeclaration {
-  type: SchemaAST.AST;
-  isOptional: boolean;
-}
-
 /**
  * Converts a Schema.Struct to an object where each property is the corresponding Zod schema
  */
@@ -113,7 +107,10 @@ export const effectToZod = <A>(schema: Schema.Schema<A>): z.ZodType<A> => {
       "_tag" in ast &&
       (ast as { _tag: string })._tag === "PropertySignatureDeclaration"
     ) {
-      const psd = ast as unknown as PropertySignatureDeclaration;
+      const psd = ast as unknown as {
+        type: SchemaAST.AST;
+        isOptional: boolean;
+      };
       const inner = convert(psd.type);
       return psd.isOptional ? inner.optional() : inner;
     }

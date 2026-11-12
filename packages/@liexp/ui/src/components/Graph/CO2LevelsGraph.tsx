@@ -69,6 +69,11 @@ const CO2LevelDatum = Schema.Struct({
 
 type CO2LevelDatum = typeof CO2LevelDatum.Type;
 
+interface CO2RawDataEntry {
+  year: number;
+  data_mean_global: number;
+}
+
 export interface CO2LevelsGraphProps {
   showPoints: boolean;
   showGrid?: boolean;
@@ -140,7 +145,7 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
                 showGrid={showGrid}
                 data={
                   toggleData === "last-2000-years"
-                    ? data.data.map((d: any) => ({
+                    ? data.data.map((d: CO2RawDataEntry) => ({
                         year: d.year,
                         value: d.data_mean_global,
                       }))

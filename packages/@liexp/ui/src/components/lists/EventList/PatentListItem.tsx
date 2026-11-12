@@ -10,7 +10,7 @@ import EventListItemBase from "./EventListItemBase.js";
 
 interface PatentListItemProps {
   item: Events.SearchEvent.SearchPatentEvent;
-  onClick?: (e: Events.SearchEvent.SearchPatentEvent) => void;
+  onClick?: (e: Events.SearchEvent.SearchEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
   onRowInvalidate: (e: Events.SearchEvent.SearchPatentEvent) => void;

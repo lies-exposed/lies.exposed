@@ -10,7 +10,7 @@ import EventListItemBase from "./EventListItemBase.js";
 
 interface DeathListItemProps {
   item: Events.SearchEvent.SearchDeathEvent;
-  onClick?: (e: Events.SearchEvent.SearchDeathEvent) => void;
+  onClick?: (e: Events.SearchEvent.SearchEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
   onRowInvalidate: (e: Events.SearchEvent.SearchDeathEvent) => void;

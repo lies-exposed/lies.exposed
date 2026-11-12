@@ -1,14 +1,8 @@
-fix(shared): replace any casts with proper types in providers and utils
+fix(ui): type BlockNote plugins, editor, and admin media components
 
-- helpers/event-suggestion.ts: Remove `as unknown as` from branded URL cast
-- helpers/event/merge-event.helper.ts: Remove `as unknown as` from Event["payload"] cast
-- providers/blocknote/getTextContents.ts: Define BNContentItem and BNTextBlock interfaces
-- providers/blocknote/utils.ts: Simplify BlockNoteDocument cast
-- providers/http/http.provider.spec.ts: Use axiosModule.AxiosError type
-- providers/pdf/pdf.provider.spec.ts: Import PDFDocumentProxy and PDFProviderContext types
-- utils/schema.utils.ts: Define PropertySignatureDeclaration interface
-- utils/__tests__/APIError.utils.spec.ts: Import IOError and IOErrorDetails types
-- utils/__tests__/schema.utils.spec.ts: Use Record<string, z.ZodType> instead of any
-- Test files: Replace `as any` with `as unknown as <Type>` throughout
-
-Zero production any casts remain in @liexp/shared.
+- Add BNInlineContent type alias in shared BlockNote types
+- Type BlockNoteView props properly in Editor.tsx
+- Remove `any` casts in EditMenu, inline plugins (Actor, Area, Event, Group, Relation)
+- Import and use BNInlineContent in EventBlock, LinkBlock, MediaBlock plugins
+- Type TOCPlugin and RegisterLinkButton properly
+- Type MediaCreateMultiple with proper MediaFormData and UploadedMedia interfaces

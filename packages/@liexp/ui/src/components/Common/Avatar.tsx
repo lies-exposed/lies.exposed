@@ -21,7 +21,8 @@ const StyledMUIAvatar = styled(MUIAvatar)(({ theme }) => ({
   [`& .${classes.root}`]: {
     display: "flex",
     "& .MuiAvatar-img": {
-      objectFit: (props: any) => props.fit,
+      objectFit: (props: { fit: React.CSSProperties["objectFit"] }) =>
+        props.fit,
     },
   },
 

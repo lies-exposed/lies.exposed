@@ -399,6 +399,7 @@ export const ToolMessageDisplay: React.FC<{
   const resultSummary = React.useMemo(() => {
     if (isError) return null;
     if (isList)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return `${(toolResult as any).total} result${(toolResult as any).total !== 1 ? "s" : ""}`;
     if (typeof toolResult === "object" && toolResult !== null) {
       const primary = getPrimaryLabel(toolResult as Record<string, unknown>);
@@ -616,7 +617,9 @@ export const ToolMessageDisplay: React.FC<{
                 </Box>
               ) : isList ? (
                 <ListResult
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   total={(toolResult as any).total}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   data={(toolResult as any).data}
                   showRaw={showRaw}
                   raw={rawResult ?? ""}
