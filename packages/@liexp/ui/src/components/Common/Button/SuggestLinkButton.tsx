@@ -28,7 +28,7 @@ const SuggestLinkButton: React.FC<SuggestLinkButtonProps> = ({
         }}
       >
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        <Icons.AddCircle color={color as unknown as Color} />
+        <Icons.AddCircle color={color as unknown as React.ComponentProps<typeof Icons.AddCircle>["color"]} />
       </IconButton>
 
       <SuggestLinkModal open={open} onClose={doClose} />
