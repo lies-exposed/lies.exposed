@@ -4,7 +4,11 @@ import { getTextContents } from "./getTextContents.js";
 import { getTextContentsCapped } from "./getTextContentsCapped.js";
 import { isValidValue } from "./isValidValue.js";
 import { transform, relationsTransformer } from "./transform.utils.js";
-import { type BNEditorDocument } from "./type.js";
+import {
+  type BNBlock,
+  type BNESchemaEditor,
+  type BNEditorDocument,
+} from "./type.js";
 import {
   toParagraph,
   toInitialValue,
@@ -241,7 +245,7 @@ describe("blocknote providers", () => {
     });
 
     test("transforms paragraphs using filter function", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",
@@ -252,7 +256,7 @@ describe("blocknote providers", () => {
           children: [],
         },
       ];
-      const result = transform(doc, (p: any) => {
+      const result = transform(doc, (p: BNBlock) => {
         if (p.type === "text") {
           return O.some([p.text]);
         }
@@ -262,7 +266,7 @@ describe("blocknote providers", () => {
     });
 
     test("returns empty array when no items match", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "bulletListItem",
           id: "1",
@@ -276,7 +280,7 @@ describe("blocknote providers", () => {
     });
 
     test("handles nested content in paragraphs", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",
@@ -287,7 +291,7 @@ describe("blocknote providers", () => {
           children: [],
         },
       ];
-      const result = transform(doc, (p: any) => {
+      const result = transform(doc, (p: BNBlock) => {
         if (p.type === "text") {
           return O.some([p.text]);
         }
@@ -297,7 +301,7 @@ describe("blocknote providers", () => {
     });
 
     test("handles children as nested items", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",
@@ -313,7 +317,7 @@ describe("blocknote providers", () => {
           ],
         },
       ];
-      const result = transform(doc, (p: any) => {
+      const result = transform(doc, (p: BNBlock) => {
         if (p.type === "text") {
           return O.some([p.text]);
         }
@@ -323,7 +327,7 @@ describe("blocknote providers", () => {
     });
 
     test("skips numberedListItem, bulletListItem, table blocks", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "numberedListItem",
           id: "1",
@@ -346,10 +350,10 @@ describe("blocknote providers", () => {
     });
 
     test("handles default block type with O.some", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         { type: "customBlock", id: "1", props: {}, content: [], children: [] },
       ];
-      const result = transform(doc, (p: any) => {
+      const result = transform(doc, (p: BNBlock) => {
         if (p.type === "customBlock") {
           return O.some([p.id]);
         }
@@ -359,7 +363,7 @@ describe("blocknote providers", () => {
     });
 
     test("handles default block type with O.none", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         { type: "customBlock", id: "1", props: {}, content: [], children: [] },
       ];
       const result = transform(doc, () => O.none);
@@ -383,7 +387,7 @@ describe("blocknote providers", () => {
     });
 
     test("extracts actor relations", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",
@@ -411,7 +415,7 @@ describe("blocknote providers", () => {
     });
 
     test("extracts group relations", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",
@@ -438,7 +442,7 @@ describe("blocknote providers", () => {
     });
 
     test("extracts keyword relations", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",
@@ -460,7 +464,7 @@ describe("blocknote providers", () => {
     });
 
     test("extracts media relations", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "media",
           id: "media-1",
@@ -474,7 +478,7 @@ describe("blocknote providers", () => {
     });
 
     test("extracts event relations", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "event",
           id: "event-1",
@@ -488,7 +492,7 @@ describe("blocknote providers", () => {
     });
 
     test("extracts area relations", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",
@@ -515,7 +519,7 @@ describe("blocknote providers", () => {
     });
 
     test("extracts link-entity relations", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",
@@ -541,7 +545,7 @@ describe("blocknote providers", () => {
     });
 
     test("extracts event-inline relations (non-default id)", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "event-inline",
           id: "ei-1",
@@ -555,7 +559,7 @@ describe("blocknote providers", () => {
     });
 
     test("ignores event-inline with default id", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "event-inline",
           id: "ei-1",
@@ -569,7 +573,7 @@ describe("blocknote providers", () => {
     });
 
     test("skips numberedListItem, bulletListItem, table for relations", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "numberedListItem",
           id: "1",
@@ -592,7 +596,7 @@ describe("blocknote providers", () => {
     });
 
     test("deduplicates relations", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",
@@ -630,7 +634,7 @@ describe("blocknote providers", () => {
     });
 
     test("extracts relation inline relations", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",
@@ -691,7 +695,7 @@ describe("blocknote providers", () => {
     });
 
     test("returns array as-is if valid BlockNoteDocument", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         { type: "paragraph", id: "1", props: {}, content: [], children: [] },
       ];
       const result = toInitialValue(doc);
@@ -706,7 +710,7 @@ describe("blocknote providers", () => {
     });
 
     test("encode path uses getTextContents", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",
@@ -722,7 +726,7 @@ describe("blocknote providers", () => {
     });
 
     test("encode path handles multi-paragraph", () => {
-      const doc: any = [
+      const doc: BNESchemaEditor["document"] = [
         {
           type: "paragraph",
           id: "1",

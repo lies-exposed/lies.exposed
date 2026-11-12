@@ -309,7 +309,7 @@ describe("effectToZodStruct", () => {
 
     // Test with invalid BlockNote document (empty array)
     // Effect filters are properly converted, so empty arrays should fail
-    const invalidBlockNote: any[] = [];
+    const invalidBlockNote: unknown[] = [];
     const invalidResult = zodStruct.blocknote.safeParse(invalidBlockNote);
     expect(invalidResult.success).toBe(false); // Empty arrays fail the filter requirement
 
