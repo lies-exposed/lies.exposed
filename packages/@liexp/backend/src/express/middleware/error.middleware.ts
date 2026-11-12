@@ -3,7 +3,7 @@ import {
   fromIOError,
   reportIOErrorDetails,
 } from "@liexp/shared/lib/utils/APIError.utils.js";
-import { IOError } from "@ts-endpoint/core";
+import { IOError, type IOErrorDetails } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import { type NextFunction, type Request, type Response } from "express";
 import { UnauthorizedError } from "express-jwt";
@@ -27,8 +27,7 @@ export const toControllerError = (e: unknown): IOError => {
   }
 
   if (Schema.is(IOErrorSchema)(e)) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new IOError(e.message, e.details as any);
+    return new IOError(e.message, e.details as IOErrorDetails);
   }
 
   if (e instanceof UnauthorizedError) {

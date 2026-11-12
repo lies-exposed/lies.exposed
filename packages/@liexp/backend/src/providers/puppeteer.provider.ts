@@ -314,18 +314,11 @@ export const GetPuppeteerProvider = (
  */
 export const $safeEvalOrUndefined =
   (p: puppeteer.Page) =>
-  async <
-    Selector extends string,
-    _Params extends unknown[],
-    // Func extends puppeteer.EvaluateFuncWith<
-    //   puppeteer.NodeFor<Selector>,
-    //   Params
-    // > = puppeteer.EvaluateFuncWith<puppeteer.NodeFor<Selector>, Params>,
-  >(
+  async <Selector extends string, _Params extends unknown[], T = string>(
     sel: Selector,
-    onEval: (el: puppeteer.NodeFor<Selector>) => Promise<string>,
-  ): Promise<string | undefined> => {
-    let ret: string | undefined;
+    onEval: (el: puppeteer.NodeFor<Selector>) => Promise<T>,
+  ): Promise<T | undefined> => {
+    let ret: T | undefined;
     const el = await p.$(sel);
     if (el) {
       ret = await p.$eval(sel, onEval);
@@ -342,11 +335,11 @@ export const $safeEvalOrUndefined =
  */
 export const $evalManyOrUndefined =
   (p: puppeteer.Page) =>
-  async <Selector extends string, _Params extends unknown[]>(
+  async <Selector extends string, T>(
     sel: Selector[],
-    onEval: (el: puppeteer.NodeFor<Selector>) => Promise<string>,
-  ): Promise<string | undefined> => {
-    let ret: string | undefined;
+    onEval: (el: puppeteer.NodeFor<Selector>) => Promise<T>,
+  ): Promise<T | undefined> => {
+    let ret: T | undefined;
     const evall = $safeEvalOrUndefined(p);
     for (const s of sel) {
       if (ret) {

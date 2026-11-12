@@ -5,6 +5,7 @@ import {
   type CreateEventLink,
   type EditEventCommon,
 } from "@liexp/io/lib/http/Events/BaseEvent.js";
+import type { CreateMedia } from "@liexp/io/lib/http/Media/Media.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -106,21 +107,22 @@ export const fetchRelationIds =
     return sequenceS(TE.ApplicativePar)({
       links: pipe(
         input.links,
-        O.getOrElse((): any[] => []),
+        O.getOrElse<readonly (Common.UUID | CreateEventLink)[]>(() => []),
         fetchLinksT(urlMetadata),
       ),
       media: pipe(
         input.media,
-        O.getOrElse((): any[] => []),
+        O.getOrElse<readonly (Common.UUID | CreateMedia)[]>(() => []),
         fp.A.map((i) =>
           Schema.is(UUID)(i)
             ? { id: i }
             : {
-                id: uuid(),
                 ...i,
+                id: uuid(),
               },
         ),
         TE.right,
+        TE.map((m) => m as readonly DeepPartial<MediaEntity>[]),
       ),
       keywords: pipe(
         input.keywords,
