@@ -24,7 +24,7 @@ interface ORMPagination {
 }
 
 interface ORMFilter {
-  where: Record<string, FindOperator<any>>;
+  where: Record<string, FindOperator<unknown>>;
 }
 
 const getOrderQuery = (s: Query.SortQuery): Partial<ORMOrder> => {
@@ -105,7 +105,7 @@ const getOrder = (
   prefix?: string,
   orderedKeys?: string[],
 ): ORMOrder["order"] => {
-  const init: Record<string, { value: any; index: number }> = {};
+  const init: Record<string, { value: unknown; index: number }> = {};
   return pipe(
     order,
     R.reduceWithIndex(fp.S.Ord)(init, (key, acc, value) => {
@@ -123,18 +123,18 @@ const getOrder = (
       pipe(
         fp.N.Ord,
         contramap(
-          ([_k, e]: [string, { value: any; index: number }]) => e.index,
+          ([_k, e]: [string, { value: unknown; index: number }]) => e.index,
         ),
         fp.Ord.reverse,
       ),
     ),
-    fp.A.reduce<[string, { value: any; index: number }], Record<string, any>>(
-      {},
-      (acc, v) => {
-        acc[v[0]] = v[1].value;
-        return acc;
-      },
-    ),
+    fp.A.reduce<
+      [string, { value: unknown; index: number }],
+      Record<string, "ASC" | "DESC">
+    >({}, (acc, v) => {
+      acc[v[0]] = v[1].value as "ASC" | "DESC";
+      return acc;
+    }),
   );
 };
 

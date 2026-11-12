@@ -3,7 +3,11 @@ import { type Logger } from "@liexp/core/lib/logger/Logger.js";
 import { type AxiosInstance } from "axios";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type Metadata, metadataRuleSets } from "page-metadata-parser";
+import {
+  type Metadata,
+  metadataRuleSets,
+  type RuleSets,
+} from "page-metadata-parser";
 
 metadataRuleSets.date = {
   rules: [
@@ -696,15 +700,19 @@ export async function fetchWaybackSnapshotContent(
 // Provider interfaces & factory
 // ---------------------------------------------------------------------------
 
+export interface URLMetadataFetchOptions {
+  timeout?: number;
+}
+
 export interface URLMetadataClient {
   fetchMetadata: <E>(
     url: string,
-    opts: any,
+    opts: URLMetadataFetchOptions,
     toError: (e: unknown) => E,
   ) => TE.TaskEither<E, Metadata>;
   fetchHTML: <E>(
     url: string,
-    opts: any,
+    opts: URLMetadataFetchOptions,
     toError: (e: unknown) => E,
   ) => TE.TaskEither<E, string>;
 }
@@ -712,7 +720,7 @@ export interface URLMetadataClient {
 export interface MakeURLMetadataContext {
   client: AxiosInstance;
   parser: {
-    getMetadata: (dom: Document, url: string, opts?: any) => Metadata;
+    getMetadata: (dom: Document, url: string, opts?: RuleSets) => Metadata;
   };
   logger?: Logger;
 }
