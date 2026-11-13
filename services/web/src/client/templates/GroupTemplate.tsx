@@ -21,7 +21,7 @@ const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
             tab={tab}
             query={{
               ...query,
-              hash: query.hash as string | undefined,
+              hash: String(query.hash ?? ""),
               eventType:
                 (query.eventType as EventType[] | undefined) ??
                 EventType.members.map((t) => t.literals[0]),

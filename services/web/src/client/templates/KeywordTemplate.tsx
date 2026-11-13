@@ -17,7 +17,7 @@ const KeywordPage: React.FC<{ keywordId: UUID }> = ({ keywordId }) => {
       tab={tab}
       query={{
         ...query,
-        hash: query.hash as string | undefined,
+        hash: String(query.hash ?? ""),
         eventType:
           (query.eventType as EventType[] | undefined) ??
           EventType.members.map((t) => t.literals[0]),
