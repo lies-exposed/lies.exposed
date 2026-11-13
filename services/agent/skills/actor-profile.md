@@ -24,7 +24,7 @@ Collect: full name, short excerpt (1–2 neutral sentences: role + why relevant)
 
 ## 3. Avatar
 
-`liexp_cli("actor find-avatar --fullName=<full name>")` → prints a media UUID. If it fails, continue without an avatar — do not block creation.
+`liexp_cli("actor find-avatar --fullName=<full name>")` → prints created media JSON; the avatar UUID is `.data.id`. If it fails, continue without an avatar — do not block creation.
 
 ## 4. Nationalities
 
