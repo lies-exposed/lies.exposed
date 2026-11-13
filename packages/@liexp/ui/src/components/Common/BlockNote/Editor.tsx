@@ -109,6 +109,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
   const editor = useCreateBlockNote({
     schema,
     initialContent: initialContent.initialContent ?? undefined,
+    // BlockNote's useCreateBlockNote returns an opaque internal type.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }) as unknown as BNESchemaEditor & { isEditable: boolean; document: unknown };
 
@@ -128,7 +129,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
     <div style={{ height: "100%", width: "100%" }}>
       <BlockNoteEditorContext.Provider value={editor}>
         <StyledBlockNoteView
-          // BlockNote's BlockNoteView expects an opaque internal editor type from useCreateBlockNote.
+          // BlockNote's BlockNoteView expects an opaque internal editor type.
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           editor={editor as unknown as any}
           editable={!readOnly}
