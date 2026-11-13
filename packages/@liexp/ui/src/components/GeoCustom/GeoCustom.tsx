@@ -92,7 +92,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                 fill={mapBackground}
                 rx={14}
               />
-              <CustomProjection<any>
+              <CustomProjection<GeoJSON.GeoJsonProperties>
                 projection={projection}
                 data={world.features}
                 scale={zoom.transformMatrix.scaleX}
@@ -123,7 +123,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                   );
                 }}
               </CustomProjection>
-              <CustomProjection<any>
+              <CustomProjection<GeoJSON.GeoJsonProperties>
                 projection={projection}
                 data={data.features}
                 scale={zoom.transformMatrix.scaleX}
