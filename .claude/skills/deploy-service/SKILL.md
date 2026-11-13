@@ -8,22 +8,24 @@ description: Deploy one or more lies.exposed services to the production Kubernet
 Local build → push → rollout for lies.exposed. One command, run from the **main checkout** repo root:
 
 ```bash
-./scripts/docker/deploy.sh [--helm] [-u <ghcr-user>] [-n] [-y] <service>...
+./scripts/docker/deploy.sh [--build] [--push] [--helm] [-u <ghcr-user>] [-n] [-y] <service>...
 # pnpm deploy:service api ai-bot
 ```
 
 Services = k8s deployment names: `api ai-bot agent web admin worker`. No services = error (never deploys everything implicitly).
 
+**Default is restart-only**: `rollout restart` + wait, so the cluster pulls the images already on GHCR (normally pushed by the release-please CI run). Build/push/helm are opt-in.
+
 | Option | Effect |
 |--------|--------|
 | `-n, --dry-run` | print plan (services, commit, target, steps), run nothing — **always do this first** |
 | `-y, --yes` | skip the confirmation prompt |
-| `-u, --user` | GHCR user (default `$GHCR_USER`, else `gh api user`) |
+| `--build` | build images locally first (implies `--push`) — for shipping before the release-please PR merges |
+| `--push` | push existing local images to GHCR first |
+| `-u, --user` | GHCR user for push (default `$GHCR_USER`, else `gh api user`) |
 | `--helm` | run `helm upgrade` first (only for helm values / `.env.prod` changes) |
-| `--no-build` | reuse local images |
-| `--no-push` | build only |
 
-It runs `build.sh` → `push.sh` → (`helm/upgrade.sh`) → `kubectl/rollout-restart.sh` → `kubectl rollout status` per service → `get pods`. Refuses to run from a git worktree (except `--dry-run`).
+It runs (`build.sh` → `push.sh` → `helm/upgrade.sh`, each only if opted in) → `kubectl/rollout-restart.sh` → `kubectl rollout status` per service → `get pods`. Refuses to run from a git worktree (except `--dry-run`).
 
 The individual scripts below can still be run by hand.
 

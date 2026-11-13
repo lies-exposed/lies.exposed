@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 #
-# Deploy services to the production cluster from the local machine:
-#   build image -> push to GHCR -> (helm upgrade) -> rollout restart -> wait.
+# Deploy services to the production cluster from the local machine.
 #
-# Use it to ship a change before the release-please PR is merged
-# (CI only pushes images when a release is created).
+# Default: rollout restart + wait, so the cluster pulls the images already
+# pushed to GHCR (e.g. by the release-please CI run).
+# Opt in to --build / --push / --helm to ship a change from local before the
+# release-please PR is merged (CI only pushes images when a release is created).
 
 set -euo pipefail
 
@@ -19,18 +20,20 @@ Usage: scripts/docker/deploy.sh [options] <service>...
 Services (kubernetes deployment names): api ai-bot agent web admin worker
 
 Options:
+Default: restart the deployments so they pull the images already on GHCR.
+
   -u, --user <name>   GHCR username (default: \$GHCR_USER, else \`gh api user\`)
+      --build         build images locally first (implies --push)
+      --push          push local images to GHCR before restarting
       --helm          run helm upgrade before restarting (config/env changes)
-      --no-build      skip docker build (reuse local images)
-      --no-push       build only: skip push, helm and rollout
   -n, --dry-run       print the plan and exit
   -y, --yes           don't ask for confirmation
   -h, --help          show this help
 
 Examples:
-  scripts/docker/deploy.sh api ai-bot
-  scripts/docker/deploy.sh --helm -y worker
-  scripts/docker/deploy.sh -n web admin
+  scripts/docker/deploy.sh api ai-bot              # pull CI-pushed images
+  scripts/docker/deploy.sh --build -y worker       # ship a local build
+  scripts/docker/deploy.sh --helm -n web admin     # dry run with helm
 EOF
 }
 
@@ -39,8 +42,8 @@ cd "$DIR"
 
 user="${GHCR_USER:-}"
 helm=false
-build=true
-push=true
+build=false
+push=false
 dry_run=false
 yes=false
 services=()
@@ -49,8 +52,8 @@ while [[ $# -gt 0 ]]; do
     case "$1" in
         -u|--user) user="${2:?--user needs a value}"; shift 2 ;;
         --helm) helm=true; shift ;;
-        --no-build) build=false; shift ;;
-        --no-push) push=false; shift ;;
+        --build) build=true; push=true; shift ;;
+        --push) push=true; shift ;;
         -n|--dry-run) dry_run=true; shift ;;
         -y|--yes) yes=true; shift ;;
         -h|--help) usage; exit 0 ;;
@@ -124,7 +127,7 @@ echo "Deploy plan"
 echo "  services : ${services[*]}"
 echo "  source   : ${branch} @ ${commit}${dirty}"
 echo "  target   : ${CONTEXT} / ${NAMESPACE}"
-echo "  steps    : $([[ $build = true ]] && echo -n 'build ')$([[ $push = true ]] && echo -n "push($user) ")$([[ $push = true && $helm = true ]] && echo -n 'helm ')$([[ $push = true ]] && echo -n 'restart wait')"
+echo "  steps    : $([[ $build = true ]] && echo -n 'build ')$([[ $push = true ]] && echo -n "push($user) ")$([[ $helm = true ]] && echo -n 'helm ')restart wait"
 
 if [[ "$dry_run" = true ]]; then
     exit 0
@@ -141,11 +144,9 @@ if [[ "$build" = true ]]; then
     ./scripts/docker/build.sh "${flags[@]}"
 fi
 
-if [[ "$push" != true ]]; then
-    exit 0
+if [[ "$push" = true ]]; then
+    ./scripts/docker/push.sh --user "$user" "${flags[@]}"
 fi
-
-./scripts/docker/push.sh --user "$user" "${flags[@]}"
 
 if [[ "$helm" = true ]]; then
     ./scripts/helm/upgrade.sh
