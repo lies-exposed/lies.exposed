@@ -5,7 +5,7 @@ import { type InfiniteListBaseProps } from "./types.js";
 
 export interface RowRendererProps extends Record<string, unknown> {
   index: number;
-  item: any;
+  item: unknown;
   isLast: boolean;
   isVisible: boolean;
   style: React.CSSProperties;

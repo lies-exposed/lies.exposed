@@ -423,17 +423,16 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   );
 };
 
-interface EventsNetworkGraphBoxWithQueryProps<P> extends Omit<
+interface EventsNetworkGraphBoxWithQueryProps<P extends Record<string, unknown>> extends Omit<
   EventNetworkGraphBoxProps,
   "id" | "query"
 > {
-  useQuery: UseGetQueryFn<any, P, any>;
+  useQuery: UseGetQueryFn<Record<string, unknown>, P, unknown>;
   params: Partial<P>;
-  eventsBoxQuery: any;
+  eventsBoxQuery: Record<string, unknown>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const EventsNetworkGraphBoxWithQuery = <P extends any>({
+export const EventsNetworkGraphBoxWithQuery = <P extends Record<string, unknown>>({
   useQuery,
   params,
   eventsBoxQuery: query,

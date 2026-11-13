@@ -1,11 +1,12 @@
 import { type Area } from "@liexp/io/lib/http/index.js";
 import Feature from "ol/Feature.js";
+import type Geometry from "ol/geom/Geometry.js";
 import * as React from "react";
 import { geoJSONFormat } from "../../utils/map.utils.js";
 import Map, { type MapProps } from "../Map.js";
 import { AutoSizer } from "../utils/AutoSizer.js";
 
-export interface AreasMapProps extends Pick<MapProps<any>, "onMapClick"> {
+export interface AreasMapProps extends Pick<MapProps<Geometry>, "onMapClick"> {
   center?: [number, number];
   zoom?: number;
   areas: readonly Area.Area[];
@@ -21,7 +22,7 @@ const AreasMap: React.FC<AreasMapProps> = (props) => {
     areas,
   } = props;
 
-  const features = areas.map(({ geometry, ...datum }: any) => {
+  const features = areas.map(({ geometry, ...datum }: Area.Area) => {
     const geom = geoJSONFormat.readGeometry(geometry);
     const feature = new Feature(geom);
     feature.setProperties(datum);

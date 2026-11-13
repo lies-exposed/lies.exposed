@@ -22,7 +22,7 @@ type InfiniteLinksListBoxProps = Omit<
     >
   > & {
     type?: "masonry";
-    getItem?: (data: any[], index: number) => any;
+    getItem?: (data: unknown[], index: number) => unknown;
   };
   onLinkClick?: (media: Link.Link) => void;
 };
@@ -40,11 +40,11 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
         useListQuery: (Q) => Q.Link.list,
         listProps: {
           type: "masonry",
-          getItem: (data: any[], index: number) => {
+          getItem: (data: unknown[], index: number) => {
             return getItem ? getItem(data, index) : data[index];
           },
 
-          CellRenderer: React.forwardRef<any, CellRendererProps>(
+          CellRenderer: React.forwardRef<unknown, CellRendererProps>(
             (
               {
                 item,
@@ -59,7 +59,7 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
             ) => {
               // console.log("row render", columnWidth, index, style);
               const link = {
-                ...(item as Link.Link),
+                ...(item as unknown as Link.Link),
                 selected: true,
               };
 
