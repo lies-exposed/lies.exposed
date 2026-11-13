@@ -15,10 +15,16 @@ import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/inde
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
+import type { InlineContent } from "@blocknote/react";
 import { useNotify } from "ra-core";
 import * as React from "react";
 import { useAPI } from "../../../../../hooks/useAPI.js";
 import { CircularProgress, Icons } from "../../../../mui/index.js";
+
+interface LinkEntityContent extends InlineContent {
+  type: "link-entity";
+  props: { id: string; url: string; title: string };
+}
 
 const isValidUrl = (text: string): boolean => {
   return Schema.is(URL)(text);
@@ -29,8 +35,7 @@ const getUrlFromBlocks = (
 ): string | null => {
   for (const block of blocks) {
     if ("content" in block && Array.isArray(block.content)) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const text = (block.content as any[])
+      const text = (block.content as InlineContent[])
         .filter((c) => c.type === "text")
         .map((c) => c.text as string)
         .join("")
@@ -96,8 +101,7 @@ export const RegisterLinkFormattingButton: React.FC = () => {
               url: `/links/${link.id}`,
               title: link.title ?? link.url ?? "",
             },
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } as any,
+          } as LinkEntityContent,
         ],
       });
     } catch (_e) {
