@@ -82,19 +82,20 @@ export const WaveformThumbnail: React.FC<WaveformThumbnailProps> = ({
     const max = channel.max_array();
 
     x.domain([0, waveform.length]).rangeRound([0, width]);
-    y.domain([d3.min(min), d3.max(max) as any]).rangeRound([offsetX, -offsetX]);
+    const maxY = d3.max(max);
+    y.domain([d3.min(min) ?? 0, maxY ?? 0]).rangeRound([offsetX, -offsetX]);
 
     const area = d3
-      .area()
+      .area<number>()
       .x((d, i) => x(i))
-      .y0((d, i) => y(min[i]))
-      .y1((d) => y(d as any));
+      .y0((d: number, i: number) => y(min[i]))
+      .y1((d: number) => y(d));
 
     svg
       .append("path")
       .datum(max)
       .attr("transform", () => `translate(0, ${offsetX})`)
-      .attr("d", (d: any) => area(d))
+      .attr("d", (d: number[]) => area(d))
       .attr("stroke", theme.palette.primary.main);
   }, [waveform, width, height]);
 
