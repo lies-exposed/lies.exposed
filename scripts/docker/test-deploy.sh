@@ -21,7 +21,7 @@ docker compose down
 ./scripts/nginx.up.sh
 
 # start only db
-./scripts/docker-up.sh db.liexp.dev
+./scripts/docker/up.sh db.liexp.dev
 
 cp ./services/api/certs/*.crt ./deploy/certs/
 cd ./deploy || exit

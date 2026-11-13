@@ -13,7 +13,7 @@ ADMIN_WEB_IMAGE=ghcr.io/lies-exposed/liexp-admin
 AI_BOT_IMAGE=ghcr.io/lies-exposed/liexp-ai-bot
 AGENT_IMAGE=ghcr.io/lies-exposed/liexp-agent
 
-(exec ./scripts/docker-login.sh "$1")
+(exec ./scripts/docker/login.sh "$1")
 
 base=false
 pnpm=false
