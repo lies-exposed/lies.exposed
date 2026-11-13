@@ -47,7 +47,7 @@ spec:
             failureThreshold: 2
           resources:
             limits:
-              memory: 512Mi
+              memory: 1Gi
               cpu: 400m
             requests:
               memory: 256Mi
