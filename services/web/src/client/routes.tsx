@@ -583,6 +583,7 @@ export const routes: ServerRoute[] = [
             {
               ids: q.actors,
               _end:
+                // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
                 (q as Record<string, unknown[]>)["actors"]?.length.toString() ??
                 "0",
             },
@@ -596,6 +597,7 @@ export const routes: ServerRoute[] = [
             {
               ids: q.groups,
               _end:
+                // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
                 (q as Record<string, unknown[]>)["groups"]?.length.toString() ??
                 "0",
             },
@@ -609,6 +611,7 @@ export const routes: ServerRoute[] = [
             {
               ids: q.groupsMembers,
               _end:
+                // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
                 (q as Record<string, unknown[]>)[
                   "groupsMembers"
                 ]?.length.toString() ?? "0",
