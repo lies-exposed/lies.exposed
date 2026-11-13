@@ -1,5 +1,5 @@
-import { CreateSocialPostInputSchema } from "@liexp/shared/lib/mcp/schemas/socialposts.schemas.js";
 import { type CreateSocialPost } from "@liexp/io/lib/http/SocialPost.js";
+import { CreateSocialPostInputSchema } from "@liexp/shared/lib/mcp/schemas/socialposts.schemas.js";
 import { makeCommand } from "../run-command.js";
 
 export const socialPostCreate = makeCommand(
@@ -35,8 +35,8 @@ export const socialPostCreate = makeCommand(
       content: input.content,
       useReply: input.useReply,
       media: input.mediaIds.map((id) => ({
-        id: id,
-        type: "photo" as const,
+        id,
+        type: "photo",
         media: "",
         thumbnail: "",
       })),

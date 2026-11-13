@@ -31,8 +31,8 @@ export const areaCreate = makeCommand(
       Body: {
         ...input,
         geometry: geometry ?? {
-          type: "Point",
-          coordinates: [0, 0],
+          type: "Point" as const,
+          coordinates: [0, 0] as const,
         },
         draft: input.draft ?? false,
         body: [],

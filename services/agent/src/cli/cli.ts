@@ -4,7 +4,7 @@ import { pipe } from "@liexp/core/lib/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { IOError } from "@ts-endpoint/core";
-import { type ParseError, ParseResult } from "effect";
+import { ParseResult } from "effect";
 import { agentCommand } from "#cli/agent.command.js";
 import {
   type CommandGroup,
@@ -32,7 +32,7 @@ const formatError = (error: unknown): string => {
     const { details } = error;
     if (details.kind === "DecodingError") {
       const trees = details.errors
-        .map((e: ParseError) => ParseResult.TreeFormatter.formatErrorSync(e))
+        .map((e: unknown) => ParseResult.TreeFormatter.formatErrorSync(e))
         .join("\n");
       return `${error.message}\n${trees}`;
     }

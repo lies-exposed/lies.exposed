@@ -42,7 +42,11 @@ export const MakeEditGroupRoute: Route = (r, ctx) => {
           ),
           members: pipe(
             members,
-            O.map((m) => m as unknown as string[]),
+            O.map((m) =>
+              m.map((x) =>
+                typeof x === "string" ? x : (x as { id: string }).id,
+              ),
+            ) as unknown as O.Option<string[]>,
           ),
         })(ctx),
         TE.map((data) => ({

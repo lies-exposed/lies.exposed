@@ -22,8 +22,8 @@ export const MakeEditActorRoute: Route = (r, ctx) => {
           username: body.username,
           fullName: body.fullName,
           color: body.color,
-          excerpt: body.excerpt,
-          body: body.body,
+          excerpt: body.excerpt as unknown as O.Option<unknown>,
+          body: body.body as unknown as O.Option<unknown>,
           bornOn: pipe(
             bornOn,
             O.map((d) => d.toISOString()),
@@ -36,7 +36,11 @@ export const MakeEditActorRoute: Route = (r, ctx) => {
           nationalities,
           memberIn: pipe(
             memberIn,
-            O.map((members) => members as unknown as string[]),
+            O.map((members) =>
+              members.map((m) =>
+                typeof m === "string" ? m : (m as { id: string }).id,
+              ),
+            ) as unknown as O.Option<string[]>,
           ),
         })(ctx),
         TE.map((actor) => ({

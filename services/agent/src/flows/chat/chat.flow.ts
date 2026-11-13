@@ -38,7 +38,7 @@ const isTextContentPart = (value: unknown): value is TextContentPart =>
   typeof value === "object" &&
   value !== null &&
   "type" in value &&
-  typeof (value as TextContentPart).type === "string";
+  typeof (value as Record<string, unknown>).type === "string";
 
 /**
  * Guard: check whether a value looks like an AIMessage (has `content`,

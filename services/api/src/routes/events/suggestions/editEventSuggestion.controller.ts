@@ -44,7 +44,7 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
                   // location: O.fromNullable((body.event.payload as any).location),
                   // endDate: O.fromNullable((body.event.payload as any).endDate),
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                } as Partial<typeof body.event.payload>,
+                } as unknown as Parameters<typeof editEventQuery>[1]["payload"],
                 media: O.fromNullable(body.event.media),
                 links: O.fromNullable(body.event.links),
                 keywords: O.fromNullable(body.event.keywords),
@@ -59,11 +59,7 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
                     : { id: suggestion.creator.id },
                   payload: {
                     ...body,
-                    event: {
-                      ...event,
-                      excerpt: event.excerpt ?? undefined,
-                      body: event.body ?? undefined,
-                    } as Partial<typeof event>,
+                    event: event as unknown as Partial<Record<string, unknown>>,
                   },
                   id,
                   status: "PENDING",

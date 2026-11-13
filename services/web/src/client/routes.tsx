@@ -76,7 +76,7 @@ const RedirectToEventsRoute: React.FC = () => {
 const githubQuery = (
   Q: EndpointsQueryProvider<Endpoints, QueryProviderCustomQueries>,
   _conf: Configuration,
-): AsyncDataRouteQuery<any, any, any> => ({
+): AsyncDataRouteQuery<unknown, unknown, unknown> => ({
   queryKey: Q.GithubRepoStats.list.getKey(undefined, {
     owner: "lies-exposed",
     repo: "lies.exposed",
@@ -116,7 +116,7 @@ const linksRoute: ServerRoute = {
       {
         queryKey: Q.Link.list.getKey(undefined),
         queryFn: Q.Link.list.fetch,
-      } as AsyncDataRouteQuery<any, any, any>,
+      } as AsyncDataRouteQuery<unknown, unknown, unknown>,
     ]),
 };
 
@@ -546,13 +546,8 @@ export const routes: ServerRoute[] = [
   {
     path: "/events",
     route: () => <EventsPage />,
-<<<<<<< HEAD
     queries: (Q, conf) => async (_params, query: GetSearchEventsQuery | undefined) => {
       const q = hashToQuery(query.hash);
-=======
-    queries: (Q, conf) => async (params, query: any) => {
-      const q = hashToQuery(query.hash) as Record<string, string | string[]>;
->>>>>>> origin/main
 
       q.hash = query.hash;
       q.startDate = query.startDate;

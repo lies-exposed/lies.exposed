@@ -1,5 +1,5 @@
-import { EditSocialPostInputSchema } from "@liexp/shared/lib/mcp/schemas/socialposts.schemas.js";
 import { type EditSocialPost } from "@liexp/io/lib/http/SocialPost.js";
+import { EditSocialPostInputSchema } from "@liexp/shared/lib/mcp/schemas/socialposts.schemas.js";
 import { makeCommand } from "../run-command.js";
 
 export const socialPostEdit = makeCommand(

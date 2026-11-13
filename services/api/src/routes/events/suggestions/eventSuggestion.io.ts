@@ -55,8 +55,8 @@ export const toEventSuggestion = (
       media: [],
       links,
       newLinks: (
-        (event.payload.event.newLinks ?? []) as Record<string, unknown>[]
-      ).concat(newLinks),
+        (event.payload.event.newLinks ?? []) as unknown as Record<string, unknown>[]
+      ).concat(newLinks) as unknown as Record<string, unknown>[],
     },
   };
 

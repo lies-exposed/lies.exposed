@@ -1,3 +1,4 @@
+import { type User } from "@liexp/io/lib/http/User.js";
 import { ErrorBox } from "@liexp/ui/lib/components/Common/ErrorBox.js";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader.js";
 import {
@@ -7,7 +8,6 @@ import {
 import { UserEditForm } from "@liexp/ui/lib/components/admin/user/UserEdit.js";
 import { Card, Container } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
-import { type User } from "@liexp/io/lib/http/User.js";
 import * as React from "react";
 
 export const UserEditMe: React.FC = () => {
