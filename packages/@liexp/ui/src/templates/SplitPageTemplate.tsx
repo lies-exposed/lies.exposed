@@ -140,7 +140,7 @@ const isAsideSubject = (a: unknown): a is AsideSubject => {
   );
 };
 
-export interface SplitPageTemplateProps {
+export interface SplitPageTemplateProps<I = unknown> {
   tab: number;
   onTabChange: (t: number) => void;
   aside: React.ReactNode | AsideSubject;
@@ -154,7 +154,7 @@ export interface SplitPageTemplateProps {
   };
   resource: {
     name: ResourcesNames;
-    item: any;
+    item: I;
   };
   children: React.ReactNode[];
 }
