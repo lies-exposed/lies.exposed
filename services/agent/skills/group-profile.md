@@ -25,7 +25,7 @@ If kind is genuinely unclear, ask the user.
 
 ## 3. Avatar
 
-`liexp_cli("group find-avatar --name=<name>")` → media UUID. Continue without it on failure.
+`liexp_cli("group find-avatar --name=<name>")` → created media JSON; avatar UUID is `.data.id`. Continue without it on failure.
 
 ## 4. Create
 

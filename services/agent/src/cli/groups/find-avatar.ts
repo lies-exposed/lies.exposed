@@ -2,7 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { searchWikipediaImageUrl } from "../wikipedia.js";
+import { imageTypeFromUrl, searchWikipediaImageUrl } from "../wikipedia.js";
 
 export const groupFindAvatar: CommandModule = {
   help: `
@@ -26,19 +26,22 @@ Output: JSON created media object (use .data.id as the avatar UUID)
 
     const result = await pipe(
       fp.TE.tryCatch(
-        () => searchWikipediaImageUrl(name),
+        async () => {
+          const imageUrl = await searchWikipediaImageUrl(name);
+          return { imageUrl, type: imageTypeFromUrl(imageUrl) };
+        },
         (e) =>
           e instanceof Error
             ? e
             : new Error(`Wikipedia search failed: ${String(e)}`),
       ),
-      fp.TE.chainW((imageUrl) => {
+      fp.TE.chainW(({ imageUrl, type }) => {
         ctx.logger.debug.log("group find-avatar: found image url=%s", imageUrl);
         return ctx.api.Media.Create({
           Body: {
             id: undefined,
             location: imageUrl,
-            type: "image/jpg",
+            type,
             label: `${name} Avatar`,
             description: `Logo/image for ${name} from Wikipedia`,
             thumbnail: undefined,
