@@ -12,6 +12,7 @@ import {
   useChatConversation,
 } from "../../hooks/useChatConversations.js";
 import { useStreamingChat } from "../../hooks/useStreamingChat.js";
+import { useChatPanel } from "./ChatPanelContext.js";
 
 interface ChatProps {
   className?: string;
@@ -58,7 +59,7 @@ const saveSettings = (patch: Partial<ChatSettings>) => {
 };
 
 export const AdminChat: React.FC<ChatProps> = ({ className }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, toggle: toggleChat } = useChatPanel();
   const [inputValue, setInputValue] = useState("");
   const [isFullSize, setIsFullSize] = useState(false);
   const [isContextEnabled, setIsContextEnabled] = useState(false);
@@ -121,13 +122,14 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       );
       loadConversation(pendingConversationId, visibleMessages);
       setPendingConversationId(null);
-      setIsOpen(true);
+      toggleChat();
     }
   }, [
     pendingConversationId,
     conversationLoading,
     conversationMessages,
     loadConversation,
+    toggleChat,
   ]);
 
   // Map conversations to ChatUI format
@@ -206,7 +208,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   }, [isContextEnabled, hookResource, hookRecord, location.pathname]);
 
   const handleToggleChat = () => {
-    setIsOpen(!isOpen);
+    toggleChat();
     if (!isOpen) {
       setIsFullSize(false);
     }
