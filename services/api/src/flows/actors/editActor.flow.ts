@@ -35,12 +35,12 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
       color,
       excerpt: pipe(
         excerpt,
-        O.map((e) => e as any),
+        O.map((e) => e as unknown as string),
         O.getOrElse(() => undefined),
       ),
       body: pipe(
         body,
-        O.map((b) => b as any),
+        O.map((b) => b as unknown as string),
         O.getOrElse(() => undefined),
       ),
     }),
@@ -84,7 +84,9 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
   };
 
   return pipe(
-    ActorRepository.findOneOrFail({ where: { id: Equal(id as any) } } as any),
+    ActorRepository.findOneOrFail({
+      where: { id: Equal(id as string) },
+    } as Parameters<typeof ActorRepository.findOneOrFail>[0]),
     fp.RTE.chain((actor) =>
       ActorRepository.save([
         {
@@ -97,19 +99,22 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
           memberIn: [...updateData.memberIn],
           excerpt:
             "excerpt" in updateData
-              ? (updateData.excerpt as any)
+              ? (updateData.excerpt as string | undefined)
               : actor.excerpt,
-          body: "body" in updateData ? (updateData.body as any) : actor.body,
+          body:
+            "body" in updateData
+              ? (updateData.body as string | undefined)
+              : actor.body,
         },
       ]),
     ),
     fp.RTE.chain(() =>
       ActorRepository.findOneOrFail({
-        where: { id: Equal(id) },
+        where: { id: Equal(id as string) },
         loadRelationIds: {
           relations: ["memberIn"],
         },
-      } as any),
+      } as Parameters<typeof ActorRepository.findOneOrFail>[0]),
     ),
     fp.RTE.chainEitherK((actor) => ActorIO.decodeSingle(actor)),
   );
