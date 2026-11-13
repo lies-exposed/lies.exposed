@@ -615,7 +615,7 @@ export const sendChatMessage =
             TE.tryCatch(
               () =>
                 invokeAgentWithEmptyChoicesRetry(
-                  agent,
+                  agent as unknown as { invoke: (...args: unknown[]) => Promise<unknown> },
                   { messages: [messageWithMemories] },
                   {
                     configurable: { thread_id: conversationId },
@@ -844,7 +844,11 @@ export const sendChatMessageStream = (payload: {
       // AND a final "summary" chunk that replays the full response.
       let visibleContent = "";
 
-      for await (const event of agent.streamEvents(
+      for await (const event of (
+        agent as unknown as {
+          streamEvents: (...args: unknown[]) => AsyncIterable<unknown>;
+        }
+      ).streamEvents(
         { messages: [messageWithMemories] },
         {
           version: "v2",
@@ -854,7 +858,11 @@ export const sendChatMessageStream = (payload: {
       )) {
         if (!event) continue;
 
-        ctx.logger.debug.log("stream event [%s]: %O", event.event, event.data);
+        ctx.logger.debug.log(
+          "stream event [%s]: %O",
+          (event as { event: string; data: unknown }).event,
+          (event as { event: string; data: unknown }).data,
+        );
 
         payload.onRawEvent?.(event);
 

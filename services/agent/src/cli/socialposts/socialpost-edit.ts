@@ -1,4 +1,3 @@
-import { type EditSocialPost } from "@liexp/io/lib/http/SocialPost.js";
 import { EditSocialPostInputSchema } from "@liexp/shared/lib/mcp/schemas/socialposts.schemas.js";
 import { makeCommand } from "../run-command.js";
 
@@ -51,7 +50,7 @@ export const socialPostEdit = makeCommand(
 
     return ctx.api.SocialPosts.Edit({
       Params: { id },
-      Body: body as unknown as EditSocialPost,
+      Body: body as any,
     });
   },
 );

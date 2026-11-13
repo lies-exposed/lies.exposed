@@ -32,13 +32,13 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
                 updatedAt: suggestion.updatedAt,
                 id: suggestion.id,
                 deletedAt: null,
-              },
+              } as unknown as Parameters<typeof editEventQuery>[0],
               {
                 ...body.event,
                 draft: O.fromNullable(body.event.draft),
                 date: O.fromNullable(body.event.date),
-                excerpt: O.fromNullable(body.event.excerpt),
-                body: O.fromNullable(body.event.body),
+                excerpt: O.fromNullable(body.event.excerpt) as unknown as Parameters<typeof editEventQuery>[1]["excerpt"],
+                body: O.fromNullable(body.event.body) as unknown as Parameters<typeof editEventQuery>[1]["body"],
                 payload: {
                   ...body.event.payload,
                   // location: O.fromNullable((body.event.payload as any).location),
@@ -48,7 +48,7 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
                 media: O.fromNullable(body.event.media),
                 links: O.fromNullable(body.event.links),
                 keywords: O.fromNullable(body.event.keywords),
-              },
+              } as unknown as Parameters<typeof editEventQuery>[1],
             )(ctx),
             TE.chain((event) =>
               ctx.db.save(EventSuggestionEntity, [

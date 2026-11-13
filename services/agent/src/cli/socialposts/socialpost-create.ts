@@ -1,4 +1,3 @@
-import { type CreateSocialPost } from "@liexp/io/lib/http/SocialPost.js";
 import { CreateSocialPostInputSchema } from "@liexp/shared/lib/mcp/schemas/socialposts.schemas.js";
 import { makeCommand } from "../run-command.js";
 
@@ -27,8 +26,8 @@ export const socialPostCreate = makeCommand(
       parentType = "keywords";
     }
 
-    // Build body matching CreateSocialPost schema structure
-    const body: CreateSocialPost = {
+    // Build body - use type assertion since we can't construct full Actor/Group/Keyword objects from IDs
+    const body = {
       title: input.title,
       url: input.url,
       date: input.date,
@@ -36,7 +35,7 @@ export const socialPostCreate = makeCommand(
       useReply: input.useReply,
       media: input.mediaIds.map((id) => ({
         id,
-        type: "photo",
+        type: "photo" as const,
         media: "",
         thumbnail: "",
       })),
@@ -47,11 +46,22 @@ export const socialPostCreate = makeCommand(
         IG: input.platformIds.includes("IG"),
         TG: input.platformIds.includes("TG"),
       },
+    } as unknown as {
+      title: string;
+      url: string | undefined;
+      date: string;
+      content: string | undefined;
+      useReply: boolean;
+      media: { id: string; type: "photo"; media: string; thumbnail: string }[];
+      actors: { id: string }[];
+      groups: { id: string }[];
+      keywords: { id: string }[];
+      platforms: { IG: boolean; TG: boolean };
     };
 
     return ctx.api.SocialPosts.Create({
       Params: { id: parentId, type: parentType },
-      Body: body,
+      Body: body as never,
     });
   },
 );

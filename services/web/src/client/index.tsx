@@ -116,7 +116,9 @@ function Main(): React.ReactElement {
   );
 }
 
-const container: HTMLElement | null = document.getElementById("root");
+const container = document.getElementById("root");
+if (!container)
+  throw new Error("Root element not found");
 const root = ReactDOM.createRoot(container);
 
 root.render(

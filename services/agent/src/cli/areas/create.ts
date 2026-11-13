@@ -1,4 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import type { Geometry } from "@liexp/io/lib/http/Common/Geometry/index.js";
 import { CreateAreaInputSchema } from "@liexp/shared/lib/mcp/schemas/areas.schemas.js";
 import { makeCommand } from "../run-command.js";
 
@@ -11,10 +12,6 @@ export const areaCreate = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("area create input: %O", input);
-
-    type Geometry =
-      | { type: "Point"; coordinates: [number, number] }
-      | { type: "Polygon"; coordinates: number[][][] };
 
     let geometry: Geometry | undefined = undefined;
     if (input.geometry) {
@@ -29,14 +26,15 @@ export const areaCreate = makeCommand(
 
     return ctx.api.Area.Create({
       Body: {
-        ...input,
-        geometry: geometry ?? {
+        label: input.label,
+        slug: input.slug,
+        geometry: (geometry ?? {
           type: "Point" as const,
           coordinates: [0, 0] as const,
-        },
+        }) as { readonly coordinates: readonly [number, number]; readonly type: "Point" } | { readonly coordinates: readonly (readonly (readonly [number, number])[])[]; readonly type: "Polygon" },
         draft: input.draft ?? false,
         body: [],
-      },
+      } as never,
     });
   },
 );

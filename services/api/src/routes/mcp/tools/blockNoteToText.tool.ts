@@ -24,19 +24,22 @@ export const registerBlockNoteTools = (server: McpServer) => {
       annotations: { title: "Convert BlockNote to text", readOnlyHint: true },
       inputSchema,
     } as Parameters<typeof server.registerTool>[1],
-    (opts: { blocknote?: BlockNoteDocument }) => {
-      const { blocknote } = opts ?? {};
+    async (opts: any) => {
+      const blocknote = opts?.arguments?.blocknote;
+      if (!blocknote) {
+        throw new Error("Missing blocknote argument");
+      }
       if (!isValidValue(blocknote)) {
         throw new Error("Invalid BlockNote document");
       }
-      return Promise.resolve({
+      return {
         content: [
           {
             text: getTextContents(blocknote),
             type: "text" as const,
           },
         ],
-      });
+      };
     },
   );
 };

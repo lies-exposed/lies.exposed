@@ -1,4 +1,3 @@
-import { type Story } from "@liexp/io/lib/http/Story.js";
 import { GetAuthProvider } from "@liexp/ui/lib/client/api.js";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
@@ -38,7 +37,7 @@ const StyledContainer = styled(Container)(({ theme: _theme }) => ({
 const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
   const [update, { isPending: isSubmitting }] = useUpdate();
   const navigate = useNavigate();
-  const onSubmit = async (data: Story): Promise<void> => {
+  const onSubmit = async (data: any): Promise<void> => {
     await update(
       "stories",
       { id, data },

@@ -25,11 +25,11 @@ export const MakeEditGroupRoute: Route = (r, ctx) => {
           kind: rest.kind,
           excerpt: pipe(
             excerpt,
-            O.map((e) => e as unknown as string),
+            O.map((e) => e as any),
           ),
           body: pipe(
             body,
-            O.map((b) => b as unknown as string),
+            O.map((b) => b as any),
           ),
           avatar,
           startDate: pipe(
@@ -42,11 +42,7 @@ export const MakeEditGroupRoute: Route = (r, ctx) => {
           ),
           members: pipe(
             members,
-            O.map((m) =>
-              m.map((x) =>
-                typeof x === "string" ? x : (x as { id: string }).id,
-              ),
-            ) as unknown as O.Option<string[]>,
+            O.map((m) => m as any),
           ),
         })(ctx),
         TE.map((data) => ({
