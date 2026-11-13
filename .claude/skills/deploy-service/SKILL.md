@@ -5,19 +5,33 @@ description: Deploy one or more lies.exposed services to the production Kubernet
 
 # deploy-service Skill
 
-Local build → push → rollout pipeline for lies.exposed. Run from the **main checkout** repo root (see Prerequisites).
+Local build → push → rollout for lies.exposed. One command, run from the **main checkout** repo root:
 
+```bash
+./scripts/docker/deploy.sh [--helm] [-u <ghcr-user>] [-n] [-y] <service>...
+# pnpm deploy:service api ai-bot
 ```
-./scripts/docker/build.sh --<service> ...
-./scripts/docker/push.sh <ghcr-username> --<service> ...
-./scripts/release.sh <service> ...
-```
+
+Services = k8s deployment names: `api ai-bot agent web admin worker`. No services = error (never deploys everything implicitly).
+
+| Option | Effect |
+|--------|--------|
+| `-n, --dry-run` | print plan (services, commit, target, steps), run nothing — **always do this first** |
+| `-y, --yes` | skip the confirmation prompt |
+| `-u, --user` | GHCR user (default `$GHCR_USER`, else `gh api user`) |
+| `--helm` | run `helm upgrade` first (only for helm values / `.env.prod` changes) |
+| `--no-build` | reuse local images |
+| `--no-push` | build only |
+
+It runs `build.sh` → `push.sh` → (`helm/upgrade.sh`) → `kubectl/rollout-restart.sh` → `kubectl rollout status` per service → `get pods`. Refuses to run from a git worktree (except `--dry-run`).
+
+The individual scripts below can still be run by hand.
 
 ## Why this exists
 
 CI (`.github/workflows/release-please.yml`) builds every service image on each push to `main`, but **pushes to GHCR only when the release-please PR is merged** (`push: releases_created == 'true'`). Until then `ghcr.io/lies-exposed/liexp-<svc>:latest` is stale, so to get a merged-to-`main` change into prod early, build/push/rollout from the local machine with the three steps below. When the release PR is later merged, CI overwrites `:latest` — no cleanup needed.
 
-Local builds do **not** pass `VITE_VERSION` / `VITE_COMMIT_HASH` / `VERSION` / `COMMIT_HASH` build args (CI does), so the version shown in the app/health output will be stale until the real release.
+`build.sh` passes the same `VERSION` / `COMMIT_HASH` / `VITE_*` build args as CI, taken from the root `package.json` version (still the previous release until release-please is merged) and the current `HEAD`.
 
 ## Prerequisites
 
@@ -31,7 +45,8 @@ Local builds do **not** pass `VITE_VERSION` / `VITE_COMMIT_HASH` / `VERSION` / `
 | Script | Purpose |
 |--------|---------|
 | `build.sh --<flag> ... [docker build args]` | `docker build` selected images (target `production`), tagged `liexp-<svc>:latest` and `ghcr.io/lies-exposed/liexp-<svc>:latest`. Unknown args are passed to `docker build`. |
-| `push.sh <ghcr-username> --<flag> ...` | Logs in via `login.sh "$1"`, then pushes `ghcr.io/lies-exposed/liexp-<svc>:latest`. Username must be the **first** arg. |
+| `deploy.sh <service>...` | The all-in-one pipeline above. |
+| `push.sh [-u <user>] --<flag> ...` | Logs in via `login.sh` (user from `-u`, `$GHCR_USER`, or legacy first positional arg), then pushes `ghcr.io/lies-exposed/liexp-<svc>:latest`. |
 | `login.sh <username>` | `docker login ghcr.io` with password from `./deploy/gh-token.txt`. |
 | `up.sh [compose services]` | Local dev compose up (`compose.yml`, + telegram-bot-api via `compose.reverse-proxy.yml`). |
 | `compose.sh` | Ensure `reverseproxy` network, bring up reverse proxy, then compose services. |
@@ -51,9 +66,9 @@ Build/push flags:
 | `--admin` | `liexp-admin` |
 | `--ai-bot` | `liexp-ai-bot` |
 | `--agent` | `liexp-agent` |
-| `--web` | `liexp-web` — accepted, but `build.sh` has **no web block** yet (nothing is built); push works for an image built elsewhere |
+| `--web` | `liexp-web` |
 
-## Step 3 — Release
+## Release step (done by `deploy.sh`; manual form)
 
 ```bash
 ./scripts/release.sh api ai-bot     # bare names, no `--`
@@ -67,6 +82,6 @@ Naming differs per step: `--be-worker` (build/push) ↔ `worker` (release); othe
 
 ## Safety
 
-- Targets **production** (`home-server`, ns `prod`) directly, no CI in between. Confirm the service list and the commit being shipped with the user before pushing/releasing; never run unprompted.
+- Targets **production** (`home-server`, ns `prod`) directly, no CI in between. Run `deploy.sh -n` and confirm the service list and the commit being shipped with the user before pushing/releasing; never run unprompted.
 - `docker push` overwrites `:latest` in GHCR for everyone — including anything pulling it on restart.
 - After release verify: `kubectl --context home-server -n prod get pods` (or the `check-services` skill). Rollout restart doesn't fail loudly if the new image crash-loops.
