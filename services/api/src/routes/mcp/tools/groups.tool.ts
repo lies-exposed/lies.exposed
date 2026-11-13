@@ -329,6 +329,7 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
     }),
     async (input) => {
       try {
+        // Build the edit body with optional fields
         const editBody: Record<string, unknown> = { id: input.id };
         if (input.name !== undefined) editBody.name = input.name;
         if (input.username !== undefined) editBody.username = input.username;
@@ -342,18 +343,15 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
           editBody.endDate = new Date(input.endDate);
         if (input.members !== undefined) editBody.members = input.members;
 
-        // editGroup returns TEReader<GroupEntity>, decode with GroupIO
-        // Note: We cast to `any` because editGroup expects a different body shape
-        // than what we construct here (partial update vs full body).
+        // editGroup expects EditGroupInput (with Option<T> fields), but we pass
+        // raw values — the OptionFromUndefinedOr schema handles the conversion.
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const te = editGroup(editBody as any)(ctx);
 
+        // editGroup already calls GroupIO.decodeSingle internally and returns
+        // a decoded Group, so we can use the result directly.
         const result = await pipe(
           te,
-          // GroupIO.decodeSingle expects GroupEntity, but we have the decoded result
-          // from editGroup. The cast is safe because the decoder validates at runtime.
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          fp.TE.chainEitherK((g) => GroupIO.decodeSingle(g as any)),
           fp.TE.mapLeft((err) => {
             ctx.logger.error.log("editGroup error: %O", err);
             return err;
