@@ -301,7 +301,13 @@ export const EventSuggestionCreate: React.FC<
           </Box>
         ) : undefined
       }
-      transform={async ({ id, ...r }: { id: string; payload: Record<string, unknown> }) => {
+      transform={async ({
+        id,
+        ...r
+      }: {
+        id: string;
+        payload: Record<string, unknown>;
+      }) => {
         const updatedEvent = await transformEvent(dataProvider)(
           id,
           r.payload.event,
