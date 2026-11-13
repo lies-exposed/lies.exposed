@@ -71,7 +71,10 @@ export function useQueryFromHash(
 
 interface HistoryWithNavigateTo extends Location {
   navigate: NavigateFunction;
-  navigateTo: (path: string, search?: Record<string, string | string[]>) => void;
+  navigateTo: (
+    path: string,
+    search?: Record<string, string | string[]>,
+  ) => void;
 }
 
 export function useNavigateTo(): HistoryWithNavigateTo {
@@ -79,7 +82,10 @@ export function useNavigateTo(): HistoryWithNavigateTo {
   const h = useNavigate();
 
   return React.useMemo(() => {
-    const navigateTo = (view: string, search?: Record<string, string | string[]>): void => {
+    const navigateTo = (
+      view: string,
+      search?: Record<string, string | string[]>,
+    ): void => {
       const query = search ? stringifyQuery(search) : "";
       void h(`${view}?${query}`);
     };
