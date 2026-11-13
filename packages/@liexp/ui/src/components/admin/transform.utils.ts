@@ -218,11 +218,13 @@ export const transformEvent =
     );
 
     const excerpt = isValidValue(data.excerpt) ? data.excerpt : null;
+    // an empty editor value (`[]`) is not a valid BlockNoteDocument
+    const body = isValidValue(data.body) ? data.body : null;
 
     const relations = relationsTransformer(excerpt ?? []);
 
     const event = transformByType(
-      { ...data, excerpt },
+      { ...data, excerpt, body },
       { ...relations, groupsMembers: [] },
     );
 
