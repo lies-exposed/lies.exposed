@@ -46,7 +46,7 @@ export const editGroup = (input: EditGroupInput): TEReader<Group> => {
   };
 
   return pipe(
-    GroupRepository.findOneOrFail({ where: { id: Equal(id as any) } }),
+    GroupRepository.findOneOrFail({ where: { id: Equal(id as any) } } as any),
     fp.RTE.chain((group) => (ctx) => {
       if (O.isNone(members)) {
         return GroupRepository.save([{ ...group, ...baseUpdateData, id }])(ctx);
@@ -102,7 +102,7 @@ export const editGroup = (input: EditGroupInput): TEReader<Group> => {
         loadRelationIds: {
           relations: ["members"],
         },
-      }),
+      } as any),
     ),
     fp.RTE.chainEitherK((g) => GroupIO.decodeSingle(g)),
   );

@@ -487,7 +487,7 @@ export const createEventNetworkGraph =
                         fill: color,
                         stroke: color,
                         value: 0,
-                      },
+                      } as any,
                     ];
                     if (tuples[1].events?.[0]?.id) {
                       update.actorLinks.push({
@@ -497,7 +497,7 @@ export const createEventNetworkGraph =
                         fill: color,
                         stroke: color,
                         value: 0,
-                      });
+                      } as any);
                     }
 
                     update.actorLinks.push(...tuples[1].actorLinks);
@@ -512,7 +512,7 @@ export const createEventNetworkGraph =
                         fill: color,
                         stroke: color,
                         value: 0,
-                      },
+                      } as any,
                     ];
                     if (tuples[1].events?.[0]?.id) {
                       update.groupLinks.push({
@@ -522,7 +522,7 @@ export const createEventNetworkGraph =
                         fill: color,
                         stroke: color,
                         value: 0,
-                      });
+                      } as any);
                     }
                     update.groupLinks.push(...tuples[1].groupLinks);
                   }
@@ -536,7 +536,7 @@ export const createEventNetworkGraph =
                         fill: color,
                         stroke: color,
                         value: 0,
-                      },
+                      } as any,
                     ];
                     if (tuples[1].events?.[0]?.id) {
                       update.keywordLinks.push({
@@ -546,7 +546,7 @@ export const createEventNetworkGraph =
                         fill: color,
                         stroke: color,
                         value: 0,
-                      });
+                      } as any);
                     }
 
                     update.keywordLinks.push(...tuples[1].keywordLinks);

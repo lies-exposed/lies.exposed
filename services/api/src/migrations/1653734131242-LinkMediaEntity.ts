@@ -26,7 +26,7 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
           const media = await queryRunner.manager.getRepository("image").save({
             id: uuid(),
             type: "image/jpeg",
-            description: l.description ?? "",
+            description: (l.description as string) ?? "",
             location: image,
             thumbnail: image,
             events: [],

@@ -33,8 +33,8 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
       username,
       fullName,
       color,
-      excerpt,
-      body,
+      excerpt: pipe(excerpt, O.map((e) => e as any), O.getOrElse(() => undefined)),
+      body: pipe(body, O.map((b) => b as any), O.getOrElse(() => undefined)),
     }),
     bornOn: O.getOrUndefined(bornOn),
     diedOn: O.getOrUndefined(diedOn),
@@ -76,7 +76,7 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
   };
 
   return pipe(
-    ActorRepository.findOneOrFail({ where: { id: Equal(id as any) } }),
+    ActorRepository.findOneOrFail({ where: { id: Equal(id as any) } } as any),
     fp.RTE.chain((actor) =>
       ActorRepository.save([
         {
@@ -87,8 +87,8 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
             ? updateData.nationalities
             : actor.nationalities,
           memberIn: [...updateData.memberIn],
-          excerpt: "excerpt" in updateData ? updateData.excerpt : actor.excerpt,
-          body: "body" in updateData ? updateData.body : actor.body,
+          excerpt: "excerpt" in updateData ? (updateData.excerpt as any) : actor.excerpt,
+          body: "body" in updateData ? (updateData.body as any) : actor.body,
         },
       ]),
     ),
@@ -98,7 +98,7 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
         loadRelationIds: {
           relations: ["memberIn"],
         },
-      }),
+      } as any),
     ),
     fp.RTE.chainEitherK((actor) => ActorIO.decodeSingle(actor)),
   );
