@@ -53,7 +53,10 @@ export type NetworkProps<
 const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
   props: NetworkProps<L, N>,
 ): React.ReactElement => {
-  const handleMouseOver = (event: React.MouseEvent<SVGElement>, datum: N): void => {
+  const handleMouseOver = (
+    event: React.MouseEvent<SVGElement>,
+    datum: N,
+  ): void => {
     const svgEl = event.currentTarget as SVGElement;
     if (svgEl.ownerSVGElement === null) return;
     const coords = localPoint(svgEl.ownerSVGElement, event);

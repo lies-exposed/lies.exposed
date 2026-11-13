@@ -28,8 +28,8 @@ const Root = styled("text")(() => ({
 export const getEventTypeColor = (theme: Theme, eventType: string): string => {
   const palette = theme.palette as unknown as Record<string, unknown>;
   const eventTypePalette =
-    ((palette.eventType as Record<string, string | undefined>) ??
-    (palette.eventType as Record<string, string> | undefined));
+    (palette.eventType as Record<string, string | undefined>) ??
+    (palette.eventType as Record<string, string> | undefined);
 
   // Fallback to legacy EventTypeColor if eventTypePalette is not available
   if (!eventTypePalette) {

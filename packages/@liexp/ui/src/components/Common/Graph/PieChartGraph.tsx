@@ -179,7 +179,9 @@ function AnimatedPie<Datum>({
               }}
             />
             {hasSpaceForLabel && (
-              <animated.g style={{ opacity: (values as AnimatedStyles).opacity }}>
+              <animated.g
+                style={{ opacity: (values as AnimatedStyles).opacity }}
+              >
                 <text
                   fill="white"
                   x={centroidX}

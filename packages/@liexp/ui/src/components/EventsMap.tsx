@@ -13,7 +13,11 @@ interface EventsMapComponentProps {
   events: readonly Events.Event[];
   center?: [number, number];
   zoom?: number;
-  onMapClick: (features: import("ol/Feature").default<import("ol/geom/Geometry").default>[]) => void;
+  onMapClick: (
+    features: import("ol/Feature").default<
+      import("ol/geom/Geometry").default
+    >[],
+  ) => void;
 }
 
 const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
@@ -77,7 +81,9 @@ const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
               features={[...features, ...deathFeatures]}
               center={center}
               zoom={zoom}
-              onMapClick={onMapClick as unknown as (features: unknown[]) => void}
+              onMapClick={
+                onMapClick as unknown as (features: unknown[]) => void
+              }
               interactions={{
                 doubleClickZoom: true,
                 dragPan: true,

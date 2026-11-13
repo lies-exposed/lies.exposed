@@ -37,10 +37,7 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
   const handleMouseOver =
     (datum: PackDatum) =>
     (event: React.MouseEvent<SVGSVGElement, MouseEvent>): void => {
-      const coords = localPoint(
-        event.target as SVGSVGElement,
-        event,
-      );
+      const coords = localPoint(event.target as SVGSVGElement, event);
       if (coords !== null) {
         if (showTooltip !== undefined) {
           showTooltip({
@@ -81,7 +78,11 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
                     cy={circle.y}
                     fill={`#${circle.data.color}`}
                     onMouseLeave={hideTooltip}
-                    onMouseOver={handleMouseOver(circle.data) as unknown as React.MouseEventHandler<SVGCircleElement>}
+                    onMouseOver={
+                      handleMouseOver(
+                        circle.data,
+                      ) as unknown as React.MouseEventHandler<SVGCircleElement>
+                    }
                     style={style}
                   />
 

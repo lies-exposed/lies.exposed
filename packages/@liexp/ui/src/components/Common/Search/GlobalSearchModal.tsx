@@ -62,7 +62,9 @@ const ResultRow: React.FC<{
   } else {
     let label = "";
     if (result.kind === "event") {
-      const eventItem = result.item as { payload?: { title?: string; excerpt?: string } };
+      const eventItem = result.item as {
+        payload?: { title?: string; excerpt?: string };
+      };
       label =
         eventItem.payload?.title ??
         eventItem.payload?.excerpt ??

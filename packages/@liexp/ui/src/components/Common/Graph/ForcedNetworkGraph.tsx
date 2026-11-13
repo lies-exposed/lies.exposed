@@ -535,16 +535,14 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
 
     node.exit().remove();
 
-    svg
-      .call(zoom as d3.ZoomBehavior<SVGSVGElement, unknown>)
-      .call(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        zoom.transform.bind(zoom) as unknown as (
-          selection: d3.Selection<SVGSVGElement, unknown, null, undefined>,
-          transform: d3.ZoomTransform,
-        ) => void,
-        d3.zoomIdentity,
-      );
+    svg.call(zoom as d3.ZoomBehavior<SVGSVGElement, unknown>).call(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      zoom.transform.bind(zoom) as unknown as (
+        selection: d3.Selection<SVGSVGElement, unknown, null, undefined>,
+        transform: d3.ZoomTransform,
+      ) => void,
+      d3.zoomIdentity,
+    );
 
     if (invalidation !== null) {
       void invalidation().then(() => simulation.stop());

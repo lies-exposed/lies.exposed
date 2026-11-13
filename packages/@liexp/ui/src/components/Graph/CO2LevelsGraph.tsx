@@ -140,10 +140,12 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
                 showGrid={showGrid}
                 data={
                   toggleData === "last-2000-years"
-                    ? data.data.map((d: { year: number; data_mean_global: number }) => ({
-                        year: d.year,
-                        value: d.data_mean_global,
-                      }))
+                    ? data.data.map(
+                        (d: { year: number; data_mean_global: number }) => ({
+                          year: d.year,
+                          value: d.data_mean_global,
+                        }),
+                      )
                     : data.data
                 }
                 minYRange={toggleData === "last-2000-years" ? 240 : 150}
