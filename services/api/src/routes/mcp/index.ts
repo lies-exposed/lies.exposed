@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
+import { Sentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import {
   AdminRead,
   MCPToolsAccess,
@@ -64,6 +65,14 @@ export const MakeMCPRoutes: Route = (router, ctx) => {
     try {
       await transport.handleRequest(req, res, req.body);
     } catch (err) {
+      // Report MCP errors to Sentry before handling them.
+      if (Sentry.isInitialized()) {
+        Sentry.captureException(err, {
+          tags: { feature: "mcp" },
+          fingerprint: ["mcp", err instanceof Error ? err.name : "unknown"],
+        });
+      }
+
       // If the SDK didn't already send a response, return a JSON-RPC error.
       if (!res.writableEnded) {
         const message = err instanceof Error ? err.message : "Unknown error";
