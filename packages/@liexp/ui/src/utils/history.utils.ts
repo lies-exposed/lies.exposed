@@ -39,7 +39,7 @@ export function useRouteQuery<T extends Record<string, unknown>>(def?: T): T {
   const { search } = useLocation();
 
   return React.useMemo(
-    () => ({ ...def, ...parseQuery(search) }) as T,
+    () => ({ ...def, ...parseQuery(search) }) as T & Record<string, string | string[]>,
     [search],
   );
 }

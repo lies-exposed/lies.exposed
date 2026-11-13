@@ -8,14 +8,19 @@ import { useNavigateToResource } from "../utils/location.utils.js";
 
 const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
   const navigateTo = useNavigateToResource();
-  const { tab: _tab = "0", ...query } = useRouteQuery();
-  const tab = parseInt(_tab, 10);
+  const { tab: _tab = "0", ...query } = useRouteQuery() as Record<string, string | string[]>;
+  const tab =
+    typeof _tab === 'string'
+      ? parseInt(_tab, 10)
+      : _tab != null
+        ? parseInt(String(_tab[0]), 10)
+        : 0;
   const filters = {
     actors: query.actors ?? [],
     groups: query.groups ?? [],
     keywords: query.keywords ?? [],
     eventType: query.eventType ?? EventType.members.map((v) => v.literals[0]),
-  };
+  } as unknown as Parameters<typeof EventTemplateUI>[0]['filters'];
 
   return (
     <QueriesRenderer
