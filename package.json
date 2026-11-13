@@ -22,6 +22,7 @@
     "data": "pnpm --filter 'data'",
     "worker": "pnpm --filter 'worker'",
     "deploy:setup": "./deploy/setup.sh",
+    "deploy:service": "./scripts/docker/deploy.sh",
     "format": "pnpm -r run format",
     "lint": "pnpm -r run lint",
     "lint:all": "eslint --cache -c eslint.config.js",

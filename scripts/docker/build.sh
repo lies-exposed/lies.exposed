@@ -13,6 +13,16 @@ WEB_IMAGE=liexp-web
 AI_BOT_IMAGE=liexp-ai-bot
 AGENT_IMAGE=liexp-agent
 
+# same build args CI passes (release-please.yml) so local images report a version
+VERSION=$(node -p "require('./package.json').version")
+COMMIT_HASH=$(git rev-parse HEAD)
+VERSION_ARGS=(
+  --build-arg VERSION="${VERSION}"
+  --build-arg COMMIT_HASH="${COMMIT_HASH}"
+  --build-arg VITE_VERSION="${VERSION}"
+  --build-arg VITE_COMMIT_HASH="${COMMIT_HASH}"
+)
+
 # filter image to build based on parameter
 
 base=false
@@ -85,6 +95,7 @@ fi
 
 if [ "$admin" = true ]; then
   docker build \
+    "${VERSION_ARGS[@]}" \
     --build-arg DOTENV_CONFIG_PATH=.env.prod \
     --build-arg NODE_VERSION=${NODE_VERSION} \
     --file admin.Dockerfile \
@@ -97,6 +108,7 @@ fi
 
 if [ "$ai_bot" = true ]; then
   docker build . \
+    "${VERSION_ARGS[@]}" \
     --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file ai-bot.Dockerfile \
@@ -108,6 +120,7 @@ fi
 
 if [ "$api" = true ]; then
   docker build . \
+    "${VERSION_ARGS[@]}" \
     --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file api.Dockerfile \
@@ -119,17 +132,19 @@ fi
 
 if [ "$be_worker" = true ]; then
   docker build . \
+    "${VERSION_ARGS[@]}" \
     --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file worker.Dockerfile \
     --target production \
-    --tag $API_IMAGE:latest \
+    --tag $BE_WORKER_IMAGE:latest \
     --tag ghcr.io/lies-exposed/$BE_WORKER_IMAGE:latest \
     "${other_args[@]}"
 fi
 
 if [ "$agent" = true ]; then
   docker build . \
+    "${VERSION_ARGS[@]}" \
     --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
     --file agent.Dockerfile \
@@ -141,6 +156,7 @@ fi
 
 if [ "$web" = true ]; then
   docker build . \
+    "${VERSION_ARGS[@]}" \
     --build-arg DOTENV_CONFIG_PATH=".env.prod" \
     --build-arg NODE_VERSION=${NODE_VERSION} \
     --force-rm \
