@@ -24,11 +24,11 @@ export const MakeEditActorRoute: Route = (r, ctx) => {
           color: body.color,
           excerpt: pipe(
             body.excerpt,
-            O.map((e) => e as any),
+            O.map((e) => e as unknown as string),
           ),
           body: pipe(
             body.body,
-            O.map((b) => b as any),
+            O.map((b) => b as unknown as string),
           ),
           bornOn: pipe(
             bornOn,
@@ -42,7 +42,7 @@ export const MakeEditActorRoute: Route = (r, ctx) => {
           nationalities,
           memberIn: pipe(
             memberIn,
-            O.map((members) => members as any),
+            O.map((members) => members as unknown as string[]),
           ),
         })(ctx),
         TE.map((actor) => ({

@@ -245,7 +245,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     const aiConfig = selectedProvider
       ? {
           provider: selectedProvider,
-          ...(selectedModel && { model: selectedModel as any }),
+          ...(selectedModel && { model: selectedModel as string }),
         }
       : undefined;
 

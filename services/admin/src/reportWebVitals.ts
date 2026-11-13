@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 
-const reportWebVitals = (onPerfEntry?: any): void => {
+const reportWebVitals = (onPerfEntry?: Function): void => {
   if (onPerfEntry && onPerfEntry instanceof Function) {
     import("web-vitals").then(({ onCLS, onINP, onFCP, onLCP, onTTFB }) => {
       onCLS(onPerfEntry);

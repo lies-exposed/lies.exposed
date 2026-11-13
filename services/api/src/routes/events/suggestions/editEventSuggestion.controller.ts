@@ -44,7 +44,7 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
                   // location: O.fromNullable((body.event.payload as any).location),
                   // endDate: O.fromNullable((body.event.payload as any).endDate),
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                } as any,
+                } as Partial<typeof body.event.payload>,
                 media: O.fromNullable(body.event.media),
                 links: O.fromNullable(body.event.links),
                 keywords: O.fromNullable(body.event.keywords),
@@ -63,7 +63,7 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
                       ...event,
                       excerpt: event.excerpt ?? undefined,
                       body: event.body ?? undefined,
-                    } as any,
+                    } as Partial<typeof event>,
                   },
                   id,
                   status: "PENDING",
