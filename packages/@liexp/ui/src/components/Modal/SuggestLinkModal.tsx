@@ -4,6 +4,13 @@ import { styled } from "../../theme/index.js";
 import LinkPreview from "../admin/previews/LinkPreview.js";
 import { Box, Button, Icons, IconButton, Input, Modal } from "../mui/index.js";
 
+interface LinkRecord {
+  id: string;
+  url: string;
+  title?: string;
+  [key: string]: unknown;
+}
+
 const EVENT_SLIDER_MODAL_PREFIX = "event-slider-modal";
 
 const classes = {
@@ -43,7 +50,7 @@ export const SuggestLinkModal: React.FC<SuggestLinkModalProps> = ({
   ..._props
 }) => {
   const [url, setUrl] = React.useState("");
-  const [link, setLink] = React.useState<any>(undefined);
+  const [link, setLink] = React.useState<LinkRecord | undefined>(undefined);
   const apiProvider = useDataProvider();
 
   const handleURLSubmission = (): void => {
