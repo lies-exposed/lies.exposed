@@ -28,13 +28,13 @@ export const areaCreate = makeCommand(
       Body: {
         label: input.label,
         slug: input.slug,
-        geometry: (geometry ?? {
+        geometry: geometry ?? {
           type: "Point" as const,
           coordinates: [0, 0] as const,
-        }) as { readonly coordinates: readonly [number, number]; readonly type: "Point" } | { readonly coordinates: readonly (readonly (readonly [number, number])[])[]; readonly type: "Polygon" },
+        },
         draft: input.draft ?? false,
         body: [],
-      } as never,
+      },
     });
   },
 );

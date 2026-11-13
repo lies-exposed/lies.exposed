@@ -45,7 +45,7 @@ export const compactConversation =
       ctx.agentFactory("auto"),
       TE.chain((agent) =>
         TE.tryCatch(async () => {
-          const graph = agent as unknown as CheckpointedGraph;
+          const graph = agent as CheckpointedGraph;
           const state = await graph.getState({
             configurable: { thread_id: conversationId },
           });

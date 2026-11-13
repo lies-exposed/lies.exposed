@@ -1,5 +1,4 @@
 import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
-import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
@@ -15,9 +14,7 @@ export const MakeListGroupRoute: Route = (r, ctx) => {
         fetchGroups(query)(ctx),
         fp.TE.chainEitherK(([results, total]) =>
           pipe(
-            GroupIO.decodeMany(
-              results as unknown as GroupEntity[],
-            ),
+            GroupIO.decodeMany(results),
             E.map((data) => ({ total, data })),
           ),
         ),

@@ -31,10 +31,10 @@ export const areaEdit = makeCommand(
         label: label ?? undefined,
         slug: slug ?? undefined,
         draft: draft ?? undefined,
-        geometry: (geometry ?? undefined) as { readonly coordinates: readonly [number, number]; readonly type: "Point" } | { readonly coordinates: readonly (readonly (readonly [number, number])[])[]; readonly type: "Polygon" } | undefined,
+        geometry: geometry ?? undefined,
         updateGeometry: geometry !== null ? true : undefined,
         ...rest,
-      } as never,
+      },
     });
   },
 );

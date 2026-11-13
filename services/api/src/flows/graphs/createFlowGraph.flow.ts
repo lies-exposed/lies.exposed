@@ -60,8 +60,8 @@ const updateMap =
               fp.O.map((l) =>
                 links.concat({
                   source: l.target,
-                  stroke: toColor(a.color || ''),
-                  fill: toColor(a.color || ''),
+                  stroke: toColor(a.color || ""),
+                  fill: toColor(a.color || ""),
                   sourceType,
                   value: 1,
                   target: eId,
@@ -72,9 +72,9 @@ const updateMap =
           fp.O.getOrElse(() => [
             {
               source: a.id,
-              name: (a.name ?? a.fullName) as string,
-              fill: toColor(a.color || ''),
-              stroke: toColor(a.color || ''),
+              name: (a.name ?? a.fullName)!,
+              fill: toColor(a.color || ""),
+              stroke: toColor(a.color || ""),
               sourceType,
               value: 1,
               target: eId,

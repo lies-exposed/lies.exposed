@@ -127,7 +127,7 @@ export const createCliExecutorTool = (cliBinPath: string) =>
         // Also include stdout if it has content (some errors go there)
         const stdoutNote = error.stdout ? `\nstdout: ${error.stdout}` : "";
 
-        return `ERROR (exit ${error.code ?? 1}):\n${summary || (error.message ?? String(error))}${stdoutNote}`;
+        return `ERROR (exit ${error.code ?? 1}):\n${summary || (error.message ?? "(unknown error)")}${stdoutNote}`;
       }
     },
     {
@@ -139,6 +139,6 @@ export const createCliExecutorTool = (cliBinPath: string) =>
         "IMPORTANT: Always pass --end=<N> to limit results (default to 10). " +
         "For 'latest/recent' queries use --sort=createdAt --order=DESC. " +
         "Example: 'actor list --sort=createdAt --order=DESC --end=10'",
-      schema: effectToZod(CliInputSchema) as Parameters<typeof tool>[1]["schema"],
+      schema: effectToZod(CliInputSchema),
     },
   );

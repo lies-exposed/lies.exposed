@@ -615,7 +615,9 @@ export const sendChatMessage =
             TE.tryCatch(
               () =>
                 invokeAgentWithEmptyChoicesRetry(
-                  agent as unknown as { invoke: (...args: unknown[]) => Promise<unknown> },
+                  agent as {
+                    invoke: (...args: unknown[]) => Promise<unknown>;
+                  },
                   { messages: [messageWithMemories] },
                   {
                     configurable: { thread_id: conversationId },
@@ -845,7 +847,7 @@ export const sendChatMessageStream = (payload: {
       let visibleContent = "";
 
       for await (const event of (
-        agent as unknown as {
+        agent as {
           streamEvents: (...args: unknown[]) => AsyncIterable<unknown>;
         }
       ).streamEvents(

@@ -24,7 +24,7 @@ export const registerBlockNoteTools = (server: McpServer) => {
       annotations: { title: "Convert BlockNote to text", readOnlyHint: true },
       inputSchema,
     } as Parameters<typeof server.registerTool>[1],
-    async (opts: any) => {
+    (opts: any) => {
       const blocknote = opts?.arguments?.blocknote;
       if (!blocknote) {
         throw new Error("Missing blocknote argument");

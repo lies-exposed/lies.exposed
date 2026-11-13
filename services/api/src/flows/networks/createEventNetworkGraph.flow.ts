@@ -492,7 +492,7 @@ export const createEventNetworkGraph =
                         fill: color,
                         stroke: color,
                         value: 0,
-                      } as NetworkLink,
+                      },
                     ];
                     if (tuples[1].events?.[0]?.id) {
                       update.actorLinks.push({

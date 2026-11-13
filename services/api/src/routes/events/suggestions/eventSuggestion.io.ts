@@ -19,7 +19,7 @@ export const toEventSuggestion = (
         };
       }
       const linkObj = l as unknown as Record<string, unknown>;
-      if (Schema.is(UUID)(linkObj.id as string)) {
+      if (Schema.is(UUID)(linkObj.id)) {
         return {
           ...acc,
           links: acc.links.concat(linkObj.id as string),
@@ -55,8 +55,11 @@ export const toEventSuggestion = (
       media: [],
       links,
       newLinks: (
-        (event.payload.event.newLinks ?? []) as unknown as Record<string, unknown>[]
-      ).concat(newLinks) as unknown as Record<string, unknown>[],
+        (event.payload.event.newLinks ?? []) as unknown as Record<
+          string,
+          unknown
+        >[]
+      ).concat(newLinks),
     },
   };
 

@@ -6,7 +6,11 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type CreateGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
+import {
+  type CreateGroupBody,
+  type Group,
+  type EditGroupBody,
+} from "@liexp/io/lib/http/Group.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import { defineMcpTool } from "./helpers.js";
@@ -15,7 +19,6 @@ import { createGroup } from "#flows/groups/createGroup.flow.js";
 import { editGroup } from "#flows/groups/editGroup.flow.js";
 
 // Local copy of EditGroupInput (not exported from editGroup.flow.ts)
-import { type EditGroupBody } from "@liexp/io/lib/http/Group.js";
 interface EditGroupInput extends EditGroupBody {
   id: string;
 }
@@ -337,7 +340,10 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       try {
         // input already has Option<T> fields from the MCP schema validation.
         // Cast to EditGroupInput so we can pass it to editGroup.
-        const editInput = { ...input, id: input.id } as unknown as EditGroupInput;
+        const editInput = {
+          ...input,
+          id: input.id,
+        } as unknown as EditGroupInput;
         const te = editGroup(editInput)(ctx);
 
         // editGroup already calls GroupIO.decodeSingle internally and returns

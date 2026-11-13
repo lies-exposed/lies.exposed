@@ -32,18 +32,21 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
                 updatedAt: suggestion.updatedAt,
                 id: suggestion.id,
                 deletedAt: null,
-              } as unknown as Parameters<typeof editEventQuery>[0],
+              },
               {
                 ...body.event,
                 draft: O.fromNullable(body.event.draft),
                 date: O.fromNullable(body.event.date),
-                excerpt: O.fromNullable(body.event.excerpt) as unknown as Parameters<typeof editEventQuery>[1]["excerpt"],
-                body: O.fromNullable(body.event.body) as unknown as Parameters<typeof editEventQuery>[1]["body"],
+                excerpt: O.fromNullable(
+                  body.event.excerpt,
+                ) as unknown as Parameters<typeof editEventQuery>[1]["excerpt"],
+                body: O.fromNullable(body.event.body) as unknown as Parameters<
+                  typeof editEventQuery
+                >[1]["body"],
                 payload: {
                   ...body.event.payload,
                   // location: O.fromNullable((body.event.payload as any).location),
                   // endDate: O.fromNullable((body.event.payload as any).endDate),
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 } as unknown as Parameters<typeof editEventQuery>[1]["payload"],
                 media: O.fromNullable(body.event.media),
                 links: O.fromNullable(body.event.links),

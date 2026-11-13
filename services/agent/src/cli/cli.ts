@@ -30,7 +30,7 @@ const formatError = (error: unknown): string => {
   if (error instanceof IOError) {
     const { details } = error;
     if (details.kind === "DecodingError") {
-      const trees = (details.errors as unknown[])
+      const trees = details.errors
         .map((e) => {
           if (e instanceof Error) {
             return e.message;
