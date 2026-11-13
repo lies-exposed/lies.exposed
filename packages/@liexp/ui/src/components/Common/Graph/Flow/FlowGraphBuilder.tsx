@@ -162,8 +162,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
       if (pane) {
         const { top, left, right, bottom } = contextMenuPositioner(event, pane);
         setMenu({
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          id: undefined as any,
+          id: undefined as string | undefined,
           top,
           left,
           right,
