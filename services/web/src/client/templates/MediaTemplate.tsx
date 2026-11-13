@@ -27,7 +27,7 @@ const MediaTemplate: React.FC<{ mediaId: UUID }> = ({ mediaId }) => {
             />
             <MediaTemplateUI
               media={m}
-              tab={parseInt(tab, 10)}
+              tab={parseInt(String(tab), 10)}
               onTabChange={(t) => {
                 navigateToResource.media({ id: m.id }, { tab: t });
               }}

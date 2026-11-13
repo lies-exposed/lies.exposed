@@ -546,7 +546,8 @@ export const routes: ServerRoute[] = [
     path: "/events",
     route: () => <EventsPage />,
     queries: (Q, conf) => async (params, query: any) => {
-      const q = hashToQuery(query.hash);
+      const q: Record<string, string | string[] | number | boolean | null | undefined> =
+        hashToQuery(query.hash);
 
       q.hash = query.hash;
       q.startDate = query.startDate;
@@ -568,9 +569,9 @@ export const routes: ServerRoute[] = [
             {
               ...q,
               hash: undefined,
-              _start: 0,
-              _end: 20,
-            },
+              _start: String(0),
+              _end: String(20),
+            } as Record<string, string | string[] | number | boolean | null | undefined>,
             false,
           ),
           queryFn: Q.Event.Custom.SearchEvents.fetch,
@@ -579,8 +580,8 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Actor.list.getKey(
             undefined,
             {
-              ids: q.actors,
-              _end: q.actors.length.toString(),
+              ids: q.actors as unknown as (string & Brand<"UUID">)[] | undefined,
+              _end: ((q.actors as unknown as unknown[])?.length ?? 0).toString(),
             },
             // true,
           ),
@@ -590,8 +591,8 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Group.list.getKey(
             undefined,
             {
-              ids: q.groups,
-              _end: q.groups.length.toString(),
+              ids: q.groups as unknown as (string & Brand<"UUID">)[] | undefined,
+              _end: ((q.groups as unknown as unknown[])?.length ?? 0).toString(),
             },
             // true,
           ),
@@ -601,8 +602,8 @@ export const routes: ServerRoute[] = [
           queryKey: Q.GroupMember.list.getKey(
             undefined,
             {
-              ids: q.groupsMembers,
-              _end: q.groupsMembers.length.toString(),
+              ids: q.groupsMembers as unknown as (string & Brand<"UUID">)[] | undefined,
+              _end: ((q.groupsMembers as unknown as unknown[])?.length ?? 0).toString(),
             },
             // true,
           ),
@@ -612,10 +613,10 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Keyword.list.getKey(
             undefined,
             {
-              ids: q.keywords,
+              ids: q.keywords as unknown as (string & Brand<"UUID">)[] | undefined,
               _sort: "updatedAt",
-              _order: "DESC",
-              _end: q.keywords.length.toString(),
+              _order: "DESC" as const,
+              _end: ((q.keywords as unknown as unknown[])?.length ?? 0).toString(),
             },
             // true,
           ),

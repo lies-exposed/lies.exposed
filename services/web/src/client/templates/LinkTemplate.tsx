@@ -27,7 +27,7 @@ const LinkTemplate: React.FC<{ linkId: UUID }> = ({ linkId }) => {
             />
             <LinkTemplateUI
               link={link}
-              tab={parseInt(tab, 10)}
+              tab={parseInt(String(tab), 10)}
               onTabChange={(t) => {
                 navigateToResource.links({ id: link.id }, { tab: t });
               }}

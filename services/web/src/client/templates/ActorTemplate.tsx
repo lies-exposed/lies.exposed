@@ -32,7 +32,7 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
               query={{
                 ...query,
                 eventType:
-                  query.eventType ??
+                  (query.eventType as EventType[] | undefined) ??
                   EventType.members.map((t) => t.literals[0]),
               }}
               onQueryChange={(q) => {

@@ -35,24 +35,37 @@ export const stringifyQuery = (
   search: Record<string, string | string[]>,
 ): string => qs.stringify(search, { arrayFormat: "bracket" });
 
-export function useRouteQuery(def?: Record<string, unknown>): Record<string, unknown> {
+export function useRouteQuery(
+  def?: Record<string, string | string[] | number | boolean | null | undefined>,
+): Record<string, string | string[] | number | boolean | null | undefined> {
   const { search } = useLocation();
 
-  return React.useMemo(() => ({ ...def, ...parseQuery(search) }), [search]);
+  return React.useMemo(
+    () =>
+      ({ ...def, ...parseQuery(search) }) as Record<
+        string,
+        string | string[] | number | boolean | null | undefined
+      >,
+    [search],
+  );
 }
 
 export const queryToHash = (q: Record<string, string | string[]>): string => {
   return toBase64(toBase64(JSON.stringify(q)));
 };
 
-export const hashToQuery = (h: string | undefined): Record<string, unknown> => {
+export const hashToQuery = (
+  h: string | undefined,
+): Record<string, string | string[] | number | boolean | null | undefined> => {
   return pipe(
     h !== undefined && h !== "" ? fromBase64(fromBase64(h)) : "{}",
     JSON.parse,
   );
 };
 
-export function useQueryFromHash(hash: string): Record<string, unknown> {
+export function useQueryFromHash(
+  hash: string,
+): Record<string, string | string[] | number | boolean | null | undefined> {
   return React.useMemo(() => hashToQuery(hash), [hash]);
 }
 

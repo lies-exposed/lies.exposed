@@ -77,7 +77,12 @@ const EventsPage: React.FC<EventsPageProps> = () => {
           navigateTo.events(
             {},
             {
-              hash: queryToHash({ ...params, ...update }),
+              hash: queryToHash({
+                ...params,
+                ...update,
+                tab: String(tab),
+                slide: slide ? "1" : "0",
+              } as Record<string, string | string[]>),
               tab,
               slide: slide ? 1 : 0,
             },
