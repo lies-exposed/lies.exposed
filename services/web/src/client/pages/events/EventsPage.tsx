@@ -28,11 +28,11 @@ const useEventsPageQuery = (): GetSearchEventsQueryInput & {
 
   const rawHash = query.hash;
   const hashQuery = useQueryFromHash(
-    typeof rawHash === 'string' ? rawHash : rawHash?.[0] ?? '',
+    typeof rawHash === "string" ? rawHash : (rawHash?.[0] ?? ""),
   );
   const rawTab = query.tab;
   const tab =
-    typeof rawTab === 'string'
+    typeof rawTab === "string"
       ? parseInt(rawTab, 10)
       : rawTab != null
         ? parseInt(String(rawTab[0]), 10)

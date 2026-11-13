@@ -1,18 +1,21 @@
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { EventType } from "@liexp/io/lib/http/Events/index.js";
-import { KeywordTemplate } from "@liexp/ui/lib/templates/KeywordTemplate.js";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
+import { KeywordTemplate } from "@liexp/ui/lib/templates/KeywordTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils.js";
 
 const KeywordPage: React.FC<{ keywordId: UUID }> = ({ keywordId }) => {
-  const { tab: _tab = "0", ...query } = useRouteQuery() as Record<string, string | string[]>;
+  const { tab: _tab = "0", ...query } = useRouteQuery() as Record<
+    string,
+    string | string[]
+  >;
   const navigateTo = useNavigateToResource();
 
   const tab = React.useMemo(
     () =>
-      typeof _tab === 'string'
+      typeof _tab === "string"
         ? parseInt(_tab, 10)
         : _tab != null
           ? parseInt(String(_tab[0]), 10)
@@ -39,8 +42,7 @@ const KeywordPage: React.FC<{ keywordId: UUID }> = ({ keywordId }) => {
           startDate: query.startDate ?? undefined,
           endDate: query.endDate ?? undefined,
           eventType:
-            query.eventType ??
-            EventType.members.map((t) => t.literals[0]),
+            query.eventType ?? EventType.members.map((t) => t.literals[0]),
           q: query.q ?? undefined,
           hash: undefined,
         } as unknown as SearchEventsQueryInputNoPagination

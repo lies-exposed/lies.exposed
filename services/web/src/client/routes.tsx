@@ -570,7 +570,9 @@ export const routes: ServerRoute[] = [
               hash: undefined,
               _start: 0,
               _end: 20,
-            } as unknown as Parameters<typeof Q.Event.Custom.SearchEvents.getKey>[1],
+            } as unknown as Parameters<
+              typeof Q.Event.Custom.SearchEvents.getKey
+            >[1],
             false,
           ),
           queryFn: Q.Event.Custom.SearchEvents.fetch,
@@ -580,7 +582,9 @@ export const routes: ServerRoute[] = [
             undefined,
             {
               ids: q.actors,
-              _end: (q as Record<string, unknown[]>)['actors']?.length.toString() ?? '0',
+              _end:
+                (q as Record<string, unknown[]>)["actors"]?.length.toString() ??
+                "0",
             },
             // true,
           ),
@@ -591,7 +595,9 @@ export const routes: ServerRoute[] = [
             undefined,
             {
               ids: q.groups,
-              _end: (q as Record<string, unknown[]>)['groups']?.length.toString() ?? '0',
+              _end:
+                (q as Record<string, unknown[]>)["groups"]?.length.toString() ??
+                "0",
             },
             // true,
           ),
@@ -602,7 +608,10 @@ export const routes: ServerRoute[] = [
             undefined,
             {
               ids: q.groupsMembers,
-              _end: (q as Record<string, unknown[]>)['groupsMembers']?.length.toString() ?? '0',
+              _end:
+                (q as Record<string, unknown[]>)[
+                  "groupsMembers"
+                ]?.length.toString() ?? "0",
             },
             // true,
           ),
@@ -615,7 +624,11 @@ export const routes: ServerRoute[] = [
               ids: q.keywords,
               _sort: "updatedAt",
               _order: "DESC",
-              _end: (q as Record<string, unknown[]>)['keywords']?.length.toString() ?? '0',
+              _end:
+                // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
+                (q as Record<string, unknown[]>)[
+                  "keywords"
+                ]?.length.toString() ?? "0",
             },
             // true,
           ),

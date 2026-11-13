@@ -1,17 +1,20 @@
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { EventType } from "@liexp/io/lib/http/Events/index.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
-import { GroupTemplate } from "@liexp/ui/lib/templates/GroupTemplate.js";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
+import { GroupTemplate } from "@liexp/ui/lib/templates/GroupTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils.js";
 
 const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
   const navigateTo = useNavigateToResource();
-  const { tab: _tab = "0", ...query } = useRouteQuery() as Record<string, string | string[]>;
+  const { tab: _tab = "0", ...query } = useRouteQuery() as Record<
+    string,
+    string | string[]
+  >;
   const tab =
-    typeof _tab === 'string'
+    typeof _tab === "string"
       ? parseInt(_tab, 10)
       : _tab != null
         ? parseInt(String(_tab[0]), 10)

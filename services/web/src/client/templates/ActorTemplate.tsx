@@ -3,8 +3,8 @@ import { EventType } from "@liexp/io/lib/http/Events/index.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { Box } from "@liexp/ui/lib/components/mui/index.js";
-import { ActorTemplate } from "@liexp/ui/lib/templates/ActorTemplate.js";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
+import { ActorTemplate } from "@liexp/ui/lib/templates/ActorTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils.js";
@@ -12,9 +12,12 @@ import { useNavigateToResource } from "../utils/location.utils.js";
 const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
   // const params = useParams();
   const navigateToResource = useNavigateToResource();
-  const { tab: _tab = "0", ...query } = useRouteQuery() as Record<string, string | string[]>;
+  const { tab: _tab = "0", ...query } = useRouteQuery() as Record<
+    string,
+    string | string[]
+  >;
   const tab =
-    typeof _tab === 'string'
+    typeof _tab === "string"
       ? parseInt(_tab, 10)
       : _tab != null
         ? parseInt(String(_tab[0]), 10)

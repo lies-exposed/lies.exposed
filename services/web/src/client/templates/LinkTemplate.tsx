@@ -13,7 +13,7 @@ const LinkTemplate: React.FC<{ linkId: UUID }> = ({ linkId }) => {
   const { tab = "0" } = useRouteQuery() as Record<string, string | string[]>;
 
   const tabParsed =
-    typeof tab === 'string'
+    typeof tab === "string"
       ? parseInt(tab, 10)
       : tab != null
         ? parseInt(String(tab[0]), 10)
