@@ -33,13 +33,11 @@ export const EditScientificStudyBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: SCIENTIFIC_STUDY,
   payload: Schema.Struct({
-    // keys are optional: the admin sends the stored payload, which omits
-    // `publisher` (and `image`) when unset
-    title: Schema.optionalWith(Schema.String, { as: "Option" }),
-    url: Schema.optionalWith(UUID, { as: "Option" }),
-    image: Schema.optionalWith(Schema.NullOr(UUID), { as: "Option" }),
-    authors: Schema.optionalWith(Schema.Array(UUID), { as: "Option" }),
-    publisher: Schema.optionalWith(Schema.NullOr(UUID), { as: "Option" }),
+    title: Schema.OptionFromUndefinedOr(Schema.String),
+    url: Schema.OptionFromUndefinedOr(UUID),
+    image: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)),
+    authors: Schema.OptionFromUndefinedOr(Schema.Array(UUID)),
+    publisher: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)),
   }),
 }).annotations({
   title: "EditScientificStudyBody",
