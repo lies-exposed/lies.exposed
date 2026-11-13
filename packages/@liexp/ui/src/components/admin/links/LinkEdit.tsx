@@ -76,7 +76,7 @@ const SetMeAsAuthorButton: React.FC = () => {
         id: record.id,
         data: {
           ...record,
-          image: (record.image as any)?.id,
+          image: (record.image as Record<string, unknown>)?.id,
           creator: identity.id,
         },
         previousData: record,

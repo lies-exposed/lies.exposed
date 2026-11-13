@@ -44,8 +44,7 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
             return getItem ? getItem(data, index) : data[index];
           },
 
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          CellRenderer: React.forwardRef<any, CellRendererProps>(
+          CellRenderer: React.forwardRef<unknown, CellRendererProps>(
             (
               {
                 item,
@@ -60,7 +59,7 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
             ) => {
               // console.log("row render", columnWidth, index, style);
               const link = {
-                ...(item as Link.Link),
+                ...(item as unknown as Link.Link),
                 selected: true,
               };
 

@@ -17,6 +17,12 @@ import * as React from "react";
 import NetworkLink, { type NetworkLinkProps } from "./NetworkLink.js";
 import { NetworkNode } from "./NetworkNode.js";
 
+// Internal node props from @visx/network Graph component (opaque type)
+interface NetworkNodeComponentProps {
+  datum: NetworkNodeDatum;
+  key: string;
+}
+
 const backgroundColor = "transparent";
 
 function numTicksForWidth(width: number): number {
@@ -53,8 +59,13 @@ export type NetworkProps<
 const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
   props: NetworkProps<L, N>,
 ): React.ReactElement => {
-  const handleMouseOver = (event: any, datum: any): void => {
-    const coords = localPoint(event.target.ownerSVGElement, event);
+  const handleMouseOver = (
+    event: React.MouseEvent<SVGElement>,
+    datum: N,
+  ): void => {
+    const svgEl = event.currentTarget as SVGElement;
+    if (svgEl.ownerSVGElement === null) return;
+    const coords = localPoint(svgEl.ownerSVGElement, event);
     if (coords !== null) {
       if (
         props.showTooltip !== undefined &&
@@ -110,7 +121,7 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
             onDoubleClick={(event) => {
               const point = localPoint(event);
               if (point !== null) {
-                const [first, last] = A.splitAt(1)(graph.nodes as any[]);
+                const [first, last] = A.splitAt(1)(graph.nodes as N[]);
                 const nearestPoint = last.reduce((acc, n) => {
                   if (Math.abs(acc.x - point.x) < Math.abs(n.x - point.x)) {
                     return acc;
@@ -157,7 +168,7 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
             linkComponent={(props) => NetworkLink(props.link)}
             nodeComponent={(props) =>
               NetworkNode({
-                ...(props as any),
+                ...(props as unknown as NetworkNodeComponentProps),
                 onMouseOver: handleMouseOver,
                 onMouseOut: hideTooltip,
                 onClick: onNodeClick,

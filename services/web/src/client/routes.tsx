@@ -546,7 +546,10 @@ export const routes: ServerRoute[] = [
     path: "/events",
     route: () => <EventsPage />,
     queries: (Q, conf) => async (params, query: any) => {
-      const q = hashToQuery(query.hash) as Record<string, string | string[]>;
+      const q: Record<
+        string,
+        string | string[] | number | boolean | null | undefined
+      > = hashToQuery(query.hash);
 
       q.hash = query.hash;
       q.startDate = query.startDate;
@@ -568,11 +571,12 @@ export const routes: ServerRoute[] = [
             {
               ...q,
               hash: undefined,
-              _start: 0,
-              _end: 20,
-            } as unknown as Parameters<
-              typeof Q.Event.Custom.SearchEvents.getKey
-            >[1],
+              _start: String(0),
+              _end: String(20),
+            } as Record<
+              string,
+              string | string[] | number | boolean | null | undefined
+            >,
             false,
           ),
           queryFn: Q.Event.Custom.SearchEvents.fetch,
@@ -581,11 +585,10 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Actor.list.getKey(
             undefined,
             {
-              ids: q.actors,
-              _end:
-                // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
-                (q as Record<string, unknown[]>)["actors"]?.length.toString() ??
-                "0",
+              ids: q.actors as unknown as unknown[] | undefined,
+              _end: (
+                (q.actors as unknown as unknown[])?.length ?? 0
+              ).toString(),
             },
             // true,
           ),
@@ -595,11 +598,10 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Group.list.getKey(
             undefined,
             {
-              ids: q.groups,
-              _end:
-                // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
-                (q as Record<string, unknown[]>)["groups"]?.length.toString() ??
-                "0",
+              ids: q.groups as unknown as unknown[] | undefined,
+              _end: (
+                (q.groups as unknown as unknown[])?.length ?? 0
+              ).toString(),
             },
             // true,
           ),
@@ -609,12 +611,10 @@ export const routes: ServerRoute[] = [
           queryKey: Q.GroupMember.list.getKey(
             undefined,
             {
-              ids: q.groupsMembers,
-              _end:
-                (q as Record<string, unknown[]>)[
-                  // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
-                  "groupsMembers"
-                ]?.length.toString() ?? "0",
+              ids: q.groupsMembers as unknown as unknown[] | undefined,
+              _end: (
+                (q.groupsMembers as unknown as unknown[])?.length ?? 0
+              ).toString(),
             },
             // true,
           ),
@@ -624,14 +624,12 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Keyword.list.getKey(
             undefined,
             {
-              ids: q.keywords,
+              ids: q.keywords as unknown as unknown[] | undefined,
               _sort: "updatedAt",
-              _order: "DESC",
-              _end:
-                (q as Record<string, unknown[]>)[
-                  // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
-                  "keywords"
-                ]?.length.toString() ?? "0",
+              _order: "DESC" as const,
+              _end: (
+                (q.keywords as unknown as unknown[])?.length ?? 0
+              ).toString(),
             },
             // true,
           ),

@@ -1,4 +1,5 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
+import type { InlineContent } from "@blocknote/react";
 import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import {
   DEFAULT_EVENT_INLINE_ID,
@@ -43,8 +44,7 @@ const EventInlineContentComponent: React.FC<{
   const removeItem = React.useCallback(() => {
     const pos = editor.getTextCursorPosition();
     // BlockNote's internal block content type is opaque — BlockNote's public API doesn't expose it.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const blockContent = pos.block.content as any[];
+    const blockContent = pos.block.content as InlineContent[];
     const updatedBlockContent = blockContent.flatMap((t) =>
       t.type === "event-inline" && t.props.id === id ? [] : [t],
     );
@@ -55,8 +55,7 @@ const EventInlineContentComponent: React.FC<{
     (newId: string, newTitle: string) => {
       const currentBlock =
         editor.document.find((block) =>
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          ((block.content as any[]) ?? []).find(
+          ((block.content as InlineContent[]) ?? []).find(
             (t) =>
               t.type === "event-inline" &&
               (t.props.id === _id || t.props.id === id),
@@ -64,8 +63,9 @@ const EventInlineContentComponent: React.FC<{
         ) ?? editor.getTextCursorPosition().block;
 
       if (currentBlock) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const updatedBlockContent = (currentBlock.content as any[]).map((t) =>
+        const updatedBlockContent = (
+          currentBlock.content as InlineContent[]
+        ).map((t) =>
           t.type === "event-inline" && (t.props.id === _id || t.props.id === id)
             ? {
                 type: "event-inline" as const,

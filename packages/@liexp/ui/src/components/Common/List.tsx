@@ -7,7 +7,7 @@ import {
 export interface ListItemProps<A> {
   item: A;
   index?: number;
-  onClick?: (a: A, e: any) => void;
+  onClick?: (a: A, e: React.MouseEvent<Element>) => void;
 }
 
 export type ListProps<
@@ -20,13 +20,12 @@ export type ListProps<
     getKey: (a: A) => string;
     ListItem: React.FC<ListItemProps<A>>;
     filter: (a: A) => boolean;
-    onItemClick?: (a: A, e: any) => void;
+    onItemClick?: (a: A, e: React.MouseEvent<Element>) => void;
     style?: React.CSSProperties;
   }
 >;
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const List = <A extends any, D extends React.ElementType<any> = "ul">({
+export const List = <A, D extends React.ElementType<object> = "ul">({
   className,
   ListItem,
   data,

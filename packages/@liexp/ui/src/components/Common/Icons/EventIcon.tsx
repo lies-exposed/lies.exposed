@@ -26,7 +26,10 @@ const Root = styled("text")(() => ({
  * Exported for use in other components (e.g., graphs, visualizations)
  */
 export const getEventTypeColor = (theme: Theme, eventType: string): string => {
-  const eventTypePalette = (theme.palette as any).eventType;
+  const palette = theme.palette as unknown as Record<string, unknown>;
+  const eventTypePalette =
+    (palette.eventType as Record<string, string | undefined>) ??
+    (palette.eventType as Record<string, string> | undefined);
 
   // Fallback to legacy EventTypeColor if eventTypePalette is not available
   if (!eventTypePalette) {
@@ -46,10 +49,10 @@ export const getEventTypeColor = (theme: Theme, eventType: string): string => {
     [EVENT_TYPES.TRANSACTION]: eventTypePalette.transaction,
     [EVENT_TYPES.QUOTE]: eventTypePalette.quote,
   };
-  return (
+  const color =
     colorMap[eventType as keyof typeof colorMap] ??
-    colorMap[EVENT_TYPES.UNCATEGORIZED]
-  );
+    colorMap[EVENT_TYPES.UNCATEGORIZED];
+  return color ?? EventTypeColor.Uncategorized;
 };
 
 // Legacy export for backwards compatibility - maps to theme colors

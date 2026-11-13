@@ -265,7 +265,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
 };
 
 export const EventSuggestionCreate: React.FC<
-  Omit<CreateProps, "children"> & { event: any }
+  Omit<CreateProps, "children"> & { event: Record<string, unknown> }
 > = ({ event, ...props }) => {
   const record = useRecordContext({
     record: {
@@ -301,7 +301,13 @@ export const EventSuggestionCreate: React.FC<
           </Box>
         ) : undefined
       }
-      transform={async ({ id, ...r }: any) => {
+      transform={async ({
+        id,
+        ...r
+      }: {
+        id: string;
+        payload: Record<string, unknown>;
+      }) => {
         const updatedEvent = await transformEvent(dataProvider)(
           id,
           r.payload.event,
@@ -312,7 +318,7 @@ export const EventSuggestionCreate: React.FC<
     >
       <TabbedForm
         syncWithLocation={false}
-        onSubmit={(e: any) => {
+        onSubmit={(e: Record<string, unknown>) => {
           void save?.(e);
         }}
       >

@@ -34,8 +34,8 @@ export interface BarStackHorizontalGraphProps<D, K extends StackKey> {
   yScale: ScaleBand<string>;
   colorScale: ScaleOrdinal<K, string>;
   getY: (d: D) => string;
-  axisBottom?: AxisProps<any>;
-  axisLeft?: AxisProps<any>;
+  axisBottom?: AxisProps<unknown>;
+  axisLeft?: AxisProps<unknown>;
   tooltipRenderer: (d: TooltipData<D, K>) => React.ReactNode;
 }
 
@@ -108,7 +108,7 @@ export const BarStackHorizontalGraph = <D, K extends StackKey>({
         <Group top={margin.top} left={margin.left}>
           <BarStackHorizontal<D, K>
             data={data}
-            keys={keys as any}
+            keys={keys}
             y={getY}
             xScale={xScale}
             yScale={yScale}

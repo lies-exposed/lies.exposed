@@ -68,7 +68,7 @@ const TransferButton: React.FC<FieldProps & { target?: "thumbnail" }> = ({
     <Button
       variant="contained"
       onClick={() => {
-        const params: any = {};
+        const params: Record<string, unknown> = {};
         if (target === "thumbnail") {
           params.transferThumbnail = true;
         } else {
@@ -178,10 +178,10 @@ const MediaEditToolbar: React.FC = () => {
   );
 };
 
-const MediaEditFormContent: React.FC<{ isAdmin: boolean; bar: any }> = ({
-  isAdmin,
-  bar,
-}) => {
+const MediaEditFormContent: React.FC<{
+  isAdmin: boolean;
+  bar: React.ReactNode;
+}> = ({ isAdmin, bar }) => {
   const record = useRecordContext();
 
   return (

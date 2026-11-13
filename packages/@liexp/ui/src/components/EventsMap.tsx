@@ -2,7 +2,9 @@ import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { Events } from "@liexp/io/lib/http/index.js";
 import { ParentSize } from "@visx/responsive";
 import { Schema } from "effect";
+import type { Option } from "fp-ts/lib/Option.js";
 import Feature from "ol/Feature.js";
+import type { Geometry } from "ol/geom/Geometry.js";
 import * as React from "react";
 import { geoJSONFormat } from "../utils/map.utils.js";
 import Map from "./Map.js";
@@ -12,7 +14,7 @@ interface EventsMapComponentProps {
   events: readonly Events.Event[];
   center?: [number, number];
   zoom?: number;
-  onMapClick: (features: any[]) => void;
+  onMapClick: (features: Feature<Geometry>[]) => void;
 }
 
 const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
@@ -76,7 +78,9 @@ const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
               features={[...features, ...deathFeatures]}
               center={center}
               zoom={zoom}
-              onMapClick={onMapClick}
+              onMapClick={
+                onMapClick as unknown as (features: unknown[]) => void
+              }
               interactions={{
                 doubleClickZoom: true,
                 dragPan: true,
@@ -89,8 +93,15 @@ const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
   );
 };
 
+interface FilterCriteria {
+  title?: string;
+  startDate?: Option<Date>;
+  endDate?: Option<Date>;
+  [key: string]: unknown;
+}
+
 interface EventsMapProps extends Omit<EventsMapComponentProps, "events"> {
-  filter: any;
+  filter: FilterCriteria;
 }
 
 const EventsMap: React.FC<EventsMapProps> = (props) => {
@@ -104,10 +115,9 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
         events: Q.Event.list.useQuery(
           undefined,
           {
-            _end: 100,
-            _field: "startDate",
-            _order: "DESC",
-            title: pipe(title ?? fp.O.none, fp.O.toUndefined),
+            _end: "100",
+            _order: "DESC" as const,
+            ...(title !== undefined ? { title } : {}),
             startDate:
               startDate?._tag === "Some"
                 ? startDate.value.toISOString()

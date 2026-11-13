@@ -56,7 +56,7 @@ const EventSlimCard: React.FC<EventSlimCardProps> = ({
   });
 
   const date =
-    typeof event.date === "string" ? parseISO(event.date as any) : event.date;
+    typeof event.date === "string" ? parseISO(event.date) : event.date;
 
   const handleClick = onEventClick
     ? () => {

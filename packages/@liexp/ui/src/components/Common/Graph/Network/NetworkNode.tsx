@@ -40,7 +40,7 @@ export const NetworkNode = <D extends NetworkNodeDatum>({
 
   return (
     <Group
-      {...(groupProps as any)}
+      {...(groupProps as React.SVGProps<SVGGElement>)}
       onClick={() => {
         onClick(node);
       }}

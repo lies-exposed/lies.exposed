@@ -29,7 +29,7 @@ const ErrorBoxDetails: React.FC<{ error: APIError | CoreError }> = ({
     if (isAPIError) {
       return (
         <div>
-          {error.details?.map((detail: any, i) => (
+          {error.details?.map((detail: string, i: number) => (
             <code key={i}>{detail}</code>
           ))}
         </div>

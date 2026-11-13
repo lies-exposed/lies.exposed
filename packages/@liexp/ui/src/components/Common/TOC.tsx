@@ -24,7 +24,7 @@ interface TOCProps {
   lowestHeadingLevel?: number;
   className?: string;
   type?: "default" | "raw";
-  customMatchers?: any;
+  customMatchers?: Record<string, unknown>;
 }
 export const TOC: React.FC<TOCProps> = (props) => {
   return <StyledReactTOC className={classes.root} {...props} />;

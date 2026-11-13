@@ -22,8 +22,7 @@ export interface PieProps<S> {
   animate?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const PieChartGraph = <S extends any>({
+export const PieChartGraph = <S,>({
   width,
   height,
   slices,
@@ -110,13 +109,13 @@ export const PieChartGraph = <S extends any>({
 interface AnimatedStyles {
   startAngle: number;
   endAngle: number;
-  opacity: any;
+  opacity: number;
   [index: string]: unknown;
 }
 
 const fromLeaveTransition = ({
   endAngle,
-}: PieArcDatum<any>): AnimatedStyles => ({
+}: PieArcDatum<unknown>): AnimatedStyles => ({
   // enter from 360° if end angle is > 180°
   startAngle: endAngle > Math.PI ? 2 * Math.PI : 0,
   endAngle: endAngle > Math.PI ? 2 * Math.PI : 0,
@@ -125,7 +124,7 @@ const fromLeaveTransition = ({
 const enterUpdateTransition = ({
   startAngle,
   endAngle,
-}: PieArcDatum<any>): AnimatedStyles => ({
+}: PieArcDatum<unknown>): AnimatedStyles => ({
   startAngle,
   endAngle,
   opacity: 1,
@@ -179,7 +178,9 @@ function AnimatedPie<Datum>({
               }}
             />
             {hasSpaceForLabel && (
-              <animated.g style={{ opacity: (item as any).opacity }}>
+              <animated.g
+                style={{ opacity: (values as AnimatedStyles).opacity }}
+              >
                 <text
                   fill="white"
                   x={centroidX}

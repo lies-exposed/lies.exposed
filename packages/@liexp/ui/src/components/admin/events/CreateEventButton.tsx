@@ -39,7 +39,7 @@ export const CreateEventButton: React.FC<CreateEventButtonProps> = ({
         size="small"
         value={type}
         onChange={(e) => {
-          setType(e.target.value as any);
+          setType(e.target.value);
         }}
         style={{
           marginRight: 20,

@@ -145,11 +145,11 @@ const Tree: React.FC<TreeProps> = ({ width, height, margin, events }) => {
                   />
                 );
               })}
-              {(
-                tree.descendants() as any as HierarchyPointNode<TreeEvent>[]
-              ).map((node: HierarchyPointNode<TreeEvent>, i) => {
-                return <Node key={`node-${i.toString()}`} node={node} />;
-              })}
+              {(tree.descendants() as HierarchyPointNode<TreeEvent>[]).map(
+                (node: HierarchyPointNode<TreeEvent>, i) => {
+                  return <Node key={`node-${i.toString()}`} node={node} />;
+                },
+              )}
             </Group>
           );
         }}

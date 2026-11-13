@@ -28,7 +28,7 @@ export const ImportKeywordButton: React.FC<{
         .then((results) => {
           const media = results.data
             .reduce((acc, c) => acc.concat(c.data), [])
-            .map((r: any) => r.id);
+            .map((r: Keyword.Keyword) => r.id);
           const currentSource = get(event, source) ?? [];
           const data = set(event, source, currentSource.concat(media));
           return apiProvider

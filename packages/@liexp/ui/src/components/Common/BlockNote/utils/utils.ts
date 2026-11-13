@@ -27,6 +27,7 @@ export const toBNDocument = async (
 
   if (typeof v === "string") {
     const result = editor.tryParseHTMLToBlocks(v);
+
     return result as unknown as BlockNoteDocument;
   } else {
     const initialValue = toInitialValue(v);

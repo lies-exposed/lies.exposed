@@ -87,7 +87,7 @@ export const MediaListItem: React.ForwardRefRenderFunction<
           itemStyle={itemStyle}
           onClick={
             onClick
-              ? (e: any) => {
+              ? (e: React.MouseEvent<Element>) => {
                   onClick?.(item, e);
                 }
               : undefined

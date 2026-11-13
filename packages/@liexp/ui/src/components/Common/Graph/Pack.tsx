@@ -18,7 +18,7 @@ interface PackProps {
   height: number;
   pack: HierarchyNode<PackDatum>;
   variant: "text" | "circle";
-  onClick?: (d: any) => void;
+  onClick?: (d: PackDatum) => void;
 }
 
 const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
@@ -36,8 +36,8 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
 }) => {
   const handleMouseOver =
     (datum: PackDatum) =>
-    (event: any): void => {
-      const coords = localPoint(event.target.ownerSVGElement, event);
+    (event: React.MouseEvent<SVGSVGElement, MouseEvent>): void => {
+      const coords = localPoint(event.target as SVGSVGElement, event);
       if (coords !== null) {
         if (showTooltip !== undefined) {
           showTooltip({
@@ -78,7 +78,11 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
                     cy={circle.y}
                     fill={`#${circle.data.color}`}
                     onMouseLeave={hideTooltip}
-                    onMouseOver={handleMouseOver(circle.data)}
+                    onMouseOver={
+                      handleMouseOver(
+                        circle.data,
+                      ) as unknown as React.MouseEventHandler<SVGCircleElement>
+                    }
                     style={style}
                   />
 

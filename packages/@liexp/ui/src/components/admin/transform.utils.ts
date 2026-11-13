@@ -18,39 +18,64 @@ import {
   type RawMedia,
 } from "../../client/admin/MediaAPI.js";
 
-export const transformLinks = (links: any[]): any[] => {
+// ─── types ──────────────────────────────────────────────────────────────────
+
+/** Input shape for a link (from admin form) */
+interface LinkInput {
+  fromURL: boolean;
+  url?: string;
+  publishDate?: string;
+  ids?: string[];
+}
+
+/** Input shape for a media item (from admin form) */
+interface MediaInput {
+  fromURL: boolean;
+  location?: { rawFile?: File; location?: string };
+  id?: string;
+}
+
+// ─── transforms ─────────────────────────────────────────────────────────────
+
+export const transformLinks = (
+  links: LinkInput[],
+): (string | { url: string; publishDate: Date })[] => {
   return links.reduce<(string | { url: string; publishDate: Date })[]>(
     (acc, l) => {
-      if (l.fromURL) {
+      if (l.fromURL && l.url) {
         return acc.concat({
           url: l.url,
-          publishDate: l.publishDate ?? new Date(),
+          publishDate: l.publishDate ? new Date(l.publishDate) : new Date(),
         });
       }
-      return acc.concat(l.ids);
+      return acc.concat(l.ids ?? []);
     },
     [],
   );
 };
 
-export const transformMedia = (newMedia: any[]): any[] => {
-  return newMedia.reduce((acc, m) => {
-    if (m.fromURL) {
+export const transformMedia = (
+  newMedia: MediaInput[],
+): (RawMedia | string)[] => {
+  return newMedia.reduce<(RawMedia | string)[]>((acc, m) => {
+    if (m.fromURL && m.location) {
       return acc.concat({
-        ...m,
-        thumbnail: m.location,
-      });
+        ...m.location,
+        thumbnail: m.location.location,
+      } as RawMedia);
     }
 
     if (m.id) {
       return acc.concat(m.id);
     }
 
-    return acc.concat(m);
+    return acc.concat(m as unknown as string);
   }, []);
 };
 
-type TransformEventFn<D = any> = (
+type TransformEventFn<
+  D extends Record<string, unknown> = Record<string, unknown>,
+> = (
   data: D,
   relations: http.Events.EventRelationIds,
 ) => http.Events.CreateEventBody & { id: http.Common.UUID };
@@ -132,7 +157,7 @@ const transformBook: TransformEventFn = (data) => {
 };
 
 const transformByType = (
-  data: any,
+  data: Record<string, unknown>,
   relations: http.Events.EventRelationIds,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   switch (data.type) {
@@ -161,11 +186,11 @@ export const transformEvent =
     const links = (data.links ?? []).concat(newLinks);
 
     const newMedia = transformMedia(data.newMedia ?? []);
-    const media: any[] = (data.media ?? []).concat(newMedia);
+    const media: (RawMedia | string)[] = (data.media ?? []).concat(newMedia);
 
     const { rawMedia, otherMedia } = media.reduce<{
       rawMedia: RawMedia[];
-      otherMedia: any[];
+      otherMedia: (RawMedia | string)[];
     }>(
       (acc, m) => {
         if (m.location?.rawFile !== undefined) {
@@ -191,7 +216,7 @@ export const transformEvent =
           "media",
           id,
           r.location.rawFile,
-          r.location.rawFile.type as MediaType,
+          r.location.rawFile.type as unknown as MediaType,
           options,
         ),
       ),
@@ -200,7 +225,7 @@ export const transformEvent =
         pipe(
           urls,
           A.zip(rawMedia),
-          A.map(([location, media]: [any, any]) => ({
+          A.map(([location, media]: [RawMedia, RawMedia]) => ({
             ...media,
             ...location,
             thumbnail: Schema.is(http.Media.ImageType)(location.type)

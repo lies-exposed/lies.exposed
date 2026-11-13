@@ -22,7 +22,7 @@ const AreasMap: React.FC<AreasMapProps> = (props) => {
     areas,
   } = props;
 
-  const features = areas.map(({ geometry, ...datum }) => {
+  const features = areas.map(({ geometry, ...datum }: Area.Area) => {
     const geom = geoJSONFormat.readGeometry(geometry);
     const feature = new Feature(geom);
     feature.setProperties(datum);

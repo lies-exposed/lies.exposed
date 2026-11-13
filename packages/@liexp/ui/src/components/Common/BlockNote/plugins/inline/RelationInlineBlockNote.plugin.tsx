@@ -1,4 +1,5 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
+import type { InlineContent } from "@blocknote/react";
 import {
   type BNESchemaEditor,
   relationInlineSpec,
@@ -69,8 +70,7 @@ export const RelationInlineContentComponent: React.FC<{
 
   const removeItem = React.useCallback(() => {
     const pos = editor.getTextCursorPosition();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const blockContent = pos.block.content as any[];
+    const blockContent = pos.block.content as InlineContent[];
 
     const updatedBlockContent = blockContent.flatMap((t) => {
       const isRelationType = t.type === "relation";
@@ -187,8 +187,7 @@ export const RelationInlineContentComponent: React.FC<{
       onChange: (a: readonly { id: string }[]) => {
         const currentBlock =
           editor.document.find((tt) =>
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ((tt.content as any[]) ?? []).find((t) => {
+            ((tt.content as InlineContent[]) ?? []).find((t) => {
               return (
                 t.type === "relation" ||
                 (t.type === relation &&
@@ -200,22 +199,22 @@ export const RelationInlineContentComponent: React.FC<{
           ) ?? editor.getTextCursorPosition().block;
 
         if (currentBlock) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const updatedBlockContent = (currentBlock.content as any[]).map(
-            (t) =>
-              t.type === "relation" ||
-              (t.type === relation &&
-                (t.props.id === undefined || t.props.id === "")) ||
-              (t.type === _relation && t.props.id === _id) ||
-              (t.type === relation && t.props.id === id)
-                ? {
-                    type: relation as "actor" | "group" | "keyword" | "area",
-                    props: {
-                      ...relationProps,
-                      id: a[0].id,
-                    },
-                  }
-                : t,
+          const updatedBlockContent = (
+            currentBlock.content as InlineContent[]
+          ).map((t) =>
+            t.type === "relation" ||
+            (t.type === relation &&
+              (t.props.id === undefined || t.props.id === "")) ||
+            (t.type === _relation && t.props.id === _id) ||
+            (t.type === relation && t.props.id === id)
+              ? {
+                  type: relation as "actor" | "group" | "keyword" | "area",
+                  props: {
+                    ...relationProps,
+                    id: a[0].id,
+                  },
+                }
+              : t,
           );
 
           editor.updateBlock(currentBlock, {

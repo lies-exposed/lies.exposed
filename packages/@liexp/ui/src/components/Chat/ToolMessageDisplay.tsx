@@ -14,6 +14,18 @@ import { Box, Chip, Icons, Typography } from "../mui/index.js";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
+/** Shape of a structured tool result (from AI function calling) */
+interface ToolResult {
+  error?: string;
+  total?: number;
+  data?: Record<string, unknown>[];
+  [key: string]: unknown;
+}
+
+/** Type guard: check if value is a ToolResult */
+const isToolResult = (v: unknown): v is ToolResult =>
+  typeof v === "object" && v !== null;
+
 /** Pick the best human-readable label from an unknown record */
 const getPrimaryLabel = (item: Record<string, unknown>): string => {
   for (const key of [
@@ -313,10 +325,8 @@ export const ToolMessageDisplay: React.FC<{
   const [showRaw, setShowRaw] = React.useState(false);
 
   let toolName = "Unknown Tool";
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let toolResult: any = null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let toolParams: any = null;
+  let toolResult: unknown = null;
+  let toolParams: unknown = null;
 
   try {
     const parsedContent = JSON.parse(message.content);
@@ -398,8 +408,8 @@ export const ToolMessageDisplay: React.FC<{
   // Result summary for collapsed view
   const resultSummary = React.useMemo(() => {
     if (isError) return null;
-    if (isList)
-      return `${(toolResult as any).total} result${(toolResult as any).total !== 1 ? "s" : ""}`;
+    if (isList && isToolResult(toolResult))
+      return `${toolResult.total} result${toolResult.total !== 1 ? "s" : ""}`;
     if (typeof toolResult === "object" && toolResult !== null) {
       const primary = getPrimaryLabel(toolResult as Record<string, unknown>);
       return primary || null;
@@ -612,12 +622,13 @@ export const ToolMessageDisplay: React.FC<{
                     overflow: "auto",
                   }}
                 >
+                  {/* eslint-disable-next-line @typescript-eslint/no-base-to-string */}
                   {String(toolResult)}
                 </Box>
-              ) : isList ? (
+              ) : isList && isToolResult(toolResult) ? (
                 <ListResult
-                  total={(toolResult as any).total}
-                  data={(toolResult as any).data}
+                  total={toolResult.total}
+                  data={toolResult.data}
                   showRaw={showRaw}
                   raw={rawResult ?? ""}
                 />
@@ -643,6 +654,7 @@ export const ToolMessageDisplay: React.FC<{
                     borderRadius: "4px",
                   }}
                 >
+                  {/* eslint-disable-next-line @typescript-eslint/no-base-to-string */}
                   {String(toolResult)}
                 </Box>
               )}

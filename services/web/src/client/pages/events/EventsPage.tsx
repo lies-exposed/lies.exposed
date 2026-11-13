@@ -24,31 +24,22 @@ const useEventsPageQuery = (): GetSearchEventsQueryInput & {
   slide?: string;
   hash: string;
 } => {
-  const query = useRouteQuery() as Record<string, string | string[]>;
+  const query = useRouteQuery();
 
-  const rawHash = query.hash;
-  const hashQuery = useQueryFromHash(
-    typeof rawHash === "string" ? rawHash : (rawHash?.[0] ?? ""),
+  const hashQuery = useQueryFromHash(String(query.hash ?? ""));
+  return React.useMemo(
+    () =>
+      ({
+        ...query,
+        ...hashQuery,
+        tab: parseInt(String(query.tab ?? "0"), 10),
+      }) as GetSearchEventsQueryInput & {
+        tab: number;
+        slide?: string;
+        hash: string;
+      },
+    [query],
   );
-  const rawTab = query.tab;
-  const tab =
-    typeof rawTab === "string"
-      ? parseInt(rawTab, 10)
-      : rawTab != null
-        ? parseInt(String(rawTab[0]), 10)
-        : 0;
-
-  return React.useMemo(() => {
-    return {
-      ...query,
-      ...hashQuery,
-      tab,
-    } as GetSearchEventsQueryInput & {
-      tab: number;
-      slide?: string;
-      hash: string;
-    };
-  }, [query, hashQuery, tab]);
 };
 
 type EventsPageProps = Omit<EventsView, "view">;
@@ -92,7 +83,12 @@ const EventsPage: React.FC<EventsPageProps> = () => {
           navigateTo.events(
             {},
             {
-              hash: queryToHash({ ...params, ...update }),
+              hash: queryToHash({
+                ...params,
+                ...update,
+                tab: String(tab),
+                slide: slide ? "1" : "0",
+              } as unknown as Record<string, string | string[]>),
               tab,
               slide: slide ? 1 : 0,
             },

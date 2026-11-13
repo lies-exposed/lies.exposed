@@ -28,8 +28,8 @@ export const SuggestedKeywordEntityRelationsBox: React.FC<
       <Typography variant="subtitle1">Keywords</Typography>
       <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
         {keywords
-          .filter((k: any) => !excludeKeywords?.includes(k.id))
-          .map((entity: any) => {
+          .filter((k) => !excludeKeywords?.includes(k.id))
+          .map((entity) => {
             return (
               <Chip
                 key={entity.id}
@@ -59,8 +59,8 @@ export const SuggestedGroupEntityRelationsBox: React.FC<
       <Typography variant="subtitle1">Groups</Typography>
       <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
         {groups
-          .filter((g: any) => !excludeGroups?.includes(g.id))
-          .map((entity: any) => {
+          .filter((g) => !excludeGroups?.includes(g.id))
+          .map((entity) => {
             return (
               <GroupChip
                 key={entity.id}
@@ -90,8 +90,8 @@ export const SuggestedActorEntityRelationsBox: React.FC<
       <Typography variant="subtitle1">Actors</Typography>
       <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
         {actors
-          .filter((a: any) => !excludeActors?.includes(a.id))
-          .map((entity: any) => {
+          .filter((a) => !excludeActors?.includes(a.id))
+          .map((entity) => {
             return (
               <ActorChip
                 key={entity.id}

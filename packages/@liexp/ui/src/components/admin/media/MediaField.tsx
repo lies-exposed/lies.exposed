@@ -9,7 +9,11 @@ import {
 } from "react-admin";
 import _ReactAudioPlayer from "react-audio-player";
 
-const ReactAudioPlayer: any = _ReactAudioPlayer;
+const ReactAudioPlayer = _ReactAudioPlayer as React.ComponentType<{
+  src: string;
+  controls?: boolean;
+  autoPlay?: boolean;
+}>;
 
 interface MediaFieldProps extends FieldProps {
   type?: string;

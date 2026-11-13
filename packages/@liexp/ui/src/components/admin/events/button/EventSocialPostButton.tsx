@@ -80,7 +80,14 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
                           type: contentTypeFromFileExt(ext),
                         },
                       ]),
-                      fp.O.getOrElse((): any[] => []),
+                      fp.O.getOrElse(
+                        (): {
+                          id: string;
+                          location: string;
+                          thumbnail: string;
+                          type: string;
+                        }[] => [],
+                      ),
                     )
                   : relations.media,
                 title,
@@ -112,7 +119,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
 
             return {
               title,
-              date: formatDate(parseISO(date as any)),
+              date: formatDate(parseISO(date as string)),
               media,
               content,
               url,

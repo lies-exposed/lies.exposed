@@ -21,7 +21,7 @@ export interface EventListItemProps {
   event: Events.SearchEvent.SearchEvent;
   style?: React.CSSProperties;
   condensed?: boolean;
-  onClick: (e: any) => void;
+  onClick: (e: Events.SearchEvent.SearchEvent) => void;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
   onGroupMemberClick: (gm: GroupMember.GroupMember) => void;

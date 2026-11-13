@@ -24,6 +24,7 @@ import {
   required,
   useRedirect,
   type RaRecord,
+  type SubmitFunction,
 } from "react-admin";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
@@ -216,7 +217,7 @@ export const MediaCreateMany: React.FC<Record<string, never>> = (_props) => {
       ...f,
       id: uuid(),
       _type: "fromFile",
-      location: { rawFile: location.src } as any,
+      location: { rawFile: location.src } as unknown as { rawFile: File },
     }));
     const media = await uploadMedia(files, []);
 
@@ -229,7 +230,10 @@ export const MediaCreateMany: React.FC<Record<string, never>> = (_props) => {
 
   return (
     <StyledBox className={classes.root} {...getRootProps({})}>
-      <Form record={getValues()} onSubmit={onSubmit as any}>
+      <Form
+        record={getValues()}
+        onSubmit={onSubmit as unknown as SubmitFunction}
+      >
         <div {...getRootProps({ className: classes.dropArea })}>
           <p>{isDragActive ? "Drop files here" : "Drag and drop files here"}</p>
         </div>

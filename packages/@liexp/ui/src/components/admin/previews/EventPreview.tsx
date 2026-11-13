@@ -16,7 +16,7 @@ import { ValidationErrorsLayout } from "../../ValidationErrorsLayout.js";
 import { ThemeProvider } from "../../mui/index.js";
 
 interface EventPreviewProps {
-  event?: any;
+  event?: Record<string, unknown>;
 }
 
 const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {

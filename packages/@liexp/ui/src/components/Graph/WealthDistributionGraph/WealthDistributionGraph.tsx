@@ -15,9 +15,10 @@ interface WealthDistributionDatum {
   color: string;
 }
 
-export type WealthDistributionGraphProps = any;
+export type WealthDistributionGraphProps = React.PropsWithChildren<object>;
 
-const wealthDistributionData: WealthDistributionDatum[] = data as any;
+const wealthDistributionData: WealthDistributionDatum[] =
+  data as unknown as WealthDistributionDatum[];
 
 // const superRichWealth = 158.3 * 10e12;
 // const superRichTotal = 47 * 10e6;

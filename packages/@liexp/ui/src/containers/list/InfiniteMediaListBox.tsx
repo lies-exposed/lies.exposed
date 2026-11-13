@@ -83,7 +83,7 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
               "width" | "height" | "items" | "getItem" | "CellRenderer"
             >
           >),
-        } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        },
         ...props,
       }}
     />

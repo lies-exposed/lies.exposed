@@ -6,7 +6,9 @@ import { InstagramIcon, TelegramIcon } from "../../Common/Icons/index.js";
 
 export const SocialPostPlatformIcon: React.FC<{
   platform: SocialPlatform;
-  record?: any;
+  record?: {
+    result?: { ig?: Record<string, unknown>; tg?: Record<string, unknown> };
+  };
 }> = ({ platform, record: _record }) => {
   const record = _record ?? useRecordContext();
   if (!record) {

@@ -70,7 +70,10 @@ export function useNavigateToResource(): NavigationHooks {
             const path = (f as { path?: string }).path
               ? `/${(f as { path?: string }).path}`
               : "";
-            n.navigateTo(`/${resourceName}${path}`, search);
+            n.navigateTo(
+              `/${resourceName}${path}`,
+              search as Record<string, string | string[]>,
+            );
             break;
           }
           case "media":
@@ -83,7 +86,10 @@ export function useNavigateToResource(): NavigationHooks {
             const id = (f as { id?: string }).id
               ? `/${(f as { id?: string }).id}`
               : "";
-            n.navigateTo(`/${resourceName}${id}`, search);
+            n.navigateTo(
+              `/${resourceName}${id}`,
+              search as Record<string, string | string[]>,
+            );
             break;
           }
 

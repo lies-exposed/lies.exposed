@@ -5,7 +5,7 @@ import { useConfiguration } from "../context/ConfigurationContext.js";
 interface SEOProps {
   description?: string;
   lang?: string;
-  meta?: any[];
+  meta?: Record<string, unknown>[];
   title: string;
   image?: string;
   urlPath: string;

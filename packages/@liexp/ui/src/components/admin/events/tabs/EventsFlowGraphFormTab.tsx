@@ -33,7 +33,7 @@ export const EventsFlowGraphFormTab: React.FC<{ type: FlowGraphType }> = ({
     return <LoadingIndicator />;
   }
 
-  const id: any = record.id;
+  const id = record.id as string;
 
   const query: Network.GetNetworkQuerySerialized =
     type === "events"

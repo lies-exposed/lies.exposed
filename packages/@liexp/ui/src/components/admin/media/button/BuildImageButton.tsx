@@ -201,7 +201,7 @@ export const BuildImageButton: React.FC<
           },
         },
       })
-      .then((response: any) => {
+      .then((response: { data: unknown }) => {
         const base64 = response.data as string;
         const src = toBase64SourceImg(base64);
         setPreview(src);
