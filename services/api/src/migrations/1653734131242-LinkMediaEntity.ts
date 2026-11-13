@@ -36,7 +36,7 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
           });
 
           await queryRunner.manager.save(LinkEntity, [
-            { ...l, image: media as LinkEntity["image"] },
+            { ...l, image: media as unknown as LinkEntity["image"] },
           ]);
         }),
     );

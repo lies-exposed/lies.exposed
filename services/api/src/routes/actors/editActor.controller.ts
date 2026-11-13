@@ -22,14 +22,8 @@ export const MakeEditActorRoute: Route = (r, ctx) => {
           username: body.username,
           fullName: body.fullName,
           color: body.color,
-          excerpt: pipe(
-            body.excerpt,
-            O.map((e) => e as unknown as string),
-          ),
-          body: pipe(
-            body.body,
-            O.map((b) => b as unknown as string),
-          ),
+          excerpt: body.excerpt,
+          body: body.body,
           bornOn: pipe(
             bornOn,
             O.map((d) => d.toISOString()),

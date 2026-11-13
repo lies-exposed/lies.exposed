@@ -4,6 +4,7 @@ import { ActorRepository } from "@liexp/backend/lib/services/entity-repository.s
 import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Actor, type EditActorBody } from "@liexp/io/lib/http/Actor.js";
+import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import * as O from "effect/Option";
 import { type DeepPartial, Equal } from "typeorm";
@@ -33,16 +34,8 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
       username,
       fullName,
       color,
-      excerpt: pipe(
-        excerpt,
-        O.map((e) => e as unknown as string),
-        O.getOrElse(() => undefined),
-      ),
-      body: pipe(
-        body,
-        O.map((b) => b as unknown as string),
-        O.getOrElse(() => undefined),
-      ),
+      excerpt,
+      body,
     }),
     bornOn: O.getOrUndefined(bornOn),
     diedOn: O.getOrUndefined(diedOn),
@@ -99,11 +92,11 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
           memberIn: [...updateData.memberIn],
           excerpt:
             "excerpt" in updateData
-              ? (updateData.excerpt as string | undefined)
+              ? (updateData.excerpt as BlockNoteDocument | null | undefined)
               : actor.excerpt,
           body:
             "body" in updateData
-              ? (updateData.body as string | undefined)
+              ? (updateData.body as BlockNoteDocument | null | undefined)
               : actor.body,
         },
       ]),
