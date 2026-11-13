@@ -23,7 +23,7 @@ export interface PieProps<S> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const PieChartGraph = <S extends any>({
+export const PieChartGraph = <S,>({
   width,
   height,
   slices,
@@ -110,7 +110,7 @@ export const PieChartGraph = <S extends any>({
 interface AnimatedStyles {
   startAngle: number;
   endAngle: number;
-  opacity: any;
+  opacity: number;
   [index: string]: unknown;
 }
 
@@ -179,7 +179,7 @@ function AnimatedPie<Datum>({
               }}
             />
             {hasSpaceForLabel && (
-              <animated.g style={{ opacity: (item as any).opacity }}>
+              <animated.g style={{ opacity: (values as AnimatedStyles).opacity }}>
                 <text
                   fill="white"
                   x={centroidX}

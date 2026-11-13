@@ -23,10 +23,10 @@ import {
 import { AutocompleteActorInput } from "../../Input/AutocompleteActorInput.js";
 import { AutocompleteGroupInput } from "../../Input/AutocompleteGroupInput.js";
 import { AutocompleteKeywordInput } from "../../Input/AutocompleteKeywordInput.js";
-import { ActorList } from "../../lists/ActorList.js";
-import GroupList from "../../lists/GroupList.js";
+import { ActorList, type ActorItem } from "../../lists/ActorList.js";
+import GroupList, { type GroupItem } from "../../lists/GroupList.js";
 import { GroupsMembersList } from "../../lists/GroupMemberList.js";
-import KeywordList from "../../lists/KeywordList.js";
+import KeywordList, { type KeywordItem } from "../../lists/KeywordList.js";
 import {
   alpha,
   Box,
@@ -211,13 +211,27 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
         [ff.Transaction, EVENT_TYPES.TRANSACTION],
         [ff.Quote, EVENT_TYPES.QUOTE],
         [ff.Book, EVENT_TYPES.BOOK],
-      ]
-        .map(([enabled, key]: any[]) => (enabled ? key : undefined))
-        .filter((a) => a !== undefined);
+      ] as const satisfies [
+        [boolean, EventType],
+        [boolean, EventType],
+        [boolean, EventType],
+        [boolean, EventType],
+        [boolean, EventType],
+        [boolean, EventType],
+        [boolean, EventType],
+        [boolean, EventType],
+      ];
+      const enabledTypes: EventType[] = [];
+      for (let i = 0; i < type.length; i++) {
+        if (type[i][0]) {
+          enabledTypes.push(type[i][1]);
+        }
+      }
+      const eventType = enabledTypes;
 
       onQueryChange({
         ...query,
-        eventType: type,
+        eventType,
       });
     },
     [query],
@@ -249,7 +263,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] },
+        { selected: [] as ActorItem[], unselected: [] as ActorItem[] },
       ),
       groups: groups.reduce(
         (acc, a) =>
@@ -262,7 +276,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] },
+        { selected: [] as GroupItem[], unselected: [] as GroupItem[] },
       ),
       keywords: keywords.reduce(
         (acc, a) =>
@@ -275,7 +289,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] },
+        { selected: [] as KeywordItem[], unselected: [] as KeywordItem[] },
       ),
     };
   }, [query, actors, groups, keywords, groupsMembers]);
@@ -379,7 +393,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     </Box>
   ) : null;
 
-  const handleActorClick = (e: any): void => {
+  const handleActorClick = (e: React.MouseEvent<HTMLElement>): void => {
     showPopover("Filter actors", e.currentTarget, (onClose) => {
       return (
         <AutocompleteActorInput
@@ -422,7 +436,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     />
   );
 
-  const handleGroupClick = (e: any): void => {
+  const handleGroupClick = (e: React.MouseEvent<HTMLElement>): void => {
     showPopover("Filter groups", e.currentTarget, (onClose) => {
       return (
         <AutocompleteGroupInput
@@ -450,7 +464,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     });
   };
 
-  const handleKeywordClick = (e: any): void => {
+  const handleKeywordClick = (e: React.MouseEvent<HTMLElement>): void => {
     showPopover("Filter keywords", e.currentTarget, (onClose) => {
       return (
         <AutocompleteKeywordInput

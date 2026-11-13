@@ -94,7 +94,9 @@ export const MediaBlockPluginControl: React.FC<{
 
   const selectedItems = React.useMemo(
     () =>
-      s.media ? (s.media as unknown as Media.Media[]) : ([] as Media.Media[]),
+      s.media
+        ? (s.media as unknown as Media.Media[])
+        : ([] as Media.Media[]),
     [s.media],
   );
 
@@ -199,7 +201,7 @@ export const mediaBlock = createReactBlockSpec(mediaBlockSpecs, {
         <EditMenu
           // BlockNote's createReactBlockSpec render callback returns an opaque internal editor type.
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          editor={editor as unknown as any}
+          editor={editor as unknown as BNESchemaEditor}
           onClick={() => {
             onChange({
               id: DEFAULT_ID,

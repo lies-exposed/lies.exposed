@@ -27,10 +27,12 @@ export const toBNDocument = async (
 
   if (typeof v === "string") {
     const result = editor.tryParseHTMLToBlocks(v);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return result as unknown as BlockNoteDocument;
   } else {
     const initialValue = toInitialValue(v);
     if (initialValue) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return initialValue as unknown as BlockNoteDocument;
     }
   }

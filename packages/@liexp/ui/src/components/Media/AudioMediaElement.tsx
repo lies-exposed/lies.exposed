@@ -7,7 +7,8 @@ import { styled } from "../../theme/index.js";
 import { Box } from "../mui/index.js";
 import { WaveformThumbnail } from "./WaveformThumbnail.js";
 
-const ReactAudioPlayer: any = _ReactAudioPlayer;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ReactAudioPlayer: React.ComponentType<any> = _ReactAudioPlayer as unknown as React.ComponentType<any>;
 
 const PREFIX = "AudioMediaElement";
 

@@ -40,7 +40,8 @@ export const NetworkNode = <D extends NetworkNodeDatum>({
 
   return (
     <Group
-      {...(groupProps as any)}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(groupProps as React.SVGProps<SVGGElement>)}
       onClick={() => {
         onClick(node);
       }}

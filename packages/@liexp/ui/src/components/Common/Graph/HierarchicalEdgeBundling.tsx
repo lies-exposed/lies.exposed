@@ -121,6 +121,7 @@ export function HierarchicalEdgeBundling({
 
     const root = tree(
       bilink(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         hierarchy as unknown as HierarchyLinkedNode<
           d3.HierarchyNode<HierarchicalEdgeBundlingDatum>
         >,

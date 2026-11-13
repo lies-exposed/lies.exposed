@@ -2,7 +2,6 @@ import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { type EventType } from "@liexp/io/lib/http/Events/index.js";
 import { MP3Type, OGGType } from "@liexp/io/lib/http/Media/index.js";
 import type * as http from "@liexp/io/lib/http/index.js";
-import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -51,7 +50,7 @@ interface EventListItemBaseProps<E> {
   title: string;
   type: EventType;
   link?: http.Link.Link;
-  excerpt: any;
+  excerpt: string | null;
   keywords: readonly http.Keyword.Keyword[];
   media: readonly http.Media.Media[];
   condensed?: boolean;
@@ -171,7 +170,7 @@ const EventListItemBase = <E extends any>({
             style={{ display: "flex", marginBottom: 20, flexGrow: 1 }}
             variant="body1"
           >
-            {getTextContentsCapped(excerpt, 300)}
+            {excerpt.length > 300 ? excerpt.slice(0, 300) + "..." : excerpt}
           </Typography>
         </Box>
       ) : null}

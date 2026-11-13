@@ -109,6 +109,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
   const editor = useCreateBlockNote({
     schema,
     initialContent: initialContent.initialContent ?? undefined,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }) as unknown as BNESchemaEditor & { isEditable: boolean; document: unknown };
 
   const slashMenuItems = React.useMemo(() => {

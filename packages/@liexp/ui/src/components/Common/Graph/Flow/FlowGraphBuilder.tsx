@@ -73,7 +73,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
     NodeContextMenuProps,
     "onClick"
   > | null>(null);
-  const ref = React.useRef<HTMLElement | null>(null);
+  const ref = React.useRef<HTMLDivElement | null>(null);
   // this ref stores the current dragged node
 
   const dragRef = React.useRef<NodeType | null>(null);
@@ -162,6 +162,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
       if (pane) {
         const { top, left, right, bottom } = contextMenuPositioner(event, pane);
         setMenu({
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           id: undefined as any,
           top,
           left,
@@ -341,7 +342,8 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
         style={{ flexGrow: 1, height: 600, width: "70%", position: "relative" }}
       >
         <FlowGraph
-          ref={ref as any}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ref={ref}
           nodes={nodes}
           edges={edges}
           onNodesChange={onNodesChange}

@@ -19,7 +19,7 @@ export interface SubjectListItemProps extends ListItemProps<SubjectItem> {
 export interface SubjectListProps {
   className?: string;
   subjects: SubjectItem[];
-  onSubjectClick: (actor: SubjectItem, e: any) => void;
+  onSubjectClick: (actor: SubjectItem, e: React.MouseEvent<Element>) => void;
   avatarSize?: AvatarSize;
   displayFullName?: boolean;
   style?: React.CSSProperties;

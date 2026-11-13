@@ -53,8 +53,10 @@ export type NetworkProps<
 const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
   props: NetworkProps<L, N>,
 ): React.ReactElement => {
-  const handleMouseOver = (event: any, datum: any): void => {
-    const coords = localPoint(event.target.ownerSVGElement, event);
+  const handleMouseOver = (event: React.MouseEvent<SVGElement>, datum: N): void => {
+    const svgEl = event.currentTarget as SVGElement;
+    if (svgEl.ownerSVGElement === null) return;
+    const coords = localPoint(svgEl.ownerSVGElement, event);
     if (coords !== null) {
       if (
         props.showTooltip !== undefined &&
