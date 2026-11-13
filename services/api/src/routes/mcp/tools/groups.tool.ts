@@ -14,6 +14,12 @@ import type { ServerContext } from "#context/context.type.js";
 import { createGroup } from "#flows/groups/createGroup.flow.js";
 import { editGroup } from "#flows/groups/editGroup.flow.js";
 
+// Local copy of EditGroupInput (not exported from editGroup.flow.ts)
+import { type EditGroupBody } from "@liexp/io/lib/http/Group.js";
+interface EditGroupInput extends EditGroupBody {
+  id: string;
+}
+
 const groupToOutput = (group: Group): Record<string, unknown> => ({
   id: group.id,
   name: group.name,
@@ -329,24 +335,10 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
     }),
     async (input) => {
       try {
-        // Build the edit body with optional fields
-        const editBody: Record<string, unknown> = { id: input.id };
-        if (input.name !== undefined) editBody.name = input.name;
-        if (input.username !== undefined) editBody.username = input.username;
-        if (input.color !== undefined) editBody.color = input.color;
-        if (input.kind !== undefined) editBody.kind = input.kind;
-        if (input.excerpt !== undefined) editBody.excerpt = input.excerpt;
-        if (input.body !== undefined) editBody.body = input.body;
-        if (input.startDate !== undefined)
-          editBody.startDate = new Date(input.startDate);
-        if (input.endDate !== undefined)
-          editBody.endDate = new Date(input.endDate);
-        if (input.members !== undefined) editBody.members = input.members;
-
-        // editGroup expects EditGroupInput (with Option<T> fields), but we pass
-        // raw values — the OptionFromUndefinedOr schema handles the conversion.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const te = editGroup(editBody as any)(ctx);
+        // input already has Option<T> fields from the MCP schema validation.
+        // Cast to EditGroupInput so we can pass it to editGroup.
+        const editInput = { ...input, id: input.id } as unknown as EditGroupInput;
+        const te = editGroup(editInput)(ctx);
 
         // editGroup already calls GroupIO.decodeSingle internally and returns
         // a decoded Group, so we can use the result directly.
