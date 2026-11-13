@@ -40,7 +40,7 @@ export const MakeGetActorRoute: Route = (r, ctx) => {
         return pipe(
           ActorIO.decodeSingle({
             ...actor,
-            events: events.map((e) => e.id) as any,
+            events: events.map((e) => e.id) as string[],
           }),
           TE.fromEither,
         );

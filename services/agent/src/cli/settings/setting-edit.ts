@@ -1,4 +1,5 @@
 import { EditSettingInputSchema } from "@liexp/shared/lib/mcp/schemas/settings.schemas.js";
+import { type Setting } from "@liexp/io/lib/http/Setting.js";
 import { makeCommand } from "../run-command.js";
 
 export const settingEdit = makeCommand(
@@ -24,7 +25,7 @@ export const settingEdit = makeCommand(
 
     return ctx.api.Setting.Edit({
       Params: { id },
-      Body: body as any,
+      Body: body as unknown as Setting,
     });
   },
 );

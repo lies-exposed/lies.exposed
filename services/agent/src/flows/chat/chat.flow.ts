@@ -474,7 +474,7 @@ const isEmptyChoicesError = (error: unknown): boolean =>
   "Cannot read properties of undefined (reading 'message')";
 
 const invokeAgentWithEmptyChoicesRetry = async (
-  agent: { invoke: (...args: any[]) => Promise<unknown> },
+  agent: { invoke: (...args: unknown[]) => Promise<unknown> },
   input: unknown,
   config: unknown,
 ): Promise<unknown> => {

@@ -27,7 +27,7 @@ const DocumentariesPage: React.FC = () => {
       getTotal={(r) => r.data.total}
       listProps={{
         type: "masonry",
-        getItem: (data: any[], index: any) => {
+        getItem: (data: unknown[], index: number): unknown => {
           return data[index];
         },
         CellRenderer: CellRenderer((props) => (

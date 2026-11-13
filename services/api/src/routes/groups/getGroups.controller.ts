@@ -17,7 +17,7 @@ export const MakeListGroupRoute: Route = (r, ctx) => {
             GroupIO.decodeMany(
               results.map((g) => ({
                 ...g,
-                members: g.members.map((d) => d.id) as any,
+                members: g.members.map((d) => d.id) as string[],
               })),
             ),
             E.map((data) => ({ total, data })),

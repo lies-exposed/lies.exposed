@@ -41,7 +41,7 @@ export const createServiceClientTokenWithUserId =
     return pipe(
       IO.of({
         id: uuid(),
-        userId: userId as any,
+        userId: userId as ServiceClient["userId"],
         email: `${serviceName}@lies.exposed`,
         permissions,
       } as ServiceClient),

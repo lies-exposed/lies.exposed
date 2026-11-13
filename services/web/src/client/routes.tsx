@@ -1,6 +1,7 @@
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { DOCUMENTARY } from "@liexp/io/lib/http/Events/EventType.js";
 import { EventType } from "@liexp/io/lib/http/Events/index.js";
+import { type GetSearchEventsQuery } from "@liexp/io/lib/http/Events/SearchEvents/SearchEventsQuery.js";
 import { StatsType } from "@liexp/io/lib/http/Stats.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
@@ -96,14 +97,14 @@ const linkRoute: ServerRoute = {
   },
   queries:
     (Q, conf) =>
-    async ({ linkId }: any) =>
+    async ({ linkId }: { linkId: UUID }) =>
       Promise.resolve([
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Link.get.getKey({ id: linkId }),
           queryFn: Q.Link.get.fetch,
         },
-      ] as AsyncDataRouteQuery<any, any, any>[]),
+      ] as AsyncDataRouteQuery<UUID, void, unknown>[]),
 };
 
 const linksRoute: ServerRoute = {
@@ -375,13 +376,13 @@ export const routes: ServerRoute[] = [
       }
       return <NotFoundPage />;
     },
-    queries: (Q, conf) => async (params: any) => {
+    queries: (Q, conf) => async (params: { keywordId: UUID }) => {
       return Promise.resolve([
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Keyword.get.getKey({ id: params.keywordId }),
           queryFn: Q.Keyword.get.fetch,
-        } as AsyncDataRouteQuery<any, any, any>,
+        },
         {
           queryKey: Q.Stats.list.getKey(
             undefined,
@@ -393,7 +394,7 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Stats.list.fetch,
         },
-      ]);
+      ] as AsyncDataRouteQuery<UUID, void, unknown>[]);
     },
   },
   // areas
@@ -545,7 +546,7 @@ export const routes: ServerRoute[] = [
   {
     path: "/events",
     route: () => <EventsPage />,
-    queries: (Q, conf) => async (params, query: any) => {
+    queries: (Q, conf) => async (_params, query: GetSearchEventsQuery | undefined) => {
       const q = hashToQuery(query.hash);
 
       q.hash = query.hash;

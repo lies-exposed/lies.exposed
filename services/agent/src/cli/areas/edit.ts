@@ -12,10 +12,14 @@ export const areaEdit = makeCommand(
   (input, ctx) => {
     ctx.logger.debug.log("area edit input: %O", input);
 
-    let geometry: any = null;
+    type Geometry =
+      | { type: "Point"; coordinates: [number, number] }
+      | { type: "Polygon"; coordinates: number[][][] };
+
+    let geometry: Geometry | null = null;
     if (input.geometry) {
       try {
-        geometry = JSON.parse(input.geometry);
+        geometry = JSON.parse(input.geometry) as Geometry;
       } catch {
         return fp.TE.left(
           new Error("--geometry must be valid JSON (GeoJSON geometry)"),

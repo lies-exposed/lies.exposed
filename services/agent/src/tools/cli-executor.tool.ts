@@ -98,7 +98,7 @@ export const createCliExecutorTool = (cliBinPath: string) =>
           { timeout: 60_000 },
         );
         return stdout || stderr || "(no output)";
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (err.killed && err.signal === "SIGTERM") {
           return `ERROR: command timed out after 60s: ${input.command}\nTry a narrower query (lower --end, more specific filters) rather than repeating the same command.`;
         }

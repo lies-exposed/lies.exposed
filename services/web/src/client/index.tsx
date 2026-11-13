@@ -116,7 +116,7 @@ function Main(): React.ReactElement {
   );
 }
 
-const container: any = document.getElementById("root");
+const container: HTMLElement | null = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
 
 root.render(

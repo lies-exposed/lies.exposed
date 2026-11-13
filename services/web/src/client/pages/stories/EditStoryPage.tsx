@@ -12,6 +12,7 @@ import {
 import { Box, Container } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
+import { type Story } from "@liexp/io/lib/http/Story.js";
 import { styled, themeOptions } from "@liexp/ui/lib/theme/index.js";
 import * as React from "react";
 import { type PathRouteProps } from "react-router";
@@ -37,7 +38,7 @@ const StyledContainer = styled(Container)(({ theme: _theme }) => ({
 const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
   const [update, { isPending: isSubmitting }] = useUpdate();
   const navigate = useNavigate();
-  const onSubmit = async (data: any): Promise<void> => {
+  const onSubmit = async (data: Story): Promise<void> => {
     await update(
       "stories",
       { id, data },
