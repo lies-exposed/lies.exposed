@@ -423,38 +423,48 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   );
 };
 
-interface EventsNetworkGraphBoxWithQueryProps<P> extends Omit<
-  EventNetworkGraphBoxProps,
-  "id" | "query"
-> {
-  useQuery: UseGetQueryFn<any, P, any>;
-  params: Partial<P>;
-  eventsBoxQuery: any;
+interface EventsNetworkGraphBoxWithQueryProps<
+  Q extends Record<string, unknown> = Record<string, unknown>,
+  T = unknown,
+> extends Omit<EventNetworkGraphBoxProps, "id" | "query"> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  useQuery: UseGetQueryFn<any, Q, T>;
+  params: Partial<Q>;
+  eventsBoxQuery: Partial<
+    GetNetworkQuerySerialized & {
+      eventType?: NonEmptyArray<EventType>;
+    }
+  >;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const EventsNetworkGraphBoxWithQuery = <P extends any>({
+export const EventsNetworkGraphBoxWithQuery = <
+  Q extends Record<string, unknown> = Record<string, unknown>,
+  T = unknown,
+>({
   useQuery,
   params,
   eventsBoxQuery: query,
   type,
   ...props
-}: EventsNetworkGraphBoxWithQueryProps<P>): React.ReactNode => {
+}: EventsNetworkGraphBoxWithQueryProps<Q, T>): React.ReactNode => {
   return (
     <QueriesRenderer
       queries={{
         items: useQuery({ type }, params, false),
       }}
       render={({ items: { data } }) => {
+        const id = (data as readonly { id: string }[])[0]?.id;
         return (
           <EventsNetworkGraphBox
             {...props}
             type={type}
-            query={{
-              ...query,
-              ids: data[0] ? [data[0].id] : [],
-              id: data[0]?.id,
-            }}
+            query={
+              {
+                ...query,
+                ids: id ? ([id] as const) : undefined,
+                id,
+              } as Partial<GetNetworkQuerySerialized & { id?: string }>
+            }
           />
         );
       }}

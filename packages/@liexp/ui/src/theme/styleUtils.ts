@@ -449,8 +449,10 @@ export const getRelationshipColor = (
   theme: Theme,
   relationType: "parent_child" | "spouse" | "partner" | "sibling",
 ): string => {
+  const rawPalette = theme.palette as unknown as Record<string, unknown>;
   const relationshipPalette =
-    (theme.palette as any).relationship ?? DEFAULT_RELATIONSHIP_COLORS;
+    (rawPalette.relationship as Record<string, string> | undefined) ??
+    DEFAULT_RELATIONSHIP_COLORS;
   const colorMap = {
     parent_child: relationshipPalette.parent_child,
     spouse: relationshipPalette.spouse,

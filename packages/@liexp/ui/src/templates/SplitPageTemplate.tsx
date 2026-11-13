@@ -154,7 +154,7 @@ export interface SplitPageTemplateProps {
   };
   resource: {
     name: ResourcesNames;
-    item: any;
+    item: { id?: string };
   };
   children: React.ReactNode[];
 }
@@ -279,7 +279,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
 
               <EditButton
                 resourceName={resource.name}
-                resource={resource.item}
+                resource={resource.item as { id: string }}
               />
             </Box>
           </Box>

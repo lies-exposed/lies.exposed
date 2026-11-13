@@ -14,7 +14,9 @@ export { type CellRendererProps };
 
 type CellRenderer = React.ForwardRefExoticComponent<CellRendererProps>;
 
-export interface InfiniteMasonryProps extends InfiniteListBaseProps {
+export interface InfiniteMasonryProps<
+  T = unknown,
+> extends InfiniteListBaseProps<T> {
   CellRenderer: CellRenderer;
   columnCount?: number;
   onMasonryRef?: (_r: unknown, _cellCache: unknown) => void;

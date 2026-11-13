@@ -24,16 +24,31 @@ const useEventsPageQuery = (): GetSearchEventsQueryInput & {
   slide?: string;
   hash: string;
 } => {
-  const query = useRouteQuery();
+  const query = useRouteQuery() as Record<string, string | string[]>;
 
-  const hashQuery = useQueryFromHash(query.hash);
+  const rawHash = query.hash;
+  const hashQuery = useQueryFromHash(
+    typeof rawHash === "string" ? rawHash : (rawHash?.[0] ?? ""),
+  );
+  const rawTab = query.tab;
+  const tab =
+    typeof rawTab === "string"
+      ? parseInt(rawTab, 10)
+      : rawTab != null
+        ? parseInt(String(rawTab[0]), 10)
+        : 0;
+
   return React.useMemo(() => {
     return {
       ...query,
       ...hashQuery,
-      tab: parseInt(query.tab ?? "0", 10),
+      tab,
+    } as GetSearchEventsQueryInput & {
+      tab: number;
+      slide?: string;
+      hash: string;
     };
-  }, [query]);
+  }, [query, hashQuery, tab]);
 };
 
 type EventsPageProps = Omit<EventsView, "view">;
