@@ -12,7 +12,7 @@ interface KeywordDatum extends Keyword.Keyword {
 }
 
 export interface KeywordsDistributionGraphProps {
-  data: any[];
+  data: KeywordDatum[];
   onClick: (k: Keyword.Keyword) => void;
 }
 
@@ -62,7 +62,7 @@ const KeywordsDistributionGraphComponent: React.FC<
           random={() => 0.5}
         >
           {(cloudWords) =>
-            cloudWords.map((w: any, _i) => {
+            cloudWords.map((w: unknown, _i: number) => {
               return (
                 <Text
                   key={w.text}
