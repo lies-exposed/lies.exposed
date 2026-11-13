@@ -580,7 +580,7 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Actor.list.getKey(
             undefined,
             {
-              ids: q.actors as unknown as (string & Brand<"UUID">)[] | undefined,
+              ids: q.actors as unknown as unknown[] | undefined,
               _end: ((q.actors as unknown as unknown[])?.length ?? 0).toString(),
             },
             // true,
@@ -591,7 +591,7 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Group.list.getKey(
             undefined,
             {
-              ids: q.groups as unknown as (string & Brand<"UUID">)[] | undefined,
+              ids: q.groups as unknown as unknown[] | undefined,
               _end: ((q.groups as unknown as unknown[])?.length ?? 0).toString(),
             },
             // true,
@@ -602,7 +602,7 @@ export const routes: ServerRoute[] = [
           queryKey: Q.GroupMember.list.getKey(
             undefined,
             {
-              ids: q.groupsMembers as unknown as (string & Brand<"UUID">)[] | undefined,
+              ids: q.groupsMembers as unknown as unknown[] | undefined,
               _end: ((q.groupsMembers as unknown as unknown[])?.length ?? 0).toString(),
             },
             // true,
@@ -613,7 +613,7 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Keyword.list.getKey(
             undefined,
             {
-              ids: q.keywords as unknown as (string & Brand<"UUID">)[] | undefined,
+              ids: q.keywords as unknown as unknown[] | undefined,
               _sort: "updatedAt",
               _order: "DESC" as const,
               _end: ((q.keywords as unknown as unknown[])?.length ?? 0).toString(),

@@ -9,7 +9,7 @@ const KeywordPage: React.FC<{ keywordId: UUID }> = ({ keywordId }) => {
   const { tab: _tab = "0", ...query } = useRouteQuery();
   const navigateTo = useNavigateToResource();
 
-  const tab = React.useMemo(() => parseInt(_tab, 10), [_tab]);
+  const tab = React.useMemo(() => parseInt(String(_tab), 10), [_tab]);
 
   return (
     <KeywordTemplate
@@ -17,6 +17,7 @@ const KeywordPage: React.FC<{ keywordId: UUID }> = ({ keywordId }) => {
       tab={tab}
       query={{
         ...query,
+        hash: query.hash as string | undefined,
         eventType:
           (query.eventType as EventType[] | undefined) ??
           EventType.members.map((t) => t.literals[0]),

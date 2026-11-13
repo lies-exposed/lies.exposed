@@ -26,12 +26,12 @@ const useEventsPageQuery = (): GetSearchEventsQueryInput & {
 } => {
   const query = useRouteQuery();
 
-  const hashQuery = useQueryFromHash(query.hash);
+  const hashQuery = useQueryFromHash(String(query.hash ?? ""));
   return React.useMemo(() => {
     return {
       ...query,
       ...hashQuery,
-      tab: parseInt(query.tab ?? "0", 10),
+      tab: parseInt(String(query.tab ?? "0"), 10),
     };
   }, [query]);
 };
@@ -82,7 +82,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                 ...update,
                 tab: String(tab),
                 slide: slide ? "1" : "0",
-              } as Record<string, string | string[]>),
+              } as unknown as Record<string, string | string[]>),
               tab,
               slide: slide ? 1 : 0,
             },

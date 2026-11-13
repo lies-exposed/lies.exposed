@@ -12,7 +12,7 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
   // const params = useParams();
   const navigateToResource = useNavigateToResource();
   const { tab: _tab = "0", ...query } = useRouteQuery();
-  const tab = parseInt(_tab, 10);
+  const tab = parseInt(String(_tab), 10);
 
   return (
     <QueriesRenderer
@@ -31,6 +31,7 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
               tab={tab}
               query={{
                 ...query,
+                hash: query.hash as string | undefined,
                 eventType:
                   (query.eventType as EventType[] | undefined) ??
                   EventType.members.map((t) => t.literals[0]),
