@@ -1,14 +1,15 @@
-fix(shared): replace any casts with proper types in providers and utils
+fix(web): fix TypeScript errors from any cast removal in templates and routes
 
-- helpers/event-suggestion.ts: Remove `as unknown as` from branded URL cast
-- helpers/event/merge-event.helper.ts: Remove `as unknown as` from Event["payload"] cast
-- providers/blocknote/getTextContents.ts: Define BNContentItem and BNTextBlock interfaces
-- providers/blocknote/utils.ts: Simplify BlockNoteDocument cast
-- providers/http/http.provider.spec.ts: Use axiosModule.AxiosError type
-- providers/pdf/pdf.provider.spec.ts: Import PDFDocumentProxy and PDFProviderContext types
-- utils/schema.utils.ts: Define PropertySignatureDeclaration interface
-- utils/__tests__/APIError.utils.spec.ts: Import IOError and IOErrorDetails types
-- utils/__tests__/schema.utils.spec.ts: Use Record<string, z.ZodType> instead of any
-- Test files: Replace `as any` with `as unknown as <Type>` throughout
+The previous PR (#4075) removed any casts from UI containers/utils/templates
+but introduced type errors in services/web files that depend on the same
+useRouteQuery() return type. This commit fixes:
 
-Zero production any casts remain in @liexp/shared.
+- EventsPage.tsx: Proper type narrowing for string | string[] query params
+- routes.tsx: Fix _start/_end to be numbers, cast q object for array access
+- ActorTemplate.tsx: Type narrowing for tab param, explicit query object
+- AreaTemplate.tsx: Type narrowing for tab param
+- EventTemplate.tsx: Type narrowing for tab param, filters object cast
+- GroupTemplate.tsx: Type narrowing for tab param, explicit query object
+- KeywordTemplate.tsx: Type narrowing for tab param, explicit query object
+- LinkTemplate.tsx: Type narrowing for tab param
+- MediaTemplate.tsx: Type narrowing for tab param

@@ -71,8 +71,8 @@ export interface EventsQueryParams {
   endDate?: string;
   title?: string;
   type?: EventType[];
-  _sort: any;
-  _order: any;
+  _sort?: string;
+  _order?: string;
 }
 
 interface StatsPanelProps {

@@ -3,6 +3,7 @@ import { EventType } from "@liexp/io/lib/http/Events/index.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { Box } from "@liexp/ui/lib/components/mui/index.js";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { ActorTemplate } from "@liexp/ui/lib/templates/ActorTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
@@ -11,8 +12,16 @@ import { useNavigateToResource } from "../utils/location.utils.js";
 const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
   // const params = useParams();
   const navigateToResource = useNavigateToResource();
-  const { tab: _tab = "0", ...query } = useRouteQuery();
-  const tab = parseInt(_tab, 10);
+  const { tab: _tab = "0", ...query } = useRouteQuery() as Record<
+    string,
+    string | string[]
+  >;
+  const tab =
+    typeof _tab === "string"
+      ? parseInt(_tab, 10)
+      : _tab != null
+        ? parseInt(String(_tab[0]), 10)
+        : 0;
 
   return (
     <QueriesRenderer
@@ -29,12 +38,27 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
             />
             <ActorTemplate
               tab={tab}
-              query={{
-                ...query,
-                eventType:
-                  query.eventType ??
-                  EventType.members.map((t) => t.literals[0]),
-              }}
+              query={
+                {
+                  actors: query.actors ?? [],
+                  groups: query.groups ?? [],
+                  keywords: query.keywords ?? [],
+                  groupsMembers: query.groupsMembers ?? [],
+                  media: query.media ?? [],
+                  locations: query.locations ?? [],
+                  _start: query._start ?? undefined,
+                  _end: query._end ?? undefined,
+                  _sort: query._sort ?? undefined,
+                  _order: query._order ?? undefined,
+                  startDate: query.startDate ?? undefined,
+                  endDate: query.endDate ?? undefined,
+                  eventType:
+                    query.eventType ??
+                    EventType.members.map((t) => t.literals[0]),
+                  q: query.q ?? undefined,
+                  hash: undefined,
+                } as unknown as SearchEventsQueryInputNoPagination
+              }
               onQueryChange={(q) => {
                 navigateToResource.actors({ id: actor.id }, { ...q, tab });
               }}

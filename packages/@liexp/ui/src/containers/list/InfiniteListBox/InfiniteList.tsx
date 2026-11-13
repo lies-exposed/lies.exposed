@@ -3,9 +3,9 @@ import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { type InfiniteListBaseProps } from "./types.js";
 
-export interface RowRendererProps extends Record<string, unknown> {
+export interface RowRendererProps<T = unknown> extends Record<string, unknown> {
   index: number;
-  item: any;
+  item: T;
   isLast: boolean;
   isVisible: boolean;
   style: React.CSSProperties;
@@ -13,7 +13,9 @@ export interface RowRendererProps extends Record<string, unknown> {
   onRowInvalidate?: () => void;
 }
 
-type RowRenderer = React.ForwardRefExoticComponent<RowRendererProps>;
+type RowRenderer<T = unknown> = React.ForwardRefExoticComponent<
+  RowRendererProps<T>
+>;
 
 const PREFIX = "InfiniteList";
 const classes = {
@@ -29,17 +31,23 @@ const StyledList = styled("div")(() => ({
   },
 }));
 
-export interface InfiniteListProps extends InfiniteListBaseProps {
+export interface InfiniteListProps<
+  T = unknown,
+> extends InfiniteListBaseProps<T> {
   onRowsRendered: (params: { startIndex: number; stopIndex: number }) => void;
-  RowRenderer: RowRenderer;
+  RowRenderer: RowRenderer<T>;
 }
 
-const InfiniteListForwardRef: React.ForwardRefRenderFunction<
-  unknown,
-  InfiniteListProps
-> = (
-  { height, onRowsRendered, items, getItem, RowRenderer, ...rest },
-  listRef,
+const InfiniteListForwardRef = <T,>(
+  {
+    height,
+    onRowsRendered,
+    items,
+    getItem,
+    RowRenderer,
+    ...rest
+  }: InfiniteListProps<T>,
+  listRef: React.Ref<unknown>,
 ) => {
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -115,7 +123,10 @@ const InfiniteListForwardRef: React.ForwardRefRenderFunction<
 
           return (
             <div
-              key={String(item.id ?? virtualItem.index)}
+              key={
+                ((item as Record<string, unknown>).id as string) ??
+                String(virtualItem.index)
+              }
               data-index={virtualItem.index}
               ref={(node) => {
                 if (node) {

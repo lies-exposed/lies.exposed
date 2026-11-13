@@ -546,8 +546,13 @@ export const routes: ServerRoute[] = [
   {
     path: "/events",
     route: () => <EventsPage />,
+<<<<<<< HEAD
     queries: (Q, conf) => async (_params, query: GetSearchEventsQuery | undefined) => {
       const q = hashToQuery(query.hash);
+=======
+    queries: (Q, conf) => async (params, query: any) => {
+      const q = hashToQuery(query.hash) as Record<string, string | string[]>;
+>>>>>>> origin/main
 
       q.hash = query.hash;
       q.startDate = query.startDate;
@@ -571,7 +576,9 @@ export const routes: ServerRoute[] = [
               hash: undefined,
               _start: 0,
               _end: 20,
-            },
+            } as unknown as Parameters<
+              typeof Q.Event.Custom.SearchEvents.getKey
+            >[1],
             false,
           ),
           queryFn: Q.Event.Custom.SearchEvents.fetch,
@@ -581,7 +588,10 @@ export const routes: ServerRoute[] = [
             undefined,
             {
               ids: q.actors,
-              _end: q.actors.length.toString(),
+              _end:
+                // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
+                (q as Record<string, unknown[]>)["actors"]?.length.toString() ??
+                "0",
             },
             // true,
           ),
@@ -592,7 +602,10 @@ export const routes: ServerRoute[] = [
             undefined,
             {
               ids: q.groups,
-              _end: q.groups.length.toString(),
+              _end:
+                // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
+                (q as Record<string, unknown[]>)["groups"]?.length.toString() ??
+                "0",
             },
             // true,
           ),
@@ -603,7 +616,11 @@ export const routes: ServerRoute[] = [
             undefined,
             {
               ids: q.groupsMembers,
-              _end: q.groupsMembers.length.toString(),
+              _end:
+                (q as Record<string, unknown[]>)[
+                  // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
+                  "groupsMembers"
+                ]?.length.toString() ?? "0",
             },
             // true,
           ),
@@ -616,7 +633,11 @@ export const routes: ServerRoute[] = [
               ids: q.keywords,
               _sort: "updatedAt",
               _order: "DESC",
-              _end: q.keywords.length.toString(),
+              _end:
+                (q as Record<string, unknown[]>)[
+                  // eslint-disable-next-line @typescript-eslint/dot-notation -- dynamic Record key
+                  "keywords"
+                ]?.length.toString() ?? "0",
             },
             // true,
           ),

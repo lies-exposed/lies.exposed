@@ -1,8 +1,8 @@
-export interface InfiniteListBaseProps {
+export interface InfiniteListBaseProps<T = unknown> {
   width: number;
   height: number;
-  items: unknown[];
-  getItem: (data: unknown[], index: number) => unknown;
+  items: T[];
+  getItem: (data: T[], index: number) => T;
 }
 
 export interface CellRendererProps {

@@ -72,24 +72,14 @@ const runRunnableSequence = <C extends LoggerContext = LoggerContext>(
 
             for await (const chunk of stream) {
               ctx.logger.debug.log("Received chunk %O", chunk);
-              if (
-                "generate_structured_response" in chunk &&
-                "structuredResponse" in chunk.generate_structured_response
-              ) {
-                output = JSON.stringify(
-                  chunk.generate_structured_response.structuredResponse,
-                );
-                continue;
-              } else if ("agent" in chunk) {
-                output += JSON.stringify(chunk.agent);
-                continue;
-              }
-              output ??= "";
-              output += JSON.stringify(chunk.content.messages);
+              output = processChunk(chunk, output);
             }
           } else {
             const result = await chain.invoke({ messages });
-            output = JSON.stringify(result.messages);
+            output = processChunk(
+              { content: { messages: result.messages } },
+              output,
+            );
           }
 
           ctx.logger.debug.log("Output %s", output);

@@ -10,7 +10,7 @@ import {
 
 function base64ToBytes(base64: string): Uint8Array {
   const binString = atob(base64);
-  return Uint8Array.from(binString, (m) => m.codePointAt(0) as any);
+  return Uint8Array.from(binString, (m) => m.codePointAt(0) ?? 0);
 }
 
 function bytesToBase64(bytes: Uint8Array): string {
@@ -35,30 +35,35 @@ export const stringifyQuery = (
   search: Record<string, string | string[]>,
 ): string => qs.stringify(search, { arrayFormat: "bracket" });
 
-export function useRouteQuery(def?: any): any {
+export function useRouteQuery<T extends Record<string, unknown>>(def?: T): T {
   const { search } = useLocation();
 
-  return React.useMemo(() => ({ ...def, ...parseQuery(search) }), [search]);
+  return React.useMemo(
+    () =>
+      ({ ...def, ...parseQuery(search) }) as T &
+        Record<string, string | string[]>,
+    [search],
+  );
 }
 
-export const queryToHash = (q: any): string => {
+export const queryToHash = (q: Record<string, unknown>): string => {
   return toBase64(toBase64(JSON.stringify(q)));
 };
 
-export const hashToQuery = (h: string | undefined): any => {
+export const hashToQuery = (h: string | undefined): Record<string, unknown> => {
   return pipe(
     h !== undefined && h !== "" ? fromBase64(fromBase64(h)) : "{}",
     JSON.parse,
   );
 };
 
-export function useQueryFromHash(hash: string): any {
+export function useQueryFromHash(hash: string): Record<string, unknown> {
   return React.useMemo(() => hashToQuery(hash), [hash]);
 }
 
 interface HistoryWithNavigateTo extends Location {
   navigate: NavigateFunction;
-  navigateTo: (path: string, search?: any) => void;
+  navigateTo: (path: string, search?: Record<string, unknown>) => void;
 }
 
 export function useNavigateTo(): HistoryWithNavigateTo {
@@ -66,8 +71,11 @@ export function useNavigateTo(): HistoryWithNavigateTo {
   const h = useNavigate();
 
   return React.useMemo(() => {
-    const navigateTo = (view: string, search?: any): void => {
-      const query = stringifyQuery(search);
+    const navigateTo = (
+      view: string,
+      search?: Record<string, unknown>,
+    ): void => {
+      const query = stringifyQuery(search as Record<string, string | string[]>);
       void h(`${view}?${query}`);
     };
 
