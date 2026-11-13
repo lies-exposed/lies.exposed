@@ -46,6 +46,16 @@ export const toEventSuggestion = (
     creator: event.creator?.id,
     event: {
       ...event.payload.event,
+      // stored JSON omits unset optional payload keys; the schema requires
+      // them present (as undefined)
+      ...(event.payload.event.type === "ScientificStudy"
+        ? {
+            payload: Object.assign(
+              { image: undefined, publisher: undefined },
+              event.payload.event.payload,
+            ),
+          }
+        : {}),
       draft: event.payload.event.draft ?? true,
       date:
         typeof event.payload.event.date === "object"
