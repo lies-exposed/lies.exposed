@@ -26,7 +26,7 @@ type RenderFnData<Q extends QueriesProp> = Q extends QueriesRecord
         ? NonNullable<QueryObserverSuccessResult<A, IOError>["data"]>
         : never;
     }
-  : Q extends (...args: any[]) => QueriesRecord
+  : Q extends (...args: unknown[]) => QueriesRecord
     ? {
         [K in keyof ReturnType<Q>]: ReturnType<Q>[K] extends UseQueryResult<
           infer A,

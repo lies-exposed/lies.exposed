@@ -163,7 +163,7 @@ export const transformMedia =
 
     const events = (data.events ?? []).concat(data.newEvents ?? []);
     const links = (data.links ?? []).concat(
-      (data.newLinks ?? []).flatMap((l: any) => l.ids),
+      (data.newLinks ?? []).flatMap((l: { ids: string[] }) => l.ids),
     );
     const keywords = (data.keywords ?? []).concat(data.newKeywords ?? []);
     const areas = (data.areas ?? []).concat(data.newAreas ?? []);

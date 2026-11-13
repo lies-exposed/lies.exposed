@@ -265,7 +265,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
 };
 
 export const EventSuggestionCreate: React.FC<
-  Omit<CreateProps, "children"> & { event: any }
+  Omit<CreateProps, "children"> & { event: Record<string, unknown> }
 > = ({ event, ...props }) => {
   const record = useRecordContext({
     record: {
