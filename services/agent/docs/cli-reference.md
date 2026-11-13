@@ -16,7 +16,7 @@ When a command fails, the tool returns a string starting with `ERROR (exit 1):` 
 | `actor get` | `--id=<uuid>` |
 | `actor create` | `--username=<slug>` (req), `--fullName=<name>` (req), `--excerpt`, `--body`, `--avatar=<uuid>`, `--nationalities=<nation-uuid,...>`, `--bornOn=YYYY-MM-DD`, `--diedOn=YYYY-MM-DD`, `--color=<hex>` |
 | `actor edit` | `--id=<uuid>` (req), `--username`, `--fullName`, `--excerpt`, `--body`, `--avatar=<uuid>`, `--nationalities`, `--bornOn`, `--diedOn`, `--memberIn=<group-uuid,...>` |
-| `actor find-avatar` | `--fullName=<name>` (req) — searches Wikipedia, downloads image, saves as Media, prints media UUID |
+| `actor find-avatar` | `--fullName=<name>` (req) — searches Wikipedia, registers the image URL as a Media (not re-uploaded), prints the created media JSON (`.data.id` is the avatar UUID) |
 
 ## Group commands
 
@@ -26,7 +26,7 @@ When a command fails, the tool returns a string starting with `ERROR (exit 1):` 
 | `group get` | `--id=<uuid>` |
 | `group create` | `--name=<name>` (req), `--username=<slug>` (req), `--kind=Public\|Private` (req), `--excerpt`, `--avatar=<uuid>`, `--startDate=YYYY-MM-DD`, `--endDate=YYYY-MM-DD`, `--color=<hex>` |
 | `group edit` | `--id=<uuid>` (req), `--name`, `--kind`, `--excerpt`, `--avatar=<uuid>`, `--members=<actor-uuid>` |
-| `group find-avatar` | `--name=<name>` (req) — searches Wikipedia, downloads image, saves as Media, prints media UUID |
+| `group find-avatar` | `--name=<name>` (req) — searches Wikipedia, registers the image URL as a Media (not re-uploaded), prints the created media JSON (`.data.id` is the avatar UUID) |
 
 ## Event commands
 

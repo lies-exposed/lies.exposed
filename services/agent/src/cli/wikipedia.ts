@@ -44,9 +44,29 @@ export const searchWikipediaImageUrl = async (
     { headers: WIKIPEDIA_HEADERS },
   );
   const article = summaryRes.data;
-  const image = article.originalimage ?? article.thumbnail;
+  // SVG (common for logos) is not a supported media type: fall back to the
+  // PNG rendition Wikipedia serves as thumbnail.
+  const original = article.originalimage;
+  const image =
+    original && !/\.svg(\?|$)/i.test(original.source)
+      ? original
+      : (article.thumbnail ?? original);
   if (!image) {
     throw new Error(`No image found on Wikipedia for "${article.title}"`);
   }
   return image.source;
+};
+
+/**
+ * Derives the platform media MIME type from an image URL.
+ * Supported image types are image/jpeg and image/png only; SVG thumbnails
+ * (`.svg.png`) are PNG renditions.
+ */
+export const imageTypeFromUrl = (url: string): "image/jpeg" | "image/png" => {
+  const path = url.split(/[?#]/)[0].toLowerCase();
+  if (path.endsWith(".png")) return "image/png";
+  if (path.endsWith(".jpg") || path.endsWith(".jpeg")) return "image/jpeg";
+  throw new Error(
+    `Unsupported image format for ${url}: only jpeg and png are supported`,
+  );
 };

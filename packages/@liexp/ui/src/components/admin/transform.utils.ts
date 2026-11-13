@@ -218,11 +218,30 @@ export const transformEvent =
     );
 
     const excerpt = isValidValue(data.excerpt) ? data.excerpt : null;
+    // an empty editor value (`[]`) is not a valid BlockNoteDocument
+    const body = isValidValue(data.body) ? data.body : null;
 
     const relations = relationsTransformer(excerpt ?? []);
 
+    // ScientificStudy payload.url must be a Link UUID: when the form holds a
+    // raw URL, find-or-create the link and use its id.
+    const studyUrl: unknown = data.payload?.url;
+    const payload =
+      data.type === EVENT_TYPES.SCIENTIFIC_STUDY &&
+      typeof studyUrl === "string" &&
+      !Schema.is(http.Common.UUID)(studyUrl)
+        ? {
+            ...data.payload,
+            url: (
+              await dataProvider.create("/links/submit", {
+                data: { url: studyUrl },
+              })
+            ).data.id,
+          }
+        : data.payload;
+
     const event = transformByType(
-      { ...data, excerpt },
+      { ...data, payload, excerpt, body },
       { ...relations, groupsMembers: [] },
     );
 

@@ -13,7 +13,7 @@ ADMIN_WEB_IMAGE=ghcr.io/lies-exposed/liexp-admin
 AI_BOT_IMAGE=ghcr.io/lies-exposed/liexp-ai-bot
 AGENT_IMAGE=ghcr.io/lies-exposed/liexp-agent
 
-(exec ./scripts/docker-login.sh "$1")
+user="${GHCR_USER:-}"
 
 base=false
 pnpm=false
@@ -59,12 +59,23 @@ while [[ $# -gt 0 ]]; do
             agent=true
             shift
             ;;
+        -u|--user)
+            user="$2"
+            shift 2
+            ;;
+        -*)
+            echo "Unknown option: $1" >&2
+            exit 1
+            ;;
         *)
-            other_args+=("$1")
+            # legacy: first positional arg is the GHCR username
+            if [ -z "$user" ]; then user="$1"; else other_args+=("$1"); fi
             shift
             ;;
     esac
 done
+
+./scripts/docker/login.sh "$user"
 
 if [ "$base" = true ]; then
     echo "Pushing image $BASE_IMAGE"
