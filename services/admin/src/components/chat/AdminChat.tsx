@@ -58,7 +58,7 @@ const saveSettings = (patch: Partial<ChatSettings>) => {
 };
 
 export const AdminChat: React.FC<ChatProps> = ({ className }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isFullSize, setIsFullSize] = useState(false);
   const [isContextEnabled, setIsContextEnabled] = useState(false);
@@ -121,7 +121,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       );
       loadConversation(pendingConversationId, visibleMessages);
       setPendingConversationId(null);
-      setIsOpen(true);
+      setIsPanelOpen(true);
     }
   }, [
     pendingConversationId,
@@ -206,8 +206,8 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   }, [isContextEnabled, hookResource, hookRecord, location.pathname]);
 
   const handleToggleChat = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
+    setIsPanelOpen(!isPanelOpen);
+    if (!isPanelOpen) {
       setIsFullSize(false);
     }
   };
@@ -289,7 +289,8 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   return (
     <ChatUI
       className={className}
-      isOpen={isOpen}
+      isOpen={isPanelOpen}
+      mode="panel"
       messages={messages}
       inputValue={inputValue}
       isLoading={isLoading}
