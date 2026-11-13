@@ -1,5 +1,4 @@
 import { AxisBottom, AxisLeft } from "@visx/axis";
-import { type AxisProps } from "@visx/axis/lib/axis/Axis.js";
 import { Grid } from "@visx/grid";
 import { Group } from "@visx/group";
 import { LegendOrdinal } from "@visx/legend";
@@ -34,8 +33,8 @@ export interface BarStackHorizontalGraphProps<D, K extends StackKey> {
   yScale: ScaleBand<string>;
   colorScale: ScaleOrdinal<K, string>;
   getY: (d: D) => string;
-  axisBottom?: AxisProps<unknown>;
-  axisLeft?: AxisProps<unknown>;
+  axisBottom?: any;
+  axisLeft?: any;
   tooltipRenderer: (d: TooltipData<D, K>) => React.ReactNode;
 }
 

@@ -162,7 +162,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
       if (pane) {
         const { top, left, right, bottom } = contextMenuPositioner(event, pane);
         setMenu({
-          id: undefined as string | undefined,
+          id: "",
           top,
           left,
           right,

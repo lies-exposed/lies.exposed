@@ -8,8 +8,9 @@ import {
   useComponentsContext,
   useSelectedBlocks,
   type LinkToolbarProps,
-  type InlineContent,
 } from "@blocknote/react";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type InlineContent = any;
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { URL } from "@liexp/io/lib/http/Common/URL.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";

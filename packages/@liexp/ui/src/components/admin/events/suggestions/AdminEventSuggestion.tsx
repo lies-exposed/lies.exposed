@@ -56,7 +56,7 @@ const eventSuggestionListFilter = [
     choices={EventSuggestionStatus.members.map((tt) => ({
       name: tt.literals[0],
       id: tt.literals[0],
-    }))}
+    })) as Record<string, string>[]}
   />,
 ];
 
@@ -319,7 +319,7 @@ export const EventSuggestionCreate: React.FC<
       <TabbedForm
         syncWithLocation={false}
         onSubmit={(e: Record<string, unknown>) => {
-          void save?.(e);
+          void save?.(e as any);
         }}
       >
         <FormTab label="payload">

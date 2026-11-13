@@ -1,5 +1,6 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
-import type { InlineContent } from "@blocknote/react";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type InlineContent = any;
 import {
   type BNESchemaEditor,
   relationInlineSpec,

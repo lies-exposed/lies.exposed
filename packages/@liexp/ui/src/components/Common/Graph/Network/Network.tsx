@@ -123,14 +123,14 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
               if (point !== null) {
                 const [first, last] = A.splitAt(1)(graph.nodes as N[]);
                 const nearestPoint = last.reduce((acc, n) => {
-                  if (Math.abs(acc.x - point.x) < Math.abs(n.x - point.x)) {
+                  if (Math.abs((acc as unknown as NetworkPointNode<N>).x - point.x) < Math.abs((n as unknown as NetworkPointNode<N>).x - point.x)) {
                     return acc;
                   }
                   return n;
                 }, first[0]);
 
                 if (nearestPoint !== undefined) {
-                  props.onDoubleClick(nearestPoint, props.scale);
+                  props.onDoubleClick(nearestPoint as unknown as NetworkPointNode<N>, props.scale);
                 }
               }
             }}
@@ -167,11 +167,12 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
             graph={graph}
             linkComponent={(props) => NetworkLink(props.link)}
             nodeComponent={(props) =>
+              // @ts-expect-error NetworkNode expects different props than Graph provides
               NetworkNode({
                 ...(props as unknown as NetworkNodeComponentProps),
-                onMouseOver: handleMouseOver,
+                onMouseOver: handleMouseOver as any,
                 onMouseOut: hideTooltip,
-                onClick: onNodeClick,
+                onClick: onNodeClick as any,
               })
             }
           />

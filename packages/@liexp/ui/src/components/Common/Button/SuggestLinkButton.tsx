@@ -26,7 +26,7 @@ const SuggestLinkButton: React.FC<SuggestLinkButtonProps> = ({
           setOpen(!open);
         }}
       >
-        <Icons.AddCircle color={color} />
+        <Icons.AddCircle color={color as any} />
       </IconButton>
 
       <SuggestLinkModal open={open} onClose={doClose} />

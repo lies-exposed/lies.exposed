@@ -28,22 +28,10 @@ import { SocialPostPlatformIcon } from "./SocialPostPlatformIcon.js";
 import { SocialPostStatus } from "./SocialPostStatus.js";
 
 export const SocialPostEditTitle: React.FC = () => {
-  const record = useRecordContext<EditSocialPost>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const record: any = useRecordContext();
   return <Box>Social Post: {record?.content?.title}</Box>;
 };
-
-interface SocialPostInput {
-  _content: {
-    platforms?: Record<string, boolean>;
-    media?: unknown;
-    keywords?: unknown;
-    groups?: unknown;
-    actors?: unknown;
-    useReply?: boolean;
-    [key: string]: unknown;
-  };
-  [key: string]: unknown;
-}
 
 const transformSocialPost = ({
   _content: {
@@ -56,7 +44,7 @@ const transformSocialPost = ({
     ...content
   },
   ...r
-}: SocialPostInput): EditSocialPost => {
+}: any): EditSocialPost => {
   const media = _media as Media.Media[];
   const keywords = _keywords as Keyword.Keyword[];
   const groups = _groups as Group.Group[];
@@ -82,7 +70,8 @@ const SocialPostEditFormTabTelegram: React.FC = () => {
 
   const { result } = record ?? { result: null };
 
-  const tg = React.useMemo<Record<string, unknown>>(() => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tg = React.useMemo<any>(() => {
     let tgDate: string | undefined;
     try {
       tgDate = formatDate(new Date(result!.tg.date * 1000));
@@ -122,7 +111,8 @@ const SocialPostEditFormTabInstagram: React.FC = () => {
 
   const { result } = record ?? { result: null };
 
-  const ig = React.useMemo<Record<string, unknown>>(() => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const ig = React.useMemo<any>(() => {
     let igDate: string | undefined;
     try {
       igDate = formatDate(new Date(result!.ig.media.taken_at * 1000));

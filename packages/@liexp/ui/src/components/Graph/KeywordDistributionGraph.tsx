@@ -1,3 +1,4 @@
+import { type Word } from "d3-cloud";
 import { type Keyword } from "@liexp/io/lib/http/index.js";
 import { ParentSize } from "@visx/responsive";
 import { scaleLog } from "@visx/scale";
@@ -62,7 +63,7 @@ const KeywordsDistributionGraphComponent: React.FC<
           random={() => 0.5}
         >
           {(cloudWords) =>
-            cloudWords.map((w: unknown, _i: number) => {
+            cloudWords.map((w: Word & { color?: string }, _i: number) => {
               return (
                 <Text
                   key={w.text}
@@ -74,7 +75,7 @@ const KeywordsDistributionGraphComponent: React.FC<
                   fontWeight={600}
                   style={{ cursor: "pointer" }}
                   onClick={() => {
-                    onClick(w);
+                    onClick(w as unknown as Keyword.Keyword);
                   }}
                 >
                   {w.text}
@@ -109,7 +110,7 @@ const KeywordsDistributionGraph: React.FC<
         return (
           <KeywordsDistributionGraphComponent
             {...props}
-            data={keywordDistribution.data}
+            data={(keywordDistribution as { data: KeywordDatum[] }).data}
           />
         );
       }}

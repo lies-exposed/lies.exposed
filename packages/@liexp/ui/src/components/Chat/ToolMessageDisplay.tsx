@@ -358,6 +358,8 @@ export const ToolMessageDisplay: React.FC<{
     toolResult = message.content;
   }
 
+  const tr = toolResult as ToolResult;
+
   // Fallback: get tool name from tool_calls
   const toolCall = message.tool_calls?.[0];
   if (toolCall) {
@@ -382,8 +384,8 @@ export const ToolMessageDisplay: React.FC<{
     !isError &&
     typeof toolResult === "object" &&
     toolResult !== null &&
-    typeof toolResult.total === "number" &&
-    Array.isArray(toolResult.data);
+    typeof (toolResult as ToolResult).total === "number" &&
+    Array.isArray((toolResult as ToolResult).data);
 
   const rawResult =
     toolResult != null
@@ -409,7 +411,7 @@ export const ToolMessageDisplay: React.FC<{
   const resultSummary = React.useMemo(() => {
     if (isError) return null;
     if (isList && isToolResult(toolResult))
-      return `${toolResult.total} result${toolResult.total !== 1 ? "s" : ""}`;
+      return `${tr.total} result${tr.total !== 1 ? "s" : ""}`;
     if (typeof toolResult === "object" && toolResult !== null) {
       const primary = getPrimaryLabel(toolResult as Record<string, unknown>);
       return primary || null;
@@ -527,7 +529,7 @@ export const ToolMessageDisplay: React.FC<{
       {isExpanded && (
         <Box>
           {/* Params */}
-          {toolParams && (
+          {toolParams != null && (
             <Box
               sx={{
                 padding: "0.5em 0.75em",
@@ -627,8 +629,8 @@ export const ToolMessageDisplay: React.FC<{
                 </Box>
               ) : isList && isToolResult(toolResult) ? (
                 <ListResult
-                  total={toolResult.total}
-                  data={toolResult.data}
+                  total={toolResult.total ?? 0}
+                  data={toolResult.data ?? []}
                   showRaw={showRaw}
                   raw={rawResult ?? ""}
                 />

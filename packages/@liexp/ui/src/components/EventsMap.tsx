@@ -4,7 +4,7 @@ import { ParentSize } from "@visx/responsive";
 import { Schema } from "effect";
 import type { Option } from "fp-ts/lib/Option.js";
 import Feature from "ol/Feature.js";
-import type { Geometry } from "ol/geom/Geometry.js";
+import Geometry from "ol/geom/Geometry.js";
 import * as React from "react";
 import { geoJSONFormat } from "../utils/map.utils.js";
 import Map from "./Map.js";
@@ -133,7 +133,7 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
         ),
       })}
       render={({ events }) => {
-        return <EventsMapComponent {...rest} events={events.data} />;
+        return <EventsMapComponent {...rest} events={events as unknown as readonly Events.Event[]} />;
       }}
     />
   );

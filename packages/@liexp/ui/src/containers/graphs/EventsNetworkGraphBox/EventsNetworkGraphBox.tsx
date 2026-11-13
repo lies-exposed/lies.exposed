@@ -143,7 +143,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends object>({
           {
             startDate,
             endDate,
-            ids: nonEmptyArrayOr(ids, undefined),
+            ids: ids ?? [],
             eventType,
             type,
             count,

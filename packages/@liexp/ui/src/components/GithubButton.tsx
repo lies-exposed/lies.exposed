@@ -9,6 +9,12 @@ interface GithubButtonProps {
   className?: string;
   showStarCount?: boolean;
 }
+interface GithubRepoStats {
+  stargazers_count: number;
+}
+interface GithubQueryData {
+  data: GithubRepoStats[];
+}
 const GithubButton: React.FC<GithubButtonProps> = ({
   user,
   repo,
@@ -26,7 +32,7 @@ const GithubButton: React.FC<GithubButtonProps> = ({
           ),
         })}
         render={({ github }) => {
-          const starCount = github.data[0]?.stargazers_count ?? 0;
+          const starCount = (github as GithubQueryData).data[0]?.stargazers_count ?? 0;
           return (
             <IconButton
               color="inherit"

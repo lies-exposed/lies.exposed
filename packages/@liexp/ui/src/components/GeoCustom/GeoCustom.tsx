@@ -59,6 +59,9 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
   const centerY = height / 2;
   const initialScale = (width / 630) * 100;
 
+  // Cast CustomProjection to bypass GeoPermissibleObjects constraint
+  const CustomProjectionAny = CustomProjection as React.ComponentType<any>;
+
   return (
     <div style={{ height, width, marginLeft: "auto", marginRight: "auto" }}>
       <Zoom
@@ -92,7 +95,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                 fill={mapBackground}
                 rx={14}
               />
-              <CustomProjection<GeoJSON.GeoJsonProperties>
+              <CustomProjectionAny
                 projection={projection}
                 data={world.features}
                 scale={zoom.transformMatrix.scaleX}
@@ -101,29 +104,32 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                   zoom.transformMatrix.translateY,
                 ]}
               >
-                {(mercator) => {
+                {(mercator: any) => {
                   return (
                     <g>
                       <Graticule
                         graticule={(g) => mercator.path(g) ?? ""}
                         stroke="rgba(33,33,33,0.05)"
                       />
-                      {mercator.features.map(({ feature, path }, i) => {
-                        return (
-                          <path
-                            key={`map-feature-${i}`}
-                            d={path ?? ""}
-                            stroke={"black"}
-                            strokeWidth={0.5}
-                            fill={color(feature.geometry.coordinates.length)}
-                          />
-                        );
-                      })}
+                      {mercator.features.map(
+                        ({ feature, path }: { feature: any; path: string | undefined }, i: number) => {
+                          if (!feature) return null;
+                          return (
+                            <path
+                              key={`map-feature-${i}`}
+                              d={path ?? ""}
+                              stroke={"black"}
+                              strokeWidth={0.5}
+                              fill={color(feature.geometry.coordinates.length)}
+                            />
+                          );
+                        },
+                      )}
                     </g>
                   );
                 }}
-              </CustomProjection>
-              <CustomProjection<GeoJSON.GeoJsonProperties>
+              </CustomProjectionAny>
+              <CustomProjectionAny
                 projection={projection}
                 data={data.features}
                 scale={zoom.transformMatrix.scaleX}
@@ -132,10 +138,10 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                   zoom.transformMatrix.translateY,
                 ]}
               >
-                {(mercator) => {
+                {(mercator: any) => {
                   return <g>{mercator.features.map(featureRenderer)}</g>;
                 }}
-              </CustomProjection>
+              </CustomProjectionAny>
               <rect
                 x={0}
                 y={0}

@@ -33,7 +33,7 @@ export const AreaTGPostButton: React.FC = () => {
                 .then((data) => data.data)
             : await Promise.resolve([]);
 
-        const date = formatDate(parseISO(record.createdAt));
+        const date = formatDate(parseISO(record.createdAt as any));
 
         return {
           title: record.label,

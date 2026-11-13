@@ -23,8 +23,8 @@ import { Button, useRecordContext } from "../react-admin.js";
 const getPayloadFromLink = (
   link: Link,
   eventType: EventType,
-  currentPayload?: Partial<io.http.Events.EventPayload>,
-): Partial<io.http.Events.EventPayload> => {
+  currentPayload?: any,
+): any => {
   switch (eventType) {
     case EVENT_TYPES.UNCATEGORIZED:
       return {
@@ -49,7 +49,7 @@ const getPayloadFromLink = (
       return {
         title: currentPayload?.title ?? link.title,
         media: currentPayload?.media ?? undefined,
-        website: currentPayload?.website ?? link.id ?? undefined,
+        website: currentPayload?.website ?? link.id ?? "",
         authors: currentPayload?.authors ?? {
           actors: [],
           groups: [],
