@@ -91,7 +91,7 @@ const ColorInputStandalone: React.FC<
 
   const handleChange = (newValue: string): void => {
     setValue(newValue);
-    onChange?.({ target: { value: newValue } } as any);
+    onChange?.({ target: { value: newValue } } as unknown as React.ChangeEvent<HTMLInputElement>);
   };
 
   return (

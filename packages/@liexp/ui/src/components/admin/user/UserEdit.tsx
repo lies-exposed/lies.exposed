@@ -20,10 +20,10 @@ import {
 } from "../react-admin.js";
 import { EditTitle } from "./EditTitle.js";
 
-const UserTGTokenBox: React.FC<{ record?: any }> = ({ record: _record }) => {
+const UserTGTokenBox: React.FC<{ record?: Record<string, unknown> }> = ({ record: _record }) => {
   const record = _record ?? useRecordContext();
   const refresh = useRefresh();
-  const dataProvider: any = useDataProvider();
+  const dataProvider = useDataProvider();
   const [generating, setGenerating] = React.useState(false);
 
   const onTokenGenerate = (): void => {

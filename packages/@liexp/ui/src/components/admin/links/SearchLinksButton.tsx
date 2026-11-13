@@ -37,7 +37,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
   const [p, setP] = React.useState(1);
   const [providers, setProviders] = React.useState(Object.keys(defaultSites));
   const [keywords, setKeywords] = React.useState("");
-  const [links, setLinks] = React.useState<any[]>([]);
+  const [links, setLinks] = React.useState<Record<string, unknown>[]>([]);
 
   const selectedLinks = React.useMemo(
     () => links.filter((l) => l.selected),
@@ -57,7 +57,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
       })
       .then((r) => {
         setLinks(
-          r.data.map((ll: any) => ({
+          r.data.map((ll: Record<string, unknown>) => ({
             ...ll,
             selected: false,
             events: [],

@@ -37,7 +37,7 @@ export const EventSuggestionPreview: React.FC = () => {
           <QueryClientProvider client={qc}>
             <EventPageContent
               event={{
-                ...(p.event as any),
+                ...(p.event as unknown as Record<string, unknown>),
                 media: [],
                 keywords: [],
                 links: [],

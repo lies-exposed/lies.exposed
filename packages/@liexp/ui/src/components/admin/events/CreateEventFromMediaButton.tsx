@@ -28,13 +28,13 @@ export const CreateEventFromMediaButton: React.FC = () => {
       {
         title: media.label ?? media.description?.substring(0, 100),
         description: media.description,
-      } as any,
+      } as Record<string, unknown>,
       O.none,
-      O.some(media as any),
+      O.some(media as unknown as Record<string, unknown>),
       eventRelationIdsMonoid.empty,
     ).then((suggestions) => suggestions.find((t) => t.event.type === type));
 
-    const { newLinks: _newLinks, ...event }: any = suggestion?.event ?? {
+    const { newLinks: _newLinks, ...event }: Record<string, unknown> = suggestion?.event ?? {
       newLinks: [],
     };
     const { data: e } = await apiProvider.create(`/events`, {

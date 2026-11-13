@@ -28,7 +28,7 @@ export const MediaCreate: React.FC<CreateProps> = (props) => {
     <Create
       title="Create a Media"
       {...props}
-      transform={(r: any) =>
+      transform={(r: Record<string, unknown>) =>
         transformMedia(apiProvider)({ ...r, id: uuid() }, { onUploadProgress })
       }
       actions={

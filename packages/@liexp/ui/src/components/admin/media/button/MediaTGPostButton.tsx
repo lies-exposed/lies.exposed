@@ -37,7 +37,7 @@ export const MediaTGPostButton: React.FC = () => {
         return {
           title: record.label ?? record.description,
           keywords,
-          media: [record as any],
+          media: [record],
           date,
           content: record.description,
           actors: [],

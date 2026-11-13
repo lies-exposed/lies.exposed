@@ -27,7 +27,7 @@ export const fromMaybeDuration = (s: string): Duration => {
   const chunks = s.split(":").filter((n) => n !== "");
   const timeChunks = Array.from({ length: 3 }).reduce<string[]>(
     (acc, _, currentIndex) => {
-      return acc.concat(zeroPad((chunks[currentIndex] as any) ?? 0));
+      return acc.concat(zeroPad((chunks[currentIndex] as string | undefined) ?? 0));
     },
     [],
   );
