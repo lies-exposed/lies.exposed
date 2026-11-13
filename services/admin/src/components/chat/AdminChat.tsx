@@ -59,7 +59,6 @@ const saveSettings = (patch: Partial<ChatSettings>) => {
 };
 
 export const AdminChat: React.FC<ChatProps> = ({ className }) => {
-<<<<<<< HEAD
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isFullSize, setIsFullSize] = useState(false);
@@ -123,7 +122,6 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       );
       loadConversation(pendingConversationId, visibleMessages);
       setPendingConversationId(null);
-<<<<<<< HEAD
       setIsPanelOpen(true);
     }
   }, [
@@ -209,7 +207,6 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   }, [isContextEnabled, hookResource, hookRecord, location.pathname]);
 
   const handleToggleChat = () => {
-<<<<<<< HEAD
     setIsPanelOpen(!isPanelOpen);
     if (!isPanelOpen) {
       setIsFullSize(false);
