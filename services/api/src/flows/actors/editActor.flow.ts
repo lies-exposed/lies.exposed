@@ -33,8 +33,16 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
       username,
       fullName,
       color,
-      excerpt: pipe(excerpt, O.map((e) => e as any), O.getOrElse(() => undefined)),
-      body: pipe(body, O.map((b) => b as any), O.getOrElse(() => undefined)),
+      excerpt: pipe(
+        excerpt,
+        O.map((e) => e as any),
+        O.getOrElse(() => undefined),
+      ),
+      body: pipe(
+        body,
+        O.map((b) => b as any),
+        O.getOrElse(() => undefined),
+      ),
     }),
     bornOn: O.getOrUndefined(bornOn),
     diedOn: O.getOrUndefined(diedOn),
@@ -87,7 +95,10 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
             ? updateData.nationalities
             : actor.nationalities,
           memberIn: [...updateData.memberIn],
-          excerpt: "excerpt" in updateData ? (updateData.excerpt as any) : actor.excerpt,
+          excerpt:
+            "excerpt" in updateData
+              ? (updateData.excerpt as any)
+              : actor.excerpt,
           body: "body" in updateData ? (updateData.body as any) : actor.body,
         },
       ]),

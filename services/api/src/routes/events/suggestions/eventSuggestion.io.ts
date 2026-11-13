@@ -22,7 +22,7 @@ export const toEventSuggestion = (
       if (Schema.is(UUID)(linkObj.id as string)) {
         return {
           ...acc,
-          links: acc.links.concat((linkObj.id as string)),
+          links: acc.links.concat(linkObj.id as string),
         };
       }
       return {
