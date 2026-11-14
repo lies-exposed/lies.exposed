@@ -27,7 +27,7 @@ export const BooksPage: React.FC = () => {
       getTotal={(r) => r.data.total}
       listProps={{
         type: "masonry",
-        getItem: (data: any[], index: any) => {
+        getItem: (data: SearchBookEvent[], index: number) => {
           return data[index];
         },
         CellRenderer: CellRenderer((props) => (
