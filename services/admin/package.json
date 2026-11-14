@@ -88,6 +88,6 @@
     "vite-plugin-css-injected-by-js": "^5.0.3",
     "vite-plugin-optimizer": "^1.4.3",
     "vitest": "^5.1.0",
-    "vitest-mock-extended": "^6.0.0"
+    "vitest-mock-extended": "^6.0.1"
   }
 }

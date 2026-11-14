@@ -91,7 +91,7 @@
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.3.8",
     "vitest": "^5.1.0",
-    "vitest-mock-extended": "^6.0.0"
+    "vitest-mock-extended": "^6.0.1"
   },
   "peerDependencies": {
     "@langchain/anthropic": "^1.0.0",
