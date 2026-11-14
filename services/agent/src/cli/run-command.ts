@@ -20,7 +20,7 @@ type CommandError = IOError | Error;
  */
 const runCommand = async <A>(
   ctx: CLIContext,
-  schema: Schema.Schema<A, any, never>,
+  schema: Schema.Schema<A, unknown, never>,
   rawInput: unknown,
   handler: (input: A, ctx: CLIContext) => TaskEither<CommandError, unknown>,
 ): Promise<void> => {
