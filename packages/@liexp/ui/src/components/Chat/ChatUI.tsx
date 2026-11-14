@@ -46,33 +46,17 @@ const FloatingButton = styled(Paper)(({ theme }) => ({
 }));
 
 const ChatModal = styled(Paper, {
-  shouldForwardProp: (prop) => prop !== "isFullSize",
-})<{ isFullSize: boolean }>(({ theme, isFullSize }) => ({
-  position: "fixed",
-  bottom: isFullSize ? 0 : theme.spacing(3),
-  right: isFullSize ? 0 : theme.spacing(3),
-  top: isFullSize ? 0 : "auto",
-  left: isFullSize ? 0 : "auto",
-  width: isFullSize ? "100vw" : 400,
-  height: isFullSize ? "100vh" : 500,
+  shouldForwardProp: (prop) => prop !== "isFullSize" && prop !== "isPanel",
+})<{ isFullSize: boolean; isPanel: boolean }>(({ theme, isFullSize, isPanel }) => ({
+  position: isPanel ? "fixed" : isFullSize ? "fixed" : "fixed",
+  top: isPanel || isFullSize ? 0 : "auto",
+  right: isPanel ? 0 : isFullSize ? 0 : theme.spacing(3),
+  bottom: isPanel || isFullSize ? 0 : "auto",
+  left: isPanel ? "auto" : isFullSize ? 0 : "auto",
+  width: isPanel ? 420 : isFullSize ? "100vw" : 400,
+  height: isPanel || isFullSize ? "100vh" : 500,
   zIndex: 1300,
-  borderRadius: isFullSize ? 0 : theme.spacing(2),
-  display: "flex",
-  flexDirection: "column",
-  boxShadow: theme.shadows[8],
-  overflow: "hidden",
-  transition: "all 0.3s ease-in-out",
-}));
-
-const ChatPanel = styled(Paper, {
-  shouldForwardProp: (prop) => prop !== "style",
-})<{ style?: React.CSSProperties }>(({ theme, style }) => ({
-  position: "fixed",
-  top: 0,
-  right: 0,
-  bottom: 0,
-  width: 420,
-  zIndex: 1300,
+  borderRadius: isFullSize || isPanel ? 0 : theme.spacing(2),
   display: "flex",
   flexDirection: "column",
   boxShadow: theme.shadows[8],
@@ -261,7 +245,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
 
   // Shared panel content (used in both inline and portal rendering)
   const panelContent = (
-    <ChatPanel style={panelStyle}>
+    <ChatModal isPanel={true} style={panelStyle}>
       <ChatHeader
         title={title}
         isFullSize={false}
@@ -458,7 +442,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
           )}
         </Box>
       )}
-    </ChatPanel>
+    </ChatModal>
   );
 
   return (
@@ -470,18 +454,18 @@ export const ChatUI: React.FC<ChatUIProps> = ({
         </FloatingButton>
       )}
 
-      {/* Chat Panel (inline or portal) */}
+      {/* Chat Modal (modal or panel variant) */}
       {isOpen &&
         mode === "panel" &&
         (renderInline
           ? panelContent
           : createPortal(panelContent, document.body))}
 
-      {/* Chat Modal */}
+      {/* Chat Modal (modal mode) */}
       {isOpen &&
         mode !== "panel" &&
         createPortal(
-          <ChatModal isFullSize={isFullSize}>
+          <ChatModal isFullSize={isFullSize} isPanel={false}>
             <ChatHeader
               title={title}
               isFullSize={isFullSize}
