@@ -13,7 +13,6 @@ import {
 } from "../../hooks/useChatConversations.js";
 import { useStreamingChat } from "../../hooks/useStreamingChat.js";
 
-
 interface ChatProps {
   className?: string;
 }
