@@ -75,7 +75,7 @@ const RedirectToEventsRoute: React.FC = () => {
 const githubQuery = (
   Q: EndpointsQueryProvider<Endpoints, QueryProviderCustomQueries>,
   _conf: Configuration,
-): AsyncDataRouteQuery<any, any> => ({
+): AsyncDataRouteQuery<any, any, any> => ({
   queryKey: Q.GithubRepoStats.list.getKey(undefined, {
     owner: "lies-exposed",
     repo: "lies.exposed",
@@ -103,7 +103,7 @@ const linkRoute: ServerRoute = {
           queryKey: Q.Link.get.getKey({ id: linkId }),
           queryFn: Q.Link.get.fetch,
         },
-      ] as AsyncDataRouteQuery<any, any>[]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
 };
 
 const linksRoute: ServerRoute = {
@@ -115,7 +115,7 @@ const linksRoute: ServerRoute = {
       {
         queryKey: Q.Link.list.getKey(undefined),
         queryFn: Q.Link.list.fetch,
-      } as AsyncDataRouteQuery<any, any>,
+      } as AsyncDataRouteQuery<any, any, any>,
     ]),
 };
 
@@ -209,7 +209,7 @@ export const routes: ServerRoute[] = [
             }),
             queryFn: Q.Stats.list.fetch,
           },
-        ] as AsyncDataRouteQuery<any, any>[]),
+        ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // actors page
   {
@@ -229,7 +229,7 @@ export const routes: ServerRoute[] = [
           {
             queryKey: Q.Actor.get.getKey({ id: actorId }),
             queryFn: Q.Actor.get.fetch,
-          } as AsyncDataRouteQuery<any, any>,
+          } as AsyncDataRouteQuery<any, any, any>,
           {
             queryKey: Q.Group.list.getKey(
               undefined,
@@ -242,14 +242,14 @@ export const routes: ServerRoute[] = [
               // false,
             ),
             queryFn: Q.Group.list.fetch,
-          } as AsyncDataRouteQuery<any, any>,
+          } as AsyncDataRouteQuery<any, any, any>,
           {
             queryKey: Q.Stats.list.getKey(undefined, {
               id: actorId,
               type: StatsType.members[1].literals[0],
             }),
             queryFn: Q.Stats.list.fetch,
-          } as AsyncDataRouteQuery<any, any>,
+          } as AsyncDataRouteQuery<any, any, any>,
         ]),
   },
   // event page
@@ -362,7 +362,7 @@ export const routes: ServerRoute[] = [
             }),
             queryFn: Q.Event.Custom.SearchEvents.fetch,
           },
-        ];
+        ] as AsyncDataRouteQuery<any, any, any>[];
       },
   },
   // keywords
@@ -381,7 +381,7 @@ export const routes: ServerRoute[] = [
         {
           queryKey: Q.Keyword.get.getKey({ id: params.keywordId }),
           queryFn: Q.Keyword.get.fetch,
-        } as AsyncDataRouteQuery<any, any>,
+        } as AsyncDataRouteQuery<any, any, any>,
         {
           queryKey: Q.Stats.list.getKey(
             undefined,
@@ -393,7 +393,7 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Stats.list.fetch,
         },
-      ]);
+      ] as AsyncDataRouteQuery<any, any, any>[]);
     },
   },
   // areas
@@ -414,7 +414,7 @@ export const routes: ServerRoute[] = [
           {
             queryKey: Q.Area.get.getKey({ id: areaId }),
             queryFn: Q.Area.get.fetch,
-          } as AsyncDataRouteQuery<any, any>,
+          } as AsyncDataRouteQuery<any, any, any>,
         ]),
   },
   // media
@@ -435,7 +435,7 @@ export const routes: ServerRoute[] = [
           {
             queryKey: Q.Media.get.getKey({ id: mediaId }),
             queryFn: Q.Media.get.fetch,
-          } as AsyncDataRouteQuery<any, any>,
+          } as AsyncDataRouteQuery<any, any, any>,
         ]),
   },
   // links
@@ -494,7 +494,7 @@ export const routes: ServerRoute[] = [
             queryKey: storyRelatedKeywordsKey,
             queryFn: Q.Keyword.list.fetch,
           },
-        ];
+        ] as AsyncDataRouteQuery<any, any, any>[];
       },
   },
   // Routes without parameters (less specific)
@@ -521,7 +521,7 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Group.list.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // actors
   {
@@ -539,7 +539,7 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Actor.list.getKey(undefined),
           queryFn: Q.Actor.list.fetch,
         },
-      ] as AsyncDataRouteQuery<any, any>[]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // events
   {
@@ -641,7 +641,7 @@ export const routes: ServerRoute[] = [
           queryKey: getSearchEventsInfiniteQueryKey(q),
           queryFn: Q.Event.Custom.SearchEvents.fetch,
         },
-      ]);
+      ] as AsyncDataRouteQuery<any, any, any>[]);
     },
   },
   {
@@ -668,7 +668,7 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Event.Custom.SearchEvents.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // keywords
   {
@@ -693,7 +693,7 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Area.list.getKey(undefined, undefined),
           queryFn: Q.Area.list.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // media
   {
@@ -711,7 +711,7 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Media.list.getKey(undefined, undefined),
           queryFn: Q.Media.list.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // links
   linksRoute,
@@ -741,7 +741,7 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Story.list.fetch,
         },
-      ]);
+      ] as AsyncDataRouteQuery<any, any, any>[]);
     },
   },
   // profile (wildcard to allow react-admin to handle nested routes like /profile/login)
@@ -816,6 +816,6 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Media.list.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
 ];
