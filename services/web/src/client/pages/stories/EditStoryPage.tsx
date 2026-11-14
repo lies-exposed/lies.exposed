@@ -37,7 +37,7 @@ const StyledContainer = styled(Container)(({ theme: _theme }) => ({
 const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
   const [update, { isPending: isSubmitting }] = useUpdate();
   const navigate = useNavigate();
-  const onSubmit = async (data: any): Promise<void> => {
+  const onSubmit = async (data: Record<string, unknown>): Promise<void> => {
     await update(
       "stories",
       { id, data },

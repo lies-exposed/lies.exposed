@@ -13,7 +13,7 @@ export const UserEditMe: React.FC = () => {
   const { isLoading, data, isError, error } = useGetOne("users", { id: "me" });
   const dataProvider = useDataProvider();
   const [saving, setSaving] = React.useState(false);
-  const save = (record: any): void => {
+  const save = (record: Record<string, unknown>): void => {
     setSaving(true);
     void dataProvider
       .update("users", { id: "me", data: record, previousData: data })
