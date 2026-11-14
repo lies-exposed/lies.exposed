@@ -96,7 +96,8 @@ const linkRoute: ServerRoute = {
   },
   queries:
     (Q, conf) =>
-    async ({ linkId }: { linkId: UUID }) =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async ({ linkId }: any) =>
       Promise.resolve([
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
@@ -185,7 +186,8 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      async ({ groupId }: { groupId: UUID }) =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      async ({ groupId }: any) =>
         Promise.resolve([
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
@@ -223,7 +225,8 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      ({ actorId }: { actorId: UUID }) =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ({ actorId }: any) =>
         Promise.resolve([
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
@@ -265,7 +268,8 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      async ({ eventId }: { eventId: UUID }) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      async ({ eventId }: any) => {
         const { data: event } = await Q.Event.get.fetch({ id: eventId });
 
         const { actors, groups, keywords, media } = getRelationIds(event);
@@ -375,7 +379,8 @@ export const routes: ServerRoute[] = [
       }
       return <NotFoundPage />;
     },
-    queries: (Q, conf) => async (params: { keywordId: UUID }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    queries: (Q, conf) => async (params: any) => {
       return Promise.resolve([
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
@@ -408,7 +413,8 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      async ({ areaId }: { areaId: UUID }) =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      async ({ areaId }: any) =>
         Promise.resolve([
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
@@ -429,7 +435,8 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      async ({ mediaId }: { mediaId: UUID }) =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      async ({ mediaId }: any) =>
         Promise.resolve([
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
@@ -451,7 +458,8 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      async ({ storyPath }: { storyPath: string }) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      async ({ storyPath }: any) => {
         const storyParams = { path: storyPath };
         const storyKey = Q.Story.list.getKey(undefined, storyParams);
         const story = await Q.Story.list
@@ -546,7 +554,8 @@ export const routes: ServerRoute[] = [
     path: "/events",
     route: () => <EventsPage />,
     queries:
-      (Q, conf) => async (params, query: Record<string, string | string[]>) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (Q, conf) => async (params, query: any) => {
         const q = hashToQuery(query.hash) as Record<string, string | string[]>;
 
         q.hash = query.hash;

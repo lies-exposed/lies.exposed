@@ -27,8 +27,8 @@ const DocumentariesPage: React.FC = () => {
       getTotal={(r) => r.data.total}
       listProps={{
         type: "masonry",
-        getItem: (data: SearchDocumentaryEvent[], index: number) => {
-          return data[index];
+        getItem: (data: unknown[], index: number): unknown => {
+          return data[index] as SearchDocumentaryEvent;
         },
         CellRenderer: CellRenderer((props) => (
           <EventCard

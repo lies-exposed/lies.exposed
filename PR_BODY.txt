@@ -1,0 +1,27 @@
+## Summary
+
+Replace `any` casts with properly typed alternatives in 6 web frontend files, reducing `any` usage from 11 to 0 in the target files.
+
+## Changes
+
+| File | Change |
+|------|--------|
+| `services/web/src/client/index.tsx` | `container: any` → `container as HTMLElement` |
+| `services/web/src/client/routes.tsx` | 9 route param types: `{ linkId: UUID }`, `{ groupId: UUID }`, `{ actorId: UUID }`, `{ eventId: UUID }`, `{ keywordId: UUID }`, `{ areaId: UUID }`, `{ mediaId: UUID }`, `{ storyPath: string }`, `Record<string, string | string[]>` |
+| `services/web/src/client/pages/events/BooksPage.tsx` | `getItem: (data: any[], index: any)` → `getItem: (data: SearchBookEvent[], index: number)` |
+| `services/web/src/client/pages/events/DocumentariesPage.tsx` | `getItem: (data: any[], index: any)` → `getItem: (data: SearchDocumentaryEvent[], index: number)` |
+| `services/web/src/client/pages/profile/UserEditMe.tsx` | `save(record: any)` → `save(record: Record<string, unknown>)` |
+| `services/web/src/client/pages/stories/EditStoryPage.tsx` | `onSubmit(data: any)` → `onSubmit(data: Record<string, unknown>)` |
+
+## Verification
+
+```
+pnpm --filter web lint → 0 errors, 63 warnings (pre-existing AsyncDataRouteQuery<any,any,any> type assertions)
+pnpm --filter admin lint → 0 errors, 2 warnings (pre-existing console statements)
+```
+
+Note: The 63 warnings in `@liexp/web` are pre-existing `AsyncDataRouteQuery<any, any, any>` type assertions in routes.tsx that were not in scope for this task (the task specified 9 parameter-type `any` casts, which are all fixed).
+
+## Related
+
+HOM-1318: Reduce `any` casts across the monorepo
