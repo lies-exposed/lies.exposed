@@ -308,6 +308,15 @@ const reduceResultToOutput: Flow<
   return pipe(results, fp.A.reduce(initialOutput, monoidOutput.concat));
 };
 
+interface NetworkLinkInput {
+  source: string;
+  target: string;
+  fill: string;
+  stroke: string;
+  sourceType: NetworkLink["sourceType"];
+  value: number;
+}
+
 interface Result {
   events: EventNetworkDatum[];
   eventNodes: EventNetworkDatum[];
@@ -476,7 +485,11 @@ export const createEventNetworkGraph =
                   const color = getColorByEventType({
                     type: event.type,
                   });
-                  const update: any = {};
+                  const update: {
+                    actorLinks?: NetworkLinkInput[];
+                    groupLinks?: NetworkLinkInput[];
+                    keywordLinks?: NetworkLinkInput[];
+                  } = {};
                   ctx.logger.debug.log("Source key %s", k);
                   if (key === Actor.ACTORS.literals[0]) {
                     update.actorLinks = [
@@ -490,7 +503,7 @@ export const createEventNetworkGraph =
                       },
                     ];
                     if (tuples[1].events?.[0]?.id) {
-                      update.actorLinks.push({
+                      update.actorLinks!.push({
                         source: tuples[1].events?.[0]?.id,
                         sourceType: "events",
                         target: k + "",
@@ -500,7 +513,7 @@ export const createEventNetworkGraph =
                       });
                     }
 
-                    update.actorLinks.push(...tuples[1].actorLinks);
+                    update.actorLinks!.push(...tuples[1].actorLinks);
                   }
 
                   if (key === Group.GROUPS.literals[0]) {
@@ -515,7 +528,7 @@ export const createEventNetworkGraph =
                       },
                     ];
                     if (tuples[1].events?.[0]?.id) {
-                      update.groupLinks.push({
+                      update.groupLinks!.push({
                         source: tuples[1].events?.[0]?.id,
                         sourceType: "events",
                         target: k.toString(),
@@ -524,7 +537,7 @@ export const createEventNetworkGraph =
                         value: 0,
                       });
                     }
-                    update.groupLinks.push(...tuples[1].groupLinks);
+                    update.groupLinks!.push(...tuples[1].groupLinks);
                   }
 
                   if (key === Keyword.KEYWORDS.literals[0]) {
@@ -539,7 +552,7 @@ export const createEventNetworkGraph =
                       },
                     ];
                     if (tuples[1].events?.[0]?.id) {
-                      update.keywordLinks.push({
+                      update.keywordLinks!.push({
                         source: tuples[1].events?.[0]?.id,
                         sourceType: "events" as const,
                         target: k.toString(),
@@ -549,17 +562,17 @@ export const createEventNetworkGraph =
                       });
                     }
 
-                    update.keywordLinks.push(...tuples[1].keywordLinks);
+                    update.keywordLinks!.push(...tuples[1].keywordLinks);
                   }
 
                   return {
                     ...tuples[1],
                     ...update,
-                  };
+                  } as unknown as Result;
                 }),
               ),
             ),
-            TE.map((results) => reduceResultToOutput(results)(ctx)),
+            TE.map((results) => reduceResultToOutput(results as unknown as NetworkGraphOutput[])(ctx)),
             TE.map((output) => ({
               ...output,
               actors,

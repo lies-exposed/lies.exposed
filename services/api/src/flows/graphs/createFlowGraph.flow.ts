@@ -20,7 +20,6 @@ import {
 } from "@liexp/io/lib/http/graphs/FlowGraph.js";
 import { getTotals } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import {
   differenceInDays,
   subYears,
@@ -31,14 +30,24 @@ import { fetchEventsRelations } from "../events/fetchEventsRelations.flow.js";
 import { type Flow, type TEReader } from "../flow.types.js";
 import { type ServerContext } from "#context/context.type.js";
 
+interface NetworkLinkInput {
+  source: string;
+  target: string;
+  fill: string;
+  stroke: string;
+  sourceType: NetworkLink["sourceType"];
+  value: number;
+  name?: string;
+}
+
 const ordByDate = pipe(
   fp.N.Ord,
   fp.Ord.contramap((n: Events.Event) => differenceInDays(n.date, new Date())),
 );
 
 const updateMap =
-  (m: Map<string, any[]>, sourceType: NetworkLink["sourceType"]) =>
-  (ids: any[], eId: string) => {
+  (m: Map<string, NetworkLinkInput[]>, sourceType: NetworkLink["sourceType"]) =>
+  (ids: { id: string; color?: string; name?: string; fullName?: string }[], eId: string) => {
     return pipe(
       ids,
       fp.A.map((a) =>
@@ -52,8 +61,8 @@ const updateMap =
               fp.O.map((l) =>
                 links.concat({
                   source: l.target,
-                  stroke: toColor(a.color),
-                  fill: toColor(a.color),
+                  stroke: a.color ?? "",
+                  fill: a.color ?? "",
                   sourceType,
                   value: 1,
                   target: eId,
@@ -61,22 +70,25 @@ const updateMap =
               ),
             ),
           ),
-          fp.O.getOrElse(() => [
-            {
-              source: a.id,
-              name: a.name ?? a.fullName,
-              fill: toColor(a.color),
-              stroke: toColor(a.color),
-              sourceType,
-              value: 1,
-              target: eId,
-            },
-          ]),
-          (links): [string, any[]] => [a.id, links],
+          fp.O.getOrElse(
+            () =>
+              [
+                {
+                  source: a.id,
+                  name: a.name ?? a.fullName,
+                  fill: a.color ?? "",
+                  stroke: a.color ?? "",
+                  sourceType,
+                  value: 1,
+                  target: eId,
+                },
+              ] as NetworkLinkInput[],
+          ),
+          (links): [string, NetworkLinkInput[]] => [a.id, links],
         ),
       ),
-      fp.A.reduce(m, (acc, [k, ll]) =>
-        pipe(acc, fp.Map.upsertAt(fp.S.Eq)(k, ll)),
+      fp.A.reduce(m, (acc, entry) =>
+        pipe(acc, fp.Map.upsertAt(fp.S.Eq)(entry[0], entry[1])),
       ),
     );
   };
@@ -118,9 +130,9 @@ const getFlowGraph =
     );
 
     const initialResult = {
-      actorLinks: new Map<string, any[]>(),
-      groupLinks: new Map<string, any[]>(),
-      keywordLinks: new Map<string, any[]>(),
+      actorLinks: new Map<string, NetworkLinkInput[]>(),
+      groupLinks: new Map<string, NetworkLinkInput[]>(),
+      keywordLinks: new Map<string, NetworkLinkInput[]>(),
       totals: EventTotalsMonoid.empty,
     };
 
@@ -188,9 +200,9 @@ const getFlowGraph =
       media,
       eventLinks: [],
       selectedLinks: [],
-      keywordLinks,
-      actorLinks,
-      groupLinks,
+      keywordLinks: keywordLinks as NetworkLink[],
+      actorLinks: actorLinks as NetworkLink[],
+      groupLinks: groupLinks as NetworkLink[],
       totals: graph.totals,
     };
   };

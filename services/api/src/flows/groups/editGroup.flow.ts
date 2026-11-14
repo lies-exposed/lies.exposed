@@ -71,8 +71,8 @@ export const editGroup = (input: EditGroupInput): TEReader<Group> => {
         createdAt: new Date(),
         excerpt: O.getOrNull(member.body),
         endDate: O.getOrNull(member.endDate),
-        actor: { id: member.actor } as ActorEntity,
-        group: { id } as GroupEntity,
+        actor: { id: member.actor } as Partial<ActorEntity>,
+        group: { id } as Partial<GroupEntity>,
       }));
 
       const loadExisting =
