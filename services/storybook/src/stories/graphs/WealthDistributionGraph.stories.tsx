@@ -1,6 +1,5 @@
 import {
   WealthDistributionGraph,
-  type WealthDistributionGraphProps,
 } from "@liexp/ui/lib/components/Graph/WealthDistributionGraph/WealthDistributionGraph.js";
 import { type Meta, type StoryObj } from "@storybook/react-vite";
 import * as React from "react";
@@ -15,7 +14,7 @@ const meta = {
       </div>
     );
   },
-} satisfies Meta<WealthDistributionGraphProps>;
+} satisfies Meta<Record<string, never>>;
 
 export default meta;
 
