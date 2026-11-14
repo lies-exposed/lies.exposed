@@ -274,9 +274,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
       />
 
       <MessagesContainer>
-        {messages.length === 0 && (
-          <WelcomeMessage message={welcomeMessage} />
-        )}
+        {messages.length === 0 && <WelcomeMessage message={welcomeMessage} />}
 
         {messages.flatMap((message) => {
           const messageComponents: React.ReactElement[] = [];
@@ -400,9 +398,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
           )}
           {providerSelector && (
             <ProviderSelector
-              selectedProvider={
-                providerSelector.selectedProvider as any
-              }
+              selectedProvider={providerSelector.selectedProvider as any}
               selectedModel={providerSelector.selectedModel}
               onProviderChange={providerSelector.onProviderChange}
               onModelChange={providerSelector.onModelChange}
@@ -432,10 +428,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                       />
                     }
                     label={
-                      <Typography
-                        variant="caption"
-                        sx={{ fontSize: "0.7rem" }}
-                      >
+                      <Typography variant="caption" sx={{ fontSize: "0.7rem" }}>
                         Auto-compact
                       </Typography>
                     }
@@ -478,16 +471,15 @@ export const ChatUI: React.FC<ChatUIProps> = ({
       )}
 
       {/* Chat Panel (inline or portal) */}
-      {isOpen && mode === "panel" && (
-        renderInline ? (
-          panelContent
-        ) : (
-          createPortal(panelContent, document.body)
-        )
-      )}
+      {isOpen &&
+        mode === "panel" &&
+        (renderInline
+          ? panelContent
+          : createPortal(panelContent, document.body))}
 
       {/* Chat Modal */}
-      {isOpen && mode !== "panel" &&
+      {isOpen &&
+        mode !== "panel" &&
         createPortal(
           <ChatModal isFullSize={isFullSize}>
             <ChatHeader
@@ -620,9 +612,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                 )}
                 {providerSelector && (
                   <ProviderSelector
-                    selectedProvider={
-                      providerSelector.selectedProvider as any
-                    }
+                    selectedProvider={providerSelector.selectedProvider as any}
                     selectedModel={providerSelector.selectedModel}
                     onProviderChange={providerSelector.onProviderChange}
                     onModelChange={providerSelector.onModelChange}
