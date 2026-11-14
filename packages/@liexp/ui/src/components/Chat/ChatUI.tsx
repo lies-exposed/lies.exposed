@@ -64,7 +64,9 @@ const ChatModal = styled(Paper, {
   transition: "all 0.3s ease-in-out",
 }));
 
-const ChatPanel = styled(Paper)(({ theme }) => ({
+const ChatPanel = styled(Paper, {
+  shouldForwardProp: (prop) => prop !== "style",
+})<{ style?: React.CSSProperties }>(({ theme, style }) => ({
   position: "fixed",
   top: 0,
   right: 0,
@@ -76,6 +78,7 @@ const ChatPanel = styled(Paper)(({ theme }) => ({
   boxShadow: theme.shadows[8],
   overflow: "hidden",
   transition: "all 0.3s ease-in-out",
+  ...style,
 }));
 
 const MessagesContainer = styled(Box)(({ theme }) => ({
@@ -102,6 +105,8 @@ export interface ChatUIProps {
   isOpen: boolean;
   /** Display mode: 'modal' for floating chat, 'panel' for right-side panel */
   mode?: "modal" | "panel";
+  /** When true, render panel inline (no portal) for use in flex containers */
+  renderInline?: boolean;
   /** Array of chat messages */
   messages: ChatMessage[];
   /** Current input value */
@@ -200,6 +205,8 @@ export interface ChatUIProps {
   }[];
   /** Callback when a conversation is selected */
   onSelectConversation?: (conversationId: string) => void;
+  /** Custom style for the panel (used when renderInline is true) */
+  panelStyle?: React.CSSProperties;
 }
 
 const defaultFormatTime = (timestamp: string) => {
@@ -209,15 +216,11 @@ const defaultFormatTime = (timestamp: string) => {
   });
 };
 
-/**
- * ChatUI Component
- *
- * A presentational component for a floating chat interface.
- * Handles only UI rendering - all logic should be managed by the parent.
- */
 export const ChatUI: React.FC<ChatUIProps> = ({
   isOpen,
   mode = "modal",
+  renderInline = false,
+  panelStyle,
   messages,
   inputValue,
   isLoading,
@@ -236,17 +239,17 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   onToggleFullSize,
   isContextEnabled = false,
   onToggleContext,
-  contextLabel,
-  streamingMessage,
-  agentSelector,
-  providerSelector,
-  usedProvider,
   onCompact,
   isCompacting,
   autoCompact,
   onToggleAutoCompact,
   tokenUsage,
   context,
+  contextLabel,
+  streamingMessage,
+  agentSelector,
+  providerSelector,
+  usedProvider,
   conversations,
   onSelectConversation,
 }) => {
@@ -255,6 +258,208 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingMessage]);
+
+  // Shared panel content (used in both inline and portal rendering)
+  const panelContent = (
+    <ChatPanel style={panelStyle}>
+      <ChatHeader
+        title={title}
+        isFullSize={false}
+        onToggle={onToggle}
+        onToggleFullSize={undefined}
+        onCompact={onCompact}
+        isCompacting={isCompacting}
+        conversations={conversations}
+        onSelectConversation={onSelectConversation}
+      />
+
+      <MessagesContainer>
+        {messages.length === 0 && <WelcomeMessage message={welcomeMessage} />}
+
+        {messages.flatMap((message) => {
+          const messageComponents: React.ReactElement[] = [];
+
+          if (message.role === "tool") {
+            // Tool messages are standalone
+            messageComponents.push(
+              <ToolMessage
+                key={message.id}
+                message={message}
+                formatTime={formatTime}
+              />,
+            );
+          } else if (message.role === "system") {
+            // System messages rendered as centered notifications
+            messageComponents.push(
+              <SystemMessage
+                key={message.id}
+                message={message}
+                formatTime={formatTime}
+              />,
+            );
+          } else {
+            // User or assistant messages
+            if (message.content) {
+              messageComponents.push(
+                <ContentMessage
+                  key={message.id}
+                  message={message}
+                  formatTime={formatTime}
+                />,
+              );
+            }
+
+            // Add separate message bubbles for each tool call (only when
+            // there are no corresponding role:"tool" messages in the list,
+            // i.e. assistant messages loaded from history that include
+            // tool_calls but no separate tool result messages)
+            if (
+              message.role === "assistant" &&
+              message.tool_calls &&
+              message.tool_calls.length > 0
+            ) {
+              const toolMessageIds = new Set(
+                messages
+                  .filter((m) => m.role === "tool" && m.tool_call_id)
+                  .map((m) => m.tool_call_id),
+              );
+              message.tool_calls.forEach((toolCall, index) => {
+                // Skip if there's already a dedicated tool result message
+                if (toolMessageIds.has(toolCall.id)) return;
+                messageComponents.push(
+                  <ToolMessage
+                    key={`${message.id}-tool-${toolCall.id}-${index}`}
+                    message={{
+                      id: toolCall.id,
+                      role: "tool",
+                      content: JSON.stringify({
+                        tool: toolCall.function.name,
+                        arguments: toolCall.function.arguments,
+                      }),
+                      timestamp: message.timestamp,
+                      tool_calls: [toolCall],
+                    }}
+                    formatTime={formatTime}
+                  />,
+                );
+              });
+            }
+          }
+
+          return messageComponents;
+        })}
+
+        {streamingMessage && (
+          <StreamingMessage
+            streamingMessage={streamingMessage}
+            formatTime={formatTime}
+          />
+        )}
+
+        {isLoading && !streamingMessage?.content && <LoadingMessage />}
+
+        <div ref={messagesEndRef} />
+      </MessagesContainer>
+
+      {error && <ErrorDisplay error={error} onRetry={onRetry} />}
+
+      <ChatInput
+        inputValue={inputValue}
+        inputPlaceholder={inputPlaceholder}
+        isLoading={isLoading}
+        isContextEnabled={isContextEnabled}
+        contextLabel={contextLabel}
+        onInputChange={onInputChange}
+        onKeyPress={onKeyPress}
+        onSendMessage={onSendMessage}
+        onToggleContext={onToggleContext}
+      />
+
+      {(agentSelector ??
+        providerSelector ??
+        onToggleAutoCompact ??
+        tokenUsage) && (
+        <Box
+          sx={{
+            px: 1.5,
+            pb: 0.75,
+            borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+            display: "flex",
+            flexDirection: "column",
+            gap: 0,
+          }}
+        >
+          {agentSelector && (
+            <AgentSelector
+              selectedAgent={agentSelector.selectedAgent}
+              onAgentChange={agentSelector.onAgentChange}
+              getAuthToken={agentSelector.getAuthToken}
+            />
+          )}
+          {providerSelector && (
+            <ProviderSelector
+              selectedProvider={providerSelector.selectedProvider as any}
+              selectedModel={providerSelector.selectedModel}
+              onProviderChange={providerSelector.onProviderChange}
+              onModelChange={providerSelector.onModelChange}
+              getAuthToken={providerSelector.getAuthToken}
+              usedProvider={usedProvider}
+            />
+          )}
+          {(onToggleAutoCompact ?? tokenUsage) && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                mt: 0.5,
+                flexWrap: "wrap",
+                gap: 0.5,
+              }}
+            >
+              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                {onToggleAutoCompact && (
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        size="small"
+                        checked={!!autoCompact}
+                        onChange={onToggleAutoCompact}
+                      />
+                    }
+                    label={
+                      <Typography variant="caption" sx={{ fontSize: "0.7rem" }}>
+                        Auto-compact
+                      </Typography>
+                    }
+                    sx={{ m: 0 }}
+                  />
+                )}
+              </Box>
+              {tokenUsage && (
+                <Typography
+                  variant="caption"
+                  sx={{ fontSize: "0.65rem", opacity: 0.7 }}
+                >
+                  {tokenUsage.totalTokens.toLocaleString()} tokens
+                  {tokenUsage.isEstimated ? " (est.)" : ""}
+                </Typography>
+              )}
+              {context && context.total > 0 && (
+                <Typography
+                  variant="caption"
+                  sx={{ fontSize: "0.65rem", opacity: 0.7, ml: 1 }}
+                >
+                  / {context.used.toLocaleString()} /{" "}
+                  {context.total.toLocaleString()} (context)
+                </Typography>
+              )}
+            </Box>
+          )}
+        </Box>
+      )}
+    </ChatPanel>
+  );
 
   return (
     <div className={className}>
@@ -265,422 +470,212 @@ export const ChatUI: React.FC<ChatUIProps> = ({
         </FloatingButton>
       )}
 
-      {/* Chat Modal or Panel */}
+      {/* Chat Panel (inline or portal) */}
       {isOpen &&
+        mode === "panel" &&
+        (renderInline
+          ? panelContent
+          : createPortal(panelContent, document.body))}
+
+      {/* Chat Modal */}
+      {isOpen &&
+        mode !== "panel" &&
         createPortal(
-          mode === "panel" ? (
-            <ChatPanel>
-              <ChatHeader
-                title={title}
-                isFullSize={false}
-                onToggle={onToggle}
-                onToggleFullSize={undefined}
-                onCompact={onCompact}
-                isCompacting={isCompacting}
-                conversations={conversations}
-                onSelectConversation={onSelectConversation}
-              />
+          <ChatModal isFullSize={isFullSize}>
+            <ChatHeader
+              title={title}
+              isFullSize={isFullSize}
+              onToggle={onToggle}
+              onToggleFullSize={onToggleFullSize}
+              onCompact={onCompact}
+              isCompacting={isCompacting}
+              conversations={conversations}
+              onSelectConversation={onSelectConversation}
+            />
 
-              <MessagesContainer>
-                {messages.length === 0 && (
-                  <WelcomeMessage message={welcomeMessage} />
-                )}
+            <MessagesContainer>
+              {messages.length === 0 && (
+                <WelcomeMessage message={welcomeMessage} />
+              )}
 
-                {messages.flatMap((message) => {
-                  const messageComponents: React.ReactElement[] = [];
+              {messages.flatMap((message) => {
+                const messageComponents: React.ReactElement[] = [];
 
-                  if (message.role === "tool") {
-                    // Tool messages are standalone
+                if (message.role === "tool") {
+                  messageComponents.push(
+                    <ToolMessage
+                      key={message.id}
+                      message={message}
+                      formatTime={formatTime}
+                    />,
+                  );
+                } else if (message.role === "system") {
+                  messageComponents.push(
+                    <SystemMessage
+                      key={message.id}
+                      message={message}
+                      formatTime={formatTime}
+                    />,
+                  );
+                } else {
+                  if (message.content) {
                     messageComponents.push(
-                      <ToolMessage
+                      <ContentMessage
                         key={message.id}
                         message={message}
                         formatTime={formatTime}
                       />,
                     );
-                  } else if (message.role === "system") {
-                    // System messages rendered as centered notifications
-                    messageComponents.push(
-                      <SystemMessage
-                        key={message.id}
-                        message={message}
-                        formatTime={formatTime}
-                      />,
+                  }
+
+                  if (
+                    message.role === "assistant" &&
+                    message.tool_calls &&
+                    message.tool_calls.length > 0
+                  ) {
+                    const toolMessageIds = new Set(
+                      messages
+                        .filter((m) => m.role === "tool" && m.tool_call_id)
+                        .map((m) => m.tool_call_id),
                     );
-                  } else {
-                    // User or assistant messages
-                    if (message.content) {
+                    message.tool_calls.forEach((toolCall, index) => {
+                      if (toolMessageIds.has(toolCall.id)) return;
                       messageComponents.push(
-                        <ContentMessage
-                          key={message.id}
-                          message={message}
+                        <ToolMessage
+                          key={`${message.id}-tool-${toolCall.id}-${index}`}
+                          message={{
+                            id: toolCall.id,
+                            role: "tool",
+                            content: JSON.stringify({
+                              tool: toolCall.function.name,
+                              arguments: toolCall.function.arguments,
+                            }),
+                            timestamp: message.timestamp,
+                            tool_calls: [toolCall],
+                          }}
                           formatTime={formatTime}
                         />,
                       );
-                    }
-
-                    // Add separate message bubbles for each tool call (only when
-                    // there are no corresponding role:"tool" messages in the list,
-                    // i.e. assistant messages loaded from history that include
-                    // tool_calls but no separate tool result messages)
-                    if (
-                      message.role === "assistant" &&
-                      message.tool_calls &&
-                      message.tool_calls.length > 0
-                    ) {
-                      const toolMessageIds = new Set(
-                        messages
-                          .filter((m) => m.role === "tool" && m.tool_call_id)
-                          .map((m) => m.tool_call_id),
-                      );
-                      message.tool_calls.forEach((toolCall, index) => {
-                        // Skip if there's already a dedicated tool result message
-                        if (toolMessageIds.has(toolCall.id)) return;
-                        messageComponents.push(
-                          <ToolMessage
-                            key={`${message.id}-tool-${toolCall.id}-${index}`}
-                            message={{
-                              id: toolCall.id,
-                              role: "tool",
-                              content: JSON.stringify({
-                                tool: toolCall.function.name,
-                                arguments: toolCall.function.arguments,
-                              }),
-                              timestamp: message.timestamp,
-                              tool_calls: [toolCall],
-                            }}
-                            formatTime={formatTime}
-                          />,
-                        );
-                      });
-                    }
+                    });
                   }
+                }
 
-                  return messageComponents;
-                })}
+                return messageComponents;
+              })}
 
-                {streamingMessage && (
-                  <StreamingMessage
-                    streamingMessage={streamingMessage}
-                    formatTime={formatTime}
+              {streamingMessage && (
+                <StreamingMessage
+                  streamingMessage={streamingMessage}
+                  formatTime={formatTime}
+                />
+              )}
+
+              {isLoading && !streamingMessage?.content && <LoadingMessage />}
+
+              <div ref={messagesEndRef} />
+            </MessagesContainer>
+
+            {error && <ErrorDisplay error={error} onRetry={onRetry} />}
+
+            <ChatInput
+              inputValue={inputValue}
+              inputPlaceholder={inputPlaceholder}
+              isLoading={isLoading}
+              isContextEnabled={isContextEnabled}
+              contextLabel={contextLabel}
+              onInputChange={onInputChange}
+              onKeyPress={onKeyPress}
+              onSendMessage={onSendMessage}
+              onToggleContext={onToggleContext}
+            />
+
+            {(agentSelector ??
+              providerSelector ??
+              onToggleAutoCompact ??
+              tokenUsage) && (
+              <Box
+                sx={{
+                  px: 1.5,
+                  pb: 0.75,
+                  borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 0,
+                }}
+              >
+                {agentSelector && (
+                  <AgentSelector
+                    selectedAgent={agentSelector.selectedAgent}
+                    onAgentChange={agentSelector.onAgentChange}
+                    getAuthToken={agentSelector.getAuthToken}
                   />
                 )}
-
-                {isLoading && !streamingMessage?.content && <LoadingMessage />}
-
-                <div ref={messagesEndRef} />
-              </MessagesContainer>
-
-              {error && <ErrorDisplay error={error} onRetry={onRetry} />}
-
-              <ChatInput
-                inputValue={inputValue}
-                inputPlaceholder={inputPlaceholder}
-                isLoading={isLoading}
-                isContextEnabled={isContextEnabled}
-                contextLabel={contextLabel}
-                onInputChange={onInputChange}
-                onKeyPress={onKeyPress}
-                onSendMessage={onSendMessage}
-                onToggleContext={onToggleContext}
-              />
-
-              {(agentSelector ??
-                providerSelector ??
-                onToggleAutoCompact ??
-                tokenUsage) && (
-                <Box
-                  sx={{
-                    px: 1.5,
-                    pb: 0.75,
-                    borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 0,
-                  }}
-                >
-                  {agentSelector && (
-                    <AgentSelector
-                      selectedAgent={agentSelector.selectedAgent}
-                      onAgentChange={agentSelector.onAgentChange}
-                      getAuthToken={agentSelector.getAuthToken}
-                    />
-                  )}
-                  {providerSelector && (
-                    <ProviderSelector
-                      selectedProvider={
-                        providerSelector.selectedProvider as any
-                      }
-                      selectedModel={providerSelector.selectedModel}
-                      onProviderChange={providerSelector.onProviderChange}
-                      onModelChange={providerSelector.onModelChange}
-                      getAuthToken={providerSelector.getAuthToken}
-                      usedProvider={usedProvider}
-                    />
-                  )}
-                  {(onToggleAutoCompact ?? tokenUsage) && (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        mt: 0.5,
-                        flexWrap: "wrap",
-                        gap: 0.5,
-                      }}
-                    >
-                      <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                        {onToggleAutoCompact && (
-                          <FormControlLabel
-                            control={
-                              <Switch
-                                size="small"
-                                checked={!!autoCompact}
-                                onChange={onToggleAutoCompact}
-                              />
-                            }
-                            label={
-                              <Typography
-                                variant="caption"
-                                sx={{ fontSize: "0.7rem" }}
-                              >
-                                Auto-compact
-                              </Typography>
-                            }
-                            sx={{ m: 0 }}
-                          />
-                        )}
-                      </Box>
-                      {tokenUsage && (
-                        <Typography
-                          variant="caption"
-                          sx={{ fontSize: "0.65rem", opacity: 0.7 }}
-                        >
-                          {tokenUsage.totalTokens.toLocaleString()} tokens
-                          {tokenUsage.isEstimated ? " (est.)" : ""}
-                        </Typography>
-                      )}
-                      {context && context.total > 0 && (
-                        <Typography
-                          variant="caption"
-                          sx={{ fontSize: "0.65rem", opacity: 0.7, ml: 1 }}
-                        >
-                          / {context.used.toLocaleString()} /{" "}
-                          {context.total.toLocaleString()} (context)
-                        </Typography>
-                      )}
-                    </Box>
-                  )}
-                </Box>
-              )}
-            </ChatPanel>
-          ) : (
-            <ChatModal isFullSize={isFullSize}>
-              <ChatHeader
-                title={title}
-                isFullSize={isFullSize}
-                onToggle={onToggle}
-                onToggleFullSize={onToggleFullSize}
-                onCompact={onCompact}
-                isCompacting={isCompacting}
-                conversations={conversations}
-                onSelectConversation={onSelectConversation}
-              />
-
-              <MessagesContainer>
-                {messages.length === 0 && (
-                  <WelcomeMessage message={welcomeMessage} />
-                )}
-
-                {messages.flatMap((message) => {
-                  const messageComponents: React.ReactElement[] = [];
-
-                  if (message.role === "tool") {
-                    // Tool messages are standalone
-                    messageComponents.push(
-                      <ToolMessage
-                        key={message.id}
-                        message={message}
-                        formatTime={formatTime}
-                      />,
-                    );
-                  } else if (message.role === "system") {
-                    // System messages rendered as centered notifications
-                    messageComponents.push(
-                      <SystemMessage
-                        key={message.id}
-                        message={message}
-                        formatTime={formatTime}
-                      />,
-                    );
-                  } else {
-                    // User or assistant messages
-                    if (message.content) {
-                      messageComponents.push(
-                        <ContentMessage
-                          key={message.id}
-                          message={message}
-                          formatTime={formatTime}
-                        />,
-                      );
-                    }
-
-                    // Add separate message bubbles for each tool call (only when
-                    // there are no corresponding role:"tool" messages in the list,
-                    // i.e. assistant messages loaded from history that include
-                    // tool_calls but no separate tool result messages)
-                    if (
-                      message.role === "assistant" &&
-                      message.tool_calls &&
-                      message.tool_calls.length > 0
-                    ) {
-                      const toolMessageIds = new Set(
-                        messages
-                          .filter((m) => m.role === "tool" && m.tool_call_id)
-                          .map((m) => m.tool_call_id),
-                      );
-                      message.tool_calls.forEach((toolCall, index) => {
-                        // Skip if there's already a dedicated tool result message
-                        if (toolMessageIds.has(toolCall.id)) return;
-                        messageComponents.push(
-                          <ToolMessage
-                            key={`${message.id}-tool-${toolCall.id}-${index}`}
-                            message={{
-                              id: toolCall.id,
-                              role: "tool",
-                              content: JSON.stringify({
-                                tool: toolCall.function.name,
-                                arguments: toolCall.function.arguments,
-                              }),
-                              timestamp: message.timestamp,
-                              tool_calls: [toolCall],
-                            }}
-                            formatTime={formatTime}
-                          />,
-                        );
-                      });
-                    }
-                  }
-
-                  return messageComponents;
-                })}
-
-                {streamingMessage && (
-                  <StreamingMessage
-                    streamingMessage={streamingMessage}
-                    formatTime={formatTime}
+                {providerSelector && (
+                  <ProviderSelector
+                    selectedProvider={providerSelector.selectedProvider as any}
+                    selectedModel={providerSelector.selectedModel}
+                    onProviderChange={providerSelector.onProviderChange}
+                    onModelChange={providerSelector.onModelChange}
+                    getAuthToken={providerSelector.getAuthToken}
+                    usedProvider={usedProvider}
                   />
                 )}
-
-                {isLoading && !streamingMessage?.content && <LoadingMessage />}
-
-                <div ref={messagesEndRef} />
-              </MessagesContainer>
-
-              {error && <ErrorDisplay error={error} onRetry={onRetry} />}
-
-              <ChatInput
-                inputValue={inputValue}
-                inputPlaceholder={inputPlaceholder}
-                isLoading={isLoading}
-                isContextEnabled={isContextEnabled}
-                contextLabel={contextLabel}
-                onInputChange={onInputChange}
-                onKeyPress={onKeyPress}
-                onSendMessage={onSendMessage}
-                onToggleContext={onToggleContext}
-              />
-
-              {(agentSelector ??
-                providerSelector ??
-                onToggleAutoCompact ??
-                tokenUsage) && (
-                <Box
-                  sx={{
-                    px: 1.5,
-                    pb: 0.75,
-                    borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 0,
-                  }}
-                >
-                  {agentSelector && (
-                    <AgentSelector
-                      selectedAgent={agentSelector.selectedAgent}
-                      onAgentChange={agentSelector.onAgentChange}
-                      getAuthToken={agentSelector.getAuthToken}
-                    />
-                  )}
-                  {providerSelector && (
-                    <ProviderSelector
-                      selectedProvider={
-                        providerSelector.selectedProvider as any
-                      }
-                      selectedModel={providerSelector.selectedModel}
-                      onProviderChange={providerSelector.onProviderChange}
-                      onModelChange={providerSelector.onModelChange}
-                      getAuthToken={providerSelector.getAuthToken}
-                      usedProvider={usedProvider}
-                    />
-                  )}
-                  {(onToggleAutoCompact ?? tokenUsage) && (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        mt: 0.5,
-                        flexWrap: "wrap",
-                        gap: 0.5,
-                      }}
-                    >
-                      <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                        {onToggleAutoCompact && (
-                          <FormControlLabel
-                            control={
-                              <Switch
-                                size="small"
-                                checked={!!autoCompact}
-                                onChange={onToggleAutoCompact}
-                              />
-                            }
-                            label={
-                              <Typography
-                                variant="caption"
-                                sx={{ fontSize: "0.7rem" }}
-                              >
-                                Auto-compact
-                              </Typography>
-                            }
-                            sx={{ m: 0 }}
-                          />
-                        )}
-                      </Box>
-                      {tokenUsage && (
-                        <Typography
-                          variant="caption"
-                          sx={{ fontSize: "0.65rem", opacity: 0.7 }}
-                        >
-                          {tokenUsage.totalTokens.toLocaleString()} tokens
-                          {tokenUsage.isEstimated ? " (est.)" : ""}
-                        </Typography>
-                      )}
-                      {context && context.total > 0 && (
-                        <Typography
-                          variant="caption"
-                          sx={{ fontSize: "0.65rem", opacity: 0.7, ml: 1 }}
-                        >
-                          / {context.used.toLocaleString()} /{" "}
-                          {context.total.toLocaleString()} (context)
-                        </Typography>
+                {(onToggleAutoCompact ?? tokenUsage) && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      mt: 0.5,
+                      flexWrap: "wrap",
+                      gap: 0.5,
+                    }}
+                  >
+                    <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                      {onToggleAutoCompact && (
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              size="small"
+                              checked={!!autoCompact}
+                              onChange={onToggleAutoCompact}
+                            />
+                          }
+                          label={
+                            <Typography
+                              variant="caption"
+                              sx={{ fontSize: "0.7rem" }}
+                            >
+                              Auto-compact
+                            </Typography>
+                          }
+                          sx={{ m: 0 }}
+                        />
                       )}
                     </Box>
-                  )}
-                </Box>
-              )}
-            </ChatModal>
-          ),
+                    {tokenUsage && (
+                      <Typography
+                        variant="caption"
+                        sx={{ fontSize: "0.65rem", opacity: 0.7 }}
+                      >
+                        {tokenUsage.totalTokens.toLocaleString()} tokens
+                        {tokenUsage.isEstimated ? " (est.)" : ""}
+                      </Typography>
+                    )}
+                    {context && context.total > 0 && (
+                      <Typography
+                        variant="caption"
+                        sx={{ fontSize: "0.65rem", opacity: 0.7, ml: 1 }}
+                      >
+                        / {context.used.toLocaleString()} /{" "}
+                        {context.total.toLocaleString()} (context)
+                      </Typography>
+                    )}
+                  </Box>
+                )}
+              </Box>
+            )}
+          </ChatModal>,
           document.body,
         )}
     </div>

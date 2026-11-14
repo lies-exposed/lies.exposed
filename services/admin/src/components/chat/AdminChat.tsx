@@ -15,6 +15,10 @@ import { useStreamingChat } from "../../hooks/useStreamingChat.js";
 
 interface ChatProps {
   className?: string;
+  /** Controlled open state for external panel slot rendering */
+  chatOpen?: boolean;
+  /** Callback to toggle the panel (required if chatOpen is provided) */
+  onToggleChat?: () => void;
 }
 
 const SETTINGS_KEY = "chat:settings";
@@ -57,8 +61,14 @@ const saveSettings = (patch: Partial<ChatSettings>) => {
   }
 };
 
-export const AdminChat: React.FC<ChatProps> = ({ className }) => {
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
+export const AdminChat: React.FC<ChatProps> = ({
+  className,
+  chatOpen: chatOpenProp,
+  onToggleChat: onToggleChatProp,
+}) => {
+  const isControlled = chatOpenProp !== undefined;
+  const [isPanelOpenInternal, setIsPanelOpenInternal] = useState(false);
+  const isPanelOpen = isControlled ? chatOpenProp : isPanelOpenInternal;
   const [inputValue, setInputValue] = useState("");
   const [isFullSize, setIsFullSize] = useState(false);
   const [isContextEnabled, setIsContextEnabled] = useState(false);
@@ -121,7 +131,9 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       );
       loadConversation(pendingConversationId, visibleMessages);
       setPendingConversationId(null);
-      setIsPanelOpen(true);
+      if (!isControlled) {
+        setIsPanelOpenInternal(true);
+      }
     }
   }, [
     pendingConversationId,
@@ -206,9 +218,15 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   }, [isContextEnabled, hookResource, hookRecord, location.pathname]);
 
   const handleToggleChat = () => {
-    setIsPanelOpen(!isPanelOpen);
-    if (!isPanelOpen) {
-      setIsFullSize(false);
+    if (isControlled && onToggleChatProp) {
+      onToggleChatProp();
+    } else {
+      setIsPanelOpenInternal((prev) => {
+        if (!prev) {
+          setIsFullSize(false);
+        }
+        return !prev;
+      });
     }
   };
 
@@ -291,6 +309,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       className={className}
       isOpen={isPanelOpen}
       mode="panel"
+      renderInline={isControlled}
       messages={messages}
       inputValue={inputValue}
       isLoading={isLoading}
