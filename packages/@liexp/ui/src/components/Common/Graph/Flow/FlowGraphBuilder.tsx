@@ -162,6 +162,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
       if (pane) {
         const { top, left, right, bottom } = contextMenuPositioner(event, pane);
         setMenu({
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Node.id is optional but TypeScript doesn't narrow undefined
           id: undefined as any,
           top,
           left,
@@ -341,6 +342,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
         style={{ flexGrow: 1, height: 600, width: "70%", position: "relative" }}
       >
         <FlowGraph
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- FlowGraph uses a different ref type than HTMLElement
           ref={ref as any}
           nodes={nodes}
           edges={edges}

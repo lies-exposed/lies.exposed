@@ -22,8 +22,7 @@ export interface PieProps<S> {
   animate?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const PieChartGraph = <S extends any>({
+export const PieChartGraph = <S extends Record<string, unknown>>({
   width,
   height,
   slices,
@@ -110,22 +109,22 @@ export const PieChartGraph = <S extends any>({
 interface AnimatedStyles {
   startAngle: number;
   endAngle: number;
-  opacity: any;
+  opacity: number;
   [index: string]: unknown;
 }
 
-const fromLeaveTransition = ({
+const fromLeaveTransition = <D,>({
   endAngle,
-}: PieArcDatum<any>): AnimatedStyles => ({
+}: PieArcDatum<D>): AnimatedStyles => ({
   // enter from 360° if end angle is > 180°
   startAngle: endAngle > Math.PI ? 2 * Math.PI : 0,
   endAngle: endAngle > Math.PI ? 2 * Math.PI : 0,
   opacity: 0,
 });
-const enterUpdateTransition = ({
+const enterUpdateTransition = <D,>({
   startAngle,
   endAngle,
-}: PieArcDatum<any>): AnimatedStyles => ({
+}: PieArcDatum<D>): AnimatedStyles => ({
   startAngle,
   endAngle,
   opacity: 1,
@@ -179,6 +178,7 @@ function AnimatedPie<Datum>({
               }}
             />
             {hasSpaceForLabel && (
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any -- PieArcDatum doesn't have opacity property but original code used it
               <animated.g style={{ opacity: (item as any).opacity }}>
                 <text
                   fill="white"

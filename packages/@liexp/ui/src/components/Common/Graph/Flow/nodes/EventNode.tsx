@@ -4,7 +4,7 @@ import * as React from "react";
 // import { useConfiguration } from "../../../../../context/ConfigurationContext.js";
 import { EventIcon } from "../../../Icons/index.js";
 
-export type EventNodeType = Node<any, "EventV2"> & {
+export type EventNodeType = Node<Events.SearchEvent.SearchEvent, "EventV2"> & {
   data: Events.SearchEvent.SearchEvent;
 };
 
