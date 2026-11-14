@@ -13,7 +13,7 @@ interface BaseRoute {
 
 type RedirectRoute = BaseRoute & { redirect: string };
 
-export interface AsyncDataRouteQuery<P, Q, A> {
+export interface AsyncDataRouteQuery<P, Q> {
   queryKey: QueryFnKey<P, Q | undefined>;
   queryFn: unknown;
 }
