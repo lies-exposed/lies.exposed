@@ -106,7 +106,7 @@ function ParentNode({
   );
 }
 
-const TreeProps = Schema.Struct({
+const _TreeProps = Schema.Struct({
   events: Schema.Array(TreeEvent),
   width: Schema.Number,
   height: Schema.Number,
@@ -118,7 +118,7 @@ const TreeProps = Schema.Struct({
   }),
 });
 
-type TreeProps = typeof TreeProps.Type;
+type TreeProps = typeof _TreeProps.Type;
 
 const Tree: React.FC<TreeProps> = ({ width, height, margin, events }) => {
   const data = hierarchy(events);

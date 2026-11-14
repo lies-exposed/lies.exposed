@@ -60,14 +60,14 @@ import { Checkbox } from "../mui/index.js";
 
 // type EPAIceCoreMeasurement = t.TypeOf<typeof EPAIceCoreMeasurement>
 
-const CO2LevelDatum = Schema.Struct({
+export const CO2LevelDatum = Schema.Struct({
   value: Schema.Number,
   year: Schema.Number,
 }).annotations({
   title: "CO2LEvelDatum",
 });
 
-type CO2LevelDatum = typeof CO2LevelDatum.Type;
+export type CO2LevelDatum = typeof CO2LevelDatum.Type;
 
 export interface CO2LevelsGraphProps {
   showPoints: boolean;

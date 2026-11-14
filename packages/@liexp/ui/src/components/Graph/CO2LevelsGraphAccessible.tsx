@@ -2,7 +2,6 @@ import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { type GraphId } from "@liexp/io/lib/http/graphs/Graph.js";
 import { LinearGradient } from "@visx/gradient";
 import { ParentSize } from "@visx/responsive";
-import { Schema } from "effect";
 import * as React from "react";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { AxisGraph } from "../Common/Graph/AxisGraph.js";
@@ -13,15 +12,7 @@ import {
   createAccessibleDataTable,
   generateDataDescription,
 } from "./Accessibility/index.js";
-
-const CO2LevelDatum = Schema.Struct({
-  value: Schema.Number,
-  year: Schema.Number,
-}).annotations({
-  title: "CO2LEvelDatum",
-});
-
-type CO2LevelDatum = typeof CO2LevelDatum.Type;
+import { type CO2LevelDatum } from "./CO2LevelsGraph.js";
 
 export interface CO2LevelsGraphAccessibleProps {
   showPoints: boolean;

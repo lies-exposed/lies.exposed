@@ -115,7 +115,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                             d={path ?? ""}
                             stroke={"black"}
                             strokeWidth={0.5}
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- Geometry is a union type; world topo features are Polygons with coordinates
+
                             fill={color(
                               (feature.geometry as GeoJSON.Polygon).coordinates
                                 .length,
@@ -137,7 +137,6 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                 ]}
               >
                 {(mercator) => {
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- featureRenderer expects ParsedFeature<P> but CustomProjection provides ParsedFeature<Feature<Geometry, GeoJsonProperties>>
                   return (
                     <g>
                       {mercator.features.map(
