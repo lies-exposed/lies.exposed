@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AxisGraph,
   type AxisGraphProps,
@@ -18,7 +17,7 @@ const meta = {
       },
     },
   },
-} satisfies Meta<AxisGraphProps<{ x: number; y: number }>>;
+} as Meta<AxisGraphProps<{ x: number; y: number }>>;
 
 export default meta;
 
@@ -35,8 +34,8 @@ export const AxisGraphExample = {
     width: 600,
     height: 300,
     margin: { top: 10, left: 10, right: 10, bottom: 10 },
-    getX: (n: any) => n.x,
-    getY: (n: any) => n.y,
+    getX: (n) => n.x,
+    getY: (n) => n.y,
     minXRange: 0,
     minYRange: 0,
     background: (id) => {
