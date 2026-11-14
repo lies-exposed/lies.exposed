@@ -62,7 +62,6 @@ const ResultRow: React.FC<{
   } else {
     let label = "";
     if (result.kind === "event") {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- EventPayload is a union type; optional chaining handles all variants
       const payload = result.item.payload as unknown as {
         title?: string;
         excerpt?: string;

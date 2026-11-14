@@ -55,11 +55,11 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@types/d3": "^7.4.3",
-    "@types/react": "^18.3.27",
+    "@types/react": "^18.3.31",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "eslint": "^10.10.0",
+    "eslint": "^10.14.0",
     "eslint-plugin-storybook": "^10.6.6",
-    "prettier": "^3.9.6",
+    "prettier": "^3.10.1",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
   }
 }

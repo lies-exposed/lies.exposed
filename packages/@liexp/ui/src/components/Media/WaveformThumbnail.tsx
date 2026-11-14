@@ -82,7 +82,7 @@ export const WaveformThumbnail: React.FC<WaveformThumbnailProps> = ({
     const max = channel.max_array();
 
     x.domain([0, waveform.length]).rangeRound([0, width]);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- d3.scaleLinear domain expects NumberValue; d3.min/max return number|undefined but waveform data always has values
+
     y.domain([d3.min(min) ?? 0, d3.max(max) ?? 0]).rangeRound([
       offsetX,
       -offsetX,
@@ -92,14 +92,14 @@ export const WaveformThumbnail: React.FC<WaveformThumbnailProps> = ({
       .area<number>()
       .x((d, i) => x(i))
       .y0((d, i) => y(min[i]))
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- d3.area y1 callback type inference requires explicit number cast
+
       .y1((d) => y(d));
 
     svg
       .append("path")
       .datum(max)
       .attr("transform", () => `translate(0, ${offsetX})`)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- d3 path datum type inference is complex; max is number[] matching area input
+
       .attr("d", (d) => area(d))
       .attr("stroke", theme.palette.primary.main);
   }, [waveform, width, height]);
