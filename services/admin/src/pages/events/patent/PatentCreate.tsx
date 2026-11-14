@@ -25,7 +25,9 @@ const PatentCreate: React.FC<CreateProps> = (props) => {
     <Create
       title="Create a Patent Event"
       {...props}
-      transform={(data: RaRecord) => transformEvent(dataProvider)(uuid(), data)}
+      transform={(data: Record<string, unknown>) =>
+        transformEvent(dataProvider)(uuid(), data as RaRecord<string>)
+      }
     >
       <SimpleForm>
         <TextInput source="payload.title" />

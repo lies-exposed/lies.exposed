@@ -68,8 +68,8 @@ export const KeywordEdit: React.FC = () => {
       }: Keyword & { newEvents: Event[]; events: Event[] }) => {
         return {
           ...r,
-          color: toColor(r.color),
-          events: (r.events ?? []).concat(newEvents ?? []),
+          color: toColor(r.color as string),
+          events: ((r.events as unknown[]) ?? []).concat(newEvents ?? []),
         };
       }}
       preview={null}

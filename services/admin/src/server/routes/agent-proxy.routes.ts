@@ -140,10 +140,7 @@ export const registerAgentProxyRoutes = (
         ),
         TE.fold(
           (error: unknown) => () => {
-            const err = error as {
-              message?: unknown;
-              response?: { status: number };
-            };
+            const err = error as { message?: unknown; response?: { status?: number } };
 
             // Handle validation errors
             if ((err.message as string | undefined)?.includes("Provider")) {

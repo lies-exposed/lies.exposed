@@ -3,6 +3,7 @@ import { MapInput } from "@liexp/ui/lib/components/admin/MapInput.js";
 import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/AreaTGPostButton.js";
 import { UpdateAreaGeometryByLabelButton } from "@liexp/ui/lib/components/admin/areas/button/UpdateAreaGeometryByLabelButton.js";
 import { UpdateAreaGeometryWithCoordinatesButton } from "@liexp/ui/lib/components/admin/areas/button/UpdateAreaGeometryWithCoordinatesButton.js";
+import { http } from "@liexp/io/lib/index.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
 import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput.js";
@@ -18,7 +19,6 @@ import {
   useRecordContext,
   useRefresh,
   type EditProps,
-  type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
 import { EditToolbar } from "@liexp/ui/lib/components/admin/toolbar/index.js";
@@ -36,7 +36,7 @@ const transformArea = ({
   newMediaRef = [],
   newEvents: _newEvents,
   ...area
-}: RaRecord): RaRecord => {
+}: http.Area.Area & { newMediaRef?: unknown[]; newEvents?: unknown[] }): Omit<http.Area.Area, 'featuredImage'> & { featuredImage?: string | null } => {
   const media = transformMedia(newMediaRef);
   return {
     ...area,
