@@ -63,7 +63,7 @@ const ChatModal = styled(Paper, {
     boxShadow: theme.shadows[8],
     overflow: "hidden",
     transition: "all 0.3s ease-in-out",
-  })
+  }),
 );
 
 const MessagesContainer = styled(Box)(({ theme }) => ({
