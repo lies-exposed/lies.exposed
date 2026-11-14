@@ -45,6 +45,7 @@ import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import React, { useState } from "react";
 import { Route } from "react-router";
+import { ChatPanelContext } from "./components/ChatPanelContext.js";
 import { CustomAppBar } from "./components/CustomAppBar.js";
 import { LayoutError } from "./components/LayoutError.js";
 import { AdminChat } from "./components/chat/AdminChat.js";
@@ -407,7 +408,10 @@ const MyMenu: React.FC<MenuProps> = () => (
   </Menu>
 );
 const MyLayout: React.FC<LayoutProps> = ({ children, ...props }) => {
-  const [chatOpen, setChatOpen] = useState(false);
+  const { chatOpen, onToggleChat } = React.useContext(ChatPanelContext) ?? {
+    chatOpen: false,
+    onToggleChat: () => {},
+  };
 
   return (
     <Layout {...props} menu={MyMenu} appBar={CustomAppBar} error={LayoutError}>
@@ -444,18 +448,7 @@ const MyLayout: React.FC<LayoutProps> = ({ children, ...props }) => {
             transition: "width 0.3s ease-in-out, min-width 0.3s ease-in-out",
           }}
         >
-          <AdminChat
-            chatOpen={chatOpen}
-            onToggleChat={() => {
-              setChatOpen((prev) => {
-                const next = !prev;
-                if (!next) {
-                  // Panel is closing, reset full-size
-                }
-                return next;
-              });
-            }}
-          />
+          <AdminChat chatOpen={chatOpen} onToggleChat={onToggleChat} />
         </Box>
       </Box>
     </Layout>
@@ -467,209 +460,222 @@ const AdminPage: React.FC = () => {
   const dataProvider = useDataProvider();
   const authProvider = GetAuthProvider(dataProvider);
   const theme = createAdminThemeOptions(resolvedMode);
+  const [chatOpen, setChatOpen] = useState(false);
+
+  const chatPanelContextValue = React.useMemo<
+    React.ComponentProps<typeof ChatPanelContext.Provider>["value"]
+  >(
+    () => ({
+      chatOpen,
+      onToggleChat: () => setChatOpen((prev) => !prev),
+    }),
+    [chatOpen],
+  );
 
   return (
-    <Admin
-      dataProvider={dataProvider}
-      authProvider={authProvider}
-      i18nProvider={i18nProvider}
-      loginPage={Login}
-      theme={theme}
-      layout={MyLayout}
-    >
-      <Resource
-        name="pages"
-        edit={PageEdit}
-        list={PageList}
-        create={PageCreate}
-        icon={PostAddIcon}
-      />
-
-      <Resource
-        name="stories"
-        list={StoryList}
-        edit={StoryEdit}
-        create={StoryCreate}
-        icon={AssignmentIcon}
-      />
-
-      <Resource
-        name="media"
-        list={MediaList}
-        edit={MediaEdit}
-        create={MediaCreate}
-        icon={PermMediaIcon}
+    <ChatPanelContext.Provider value={chatPanelContextValue}>
+      <Admin
+        dataProvider={dataProvider}
+        authProvider={authProvider}
+        i18nProvider={i18nProvider}
+        loginPage={Login}
+        theme={theme}
+        layout={MyLayout}
       >
-        <Route path="multiple" element={<MediaCreateMany />} />
-      </Resource>
+        <Resource
+          name="pages"
+          edit={PageEdit}
+          list={PageList}
+          create={PageCreate}
+          icon={PostAddIcon}
+        />
 
-      <Resource
-        name="links"
-        list={LinkList}
-        edit={LinkEdit}
-        create={LinkCreate}
-        icon={LinkIcon}
-      />
+        <Resource
+          name="stories"
+          list={StoryList}
+          edit={StoryEdit}
+          create={StoryCreate}
+          icon={AssignmentIcon}
+        />
 
-      <Resource
-        name="actors"
-        list={ActorList}
-        edit={ActorEdit}
-        create={ActorCreate}
-        icon={ActorIcon}
-      />
-      <Resource
-        name="groups"
-        list={GroupList}
-        edit={GroupEdit}
-        create={GroupCreate}
-        icon={GroupIcon}
-      />
-      <Resource
-        name="groups-members"
-        list={GroupMemberList}
-        create={GroupMemberCreate}
-        edit={GroupMemberEdit}
-        icon={GroupsIcon}
-      />
-      <Resource
-        name="actor-relations"
-        list={ActorRelationList}
-        create={ActorRelationCreate}
-        edit={ActorRelationEdit}
-        icon={GroupsIcon}
-      />
-      <Resource
-        name="areas"
-        list={AreaList}
-        create={AreaCreate}
-        edit={AreaEdit}
-        icon={AreaIcon}
-      />
-      <Resource
-        name="graphs"
-        list={GraphList}
-        edit={GraphEdit}
-        create={GraphCreate}
-        icon={GraphIcon}
-      />
+        <Resource
+          name="media"
+          list={MediaList}
+          edit={MediaEdit}
+          create={MediaCreate}
+          icon={PermMediaIcon}
+        >
+          <Route path="multiple" element={<MediaCreateMany />} />
+        </Resource>
 
-      <Resource
-        name="events/suggestions"
-        list={EventSuggestionList}
-        edit={EventSuggestionEdit}
-        icon={LightbulbIcon}
-      />
+        <Resource
+          name="links"
+          list={LinkList}
+          edit={LinkEdit}
+          create={LinkCreate}
+          icon={LinkIcon}
+        />
 
-      <Resource
-        name="events"
-        list={EventList}
-        edit={EventEdit}
-        create={UncategorizedEventCreate}
-        icon={UncategorizedEventIcon}
-      />
+        <Resource
+          name="actors"
+          list={ActorList}
+          edit={ActorEdit}
+          create={ActorCreate}
+          icon={ActorIcon}
+        />
+        <Resource
+          name="groups"
+          list={GroupList}
+          edit={GroupEdit}
+          create={GroupCreate}
+          icon={GroupIcon}
+        />
+        <Resource
+          name="groups-members"
+          list={GroupMemberList}
+          create={GroupMemberCreate}
+          edit={GroupMemberEdit}
+          icon={GroupsIcon}
+        />
+        <Resource
+          name="actor-relations"
+          list={ActorRelationList}
+          create={ActorRelationCreate}
+          edit={ActorRelationEdit}
+          icon={GroupsIcon}
+        />
+        <Resource
+          name="areas"
+          list={AreaList}
+          create={AreaCreate}
+          edit={AreaEdit}
+          icon={AreaIcon}
+        />
+        <Resource
+          name="graphs"
+          list={GraphList}
+          edit={GraphEdit}
+          create={GraphCreate}
+          icon={GraphIcon}
+        />
 
-      <Resource
-        name="books"
-        list={BookList}
-        edit={BookEdit}
-        create={BookCreate}
-        icon={BookEventIcon}
-      />
+        <Resource
+          name="events/suggestions"
+          list={EventSuggestionList}
+          edit={EventSuggestionEdit}
+          icon={LightbulbIcon}
+        />
 
-      <Resource
-        name="deaths"
-        list={DeathList}
-        edit={DeathEdit}
-        create={DeathCreate}
-        icon={DeathEventIcon}
-      />
+        <Resource
+          name="events"
+          list={EventList}
+          edit={EventEdit}
+          create={UncategorizedEventCreate}
+          icon={UncategorizedEventIcon}
+        />
 
-      <Resource
-        name="scientific-studies"
-        list={ScientificStudiesList}
-        edit={ScientificStudyEdit}
-        create={ScientificStudyCreate}
-        icon={ScientificStudyEventIcon}
-      />
-      <Resource
-        name="patents"
-        list={PatentList}
-        edit={PatentEdit}
-        create={PatentCreate}
-        icon={PatentEventIcon}
-      />
-      <Resource
-        name="documentaries"
-        list={DocumentaryList}
-        edit={DocumentaryEdit}
-        create={DocumentaryCreate}
-        icon={DocumentaryEventIcon}
-      />
+        <Resource
+          name="books"
+          list={BookList}
+          edit={BookEdit}
+          create={BookCreate}
+          icon={BookEventIcon}
+        />
 
-      <Resource
-        name="quotes"
-        list={QuoteList}
-        edit={QuoteEdit}
-        create={QuoteCreate}
-        icon={QuoteEventIcon}
-      />
-      <Resource
-        name="transactions"
-        list={TransactionList}
-        edit={TransactionEdit}
-        create={TransactionCreate}
-        icon={TransactionEventIcon}
-      />
-      <Resource
-        name="keywords"
-        list={KeywordList}
-        edit={KeywordEdit}
-        create={KeywordCreate}
-        icon={HashtagIcon}
-      />
+        <Resource
+          name="deaths"
+          list={DeathList}
+          edit={DeathEdit}
+          create={DeathCreate}
+          icon={DeathEventIcon}
+        />
 
-      <Resource
-        name={"social-posts"}
-        list={SocialPostList}
-        edit={SocialPostEdit}
-        create={SocialPostCreate}
-        icon={SocialPostIcon}
-      />
-      <Resource
-        name="users"
-        list={UserList}
-        edit={UserEdit}
-        create={UserCreate}
-        icon={UserIcon}
-      />
-      <Resource
-        name="settings"
-        list={SettingList}
-        edit={SettingEdit}
-        create={SettingCreate}
-        icon={SettingsIcon}
-      />
+        <Resource
+          name="scientific-studies"
+          list={ScientificStudiesList}
+          edit={ScientificStudyEdit}
+          create={ScientificStudyCreate}
+          icon={ScientificStudyEventIcon}
+        />
+        <Resource
+          name="patents"
+          list={PatentList}
+          edit={PatentEdit}
+          create={PatentCreate}
+          icon={PatentEventIcon}
+        />
+        <Resource
+          name="documentaries"
+          list={DocumentaryList}
+          edit={DocumentaryEdit}
+          create={DocumentaryCreate}
+          icon={DocumentaryEventIcon}
+        />
 
-      <Resource
-        name="nations"
-        list={NationList}
-        edit={NationEdit}
-        create={NationCreate}
-        icon={NationIcon}
-      />
+        <Resource
+          name="quotes"
+          list={QuoteList}
+          edit={QuoteEdit}
+          create={QuoteCreate}
+          icon={QuoteEventIcon}
+        />
+        <Resource
+          name="transactions"
+          list={TransactionList}
+          edit={TransactionEdit}
+          create={TransactionCreate}
+          icon={TransactionEventIcon}
+        />
+        <Resource
+          name="keywords"
+          list={KeywordList}
+          edit={KeywordEdit}
+          create={KeywordCreate}
+          icon={HashtagIcon}
+        />
 
-      <Resource
-        name="queues"
-        list={QueueList}
-        create={QueueCreate}
-        icon={QueueIcon}
-      />
-      <CustomRoutes>
-        <Route path="/" element={<AdminStats />} />
-        <Route path="/queues/:type/:resource/:id" element={<QueueEdit />} />
-      </CustomRoutes>
-    </Admin>
+        <Resource
+          name={"social-posts"}
+          list={SocialPostList}
+          edit={SocialPostEdit}
+          create={SocialPostCreate}
+          icon={SocialPostIcon}
+        />
+        <Resource
+          name="users"
+          list={UserList}
+          edit={UserEdit}
+          create={UserCreate}
+          icon={UserIcon}
+        />
+        <Resource
+          name="settings"
+          list={SettingList}
+          edit={SettingEdit}
+          create={SettingCreate}
+          icon={SettingsIcon}
+        />
+
+        <Resource
+          name="nations"
+          list={NationList}
+          edit={NationEdit}
+          create={NationCreate}
+          icon={NationIcon}
+        />
+
+        <Resource
+          name="queues"
+          list={QueueList}
+          create={QueueCreate}
+          icon={QueueIcon}
+        />
+        <CustomRoutes>
+          <Route path="/" element={<AdminStats />} />
+          <Route path="/queues/:type/:resource/:id" element={<QueueEdit />} />
+        </CustomRoutes>
+      </Admin>
+    </ChatPanelContext.Provider>
   );
 };
 
