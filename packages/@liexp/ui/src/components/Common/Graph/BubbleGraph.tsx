@@ -16,9 +16,11 @@ export const BubbleGraph = <D extends PackDatum>({
   data,
   ...props
 }: BubbleGraphProps<D>): React.ReactNode => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- visx hierarchy expects a root node type we construct from data
   const pack = hierarchy<D>({ children: [{ children: data }] } as any).sum(
     (n) => n.count,
   );
 
-  return <Pack width={width} height={height} pack={pack} {...props} />;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- D extends PackDatum but onClick type differs
+  return <Pack width={width} height={height} pack={pack} {...(props as any)} />;
 };
