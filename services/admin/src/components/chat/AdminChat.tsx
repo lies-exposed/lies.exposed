@@ -310,7 +310,6 @@ export const AdminChat: React.FC<ChatProps> = ({
       isOpen={isPanelOpen}
       mode="panel"
       renderInline={isControlled}
-      panelStyle={isControlled ? { position: "relative" } : undefined}
       messages={messages}
       inputValue={inputValue}
       isLoading={isLoading}
