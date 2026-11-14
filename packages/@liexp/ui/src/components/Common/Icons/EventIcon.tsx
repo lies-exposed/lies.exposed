@@ -9,6 +9,18 @@ import * as React from "react";
 import { type Theme } from "../../../theme/index.js";
 import { styled, useTheme } from "../../../theme/index.js";
 
+/** Custom event type colors added to MUI theme palette. */
+interface EventTypePalette {
+  book: string;
+  uncategorized: string;
+  death: string;
+  scientific_study: string;
+  patent: string;
+  documentary: string;
+  transaction: string;
+  quote: string;
+}
+
 const PREFIX = "EventTypeColor";
 
 const classes = {
@@ -26,7 +38,8 @@ const Root = styled("text")(() => ({
  * Exported for use in other components (e.g., graphs, visualizations)
  */
 export const getEventTypeColor = (theme: Theme, eventType: string): string => {
-  const eventTypePalette = (theme.palette as any).eventType;
+  const eventTypePalette = (theme.palette as { eventType?: EventTypePalette })
+    .eventType;
 
   // Fallback to legacy EventTypeColor if eventTypePalette is not available
   if (!eventTypePalette) {

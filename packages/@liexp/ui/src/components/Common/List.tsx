@@ -7,26 +7,22 @@ import {
 export interface ListItemProps<A> {
   item: A;
   index?: number;
-  onClick?: (a: A, e: any) => void;
+  onClick?: (a: A, e: React.MouseEvent) => void;
 }
 
-export type ListProps<
-  A,
-  D extends React.ElementType<any> = "ul",
-> = MUIListProps<
+export type ListProps<A, D extends React.ElementType = "ul"> = MUIListProps<
   D,
   {
     data: A[];
     getKey: (a: A) => string;
     ListItem: React.FC<ListItemProps<A>>;
     filter: (a: A) => boolean;
-    onItemClick?: (a: A, e: any) => void;
+    onItemClick?: (a: A, e: React.MouseEvent) => void;
     style?: React.CSSProperties;
   }
 >;
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const List = <A extends any, D extends React.ElementType<any> = "ul">({
+export const List = <A, D extends React.ElementType = "ul">({
   className,
   ListItem,
   data,

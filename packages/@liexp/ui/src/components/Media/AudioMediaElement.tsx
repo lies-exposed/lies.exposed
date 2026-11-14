@@ -7,6 +7,7 @@ import { styled } from "../../theme/index.js";
 import { Box } from "../mui/index.js";
 import { WaveformThumbnail } from "./WaveformThumbnail.js";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- react-audio-player is a CommonJS module without proper TypeScript types
 const ReactAudioPlayer: any = _ReactAudioPlayer;
 
 const PREFIX = "AudioMediaElement";

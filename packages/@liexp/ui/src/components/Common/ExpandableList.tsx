@@ -28,10 +28,10 @@ const StyledAccordion = styled(Accordion)(() => ({
 
 export type ExpandableListProps<
   A,
-  D extends React.ElementType<any> = "ul",
+  D extends React.ElementType = "ul",
 > = ListProps<A, D> & { limit: number };
 
-export const ExpandableList = <A, D extends React.ElementType<any> = "ul">({
+export const ExpandableList = <A, D extends React.ElementType = "ul">({
   data,
   limit,
   getKey,
@@ -54,7 +54,7 @@ export const ExpandableList = <A, D extends React.ElementType<any> = "ul">({
         }}
       >
         <List
-          {...(props as any)}
+          {...props}
           getKey={getKey}
           ListItem={ListItem}
           filter={filter}
@@ -74,7 +74,7 @@ export const ExpandableList = <A, D extends React.ElementType<any> = "ul">({
       </AccordionSummary>
       <AccordionDetails>
         <List
-          {...(props as any)}
+          {...props}
           getKey={getKey}
           ListItem={ListItem}
           filter={filter}
