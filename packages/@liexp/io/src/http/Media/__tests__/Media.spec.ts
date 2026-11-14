@@ -1,3 +1,4 @@
+import * as O from "effect/Option";
 import { describe, expect, test } from "vitest";
 import { GetListMediaQueryMonoid } from "../Media.js";
 
@@ -12,9 +13,9 @@ describe("GetListMediaQueryMonoid", () => {
     const x = GetListMediaQueryMonoid.empty;
     const y = {
       ...GetListMediaQueryMonoid.empty,
-      q: { _tag: "Some", value: "test" } as any,
+      q: O.some("test"),
     };
     const result = GetListMediaQueryMonoid.concat(x, y);
-    expect(result.q).toEqual({ _tag: "Some", value: "test" });
+    expect(result.q).toEqual(O.some("test"));
   });
 });
