@@ -1,4 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
@@ -24,7 +25,7 @@ describe(buildActorRelationTree.name, () => {
   });
 
   it("should return a tree map with a single actor and no relations", async () => {
-    const actorId = "actor-1";
+    const actorId = uuid();
 
     const actor = new ActorEntity();
     actor.id = actorId;
@@ -56,7 +57,7 @@ describe(buildActorRelationTree.name, () => {
   });
 
   it("should include actor avatar location in the tree node", async () => {
-    const actorId = "actor-avatar";
+    const actorId = uuid();
 
     const avatarMedia = { location: "https://example.com/avatar.jpg" } as any;
 
@@ -78,8 +79,8 @@ describe(buildActorRelationTree.name, () => {
   });
 
   it("should populate children when a PARENT_CHILD relation exists", async () => {
-    const parentId = "actor-parent";
-    const childId = "actor-child";
+    const parentId = uuid();
+    const childId = uuid();
 
     const parent = new ActorEntity();
     parent.id = parentId;
@@ -120,8 +121,8 @@ describe(buildActorRelationTree.name, () => {
   });
 
   it("should populate parents and trigger sibling query when actor has a parent", async () => {
-    const parentId = "actor-parent-2";
-    const actorId = "actor-child-2";
+    const parentId = uuid();
+    const actorId = uuid();
 
     const parent = new ActorEntity();
     parent.id = parentId;
@@ -162,8 +163,8 @@ describe(buildActorRelationTree.name, () => {
   });
 
   it("should populate spouses when a SPOUSE relation exists", async () => {
-    const actor1Id = "actor-spouse-1";
-    const actor2Id = "actor-spouse-2";
+    const actor1Id = uuid();
+    const actor2Id = uuid();
 
     const actor1 = new ActorEntity();
     actor1.id = actor1Id;
@@ -212,9 +213,9 @@ describe(buildActorRelationTree.name, () => {
   });
 
   it("should build multi-level tree up to maxDepth", async () => {
-    const grandparentId = "actor-gp";
-    const parentId = "actor-p";
-    const childId = "actor-c";
+    const grandparentId = uuid();
+    const parentId = uuid();
+    const childId = uuid();
 
     const grandparent = new ActorEntity();
     grandparent.id = grandparentId;
