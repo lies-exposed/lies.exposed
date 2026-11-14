@@ -24,7 +24,7 @@ export const settingEdit = makeCommand(
 
     return ctx.api.Setting.Edit({
       Params: { id },
-      Body: body as any,
+      Body: body,
     });
   },
 );

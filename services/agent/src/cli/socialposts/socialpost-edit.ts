@@ -50,7 +50,7 @@ export const socialPostEdit = makeCommand(
 
     return ctx.api.SocialPosts.Edit({
       Params: { id },
-      Body: body as any,
+      Body: body,
     });
   },
 );

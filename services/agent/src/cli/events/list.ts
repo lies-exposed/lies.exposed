@@ -14,7 +14,7 @@ export const eventList = makeCommand(
       Query: {
         ...input,
         q: input.query ?? null,
-        eventType: input.type ? ([input.type] as any) : undefined,
+        eventType: input.type ? ([input.type] as string[]) : undefined,
       },
     });
   },
