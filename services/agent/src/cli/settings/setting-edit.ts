@@ -12,19 +12,15 @@ export const settingEdit = makeCommand(
     ctx.logger.debug.log("setting-edit input: %O", input);
     const { id, ...rest } = input;
 
-    // Build partial body - API expects full Setting object but we only have key/value
-    const body: Record<string, unknown> = {};
-
-    if (rest.key !== undefined) {
-      body.id = rest.key;
-    }
-    if (rest.value !== undefined) {
-      body.value = rest.value;
-    }
+    // Build body - API expects specific field types (strings for dates/values)
+    const body = {
+      ...(rest.key !== undefined && { id: rest.key }),
+      ...(rest.value !== undefined && { value: rest.value }),
+    };
 
     return ctx.api.Setting.Edit({
       Params: { id },
-      Body: body as any,
+      Body: body as unknown as never,
     });
   },
 );

@@ -59,7 +59,14 @@ export const MakeUploadMultipartFileRoute: Route = (r, ctx): void => {
               body.resource,
               body.key,
               body.key,
-              file.mimetype as any,
+              (file.mimetype ?? "") as
+                | "application/pdf"
+                | "audio/mp3"
+                | "audio/ogg"
+                | "image/jpeg"
+                | "image/jpg"
+                | "image/png"
+                | "video/mp4",
             ),
             ACL: "public-read",
             Body: file.buffer,

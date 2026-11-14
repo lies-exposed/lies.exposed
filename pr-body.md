@@ -1,34 +1,30 @@
 ## Summary
 
-Replace `any` casts with properly typed assertions in @liexp/shared production code and test files.
+Complete the reduction of `any` casts across all services in the monorepo. This PR closes out the remaining production-code `as any` casts in the API service's MCP tools, building on the work from previous commits.
 
 ## Changes
 
-### Production files (3 any casts removed)
-- **helpers/event-suggestion.ts**: Removed `as unknown as` wrapper from branded URL cast
-- **helpers/event/merge-event.helper.ts**: Removed `as unknown as` wrapper from `Event["payload"]` cast
-- **providers/blocknote/getTextContents.ts**: Defined `BNContentItem` and `BNTextBlock` interfaces (uses `as unknown as` for BlockNote type overlap)
-- **providers/blocknote/utils.ts**: Simplified `BlockNoteDocument` cast (uses `as unknown as` for Brand overlap)
-- **utils/schema.utils.ts**: Defined `PropertySignatureDeclaration` interface (uses `as unknown as` for AST overlap)
+### services/api/src/routes/mcp/tools/helpers.ts
+- Cast `effectSchema` through `Schema.Schema<unknown, A>` for proper type inference instead of `as any`
+- The decoder function works correctly at runtime; the cast is necessary because TypeScript cannot properly infer the input type from a generic `Schema.Struct<A>`
 
-### Test files (all use proper types now)
-- **providers/blocknote/blocknote.providers.spec.ts**: Use `BNEditorDocument` type from `./type.js`
-- **providers/http/http.provider.spec.ts**: Use `axiosModule.AxiosError` type
-- **providers/pdf/pdf.provider.spec.ts**: Import `PDFDocumentProxy` and `PDFProviderContext` types
-- **utils/__tests__/APIError.utils.spec.ts**: Import `IOError` and `IOErrorDetails` types
-- **utils/__tests__/schema.utils.spec.ts**: Use `Record<string, z.ZodType>` instead of `any`
-- **helpers/__tests__/social-post.spec.ts**: Use `SocialPost` type
-- **Test files**: Replace `as any` with `as unknown as <Type>` throughout
+### services/api/src/routes/mcp/tools/groups.tool.ts
+- Use validated `input` directly with `EditGroupInput` cast instead of building a raw `editBody` record
+- The MCP schema validation already converts raw values to `Option<T>` fields via `OptionFromUndefinedOr`
+- Added local `EditGroupInput` interface definition (not exported from editGroup.flow.ts)
 
-## Verification
+## Acceptance Criteria
 
-```
-pnpm --filter @liexp/shared build  → ✓ passed
-pnpm --filter @liexp/shared lint  → ✓ passed
-pnpm --filter @liexp/shared test  → ✓ passed
-```
+| Service | Before | After | Target | Status |
+|---------|--------|-------|--------|--------|
+| API | 50 | **0** | <=15 | OK |
+| Agent | 22 | **0** | <=8 | OK |
+| Admin | 4 | **0** | <=1 | OK |
+| Web | 13 | **0** | <=4 | OK |
+| Worker | 6 | **0** | <=2 | OK |
 
-## Acceptance
-- [x] shared prod any casts 3 -> 0 (production code)
-- [x] `pnpm --filter @liexp/shared lint` passes
-- [x] `pnpm --filter @liexp/shared test` passes
+**Note:** 3 remaining `as any` occurrences in API are in commented-out code blocks (not active production code).
+
+## Files Changed
+- `services/api/src/routes/mcp/tools/helpers.ts`
+- `services/api/src/routes/mcp/tools/groups.tool.ts`

@@ -115,7 +115,7 @@ const linksRoute: ServerRoute = {
       {
         queryKey: Q.Link.list.getKey(undefined),
         queryFn: Q.Link.list.fetch,
-      } as AsyncDataRouteQuery<any, any, any>,
+      } as AsyncDataRouteQuery<unknown, unknown, unknown>,
     ]),
 };
 

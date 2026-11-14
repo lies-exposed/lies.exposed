@@ -15,26 +15,27 @@ export const toEventSuggestion = (
       if (typeof l === "string") {
         return {
           ...acc,
-          links: acc.links.concat(l as any),
+          links: acc.links.concat(l as unknown as string),
         };
       }
-      if (Schema.is(UUID)((l as any).id)) {
+      const linkObj = l as unknown as Record<string, unknown>;
+      if (Schema.is(UUID)(linkObj.id)) {
         return {
           ...acc,
-          links: acc.links.concat((l as any).id),
+          links: acc.links.concat(linkObj.id as string),
         };
       }
       return {
         ...acc,
         newLinks: acc.newLinks.concat({
-          ...(l as any),
+          ...linkObj,
           fromURL: true,
         }),
       };
     },
     {
-      links: [],
-      newLinks: [],
+      links: [] as string[],
+      newLinks: [] as Record<string, unknown>[],
     },
   );
 
@@ -53,7 +54,12 @@ export const toEventSuggestion = (
           : event.payload.event.date,
       media: [],
       links,
-      newLinks: (event.payload.event.newLinks ?? []).concat(newLinks),
+      newLinks: (
+        (event.payload.event.newLinks ?? []) as unknown as Record<
+          string,
+          unknown
+        >[]
+      ).concat(newLinks),
     },
   };
 

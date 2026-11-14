@@ -26,12 +26,12 @@ export const defineMcpTool = <A extends Schema.Struct.Fields>(
   // Convert Effect schema to Zod struct for MCP inputSchema
   const zodStruct = effectToZodStruct(effectSchema);
 
-  // Create a decoder from the Effect schema
-  // Note: We cast to `any` because TypeScript cannot properly infer the Type
-  // of Schema.Struct<A> when A is a generic type parameter.
-  // The decoder function works correctly at runtime.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const decoder = Schema.decodeUnknownSync(effectSchema as any);
+  // Create a decoder from the Effect schema.
+  // Cast to Schema.Schema<unknown, A> because TypeScript cannot properly
+  // infer the input type from a generic Schema.Struct<A>.
+  const decoder = Schema.decodeUnknownSync(
+    effectSchema as unknown as Schema.Schema<unknown, A>,
+  );
 
   return {
     inputSchema: zodStruct as {

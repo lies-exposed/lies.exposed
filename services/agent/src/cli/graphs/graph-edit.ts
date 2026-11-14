@@ -1,3 +1,4 @@
+import { type CreateGraphData } from "@liexp/io/lib/http/graphs/Graph.js";
 import { EditGraphInputSchema } from "@liexp/shared/lib/mcp/schemas/graphs.schemas.js";
 import { makeCommand } from "../run-command.js";
 
@@ -13,7 +14,7 @@ export const graphEdit = makeCommand(
     const { id, ...rest } = input;
 
     // Build body - API expects full CreateGraphData but we allow partial updates
-    const body: Record<string, unknown> = { ...rest };
+    const body = { ...rest } as Record<string, unknown>;
 
     // Default options to empty object if not provided
     if (body.options === undefined) {
@@ -22,7 +23,7 @@ export const graphEdit = makeCommand(
 
     return ctx.api.Graph.Edit({
       Params: { id },
-      Body: body as any,
+      Body: body as unknown as CreateGraphData,
     });
   },
 );

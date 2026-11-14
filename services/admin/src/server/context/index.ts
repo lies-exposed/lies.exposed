@@ -90,7 +90,7 @@ export const makeAdminProxyContext = (
       pipe(
         createZeroClawAdapter(env),
         TE.map((adapter) => adapter),
-        TE.orElse(() => TE.right(null as unknown as ZeroClawAdapter)),
+        TE.orElse(() => TE.right(null as ZeroClawAdapter | null)),
       ),
     ),
     TE.map(({ jwt, m2m, agent, zeroclow }) => ({

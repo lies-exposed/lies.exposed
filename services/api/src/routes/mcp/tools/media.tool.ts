@@ -342,7 +342,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
         const existingMedia = await ctx.db.manager.findOne(MediaEntity, {
           where: { id },
           relations: ["creator"],
-        } as any);
+        } as unknown as Parameters<typeof ctx.db.manager.findOne>[1]);
 
         if (!existingMedia) {
           throw new Error(`Media with id ${id} not found`);

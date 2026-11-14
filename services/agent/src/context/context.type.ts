@@ -29,7 +29,7 @@ interface AgentFactoryContext {
   agentFactory: (
     agentType?: AgentType,
     override?: ProviderConfigOverride,
-  ) => TaskEither<ServerError, any>;
+  ) => TaskEither<ServerError, unknown>;
 }
 
 /**

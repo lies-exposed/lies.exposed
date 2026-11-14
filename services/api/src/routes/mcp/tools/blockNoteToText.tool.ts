@@ -22,22 +22,24 @@ export const registerBlockNoteTools = (server: McpServer) => {
       title: "Convert BlockNote to text",
       description: "Convert BlockNote JSON to plain text.",
       annotations: { title: "Convert BlockNote to text", readOnlyHint: true },
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
-      inputSchema: inputSchema as unknown as { blocknote?: any },
-    },
-    (opts) => {
-      const { blocknote } = opts ?? {};
+      inputSchema,
+    } as Parameters<typeof server.registerTool>[1],
+    (opts: any) => {
+      const blocknote = opts?.arguments?.blocknote;
+      if (!blocknote) {
+        throw new Error("Missing blocknote argument");
+      }
       if (!isValidValue(blocknote)) {
         throw new Error("Invalid BlockNote document");
       }
-      return Promise.resolve({
+      return {
         content: [
           {
             text: getTextContents(blocknote),
             type: "text" as const,
           },
         ],
-      });
+      };
     },
   );
 };

@@ -38,7 +38,7 @@ const isTextContentPart = (value: unknown): value is TextContentPart =>
   typeof value === "object" &&
   value !== null &&
   "type" in value &&
-  typeof (value as TextContentPart).type === "string";
+  typeof (value as Record<string, unknown>).type === "string";
 
 /**
  * Guard: check whether a value looks like an AIMessage (has `content`,
@@ -474,7 +474,7 @@ const isEmptyChoicesError = (error: unknown): boolean =>
   "Cannot read properties of undefined (reading 'message')";
 
 const invokeAgentWithEmptyChoicesRetry = async (
-  agent: { invoke: (...args: any[]) => Promise<unknown> },
+  agent: { invoke: (...args: unknown[]) => Promise<unknown> },
   input: unknown,
   config: unknown,
 ): Promise<unknown> => {
@@ -615,7 +615,9 @@ export const sendChatMessage =
             TE.tryCatch(
               () =>
                 invokeAgentWithEmptyChoicesRetry(
-                  agent,
+                  agent as {
+                    invoke: (...args: unknown[]) => Promise<unknown>;
+                  },
                   { messages: [messageWithMemories] },
                   {
                     configurable: { thread_id: conversationId },
@@ -844,7 +846,11 @@ export const sendChatMessageStream = (payload: {
       // AND a final "summary" chunk that replays the full response.
       let visibleContent = "";
 
-      for await (const event of agent.streamEvents(
+      for await (const event of (
+        agent as {
+          streamEvents: (...args: unknown[]) => AsyncIterable<unknown>;
+        }
+      ).streamEvents(
         { messages: [messageWithMemories] },
         {
           version: "v2",
@@ -854,7 +860,11 @@ export const sendChatMessageStream = (payload: {
       )) {
         if (!event) continue;
 
-        ctx.logger.debug.log("stream event [%s]: %O", event.event, event.data);
+        ctx.logger.debug.log(
+          "stream event [%s]: %O",
+          (event as { event: string; data: unknown }).event,
+          (event as { event: string; data: unknown }).data,
+        );
 
         payload.onRawEvent?.(event);
 

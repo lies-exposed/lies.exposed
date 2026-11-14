@@ -20,13 +20,13 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
 
     await Promise.all(
       links
-        .filter((l: any) => l.image !== null)
-        .map(async (l: any) => {
+        .filter((l: Record<string, unknown>) => l.image !== null)
+        .map(async (l: Record<string, unknown>) => {
           const image = l.image ? (l.image as string) : "";
           const media = await queryRunner.manager.getRepository("image").save({
             id: uuid(),
             type: "image/jpeg",
-            description: l.description ?? "",
+            description: (l.description as string) ?? "",
             location: image,
             thumbnail: image,
             events: [],
@@ -36,7 +36,7 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
           });
 
           await queryRunner.manager.save(LinkEntity, [
-            { ...l, image: media as any },
+            { ...l, image: media as unknown as LinkEntity["image"] },
           ]);
         }),
     );

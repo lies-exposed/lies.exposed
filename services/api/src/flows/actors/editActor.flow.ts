@@ -4,6 +4,7 @@ import { ActorRepository } from "@liexp/backend/lib/services/entity-repository.s
 import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Actor, type EditActorBody } from "@liexp/io/lib/http/Actor.js";
+import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import * as O from "effect/Option";
 import { type DeepPartial, Equal } from "typeorm";
@@ -76,7 +77,9 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
   };
 
   return pipe(
-    ActorRepository.findOneOrFail({ where: { id: Equal(id as any) } }),
+    ActorRepository.findOneOrFail({
+      where: { id: Equal(id as string) },
+    } as Parameters<typeof ActorRepository.findOneOrFail>[0]),
     fp.RTE.chain((actor) =>
       ActorRepository.save([
         {
@@ -87,18 +90,24 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
             ? updateData.nationalities
             : actor.nationalities,
           memberIn: [...updateData.memberIn],
-          excerpt: "excerpt" in updateData ? updateData.excerpt : actor.excerpt,
-          body: "body" in updateData ? updateData.body : actor.body,
+          excerpt:
+            "excerpt" in updateData
+              ? (updateData.excerpt as BlockNoteDocument | null | undefined)
+              : actor.excerpt,
+          body:
+            "body" in updateData
+              ? (updateData.body as BlockNoteDocument | null | undefined)
+              : actor.body,
         },
       ]),
     ),
     fp.RTE.chain(() =>
       ActorRepository.findOneOrFail({
-        where: { id: Equal(id) },
+        where: { id: Equal(id as string) },
         loadRelationIds: {
           relations: ["memberIn"],
         },
-      }),
+      } as Parameters<typeof ActorRepository.findOneOrFail>[0]),
     ),
     fp.RTE.chainEitherK((actor) => ActorIO.decodeSingle(actor)),
   );

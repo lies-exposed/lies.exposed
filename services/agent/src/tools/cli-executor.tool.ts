@@ -82,7 +82,7 @@ Examples: "actor list --fullName=Obama --end=5", "event list --query=vaccine --e
 type CliInput = typeof CliInputSchema.Type;
 
 export const createCliExecutorTool = (cliBinPath: string) =>
-  tool<any, string, never, "liexp_cli">(
+  tool(
     async (input: CliInput): Promise<string> => {
       try {
         const args = parseCommandArgs(input.command);
@@ -98,15 +98,23 @@ export const createCliExecutorTool = (cliBinPath: string) =>
           { timeout: 60_000 },
         );
         return stdout || stderr || "(no output)";
-      } catch (err: any) {
-        if (err.killed && err.signal === "SIGTERM") {
+      } catch (err: unknown) {
+        const error = err as {
+          killed?: boolean;
+          signal?: string;
+          stderr?: string | null;
+          stdout?: string | null;
+          code?: number | null;
+          message?: string;
+        };
+        if (error.killed && error.signal === "SIGTERM") {
           return `ERROR: command timed out after 60s: ${input.command}\nTry a narrower query (lower --end, more specific filters) rather than repeating the same command.`;
         }
         // err.message from execFile just repeats the full command — not useful.
         // The CLI writes structured errors to stderr. Take all content from
         // the first error-looking line onward (includes tree-formatted parse
         // errors), falling back to the last 10 lines.
-        const stderrRaw: string = err.stderr ?? "";
+        const stderrRaw: string = error.stderr ?? "";
         const stderrLines = stderrRaw.split("\n").filter(Boolean);
         const firstErrorIdx = stderrLines.findIndex(
           (l) => /:error\b/i.test(l) || /^\s*Error/i.test(l),
@@ -117,9 +125,9 @@ export const createCliExecutorTool = (cliBinPath: string) =>
             : stderrLines.slice(-10).join("\n");
 
         // Also include stdout if it has content (some errors go there)
-        const stdoutNote = err.stdout ? `\nstdout: ${err.stdout}` : "";
+        const stdoutNote = error.stdout ? `\nstdout: ${error.stdout}` : "";
 
-        return `ERROR (exit ${err.code ?? 1}):\n${summary || err.message}${stdoutNote}`;
+        return `ERROR (exit ${error.code ?? 1}):\n${summary || (error.message ?? "(unknown error)")}${stdoutNote}`;
       }
     },
     {

@@ -1,3 +1,4 @@
+import { type User } from "@liexp/io/lib/http/User.js";
 import { ErrorBox } from "@liexp/ui/lib/components/Common/ErrorBox.js";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader.js";
 import {
@@ -13,7 +14,7 @@ export const UserEditMe: React.FC = () => {
   const { isLoading, data, isError, error } = useGetOne("users", { id: "me" });
   const dataProvider = useDataProvider();
   const [saving, setSaving] = React.useState(false);
-  const save = (record: any): void => {
+  const save = (record: User): void => {
     setSaving(true);
     void dataProvider
       .update("users", { id: "me", data: record, previousData: data })

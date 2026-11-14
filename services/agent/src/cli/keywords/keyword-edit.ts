@@ -1,3 +1,4 @@
+import { type CreateKeyword } from "@liexp/io/lib/http/Keyword.js";
 import { EditKeywordInputSchema } from "@liexp/shared/lib/mcp/schemas/keywords.schemas.js";
 import { makeCommand } from "../run-command.js";
 
@@ -17,7 +18,7 @@ export const keywordEdit = makeCommand(
 
     return ctx.api.Keyword.Edit({
       Params: { id },
-      Body: body as any,
+      Body: body as unknown as CreateKeyword,
     });
   },
 );

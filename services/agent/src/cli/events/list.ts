@@ -13,7 +13,7 @@ export const eventList = makeCommand(
     return ctx.api.Event.List({
       Query: {
         ...input,
-        q: input.query ?? null,
+        q: input.query ?? undefined,
         eventType: input.type ? ([input.type] as any) : undefined,
       },
     });
