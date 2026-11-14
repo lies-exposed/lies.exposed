@@ -36,7 +36,8 @@ const transformArea = ({
   newMediaRef = [],
   newEvents: _newEvents,
   ...area
-}: http.Area.Area & { newMediaRef?: unknown[]; newEvents?: unknown[] }): Omit<http.Area.Area,
+}: http.Area.Area & { newMediaRef?: unknown[]; newEvents?: unknown[] }): Omit<
+  http.Area.Area,
   "featuredImage"
 > & { featuredImage?: string | null } => {
   const media = transformMedia(newMediaRef);
