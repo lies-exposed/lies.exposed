@@ -12,6 +12,17 @@ import { Box, Chip, Icons, Typography } from "../mui/index.js";
  * - Errors with highlighted styling
  */
 
+// ─── types ──────────────────────────────────────────────────────────────────
+
+interface ToolListResult {
+  type: "list";
+  total: number;
+  data: Record<string, unknown>[];
+}
+
+type ToolResult = ToolListResult | Record<string, unknown> | string | null;
+type ToolParams = Record<string, unknown> | string | null;
+
 // ─── helpers ────────────────────────────────────────────────────────────────
 
 /** Pick the best human-readable label from an unknown record */
@@ -313,10 +324,8 @@ export const ToolMessageDisplay: React.FC<{
   const [showRaw, setShowRaw] = React.useState(false);
 
   let toolName = "Unknown Tool";
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let toolResult: any = null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let toolParams: any = null;
+  let toolResult: ToolResult = null;
+  let toolParams: ToolParams = null;
 
   try {
     const parsedContent = JSON.parse(message.content);
@@ -398,8 +407,10 @@ export const ToolMessageDisplay: React.FC<{
   // Result summary for collapsed view
   const resultSummary = React.useMemo(() => {
     if (isError) return null;
-    if (isList)
-      return `${(toolResult as any).total} result${(toolResult as any).total !== 1 ? "s" : ""}`;
+    if (isList) {
+      const listResult = toolResult as ToolListResult;
+      return `${listResult.total} result${listResult.total !== 1 ? "s" : ""}`;
+    }
     if (typeof toolResult === "object" && toolResult !== null) {
       const primary = getPrimaryLabel(toolResult as Record<string, unknown>);
       return primary || null;
@@ -612,12 +623,12 @@ export const ToolMessageDisplay: React.FC<{
                     overflow: "auto",
                   }}
                 >
-                  {String(toolResult)}
+                  {String(toolResult as string)}
                 </Box>
               ) : isList ? (
                 <ListResult
-                  total={(toolResult as any).total}
-                  data={(toolResult as any).data}
+                  total={(toolResult as ToolListResult).total}
+                  data={(toolResult as ToolListResult).data}
                   showRaw={showRaw}
                   raw={rawResult ?? ""}
                 />
@@ -643,7 +654,7 @@ export const ToolMessageDisplay: React.FC<{
                     borderRadius: "4px",
                   }}
                 >
-                  {String(toolResult)}
+                  {String(toolResult as string)}
                 </Box>
               )}
             </Box>

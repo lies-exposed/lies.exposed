@@ -16,7 +16,7 @@ import { ChatInput } from "./ChatInput.js";
 import { ContentMessage } from "./ContentMessage.js";
 import { ErrorDisplay } from "./ErrorDisplay.js";
 import { LoadingMessage } from "./LoadingMessage.js";
-import { ProviderSelector } from "./ProviderSelector.js";
+import { ProviderSelector, type AIProvider } from "./ProviderSelector.js";
 import { StreamingMessage } from "./StreamingMessage.js";
 import { SystemMessage } from "./SystemMessage.js";
 import { ToolMessage } from "./ToolMessage.js";
@@ -186,8 +186,8 @@ export interface ChatUIProps {
   };
   /** Provider selector configuration */
   providerSelector?: {
-    selectedProvider: string | null;
-    onProviderChange: (provider: string) => void;
+    selectedProvider: AIProvider | null;
+    onProviderChange: (provider: AIProvider) => void;
     selectedModel: string | null;
     onModelChange: (model: string) => void;
     getAuthToken?: () => string | null;
@@ -398,7 +398,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
           )}
           {providerSelector && (
             <ProviderSelector
-              selectedProvider={providerSelector.selectedProvider as any}
+              selectedProvider={providerSelector.selectedProvider}
               selectedModel={providerSelector.selectedModel}
               onProviderChange={providerSelector.onProviderChange}
               onModelChange={providerSelector.onModelChange}
@@ -612,7 +612,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                 )}
                 {providerSelector && (
                   <ProviderSelector
-                    selectedProvider={providerSelector.selectedProvider as any}
+                    selectedProvider={providerSelector.selectedProvider}
                     selectedModel={providerSelector.selectedModel}
                     onProviderChange={providerSelector.onProviderChange}
                     onModelChange={providerSelector.onModelChange}
