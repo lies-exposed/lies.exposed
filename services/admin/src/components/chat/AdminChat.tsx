@@ -15,6 +15,10 @@ import { useStreamingChat } from "../../hooks/useStreamingChat.js";
 
 interface ChatProps {
   className?: string;
+  /** Controlled open state for external panel slot rendering */
+  chatOpen?: boolean;
+  /** Callback to toggle the panel (required if chatOpen is provided) */
+  onToggleChat?: () => void;
 }
 
 const SETTINGS_KEY = "chat:settings";
@@ -57,8 +61,14 @@ const saveSettings = (patch: Partial<ChatSettings>) => {
   }
 };
 
-export const AdminChat: React.FC<ChatProps> = ({ className }) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const AdminChat: React.FC<ChatProps> = ({
+  className,
+  chatOpen: chatOpenProp,
+  onToggleChat: onToggleChatProp,
+}) => {
+  const isControlled = chatOpenProp !== undefined;
+  const [isPanelOpenInternal, setIsPanelOpenInternal] = useState(false);
+  const isPanelOpen = isControlled ? chatOpenProp : isPanelOpenInternal;
   const [inputValue, setInputValue] = useState("");
   const [isFullSize, setIsFullSize] = useState(false);
   const [isContextEnabled, setIsContextEnabled] = useState(false);
@@ -121,7 +131,9 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       );
       loadConversation(pendingConversationId, visibleMessages);
       setPendingConversationId(null);
-      setIsOpen(true);
+      if (!isControlled) {
+        setIsPanelOpenInternal(true);
+      }
     }
   }, [
     pendingConversationId,
@@ -206,9 +218,15 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   }, [isContextEnabled, hookResource, hookRecord, location.pathname]);
 
   const handleToggleChat = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-      setIsFullSize(false);
+    if (isControlled && onToggleChatProp) {
+      onToggleChatProp();
+    } else {
+      setIsPanelOpenInternal((prev) => {
+        if (!prev) {
+          setIsFullSize(false);
+        }
+        return !prev;
+      });
     }
   };
 
@@ -245,7 +263,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     const aiConfig = selectedProvider
       ? {
           provider: selectedProvider,
-          ...(selectedModel && { model: selectedModel as string }),
+          ...(selectedModel && { model: selectedModel }),
         }
       : undefined;
 
