@@ -62,7 +62,6 @@ const ChatModal = styled(Paper, {
   boxShadow: theme.shadows[8],
   overflow: "hidden",
   transition: "all 0.3s ease-in-out",
-  ...style,
 }));
 
 const MessagesContainer = styled(Box)(({ theme }) => ({
@@ -245,7 +244,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
 
   // Shared panel content (used in both inline and portal rendering)
   const panelContent = (
-    <ChatModal isPanel={true} style={panelStyle}>
+    <ChatModal isFullSize={false} isPanel={true}>
       <ChatHeader
         title={title}
         isFullSize={false}
