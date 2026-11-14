@@ -92,7 +92,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                 fill={mapBackground}
                 rx={14}
               />
-              <CustomProjection<any>
+              <CustomProjection<GeoJSON.Feature<GeoJSON.Geometry>>
                 projection={projection}
                 data={world.features}
                 scale={zoom.transformMatrix.scaleX}
@@ -115,7 +115,11 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                             d={path ?? ""}
                             stroke={"black"}
                             strokeWidth={0.5}
-                            fill={color(feature.geometry.coordinates.length)}
+                            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- Geometry is a union type; world topo features are Polygons with coordinates
+                            fill={color(
+                              (feature.geometry as GeoJSON.Polygon).coordinates
+                                .length,
+                            )}
                           />
                         );
                       })}
@@ -123,7 +127,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                   );
                 }}
               </CustomProjection>
-              <CustomProjection<any>
+              <CustomProjection<GeoJSON.Feature<GeoJSON.Geometry>>
                 projection={projection}
                 data={data.features}
                 scale={zoom.transformMatrix.scaleX}
@@ -133,7 +137,16 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                 ]}
               >
                 {(mercator) => {
-                  return <g>{mercator.features.map(featureRenderer)}</g>;
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- featureRenderer expects ParsedFeature<P> but CustomProjection provides ParsedFeature<Feature<Geometry, GeoJsonProperties>>
+                  return (
+                    <g>
+                      {mercator.features.map(
+                        featureRenderer as (
+                          f: ParsedFeature<GeoJSON.Feature<GeoJSON.Geometry>>,
+                        ) => React.ReactElement,
+                      )}
+                    </g>
+                  );
                 }}
               </CustomProjection>
               <rect

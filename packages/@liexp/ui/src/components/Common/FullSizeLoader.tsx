@@ -2,7 +2,7 @@ import { ParentSize } from "@visx/responsive";
 import * as React from "react";
 import { CircularProgress } from "../mui/index.js";
 
-export const FullSizeLoader: React.FC<any> = () => {
+export const FullSizeLoader: React.FC = () => {
   return (
     <ParentSize style={{ minHeight: "60%" }}>
       {({ width, height }) => {
@@ -26,6 +26,4 @@ export const FullSizeLoader: React.FC<any> = () => {
   );
 };
 
-export const LazyFullSizeLoader = (): React.ReactElement<any, any> => (
-  <FullSizeLoader />
-);
+export const LazyFullSizeLoader = (): React.ReactElement => <FullSizeLoader />;

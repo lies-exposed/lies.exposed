@@ -62,10 +62,12 @@ const ResultRow: React.FC<{
   } else {
     let label = "";
     if (result.kind === "event") {
-      label =
-        (result.item as any).payload?.title ??
-        (result.item as any).payload?.excerpt ??
-        result.item.id;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- EventPayload is a union type; optional chaining handles all variants
+      const payload = result.item.payload as unknown as {
+        title?: string;
+        excerpt?: string;
+      };
+      label = payload?.title ?? payload?.excerpt ?? result.item.id;
     } else if (result.kind === "link") {
       label =
         result.item.title ??
