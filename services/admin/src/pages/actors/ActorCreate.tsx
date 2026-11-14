@@ -117,7 +117,7 @@ export const transformActor =
                 data: transformActorRelation({
                   ...r,
                   actor: { id },
-                  relatedActor: { id: r.relatedActor },
+                  relatedActor: { id: r.relatedActor as string },
                 }),
               });
             }, toError),

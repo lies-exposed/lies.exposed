@@ -107,7 +107,7 @@
     "dotenv": "^18.0.9",
     "eslint": "^10.10.0",
     "fast-check": "^3.23.2",
-    "supertest": "^7.2.2",
+    "supertest": "^7.3.2",
     "typeorm-pglite": "^0.3.4",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "^5.0.0",

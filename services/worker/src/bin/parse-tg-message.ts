@@ -56,5 +56,5 @@ export const parseTGMessage: CommandFlow = async (ctx, args): Promise<void> => {
     throwTE,
   );
 
-  return result;
+  void result;
 };

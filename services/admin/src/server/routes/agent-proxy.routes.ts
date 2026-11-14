@@ -142,7 +142,7 @@ export const registerAgentProxyRoutes = (
           (error: unknown) => () => {
             const err = error as {
               message?: unknown;
-              response?: { status: number };
+              response?: { status?: number };
             };
 
             // Handle validation errors

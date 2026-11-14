@@ -362,7 +362,7 @@ export const routes: ServerRoute[] = [
             }),
             queryFn: Q.Event.Custom.SearchEvents.fetch,
           },
-        ];
+        ] as AsyncDataRouteQuery<any, any, any>[];
       },
   },
   // keywords
@@ -393,7 +393,7 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Stats.list.fetch,
         },
-      ]);
+      ] as AsyncDataRouteQuery<any, any, any>[]);
     },
   },
   // areas
@@ -494,7 +494,7 @@ export const routes: ServerRoute[] = [
             queryKey: storyRelatedKeywordsKey,
             queryFn: Q.Keyword.list.fetch,
           },
-        ];
+        ] as AsyncDataRouteQuery<any, any, any>[];
       },
   },
   // Routes without parameters (less specific)
@@ -521,7 +521,7 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Group.list.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // actors
   {
@@ -641,7 +641,7 @@ export const routes: ServerRoute[] = [
           queryKey: getSearchEventsInfiniteQueryKey(q),
           queryFn: Q.Event.Custom.SearchEvents.fetch,
         },
-      ]);
+      ] as AsyncDataRouteQuery<any, any, any>[]);
     },
   },
   {
@@ -668,7 +668,7 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Event.Custom.SearchEvents.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // keywords
   {
@@ -693,7 +693,7 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Area.list.getKey(undefined, undefined),
           queryFn: Q.Area.list.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // media
   {
@@ -711,7 +711,7 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Media.list.getKey(undefined, undefined),
           queryFn: Q.Media.list.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // links
   linksRoute,
@@ -741,7 +741,7 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Story.list.fetch,
         },
-      ]);
+      ] as AsyncDataRouteQuery<any, any, any>[]);
     },
   },
   // profile (wildcard to allow react-admin to handle nested routes like /profile/login)
@@ -816,6 +816,6 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Media.list.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
 ];
