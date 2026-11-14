@@ -47,7 +47,11 @@ const FloatingButton = styled(Paper)(({ theme }) => ({
 
 const ChatModal = styled(Paper, {
   shouldForwardProp: (prop) => prop !== "isFullSize" && prop !== "isPanel",
-})<{ isFullSize: boolean; isPanel: boolean }>(({ theme, isFullSize, isPanel }) => ({
+})<{ isFullSize: boolean; isPanel: boolean }>(({
+  theme,
+  isFullSize,
+  isPanel,
+}) => ({
   position: isPanel ? "fixed" : isFullSize ? "fixed" : "fixed",
   top: isPanel || isFullSize ? 0 : "auto",
   right: isPanel ? 0 : isFullSize ? 0 : theme.spacing(3),
@@ -188,8 +192,6 @@ export interface ChatUIProps {
   }[];
   /** Callback when a conversation is selected */
   onSelectConversation?: (conversationId: string) => void;
-  /** Custom style for the panel (used when renderInline is true) */
-  panelStyle?: React.CSSProperties;
 }
 
 const defaultFormatTime = (timestamp: string) => {
@@ -203,7 +205,6 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   isOpen,
   mode = "modal",
   renderInline = false,
-  panelStyle,
   messages,
   inputValue,
   isLoading,
