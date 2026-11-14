@@ -47,11 +47,8 @@ const FloatingButton = styled(Paper)(({ theme }) => ({
 
 const ChatModal = styled(Paper, {
   shouldForwardProp: (prop) => prop !== "isFullSize" && prop !== "isPanel",
-})<{ isFullSize: boolean; isPanel: boolean }>(({
-  theme,
-  isFullSize,
-  isPanel,
-}) => ({
+})<{ isFullSize: boolean; isPanel: boolean }>(
+  ({ theme, isFullSize, isPanel }) => ({
   position: isPanel ? "fixed" : isFullSize ? "fixed" : "fixed",
   top: isPanel || isFullSize ? 0 : "auto",
   right: isPanel ? 0 : isFullSize ? 0 : theme.spacing(3),
