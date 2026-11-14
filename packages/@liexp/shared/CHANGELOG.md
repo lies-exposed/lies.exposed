@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/shared@0.9.0) (2026-11-14)
+
+
+### Bug Fixes
+
+* **shared:** replace any casts with proper types ([#4069](https://github.com/lies-exposed/lies.exposed/issues/4069)) ([75799f5](https://github.com/lies-exposed/lies.exposed/commit/75799f59c413dc1ecc0961743c85f62234c836bc))
+* **shared:** replace remaining any casts in test files with proper types (HOM-1393) ([#4081](https://github.com/lies-exposed/lies.exposed/issues/4081)) ([5b4901b](https://github.com/lies-exposed/lies.exposed/commit/5b4901b107f04724eb7d5c26826f03febc702139))
+* **ui:** type BlockNote plugins, editor, and admin media components ([#4030](https://github.com/lies-exposed/lies.exposed/issues/4030)) ([1ff105c](https://github.com/lies-exposed/lies.exposed/commit/1ff105ceee06c5f51aceb436953cb13a43db1b96))
+
+
+### Miscellaneous
+
+* enable vitest fsModuleCache and tune isolation ([#4006](https://github.com/lies-exposed/lies.exposed/issues/4006)) ([06cada1](https://github.com/lies-exposed/lies.exposed/commit/06cada1a3c0e5eaa979e00776e8a967812f604b8))
+* **shared:** add comprehensive tests for provider modules ([#3991](https://github.com/lies-exposed/lies.exposed/issues/3991)) ([b8f367f](https://github.com/lies-exposed/lies.exposed/commit/b8f367f08ae85820dfcb5064e6d36d8670bd1a67))
+* **shared:** expand helper test coverage for event and social-post modules ([#3996](https://github.com/lies-exposed/lies.exposed/issues/3996)) ([8367c06](https://github.com/lies-exposed/lies.exposed/commit/8367c065bd1d4707b822b9c9bf1cfb04b1f9668a))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.9.0
+    * @liexp/io bumped to 0.9.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.9.0
+    * @liexp/test bumped to 0.9.0
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...@liexp/shared@0.8.0) (2026-11-07)
 
 

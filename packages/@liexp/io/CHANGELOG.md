@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/io@0.9.0) (2026-11-14)
+
+
+### Features
+
+* **agent,admin:** report AI chat errors to Sentry ([#4017](https://github.com/lies-exposed/lies.exposed/issues/4017)) ([3867eb6](https://github.com/lies-exposed/lies.exposed/commit/3867eb6acaec6c3a5f3b350c213b83bfbb564e5f))
+
+
+### Bug Fixes
+
+* **core,admin,web,worker,ai-bot:** replace any with specific types across 22 files ([#4033](https://github.com/lies-exposed/lies.exposed/issues/4033)) ([fa982da](https://github.com/lies-exposed/lies.exposed/commit/fa982da449f43e23eead3f1d6494b79c748516de))
+
+
+### Miscellaneous
+
+* **admin:** eliminate remaining any casts in admin package ([#4103](https://github.com/lies-exposed/lies.exposed/issues/4103)) ([8f49cc1](https://github.com/lies-exposed/lies.exposed/commit/8f49cc147aa6bc2fb57fd55ebfe1fea2d26429cf))
+* enable vitest fsModuleCache and tune isolation ([#4006](https://github.com/lies-exposed/lies.exposed/issues/4006)) ([06cada1](https://github.com/lies-exposed/lies.exposed/commit/06cada1a3c0e5eaa979e00776e8a967812f604b8))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.9.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.9.0
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...@liexp/io@0.8.0) (2026-11-07)
 
 

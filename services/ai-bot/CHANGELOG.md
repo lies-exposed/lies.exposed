@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...ai-bot@0.9.0) (2026-11-14)
+
+
+### Features
+
+* **admin, ai-bot:** add ZeroClaw adapter for agent-proxy (WS7) ([#4032](https://github.com/lies-exposed/lies.exposed/issues/4032)) ([7e745e2](https://github.com/lies-exposed/lies.exposed/commit/7e745e247ba36b7b836c33a8864f8708ad4964b8))
+
+
+### Bug Fixes
+
+* **ai-bot:** fix build errors from [#4033](https://github.com/lies-exposed/lies.exposed/issues/4033) ([#4040](https://github.com/lies-exposed/lies.exposed/issues/4040)) ([594b094](https://github.com/lies-exposed/lies.exposed/commit/594b0948c8fb56d29d211c7d8237619e29c9269a))
+* **core,admin,web,worker,ai-bot:** replace any with specific types across 22 files ([#4033](https://github.com/lies-exposed/lies.exposed/issues/4033)) ([fa982da](https://github.com/lies-exposed/lies.exposed/commit/fa982da449f43e23eead3f1d6494b79c748516de))
+
+
+### Miscellaneous
+
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.9.0
+    * @liexp/core bumped to 0.9.0
+    * @liexp/io bumped to 0.9.0
+    * @liexp/shared bumped to 0.9.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.9.0
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...ai-bot@0.8.0) (2026-11-07)
 
 

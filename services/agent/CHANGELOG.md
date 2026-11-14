@@ -1,5 +1,40 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...agent@0.9.0) (2026-11-14)
+
+
+### Features
+
+* **agent,admin:** report AI chat errors to Sentry ([#4017](https://github.com/lies-exposed/lies.exposed/issues/4017)) ([3867eb6](https://github.com/lies-exposed/lies.exposed/commit/3867eb6acaec6c3a5f3b350c213b83bfbb564e5f))
+
+
+### Bug Fixes
+
+* **agent,backend:** replace any casts with typed generics and type guards ([#4029](https://github.com/lies-exposed/lies.exposed/issues/4029)) ([2cde5a5](https://github.com/lies-exposed/lies.exposed/commit/2cde5a5f4ed8fd6830cafd8846490c6196667205))
+* **agent:** await injectMemories in streaming chat flow ([#4015](https://github.com/lies-exposed/lies.exposed/issues/4015)) ([4205257](https://github.com/lies-exposed/lies.exposed/commit/4205257bc724d9893992984ee5cb7950dd5ee547))
+* **agent:** teach media upload/avatar flow ([#4087](https://github.com/lies-exposed/lies.exposed/issues/4087)) ([be15d00](https://github.com/lies-exposed/lies.exposed/commit/be15d008416ad085127a7e1ec0a8d48ca4ecfe91))
+
+
+### Miscellaneous
+
+* **agent:** track services/agent/.env dev defaults ([#4074](https://github.com/lies-exposed/lies.exposed/issues/4074)) ([570c2b8](https://github.com/lies-exposed/lies.exposed/commit/570c2b8498743c863a2a0664f3a62f09435d6aaf))
+* **deps:** update msw from v2 to v3 ([#4007](https://github.com/lies-exposed/lies.exposed/issues/4007)) ([164e025](https://github.com/lies-exposed/lies.exposed/commit/164e02570ff4f7f609eb64bf189421e63643deb7))
+* enable vitest fsModuleCache and tune isolation ([#4006](https://github.com/lies-exposed/lies.exposed/issues/4006)) ([06cada1](https://github.com/lies-exposed/lies.exposed/commit/06cada1a3c0e5eaa979e00776e8a967812f604b8))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.9.0
+    * @liexp/core bumped to 0.9.0
+    * @liexp/io bumped to 0.9.0
+    * @liexp/shared bumped to 0.9.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.9.0
+    * @liexp/test bumped to 0.9.0
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...agent@0.8.0) (2026-11-07)
 
 

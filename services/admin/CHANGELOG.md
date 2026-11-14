@@ -1,5 +1,45 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...admin@0.9.0) (2026-11-14)
+
+
+### Features
+
+* **admin, ai-bot:** add ZeroClaw adapter for agent-proxy (WS7) ([#4032](https://github.com/lies-exposed/lies.exposed/issues/4032)) ([7e745e2](https://github.com/lies-exposed/lies.exposed/commit/7e745e247ba36b7b836c33a8864f8708ad4964b8))
+* **admin:** add chat toggle button to CustomAppBar ([#4093](https://github.com/lies-exposed/lies.exposed/issues/4093)) ([5009425](https://github.com/lies-exposed/lies.exposed/commit/5009425f496428111e58cc534188dff0c7672f4a))
+* **agent,admin:** report AI chat errors to Sentry ([#4017](https://github.com/lies-exposed/lies.exposed/issues/4017)) ([3867eb6](https://github.com/lies-exposed/lies.exposed/commit/3867eb6acaec6c3a5f3b350c213b83bfbb564e5f))
+* **ui,admin:** add panel mode to AdminChat and ChatUI ([#4094](https://github.com/lies-exposed/lies.exposed/issues/4094)) ([85eb7e9](https://github.com/lies-exposed/lies.exposed/commit/85eb7e9ac0673d2aa698eaf88c41e65500348645))
+
+
+### Bug Fixes
+
+* **admin:** reduce any casts in admin test files (11 -&gt; 0) ([#4077](https://github.com/lies-exposed/lies.exposed/issues/4077)) ([30c3af5](https://github.com/lies-exposed/lies.exposed/commit/30c3af5e41de8a172ad3a0faeff53d1004944fcc))
+* **core,admin,web,worker,ai-bot:** replace any with specific types across 22 files ([#4033](https://github.com/lies-exposed/lies.exposed/issues/4033)) ([fa982da](https://github.com/lies-exposed/lies.exposed/commit/fa982da449f43e23eead3f1d6494b79c748516de))
+
+
+### Miscellaneous
+
+* **admin:** eliminate remaining any casts in admin package ([#4102](https://github.com/lies-exposed/lies.exposed/issues/4102)) ([f85fb3c](https://github.com/lies-exposed/lies.exposed/commit/f85fb3cbc8d46eadeb3faa7f45cf6994c631b8f0))
+* **admin:** eliminate remaining any casts in admin package ([#4103](https://github.com/lies-exposed/lies.exposed/issues/4103)) ([8f49cc1](https://github.com/lies-exposed/lies.exposed/commit/8f49cc147aa6bc2fb57fd55ebfe1fea2d26429cf))
+* **deps:** update msw from v2 to v3 ([#4007](https://github.com/lies-exposed/lies.exposed/issues/4007)) ([164e025](https://github.com/lies-exposed/lies.exposed/commit/164e02570ff4f7f609eb64bf189421e63643deb7))
+* enable vitest fsModuleCache and tune isolation ([#4006](https://github.com/lies-exposed/lies.exposed/issues/4006)) ([06cada1](https://github.com/lies-exposed/lies.exposed/commit/06cada1a3c0e5eaa979e00776e8a967812f604b8))
+* fix build and lint errors from [#4032](https://github.com/lies-exposed/lies.exposed/issues/4032)/[#4033](https://github.com/lies-exposed/lies.exposed/issues/4033) ([#4059](https://github.com/lies-exposed/lies.exposed/issues/4059)) ([ae56e7d](https://github.com/lies-exposed/lies.exposed/commit/ae56e7d85cf545d523109c6885d942345d464594))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.9.0
+    * @liexp/core bumped to 0.9.0
+    * @liexp/io bumped to 0.9.0
+    * @liexp/shared bumped to 0.9.0
+    * @liexp/ui bumped to 0.9.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.9.0
+    * @liexp/test bumped to 0.9.0
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...admin@0.8.0) (2026-11-07)
 
 

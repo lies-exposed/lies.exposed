@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/test@0.9.0) (2026-11-14)
+
+
+### Miscellaneous
+
+* fix build and lint errors from [#4032](https://github.com/lies-exposed/lies.exposed/issues/4032)/[#4033](https://github.com/lies-exposed/lies.exposed/issues/4033) ([#4059](https://github.com/lies-exposed/lies.exposed/issues/4059)) ([ae56e7d](https://github.com/lies-exposed/lies.exposed/commit/ae56e7d85cf545d523109c6885d942345d464594))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.9.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.9.0
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...@liexp/test@0.8.0) (2026-11-07)
 
 

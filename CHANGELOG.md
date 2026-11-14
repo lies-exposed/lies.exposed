@@ -1,5 +1,42 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...lies.exposed@0.9.0) (2026-11-14)
+
+
+### Features
+
+* **admin, ai-bot:** add ZeroClaw adapter for agent-proxy (WS7) ([#4032](https://github.com/lies-exposed/lies.exposed/issues/4032)) ([7e745e2](https://github.com/lies-exposed/lies.exposed/commit/7e745e247ba36b7b836c33a8864f8708ad4964b8))
+* **api:** migrate MCP tools to use typed defineMcpTool helper ([#4019](https://github.com/lies-exposed/lies.exposed/issues/4019)) ([5317b46](https://github.com/lies-exposed/lies.exposed/commit/5317b46b30940b1bfd1f620dfa42deb79ba79a67))
+* **mcp:** add actor CRUD tools (find, create, edit) ([#4004](https://github.com/lies-exposed/lies.exposed/issues/4004)) ([6bb0aba](https://github.com/lies-exposed/lies.exposed/commit/6bb0aba9ccb2158ac17e8cbe42eda4fc83d0b213))
+* **ui:** replace any casts with proper d3 types in graph components ([#4024](https://github.com/lies-exposed/lies.exposed/issues/4024)) ([f5113ad](https://github.com/lies-exposed/lies.exposed/commit/f5113ad8ac464821c66b9774646db018b22c9698))
+
+
+### Bug Fixes
+
+* **agent,backend:** replace any casts with typed generics and type guards ([#4029](https://github.com/lies-exposed/lies.exposed/issues/4029)) ([2cde5a5](https://github.com/lies-exposed/lies.exposed/commit/2cde5a5f4ed8fd6830cafd8846490c6196667205))
+* **shared:** replace any casts with proper types ([#4069](https://github.com/lies-exposed/lies.exposed/issues/4069)) ([75799f5](https://github.com/lies-exposed/lies.exposed/commit/75799f59c413dc1ecc0961743c85f62234c836bc))
+* **ui:** replace any casts with proper types in containers, utils, templates, theme ([#4075](https://github.com/lies-exposed/lies.exposed/issues/4075)) ([6f34fae](https://github.com/lies-exposed/lies.exposed/commit/6f34fae83e900b9fb81e0c559e231bb8c2a49bf0))
+* **ui:** restore @liexp/ui build ([#4039](https://github.com/lies-exposed/lies.exposed/issues/4039)) ([4e94193](https://github.com/lies-exposed/lies.exposed/commit/4e94193d49cb7e1ab01d6e5ac49c4b5b7a749aa3))
+* **ui:** type BlockNote plugins, editor, and admin media components ([#4030](https://github.com/lies-exposed/lies.exposed/issues/4030)) ([1ff105c](https://github.com/lies-exposed/lies.exposed/commit/1ff105ceee06c5f51aceb436953cb13a43db1b96))
+* **workspace:** build before knip and lint in pre-push hook ([#3994](https://github.com/lies-exposed/lies.exposed/issues/3994)) ([d8fbad5](https://github.com/lies-exposed/lies.exposed/commit/d8fbad5e61bf5c4ede1a5d0994e70dde6913955f))
+* **workspace:** restore chromium base image for agent, ai-bot and worker ([#3993](https://github.com/lies-exposed/lies.exposed/issues/3993)) ([4d1d4aa](https://github.com/lies-exposed/lies.exposed/commit/4d1d4aa9dfa6ac5ee8750bcdcca421e772088cab))
+
+
+### Miscellaneous
+
+* add lies-exposed-local MCP server ([#4013](https://github.com/lies-exposed/lies.exposed/issues/4013)) ([dc715ba](https://github.com/lies-exposed/lies.exposed/commit/dc715babe124967b1a3a1354a96ef18bfa61c3a9))
+* **agent:** increase agent deployment memory limit to 1Gi ([#4092](https://github.com/lies-exposed/lies.exposed/issues/4092)) ([4cd607f](https://github.com/lies-exposed/lies.exposed/commit/4cd607ffb80e2aba797c1508ed9a6bef787759f1))
+* **agent:** track services/agent/.env dev defaults ([#4074](https://github.com/lies-exposed/lies.exposed/issues/4074)) ([570c2b8](https://github.com/lies-exposed/lies.exposed/commit/570c2b8498743c863a2a0664f3a62f09435d6aaf))
+* **compose:** make service .env.local files optional ([#4073](https://github.com/lies-exposed/lies.exposed/issues/4073)) ([3ddf1dd](https://github.com/lies-exposed/lies.exposed/commit/3ddf1ddbb2077fec5a61e0221d4aad466698da7b))
+* **deps:** update msw from v2 to v3 ([#4007](https://github.com/lies-exposed/lies.exposed/issues/4007)) ([164e025](https://github.com/lies-exposed/lies.exposed/commit/164e02570ff4f7f609eb64bf189421e63643deb7))
+* drop project mem0 mcp ([#4001](https://github.com/lies-exposed/lies.exposed/issues/4001)) ([244b9fd](https://github.com/lies-exposed/lies.exposed/commit/244b9fd3245549b4489d1364c932bf3c7a147626))
+* enable vitest fsModuleCache and tune isolation ([#4006](https://github.com/lies-exposed/lies.exposed/issues/4006)) ([06cada1](https://github.com/lies-exposed/lies.exposed/commit/06cada1a3c0e5eaa979e00776e8a967812f604b8))
+* make deploy.sh build/push opt-in ([#4088](https://github.com/lies-exposed/lies.exposed/issues/4088)) ([ebcd2df](https://github.com/lies-exposed/lies.exposed/commit/ebcd2dfea7800451425dece90bb745a129a9551f))
+* reorganize docker scripts and add deploy.sh ([#3124](https://github.com/lies-exposed/lies.exposed/issues/3124)) ([a89136b](https://github.com/lies-exposed/lies.exposed/commit/a89136ba10fabf0758730d0fdec7749d8e48c93f))
+* share project skills between Claude Code and OpenCode ([#3992](https://github.com/lies-exposed/lies.exposed/issues/3992)) ([6768242](https://github.com/lies-exposed/lies.exposed/commit/6768242992db3fdc791c2f36bc11d9ebf5eb1152))
+* solved 'as any' errors ([#4105](https://github.com/lies-exposed/lies.exposed/issues/4105)) ([6cba6f3](https://github.com/lies-exposed/lies.exposed/commit/6cba6f31fbe74ea1569f956051d807674485a10a))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...lies.exposed@0.8.0) (2026-11-07)
 
 

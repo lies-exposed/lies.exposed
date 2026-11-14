@@ -1,5 +1,50 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/ui@0.9.0) (2026-11-14)
+
+
+### Features
+
+* **admin:** add chat toggle button to CustomAppBar ([#4093](https://github.com/lies-exposed/lies.exposed/issues/4093)) ([5009425](https://github.com/lies-exposed/lies.exposed/commit/5009425f496428111e58cc534188dff0c7672f4a))
+* **ui,admin:** add panel mode to AdminChat and ChatUI ([#4094](https://github.com/lies-exposed/lies.exposed/issues/4094)) ([85eb7e9](https://github.com/lies-exposed/lies.exposed/commit/85eb7e9ac0673d2aa698eaf88c41e65500348645))
+* **ui:** replace any casts with proper d3 types in graph components ([#4024](https://github.com/lies-exposed/lies.exposed/issues/4024)) ([f5113ad](https://github.com/lies-exposed/lies.exposed/commit/f5113ad8ac464821c66b9774646db018b22c9698))
+
+
+### Bug Fixes
+
+* **core,admin,web,worker,ai-bot:** replace any with specific types across 22 files ([#4033](https://github.com/lies-exposed/lies.exposed/issues/4033)) ([fa982da](https://github.com/lies-exposed/lies.exposed/commit/fa982da449f43e23eead3f1d6494b79c748516de))
+* **ui:** add eslint-disable comments for BlockNote plugin any casts ([#4072](https://github.com/lies-exposed/lies.exposed/issues/4072)) ([09e0d5b](https://github.com/lies-exposed/lies.exposed/commit/09e0d5bc7a8a1a99f53e6b334306faed6f46131a))
+* **ui:** remove any casts from container components ([#4067](https://github.com/lies-exposed/lies.exposed/issues/4067)) ([e21154a](https://github.com/lies-exposed/lies.exposed/commit/e21154aa947a5dbf50cb826bc820d83c4c747af0))
+* **ui:** remove remaining any casts in UI containers ([#4061](https://github.com/lies-exposed/lies.exposed/issues/4061)) ([7b24412](https://github.com/lies-exposed/lies.exposed/commit/7b24412c0eb5836dbcbd6409a1e321dbbad1f72d))
+* **ui:** replace any casts in Chat components ([#4099](https://github.com/lies-exposed/lies.exposed/issues/4099)) ([98229d2](https://github.com/lies-exposed/lies.exposed/commit/98229d2bc4b1e85c0a1c1b1a21f9f38c5e308e77))
+* **ui:** replace any casts in Common components with proper types ([#4100](https://github.com/lies-exposed/lies.exposed/issues/4100)) ([c938fce](https://github.com/lies-exposed/lies.exposed/commit/c938fceb376a0e40fed53eac22eca5946527a8c8))
+* **ui:** replace any casts in graph components with proper types ([#4098](https://github.com/lies-exposed/lies.exposed/issues/4098)) ([fbb2417](https://github.com/lies-exposed/lies.exposed/commit/fbb2417a6333aa5e12be5a54e796542fed989643))
+* **ui:** replace any casts in WealthDistributionGraph and HeaderMenu types ([#4101](https://github.com/lies-exposed/lies.exposed/issues/4101)) ([d8a19b1](https://github.com/lies-exposed/lies.exposed/commit/d8a19b1d52056ce8f44fb96a5e58f74ed8a844a0))
+* **ui:** replace any casts with proper types in containers, utils, templates, theme ([#4075](https://github.com/lies-exposed/lies.exposed/issues/4075)) ([6f34fae](https://github.com/lies-exposed/lies.exposed/commit/6f34fae83e900b9fb81e0c559e231bb8c2a49bf0))
+* **ui:** resolve ScientificStudy url to a Link id in transformEvent ([#4090](https://github.com/lies-exposed/lies.exposed/issues/4090)) ([85476a6](https://github.com/lies-exposed/lies.exposed/commit/85476a65512edc8890791448f0e001695db01c0b))
+* **ui:** restore @liexp/ui build ([#4039](https://github.com/lies-exposed/lies.exposed/issues/4039)) ([4e94193](https://github.com/lies-exposed/lies.exposed/commit/4e94193d49cb7e1ab01d6e5ac49c4b5b7a749aa3))
+* **ui:** send null instead of empty body in transformEvent ([#4089](https://github.com/lies-exposed/lies.exposed/issues/4089)) ([6214333](https://github.com/lies-exposed/lies.exposed/commit/6214333c88a95fe48186febd8310d7369c6867b1))
+* **ui:** type BlockNote plugins, editor, and admin media components ([#4030](https://github.com/lies-exposed/lies.exposed/issues/4030)) ([1ff105c](https://github.com/lies-exposed/lies.exposed/commit/1ff105ceee06c5f51aceb436953cb13a43db1b96))
+
+
+### Miscellaneous
+
+* enable vitest fsModuleCache and tune isolation ([#4006](https://github.com/lies-exposed/lies.exposed/issues/4006)) ([06cada1](https://github.com/lies-exposed/lies.exposed/commit/06cada1a3c0e5eaa979e00776e8a967812f604b8))
+* fix build and lint errors from [#4032](https://github.com/lies-exposed/lies.exposed/issues/4032)/[#4033](https://github.com/lies-exposed/lies.exposed/issues/4033) ([#4059](https://github.com/lies-exposed/lies.exposed/issues/4059)) ([ae56e7d](https://github.com/lies-exposed/lies.exposed/commit/ae56e7d85cf545d523109c6885d942345d464594))
+* solved 'as any' errors ([#4105](https://github.com/lies-exposed/lies.exposed/issues/4105)) ([6cba6f3](https://github.com/lies-exposed/lies.exposed/commit/6cba6f31fbe74ea1569f956051d807674485a10a))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.9.0
+    * @liexp/io bumped to 0.9.0
+    * @liexp/shared bumped to 0.9.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.9.0
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...@liexp/ui@0.8.0) (2026-11-07)
 
 
