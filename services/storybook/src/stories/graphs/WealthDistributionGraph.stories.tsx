@@ -1,6 +1,4 @@
-import {
-  WealthDistributionGraph,
-} from "@liexp/ui/lib/components/Graph/WealthDistributionGraph/WealthDistributionGraph.js";
+import { WealthDistributionGraph } from "@liexp/ui/lib/components/Graph/WealthDistributionGraph/WealthDistributionGraph.js";
 import { type Meta, type StoryObj } from "@storybook/react-vite";
 import * as React from "react";
 
