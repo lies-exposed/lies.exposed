@@ -7,6 +7,7 @@ import {
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
+import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import { defineMcpTool } from "./helpers.js";
@@ -329,47 +330,46 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
     }),
     async (input) => {
       try {
-        const editBody: Record<string, unknown> = { id: input.id };
-        if (input.name !== undefined) editBody.name = input.name;
-        if (input.username !== undefined) editBody.username = input.username;
-        if (input.color !== undefined) editBody.color = input.color;
-        if (input.kind !== undefined) editBody.kind = input.kind;
-        if (input.excerpt !== undefined) editBody.excerpt = input.excerpt;
-        if (input.body !== undefined) editBody.body = input.body;
-        if (input.startDate !== undefined)
-          editBody.startDate = new Date(input.startDate);
-        if (input.endDate !== undefined)
-          editBody.endDate = new Date(input.endDate);
-        if (input.members !== undefined) editBody.members = input.members;
-
-        // editGroup returns TEReader<GroupEntity>, decode with GroupIO
-        // Note: We cast to `any` because editGroup expects a different body shape
-        // than what we construct here (partial update vs full body).
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const te = editGroup(editBody as any)(ctx);
+        // const editBody = { id: input.id };
+        // if (input.name !== undefined) editBody.name = input.name;
+        // if (input.username !== undefined) editBody.username = input.username;
+        // if (input.color !== undefined) editBody.color = input.color;
+        // if (input.kind !== undefined) editBody.kind = input.kind;
+        // if (input.excerpt !== undefined) editBody.excerpt = input.excerpt;
+        // if (input.body !== undefined) editBody.body = input.body;
+        // if (input.startDate !== undefined)
+        //   editBody.startDate = new Date(input.startDate);
+        // if (input.endDate !== undefined)
+        //   editBody.endDate = new Date(input.endDate);
+        // if (input.members !== undefined) editBody.members = input.members;
 
         const result = await pipe(
-          te,
+          // editGroup returns TEReader<GroupEntity>, decode with GroupIO
+          // Note: We cast to `any` because editGroup expects a different body shape
+          // than what we construct here (partial update vs full body).
+          editGroup(input),
           // GroupIO.decodeSingle expects GroupEntity, but we have the decoded result
           // from editGroup. The cast is safe because the decoder validates at runtime.
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          fp.TE.chainEitherK((g) => GroupIO.decodeSingle(g as any)),
-          fp.TE.mapLeft((err) => {
+
+          // fp.TE.chainEitherK((g) =>
+          //   GroupIO.decodeSingle({
+          //     stories: [],
+          //     ...g,
+          //   } as any),
+          // ),
+          fp.RTE.mapLeft((err) => {
             ctx.logger.error.log("editGroup error: %O", err);
             return err;
           }),
-        )();
-
-        if (fp.E.isLeft(result)) {
-          throw new Error(
-            (result.left as Error).message ?? "Failed to edit group",
-          );
-        }
+          throwRTE(ctx),
+        ).catch((err) => {
+          throw new Error((err as Error).message ?? "Failed to edit group");
+        });
 
         return {
           content: [
             {
-              text: JSON.stringify({ group: groupToOutput(result.right) }),
+              text: JSON.stringify({ group: groupToOutput(result) }),
               type: "text" as const,
             },
           ],

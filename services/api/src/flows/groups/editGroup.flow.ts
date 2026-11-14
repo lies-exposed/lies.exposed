@@ -11,7 +11,7 @@ import { Equal, In } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";
 
 interface EditGroupInput extends EditGroupBody {
-  id: string;
+  id: UUID;
 }
 
 export const editGroup = (input: EditGroupInput): TEReader<Group> => {
@@ -46,7 +46,7 @@ export const editGroup = (input: EditGroupInput): TEReader<Group> => {
   };
 
   return pipe(
-    GroupRepository.findOneOrFail({ where: { id: Equal(id as any) } }),
+    GroupRepository.findOneOrFail({ where: { id: Equal(id) } }),
     fp.RTE.chain((group) => (ctx) => {
       if (O.isNone(members)) {
         return GroupRepository.save([{ ...group, ...baseUpdateData, id }])(ctx);
@@ -98,12 +98,12 @@ export const editGroup = (input: EditGroupInput): TEReader<Group> => {
     }),
     fp.RTE.chain(() =>
       GroupRepository.findOneOrFail({
-        where: { id: Equal(id as any) },
+        where: { id: Equal(id) },
         loadRelationIds: {
           relations: ["members"],
         },
       }),
     ),
-    fp.RTE.chainEitherK((g) => GroupIO.decodeSingle(g)),
+    fp.RTE.chainEitherK(GroupIO.decodeSingle),
   );
 };

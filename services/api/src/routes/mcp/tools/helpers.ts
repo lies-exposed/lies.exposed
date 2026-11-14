@@ -30,7 +30,7 @@ export const defineMcpTool = <A extends Schema.Struct.Fields>(
   // Note: We cast to `any` because TypeScript cannot properly infer the Type
   // of Schema.Struct<A> when A is a generic type parameter.
   // The decoder function works correctly at runtime.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const decoder = Schema.decodeUnknownSync(effectSchema as any);
 
   return {
