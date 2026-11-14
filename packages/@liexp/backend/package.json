@@ -78,7 +78,7 @@
     "fp-ts": "^2.16.10",
     "ioredis": "^6.0.0",
     "langchain": "^1.6.3",
-    "msw": "^3.0.4",
+    "msw": "^3.0.5",
     "page-metadata-parser": "^1.1.4",
     "pdfjs-dist": "^6.2.108",
     "puppeteer-core": "^25.11.0",
@@ -89,9 +89,9 @@
     "sharp": "^0.35.5",
     "typeorm-pglite": "^0.3.4",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vite": "^8.2.4",
+    "vite": "^8.3.8",
     "vitest": "^5.1.0",
-    "vitest-mock-extended": "^5.1.1"
+    "vitest-mock-extended": "^6.0.0"
   },
   "peerDependencies": {
     "@langchain/anthropic": "^1.0.0",
