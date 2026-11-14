@@ -49,21 +49,22 @@ const ChatModal = styled(Paper, {
   shouldForwardProp: (prop) => prop !== "isFullSize" && prop !== "isPanel",
 })<{ isFullSize: boolean; isPanel: boolean }>(
   ({ theme, isFullSize, isPanel }) => ({
-  position: isPanel ? "fixed" : isFullSize ? "fixed" : "fixed",
-  top: isPanel || isFullSize ? 0 : "auto",
-  right: isPanel ? 0 : isFullSize ? 0 : theme.spacing(3),
-  bottom: isPanel || isFullSize ? 0 : "auto",
-  left: isPanel ? "auto" : isFullSize ? 0 : "auto",
-  width: isPanel ? 420 : isFullSize ? "100vw" : 400,
-  height: isPanel || isFullSize ? "100vh" : 500,
-  zIndex: 1300,
-  borderRadius: isFullSize || isPanel ? 0 : theme.spacing(2),
-  display: "flex",
-  flexDirection: "column",
-  boxShadow: theme.shadows[8],
-  overflow: "hidden",
-  transition: "all 0.3s ease-in-out",
-}));
+    position: isPanel ? "fixed" : isFullSize ? "fixed" : "fixed",
+    top: isPanel || isFullSize ? 0 : "auto",
+    right: isPanel ? 0 : isFullSize ? 0 : theme.spacing(3),
+    bottom: isPanel || isFullSize ? 0 : "auto",
+    left: isPanel ? "auto" : isFullSize ? 0 : "auto",
+    width: isPanel ? 420 : isFullSize ? "100vw" : 400,
+    height: isPanel || isFullSize ? "100vh" : 500,
+    zIndex: 1300,
+    borderRadius: isFullSize || isPanel ? 0 : theme.spacing(2),
+    display: "flex",
+    flexDirection: "column",
+    boxShadow: theme.shadows[8],
+    overflow: "hidden",
+    transition: "all 0.3s ease-in-out",
+  })
+);
 
 const MessagesContainer = styled(Box)(({ theme }) => ({
   flex: 1,
