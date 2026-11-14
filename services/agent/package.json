@@ -79,7 +79,7 @@
     "@types/supertest": "^7.2.1",
     "@typescript/native": "npm:typescript@^7.0.2",
     "eslint": "^10.14.0",
-    "msw": "^3.0.4",
+    "msw": "^3.0.5",
     "supertest": "^7.3.2",
     "tsx": "^4.23.15",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
