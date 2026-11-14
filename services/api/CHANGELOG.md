@@ -1,5 +1,60 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...api@0.9.0) (2026-11-14)
+
+
+### Features
+
+* **api:** add Event MCP tools (find, create, edit) ([#4003](https://github.com/lies-exposed/lies.exposed/issues/4003)) ([19717dc](https://github.com/lies-exposed/lies.exposed/commit/19717dc47f1056151d91c0fdf87d641951f1baf1))
+* **api:** add Graph MCP CRUD tools (findGraphs, createGraph, editGraph) ([#4066](https://github.com/lies-exposed/lies.exposed/issues/4066)) ([77e0740](https://github.com/lies-exposed/lies.exposed/commit/77e0740cb889223bef595ddfad9aaaaf7e17fd3f))
+* **api:** add groups MCP tools (find, create, edit) ([#4005](https://github.com/lies-exposed/lies.exposed/issues/4005)) ([8ac1f12](https://github.com/lies-exposed/lies.exposed/commit/8ac1f12a9fe3363d0827600485211232ff719f76))
+* **api:** add Keyword MCP CRUD tools (findKeywords, createKeyword, editKeyword) ([#4041](https://github.com/lies-exposed/lies.exposed/issues/4041)) ([414eca8](https://github.com/lies-exposed/lies.exposed/commit/414eca88e9951e512f3d44e4409954422f30227e))
+* **api:** add MCP tools for link CRUD operations ([#4002](https://github.com/lies-exposed/lies.exposed/issues/4002)) ([196eab9](https://github.com/lies-exposed/lies.exposed/commit/196eab94920ff19285e679bf3f26a8cbe29275e1))
+* **api:** add Media MCP CRUD tools (findMedia, createMedia, editMedia) ([#4026](https://github.com/lies-exposed/lies.exposed/issues/4026)) ([fadc053](https://github.com/lies-exposed/lies.exposed/commit/fadc0536e73b6f0a72cdd9cf312c4a3e671e91ac))
+* **api:** add Nation MCP find tool (findNations) ([#4028](https://github.com/lies-exposed/lies.exposed/issues/4028)) ([5847f5f](https://github.com/lies-exposed/lies.exposed/commit/5847f5f231eb706e6fc8d437947807df2085e1e5))
+* **api:** add Setting MCP CRUD tools (findSettings, createSetting, editSetting) ([#4018](https://github.com/lies-exposed/lies.exposed/issues/4018)) ([412583d](https://github.com/lies-exposed/lies.exposed/commit/412583dcf28c71d65b173766bb0f5242e59a5605))
+* **api:** add SocialPost MCP CRUD tools ([#4042](https://github.com/lies-exposed/lies.exposed/issues/4042)) ([ab1c791](https://github.com/lies-exposed/lies.exposed/commit/ab1c7916581aa5bcf2b184bfb6b3dc3b54f58e11))
+* **api:** add Story MCP CRUD tools (findStories, createStory, editStory) ([#4027](https://github.com/lies-exposed/lies.exposed/issues/4027)) ([f6a3736](https://github.com/lies-exposed/lies.exposed/commit/f6a3736f0a1c1b3a708f4a527e2b6070146be5a8))
+* **api:** migrate MCP tools to use typed defineMcpTool helper ([#4019](https://github.com/lies-exposed/lies.exposed/issues/4019)) ([5317b46](https://github.com/lies-exposed/lies.exposed/commit/5317b46b30940b1bfd1f620dfa42deb79ba79a67))
+* **api:** wire up all MCP tool registration and constants ([#4011](https://github.com/lies-exposed/lies.exposed/issues/4011)) ([a1f699f](https://github.com/lies-exposed/lies.exposed/commit/a1f699f7b9ecc6e51d72a96ccffd252097b189d1))
+* **mcp:** add actor CRUD tools (find, create, edit) ([#4004](https://github.com/lies-exposed/lies.exposed/issues/4004)) ([6bb0aba](https://github.com/lies-exposed/lies.exposed/commit/6bb0aba9ccb2158ac17e8cbe42eda4fc83d0b213))
+* **mcp:** add Area CRUD tools (findAreas, createArea, editArea) ([#4023](https://github.com/lies-exposed/lies.exposed/issues/4023)) ([3b0240e](https://github.com/lies-exposed/lies.exposed/commit/3b0240e2d1aa3e3ec423e34b9713c691f3ec6175))
+* **mcp:** add E2E tests for CRUD tools and fix schema defaults ([#4016](https://github.com/lies-exposed/lies.exposed/issues/4016)) ([d0f5e69](https://github.com/lies-exposed/lies.exposed/commit/d0f5e69a29f39e4747552b693f0d6f4e2e7e7dc7))
+* **mcp:** add read-only and destructive hints to MCP tool annotations ([#4010](https://github.com/lies-exposed/lies.exposed/issues/4010)) ([21238f8](https://github.com/lies-exposed/lies.exposed/commit/21238f8d806bdf3d0c8511e847ac7d65d191fe2e))
+
+
+### Bug Fixes
+
+* **api:** findActors MCP tool ([#4012](https://github.com/lies-exposed/lies.exposed/issues/4012)) ([daabada](https://github.com/lies-exposed/lies.exposed/commit/daabada66da838c15837fc849571a53ef61fa5bb))
+* **api:** format settings MCP tool ([#4020](https://github.com/lies-exposed/lies.exposed/issues/4020)) ([9a72e00](https://github.com/lies-exposed/lies.exposed/commit/9a72e00b846cb1f809afa8be92720bfe450c139c))
+* **api:** reduce any casts in API test files (HOM-1388) ([#4079](https://github.com/lies-exposed/lies.exposed/issues/4079)) ([2bf55c9](https://github.com/lies-exposed/lies.exposed/commit/2bf55c910320742cea51f809b433ee624a50fcca))
+* **api:** remove as any[] casts in media/links controllers ([#4022](https://github.com/lies-exposed/lies.exposed/issues/4022)) ([3e23277](https://github.com/lies-exposed/lies.exposed/commit/3e23277bd35972c0ff48d343bdbe7a6e506353eb))
+* **api:** report MCP errors to Sentry ([#4091](https://github.com/lies-exposed/lies.exposed/issues/4091)) ([6b02794](https://github.com/lies-exposed/lies.exposed/commit/6b0279458b56b4cd32f9b50c2f9a823d4b8d92a3))
+
+
+### Miscellaneous
+
+* **admin:** eliminate remaining any casts in admin package ([#4103](https://github.com/lies-exposed/lies.exposed/issues/4103)) ([8f49cc1](https://github.com/lies-exposed/lies.exposed/commit/8f49cc147aa6bc2fb57fd55ebfe1fea2d26429cf))
+* **api:** add E2E tests for MCP CRUD tools ([#4021](https://github.com/lies-exposed/lies.exposed/issues/4021)) ([4971a44](https://github.com/lies-exposed/lies.exposed/commit/4971a44a7755dae272cd332c7f3c0da1eedad504))
+* **api:** solved some 'as any' errors ([#4104](https://github.com/lies-exposed/lies.exposed/issues/4104)) ([767b21c](https://github.com/lies-exposed/lies.exposed/commit/767b21c917cc67fb7159720a7c1499a0da285b8b))
+* enable vitest fsModuleCache and tune isolation ([#4006](https://github.com/lies-exposed/lies.exposed/issues/4006)) ([06cada1](https://github.com/lies-exposed/lies.exposed/commit/06cada1a3c0e5eaa979e00776e8a967812f604b8))
+* fix build and lint errors from [#4032](https://github.com/lies-exposed/lies.exposed/issues/4032)/[#4033](https://github.com/lies-exposed/lies.exposed/issues/4033) ([#4059](https://github.com/lies-exposed/lies.exposed/issues/4059)) ([ae56e7d](https://github.com/lies-exposed/lies.exposed/commit/ae56e7d85cf545d523109c6885d942345d464594))
+* solved 'as any' errors ([#4105](https://github.com/lies-exposed/lies.exposed/issues/4105)) ([6cba6f3](https://github.com/lies-exposed/lies.exposed/commit/6cba6f31fbe74ea1569f956051d807674485a10a))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.9.0
+    * @liexp/core bumped to 0.9.0
+    * @liexp/io bumped to 0.9.0
+    * @liexp/shared bumped to 0.9.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.9.0
+    * @liexp/test bumped to 0.9.0
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...api@0.8.0) (2026-11-07)
 
 
