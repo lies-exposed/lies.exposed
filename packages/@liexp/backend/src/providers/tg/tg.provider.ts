@@ -15,11 +15,11 @@ import {
   type InputMedia,
   type Message,
   type SendVideoParams,
+  type Api,
 } from "node-telegram-bot-api";
 
 export interface TGBotProvider {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  api: any;
+  api: Api;
   upsertPinnedMessage: (text: string) => TE.TaskEither<Error, Message>;
   post: (
     text: string,

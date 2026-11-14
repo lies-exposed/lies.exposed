@@ -3,6 +3,7 @@ import Map, { type MapProps } from "@liexp/ui/lib/components/Map.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import { type StoryObj, type Meta } from "@storybook/react-vite";
 import { ParentSize } from "@visx/responsive";
+import type Geometry from "ol/geom/Geometry.js";
 import * as React from "react";
 
 const meta = {
@@ -28,8 +29,7 @@ const meta = {
       />
     );
   },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-} as Meta<MapProps<any>>;
+} as Meta<MapProps<Geometry>>;
 
 export default meta;
 

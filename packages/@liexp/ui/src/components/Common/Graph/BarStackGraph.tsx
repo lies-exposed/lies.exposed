@@ -110,8 +110,7 @@ export const BarStackGraph = <D, K extends StackKey>({
         <Group top={margin.top} left={margin.left}>
           <BarStack<D, K>
             data={data}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- visx BarStack expects StackKey[] but K extends StackKey doesn't satisfy the generic
-            keys={keys as any}
+            keys={keys}
             x={getX}
             xScale={xScale}
             yScale={yScale}

@@ -186,18 +186,26 @@ export const RelationInlineContentComponent: React.FC<{
       autoFocus: true,
       onChange: (a: readonly { id: string }[]) => {
         const currentBlock =
-          editor.document.find((tt) =>
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ((tt.content as any[]) ?? []).find((t) => {
-              return (
-                t.type === "relation" ||
-                (t.type === relation &&
-                  (t.props.id === undefined || t.props.id === "")) ||
-                (t.type === _relation && t.props.id === _id) ||
-                (t.type === relation && t.props.id === id)
-              );
-            }),
-          ) ?? editor.getTextCursorPosition().block;
+          editor.document.find((tt) => {
+            if ("content" in tt) {
+              if (!Array.isArray(tt.content)) {
+                return tt.content;
+              }
+              return (tt.content ?? []).find((t) => {
+                return (
+                  t.type === "relation" ||
+                  ("props" in t &&
+                    t.type === relation &&
+                    (t.props.id === undefined || t.props.id === "")) ||
+                  ("props" in t &&
+                    t.type === _relation &&
+                    t.props.id === _id) ||
+                  ("props" in t && t.type === relation && t.props.id === id)
+                );
+              });
+            }
+            return undefined;
+          }) ?? editor.getTextCursorPosition().block;
 
         if (currentBlock) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
