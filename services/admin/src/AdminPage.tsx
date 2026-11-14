@@ -43,7 +43,7 @@ import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import { useThemeMode } from "@liexp/ui/lib/context/ThemeContext.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
-import * as React from "react";
+import React, { useState } from "react";
 import { Route } from "react-router";
 import { CustomAppBar } from "./components/CustomAppBar.js";
 import { LayoutError } from "./components/LayoutError.js";
@@ -406,13 +406,61 @@ const MyMenu: React.FC<MenuProps> = () => (
     </Box>
   </Menu>
 );
-const MyLayout: React.FC<LayoutProps> = ({ children, ...props }) => (
-  <Layout {...props} menu={MyMenu} appBar={CustomAppBar} error={LayoutError}>
-    {children}
-    <CheckForApplicationUpdate />
-    <AdminChat />
-  </Layout>
-);
+const MyLayout: React.FC<LayoutProps> = ({ children, ...props }) => {
+  const [chatOpen, setChatOpen] = useState(false);
+
+  return (
+    <Layout {...props} menu={MyMenu} appBar={CustomAppBar} error={LayoutError}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          height: "100%",
+          overflow: "hidden",
+        }}
+      >
+        {/* Main content area */}
+        <Box
+          sx={{
+            flex: 1,
+            minWidth: 0,
+            overflow: "auto",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {children}
+          <CheckForApplicationUpdate />
+        </Box>
+
+        {/* Collapsible right panel slot */}
+        <Box
+          sx={{
+            width: chatOpen ? 420 : 0,
+            minWidth: chatOpen ? 420 : 0,
+            maxWidth: 420,
+            overflow: "hidden",
+            flexShrink: 0,
+            transition: "width 0.3s ease-in-out, min-width 0.3s ease-in-out",
+          }}
+        >
+          <AdminChat
+            chatOpen={chatOpen}
+            onToggleChat={() => {
+              setChatOpen((prev) => {
+                const next = !prev;
+                if (!next) {
+                  // Panel is closing, reset full-size
+                }
+                return next;
+              });
+            }}
+          />
+        </Box>
+      </Box>
+    </Layout>
+  );
+};
 
 const AdminPage: React.FC = () => {
   const { resolvedMode } = useThemeMode();
