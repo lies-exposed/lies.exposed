@@ -17,7 +17,7 @@ export const keywordEdit = makeCommand(
 
     return ctx.api.Keyword.Edit({
       Params: { id },
-      Body: body as any,
+      Body: body,
     });
   },
 );

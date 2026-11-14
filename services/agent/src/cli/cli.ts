@@ -32,7 +32,9 @@ const formatError = (error: unknown): string => {
     const { details } = error;
     if (details.kind === "DecodingError") {
       const trees = details.errors
-        .map((e: any) => ParseResult.TreeFormatter.formatErrorSync(e))
+        .map((e: ParseResult.ParseError) =>
+          ParseResult.TreeFormatter.formatErrorSync(e),
+        )
         .join("\n");
       return `${error.message}\n${trees}`;
     }

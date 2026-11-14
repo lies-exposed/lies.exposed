@@ -12,7 +12,7 @@ export const areaCreate = makeCommand(
   (input, ctx) => {
     ctx.logger.debug.log("area create input: %O", input);
 
-    let geometry: any = undefined;
+    let geometry: unknown = undefined;
     if (input.geometry) {
       try {
         geometry = JSON.parse(input.geometry);

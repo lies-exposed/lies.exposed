@@ -22,7 +22,7 @@ export const graphEdit = makeCommand(
 
     return ctx.api.Graph.Edit({
       Params: { id },
-      Body: body as any,
+      Body: body,
     });
   },
 );
