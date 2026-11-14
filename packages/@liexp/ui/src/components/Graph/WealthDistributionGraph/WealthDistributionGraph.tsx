@@ -15,9 +15,7 @@ interface WealthDistributionDatum {
   color: string;
 }
 
-export type WealthDistributionGraphProps = any;
-
-const wealthDistributionData: WealthDistributionDatum[] = data as any;
+const wealthDistributionData = data satisfies WealthDistributionDatum[];
 
 // const superRichWealth = 158.3 * 10e12;
 // const superRichTotal = 47 * 10e6;
@@ -61,9 +59,7 @@ const getWealthPercentage = (share: number): number =>
 const getPeoplePercentage = (share: number): number =>
   (share * 100) / totalPeople;
 
-export const WealthDistributionGraph: React.FC<
-  WealthDistributionGraphProps
-> = () => {
+export const WealthDistributionGraph: React.FC<Record<string, never>> = () => {
   const [toggle, setToggle] = React.useState(false);
   return (
     <>

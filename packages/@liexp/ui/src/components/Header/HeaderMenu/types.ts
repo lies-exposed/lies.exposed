@@ -2,7 +2,7 @@ import type React from "react";
 
 interface View {
   view: string;
-  search?: Record<string, any>;
+  search?: Record<string, unknown>;
 }
 
 export interface HeaderMenuSubItem extends View {
