@@ -324,9 +324,7 @@ export const ToolMessageDisplay: React.FC<{
   const [showRaw, setShowRaw] = React.useState(false);
 
   let toolName = "Unknown Tool";
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let toolResult: ToolResult = null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let toolParams: ToolParams = null;
 
   try {
@@ -625,7 +623,7 @@ export const ToolMessageDisplay: React.FC<{
                     overflow: "auto",
                   }}
                 >
-                  {String(toolResult)}
+                  {String(toolResult as string)}
                 </Box>
               ) : isList ? (
                 <ListResult
@@ -656,7 +654,7 @@ export const ToolMessageDisplay: React.FC<{
                     borderRadius: "4px",
                   }}
                 >
-                  {String(toolResult)}
+                  {String(toolResult as string)}
                 </Box>
               )}
             </Box>
