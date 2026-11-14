@@ -15,10 +15,6 @@ import { useStreamingChat } from "../../hooks/useStreamingChat.js";
 
 interface ChatProps {
   className?: string;
-  /** Controlled open state for external panel slot rendering */
-  chatOpen?: boolean;
-  /** Callback to toggle the panel (required if chatOpen is provided) */
-  onToggleChat?: () => void;
 }
 
 const SETTINGS_KEY = "chat:settings";
@@ -61,14 +57,8 @@ const saveSettings = (patch: Partial<ChatSettings>) => {
   }
 };
 
-export const AdminChat: React.FC<ChatProps> = ({
-  className,
-  chatOpen: chatOpenProp,
-  onToggleChat: onToggleChatProp,
-}) => {
-  const isControlled = chatOpenProp !== undefined;
-  const [isPanelOpenInternal, setIsPanelOpenInternal] = useState(false);
-  const isPanelOpen = isControlled ? chatOpenProp : isPanelOpenInternal;
+export const AdminChat: React.FC<ChatProps> = ({ className }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isFullSize, setIsFullSize] = useState(false);
   const [isContextEnabled, setIsContextEnabled] = useState(false);
@@ -131,9 +121,7 @@ export const AdminChat: React.FC<ChatProps> = ({
       );
       loadConversation(pendingConversationId, visibleMessages);
       setPendingConversationId(null);
-      if (!isControlled) {
-        setIsPanelOpenInternal(true);
-      }
+      setIsOpen(true);
     }
   }, [
     pendingConversationId,
@@ -218,15 +206,9 @@ export const AdminChat: React.FC<ChatProps> = ({
   }, [isContextEnabled, hookResource, hookRecord, location.pathname]);
 
   const handleToggleChat = () => {
-    if (isControlled && onToggleChatProp) {
-      onToggleChatProp();
-    } else {
-      setIsPanelOpenInternal((prev) => {
-        if (!prev) {
-          setIsFullSize(false);
-        }
-        return !prev;
-      });
+    setIsOpen(!isOpen);
+    if (!isOpen) {
+      setIsFullSize(false);
     }
   };
 
@@ -263,7 +245,7 @@ export const AdminChat: React.FC<ChatProps> = ({
     const aiConfig = selectedProvider
       ? {
           provider: selectedProvider,
-          ...(selectedModel && { model: selectedModel as any }),
+          ...(selectedModel && { model: selectedModel as string }),
         }
       : undefined;
 
