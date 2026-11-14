@@ -474,13 +474,15 @@ const isEmptyChoicesError = (error: unknown): boolean =>
   "Cannot read properties of undefined (reading 'message')";
 
 const invokeAgentWithEmptyChoicesRetry = async (
-  agent: { invoke: (...args: any[]) => Promise<unknown> },
+  agent: unknown,
   input: unknown,
   config: unknown,
 ): Promise<unknown> => {
+  const invoke = (agent as { invoke: (...args: unknown[]) => Promise<unknown> })
+    .invoke;
   for (let attempt = 1; attempt <= EMPTY_CHOICES_MAX_RETRIES + 1; attempt++) {
     try {
-      return await agent.invoke(input, config);
+      return await invoke(input, config);
     } catch (error) {
       if (!isEmptyChoicesError(error) || attempt > EMPTY_CHOICES_MAX_RETRIES) {
         throw error;
@@ -858,11 +860,7 @@ export const sendChatMessageStream = (payload: {
 
         payload.onRawEvent?.(event);
 
-        const [events, nextState] = processStreamEvent(
-          event as Parameters<typeof processStreamEvent>[0],
-          state,
-          messageId,
-        );
+        const [events, nextState] = processStreamEvent(event, state, messageId);
         state = nextState;
         for (const e of events) {
           yield e;

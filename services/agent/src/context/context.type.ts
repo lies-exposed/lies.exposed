@@ -4,7 +4,10 @@ import { type LangchainContext } from "@liexp/backend/lib/context/langchain.cont
 import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
 import { type PuppeteerProviderContext } from "@liexp/backend/lib/context/puppeteer.context.js";
 import { type ServerError } from "@liexp/backend/lib/errors/ServerError.js";
-import { type ProviderConfigOverride } from "@liexp/backend/lib/providers/ai/agent.factory.js";
+import {
+  type Agent,
+  type ProviderConfigOverride,
+} from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { type AgentType } from "@liexp/io/lib/http/Chat.js";
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
@@ -29,7 +32,7 @@ interface AgentFactoryContext {
   agentFactory: (
     agentType?: AgentType,
     override?: ProviderConfigOverride,
-  ) => TaskEither<ServerError, any>;
+  ) => TaskEither<ServerError, Agent>;
 }
 
 /**
