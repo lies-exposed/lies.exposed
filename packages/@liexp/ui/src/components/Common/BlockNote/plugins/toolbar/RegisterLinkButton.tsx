@@ -1,4 +1,9 @@
 import {
+  type CustomInlineContentConfig,
+  type CustomInlineContentFromConfig,
+  type StyleSchema,
+} from "@blocknote/core";
+import {
   DeleteLinkButton,
   EditLinkButton,
   LinkToolbar,
@@ -28,11 +33,17 @@ const getUrlFromBlocks = (
   blocks: ReturnType<typeof useSelectedBlocks>,
 ): string | null => {
   for (const block of blocks) {
-    if ("content" in block && Array.isArray(block.content)) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const text = (block.content as any[])
-        .filter((c) => c.type === "text")
-        .map((c) => c.text as string)
+    const content = block.content;
+    if (Array.isArray(content)) {
+      const textBlocks = content.filter(
+        (c) => c.type === "text",
+      ) as CustomInlineContentFromConfig<
+        CustomInlineContentConfig,
+        StyleSchema
+      >[];
+
+      const text = textBlocks
+        .map((c) => c.content)
         .join("")
         .trim();
       if (isValidUrl(text)) {

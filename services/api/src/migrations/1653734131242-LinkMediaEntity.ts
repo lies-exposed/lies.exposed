@@ -1,4 +1,5 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { type MigrationInterface, type QueryRunner } from "typeorm";
 
@@ -6,7 +7,9 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
   name = "LinkMediaEntity1653734131242";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    const links = await queryRunner.manager.query('SELECT * FROM "link"');
+    const links: LinkEntity[] = await queryRunner.manager.query(
+      'SELECT * FROM "link"',
+    );
 
     // image links
     await queryRunner.query(
@@ -20,8 +23,8 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
 
     await Promise.all(
       links
-        .filter((l: any) => l.image !== null)
-        .map(async (l: any) => {
+        .filter((l) => l.image !== null)
+        .map(async (l) => {
           const image = l.image ? (l.image as string) : "";
           const media = await queryRunner.manager.getRepository("image").save({
             id: uuid(),
@@ -35,16 +38,14 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
             deletedAt: null,
           });
 
-          await queryRunner.manager.save(LinkEntity, [
-            { ...l, image: media as any },
-          ]);
+          await queryRunner.manager.save(LinkEntity, [{ ...l, image: media }]);
         }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     const links = await queryRunner.manager
-      .getRepository<LinkEntity & { image: any }>(LinkEntity)
+      .getRepository<LinkEntity & { image: MediaEntity }>(LinkEntity)
       .find({
         relations: { image: true },
       });

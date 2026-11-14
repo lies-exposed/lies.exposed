@@ -1619,6 +1619,9 @@ importers:
       fp-ts:
         specifier: ^2.16.10
         version: 2.16.11
+      ol:
+        specifier: ^10.10.0
+        version: 10.10.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
