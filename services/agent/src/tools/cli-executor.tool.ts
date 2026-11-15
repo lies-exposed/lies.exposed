@@ -91,7 +91,7 @@ interface ExecFileError {
 }
 
 export const createCliExecutorTool = (cliBinPath: string) =>
-  tool<any, string, never, "liexp_cli">(
+  tool<CliInput, string, never, "liexp_cli">(
     async (input: CliInput): Promise<string> => {
       try {
         const args = parseCommandArgs(input.command);
