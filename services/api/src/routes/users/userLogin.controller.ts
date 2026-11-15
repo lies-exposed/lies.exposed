@@ -4,6 +4,7 @@ import {
   toBadRequestError,
   toNotFoundError,
 } from "@liexp/backend/lib/errors/index.js";
+import { makeRateLimiter } from "@liexp/backend/lib/express/middleware/rateLimit.factory.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import * as passwordUtils from "@liexp/backend/lib/utils/password.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
@@ -22,8 +23,26 @@ const isPasswordParam = (p: unknown): p is { password: string } => {
   return typeof p === "object" && !!p && "password" in p ? !!p.password : false;
 };
 
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const LOGIN_MAX_ATTEMPTS = 10;
+
 export const MakeUserLoginRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  // Limit attempts per username: the API sits behind a proxy, so the client IP
+  // is not a reliable key. IP is only the fallback for malformed bodies.
+  const loginRateLimiter = makeRateLimiter({
+    logger: ctx.logger,
+    windowMs: LOGIN_WINDOW_MS,
+    maxRequests: LOGIN_MAX_ATTEMPTS,
+    getUserKey: (req) => {
+      const username = (req.body as { username?: unknown } | undefined)
+        ?.username;
+      return typeof username === "string" && username
+        ? `login:${username.toLowerCase()}`
+        : undefined;
+    },
+  });
+
+  AddEndpoint(r, loginRateLimiter)(
     Endpoints.User.Custom.UserLogin,
     ({ body: { username, ...rest } }) => {
       ctx.logger.debug.log("Login user with username or email %s", username);
@@ -56,7 +75,17 @@ export const MakeUserLoginRoute: Route = (r, ctx) => {
             );
           }
 
-          return TE.right(user.telegramToken === rest.token);
+          if (
+            !user.telegramToken ||
+            !("token" in rest) ||
+            user.telegramToken !== rest.token
+          ) {
+            return TE.left(
+              toControllerError(toBadRequestError("Token is wrong")),
+            );
+          }
+
+          return TE.right(true);
         }),
         TE.chain(({ passwordHash: _passwordHash, ...user }) =>
           pipe(

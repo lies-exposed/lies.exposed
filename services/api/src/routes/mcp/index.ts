@@ -1,10 +1,12 @@
 import { randomUUID } from "node:crypto";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { Sentry } from "@liexp/backend/lib/providers/sentry.provider.js";
+import { type AuthUser } from "@liexp/io/lib/http/auth/AuthUser.js";
 import {
   AdminRead,
   MCPToolsAccess,
 } from "@liexp/io/lib/http/auth/permissions/index.js";
+import { type AuthInfo } from "@modelcontextprotocol/sdk/server/auth/types.js";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import type express from "express";
@@ -60,6 +62,18 @@ export const MakeMCPRoutes: Route = (router, ctx) => {
       registerTools(server, ctx);
 
       await server.connect(transport);
+    }
+
+    // Expose the authenticated identity to tool handlers via `extra.authInfo`
+    // so that created entities can be attributed to the caller.
+    const authUser = (req as express.Request & { user?: AuthUser }).user;
+    if (authUser) {
+      (req as express.Request & { auth?: AuthInfo }).auth = {
+        token: "",
+        clientId: authUser.id,
+        scopes: [...authUser.permissions],
+        extra: { userId: authUser.id },
+      };
     }
 
     try {

@@ -70,4 +70,49 @@ describe("User login", () => {
     expect(response.status).toEqual(201);
     expect(response.body).toHaveProperty("data.token");
   });
+
+  test("Should reject login with a wrong telegram token", async () => {
+    await throwTE(
+      Test.ctx.db.save(UserEntity, [
+        { ...user, status: "Approved", telegramToken: "right-token" },
+      ]),
+    );
+
+    const response = await Test.req.post("/v1/users/login").send({
+      username,
+      token: "wrong-token",
+    });
+
+    expect(response.status).toEqual(400);
+    expect(response.body).not.toHaveProperty("data.token");
+  });
+
+  test("Should accept login with the right telegram token", async () => {
+    await throwTE(
+      Test.ctx.db.save(UserEntity, [
+        { ...user, status: "Approved", telegramToken: "right-token" },
+      ]),
+    );
+
+    const response = await Test.req.post("/v1/users/login").send({
+      username,
+      token: "right-token",
+    });
+
+    expect(response.status).toEqual(201);
+    expect(response.body).toHaveProperty("data.token");
+  });
+
+  test("Should rate limit repeated login attempts for the same username", async () => {
+    const attempts = [];
+    for (let i = 0; i < 12; i++) {
+      attempts.push(
+        await Test.req.post("/v1/users/login").send({
+          username: `rl-${username}`,
+          password: "nope",
+        }),
+      );
+    }
+    expect(attempts.some((r) => r.status === 429)).toBe(true);
+  });
 });

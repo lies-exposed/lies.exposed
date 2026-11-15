@@ -1,8 +1,14 @@
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import * as IO from "fp-ts/lib/IO.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
-import { createAgentServiceClient } from "../../../utils/serviceClientTokenGenerator.js";
+import {
+  createAgentServiceClient,
+  createServiceClientTokenWithUserId,
+} from "../../../utils/serviceClientTokenGenerator.js";
 
 /**
  * Helper to send an MCP tool call request and return the parsed response.
@@ -286,6 +292,37 @@ describe("MCP CRUD Tools E2E Tests", () => {
           title: "No ID link",
         }),
       ).rejects.toThrow();
+    });
+  });
+
+  describe("Media creator attribution", () => {
+    test("createMedia - attributes media to the authenticated caller", async () => {
+      const user = await saveUser(Test.ctx, ["admin:create"]);
+      const { token } = createServiceClientTokenWithUserId(
+        "agent",
+        ["admin:read", "mcp:tools"],
+        user.id,
+      )(Test.ctx)();
+
+      (Test.mocks.axios.get as any).mockResolvedValueOnce({
+        status: 200,
+        data: {},
+      });
+      Test.mocks.redis.publish.mockResolvedValue(1);
+
+      const id = Math.random().toString(36).slice(2);
+      const result = await callMcpTool(Test, token, "createMedia", {
+        location: `https://www.youtube.com/watch?v=${id}`,
+        type: "iframe/video",
+        label: `mcp-${id}`,
+      });
+
+      const media = (result.media ?? result) as { creator?: string }[];
+      const saved = await Test.ctx.db.manager.findOne(MediaEntity, {
+        where: { id: (media[0] as unknown as { id: UUID }).id },
+        relations: { creator: true },
+      });
+      expect(saved?.creator?.id).toBe(user.id);
     });
   });
 });
