@@ -40,7 +40,7 @@ describe(takeURLScreenshot.name, () => {
     );
     appTest.ctx.puppeteer.devices = {
       "iPhone 13 Pro": { viewport: { width: 390, height: 844 } },
-    } as any;
+    } as unknown as typeof appTest.ctx.puppeteer.devices;
 
     const result = await pipe(takeURLScreenshot(url)(appTest.ctx), throwTE);
 
@@ -95,7 +95,7 @@ describe(takeURLScreenshot.name, () => {
     );
     appTest.ctx.puppeteer.devices = {
       "iPhone 13 Pro": { viewport: { width: 390, height: 844 } },
-    } as any;
+    } as unknown as typeof appTest.ctx.puppeteer.devices;
 
     await pipe(takeURLScreenshot(url)(appTest.ctx), throwTE);
 
@@ -121,7 +121,7 @@ describe(takeURLScreenshot.name, () => {
     );
     appTest.ctx.puppeteer.devices = {
       "iPhone 13 Pro": { viewport: { width: 390, height: 844 } },
-    } as any;
+    } as unknown as typeof appTest.ctx.puppeteer.devices;
 
     const either = await pipe(takeURLScreenshot(url)(appTest.ctx))();
 
@@ -159,7 +159,7 @@ describe(takeURLScreenshot.name, () => {
     );
     appTest.ctx.puppeteer.devices = {
       "iPhone 13 Pro": { viewport: { width: 390, height: 844 } },
-    } as any;
+    } as unknown as typeof appTest.ctx.puppeteer.devices;
 
     const result = await pipe(takeURLScreenshot(url)(appTest.ctx), throwTE);
 

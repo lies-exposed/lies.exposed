@@ -21,7 +21,7 @@ describe(getSocialPostById.name, () => {
       ...mockedContext<GetSocialPostByIdContext>({
         db: mockDb,
       }),
-      env: {} as any,
+      env: {} as unknown as ENVContext["env"],
     },
   };
 
@@ -42,7 +42,7 @@ describe(getSocialPostById.name, () => {
       groups: [],
       keywords: [],
       type: "text",
-    } as any;
+    } as unknown as SocialPostEntity["content"];
     socialPost.createdAt = new Date();
     socialPost.updatedAt = new Date();
 
@@ -75,7 +75,7 @@ describe(getSocialPostById.name, () => {
       groups: [],
       keywords: [],
       type: "text",
-    } as any;
+    } as unknown as SocialPostEntity["content"];
 
     mockTERightOnce(appTest.ctx.db.findOneOrFail, () => socialPost);
 
