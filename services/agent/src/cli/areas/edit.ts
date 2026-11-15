@@ -12,7 +12,7 @@ export const areaEdit = makeCommand(
   (input, ctx) => {
     ctx.logger.debug.log("area edit input: %O", input);
 
-    let geometry: any = null;
+    let geometry: unknown = null;
     if (input.geometry) {
       try {
         geometry = JSON.parse(input.geometry);
@@ -28,7 +28,8 @@ export const areaEdit = makeCommand(
       Params: { id },
       Body: {
         ...body,
-        geometry: geometry ?? undefined,
+        geometry: (geometry ?? undefined) as
+          { type: "Point"; coordinates: [number, number] } | undefined,
         updateGeometry: geometry !== null ? true : undefined,
         body: undefined,
       },

@@ -12,7 +12,7 @@ export const areaCreate = makeCommand(
   (input, ctx) => {
     ctx.logger.debug.log("area create input: %O", input);
 
-    let geometry: any = undefined;
+    let geometry: unknown = undefined;
     if (input.geometry) {
       try {
         geometry = JSON.parse(input.geometry);
@@ -26,10 +26,10 @@ export const areaCreate = makeCommand(
     return ctx.api.Area.Create({
       Body: {
         ...input,
-        geometry: geometry ?? {
+        geometry: (geometry ?? {
           type: "Point",
           coordinates: [0, 0],
-        },
+        }) as { type: "Point"; coordinates: [number, number] },
         draft: input.draft ?? false,
         body: [],
       },

@@ -1,4 +1,6 @@
+import { type CreateGraphData } from "@liexp/io/lib/http/graphs/Graph.js";
 import { EditGraphInputSchema } from "@liexp/shared/lib/mcp/schemas/graphs.schemas.js";
+import { partialBody } from "../partial-body.js";
 import { makeCommand } from "../run-command.js";
 
 export const graphEdit = makeCommand(
@@ -22,7 +24,7 @@ export const graphEdit = makeCommand(
 
     return ctx.api.Graph.Edit({
       Params: { id },
-      Body: body as any,
+      Body: partialBody<CreateGraphData>(body),
     });
   },
 );

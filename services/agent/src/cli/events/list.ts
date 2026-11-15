@@ -1,3 +1,4 @@
+import { type EventType } from "@liexp/io/lib/http/Events/index.js";
 import { FindEventsInputSchema } from "@liexp/shared/lib/mcp/schemas/events.schemas.js";
 import { makeCommand } from "../run-command.js";
 
@@ -14,7 +15,7 @@ export const eventList = makeCommand(
       Query: {
         ...input,
         q: input.query ?? null,
-        eventType: input.type ? ([input.type] as any) : undefined,
+        eventType: input.type ? ([input.type] as EventType[]) : undefined,
       },
     });
   },

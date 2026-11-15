@@ -11,30 +11,21 @@ export const getArg = (args: string[], key: string): string | undefined =>
     .slice(1)
     .join("=");
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyAst = any;
-
 /**
  * Checks whether an Effect Schema AST node represents an array type
- * (i.e., Schema.Array(...)). Unwraps Union, Transformation, and
- * PropertySignatureDeclaration recursively.
+ * (i.e., Schema.Array(...)). Unwraps Union and Transformation recursively.
  */
-const isArrayAst = (ast: AnyAst): boolean => {
+const isArrayAst = (ast: SchemaAST.AST): boolean => {
   switch (ast._tag) {
     case "TupleType":
       // Schema.Array creates a TupleType with rest elements and no fixed elements
       return ast.rest.length > 0;
     case "Union":
       return ast.types
-        .filter(
-          (t: AnyAst) =>
-            t._tag !== "UndefinedKeyword" && t._tag !== "NullKeyword",
-        )
+        .filter((t: SchemaAST.AST) => t._tag !== "UndefinedKeyword")
         .some(isArrayAst);
     case "Transformation":
       return isArrayAst(ast.from);
-    case "PropertySignatureDeclaration":
-      return isArrayAst(ast.type);
     default:
       return false;
   }
@@ -46,14 +37,11 @@ const isArrayAst = (ast: AnyAst): boolean => {
  * Schema.UndefinedOr(Schema.Array(...))). Used to decide whether to default
  * to [] or undefined when no CLI arg is provided.
  */
-const isOptionalArrayAst = (ast: AnyAst): boolean => {
+const isOptionalArrayAst = (ast: SchemaAST.AST): boolean => {
   switch (ast._tag) {
-    case "PropertySignatureDeclaration":
-      // Schema.optional(...) sets isOptional=true on the declaration
-      return ast.isOptional && isArrayAst(ast);
     case "Union":
       return (
-        ast.types.some((t: AnyAst) => t._tag === "UndefinedKeyword") &&
+        ast.types.some((t: SchemaAST.AST) => t._tag === "UndefinedKeyword") &&
         ast.types.some(isArrayAst)
       );
     default:
@@ -64,12 +52,12 @@ const isOptionalArrayAst = (ast: AnyAst): boolean => {
 /**
  * Returns true if the field is optional (UndefinedOr, Schema.optional, etc.)
  */
-const isOptionalField = (ast: AnyAst): boolean => {
+const isOptionalField = (ast: SchemaAST.AST): boolean => {
   switch (ast._tag) {
     case "Union":
-      return ast.types.some((t: AnyAst) => t._tag === "UndefinedKeyword");
-    case "PropertySignatureDeclaration":
-      return ast.isOptional;
+      return ast.types.some(
+        (t: SchemaAST.AST) => t._tag === "UndefinedKeyword",
+      );
     default:
       return false;
   }
@@ -96,8 +84,7 @@ export const parseArgsFromSchema = <Fields extends Schema.Struct.Fields>(
 ): Record<string, unknown> => {
   const result: Record<string, unknown> = {};
   for (const [key, fieldSchema] of Object.entries(schema.fields)) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const ast = (fieldSchema as Schema.Schema<any>).ast;
+    const ast = (fieldSchema as Schema.Schema<unknown>).ast;
     const rawValue = getArg(args, key);
     if (isArrayAst(ast)) {
       if (rawValue !== undefined) {
@@ -143,8 +130,7 @@ export const helpFromSchema = <Fields extends Schema.Struct.Fields>(
   const lines: string[] = [];
 
   for (const [key, fieldSchema] of Object.entries(schema.fields)) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const ast = (fieldSchema as Schema.Schema<any>).ast;
+    const ast = (fieldSchema as Schema.Schema<unknown>).ast;
     const description =
       (ast.annotations[SchemaAST.DescriptionAnnotationId] as
         string | undefined) ?? "";
@@ -188,8 +174,7 @@ export const summaryFromSchema = <Fields extends Schema.Struct.Fields>(
   meta: Pick<HelpMeta, "usage">,
 ): string => {
   const flags = Object.entries(schema.fields).map(([key, fieldSchema]) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const ast = (fieldSchema as Schema.Schema<any>).ast;
+    const ast = (fieldSchema as Schema.Schema<unknown>).ast;
     const flag = `--${key}`;
     return isOptionalField(ast) ? `[${flag}]` : flag;
   });
