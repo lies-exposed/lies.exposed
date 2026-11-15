@@ -10,11 +10,13 @@ import { ActorEntity } from "../../entities/Actor.entity.js";
 import { GroupEntity } from "../../entities/Group.entity.js";
 import { KeywordEntity } from "../../entities/Keyword.entity.js";
 import { MediaEntity } from "../../entities/Media.entity.js";
-import { fetchRelations } from "../../queries/common/fetchRelations.query.js";
 import { type ServerError } from "../../errors/index.js";
-import { type SocialPostRelations } from "./fetchSocialPostRelations.flow.js";
+import { fetchRelations } from "../../queries/common/fetchRelations.query.js";
 import { mockedContext } from "../../test/context.js";
-import { fetchSocialPostRelations } from "./fetchSocialPostRelations.flow.js";
+import {
+  fetchSocialPostRelations,
+  type SocialPostRelations,
+} from "./fetchSocialPostRelations.flow.js";
 
 // Mock the underlying fetchRelations query so we can control its output
 // without needing real query builders.
@@ -228,7 +230,9 @@ describe(fetchSocialPostRelations.name, () => {
   it("should propagate errors from fetchRelations as Left", async () => {
     const dbError = { name: "DBError", message: "connection failed" };
 
-    vi.mocked(fetchRelations).mockReturnValue(() => fp.TE.left(dbError as unknown as ServerError));
+    vi.mocked(fetchRelations).mockReturnValue(() =>
+      fp.TE.left(dbError as unknown as ServerError),
+    );
 
     const te = fetchSocialPostRelations({
       actors: [uuid()],
@@ -240,7 +244,9 @@ describe(fetchSocialPostRelations.name, () => {
     const outcome = await te();
 
     expect(outcome._tag).toBe("Left");
-    expect((outcome as fp.E.Left<ServerError, SocialPostRelations>).left).toEqual(dbError);
+    expect(
+      (outcome as fp.E.Left<ServerError, SocialPostRelations>).left,
+    ).toEqual(dbError);
   });
 
   it("should call fetchRelations with isAdmin=true", async () => {

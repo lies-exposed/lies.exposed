@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import type { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import * as Link from "@liexp/io/lib/http/Link.js";
@@ -71,11 +72,11 @@ describe(validateStoryPublish.name, () => {
 
     const draftLink1 = new LinkEntity();
     draftLink1.id = linkIds[0];
-    draftLink1.url = "https://example.com/draft-1" as any;
+    draftLink1.url = "https://example.com/draft-1" as URL;
 
     const draftLink2 = new LinkEntity();
     draftLink2.id = linkIds[1];
-    draftLink2.url = "https://example.com/draft-2" as any;
+    draftLink2.url = "https://example.com/draft-2" as URL;
 
     appTest.ctx.db.find.mockReturnValueOnce(
       fp.TE.right([draftLink1, draftLink2]),
@@ -104,7 +105,7 @@ describe(validateStoryPublish.name, () => {
 
     const draftLink = new LinkEntity();
     draftLink.id = linkIds[0];
-    draftLink.url = "https://example.com/single-draft" as any;
+    draftLink.url = "https://example.com/single-draft" as URL;
 
     appTest.ctx.db.find.mockReturnValueOnce(fp.TE.right([draftLink]));
 

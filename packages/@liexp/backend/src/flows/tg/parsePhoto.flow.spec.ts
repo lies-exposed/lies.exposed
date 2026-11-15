@@ -228,7 +228,7 @@ describe(parsePhoto.name, () => {
 
     const calls: string[] = [];
 
-    appTest.ctx.tg.getFileStream.mockImplementation((p: any) => {
+    appTest.ctx.tg.getFileStream.mockImplementation((p: PhotoSize) => {
       calls.push(p.file_id);
       return fp.TE.right(mockStream);
     });
