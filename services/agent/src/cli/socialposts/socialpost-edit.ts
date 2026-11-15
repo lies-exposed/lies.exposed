@@ -1,4 +1,7 @@
+import { type EditSocialPost } from "@liexp/io/lib/http/SocialPost.js";
 import { EditSocialPostInputSchema } from "@liexp/shared/lib/mcp/schemas/socialposts.schemas.js";
+import { type Schema } from "effect";
+import { partialBody } from "../partial-body.js";
 import { makeCommand } from "../run-command.js";
 
 export const socialPostEdit = makeCommand(
@@ -50,8 +53,7 @@ export const socialPostEdit = makeCommand(
 
     return ctx.api.SocialPosts.Edit({
       Params: { id },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      Body: body as any,
+      Body: partialBody<Schema.Schema.Encoded<typeof EditSocialPost>>(body),
     });
   },
 );

@@ -1,4 +1,6 @@
+import { type CreateKeyword } from "@liexp/io/lib/http/Keyword.js";
 import { EditKeywordInputSchema } from "@liexp/shared/lib/mcp/schemas/keywords.schemas.js";
+import { partialBody } from "../partial-body.js";
 import { makeCommand } from "../run-command.js";
 
 export const keywordEdit = makeCommand(
@@ -17,8 +19,7 @@ export const keywordEdit = makeCommand(
 
     return ctx.api.Keyword.Edit({
       Params: { id },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      Body: body as any,
+      Body: partialBody<CreateKeyword>(body),
     });
   },
 );

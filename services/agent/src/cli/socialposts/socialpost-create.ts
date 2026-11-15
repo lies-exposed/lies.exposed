@@ -1,4 +1,7 @@
+import { type CreateSocialPost } from "@liexp/io/lib/http/SocialPost.js";
 import { CreateSocialPostInputSchema } from "@liexp/shared/lib/mcp/schemas/socialposts.schemas.js";
+import { type Schema } from "effect";
+import { partialBody } from "../partial-body.js";
 import { makeCommand } from "../run-command.js";
 
 export const socialPostCreate = makeCommand(
@@ -49,8 +52,7 @@ export const socialPostCreate = makeCommand(
 
     return ctx.api.SocialPosts.Create({
       Params: { id: parentId, type: parentType },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      Body: body as any,
+      Body: partialBody<Schema.Schema.Encoded<typeof CreateSocialPost>>(body),
     });
   },
 );
