@@ -47,7 +47,10 @@ const ordByDate = pipe(
 
 const updateMap =
   (m: Map<string, NetworkLinkInput[]>, sourceType: NetworkLink["sourceType"]) =>
-  (ids: { id: string; color?: string; name?: string; fullName?: string }[], eId: string) => {
+  (
+    ids: { id: string; color?: string; name?: string; fullName?: string }[],
+    eId: string,
+  ) => {
     return pipe(
       ids,
       fp.A.map((a) =>

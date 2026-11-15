@@ -1,6 +1,6 @@
 import { Sentry } from "@liexp/backend/lib/providers/sentry.provider.js";
-import { type RequestHandler } from "express";
 import cors from "cors";
+import { type RequestHandler } from "express";
 import express from "express";
 import { unless } from "express-unless";
 import qs from "qs";
@@ -23,7 +23,9 @@ export const makeApp = (ctx: ServerContext): express.Express => {
   // uploads
   MakeUploadFileRoute(app, ctx);
 
-  const jsonMiddleware = express.json({ limit: 1024 * 1000 }) as unknown as JsonMiddlewareWithUnless;
+  const jsonMiddleware = express.json({
+    limit: 1024 * 1000,
+  }) as unknown as JsonMiddlewareWithUnless;
   jsonMiddleware.unless = unless;
   app.use(
     jsonMiddleware.unless({

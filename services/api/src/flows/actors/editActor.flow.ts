@@ -45,9 +45,8 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
     ),
     nationalities: pipe(
       nationalities,
-      O.map(
-        (nations) =>
-          nations.map((n): DeepPartial<NationEntity> => ({ id: n })),
+      O.map((nations) =>
+        nations.map((n): DeepPartial<NationEntity> => ({ id: n })),
       ),
       O.getOrElse(() => [] as DeepPartial<NationEntity>[]),
     ),
