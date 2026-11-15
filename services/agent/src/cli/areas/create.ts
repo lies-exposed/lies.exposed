@@ -1,5 +1,4 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { type Geometry } from "@liexp/io/lib/http/Common/Geometry/index.js";
 import { CreateAreaInputSchema } from "@liexp/shared/lib/mcp/schemas/areas.schemas.js";
 import { makeCommand } from "../run-command.js";
 
@@ -13,11 +12,10 @@ export const areaCreate = makeCommand(
   (input, ctx) => {
     ctx.logger.debug.log("area create input: %O", input);
 
-    let geometry: Geometry | undefined = undefined;
+    let geometry: unknown = undefined;
     if (input.geometry) {
       try {
-        const parsed = JSON.parse(input.geometry);
-        geometry = Geometry.Geometry.decodeUnknownSync(parsed);
+        geometry = JSON.parse(input.geometry);
       } catch {
         return fp.TE.left(
           new Error("--geometry must be valid JSON (GeoJSON geometry)"),

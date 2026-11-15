@@ -13,8 +13,7 @@ export const getArg = (args: string[], key: string): string | undefined =>
 
 /**
  * Checks whether an Effect Schema AST node represents an array type
- * (i.e., Schema.Array(...)). Unwraps Union, Transformation, and
- * PropertySignature recursively.
+ * (i.e., Schema.Array(...)). Unwraps Union and Transformation recursively.
  */
 const isArrayAst = (ast: SchemaAST.AST): boolean => {
   switch (ast._tag) {
@@ -23,12 +22,13 @@ const isArrayAst = (ast: SchemaAST.AST): boolean => {
       return ast.rest.length > 0;
     case "Union":
       return ast.types
-        .filter((t: SchemaAST.AST) => t._tag !== "UndefinedKeyword")
+        .filter(
+          (t: SchemaAST.AST) =>
+            t._tag !== "UndefinedKeyword" && t._tag !== "NullKeyword",
+        )
         .some(isArrayAst);
     case "Transformation":
       return isArrayAst(ast.from);
-    case "PropertySignature":
-      return isArrayAst(ast.type);
     default:
       return false;
   }
@@ -42,9 +42,6 @@ const isArrayAst = (ast: SchemaAST.AST): boolean => {
  */
 const isOptionalArrayAst = (ast: SchemaAST.AST): boolean => {
   switch (ast._tag) {
-    case "PropertySignature":
-      // Schema.optional(...) sets isOptional=true on the declaration
-      return ast.isOptional && isArrayAst(ast.type);
     case "Union":
       return (
         ast.types.some((t: SchemaAST.AST) => t._tag === "UndefinedKeyword") &&
@@ -64,8 +61,6 @@ const isOptionalField = (ast: SchemaAST.AST): boolean => {
       return ast.types.some(
         (t: SchemaAST.AST) => t._tag === "UndefinedKeyword",
       );
-    case "PropertySignature":
-      return ast.isOptional;
     default:
       return false;
   }

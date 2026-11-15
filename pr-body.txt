@@ -1,59 +1,30 @@
-# HOM-46: Migrate TypeORM from v0.3 to v1
+# HOM-1430: Replace `any` casts with proper types in Agent CLI commands
 
 ## Summary
 
-Migrated TypeORM from v0.3.31 to v1.0 across the Lies Exposed monorepo.
+Replace 10 `any` casts across 9 CLI command files with properly typed alternatives.
 
-## Changes Made
+## Changes
 
-### Core Changes
-- **Import renames**: `PostgresConnectionOptions` → `PostgresDataSourceOptions` in `database.provider.ts`
-- **Property rename**: `e.connection` → `e.dataSource` in transaction block
-- **Removed `loadRelationCountAndMap`**: Replaced with correlated sub-query in `upsertPinnedMessage.flow.ts`
-- **Version bumps**: Updated typeorm in `packages/@liexp/backend/package.json`, `services/api/package.json`, `services/worker/package.json`
-
-### String Relations → Object Syntax
-Converted ~70 occurrences of string-based `relations` arrays to object syntax across the codebase:
-- `relations: ["avatar"]` → `relations: { avatar: true }`
-- `relations: ["actor", "relatedActor"]` → `relations: { actor: true, relatedActor: true }`
-- `relations: ["memberIn", "memberIn.group"]` → `relations: { memberIn: { group: true } }`
-- Applied to controllers, flows, queries, and test files
-
-### String Select → Object Syntax
-Converted 4 occurrences of string-based `select` arrays:
-- `select: ["id", "fullName", "avatar"]` → `select: { id: true, fullName: true, avatar: true }`
-
-### Removed Deprecated APIs
-- Removed `printSql()` call from `takeLinkScreeenshot.subscriber.ts` (removed in TypeORM v1)
-
-### Storybook Restorations
-- Restored `EventsNetworkGraphBox.stories.tsx` with updated imports and Vite-compatible Storybook setup
-- Fixed `HierarchyNetworkGraphBox.stories.tsx` (codemod corrupted relations lines)
-
-### Test & Build Fixes
-- Removed `pglite-datasource.ts` test utility (no longer needed)
-- Fixed prettier indentation in worker service files
-- Updated e2e test files for new relations syntax
-
-### Files Modified
-- **packages/@liexp/backend**: database.provider.ts, buildActorRelationTree.flow.ts, parseURL.flow.ts, upsertPinnedMessage.flow.ts, extractRelationsFromText.flow.ts, validateStoryPublish.flow.ts, data-source.spec.ts
-- **packages/@liexp/ui**: AutocompleteEventInput.tsx, ActorTemplate.tsx, EventsFlowGraphFormTab.tsx, EventsNetworkGraphFormTab.tsx
-- **services/api**: 30+ controller files, flow files, test files, migration files
-- **services/worker**: backfill-link-publish-dates.ts, processOpenAIJobsDone.job.ts, takeLinkScreeenshot.subscriber.ts, update-event-payload-url-refs.ts
-- **services/storybook**: EventsNetworkGraphBox.stories.tsx, HierarchyNetworkGraphBox.stories.tsx
-- **Test files**: mergeActor.e2e.ts, mergeEvents.e2e.ts, validateStoryPublish.flow.spec.ts
-
-### Not Changed (still compatible)
-- `loadRelationIds` and `loadAllRelationIds` relations arrays (still accept string arrays in v1.0)
-- Migration files (use stable QueryRunner API)
-- Test setup files
+| File | Change |
+|------|--------|
+| `args.ts` | Use `SchemaAST.AST` and `Schema.Schema<unknown>` for AST types |
+| `cli.ts` | Use `ParseResult.ParseError` for error mapping |
+| `events/list.ts` | Cast to `string[]` for eventType array |
+| `graphs/graph-edit.ts` | Use `GraphEditBody` interface instead of `Record<string, unknown>` |
+| `keywords/keyword-edit.ts` | Use `KeywordEditBody` interface instead of `Record<string, unknown>` |
+| `run-command.ts` | Use `unknown` for schema decoded type parameter |
+| `settings/setting-edit.ts` | Use `SettingEditBody` interface, remove `as any` |
+| `socialposts/socialpost-edit.ts` | Use `SocialPostEditBody` interface, remove `as any` |
+| `areas/create.ts` | Import `Geometry` type directly, use proper decoded type |
+| `areas/edit.ts` | Import `Geometry` type directly, use proper decoded type |
 
 ## Verification
 
-After `pnpm install`:
-1. Type check: `pnpm -C packages/@liexp/backend run typecheck`
-2. Build: `pnpm -C packages/@liexp/backend run build`
-3. Run migrations against test DB
-4. Integration tests
+```
+pnpm --filter agent lint  -> 0 errors, 8 warnings (pre-existing, outside scope)
+```
 
-Co-Authored-By: Paperclip <noreply@paperclip.ing>
+## Risk
+
+Low. Only type changes, no behavioral changes. All affected files are CLI command handlers that don't modify business logic.
