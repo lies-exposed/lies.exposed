@@ -1,6 +1,11 @@
 import { EditKeywordInputSchema } from "@liexp/shared/lib/mcp/schemas/keywords.schemas.js";
 import { makeCommand } from "../run-command.js";
 
+interface KeywordEditBody {
+  tag: string;
+  color?: string;
+}
+
 export const keywordEdit = makeCommand(
   EditKeywordInputSchema,
   {
@@ -13,7 +18,7 @@ export const keywordEdit = makeCommand(
     const { id, ...rest } = input;
 
     // Build body - API expects CreateKeyword (tag required) but we allow partial updates
-    const body: Record<string, unknown> = { ...rest };
+    const body: KeywordEditBody = { ...rest } as KeywordEditBody;
 
     return ctx.api.Keyword.Edit({
       Params: { id },

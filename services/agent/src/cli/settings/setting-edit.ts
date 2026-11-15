@@ -1,6 +1,14 @@
 import { EditSettingInputSchema } from "@liexp/shared/lib/mcp/schemas/settings.schemas.js";
 import { makeCommand } from "../run-command.js";
 
+interface SettingEditBody {
+  id: string;
+  value: string;
+  createdAt?: string;
+  updatedAt?: string;
+  deletedAt?: string | null;
+}
+
 export const settingEdit = makeCommand(
   EditSettingInputSchema,
   {
@@ -13,11 +21,8 @@ export const settingEdit = makeCommand(
     const { id, ...rest } = input;
 
     // Build partial body - API expects full Setting object but we only have key/value
-    const body: Record<string, unknown> = {};
+    const body: SettingEditBody = { id: rest.key ?? id };
 
-    if (rest.key !== undefined) {
-      body.id = rest.key;
-    }
     if (rest.value !== undefined) {
       body.value = rest.value;
     }
