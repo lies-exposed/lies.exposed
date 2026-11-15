@@ -1,9 +1,11 @@
 import path from "path";
 import { createFromTGMessage } from "@liexp/backend/lib/flows/tg/createFromTGMessage.flow.js";
+import { getUserByTelegramId } from "@liexp/backend/lib/flows/user/getUserByTelegramId.flow.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { type Message } from "node-telegram-bot-api";
 import { actorCommand } from "./actor.command.js";
 import { areaCommand } from "./area.command.js";
 import { askCommand } from "./ask.command.js";
@@ -32,12 +34,7 @@ export const TGMessageCommands = (ctx: WorkerContext) => {
   // bind /ask command to tg bot
   askCommand(ctx);
 
-  ctx.tg.onMessage((msg) => {
-    if (msg.text?.startsWith("/")) {
-      ctx.logger.debug.log("Command message %s, skipping...", msg.text);
-      return;
-    }
-
+  const handleMessage = (msg: Message): void => {
     void pipe(
       sequenceS(fp.TE.ApplicativePar)({
         storeMsg: ctx.fs.writeObject(
@@ -75,5 +72,38 @@ export const TGMessageCommands = (ctx: WorkerContext) => {
           /* silently ignore failure to send error reply */
         });
       });
+  };
+
+  ctx.tg.onMessage((msg) => {
+    if (msg.text?.startsWith("/")) {
+      ctx.logger.debug.log("Command message %s, skipping...", msg.text);
+      return;
+    }
+
+    // Only users linked to a Telegram id (see /login) with the required
+    // permissions can create content. Everybody else is ignored silently:
+    // replying would let anyone use the bot as a spam relay.
+    const senderId = msg.from?.id;
+    if (!senderId) {
+      tgLogger.warn.log("Message %d has no sender, skipping", msg.message_id);
+      return;
+    }
+
+    void pipe(
+      getUserByTelegramId(senderId)({ ...ctx, logger: tgLogger }),
+      fp.TE.map(fp.O.isSome),
+      fp.TE.orElse(() => fp.TE.right(false)),
+      throwTE,
+    ).then((allowed) => {
+      if (!allowed) {
+        tgLogger.warn.log(
+          "Message %d from unauthorized telegram user %d ignored",
+          msg.message_id,
+          senderId,
+        );
+        return;
+      }
+      handleMessage(msg);
+    });
   });
 };

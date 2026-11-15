@@ -1,7 +1,9 @@
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { getSocialPostById } from "@liexp/backend/lib/flows/social-post/getSocialPostById.flow.js";
 import { SocialPostIO } from "@liexp/backend/lib/io/socialPost.io.js";
 import { PostToSocialPlatformsPubSub } from "@liexp/backend/lib/pubsub/postToSocialPlatforms.pubSub.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminEdit } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -10,7 +12,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakePublishSocialPostRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.SocialPosts.Custom.Publish,
     ({
       params: { id },

@@ -1,11 +1,16 @@
+import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("OpenGraph metadata route", () => {
-  let Test: AppTest;
+  let Test: AppTest, authorizationToken: string;
 
   beforeAll(async () => {
     Test = await GetAppTest();
+    const user = await saveUser(Test.ctx, ["admin:read"]);
+    const { authorization } = await loginUser(Test)(user);
+    authorizationToken = authorization;
     // Ensure the urlMetadata mock returns a Promise-compatible result
     // to avoid TaskEither/then TypeError seen in CI runs.
     Test.mocks.urlMetadata.fetchMetadata.mockResolvedValue({
@@ -18,9 +23,9 @@ describe("OpenGraph metadata route", () => {
 
   test("GET /v1/open-graph/metadata should return 200 and metadata for URL", async () => {
     const url = "https://example.com/article/1";
-    const res = await Test.req.get(
-      `/v1/open-graph/metadata?url=${encodeURIComponent(url)}&type=Link`,
-    );
+    const res = await Test.req
+      .get(`/v1/open-graph/metadata?url=${encodeURIComponent(url)}&type=Link`)
+      .set("Authorization", authorizationToken);
 
     expect(res.status).toEqual(200);
     expect(res.body).toHaveProperty("data");

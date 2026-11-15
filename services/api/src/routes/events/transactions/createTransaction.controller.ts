@@ -1,10 +1,12 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { TransactionIO } from "@liexp/backend/lib/io/event/transaction.io.js";
 import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { TRANSACTION } from "@liexp/io/lib/http/Events/EventType.js";
+import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -13,7 +15,7 @@ import { type Route } from "../../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
 export const MakeCreateTransactionEventRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler([AdminCreate.literals[0]])(ctx))(
     Endpoints.TransactionEvent.Create,
     ({ body: { links, keywords, media, payload, ...body } }) => {
       ctx.logger.debug.log("Create transaction with payload %O", payload);

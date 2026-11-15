@@ -1,10 +1,14 @@
 import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.decoder.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type NetworkGraphOutput,
   type NetworkType,
 } from "@liexp/io/lib/http/Network/Network.js";
-import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
+import {
+  AdminRead,
+  AdminEdit,
+} from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEControllerError } from "../../types/TEControllerError.js";
@@ -17,7 +21,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeEditNetworkRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.Networks.Edit,
     ({ params: { type, id }, query: _query }, req) => {
       const getCreateNetworkT = (

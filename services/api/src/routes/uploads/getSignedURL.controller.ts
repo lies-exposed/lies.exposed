@@ -1,5 +1,7 @@
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { GetSignedURL } from "@liexp/shared/lib/endpoints/api/upload.endpoints.js";
 import { fileExtFromContentType } from "@liexp/shared/lib/utils/media.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -7,7 +9,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeSignedUrlRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler([AdminCreate.literals[0]])(ctx))(
     GetSignedURL,
     ({ body: { resource, resourceId, ContentType, ContentLength } }) => {
       return pipe(

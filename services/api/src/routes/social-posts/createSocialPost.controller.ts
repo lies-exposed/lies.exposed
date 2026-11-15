@@ -1,8 +1,10 @@
 import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { fetchSocialPostRelations } from "@liexp/backend/lib/flows/social-post/fetchSocialPostRelations.flow.js";
 import { SocialPostIO } from "@liexp/backend/lib/io/socialPost.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { TO_PUBLISH } from "@liexp/io/lib/http/SocialPost.js";
+import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { addHours } from "date-fns";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -11,7 +13,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler([AdminCreate.literals[0]])(ctx))(
     Endpoints.SocialPosts.Create,
     ({ params: { id, type }, body: { platforms, ...body } }) => {
       const scheduledAt = addHours(new Date(), body.schedule ?? 0);

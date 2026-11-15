@@ -1,4 +1,5 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { ImageType } from "@liexp/io/lib/http/Media/MediaType.js";
 import {
@@ -12,6 +13,7 @@ import { CreateSocialPostArb } from "@liexp/test/lib/arbitrary/SocialPost.arbitr
 import { differenceInMinutes, parseISO } from "date-fns";
 import { describe, beforeAll, beforeEach, test, expect } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Create Social Post", () => {
   let Test: AppTest,
@@ -20,9 +22,9 @@ describe("Create Social Post", () => {
 
   beforeAll(async () => {
     Test = await GetAppTest();
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
+    const user = await saveUser(Test.ctx, ["admin:create"]);
+    const { authorization } = await loginUser(Test)(user);
+    authorizationToken = authorization;
   });
 
   beforeEach(() => {

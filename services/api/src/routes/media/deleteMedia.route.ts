@@ -1,8 +1,10 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { deleteFromSpace } from "@liexp/backend/lib/flows/space/deleteFromSpace.flow.js";
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminDelete } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -10,36 +12,39 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeDeleteMediaRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(Endpoints.Media.Delete, ({ params: { id } }) => {
-    return pipe(
-      ctx.db.findOneOrFail(MediaEntity, {
-        where: { id },
-        relations: { links: true },
-        withDeleted: true,
-      }),
-      TE.chain((m) =>
-        sequenceS(TE.ApplicativeSeq)({
-          // projectImages handling removed (deprecated endpoints)
-          links:
-            m.deletedAt && m.links.length > 0
-              ? ctx.db.delete(
-                  LinkEntity,
-                  m.links.map((l) => l.id),
-                )
-              : TE.right(undefined),
-          space: m.deletedAt ? deleteFromSpace(m)(ctx) : TE.right(undefined),
-          media: TE.fromEither(MediaIO.decodeSingle(m)),
-          result: m.deletedAt
-            ? ctx.db.delete(MediaEntity, id)
-            : ctx.db.softDelete(MediaEntity, id),
+  AddEndpoint(r, authenticationHandler([AdminDelete.literals[0]])(ctx))(
+    Endpoints.Media.Delete,
+    ({ params: { id } }) => {
+      return pipe(
+        ctx.db.findOneOrFail(MediaEntity, {
+          where: { id },
+          relations: { links: true },
+          withDeleted: true,
         }),
-      ),
-      TE.map(({ media }) => ({
-        body: {
-          data: media,
-        },
-        statusCode: 200,
-      })),
-    );
-  });
+        TE.chain((m) =>
+          sequenceS(TE.ApplicativeSeq)({
+            // projectImages handling removed (deprecated endpoints)
+            links:
+              m.deletedAt && m.links.length > 0
+                ? ctx.db.delete(
+                    LinkEntity,
+                    m.links.map((l) => l.id),
+                  )
+                : TE.right(undefined),
+            space: m.deletedAt ? deleteFromSpace(m)(ctx) : TE.right(undefined),
+            media: TE.fromEither(MediaIO.decodeSingle(m)),
+            result: m.deletedAt
+              ? ctx.db.delete(MediaEntity, id)
+              : ctx.db.softDelete(MediaEntity, id),
+          }),
+        ),
+        TE.map(({ media }) => ({
+          body: {
+            data: media,
+          },
+          statusCode: 200,
+        })),
+      );
+    },
+  );
 };

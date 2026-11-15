@@ -1,23 +1,29 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { ScientificStudyIO } from "@liexp/backend/lib/io/event/scientific-study.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminDelete } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
-export const MakeDeleteScientificStudyRoute: Route = (r, { db }) => {
-  AddEndpoint(r)(Endpoints.ScientificStudy.Delete, ({ params: { id } }) => {
-    return pipe(
-      db.findOneOrFail(EventV2Entity, { where: { id } }),
-      TE.tap(() => db.softDelete(EventV2Entity, id)),
-      TE.chainEitherK(ScientificStudyIO.decodeSingle),
-      TE.map((data) => ({
-        body: {
-          data: data,
-        },
-        statusCode: 201,
-      })),
-    );
-  });
+export const MakeDeleteScientificStudyRoute: Route = (r, ctx) => {
+  const { db } = ctx;
+  AddEndpoint(r, authenticationHandler([AdminDelete.literals[0]])(ctx))(
+    Endpoints.ScientificStudy.Delete,
+    ({ params: { id } }) => {
+      return pipe(
+        db.findOneOrFail(EventV2Entity, { where: { id } }),
+        TE.tap(() => db.softDelete(EventV2Entity, id)),
+        TE.chainEitherK(ScientificStudyIO.decodeSingle),
+        TE.map((data) => ({
+          body: {
+            data: data,
+          },
+          statusCode: 201,
+        })),
+      );
+    },
+  );
 };
