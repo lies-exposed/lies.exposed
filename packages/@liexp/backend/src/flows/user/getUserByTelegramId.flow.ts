@@ -1,6 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   AdminCreate,
+  EventSuggestionCreate,
   EventSuggestionEdit,
 } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { type Option } from "fp-ts/lib/Option.js";
@@ -22,7 +23,7 @@ export const getUserByTelegramId = <C extends LoggerContext & DatabaseContext>(
     fp.RTE.chain(() => {
       return pipe(
         UserRepository.findOneOrFail<C>({
-          where: [AdminCreate, EventSuggestionEdit, EventSuggestionEdit].map(
+          where: [AdminCreate, EventSuggestionEdit, EventSuggestionCreate].map(
             (permission) => ({
               telegramId: Equal(telegramId.toString()),
               permissions: Raw(

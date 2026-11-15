@@ -1,10 +1,13 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { type UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
+import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
+import { Equal } from "typeorm";
 import type { ServerContext } from "#context/context.type.js";
 import { createMediaFlow } from "#flows/media/createMedia.flow.js";
 import { editMedia } from "#flows/media/editMedia.flow.js";
@@ -164,7 +167,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       annotations: { title: "Create media", destructiveHint: true },
       inputSchema: createMediaInputSchema,
     },
-    async (opts) => {
+    async (opts, extra) => {
       const {
         location,
         type,
@@ -200,10 +203,20 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
           extra: undefined,
         };
 
-        // Call createMediaFlow with context (no user for MCP tools)
+        // Attribute the media to the authenticated caller, when known
+        const callerId = extra?.authInfo?.extra?.userId;
+        const found =
+          typeof callerId === "string"
+            ? await UserRepository.findOne({
+                where: { id: Equal(callerId as UUID) },
+              })(ctx)()
+            : undefined;
+        const creator: UserEntity | null =
+          found && fp.E.isRight(found) ? O.toNullable(found.right) : null;
+
         const te = createMediaFlow(
           createBody as Parameters<typeof createMediaFlow>[0],
-          null as Parameters<typeof createMediaFlow>[1],
+          creator,
         )(ctx);
         const result = await pipe(
           te,

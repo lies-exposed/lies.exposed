@@ -170,12 +170,16 @@ const decodeUserOrServiceClient =
     routePerms: AuthPermission[],
   ) =>
   (ctx: C): IOE.IOEither<JWTError, AuthUser | ServiceClient> => {
+    // Service client tokens also satisfy the AuthUser schema (the extra
+    // `userId` is stripped), which would surface the client id as the user id.
+    // Try the stricter ServiceClient schema first so `userId` is preserved.
     return pipe(
-      decodeUserFromRequest(req, routePerms)(ctx),
+      decodeServiceClientFromRequest(req, routePerms)(ctx),
+      IOE.map((client): AuthUser | ServiceClient => client),
       IOE.orElse(() =>
         pipe(
-          decodeServiceClientFromRequest(req, routePerms)(ctx),
-          IOE.map((client): AuthUser | ServiceClient => client),
+          decodeUserFromRequest(req, routePerms)(ctx),
+          IOE.map((user): AuthUser | ServiceClient => user),
         ),
       ),
     );

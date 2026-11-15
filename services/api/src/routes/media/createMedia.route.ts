@@ -2,6 +2,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -12,7 +13,7 @@ import { type Route } from "#routes/route.types.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeCreateMediaRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler([])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminCreate.literals[0]])(ctx))(
     Endpoints.Media.Create,
     ({ body }, req) => {
       ctx.logger.debug.log("Create media and upload %s", body);

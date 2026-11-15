@@ -2,7 +2,7 @@ import { Schema } from "effect";
 
 export const EventSuggestionCreate = Schema.Literal("event-suggestion:create");
 export const EventSuggestionRead = Schema.Literal("event-suggestion:read");
-export const EventSuggestionEdit = Schema.Literal("event-suggestion:create");
+export const EventSuggestionEdit = Schema.Literal("event-suggestion:edit");
 export const AdminRead = Schema.Literal("admin:read");
 export const AdminCreate = Schema.Literal("admin:create");
 export const AdminEdit = Schema.Literal("admin:edit");
