@@ -1,3 +1,4 @@
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { GetSignedURL } from "@liexp/shared/lib/endpoints/api/upload.endpoints.js";
@@ -7,7 +8,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeSignedUrlRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     GetSignedURL,
     ({ body: { resource, resourceId, ContentType, ContentLength } }) => {
       return pipe(

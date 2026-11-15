@@ -1,3 +1,4 @@
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { getOneAdminOrFail } from "@liexp/backend/lib/flows/user/getOneUserOrFail.flow.js";
 import { LinkPubSub } from "@liexp/backend/lib/pubsub/links/index.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
@@ -12,7 +13,7 @@ export const SearchEventsFromProviderRoute = (
   r: Router,
   ctx: ServerContext,
 ): void => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(["admin:read"])(ctx))(
     Endpoints.Event.Custom.SearchEventsFromProvider,
     ({ body: { query, page, date, providers, keywords } }) => {
       ctx.logger.debug.log("Query %O", { query, providers, keywords, date });

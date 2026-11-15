@@ -2,6 +2,7 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
 import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { fetchSocialPostRelations } from "@liexp/backend/lib/flows/social-post/fetchSocialPostRelations.flow.js";
 import {
   type SocialPostEntityWithContent,
@@ -16,7 +17,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeEditSocialPostRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.SocialPosts.Edit,
     ({ params: { id }, body: { status, scheduledAt, type, ...body } }) => {
       return pipe(

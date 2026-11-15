@@ -1,3 +1,4 @@
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { upload } from "@liexp/backend/lib/flows/space/upload.flow.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
@@ -15,6 +16,7 @@ const UploadFileData = Schema.Struct({ key: Schema.String, file: Schema.Any });
 export const MakeUploadFileRoute: Route = (r, ctx) => {
   r.put(
     "/uploads/:key",
+    authenticationHandler(["admin:create"])(ctx),
     // uploads.single('media'),
     bodyParser.urlencoded({
       extended: false,

@@ -1,4 +1,5 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { BookIO } from "@liexp/backend/lib/io/event/book.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { BOOK } from "@liexp/io/lib/http/Events/EventType.js";
@@ -8,7 +9,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeCreateBookEventRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.BookEvent.Create,
     ({ body: { draft, keywords, media, links, ...body } }) => {
       return pipe(

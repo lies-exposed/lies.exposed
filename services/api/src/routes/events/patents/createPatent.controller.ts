@@ -2,6 +2,7 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { PatentIO } from "@liexp/backend/lib/io/event/patent.io.js";
 import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
@@ -16,7 +17,7 @@ import { type ControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
 export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.PatentEvent.Create,
     ({
       body: {

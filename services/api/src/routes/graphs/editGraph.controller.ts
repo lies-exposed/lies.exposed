@@ -1,4 +1,5 @@
 import { GraphEntity } from "@liexp/backend/lib/entities/Graph.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -8,7 +9,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeEditGraphRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Graph.Edit,
     ({ params: { id }, body: { type, ...body } }) => {
       ctx.logger.debug.log("Editing graph (%s): %O", id, body);

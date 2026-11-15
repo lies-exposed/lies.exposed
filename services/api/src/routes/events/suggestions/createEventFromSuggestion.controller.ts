@@ -1,5 +1,6 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { EventSuggestionEntity } from "@liexp/backend/lib/entities/EventSuggestion.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { fetchRelationIds } from "@liexp/backend/lib/queries/events/fetchEventRelations.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
@@ -12,7 +13,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Event.Custom.CreateFromSuggestion,
     ({ params: { id }, body: _body }) => {
       return pipe(

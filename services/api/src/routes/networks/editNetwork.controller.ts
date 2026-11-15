@@ -1,4 +1,5 @@
 import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.decoder.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type NetworkGraphOutput,
@@ -17,7 +18,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeEditNetworkRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Networks.Edit,
     ({ params: { type, id }, query: _query }, req) => {
       const getCreateNetworkT = (

@@ -1,5 +1,6 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { readExtractedEntities } from "@liexp/backend/lib/flows/admin/nlp/extractEntitiesFromAny.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
@@ -19,7 +20,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeGetMetadataRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(["admin:read"])(ctx))(
     Endpoints.OpenGraph.Custom.GetMetadata,
     ({ query: { url } }) => {
       return pipe(
