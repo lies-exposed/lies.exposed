@@ -24,7 +24,8 @@ export const settingEdit = makeCommand(
 
     return ctx.api.Setting.Edit({
       Params: { id },
-      Body: body,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      Body: body as any,
     });
   },
 );

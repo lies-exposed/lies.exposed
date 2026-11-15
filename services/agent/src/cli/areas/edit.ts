@@ -28,7 +28,8 @@ export const areaEdit = makeCommand(
       Params: { id },
       Body: {
         ...body,
-        geometry: geometry ?? undefined,
+        geometry: (geometry ?? undefined) as
+          { type: "Point"; coordinates: [number, number] } | undefined,
         updateGeometry: geometry !== null ? true : undefined,
         body: undefined,
       },

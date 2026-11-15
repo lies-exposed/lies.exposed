@@ -22,10 +22,7 @@ const isArrayAst = (ast: SchemaAST.AST): boolean => {
       return ast.rest.length > 0;
     case "Union":
       return ast.types
-        .filter(
-          (t: SchemaAST.AST) =>
-            t._tag !== "UndefinedKeyword" && t._tag !== "NullKeyword",
-        )
+        .filter((t: SchemaAST.AST) => t._tag !== "UndefinedKeyword")
         .some(isArrayAst);
     case "Transformation":
       return isArrayAst(ast.from);

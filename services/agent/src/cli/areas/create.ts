@@ -26,10 +26,10 @@ export const areaCreate = makeCommand(
     return ctx.api.Area.Create({
       Body: {
         ...input,
-        geometry: geometry ?? {
+        geometry: (geometry ?? {
           type: "Point",
           coordinates: [0, 0],
-        },
+        }) as { type: "Point"; coordinates: [number, number] },
         draft: input.draft ?? false,
         body: [],
       },

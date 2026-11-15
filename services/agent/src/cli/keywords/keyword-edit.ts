@@ -17,7 +17,8 @@ export const keywordEdit = makeCommand(
 
     return ctx.api.Keyword.Edit({
       Params: { id },
-      Body: body,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      Body: body as any,
     });
   },
 );

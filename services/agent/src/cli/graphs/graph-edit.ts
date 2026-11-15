@@ -22,7 +22,8 @@ export const graphEdit = makeCommand(
 
     return ctx.api.Graph.Edit({
       Params: { id },
-      Body: body,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      Body: body as any,
     });
   },
 );

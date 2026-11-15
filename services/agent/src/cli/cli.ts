@@ -31,10 +31,8 @@ const formatError = (error: unknown): string => {
   if (error instanceof IOError) {
     const { details } = error;
     if (details.kind === "DecodingError") {
-      const trees = details.errors
-        .map((e: ParseResult.ParseError) =>
-          ParseResult.TreeFormatter.formatErrorSync(e),
-        )
+      const trees = (details.errors as ParseResult.ParseError[])
+        .map((e) => ParseResult.TreeFormatter.formatErrorSync(e))
         .join("\n");
       return `${error.message}\n${trees}`;
     }

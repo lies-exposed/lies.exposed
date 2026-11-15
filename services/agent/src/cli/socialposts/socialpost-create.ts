@@ -1,4 +1,3 @@
-import { type CreateSocialPost } from "@liexp/io/lib/http/SocialPost.js";
 import { CreateSocialPostInputSchema } from "@liexp/shared/lib/mcp/schemas/socialposts.schemas.js";
 import { makeCommand } from "../run-command.js";
 
@@ -27,7 +26,7 @@ export const socialPostCreate = makeCommand(
       parentType = "keywords";
     }
 
-    const body: Partial<CreateSocialPost> = {
+    const body: Record<string, unknown> = {
       title: input.title,
       url: input.url,
       date: input.date,
@@ -50,7 +49,8 @@ export const socialPostCreate = makeCommand(
 
     return ctx.api.SocialPosts.Create({
       Params: { id: parentId, type: parentType },
-      Body: body,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      Body: body as any,
     });
   },
 );

@@ -50,7 +50,8 @@ export const socialPostEdit = makeCommand(
 
     return ctx.api.SocialPosts.Edit({
       Params: { id },
-      Body: body,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      Body: body as any,
     });
   },
 );
