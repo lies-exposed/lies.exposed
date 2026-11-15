@@ -4,6 +4,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { ScientificStudyIO } from "@liexp/backend/lib/io/event/scientific-study.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/index.js";
+import { AdminEdit } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -13,7 +14,7 @@ import { type Route } from "#routes/route.types.js";
 
 export const MakeEditScientificStudyRoute: Route = (r, ctx) => {
   const { db, logger: _logger, urlMetadata: _urlMetadata } = ctx;
-  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.ScientificStudy.Edit,
     ({ params: { id }, body }) => {
       const scientificStudyData = {

@@ -1,6 +1,7 @@
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminEdit } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { editMedia } from "#flows/media/editMedia.flow.js";
@@ -8,7 +9,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeEditMediaRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.Media.Edit,
     ({ params: { id }, body }) => {
       return pipe(

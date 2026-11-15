@@ -11,7 +11,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeEditFlowGraphRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.Graph.Custom.EditFlowGraph,
     ({ params: { type, id }, body: { regenerate } }, req) => {
       return pipe(

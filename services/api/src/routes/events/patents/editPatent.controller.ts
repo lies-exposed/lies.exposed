@@ -4,6 +4,7 @@ import { PatentIO } from "@liexp/backend/lib/io/event/patent.io.js";
 import { editEventQuery } from "@liexp/backend/lib/queries/events/editEvent.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { AdminEdit } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -11,7 +12,7 @@ import { type Route } from "../../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
 export const MakeEditPatentEventRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.PatentEvent.Edit,
     ({
       params: { id },

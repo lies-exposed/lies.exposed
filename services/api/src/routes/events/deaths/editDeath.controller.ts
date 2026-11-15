@@ -3,6 +3,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { DeathIO } from "@liexp/backend/lib/io/event/death.io.js";
 import { editEventQuery } from "@liexp/backend/lib/queries/events/editEvent.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminEdit } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -11,7 +12,7 @@ import { type Route } from "../../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
 export const MakeEditDeathEventRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.DeathEvent.Edit,
     ({
       params: { id },

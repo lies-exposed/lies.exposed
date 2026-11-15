@@ -5,7 +5,10 @@ import {
   type NetworkGraphOutput,
   type NetworkType,
 } from "@liexp/io/lib/http/Network/Network.js";
-import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
+import {
+  AdminRead,
+  AdminEdit,
+} from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEControllerError } from "../../types/TEControllerError.js";
@@ -18,7 +21,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeEditNetworkRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.Networks.Edit,
     ({ params: { type, id }, query: _query }, req) => {
       const getCreateNetworkT = (

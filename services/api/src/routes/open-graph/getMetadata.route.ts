@@ -5,6 +5,7 @@ import { readExtractedEntities } from "@liexp/backend/lib/flows/admin/nlp/extrac
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import type * as Link from "@liexp/io/lib/http/Link.js";
+import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { firstNonEmpty } from "@liexp/shared/lib/utils/string.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -20,7 +21,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeGetMetadataRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(["admin:read"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
     Endpoints.OpenGraph.Custom.GetMetadata,
     ({ query: { url } }) => {
       return pipe(

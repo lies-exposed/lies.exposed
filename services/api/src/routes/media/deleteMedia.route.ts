@@ -4,6 +4,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { deleteFromSpace } from "@liexp/backend/lib/flows/space/deleteFromSpace.flow.js";
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminDelete } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -11,7 +12,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeDeleteMediaRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(["admin:delete"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminDelete.literals[0]])(ctx))(
     Endpoints.Media.Delete,
     ({ params: { id } }) => {
       return pipe(

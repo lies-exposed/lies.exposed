@@ -3,6 +3,7 @@ import { upload } from "@liexp/backend/lib/flows/space/upload.flow.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { PngType } from "@liexp/io/lib/http/Media/MediaType.js";
+import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
 import bodyParser from "body-parser";
 import { Schema } from "effect";
 import * as T from "fp-ts/lib/Task.js";
@@ -16,7 +17,7 @@ const UploadFileData = Schema.Struct({ key: Schema.String, file: Schema.Any });
 export const MakeUploadFileRoute: Route = (r, ctx) => {
   r.put(
     "/uploads/:key",
-    authenticationHandler(["admin:create"])(ctx),
+    authenticationHandler([AdminCreate.literals[0]])(ctx),
     // uploads.single('media'),
     bodyParser.urlencoded({
       extended: false,

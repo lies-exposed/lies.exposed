@@ -9,6 +9,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import * as EventSuggestion from "@liexp/io/lib/http/EventSuggestion.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { firstNonEmpty } from "@liexp/shared/lib/utils/string.utils.js";
@@ -26,7 +27,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const GetEventFromLinkRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(["admin:read"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
     Endpoints.Event.Custom.GetFromLink,
     ({ query: { url } }) => {
       ctx.logger.debug.log("Get event from link %s", url);

@@ -4,6 +4,7 @@ import { QuoteIO } from "@liexp/backend/lib/io/event/quote.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/index.js";
 import { QUOTE } from "@liexp/io/lib/http/Events/EventType.js";
+import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -13,7 +14,7 @@ import { type Route } from "#routes/route.types.js";
 
 export const MakeCreateQuoteRoute: Route = (r, ctx) => {
   const { db } = ctx;
-  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminCreate.literals[0]])(ctx))(
     Endpoints.QuoteEvent.Create,
     ({ body: { payload, ...body } }) => {
       const documentaryData = {

@@ -4,6 +4,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { DeathIO } from "@liexp/backend/lib/io/event/death.io.js";
 import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -12,7 +13,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
 export const MakeCreateDeathEventRoute: Route = (r, ctx) => {
   const { db } = ctx;
-  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminCreate.literals[0]])(ctx))(
     Endpoints.DeathEvent.Create,
     ({
       body: {

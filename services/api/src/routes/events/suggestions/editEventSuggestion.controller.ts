@@ -2,6 +2,7 @@ import { EventSuggestionEntity } from "@liexp/backend/lib/entities/EventSuggesti
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { editEventQuery } from "@liexp/backend/lib/queries/events/editEvent.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminEdit } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -10,7 +11,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const EditEventSuggestionRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.Event.Custom.EditSuggestion,
     ({ params: { id }, body: { creator, payload: body } }) => {
       ctx.logger.debug.log("Suggestion body %O", body);

@@ -2,6 +2,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { getOneAdminOrFail } from "@liexp/backend/lib/flows/user/getOneUserOrFail.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type ServerContext } from "#context/context.type.js";
 import { fetchAndSave } from "#flows/links/link.flow.js";
@@ -9,7 +10,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeSubmitLinkRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminCreate.literals[0]])(ctx))(
     Endpoints.Link.Custom.Submit,
     ({ body }, _req) => {
       ctx.logger.debug.log("Body %O", body);

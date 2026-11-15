@@ -3,6 +3,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { BookIO } from "@liexp/backend/lib/io/event/book.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { BOOK } from "@liexp/io/lib/http/Events/EventType.js";
+import { AdminEdit } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -10,7 +11,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeEditBookEventRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.BookEvent.Edit,
     ({ params: { id }, body: { keywords, media, links, ...body } }) => {
       return pipe(
