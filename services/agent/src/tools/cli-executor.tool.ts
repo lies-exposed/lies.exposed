@@ -1,6 +1,6 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { effectToZod } from "@liexp/shared/lib/utils/schema.utils.js";
+import { effectToZodObject } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect";
 import { tool } from "langchain";
 import { describeCommandTree } from "../cli/groups.js";
@@ -79,8 +79,6 @@ Examples: "actor list --fullName=Obama --end=5", "event list --query=vaccine --e
   }),
 });
 
-type CliInput = typeof CliInputSchema.Type;
-
 interface ExecFileError {
   killed?: boolean;
   signal?: string;
@@ -91,10 +89,10 @@ interface ExecFileError {
 }
 
 export const createCliExecutorTool = (cliBinPath: string) =>
-  tool<CliInput, string, never, "liexp_cli">(
-    async (input: CliInput): Promise<string> => {
+  tool<any, string, never, "liexp_cli">(
+    async ({ command }: { command: string }): Promise<string> => {
       try {
-        const args = parseCommandArgs(input.command);
+        const args = parseCommandArgs(command);
         const { stdout, stderr } = await execFileAsync(
           "node",
           [cliBinPath, ...args],
@@ -111,7 +109,7 @@ export const createCliExecutorTool = (cliBinPath: string) =>
         const rawErr = typeof err === "object" && err !== null ? err : null;
         const execErr = rawErr ? (rawErr as unknown as ExecFileError) : null;
         if (execErr?.killed && execErr.signal === "SIGTERM") {
-          return `ERROR: command timed out after 60s: ${input.command}\nTry a narrower query (lower --end, more specific filters) rather than repeating the same command.`;
+          return `ERROR: command timed out after 60s: ${command}\nTry a narrower query (lower --end, more specific filters) rather than repeating the same command.`;
         }
         // err.message from execFile just repeats the full command — not useful.
         // The CLI writes structured errors to stderr. Take all content from
@@ -147,6 +145,6 @@ export const createCliExecutorTool = (cliBinPath: string) =>
         "IMPORTANT: Always pass --end=<N> to limit results (default to 10). " +
         "For 'latest/recent' queries use --sort=createdAt --order=DESC. " +
         "Example: 'actor list --sort=createdAt --order=DESC --end=10'",
-      schema: effectToZod(CliInputSchema),
+      schema: effectToZodObject(CliInputSchema.fields),
     },
   );
