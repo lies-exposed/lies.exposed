@@ -96,6 +96,26 @@ curl http://localhost:3010/v1/queues?status=pending
 POST /v1/queues/:id { status: "pending" }
 ```
 
+## Releases & CI Approval
+
+<!-- exodia:section:releases -->
+
+Release PRs are opened by release-please authenticating with a **human-owned fine-grained PAT** (the Actions secret its `token:` input reads in `.github/workflows/release-please.yml` — fall back to `secrets.GITHUB_TOKEN` only if that secret is missing). Never make the PAT optional in the other direction: a PR authored by `github-actions[bot]` gets every `pull_request` CI run it triggers held at `action_required` (zero jobs) until approved, so the required checks named by the `no-push-force` ruleset never report and the release PR stays `BLOCKED` — which also stalls the Docker/Storybook jobs in that same workflow, since they gate on `releases_created`.
+
+```bash
+# Inspect the merge gate (required contexts + review rules) for the default branch
+gh api repos/{owner}/{repo}/rulesets
+
+# Unblock a bot-authored release PR that is already stuck: approve its held run
+# from the Actions tab ("Review pending changes" -> "Approve and work"), then merge
+# (an approving review may be needed for unattributed bot commits)
+gh pr checks <n>                     # shows "no checks reported" when CI was held
+```
+
+- PAT setup: fine-grained, on the owning account, **Contents: Read & write** and **Pull requests: Read & write**; add *Issues: Read & write* only if release-please fails to apply its labels. Restrict repository access to this repo.
+- Release PRs re-trigger CI on every force-push release-please makes, so an approved run is not enough for later pushes — the PAT avoids re-queued runs entirely.
+- See `context/debugging/playbooks.jsonl` for the full diagnosis of a `BLOCKED` release PR.
+
 ## L3 Data
 
 <!-- exodia:section:l3 -->
