@@ -1,10 +1,14 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { PDFType } from "@liexp/io/lib/http/Media/MediaType.js";
+import { toHTTPError } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
+import { MediaEntity } from "../../../entities/Media.entity.js";
 import { mockedContext } from "../../../test/context.js";
+import { mockTERight } from "../../../test/mocks/mock.utils.js";
 import { type CreateAndUploadFlowContext } from "../../media/uploadAndCreate.flow.js";
 import { parsePDFURL, parsePDFURLs } from "../parsePDFURL.flow.js";
 
@@ -21,23 +25,20 @@ const makeCtx = () =>
     redis: mockDeep(),
   });
 
+const uploadedMedia = (): MediaEntity =>
+  Object.assign(new MediaEntity(), {
+    id: uuid(),
+    type: PDFType.literals[0],
+    location: UPLOADED_LOCATION,
+    label: "report.pdf",
+  });
+
 const setupMocks = (ctx: ReturnType<typeof makeCtx>) => {
   ctx.http.get.mockReturnValue(fp.TE.right(Buffer.from("%PDF-1.4 test")));
 
-  ctx.s3.upload.mockReturnValue(
-    fp.TE.right({ Location: UPLOADED_LOCATION } as any),
-  );
+  mockTERight(ctx.s3.upload, () => ({ Location: UPLOADED_LOCATION }));
 
-  ctx.db.save.mockReturnValue(
-    fp.TE.right([
-      {
-        id: "test-uuid",
-        type: PDFType.literals[0],
-        location: UPLOADED_LOCATION,
-        label: "report.pdf",
-      },
-    ] as any),
-  );
+  mockTERight(ctx.db.save, uploadedMedia);
 };
 
 describe("parsePDFURL", () => {
@@ -79,7 +80,9 @@ describe("parsePDFURL", () => {
   });
 
   test("returns an error when HTTP download fails", async () => {
-    ctx.http.get.mockReturnValue(fp.TE.left(new Error("Network error") as any));
+    ctx.http.get.mockReturnValue(
+      fp.TE.left(toHTTPError(new Error("Network error"))),
+    );
 
     const result = await parsePDFURL<typeof ctx>(PDF_URL)(ctx)();
 

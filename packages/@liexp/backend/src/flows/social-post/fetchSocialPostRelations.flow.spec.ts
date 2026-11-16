@@ -10,9 +10,13 @@ import { ActorEntity } from "../../entities/Actor.entity.js";
 import { GroupEntity } from "../../entities/Group.entity.js";
 import { KeywordEntity } from "../../entities/Keyword.entity.js";
 import { MediaEntity } from "../../entities/Media.entity.js";
+import { type ServerError } from "../../errors/index.js";
 import { fetchRelations } from "../../queries/common/fetchRelations.query.js";
 import { mockedContext } from "../../test/context.js";
-import { fetchSocialPostRelations } from "./fetchSocialPostRelations.flow.js";
+import {
+  fetchSocialPostRelations,
+  type SocialPostRelations,
+} from "./fetchSocialPostRelations.flow.js";
 
 // Mock the underlying fetchRelations query so we can control its output
 // without needing real query builders.
@@ -26,7 +30,7 @@ describe(fetchSocialPostRelations.name, () => {
   const appTest = {
     ctx: {
       ...mockedContext<TestContext>({ db: mock() }),
-      env: { DEFAULT_PAGE_SIZE: 20 } as any,
+      env: { DEFAULT_PAGE_SIZE: 20 } as unknown as ENVContext["env"],
     },
   };
 
@@ -49,10 +53,10 @@ describe(fetchSocialPostRelations.name, () => {
 
     const result = await pipe(
       fetchSocialPostRelations({
-        actors: null as any,
-        groups: null as any,
-        keywords: null as any,
-        media: null as any,
+        actors: [],
+        groups: [],
+        keywords: [],
+        media: [],
       })(appTest.ctx),
       throwTE,
     );
@@ -226,7 +230,9 @@ describe(fetchSocialPostRelations.name, () => {
   it("should propagate errors from fetchRelations as Left", async () => {
     const dbError = { name: "DBError", message: "connection failed" };
 
-    vi.mocked(fetchRelations).mockReturnValue(() => fp.TE.left(dbError as any));
+    vi.mocked(fetchRelations).mockReturnValue(() =>
+      fp.TE.left(dbError as unknown as ServerError),
+    );
 
     const te = fetchSocialPostRelations({
       actors: [uuid()],
@@ -238,7 +244,9 @@ describe(fetchSocialPostRelations.name, () => {
     const outcome = await te();
 
     expect(outcome._tag).toBe("Left");
-    expect((outcome as any).left).toEqual(dbError);
+    expect(
+      (outcome as fp.E.Left<ServerError, SocialPostRelations>).left,
+    ).toEqual(dbError);
   });
 
   it("should call fetchRelations with isAdmin=true", async () => {
