@@ -7,6 +7,7 @@ import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelation
 import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import { type Configuration } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import {
+  type AsyncDataRoute,
   type AsyncDataRouteQuery,
   type ServerRoute,
 } from "@liexp/ui/lib/react/types.js";
@@ -226,33 +227,34 @@ export const routes: ServerRoute[] = [
       }
       return <NotFoundPage />;
     },
-    queries:
+    queries: toRouteQueries(
       (Q, conf) =>
-      async ({ groupId }: { groupId: UUID }) =>
-        Promise.resolve([
-          ...commonQueries.flatMap((c) => c(Q, conf)),
-          {
-            queryKey: Q.Group.get.getKey({ id: groupId }),
-            queryFn: Q.Group.get.fetch,
-          },
-          {
-            queryKey: Q.GroupMember.list.getKey(
-              undefined,
-              {
-                group: groupId,
-              },
-              // false,
-            ),
-            queryFn: Q.GroupMember.list.fetch,
-          },
-          {
-            queryKey: Q.Stats.list.getKey(undefined, {
-              id: groupId,
-              type: StatsType.members[2].literals[0],
-            }),
-            queryFn: Q.Stats.list.fetch,
-          },
-        ] as AsyncDataRouteQuery<any, any, any>[]),
+        async ({ groupId }: { groupId: UUID }) =>
+          Promise.resolve([
+            ...commonQueries.flatMap((c) => c(Q, conf)),
+            {
+              queryKey: Q.Group.get.getKey({ id: groupId }),
+              queryFn: Q.Group.get.fetch,
+            },
+            {
+              queryKey: Q.GroupMember.list.getKey(
+                undefined,
+                {
+                  group: groupId,
+                },
+                // false,
+              ),
+              queryFn: Q.GroupMember.list.fetch,
+            },
+            {
+              queryKey: Q.Stats.list.getKey(undefined, {
+                id: groupId,
+                type: StatsType.members[2].literals[0],
+              }),
+              queryFn: Q.Stats.list.fetch,
+            },
+          ] as AsyncDataRouteQuery<any, any, any>[]),
+    ),
   },
   // actors page
   {
@@ -264,36 +266,37 @@ export const routes: ServerRoute[] = [
       }
       return <NotFoundPage />;
     },
-    queries:
+    queries: toRouteQueries(
       (Q, conf) =>
-      ({ actorId }: { actorId: UUID }) =>
-        Promise.resolve([
-          ...commonQueries.flatMap((c) => c(Q, conf)),
-          {
-            queryKey: Q.Actor.get.getKey({ id: actorId }),
-            queryFn: Q.Actor.get.fetch,
-          } as AsyncDataRouteQuery<any, any, any>,
-          {
-            queryKey: Q.Group.list.getKey(
-              undefined,
-              {
-                members: [actorId],
-                _sort: "createdAt",
-                _order: "DESC",
-                _end: "20",
-              },
-              // false,
-            ),
-            queryFn: Q.Group.list.fetch,
-          } as AsyncDataRouteQuery<any, any, any>,
-          {
-            queryKey: Q.Stats.list.getKey(undefined, {
-              id: actorId,
-              type: StatsType.members[1].literals[0],
-            }),
-            queryFn: Q.Stats.list.fetch,
-          } as AsyncDataRouteQuery<any, any, any>,
-        ]),
+        ({ actorId }: { actorId: UUID }) =>
+          Promise.resolve([
+            ...commonQueries.flatMap((c) => c(Q, conf)),
+            {
+              queryKey: Q.Actor.get.getKey({ id: actorId }),
+              queryFn: Q.Actor.get.fetch,
+            } as AsyncDataRouteQuery<any, any, any>,
+            {
+              queryKey: Q.Group.list.getKey(
+                undefined,
+                {
+                  members: [actorId],
+                  _sort: "createdAt",
+                  _order: "DESC",
+                  _end: "20",
+                },
+                // false,
+              ),
+              queryFn: Q.Group.list.fetch,
+            } as AsyncDataRouteQuery<any, any, any>,
+            {
+              queryKey: Q.Stats.list.getKey(undefined, {
+                id: actorId,
+                type: StatsType.members[1].literals[0],
+              }),
+              queryFn: Q.Stats.list.fetch,
+            } as AsyncDataRouteQuery<any, any, any>,
+          ]),
+    ),
   },
   // event page
   {
@@ -306,107 +309,108 @@ export const routes: ServerRoute[] = [
 
       return <NotFoundPage />;
     },
-    queries:
+    queries: toRouteQueries(
       (Q, conf) =>
-      async ({ eventId }: { eventId: UUID }) => {
-        const { data: event } = await Q.Event.get.fetch({ id: eventId });
+        async ({ eventId }: { eventId: UUID }) => {
+          const { data: event } = await Q.Event.get.fetch({ id: eventId });
 
-        const { actors, groups, keywords, media } = getRelationIds(event);
+          const { actors, groups, keywords, media } = getRelationIds(event);
 
-        return [
-          ...commonQueries.flatMap((c) => c(Q, conf)),
-          {
-            queryKey: ["event", { id: eventId }, true, true],
-            queryFn: () => Promise.resolve(event),
-          },
-          {
-            queryKey: Q.Actor.list.getKey(
-              undefined,
-              {
-                ids: actors,
-                _end: actors.length.toString(),
-              },
-              true,
-            ),
-            queryFn: Q.Actor.list.fetch,
-          },
-          {
-            queryKey: Q.Media.list.getKey(
-              undefined,
-              {
-                ids: media,
-                _end: media.length.toString(),
-              },
-              true,
-            ),
-            queryFn: Q.Media.list.fetch,
-          },
-          {
-            queryKey: Q.Link.list.getKey(
-              undefined,
-              {
-                ids: event.links,
-                _end: event.links.length.toString(),
-              },
-              true,
-            ),
-            queryFn: Q.Link.list.fetch,
-          },
-          {
-            queryKey: Q.Area.list.getKey(
-              undefined,
-              {
-                ids:
-                  "location" in event.payload &&
-                  Schema.is(UUID)(event.payload.location)
-                    ? [event.payload.location]
-                    : [],
-                _end: "1",
-              },
-              true,
-            ),
-            queryFn: Q.Area.list.fetch,
-          },
-          {
-            queryKey: Q.Keyword.list.getKey(
-              undefined,
-              {
-                ids: keywords,
-                _end: keywords.length.toString(),
-              },
-              // true,
-            ),
-            queryFn: Q.Keyword.list.fetch,
-          },
-          {
-            queryKey: getSearchEventsQueryKey({
-              keywords,
-              exclude: [event.id],
-              _start: 0,
-              _end: 3,
-            }),
-            queryFn: Q.Event.Custom.SearchEvents.fetch,
-          },
-          {
-            queryKey: getSearchEventsQueryKey({
-              actors,
-              exclude: [event.id],
-              _start: 0,
-              _end: 3,
-            }),
-            queryFn: Q.Event.Custom.SearchEvents.fetch,
-          },
-          {
-            queryKey: getSearchEventsQueryKey({
-              groups,
-              _start: 0,
-              _end: 3,
-              exclude: [event.id],
-            }),
-            queryFn: Q.Event.Custom.SearchEvents.fetch,
-          },
-        ] as AsyncDataRouteQuery<any, any, any>[];
-      },
+          return [
+            ...commonQueries.flatMap((c) => c(Q, conf)),
+            {
+              queryKey: ["event", { id: eventId }, true, true],
+              queryFn: () => Promise.resolve(event),
+            },
+            {
+              queryKey: Q.Actor.list.getKey(
+                undefined,
+                {
+                  ids: actors,
+                  _end: actors.length.toString(),
+                },
+                true,
+              ),
+              queryFn: Q.Actor.list.fetch,
+            },
+            {
+              queryKey: Q.Media.list.getKey(
+                undefined,
+                {
+                  ids: media,
+                  _end: media.length.toString(),
+                },
+                true,
+              ),
+              queryFn: Q.Media.list.fetch,
+            },
+            {
+              queryKey: Q.Link.list.getKey(
+                undefined,
+                {
+                  ids: event.links,
+                  _end: event.links.length.toString(),
+                },
+                true,
+              ),
+              queryFn: Q.Link.list.fetch,
+            },
+            {
+              queryKey: Q.Area.list.getKey(
+                undefined,
+                {
+                  ids:
+                    "location" in event.payload &&
+                    Schema.is(UUID)(event.payload.location)
+                      ? [event.payload.location]
+                      : [],
+                  _end: "1",
+                },
+                true,
+              ),
+              queryFn: Q.Area.list.fetch,
+            },
+            {
+              queryKey: Q.Keyword.list.getKey(
+                undefined,
+                {
+                  ids: keywords,
+                  _end: keywords.length.toString(),
+                },
+                // true,
+              ),
+              queryFn: Q.Keyword.list.fetch,
+            },
+            {
+              queryKey: getSearchEventsQueryKey({
+                keywords,
+                exclude: [event.id],
+                _start: 0,
+                _end: 3,
+              }),
+              queryFn: Q.Event.Custom.SearchEvents.fetch,
+            },
+            {
+              queryKey: getSearchEventsQueryKey({
+                actors,
+                exclude: [event.id],
+                _start: 0,
+                _end: 3,
+              }),
+              queryFn: Q.Event.Custom.SearchEvents.fetch,
+            },
+            {
+              queryKey: getSearchEventsQueryKey({
+                groups,
+                _start: 0,
+                _end: 3,
+                exclude: [event.id],
+              }),
+              queryFn: Q.Event.Custom.SearchEvents.fetch,
+            },
+          ] as AsyncDataRouteQuery<any, any, any>[];
+        },
+    ),
   },
   // keywords
   {
@@ -452,16 +456,17 @@ export const routes: ServerRoute[] = [
       }
       return <NotFoundPage />;
     },
-    queries:
+    queries: toRouteQueries(
       (Q, conf) =>
-      async ({ areaId }: { areaId: UUID }) =>
-        Promise.resolve([
-          ...commonQueries.flatMap((c) => c(Q, conf)),
-          {
-            queryKey: Q.Area.get.getKey({ id: areaId }),
-            queryFn: Q.Area.get.fetch,
-          } as AsyncDataRouteQuery<any, any, any>,
-        ]),
+        async ({ areaId }: { areaId: UUID }) =>
+          Promise.resolve([
+            ...commonQueries.flatMap((c) => c(Q, conf)),
+            {
+              queryKey: Q.Area.get.getKey({ id: areaId }),
+              queryFn: Q.Area.get.fetch,
+            } as AsyncDataRouteQuery<any, any, any>,
+          ]),
+    ),
   },
   // media
   {
@@ -473,16 +478,17 @@ export const routes: ServerRoute[] = [
       }
       return <NotFoundPage />;
     },
-    queries:
+    queries: toRouteQueries(
       (Q, conf) =>
-      async ({ mediaId }: { mediaId: UUID }) =>
-        Promise.resolve([
-          ...commonQueries.flatMap((c) => c(Q, conf)),
-          {
-            queryKey: Q.Media.get.getKey({ id: mediaId }),
-            queryFn: Q.Media.get.fetch,
-          } as AsyncDataRouteQuery<any, any, any>,
-        ]),
+        async ({ mediaId }: { mediaId: UUID }) =>
+          Promise.resolve([
+            ...commonQueries.flatMap((c) => c(Q, conf)),
+            {
+              queryKey: Q.Media.get.getKey({ id: mediaId }),
+              queryFn: Q.Media.get.fetch,
+            } as AsyncDataRouteQuery<any, any, any>,
+          ]),
+    ),
   },
   // links
   linkRoute,
@@ -495,53 +501,54 @@ export const routes: ServerRoute[] = [
       }
       return <NotFoundPage />;
     },
-    queries:
+    queries: toRouteQueries(
       (Q, conf) =>
-      async ({ storyPath }: { storyPath: string }) => {
-        const storyParams = { path: storyPath };
-        const storyKey = Q.Story.list.getKey(undefined, storyParams);
-        const story = await Q.Story.list
-          .fetch(undefined, storyParams)
-          .then((r) => r.data[0]);
+        async ({ storyPath }: { storyPath: string }) => {
+          const storyParams = { path: storyPath };
+          const storyKey = Q.Story.list.getKey(undefined, storyParams);
+          const story = await Q.Story.list
+            .fetch(undefined, storyParams)
+            .then((r) => r.data[0]);
 
-        const mostRecentStoriesParams = {
-          exclude: [story.id],
-          _end: "3",
-          _sort: "updatedAt",
-          _order: "DESC" as const,
-        };
-        const mostRecentStoriesKey = Q.Story.list.getKey(
-          undefined,
-          mostRecentStoriesParams,
-        );
+          const mostRecentStoriesParams = {
+            exclude: [story.id],
+            _end: "3",
+            _sort: "updatedAt",
+            _order: "DESC" as const,
+          };
+          const mostRecentStoriesKey = Q.Story.list.getKey(
+            undefined,
+            mostRecentStoriesParams,
+          );
 
-        const storyRelatedKeywordsParams = {
-          ids: story.keywords,
-          _end: story.keywords.length.toString(),
-          _sort: "updatedAt",
-          _order: "DESC" as const,
-        };
-        const storyRelatedKeywordsKey = Q.Keyword.list.getKey(
-          undefined,
-          storyRelatedKeywordsParams,
-        );
+          const storyRelatedKeywordsParams = {
+            ids: story.keywords,
+            _end: story.keywords.length.toString(),
+            _sort: "updatedAt",
+            _order: "DESC" as const,
+          };
+          const storyRelatedKeywordsKey = Q.Keyword.list.getKey(
+            undefined,
+            storyRelatedKeywordsParams,
+          );
 
-        return [
-          ...commonQueries.flatMap((c) => c(Q, conf)),
-          {
-            queryKey: storyKey,
-            queryFn: () => Promise.resolve(story),
-          },
-          {
-            queryKey: mostRecentStoriesKey,
-            queryFn: Q.Story.list.fetch,
-          },
-          {
-            queryKey: storyRelatedKeywordsKey,
-            queryFn: Q.Keyword.list.fetch,
-          },
-        ] as AsyncDataRouteQuery<any, any, any>[];
-      },
+          return [
+            ...commonQueries.flatMap((c) => c(Q, conf)),
+            {
+              queryKey: storyKey,
+              queryFn: () => Promise.resolve(story),
+            },
+            {
+              queryKey: mostRecentStoriesKey,
+              queryFn: Q.Story.list.fetch,
+            },
+            {
+              queryKey: storyRelatedKeywordsKey,
+              queryFn: Q.Keyword.list.fetch,
+            },
+          ] as AsyncDataRouteQuery<any, any, any>[];
+        },
+    ),
   },
   // Routes without parameters (less specific)
   // groups
@@ -599,9 +606,9 @@ export const routes: ServerRoute[] = [
             string | string[]
           >;
 
-          q.hash = query?.hash;
-          q.startDate = query?.startDate;
-          q.endDate = query?.endDate;
+          q.hash = query?.hash ?? "";
+          q.startDate = query?.startDate ?? "";
+          q.endDate = query?.endDate ?? "";
           q.media = query?.media ?? [];
           q.locations = query?.locations ?? [];
           q._sort = q._sort ?? "date";
