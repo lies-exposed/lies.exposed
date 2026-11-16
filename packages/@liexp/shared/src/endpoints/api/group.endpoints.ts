@@ -1,4 +1,5 @@
 import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
+import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { Output, UUID } from "@liexp/io/lib/http/Common/index.js";
 import * as Group from "@liexp/io/lib/http/Group.js";
 import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
@@ -66,15 +67,15 @@ export const Edit = Endpoint({
       ...Group.EditGroupBody.fields,
       startDate: OptionFromNullishToNull(Schema.Date),
       endDate: OptionFromNullishToNull(Schema.Date),
-      excerpt: OptionFromNullishToNull(Schema.Array(Schema.Any)),
-      body: OptionFromNullishToNull(Schema.Array(Schema.Any)),
+      excerpt: OptionFromNullishToNull(BlockNoteDocument),
+      body: OptionFromNullishToNull(BlockNoteDocument),
       members: OptionFromNullishToNull(
         Schema.Array(
           Schema.Union(
             UUID,
             Schema.Struct({
               actor: UUID,
-              body: OptionFromNullishToNull(Schema.Array(Schema.Any)),
+              body: OptionFromNullishToNull(BlockNoteDocument),
               startDate: Schema.Date,
               endDate: OptionFromNullishToNull(Schema.Date),
             }),

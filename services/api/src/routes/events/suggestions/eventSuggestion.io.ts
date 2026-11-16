@@ -10,26 +10,49 @@ import { type ControllerError } from "#io/ControllerError.js";
 export const toEventSuggestion = (
   event: EventSuggestionEntity,
 ): E.Either<ControllerError, io.http.EventSuggestion.EventSuggestion> => {
-  const { links, newLinks } = event.payload.event.links.reduce(
+  interface SuggestionLinkInput {
+    id?: UUID;
+    url?: string;
+    publishDate?: Date | null;
+  }
+
+  interface SuggestionEventInput {
+    links: readonly (UUID | SuggestionLinkInput)[];
+    newLinks?: { url: string; publishDate?: Date | null }[] | undefined;
+  }
+
+  const suggestionEvent = event.payload
+    .event as unknown as SuggestionEventInput;
+
+  const isUuidId = (l: UUID | SuggestionLinkInput): l is { id: UUID } =>
+    typeof l === "object" && l !== null && "id" in l && Schema.is(UUID)(l.id);
+
+  const newLinkFrom = (l: SuggestionLinkInput) => ({
+    url: l.url ?? "",
+    publishDate: l.publishDate ?? null,
+    fromURL: true as const,
+  });
+
+  const { links, newLinks } = suggestionEvent.links.reduce<{
+    links: UUID[];
+    newLinks: ReturnType<typeof newLinkFrom>[];
+  }>(
     (acc, l) => {
       if (typeof l === "string") {
         return {
           ...acc,
-          links: acc.links.concat(l as any),
+          links: acc.links.concat(l),
         };
       }
-      if (Schema.is(UUID)((l as any).id)) {
+      if (isUuidId(l)) {
         return {
           ...acc,
-          links: acc.links.concat((l as any).id),
+          links: acc.links.concat(l.id),
         };
       }
       return {
         ...acc,
-        newLinks: acc.newLinks.concat({
-          ...(l as any),
-          fromURL: true,
-        }),
+        newLinks: acc.newLinks.concat(newLinkFrom(l)),
       };
     },
     {
@@ -53,7 +76,7 @@ export const toEventSuggestion = (
           : event.payload.event.date,
       media: [],
       links,
-      newLinks: (event.payload.event.newLinks ?? []).concat(newLinks),
+      newLinks: (suggestionEvent.newLinks ?? []).concat(newLinks),
     },
   };
 
