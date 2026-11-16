@@ -41,7 +41,7 @@ export const updateEventPayloadURLRefs: CommandFlow = async (ctx) => {
               }),
             );
 
-          return Promise.resolve(q.getMany() as unknown as EventV2Entity[]);
+          return Promise.resolve(q.getMany());
         }),
         // fp.TE.map(([ev]) => ev)
       ),

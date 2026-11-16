@@ -139,25 +139,6 @@ export const fetchAndCreateAreaFromWikipedia = (
             fp.RTE.bind("media", () => saveMediaTask),
             fp.RTE.bind("area", ({ media }) => saveAreaTask(media[0])),
             fp.RTE.mapLeft(toWorkerError),
-            // fp.RTE.chain(({ area }) =>
-            //   pipe(
-            //     fp.RTE.ask<WorkerContext>(),
-            //     fp.RTE.chainEitherK((ctx) =>
-            //       sequenceS(fp.E.Applicative)({
-            //         area: AreaIO.encodeSingle(area,  ),
-            //         media: pipe(
-            //           MediaIO.decodeMany(
-            //             (area.media ?? []).map((m) => ({
-            //               ...m,
-            //               areas: m.areas.map((a): any => a.id),
-            //             })),
-            //             ctx.env.SPACE_ENDPOINT,
-            //           ),
-            //         ),
-            //       }),
-            //     ),
-            //   ),
-            // ),
           );
         }),
       );

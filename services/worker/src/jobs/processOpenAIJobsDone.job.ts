@@ -232,7 +232,9 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
           }),
           fp.RTE.chain((link) => {
             const draftStatus = link.status !== APPROVED.literals[0];
-            const eventIds = link.events as any[] as string[];
+            const eventIds = link.events.map((e) =>
+              typeof e === "object" ? String(e.id) : String(e),
+            );
             if (eventIds.length === 0) return fp.RTE.right(job);
             return pipe(
               EventRepository.find({ where: { id: In(eventIds) } }),

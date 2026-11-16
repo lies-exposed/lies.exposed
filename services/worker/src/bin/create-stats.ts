@@ -52,7 +52,7 @@ export const createStats: CommandFlow = async (ctx, args): Promise<void> => {
       },
       (r) => {
         ctx.logger.info.log("Output: %O", r);
-        return r;
+        return undefined;
       },
     ),
     throwTE,

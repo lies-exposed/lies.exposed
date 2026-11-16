@@ -3,12 +3,15 @@ import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type WorkerContext } from "../../context/context.js";
 import { type RTE } from "../../types.js";
-import { createStatsByType } from "./createStatsByType.flow.js";
+import {
+  createStatsByType,
+  type EntityStats,
+} from "./createStatsByType.flow.js";
 
 export const createEntityStats = (
   type: "keywords" | "groups" | "actors",
   id: string,
-): RTE<any> => {
+): RTE<EntityStats> => {
   return pipe(
     fp.RTE.ask<WorkerContext>(),
     fp.RTE.chain((ctx) => {
