@@ -1,6 +1,7 @@
 import { IOError } from "@ts-endpoint/core";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
+import { type GroupMemberEntity } from "../../entities/GroupMember.entity.js";
 import { GroupMemberIO } from "../groupMember.io.js";
 
 describe("GroupMemberIO", () => {
@@ -10,7 +11,7 @@ describe("GroupMemberIO", () => {
         id: "invalid",
         actor: { id: "invalid" },
         group: { id: "invalid" },
-      } as any;
+      } as unknown as GroupMemberEntity;
 
       const result = GroupMemberIO.decodeSingle(invalidGroupMember);
       expect(E.isLeft(result)).toBe(true);
@@ -19,7 +20,7 @@ describe("GroupMemberIO", () => {
 
   describe("encodeSingle", () => {
     it("should return Left when called", () => {
-      const groupMember = {} as any;
+      const groupMember = {} as unknown as GroupMemberEntity;
       const result = GroupMemberIO.encodeSingle(groupMember);
 
       expect(E.isLeft(result)).toBe(true);

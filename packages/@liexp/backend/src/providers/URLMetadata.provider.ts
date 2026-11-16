@@ -730,13 +730,13 @@ export const MakeURLMetadata = (
 ): URLMetadataClient => {
   const fetchHTML = <E>(
     url: string,
-    opts: any,
+    opts: URLMetadataFetchOptions,
     toError: (e: unknown) => E,
   ): TE.TaskEither<E, string> => {
     return pipe(
       TE.tryCatch(
         () =>
-          ctx.client.get<any, { data: string }>(url, {
+          ctx.client.get<string, { data: string }>(url, {
             responseType: "text",
             timeout: opts?.timeout,
           }),
@@ -748,7 +748,7 @@ export const MakeURLMetadata = (
 
   const fetchMetadata = <E>(
     url: string,
-    opts: any,
+    opts: URLMetadataFetchOptions,
     toError: (e: unknown) => E,
   ): TE.TaskEither<E, Metadata> => {
     // extractDateFromURL is free (no network) — compute once upfront so it is

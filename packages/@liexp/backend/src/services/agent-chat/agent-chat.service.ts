@@ -95,8 +95,8 @@ export const extractJsonFromMarkdown = (content: string): string => {
  * Builds the JSON schema sent to the agent. Returns undefined for schemas
  * that cannot be represented (e.g. declarations without JSON annotations).
  */
-export const toOutputJSONSchema = (
-  schema: Schema.Schema<any, any, never>, // eslint-disable-line @typescript-eslint/no-explicit-any
+export const toOutputJSONSchema = <T, I>(
+  schema: Schema.Schema<T, I, never>,
 ): Record<string, unknown> | undefined => {
   try {
     const { $schema: _ignored, ...jsonSchema } = JSONSchema.make(

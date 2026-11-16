@@ -1,10 +1,12 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import type * as Query from "@liexp/io/lib/http/Query/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { type DatabaseContext } from "../context/db.context.js";
 import { type ENVContext } from "../context/env.context.js";
+import { DBError } from "../providers/orm/database.provider.js";
 import { mockedContext } from "../test/context.js";
 import { mockTERightOnce } from "../test/mocks/mock.utils.js";
 import { DBService } from "./db.service.js";
@@ -15,7 +17,7 @@ describe("DBService", () => {
   const appTest = {
     ctx: {
       ...mockedContext<DBServiceTestContext>({ db: mock() }),
-      env: { DEFAULT_PAGE_SIZE: 20 } as any,
+      env: { DEFAULT_PAGE_SIZE: 20 } as unknown as DBServiceTestContext["env"],
     },
   };
 
@@ -46,10 +48,10 @@ describe("DBService", () => {
     });
 
     it("should return a Left when ctx.db.execQuery fails", async () => {
-      const dbError = { name: "DBError", message: "query failed" };
+      const dbError = new DBError("query failed", { exn: "execQuery" });
 
       appTest.ctx.db.execQuery.mockImplementationOnce(() =>
-        fp.TE.left(dbError as any),
+        fp.TE.left<DBError, unknown>(dbError),
       );
 
       const te = DBService.execQuery<unknown, DBServiceTestContext>(vi.fn())(
@@ -58,7 +60,9 @@ describe("DBService", () => {
       const outcome = await te();
 
       expect(outcome._tag).toBe("Left");
-      expect((outcome as any).left).toEqual(dbError);
+      if (outcome._tag === "Left") {
+        expect(outcome.left).toEqual(dbError);
+      }
     });
 
     it("should call ctx.db.execQuery with the provided function", async () => {
@@ -85,7 +89,7 @@ describe("DBService", () => {
         _start: O.some(0),
         _end: O.some(5),
         _sort: O.none as O.Option<string>,
-        _order: O.none as O.Option<any>,
+        _order: O.none as O.Option<Query.SortOrder>,
       };
 
       const ormOptions = DBService.getORMOptions(opts, 10)(appTest.ctx);
@@ -100,7 +104,7 @@ describe("DBService", () => {
         _start: O.some(0),
         _end: O.none as O.Option<number>,
         _sort: O.none as O.Option<string>,
-        _order: O.none as O.Option<any>,
+        _order: O.none as O.Option<Query.SortOrder>,
       };
 
       const ormOptions = DBService.getORMOptions(opts)(appTest.ctx);
@@ -127,7 +131,7 @@ describe("DBService", () => {
         _start: O.some(20),
         _end: O.some(30),
         _sort: O.none as O.Option<string>,
-        _order: O.none as O.Option<any>,
+        _order: O.none as O.Option<Query.SortOrder>,
       };
 
       const ormOptions = DBService.getORMOptions(opts, 50)(appTest.ctx);
@@ -141,7 +145,7 @@ describe("DBService", () => {
         _start: O.none as O.Option<number>,
         _end: O.none as O.Option<number>,
         _sort: O.none as O.Option<string>,
-        _order: O.none as O.Option<any>,
+        _order: O.none as O.Option<Query.SortOrder>,
       };
 
       const ormOptions = DBService.getORMOptions(opts, 20)(appTest.ctx);

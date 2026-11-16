@@ -3,6 +3,7 @@ import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import fc from "fast-check";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
+import { type ActorRelationEntity } from "../../entities/ActorRelation.entity.js";
 import { toActorEntity } from "../../test/utils/entities/index.js";
 import { ActorRelationIO } from "../actorRelation.io.js";
 
@@ -16,7 +17,9 @@ const makeActorEntity = (
     death: undefined,
   }) as unknown as ReturnType<typeof toActorEntity>;
 
-const makeActorRelationEntity = (overrides: Partial<any> = {}) => {
+const makeActorRelationEntity = (
+  overrides: Partial<ActorRelationEntity> = {},
+) => {
   const actor = fc.sample(ActorArb, 1)[0];
   const relatedActor = fc.sample(ActorArb, 1)[0];
 

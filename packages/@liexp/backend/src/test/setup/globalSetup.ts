@@ -9,6 +9,8 @@ import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import type { BACKEND_ENV } from "../../io/ENV.js";
+import { type DatabaseClient } from "../../providers/orm/index.js";
+import { type RedisClient } from "../../providers/redis/redis.provider.js";
 
 const moduleLogger = logger.GetLogger("global-setup");
 
@@ -20,8 +22,8 @@ const moduleLogger = logger.GetLogger("global-setup");
  * @param envSchema - Effect Schema for environment validation
  * @param dotenvConfigPath - Path to .env file (default: ../../../.env.test)
  */
-export const createGlobalSetup = <A extends BACKEND_ENV, I = any>(
-  envSchema: Schema.Schema<A, I, never>,
+export const createGlobalSetup = <A extends BACKEND_ENV>(
+  envSchema: Schema.Schema<A, unknown, never>,
   dotenvConfigPath?: string,
 ) => {
   return async (): Promise<() => Promise<void>> => {
@@ -79,8 +81,8 @@ export const createGlobalSetup = <A extends BACKEND_ENV, I = any>(
 
         // Close all connections when tests are complete
         const g = global as unknown as {
-          appContext?: { db?: any; redis?: any };
-          appTest?: { ctx?: { db?: any; redis?: any } };
+          appContext?: { db?: DatabaseClient; redis?: RedisClient };
+          appTest?: { ctx?: { db?: DatabaseClient; redis?: RedisClient } };
         };
 
         try {

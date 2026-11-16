@@ -24,16 +24,16 @@ export class GraphEntity extends DeletableEntity {
   graphType: GraphType;
 
   @Column({ type: "json", nullable: false })
-  data: any;
+  data: unknown;
 
   @Column({ type: "json", nullable: false })
-  options: any;
+  options: unknown;
 
   @Column({ type: "json", nullable: true })
-  excerpt: Record<string, any> | null;
+  excerpt: Record<string, unknown> | null;
 
   @Column({ type: "json", nullable: true })
-  body: Record<string, any> | null;
+  body: Record<string, unknown> | null;
 
   @ManyToOne(() => UserEntity, (u) => u.links, {
     nullable: true,
