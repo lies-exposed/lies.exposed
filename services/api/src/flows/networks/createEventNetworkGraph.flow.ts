@@ -308,6 +308,15 @@ const reduceResultToOutput: Flow<
   return pipe(results, fp.A.reduce(initialOutput, monoidOutput.concat));
 };
 
+interface NetworkLinkInput {
+  source: string;
+  target: string;
+  fill: string;
+  stroke: string;
+  sourceType: NetworkLink["sourceType"];
+  value: number;
+}
+
 interface Result {
   events: EventNetworkDatum[];
   eventNodes: EventNetworkDatum[];
@@ -476,7 +485,11 @@ export const createEventNetworkGraph =
                   const color = getColorByEventType({
                     type: event.type,
                   });
-                  const update: any = {};
+                  const update: {
+                    actorLinks?: NetworkLinkInput[];
+                    groupLinks?: NetworkLinkInput[];
+                    keywordLinks?: NetworkLinkInput[];
+                  } = {};
                   ctx.logger.debug.log("Source key %s", k);
                   if (key === Actor.ACTORS.literals[0]) {
                     update.actorLinks = [
@@ -555,11 +568,15 @@ export const createEventNetworkGraph =
                   return {
                     ...tuples[1],
                     ...update,
-                  };
+                  } as unknown as Result;
                 }),
               ),
             ),
-            TE.map((results) => reduceResultToOutput(results)(ctx)),
+            TE.map((results) =>
+              reduceResultToOutput(results as unknown as NetworkGraphOutput[])(
+                ctx,
+              ),
+            ),
             TE.map((output) => ({
               ...output,
               actors,

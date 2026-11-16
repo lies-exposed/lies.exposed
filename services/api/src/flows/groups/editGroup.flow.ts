@@ -1,5 +1,3 @@
-import { type ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
-import { type GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { GroupRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
@@ -71,8 +69,8 @@ export const editGroup = (input: EditGroupInput): TEReader<Group> => {
         createdAt: new Date(),
         excerpt: O.getOrNull(member.body),
         endDate: O.getOrNull(member.endDate),
-        actor: { id: member.actor } as ActorEntity,
-        group: { id } as GroupEntity,
+        actor: { id: member.actor },
+        group: { id },
       }));
 
       const loadExisting =
