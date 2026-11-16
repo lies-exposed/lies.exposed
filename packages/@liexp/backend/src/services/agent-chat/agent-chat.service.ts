@@ -62,7 +62,7 @@ interface StructuredOutputOptions<T> {
    * and the parsed response is decoded with it: a response that does not
    * match fails the request instead of propagating malformed data.
    */
-  schema?: Schema.Schema<T, any, never>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  schema?: Schema.Schema<T, unknown, never>;
   /**
    * Optional flag to extract JSON from markdown code blocks
    * @default false
@@ -95,8 +95,8 @@ export const extractJsonFromMarkdown = (content: string): string => {
  * Builds the JSON schema sent to the agent. Returns undefined for schemas
  * that cannot be represented (e.g. declarations without JSON annotations).
  */
-export const toOutputJSONSchema = (
-  schema: Schema.Schema<any, any, never>, // eslint-disable-line @typescript-eslint/no-explicit-any
+export const toOutputJSONSchema = <T, I>(
+  schema: Schema.Schema<T, I, never>,
 ): Record<string, unknown> | undefined => {
   try {
     const { $schema: _ignored, ...jsonSchema } = JSONSchema.make(
@@ -143,7 +143,9 @@ export interface AgentChatServiceTestContext {
   logger: LoggerContext;
   agent: {
     Chat: {
-      Create: () => TaskEither<any, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+      Create: (input: {
+        Body: unknown;
+      }) => TaskEither<unknown, { data: unknown }>;
     };
   };
 }

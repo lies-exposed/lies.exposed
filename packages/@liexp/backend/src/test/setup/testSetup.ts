@@ -1,4 +1,4 @@
-import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
+import { GetLogger, type Logger } from "@liexp/core/lib/logger/Logger.js";
 import D from "debug";
 import { afterAll, afterEach, beforeAll, beforeEach } from "vitest";
 import {
@@ -19,7 +19,7 @@ const logger = GetLogger("testSetup");
  * Vitest requires mocks to be hoisted before module imports are resolved.
  */
 export const createTestSetup = <TContext, TAppTest>(
-  loadAppContext: (logger: any, database: string) => Promise<TContext>,
+  loadAppContext: (logger: Logger, database: string) => Promise<TContext>,
   initAppTest: (ctx: TContext, database: string) => Promise<TAppTest>,
 ) => {
   const g = global as unknown as { appContext: TContext; appTest?: TAppTest };

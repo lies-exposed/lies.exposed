@@ -1,3 +1,4 @@
+import { type ObjectLiteral, type SelectQueryBuilder } from "typeorm";
 import { describe, it, expect, vi } from "vitest";
 import {
   buildFTSWhere,
@@ -126,7 +127,7 @@ describe("search.utils", () => {
       const mockAndWhere = vi.fn().mockReturnThis();
       const mockQb = {
         andWhere: mockAndWhere,
-      } as any;
+      } as unknown as SelectQueryBuilder<ObjectLiteral>;
 
       const fields = ["actor.fullName", "actor.username"];
       const searchTerm = "bob";
@@ -144,7 +145,7 @@ describe("search.utils", () => {
     it("should return the query builder instance", () => {
       const mockQb = {
         andWhere: vi.fn().mockReturnThis(),
-      } as any;
+      } as unknown as SelectQueryBuilder<ObjectLiteral>;
 
       const result = applyFTSWhere(mockQb, ["col"], "term");
 
@@ -153,7 +154,9 @@ describe("search.utils", () => {
 
     it("should pass correct params to andWhere", () => {
       const mockAndWhere = vi.fn().mockReturnThis();
-      const mockQb = { andWhere: mockAndWhere } as any;
+      const mockQb = {
+        andWhere: mockAndWhere,
+      } as unknown as SelectQueryBuilder<ObjectLiteral>;
 
       applyFTSWhere(mockQb, ["entity.name"], "specific term");
 

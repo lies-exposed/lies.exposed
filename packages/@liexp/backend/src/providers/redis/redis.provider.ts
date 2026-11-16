@@ -12,6 +12,7 @@ export interface RedisClient {
   client: Redis;
   get: (key: string) => TaskEither<RedisError, string | null>;
   set: (key: string, value: string) => TaskEither<RedisError, "OK">;
+  quit: () => Promise<"OK">;
 }
 
 export const GetRedisClient = ({
@@ -29,5 +30,6 @@ export const GetRedisClient = ({
       set: (key, value) =>
         pipe(fp.TE.tryCatch(() => redis.set(key, value), toRedisError)),
       get: (key) => pipe(fp.TE.tryCatch(() => redis.get(key), toRedisError)),
+      quit: () => redis.quit(),
     };
   }, toRedisError);
