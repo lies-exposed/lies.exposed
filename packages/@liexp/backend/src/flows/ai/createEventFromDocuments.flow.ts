@@ -24,7 +24,7 @@ export const createEventFromDocuments = <
     question: string;
     context: string;
   }>,
-  jsonSchema: any,
+  jsonSchema: unknown,
   question: string,
 ): ReaderTaskEither<C, APIError, EventCommonProps> => {
   return pipe(

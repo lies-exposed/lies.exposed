@@ -2,6 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { Brackets } from "typeorm";
+import { type ConfigContext } from "../../../context/config.context.js";
 import { type DatabaseContext } from "../../../context/db.context.js";
 import { type ENVContext } from "../../../context/env.context.js";
 import { type FSClientContext } from "../../../context/fs.context.js";
@@ -14,7 +15,10 @@ import {
   type GetOrphanMediaFlowOutput,
   getOrphanMediaFlow,
 } from "./getOrphanMedia.flow.js";
-import { getTempMediaCountFlow } from "./getTempMediaCount.flow.js";
+import {
+  type TempMediaEntry,
+  getTempMediaCountFlow,
+} from "./getTempMediaCount.flow.js";
 
 const getTotalMedia =
   <C extends DatabaseContext>(): ReaderTaskEither<C, DBError, number> =>
@@ -70,7 +74,9 @@ const getMediaInNeedToRegenerateThumbnailFlow = <
 };
 
 export const getMediaAdminStatsFlow = <
-  C extends SpaceContext & { config: Record<string, any> } & DatabaseContext &
+  C extends SpaceContext &
+    ConfigContext &
+    DatabaseContext &
     FSClientContext &
     LoggerContext &
     ENVContext,
@@ -80,7 +86,7 @@ export const getMediaAdminStatsFlow = <
   {
     total: number;
     orphans: GetOrphanMediaFlowOutput;
-    temp: any[];
+    temp: TempMediaEntry[];
     noThumbnails: MediaEntity[];
     needRegenerateThumbnail: number;
   }
