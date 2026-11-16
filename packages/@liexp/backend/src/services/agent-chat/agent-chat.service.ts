@@ -62,7 +62,7 @@ interface StructuredOutputOptions<T> {
    * and the parsed response is decoded with it: a response that does not
    * match fails the request instead of propagating malformed data.
    */
-  schema?: Schema.Schema<T, unknown, never>;
+  schema?: Schema.Schema<T, any, never>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
    * Optional flag to extract JSON from markdown code blocks
    * @default false
@@ -143,9 +143,7 @@ export interface AgentChatServiceTestContext {
   logger: LoggerContext;
   agent: {
     Chat: {
-      Create: (input: {
-        Body: unknown;
-      }) => TaskEither<unknown, { data: unknown }>;
+      Create: () => TaskEither<any, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
     };
   };
 }
