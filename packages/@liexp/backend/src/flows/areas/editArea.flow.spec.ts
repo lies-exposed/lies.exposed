@@ -47,7 +47,7 @@ describe(editArea.name, () => {
 
     mockTERightOnce(appTest.ctx.db.findOneOrFail, () => expectedSavedArea);
 
-    const result: any = await pipe(
+    const result = await pipe(
       editArea({
         id: areaId,
         label: fp.O.some(newLabel),
@@ -112,7 +112,7 @@ describe(editArea.name, () => {
 
     mockTERightOnce(appTest.ctx.db.findOneOrFail, () => expectedSavedArea);
 
-    const result: any = await pipe(
+    const result = await pipe(
       editArea({
         id: areaId,
         label: fp.O.some(newLabel),
@@ -166,7 +166,7 @@ describe(editArea.name, () => {
 
     mockTERightOnce(appTest.ctx.db.findOneOrFail, () => expectedSavedArea);
 
-    const result: any = await pipe(
+    const result = await pipe(
       editArea({
         id: areaId,
         label: fp.O.none,
@@ -232,7 +232,7 @@ describe(editArea.name, () => {
 
     mockTERightOnce(appTest.ctx.db.findOneOrFail, () => expectedSavedArea);
 
-    const result: any = await pipe(
+    const result = await pipe(
       editArea({
         id: areaId,
         label: fp.O.none,

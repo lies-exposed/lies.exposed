@@ -255,10 +255,7 @@ const addTextLayer =
   };
 
 const addWatermarkLayer =
-  <
-    C extends LoggerContext &
-      ImgProcClientContext & { config: Record<string, any> }, // eslint-disable-line @typescript-eslint/no-explicit-any
-  >(
+  <C extends LoggerContext & ImgProcClientContext & ConfigContext>(
     layer: WatermarkLayer,
     parent: SharpOverlayOptionsWithSize | undefined,
   ): ReaderTaskEither<C, ImgProcError, SharpOverlayOptionsWithSize[]> =>

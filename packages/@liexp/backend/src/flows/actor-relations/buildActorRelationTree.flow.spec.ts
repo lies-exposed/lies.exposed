@@ -1,4 +1,5 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -7,6 +8,7 @@ import { type DatabaseContext } from "../../context/db.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { ActorEntity } from "../../entities/Actor.entity.js";
 import { ActorRelationEntity } from "../../entities/ActorRelation.entity.js";
+import { MediaEntity } from "../../entities/Media.entity.js";
 import { mockedContext } from "../../test/context.js";
 import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
 import { buildActorRelationTree } from "./buildActorRelationTree.flow.js";
@@ -59,7 +61,8 @@ describe(buildActorRelationTree.name, () => {
   it("should include actor avatar location in the tree node", async () => {
     const actorId = uuid();
 
-    const avatarMedia = { location: "https://example.com/avatar.jpg" } as any;
+    const avatarMedia = new MediaEntity();
+    avatarMedia.location = "https://example.com/avatar.jpg" as URL;
 
     const actor = new ActorEntity();
     actor.id = actorId;
@@ -204,7 +207,7 @@ describe(buildActorRelationTree.name, () => {
 
     const dbError = new Error("Entity not found");
     mockDb.findOneOrFail.mockImplementationOnce(
-      () => () => Promise.resolve({ _tag: "Left", left: dbError } as any),
+      () => () => Promise.resolve(fp.E.left(dbError)),
     );
 
     const result = await buildActorRelationTree(actorId, 0)(ctx)();

@@ -18,7 +18,7 @@ describe(upload.name, () => {
       }),
       env: {
         SPACE_BUCKET: "test-bucket",
-      } as any,
+      } satisfies ENVContext["env"],
     },
   };
 

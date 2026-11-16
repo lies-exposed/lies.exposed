@@ -1,3 +1,4 @@
+import { type PutObjectCommandInput } from "@aws-sdk/client-s3";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
@@ -32,7 +33,13 @@ export type CreateAndUploadFlowContext = SpaceContext &
 
 export const uploadAndCreate = <C extends CreateAndUploadFlowContext>(
   createMediaData: Media.CreateMedia,
-  { Body, ContentType }: { Body: any; ContentType?: Media.MediaType },
+  {
+    Body,
+    ContentType,
+  }: {
+    Body: PutObjectCommandInput["Body"];
+    ContentType?: Media.MediaType;
+  },
   id: UUID | undefined,
   extractThumb: boolean,
 ): ReaderTaskEither<C, ServerError, MediaEntity> => {

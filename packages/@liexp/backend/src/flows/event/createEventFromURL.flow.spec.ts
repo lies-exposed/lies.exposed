@@ -52,7 +52,7 @@ describe(createEventFromURL.name, () => {
     );
 
     // link by url
-    let savedEvent: any;
+    let savedEvent: EventV2Entity;
     mockTERightOnce(appTest.ctx.db.save, (_, event) => {
       savedEvent = event[0];
       return event;
@@ -62,7 +62,7 @@ describe(createEventFromURL.name, () => {
 
     const user = new UserEntity();
 
-    const event: any = await pipe(
+    const event = await pipe(
       createEventFromURL(
         user,
         uuid(),
