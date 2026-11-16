@@ -17,8 +17,13 @@ import { CreateEntityStatsSubscriber } from "./stats/CreateEntityStats.subscribe
 import { type WorkerContext } from "#context/context.js";
 import { type WorkerError } from "#io/worker.error.js";
 
+type AnyWorkerSubscriber = Pick<
+  Subscriber<WorkerContext, never, string, WorkerError>,
+  "channel" | "subscribe"
+>;
+
 export const WorkerSubscribers: RTE<void> = (ctx) => {
-  const subscribers: Subscriber<WorkerContext, any, string, WorkerError>[] = [
+  const subscribers: AnyWorkerSubscriber[] = [
     // links
     SearchLinksSubscriber,
     TakeLinkScreenshotSubscriber,

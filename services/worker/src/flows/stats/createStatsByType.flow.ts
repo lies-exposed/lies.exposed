@@ -31,6 +31,12 @@ import * as O from "effect/Option";
 import { toWorkerError, type WorkerError } from "../../io/worker.error.js";
 import { type RTE } from "../../types.js";
 
+export interface EntityStats {
+  actors: Record<string, number>;
+  groups: Record<string, number>;
+  keywords: Record<string, number>;
+}
+
 interface StatsCache {
   events: readonly string[];
   actors: Map<string, number>;
@@ -81,7 +87,7 @@ const updateCache = (s: StatsCache, e: SearchEvent.SearchEvent): StatsCache => {
 };
 
 export const createStatsByType =
-  (id: string, type: "keywords" | "groups" | "actors"): RTE<any> =>
+  (id: string, type: "keywords" | "groups" | "actors"): RTE<EntityStats> =>
   (ctx) => {
     const filePath = path.resolve(
       ctx.config.dirs.temp.root,
