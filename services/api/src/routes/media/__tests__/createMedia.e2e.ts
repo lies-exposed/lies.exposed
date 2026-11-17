@@ -36,9 +36,11 @@ describe("Create Media", () => {
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
-    uploadSpy = vi.spyOn(Test.mocks.s3.classes, "Upload").mockImplementation(
-      () => ({ done: vi.fn(() => Promise.resolve({})) }),
-    );
+    uploadSpy = vi
+      .spyOn(Test.mocks.s3.classes, "Upload")
+      .mockImplementation(function newMockUpload(this: UploadInstanceLike) {
+        return { done: () => Promise.resolve({}) };
+      });
   });
 
   beforeEach(() => {

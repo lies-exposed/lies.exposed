@@ -18,9 +18,11 @@ describe("Upload file", () => {
   beforeAll(async () => {
     Test = await GetAppTest();
     authorizationToken = getUserAuthorization(Test.ctx);
-    uploadSpy = vi.spyOn(Test.mocks.s3.classes, "Upload").mockImplementation(
-      () => ({ done: vi.fn(() => Promise.resolve({})) }),
-    );
+    uploadSpy = vi
+      .spyOn(Test.mocks.s3.classes, "Upload")
+      .mockImplementation(function newMockUpload(this: UploadInstanceLike) {
+        return { done: () => Promise.resolve({}) };
+      });
   });
 
   afterEach(() => {
@@ -30,11 +32,11 @@ describe("Upload file", () => {
   test("Should receive an error when upload unaccepted media", async () => {
     const error = new Error("can't upload");
 
-    const mockUploadInstance: UploadInstanceLike = {
-      done: vi.fn(() => Promise.reject(error)),
-    };
-
-    uploadSpy.mockImplementationOnce(() => mockUploadInstance);
+    uploadSpy.mockImplementationOnce(function newMockUpload(
+      this: UploadInstanceLike,
+    ) {
+      return { done: () => Promise.reject(error) };
+    });
 
     const response = await Test.req
       .put(`/v1/uploads-multipart/file-key`)
@@ -67,11 +69,11 @@ describe("Upload file", () => {
       Location: `https://media.localhost:9000/media/${mediaKey}`,
     };
 
-    const mockUploadInstance: UploadInstanceLike = {
-      done: vi.fn(() => Promise.resolve(uploadedObject)),
-    };
-
-    uploadSpy.mockImplementationOnce(() => mockUploadInstance);
+    uploadSpy.mockImplementationOnce(function newMockUpload(
+      this: UploadInstanceLike,
+    ) {
+      return { done: () => Promise.resolve(uploadedObject) };
+    });
 
     const response = await Test.req
       .put(`/v1/uploads-multipart/file-key`)
