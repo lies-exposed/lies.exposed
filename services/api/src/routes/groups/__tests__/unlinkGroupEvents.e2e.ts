@@ -27,9 +27,7 @@ describe("Unlink Group Events", () => {
     authorizationToken = authorization;
 
     group = tests.fc.sample(GroupArb, 1).map(toGroupEntity)[0];
-    await throwTE(
-      Test.ctx.db.save(GroupEntity, [group]),
-    );
+    await throwTE(Test.ctx.db.save(GroupEntity, [group]));
   });
 
   test("Should return a 401 when unlinking without token", async () => {

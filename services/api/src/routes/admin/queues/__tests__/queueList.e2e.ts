@@ -5,7 +5,10 @@ import { beforeAll, describe, expect, test } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import { loginUser } from "../../../../../test/utils/user.utils.js";
 
-type QueueListBody = { data: Queue[]; total?: number };
+interface QueueListBody {
+  data: Queue[];
+  total?: number;
+}
 describe("List Queues", () => {
   let Test: AppTest,
     authorizationToken: string,
@@ -56,9 +59,7 @@ describe("List Queues", () => {
     expect(listRes.body).toHaveProperty("data");
     expect(Array.isArray(listRes.body.data)).toBeTruthy();
 
-    const found = (listRes.body as QueueListBody).data.find(
-      (q) => q.id === id,
-    );
+    const found = (listRes.body as QueueListBody).data.find((q) => q.id === id);
     expect(found).toBeDefined();
   });
 
@@ -79,9 +80,7 @@ describe("List Queues", () => {
       .set("Authorization", adminAuthorization)
       .expect(200);
 
-    const queue = (listRes.body as QueueListBody).data.find(
-      (q) => q.id === id,
-    );
+    const queue = (listRes.body as QueueListBody).data.find((q) => q.id === id);
     expect(queue).toBeDefined();
     expect(queue.createdAt).toBeDefined();
     expect(queue.updatedAt).toBeDefined();
