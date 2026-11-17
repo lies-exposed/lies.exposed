@@ -22,11 +22,11 @@ describe("Edit Actor Relation", () => {
   let Test: AppTest;
   const users: UserTest[] = [];
   let authorizationToken: string;
-  let actors: ActorEntity[];
-  const actorRelations = [
+  const actors = tests.fc.sample(ActorArb, 2).map(toActorEntity);
+  const actorRelations: ActorRelationEntity[] = [
     {
-      actor: null as any,
-      relatedActor: null as any,
+      actor: actors[0],
+      relatedActor: actors[1],
       type: ActorRelationType.members[0].literals[0],
       startDate: new Date(),
       updatedAt: new Date(),
@@ -44,12 +44,9 @@ describe("Edit Actor Relation", () => {
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
-    actors = tests.fc.sample(ActorArb, 2).map(toActorEntity);
 
     await throwTE(Test.ctx.db.save(ActorEntity, actors));
 
-    actorRelations[0].actor = actors[0];
-    actorRelations[0].relatedActor = actors[1];
     await throwTE(Test.ctx.db.save(ActorRelationEntity, actorRelations));
   });
 

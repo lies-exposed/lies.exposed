@@ -1,6 +1,10 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
-import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import { toGroupEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
+import {
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { UNCATEGORIZED } from "@liexp/io/lib/http/Events/EventType.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
@@ -12,9 +16,9 @@ import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Unlink Group Events", () => {
   let Test: AppTest;
-  let user: any;
+  let user: UserTest;
   let authorizationToken: string;
-  let group: any;
+  let group: GroupEntity;
 
   beforeAll(async () => {
     Test = await GetAppTest();
@@ -22,9 +26,9 @@ describe("Unlink Group Events", () => {
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
 
-    group = tests.fc.sample(GroupArb, 1)[0];
+    group = tests.fc.sample(GroupArb, 1).map(toGroupEntity)[0];
     await throwTE(
-      Test.ctx.db.save(GroupEntity, [{ ...group, members: [], avatar: null }]),
+      Test.ctx.db.save(GroupEntity, [group]),
     );
   });
 
@@ -56,7 +60,7 @@ describe("Unlink Group Events", () => {
     await throwTE(Test.ctx.db.save(EventV2Entity, [event]));
 
     // ensure event has group
-    const savedRows: any[] = await Test.ctx.db.manager.query(
+    const savedRows: { payload: unknown }[] = await Test.ctx.db.manager.query(
       `SELECT payload FROM event WHERE id = $1`,
       [event.id],
     );
@@ -71,7 +75,7 @@ describe("Unlink Group Events", () => {
 
     expect(res.body.data).toMatchObject({ success: true });
 
-    const updatedRows: any[] = await Test.ctx.db.manager.query(
+    const updatedRows: { payload: unknown }[] = await Test.ctx.db.manager.query(
       `SELECT payload FROM event WHERE id = $1`,
       [event.id],
     );

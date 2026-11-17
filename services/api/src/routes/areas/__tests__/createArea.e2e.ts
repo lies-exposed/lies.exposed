@@ -1,4 +1,7 @@
-import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import {
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import * as tests from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
@@ -7,7 +10,7 @@ import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Create Area", () => {
-  let Test: AppTest, user: any, authorizationToken: string;
+  let Test: AppTest, user: UserTest, authorizationToken: string;
   beforeAll(async () => {
     Test = await GetAppTest();
 

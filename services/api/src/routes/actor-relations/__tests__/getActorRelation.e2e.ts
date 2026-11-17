@@ -9,6 +9,7 @@ import { UUIDArb } from "@liexp/test/lib/arbitrary/common/UUID.arbitrary.js";
 import * as tests from "@liexp/test/lib/index.js";
 import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { getUserAuthorization } from "../../../../test/utils/jwt.utils.js";
 
 describe("Get Actor Relation", () => {
   let authorizationToken: string;
@@ -32,9 +33,7 @@ describe("Get Actor Relation", () => {
   beforeAll(async () => {
     Test = await GetAppTest();
 
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
+    authorizationToken = getUserAuthorization(Test.ctx);
     await throwTE(Test.ctx.db.save(ActorEntity, actors));
     await throwTE(Test.ctx.db.save(ActorRelationEntity, actorRelations));
   });

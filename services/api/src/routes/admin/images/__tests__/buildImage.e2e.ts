@@ -1,5 +1,6 @@
 import { BuildImageWithSharpPubSub } from "@liexp/backend/lib/pubsub/buildImageWithSharp.pubSub.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import { type AxiosResponse } from "axios";
 import { beforeAll, beforeEach, describe, expect, test } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import { loginUser } from "../../../../../test/utils/user.utils.js";
@@ -50,19 +51,21 @@ describe("Build Image", () => {
   beforeEach(() => {
     // Reset sharp mock so toBuffer can resolve fresh for each test
     const fakeImageBuffer = Buffer.from("fake-png-data");
-    (Test.mocks.sharp.mocks.composite as any).mockReturnThis();
-    (Test.mocks.sharp.mocks.sharpen as any).mockReturnThis();
-    (Test.mocks.sharp.mocks.toFormat as any).mockReturnThis();
-    (Test.mocks.sharp.mocks.toBuffer as any).mockResolvedValue(fakeImageBuffer);
-    (Test.mocks.sharp.mocks.resize as any).mockReturnThis();
+    Test.mocks.sharp.mocks.composite.mockReturnThis();
+    Test.mocks.sharp.mocks.sharpen.mockReturnThis();
+    Test.mocks.sharp.mocks.toFormat.mockReturnThis();
+    Test.mocks.sharp.mocks.toBuffer.mockResolvedValue(fakeImageBuffer);
+    Test.mocks.sharp.mocks.resize.mockReturnThis();
     // Mock http provider to return a fake image buffer for URL fetching
-    (Test.mocks.axios.get as any).mockResolvedValue({
+    Test.mocks.axios.get.mockResolvedValue({
       data: fakeImageBuffer,
       status: 200,
+      statusText: "OK",
       headers: { "content-type": "image/png" },
-    });
+      config: {},
+    } as AxiosResponse);
     // Mock ExifReader to return fake image dimensions
-    (Test.mocks.exifR.load as any).mockResolvedValue({
+    Test.mocks.exifR.load.mockResolvedValue({
       "Image Width": { value: 800 },
       "Image Height": { value: 600 },
     });

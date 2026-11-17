@@ -53,7 +53,7 @@ describe("Create Event", () => {
     extra: undefined,
   }));
 
-  let groupMembers: any[] = [];
+  let groupMembers: GroupMemberEntity[] = [];
 
   beforeAll(async () => {
     appTest = await GetAppTest();

@@ -2,7 +2,10 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import {
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { toParagraph } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
@@ -17,7 +20,7 @@ import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Edit Actor", () => {
   let Test: AppTest;
-  let user: any;
+  let user: UserTest;
   let authorizationToken: string;
   const [avatar] = tests.fc.sample(MediaArb, 1);
   let actor = tests.fc.sample(ActorArb, 1).map((a) => ({

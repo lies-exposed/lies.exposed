@@ -70,7 +70,7 @@ describe("List Actor Relations", () => {
     expect(response.body.total).toBeGreaterThanOrEqual(2);
 
     // Verify our specific relations are present
-    const foundIds = response.body.data.map((r: any) => r.id);
+    const foundIds = (response.body.data as { id: string }[]).map((r) => r.id);
     expect(foundIds).toContain(actorRelations[0].id);
     expect(foundIds).toContain(actorRelations[1].id);
   });
@@ -84,7 +84,7 @@ describe("List Actor Relations", () => {
     expect(response.status).toEqual(200);
     expect(response.body.data.length).toBeGreaterThanOrEqual(1);
     // All returned relations should be parent_child type
-    response.body.data.forEach((relation: any) => {
+    (response.body.data as { type: string }[]).forEach((relation) => {
       expect(relation.type).toEqual(ActorRelationType.members[0].literals[0]);
     });
   });
@@ -98,7 +98,7 @@ describe("List Actor Relations", () => {
     expect(response.status).toEqual(200);
     expect(response.body.data.length).toBeGreaterThanOrEqual(1);
     // All returned relations should be spouse type
-    response.body.data.forEach((relation: any) => {
+    (response.body.data as { type: string }[]).forEach((relation) => {
       expect(relation.type).toEqual(ActorRelationType.members[1].literals[0]);
     });
   });

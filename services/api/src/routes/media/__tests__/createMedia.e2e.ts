@@ -16,14 +16,19 @@ import * as tests from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { describe, test, expect, beforeAll, vi, beforeEach } from "vitest";
+import { type MockInstance } from "vitest";
 import { mockClear } from "vitest-mock-extended";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 
+interface UploadInstanceLike {
+  done: () => Promise<unknown>;
+}
+
 describe("Create Media", () => {
   let Test: AppTest, authorizationToken: string;
   const users: UserTest[] = [];
-  let uploadSpy: any;
+  let uploadSpy: MockInstance<unknown[], UploadInstanceLike>;
 
   beforeAll(async () => {
     Test = await GetAppTest();
@@ -31,7 +36,9 @@ describe("Create Media", () => {
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
-    uploadSpy = vi.spyOn(Test.mocks.s3.classes, "Upload");
+    uploadSpy = vi.spyOn(Test.mocks.s3.classes, "Upload").mockImplementation(
+      () => ({ done: vi.fn(() => Promise.resolve({})) }),
+    );
   });
 
   beforeEach(() => {
@@ -67,15 +74,11 @@ describe("Create Media", () => {
 
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
 
-    const mockUploadInstance = {
-      done: vi.fn().mockResolvedValueOnce({
-        Location: uploadThumbLocation,
-      }),
+    const mockUploadInstance: UploadInstanceLike = {
+      done: vi.fn(() => Promise.resolve({ Location: uploadThumbLocation })),
     };
 
-    uploadSpy.mockImplementationOnce(function (this: any) {
-      return mockUploadInstance;
-    } as any);
+    uploadSpy.mockImplementationOnce(() => mockUploadInstance);
 
     // Mock the HEAD request for media validation
     Test.mocks.axios.get.mockResolvedValueOnce({
@@ -130,15 +133,11 @@ describe("Create Media", () => {
 
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
 
-    const mockUploadInstance = {
-      done: vi.fn().mockResolvedValueOnce({
-        Location: uploadThumbLocation,
-      }),
+    const mockUploadInstance: UploadInstanceLike = {
+      done: vi.fn(() => Promise.resolve({ Location: uploadThumbLocation })),
     };
 
-    uploadSpy.mockImplementationOnce(function (this: any) {
-      return mockUploadInstance;
-    } as any);
+    uploadSpy.mockImplementationOnce(() => mockUploadInstance);
 
     // Mock the HEAD request for media validation
     Test.mocks.axios.get.mockResolvedValueOnce({
