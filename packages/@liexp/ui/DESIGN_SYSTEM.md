@@ -39,10 +39,14 @@ lies.exposed Design System
 ├── Service-Specific Overrides
 │   ├── Public App: services/web/design-system/MASTER.md
 │   └── Admin App: services/admin/design-system/MASTER.md
-└── Page-Specific Overrides
-    ├── services/web/design-system/pages/*.md
-    └── services/admin/design-system/pages/*.md
+├── Page-Specific Overrides
+│   ├── services/web/design-system/pages/*.md
+│   └── services/admin/design-system/pages/*.md
+└── ui-ux-pro-max Quick Reference (v2, reconciled to this brand)
+    └── design-system/lies-exposed/MASTER.md
 ```
+
+**Brand reconciliation (2026-11-17):** the ui-ux-pro-max v2 generator initially recommended a slate/breaking-red palette (`#0F172A` / `#DC2626`) with Newsreader/Roboto. This was reconciled to the shipped brand: near-black `#121212`, coral `#FF5E5B` + teal `#17B9B6` (swapped roles in admin), Signika/Lora. Shipped theme tokens (`packages/@liexp/ui/src/theme/index.ts`, `services/admin/src/theme.ts`) are the source of truth; only the style rationale, anti-patterns, and pre-delivery checklist from v2 were adopted.
 
 **Hierarchy**: Page-specific > Service-specific > Master
 
@@ -1044,6 +1048,7 @@ Before committing UI changes, verify:
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.0 | 2026-02-21 | Andrea Ascari | Initial design system document |
+| 1.1 | 2026-11-17 | Agent (ui-ux-pro-max v2) | Added v2 quick-reference to hierarchy; recorded brand reconciliation |
 
 ---
 
