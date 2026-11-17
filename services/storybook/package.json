@@ -32,10 +32,10 @@
     "@liexp/test": "workspace:*",
     "@liexp/ui": "workspace:*",
     "@mui/material": "^7.3.9",
-    "@storybook/addon-docs": "^10.6.6",
-    "@storybook/addon-links": "^10.6.6",
-    "@storybook/builder-vite": "^10.6.6",
-    "@storybook/react-vite": "^10.6.6",
+    "@storybook/addon-docs": "^10.6.7",
+    "@storybook/addon-links": "^10.6.7",
+    "@storybook/builder-vite": "^10.6.7",
+    "@storybook/react-vite": "^10.6.7",
     "@tanstack/react-query": "^5.107.1",
     "@ts-endpoint/react-admin": "file:../../patches/ts-endpoint-react-admin-0.1.0.tgz",
     "@visx/gradient": "^3.12.0",
@@ -49,7 +49,7 @@
     "ol": "^10.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "storybook": "^10.6.6",
+    "storybook": "^10.6.7",
     "vite": "^8.3.8"
   },
   "devDependencies": {
@@ -58,7 +58,7 @@
     "@types/react": "^18.3.31",
     "@typescript/native": "npm:typescript@^7.0.2",
     "eslint": "^10.14.0",
-    "eslint-plugin-storybook": "^10.6.6",
+    "eslint-plugin-storybook": "^10.6.7",
     "prettier": "^3.10.1",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
   }
