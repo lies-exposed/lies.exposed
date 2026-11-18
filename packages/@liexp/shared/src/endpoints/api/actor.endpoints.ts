@@ -61,15 +61,15 @@ export const Edit = Endpoint({
       bornOn: OptionFromNullishToNull(Schema.Date),
       diedOn: OptionFromNullishToNull(Schema.Date),
       // Override for HTTP endpoint - BlockNote comes as arrays
-      excerpt: OptionFromNullishToNull(BlockNoteDocument),
-      body: OptionFromNullishToNull(BlockNoteDocument),
+      excerpt: OptionFromNullishToNull(Schema.Array(Schema.Any)),
+      body: OptionFromNullishToNull(Schema.Array(Schema.Any)),
       memberIn: OptionFromNullishToNull(
         Schema.Array(
           Schema.Union(
             UUID,
             Schema.Struct({
               group: UUID,
-              body: BlockNoteDocument,
+              body: Schema.Union(BlockNoteDocument, Schema.Null),
               startDate: Schema.Date,
               endDate: OptionFromNullishToNull(Schema.Date),
             }),
