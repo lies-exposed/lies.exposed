@@ -3,18 +3,26 @@ import { PngType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { describe, test, expect, beforeAll, vi, afterEach } from "vitest";
+import { type MockInstance } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
+import { getUserAuthorization } from "../../../../test/utils/jwt.utils.js";
+
+interface UploadInstanceLike {
+  done: () => Promise<unknown>;
+}
 
 describe("Upload file", () => {
   let Test: AppTest, authorizationToken: string;
 
-  let uploadSpy: any;
+  let uploadSpy: MockInstance<unknown[], UploadInstanceLike>;
   beforeAll(async () => {
     Test = await GetAppTest();
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
-    uploadSpy = vi.spyOn(Test.mocks.s3.classes, "Upload");
+    authorizationToken = getUserAuthorization(Test.ctx);
+    uploadSpy = vi
+      .spyOn(Test.mocks.s3.classes, "Upload")
+      .mockImplementation(function newMockUpload(this: UploadInstanceLike) {
+        return { done: () => Promise.resolve({}) };
+      });
   });
 
   afterEach(() => {
@@ -24,13 +32,11 @@ describe("Upload file", () => {
   test("Should receive an error when upload unaccepted media", async () => {
     const error = new Error("can't upload");
 
-    const mockUploadInstance = {
-      done: vi.fn().mockRejectedValueOnce(error),
-    };
-
-    uploadSpy.mockImplementationOnce(function (this: any) {
-      return mockUploadInstance;
-    } as any);
+    uploadSpy.mockImplementationOnce(function newMockUpload(
+      this: UploadInstanceLike,
+    ) {
+      return { done: () => Promise.reject(error) };
+    });
 
     const response = await Test.req
       .put(`/v1/uploads-multipart/file-key`)
@@ -63,13 +69,11 @@ describe("Upload file", () => {
       Location: `https://media.localhost:9000/media/${mediaKey}`,
     };
 
-    const mockUploadInstance = {
-      done: vi.fn().mockResolvedValueOnce(uploadedObject),
-    };
-
-    uploadSpy.mockImplementationOnce(function (this: any) {
-      return mockUploadInstance;
-    } as any);
+    uploadSpy.mockImplementationOnce(function newMockUpload(
+      this: UploadInstanceLike,
+    ) {
+      return { done: () => Promise.resolve(uploadedObject) };
+    });
 
     const response = await Test.req
       .put(`/v1/uploads-multipart/file-key`)

@@ -2,6 +2,7 @@ import * as IO from "fp-ts/lib/IO.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { getUserTokenPayload } from "../../../../test/utils/jwt.utils.js";
 import { createAgentServiceClient } from "../../../utils/serviceClientTokenGenerator.js";
 
 describe("MCP Tools with Service Client Authentication", () => {
@@ -108,7 +109,9 @@ describe("MCP Tools with Service Client Authentication", () => {
     });
 
     test("Should reject MCP request with user token (missing mcp:tools permission)", async () => {
-      const userToken = Test.ctx.jwt.signUser({ id: "test-user" } as any)();
+      const userToken = Test.ctx.jwt.signUser(
+        getUserTokenPayload({ id: "test-user" }),
+      )();
 
       const initRequest = {
         jsonrpc: "2.0",

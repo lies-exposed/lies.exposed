@@ -1,9 +1,14 @@
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import { type Queue } from "@liexp/io/lib/http/Queue/index.js";
 import fc from "fast-check";
 import { beforeAll, describe, expect, test } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import { loginUser } from "../../../../../test/utils/user.utils.js";
 
+interface QueueListBody {
+  data: Queue[];
+  total?: number;
+}
 describe("List Queues", () => {
   let Test: AppTest,
     authorizationToken: string,
@@ -54,7 +59,7 @@ describe("List Queues", () => {
     expect(listRes.body).toHaveProperty("data");
     expect(Array.isArray(listRes.body.data)).toBeTruthy();
 
-    const found = listRes.body.data.find((q: any) => q.id === id);
+    const found = (listRes.body as QueueListBody).data.find((q) => q.id === id);
     expect(found).toBeDefined();
   });
 
@@ -75,7 +80,7 @@ describe("List Queues", () => {
       .set("Authorization", adminAuthorization)
       .expect(200);
 
-    const queue = listRes.body.data.find((q: any) => q.id === id);
+    const queue = (listRes.body as QueueListBody).data.find((q) => q.id === id);
     expect(queue).toBeDefined();
     expect(queue.createdAt).toBeDefined();
     expect(queue.updatedAt).toBeDefined();
@@ -121,8 +126,12 @@ describe("List Queues", () => {
     expect(listRes.body.data.length).toBeGreaterThanOrEqual(2);
 
     // Find our queues in the response
-    const queue1Index = listRes.body.data.findIndex((q: any) => q.id === id1);
-    const queue2Index = listRes.body.data.findIndex((q: any) => q.id === id2);
+    const queue1Index = (listRes.body as QueueListBody).data.findIndex(
+      (q) => q.id === id1,
+    );
+    const queue2Index = (listRes.body as QueueListBody).data.findIndex(
+      (q) => q.id === id2,
+    );
 
     // queue1 should come before queue2 in ascending order
     expect(queue1Index).toBeGreaterThanOrEqual(0);
@@ -162,8 +171,12 @@ describe("List Queues", () => {
     expect(listRes.body.data.length).toBeGreaterThanOrEqual(2);
 
     // Find our queues in the response
-    const queue1Index = listRes.body.data.findIndex((q: any) => q.id === id1);
-    const queue2Index = listRes.body.data.findIndex((q: any) => q.id === id2);
+    const queue1Index = (listRes.body as QueueListBody).data.findIndex(
+      (q) => q.id === id1,
+    );
+    const queue2Index = (listRes.body as QueueListBody).data.findIndex(
+      (q) => q.id === id2,
+    );
 
     // queue2 should come before queue1 in descending order
     expect(queue1Index).toBeGreaterThanOrEqual(0);

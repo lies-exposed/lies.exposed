@@ -74,7 +74,7 @@ describe("Edit Event - partial payload preserves existing fields", () => {
       const [saved] = await throwTE(
         appTest.ctx.db.save(EventV2Entity, [storedEvent]),
       );
-      storedEvent = { ...storedEvent, ...(saved as any) };
+      storedEvent = { ...storedEvent, ...saved };
     });
 
     test("should preserve actors, groups, groupsMembers, location and endDate when only updating title", async () => {
@@ -145,7 +145,7 @@ describe("Edit Event - partial payload preserves existing fields", () => {
       const [saved] = await throwTE(
         appTest.ctx.db.save(EventV2Entity, [storedEvent]),
       );
-      storedEvent = { ...storedEvent, ...(saved as any) };
+      storedEvent = { ...storedEvent, ...saved };
     });
 
     test("should preserve location when only updating victim", async () => {
@@ -213,7 +213,7 @@ describe("Edit Event - partial payload preserves existing fields", () => {
       const [saved] = await throwTE(
         appTest.ctx.db.save(EventV2Entity, [storedEvent]),
       );
-      storedEvent = { ...storedEvent, ...(saved as any) };
+      storedEvent = { ...storedEvent, ...saved };
     });
 
     test("should preserve url, authors, publisher and image when only updating title", async () => {

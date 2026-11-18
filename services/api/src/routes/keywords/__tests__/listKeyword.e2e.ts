@@ -5,6 +5,7 @@ import * as tests from "@liexp/test";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { getUserAuthorization } from "../../../../test/utils/jwt.utils.js";
 
 describe("List Keywords", () => {
   let Test: AppTest,
@@ -13,9 +14,7 @@ describe("List Keywords", () => {
 
   beforeAll(async () => {
     Test = await GetAppTest();
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
+    authorizationToken = getUserAuthorization(Test.ctx);
 
     keywords = tests.fc.sample(KeywordArb, 50);
 

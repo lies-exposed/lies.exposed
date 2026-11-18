@@ -5,7 +5,8 @@ import * as tests from "@liexp/test";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { describe, test, expect, beforeAll } from "vitest";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
+import { getUserAuthorization } from "../../../../test/utils/jwt.utils.js";
 
 describe("List Actor", () => {
   let Test: AppTest, authorizationToken: string, actors: Actor[];
@@ -13,9 +14,7 @@ describe("List Actor", () => {
 
   beforeAll(async () => {
     Test = await GetAppTest();
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
+    authorizationToken = getUserAuthorization(Test.ctx);
 
     actors = avatars.flatMap((avatar) =>
       tests.fc.sample(ActorArb, 1).map((a) => ({ ...a, avatar })),
