@@ -131,7 +131,7 @@
     "@typescript/native": "npm:typescript@^7.0.2",
     "axios": "^1.21.0",
     "effect": "^3.21.3",
-    "eslint": "^10.14.0",
+    "eslint": "^10.15.0",
     "fp-ts": "^2.16.10",
     "jsdom": "^30.1.3",
     "openai": "^7.19.0",
