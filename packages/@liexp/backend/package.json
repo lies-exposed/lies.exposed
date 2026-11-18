@@ -71,7 +71,7 @@
     "debug": "^4.4.0",
     "dotenv": "^18.0.9",
     "effect": "^3.21.3",
-    "eslint": "^10.14.0",
+    "eslint": "^10.15.0",
     "exifreader": "^4.52.0",
     "fast-check": "^3.23.2",
     "fast-csv": "^5.0.7",
