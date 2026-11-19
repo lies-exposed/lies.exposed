@@ -26,6 +26,8 @@ injectWorkspacePackages: false
 syncInjectedDepsAfterScripts:
   - build
 
+autoDedupe: true
+
 supportedArchitectures:
   os:
     - linux
