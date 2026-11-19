@@ -96,6 +96,15 @@ curl http://localhost:3010/v1/queues?status=pending
 POST /v1/queues/:id { status: "pending" }
 ```
 
+## Releases
+
+<!-- exodia:section:releases -->
+
+Release PRs are opened by release-please with a **human-owned fine-grained PAT** (`RELEASE_PLEASE_TOKEN`, falling back to `secrets.GITHUB_TOKEN` until that secret exists). A PR authored by `github-actions[bot]` gets every `pull_request` CI run it triggers held at `action_required` (zero jobs) until approved, so the checks required by the `no-push-force` ruleset never report and the release PR stays `BLOCKED`.
+
+- PAT setup: **Contents** and **Pull requests** *Read & write* (add *Issues* only if labels fail to apply), repository access restricted to `lies-exposed/lies.exposed`, then `gh secret set RELEASE_PLEASE_TOKEN`.
+- An already-stuck bot PR: approve its held run from the Actions tab, or merge it as admin.
+
 ## L3 Data
 
 <!-- exodia:section:l3 -->
