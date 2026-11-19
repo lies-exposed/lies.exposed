@@ -14,12 +14,7 @@ export const MakeListGroupRoute: Route = (r, ctx) => {
         fetchGroups(query)(ctx),
         fp.TE.chainEitherK(([results, total]) =>
           pipe(
-            GroupIO.decodeMany(
-              results.map((g) => ({
-                ...g,
-                members: g.members.map((d) => d.id) as any,
-              })),
-            ),
+            GroupIO.decodeMany(results),
             E.map((data) => ({ total, data })),
           ),
         ),
