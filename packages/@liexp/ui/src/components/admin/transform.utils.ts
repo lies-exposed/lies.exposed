@@ -15,26 +15,65 @@ import { type RaRecord } from "react-admin";
 import {
   type OnUploadProgressFn,
   uploadFile,
-  type RawMedia,
 } from "../../client/admin/MediaAPI.js";
 
-export const transformLinks = (links: any[]): any[] => {
-  return links.reduce<(string | { url: string; publishDate: Date })[]>(
-    (acc, l) => {
-      if (l.fromURL) {
-        return acc.concat({
-          url: l.url,
-          publishDate: l.publishDate ?? new Date(),
-        });
-      }
-      return acc.concat(l.ids);
-    },
-    [],
-  );
+type FormLinkOutput = string | { url: string; publishDate: Date };
+
+interface FormNewLinkInput {
+  fromURL: boolean;
+  url: string;
+  publishDate?: Date | null;
+}
+
+interface FormExistingLinkInput {
+  ids: string[];
+}
+
+type FormLinkInput = FormNewLinkInput | FormExistingLinkInput;
+
+const isFormNewLink = (l: FormLinkInput): l is FormNewLinkInput =>
+  "fromURL" in l;
+
+export const transformLinks = (links: FormLinkInput[]): FormLinkOutput[] => {
+  return links.reduce<FormLinkOutput[]>((acc, l) => {
+    if (isFormNewLink(l)) {
+      return acc.concat({
+        url: l.url,
+        publishDate: l.publishDate ?? new Date(),
+      });
+    }
+    return acc.concat(l.ids);
+  }, []);
 };
 
-export const transformMedia = (newMedia: any[]): any[] => {
-  return newMedia.reduce((acc, m) => {
+export interface FormDraftMedia {
+  id?: string;
+  fromURL?: boolean;
+  location?: unknown;
+  thumbnail?: unknown;
+}
+
+interface FormRawMedia extends FormDraftMedia {
+  location: { rawFile: File };
+  type: MediaType;
+}
+
+export type FormMediaEntry = string | FormDraftMedia;
+
+const isFormRawMedia = (m: FormMediaEntry): m is FormRawMedia =>
+  typeof m === "object" &&
+  typeof m.location === "object" &&
+  m.location !== null &&
+  "rawFile" in m.location;
+
+export const transformMedia = (
+  newMedia: FormMediaEntry[],
+): FormMediaEntry[] => {
+  return newMedia.reduce<FormMediaEntry[]>((acc, m) => {
+    if (typeof m === "string") {
+      return acc.concat(m);
+    }
+
     if (m.fromURL) {
       return acc.concat({
         ...m,
@@ -132,7 +171,7 @@ const transformBook: TransformEventFn = (data) => {
 };
 
 const transformByType = (
-  data: any,
+  data: RaRecord,
   relations: http.Events.EventRelationIds,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   switch (data.type) {
@@ -157,18 +196,18 @@ export const transformEvent =
     options?: { onUploadProgress: OnUploadProgressFn },
   ): Promise<RaRecord> => {
     // console.log("transform event", { ...data, id });
-    const newLinks = transformLinks(data.newLinks ?? []);
+    const newLinks = transformLinks((data.newLinks ?? []) as FormLinkInput[]);
     const links = (data.links ?? []).concat(newLinks);
 
-    const newMedia = transformMedia(data.newMedia ?? []);
-    const media: any[] = (data.media ?? []).concat(newMedia);
+    const newMedia = transformMedia((data.newMedia ?? []) as FormMediaEntry[]);
+    const media: FormMediaEntry[] = (data.media ?? []).concat(newMedia);
 
     const { rawMedia, otherMedia } = media.reduce<{
-      rawMedia: RawMedia[];
-      otherMedia: any[];
+      rawMedia: FormRawMedia[];
+      otherMedia: FormMediaEntry[];
     }>(
       (acc, m) => {
-        if (m.location?.rawFile !== undefined) {
+        if (isFormRawMedia(m)) {
           return {
             ...acc,
             rawMedia: acc.rawMedia.concat(m),
@@ -186,7 +225,7 @@ export const transformEvent =
     );
 
     const mediaTask = pipe(
-      rawMedia.map((r: RawMedia) =>
+      rawMedia.map((r) =>
         uploadFile(dataProvider)(
           "media",
           id,
@@ -200,14 +239,14 @@ export const transformEvent =
         pipe(
           urls,
           A.zip(rawMedia),
-          A.map(([location, media]: [any, any]) => ({
+          A.map(([location, media]) => ({
             ...media,
             ...location,
             thumbnail: Schema.is(http.Media.ImageType)(location.type)
               ? location.location
               : undefined,
           })),
-          A.concat(otherMedia),
+          (uploaded) => [...uploaded, ...otherMedia],
         ),
       ),
       TE.map((updatedMedia) => {

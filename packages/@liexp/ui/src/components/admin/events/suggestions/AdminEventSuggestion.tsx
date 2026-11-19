@@ -1,4 +1,7 @@
-import { EventSuggestionStatus } from "@liexp/io/lib/http/EventSuggestion.js";
+import {
+  type NewEventSuggestion,
+  EventSuggestionStatus,
+} from "@liexp/io/lib/http/EventSuggestion.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
@@ -24,6 +27,7 @@ import {
   useRecordContext,
   useRefresh,
   type CreateProps,
+  type RaRecord,
   type EditProps,
   type ListProps,
 } from "react-admin";
@@ -265,7 +269,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
 };
 
 export const EventSuggestionCreate: React.FC<
-  Omit<CreateProps, "children"> & { event: any }
+  Omit<CreateProps, "children"> & { event: NewEventSuggestion["event"] }
 > = ({ event, ...props }) => {
   const record = useRecordContext({
     record: {
@@ -301,10 +305,10 @@ export const EventSuggestionCreate: React.FC<
           </Box>
         ) : undefined
       }
-      transform={async ({ id, ...r }: any) => {
+      transform={async ({ id, ...r }: RaRecord) => {
         const updatedEvent = await transformEvent(dataProvider)(
-          id,
-          r.payload.event,
+          id as string,
+          r.payload.event as never,
         );
 
         return { id, ...r.payload, event: updatedEvent };
@@ -312,7 +316,7 @@ export const EventSuggestionCreate: React.FC<
     >
       <TabbedForm
         syncWithLocation={false}
-        onSubmit={(e: any) => {
+        onSubmit={(e: Record<string, unknown>) => {
           void save?.(e);
         }}
       >

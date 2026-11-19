@@ -738,11 +738,6 @@ export function createEventNetworkGraphProps({
 
   // console.log("actors", actors);
 
-  // const groupingByNodes = pipe(
-  //   (groupBy === "group" ? groups : actors) as Map<string, any>,
-  //   Map.toArray(S.Ord),
-  //   A.map(([key, items]) => items)
-  // );
   // const groupingByLinks = groupBy === "group" ? groupLinks : actorLinks;
 
   // console.log("group by nodes", groupingByNodes);

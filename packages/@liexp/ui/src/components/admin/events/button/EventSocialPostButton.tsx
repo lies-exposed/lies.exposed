@@ -1,13 +1,14 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { type Event } from "@liexp/io/lib/http/Events/index.js";
+import { type Media as IoMedia } from "@liexp/io/lib/http/Media/Media.js";
 import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
-import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -62,25 +63,25 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
 
             if (searchEvent.type === "Quote") {
               const { subject } = searchEvent.payload;
+              const avatar = subject.id.avatar;
               return {
                 event: {
                   ...searchEvent,
                 },
                 actors: subject.type === "Actor" ? [subject.id] : [],
                 groups: subject.type === "Group" ? [subject.id] : [],
-                media: subject.id.avatar
+                media: avatar
                   ? pipe(
-                      subject.id.avatar.location.split("."),
+                      avatar.location.split("."),
                       fp.A.last,
-                      fp.O.map((ext) => [
+                      fp.O.map((ext): IoMedia[] => [
                         {
+                          ...avatar,
                           id: uuid(),
-                          location: subject.id.avatar,
-                          thumbnail: subject.id.avatar,
                           type: contentTypeFromFileExt(ext),
                         },
                       ]),
-                      fp.O.getOrElse((): any[] => []),
+                      fp.O.getOrElse((): IoMedia[] => []),
                     )
                   : relations.media,
                 title,
@@ -112,7 +113,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
 
             return {
               title,
-              date: formatDate(parseISO(date as any)),
+              date: formatDate(date ?? new Date()),
               media,
               content,
               url,

@@ -11,15 +11,28 @@ interface KeywordDatum extends Keyword.Keyword {
   events: number;
 }
 
+interface CloudWord {
+  text?: string | undefined;
+  font?: string | undefined;
+  style?: string | undefined;
+  weight?: string | number | undefined;
+  rotate?: number | undefined;
+  size?: number | undefined;
+  padding?: number | undefined;
+  x?: number | undefined;
+  y?: number | undefined;
+  color?: string | undefined;
+}
+
 export interface KeywordsDistributionGraphProps {
-  data: any[];
+  data: KeywordDatum[];
   onClick: (k: Keyword.Keyword) => void;
 }
 
 const KeywordsDistributionGraphComponent: React.FC<
   KeywordsDistributionGraphProps
 > = ({ data, onClick }) => {
-  const { words, minSize, maxSize } = React.useMemo(() => {
+  const { words, minSize, maxSize, wordsByLabel } = React.useMemo(() => {
     const words = data
       .filter((d) => d.events > 0)
       .sort((a, b) => a.events - b.events)
@@ -32,6 +45,7 @@ const KeywordsDistributionGraphComponent: React.FC<
 
     return {
       words,
+      wordsByLabel: new Map(words.map((w) => [w.text, w])),
       minSize: Math.min(...wordSizes),
       maxSize: Math.max(...wordSizes),
     };
@@ -62,7 +76,7 @@ const KeywordsDistributionGraphComponent: React.FC<
           random={() => 0.5}
         >
           {(cloudWords) =>
-            cloudWords.map((w: any, _i) => {
+            cloudWords.map((w: CloudWord, _i) => {
               return (
                 <Text
                   key={w.text}
@@ -74,7 +88,13 @@ const KeywordsDistributionGraphComponent: React.FC<
                   fontWeight={600}
                   style={{ cursor: "pointer" }}
                   onClick={() => {
-                    onClick(w);
+                    const datum =
+                      w.text !== undefined
+                        ? wordsByLabel.get(w.text)
+                        : undefined;
+                    if (datum !== undefined) {
+                      onClick(datum);
+                    }
                   }}
                 >
                   {w.text}

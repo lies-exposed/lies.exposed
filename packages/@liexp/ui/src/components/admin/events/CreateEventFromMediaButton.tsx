@@ -1,4 +1,4 @@
-import { type Media } from "@liexp/io/lib/http/Media/Media.js";
+import { type Media as IoMedia } from "@liexp/io/lib/http/Media/Media.js";
 import * as io from "@liexp/io/lib/index.js";
 import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
@@ -12,7 +12,7 @@ import { toBNDocument } from "../../Common/BlockNote/utils/utils.js";
 import { Box, MenuItem, Select, Stack } from "../../mui/index.js";
 
 export const CreateEventFromMediaButton: React.FC = () => {
-  const record = useRecordContext<Media>();
+  const record = useRecordContext<IoMedia>();
   const navigate = useNavigate();
   const apiProvider = useDataProvider();
 
@@ -20,7 +20,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
     io.http.Events.EventType.members[0].literals[0],
   );
 
-  const handleSubmit = async (media: Media): Promise<void> => {
+  const handleSubmit = async (media: IoMedia): Promise<void> => {
     const suggestion = await getSuggestions(async (v) => {
       const doc = await toBNDocument(v);
       return doc ? getTextContents(doc as never) : undefined;
@@ -28,15 +28,13 @@ export const CreateEventFromMediaButton: React.FC = () => {
       {
         title: media.label ?? media.description?.substring(0, 100),
         description: media.description,
-      } as any,
+      },
       O.none,
-      O.some(media as any),
+      O.some(media),
       eventRelationIdsMonoid.empty,
     ).then((suggestions) => suggestions.find((t) => t.event.type === type));
 
-    const { newLinks: _newLinks, ...event }: any = suggestion?.event ?? {
-      newLinks: [],
-    };
+    const { newLinks: _newLinks, ...event } = suggestion?.event ?? {};
     const { data: e } = await apiProvider.create(`/events`, {
       data: event,
     });
