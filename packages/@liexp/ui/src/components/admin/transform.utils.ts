@@ -171,7 +171,7 @@ const transformBook: TransformEventFn = (data) => {
 };
 
 const transformByType = (
-  data: any,
+  data: RaRecord,
   relations: http.Events.EventRelationIds,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   switch (data.type) {
