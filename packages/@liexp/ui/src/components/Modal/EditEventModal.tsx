@@ -1,4 +1,5 @@
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type NewEventSuggestion } from "@liexp/io/lib/http/EventSuggestion.js";
 import { type RaThemeOptions } from "ra-ui-materialui";
 import * as React from "react";
 import {
@@ -103,7 +104,9 @@ export const EditEventModal: React.FC<EditEventModalProps> = ({
                     theme={adminTheme}
                   >
                     <ResourceContextProvider value="events/suggestions">
-                      <EventSuggestionCreate event={event} />
+                      <EventSuggestionCreate
+                        event={event as unknown as NewEventSuggestion["event"]}
+                      />
                     </ResourceContextProvider>
                   </AdminContext>
                 </div>

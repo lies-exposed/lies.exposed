@@ -28,7 +28,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
       {
         title: media.label ?? media.description?.substring(0, 100),
         description: media.description,
-      } satisfies Metadata,
+      },
       O.none,
       O.some(media),
       eventRelationIdsMonoid.empty,

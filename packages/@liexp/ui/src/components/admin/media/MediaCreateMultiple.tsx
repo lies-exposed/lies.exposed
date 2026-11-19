@@ -47,10 +47,7 @@ import { useProgressBar } from "../common/ProgressBar.js";
 interface MediaFormData {
   description: string;
   type: string;
-  location: {
-    src: File;
-    title: string;
-  };
+  location: { src: File; title: string } | { rawFile: File };
   id?: string;
   _type?: "fromFile" | "fromURL";
   url?: string;
@@ -216,7 +213,9 @@ export const MediaCreateMany: React.FC<Record<string, never>> = (_props) => {
       ...f,
       id: uuid(),
       _type: "fromFile",
-      location: { rawFile: location.src },
+      location: {
+        rawFile: "rawFile" in location ? location.rawFile : location.src,
+      },
     }));
     const media = await uploadMedia(files, []);
 
@@ -231,8 +230,8 @@ export const MediaCreateMany: React.FC<Record<string, never>> = (_props) => {
     <StyledBox className={classes.root} {...getRootProps({})}>
       <Form
         record={getValues()}
-        onSubmit={(record) => {
-          void onSubmit(record as { files: MediaFormData[] });
+        onSubmit={(record: Partial<{ files: MediaFormData[] }>) => {
+          void onSubmit({ files: record.files ?? [] });
         }}
       >
         <div {...getRootProps({ className: classes.dropArea })}>

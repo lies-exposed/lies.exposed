@@ -63,21 +63,21 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
 
             if (searchEvent.type === "Quote") {
               const { subject } = searchEvent.payload;
+              const avatar = subject.id.avatar;
               return {
                 event: {
                   ...searchEvent,
                 },
                 actors: subject.type === "Actor" ? [subject.id] : [],
                 groups: subject.type === "Group" ? [subject.id] : [],
-                media: subject.id.avatar
+                media: avatar
                   ? pipe(
-                      subject.id.avatar.location.split("."),
+                      avatar.location.split("."),
                       fp.A.last,
-                      fp.O.map((ext) => [
+                      fp.O.map((ext): IoMedia[] => [
                         {
+                          ...avatar,
                           id: uuid(),
-                          location: subject.id.avatar,
-                          thumbnail: subject.id.avatar,
                           type: contentTypeFromFileExt(ext),
                         },
                       ]),

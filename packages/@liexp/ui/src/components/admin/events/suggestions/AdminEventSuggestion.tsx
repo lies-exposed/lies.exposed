@@ -316,8 +316,8 @@ export const EventSuggestionCreate: React.FC<
     >
       <TabbedForm
         syncWithLocation={false}
-        onSubmit={(e) => {
-          void save?.(e as Parameters<typeof save>[0]);
+        onSubmit={(e: Record<string, unknown>) => {
+          void save?.(e);
         }}
       >
         <FormTab label="payload">
