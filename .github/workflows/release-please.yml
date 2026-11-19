@@ -31,44 +31,10 @@ jobs:
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
     steps:
-      # The release PR must be opened as a real user, not with GITHUB_TOKEN.
-      #
-      # With GITHUB_TOKEN the PR and its commits belong to github-actions[bot]:
-      #   author    github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-      #   committer GitHub <noreply@github.com>, unverified
-      # Every pull_request CI run that such a PR triggers then waits for a human
-      # ("Review pending changes") and completes as action_required with zero
-      # jobs; approving it only fixes that one push, because release-please
-      # force-pushes its branch on every commit merged to main and re-queues a
-      # fresh held run. So the required checks named by the no-push-force ruleset
-      # (CI admin/api/packages/web/worker/agent) are never reported, GitHub counts
-      # a missing required check as unsatisfied, and the PR stays BLOCKED until
-      # merged by hand - which also stalls every image push in this workflow,
-      # because those jobs gate on releases_created.
-      #
-      # Dependabot PRs show the other half of the rule: their commits are attributed
-      # to a real account (ascariandrea <dev.ascariandrea@gmail.com>), so CI runs
-      # immediately and reports all six required checks - which is why those PRs
-      # merge normally while release-please PRs stay BLOCKED.
-      #
-      # A PAT acts as its owner: the PR is authored by that user, commits carry
-      # their verified name/email, CI runs on every push (all required checks go
-      # green) and the merge gate opens. The fallback keeps releases working if the
-      # secret is missing; it only restores the held-CI state described above.
-      # The detection cannot use a step-level `if: secrets... == ''`: per the
-      # contexts reference, `jobs.<job_id>.steps.if` exposes github/needs/strategy/
-      # matrix/job/runner/env/vars/steps/inputs but NOT secrets. `steps.env` does
-      # expose secrets, so test the value from the shell instead.
-      - name: Warn when the release-please PAT is missing
-        env:
-          RELEASE_PLEASE_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-        run: |
-          if [ -z "${RELEASE_PLEASE_TOKEN:-}" ]; then
-            msg='secrets.RELEASE_PLEASE_TOKEN is not set: this run opens release PRs as github-actions[bot], whose CI runs wait for manual approval, so the release PR must be merged by hand.'
-            echo "::warning::$msg"
-            printf '%s\n' '### Missing RELEASE_PLEASE_TOKEN secret' "$msg" >> "$GITHUB_STEP_SUMMARY"
-          fi
-
+      # A PAT (or App token) so the release PR is not authored by
+      # github-actions[bot]: PRs opened with GITHUB_TOKEN do not trigger CI
+      # normally (here they sit at "action_required" until approved by hand).
+      # Falls back to GITHUB_TOKEN until RELEASE_PLEASE_TOKEN exists.
       - uses: googleapis/release-please-action@v5.0.0
         id: release
         with:
