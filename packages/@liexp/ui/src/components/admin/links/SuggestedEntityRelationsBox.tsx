@@ -1,4 +1,5 @@
 import { type ExtractEntitiesWithNLPOutput } from "@liexp/io/lib/http/admin/ExtractNLPEntities.js";
+import type * as http from "@liexp/io/lib/http/index.js";
 import clsx from "clsx";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
@@ -15,7 +16,7 @@ import {
 } from "../../mui/index.js";
 
 interface SuggestedKeywordEntityRelationsBoxProps {
-  keywords: ExtractEntitiesWithNLPOutput["entities"]["keywords"];
+  keywords: readonly { id: string; tag?: string | null }[];
   excludeKeywords?: readonly string[];
   onKeywordClick?: (keyword: string) => void;
 }
@@ -28,8 +29,8 @@ export const SuggestedKeywordEntityRelationsBox: React.FC<
       <Typography variant="subtitle1">Keywords</Typography>
       <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
         {keywords
-          .filter((k: any) => !excludeKeywords?.includes(k.id))
-          .map((entity: any) => {
+          .filter((k) => !excludeKeywords?.includes(k.id))
+          .map((entity) => {
             return (
               <Chip
                 key={entity.id}
@@ -47,7 +48,7 @@ export const SuggestedKeywordEntityRelationsBox: React.FC<
 };
 
 interface SuggestedGroupEntityRelationsBoxProps {
-  groups: ExtractEntitiesWithNLPOutput["entities"]["groups"];
+  groups: readonly http.Group.Group[];
   excludeGroups?: readonly string[];
   onClick?: (group: string) => void;
 }
@@ -59,8 +60,8 @@ export const SuggestedGroupEntityRelationsBox: React.FC<
       <Typography variant="subtitle1">Groups</Typography>
       <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
         {groups
-          .filter((g: any) => !excludeGroups?.includes(g.id))
-          .map((entity: any) => {
+          .filter((g) => !excludeGroups?.includes(g.id))
+          .map((entity) => {
             return (
               <GroupChip
                 key={entity.id}
@@ -78,7 +79,7 @@ export const SuggestedGroupEntityRelationsBox: React.FC<
 };
 
 interface SuggestedActorEntityRelationsBoxProps {
-  actors: ExtractEntitiesWithNLPOutput["entities"]["actors"];
+  actors: readonly http.Actor.Actor[];
   excludeActors?: readonly string[];
   onClick?: (actor: string) => void;
 }
@@ -90,8 +91,8 @@ export const SuggestedActorEntityRelationsBox: React.FC<
       <Typography variant="subtitle1">Actors</Typography>
       <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
         {actors
-          .filter((a: any) => !excludeActors?.includes(a.id))
-          .map((entity: any) => {
+          .filter((a) => !excludeActors?.includes(a.id))
+          .map((entity) => {
             return (
               <ActorChip
                 key={entity.id}

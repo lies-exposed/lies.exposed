@@ -202,17 +202,19 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
 
   const handleFilterChange = React.useCallback(
     (ff: EventTypeMap, _filterK: EventType) => {
-      const type = [
-        [ff.Uncategorized, EVENT_TYPES.UNCATEGORIZED],
-        [ff.Death, EVENT_TYPES.DEATH],
-        [ff.Documentary, EVENT_TYPES.DOCUMENTARY],
-        [ff.Patent, EVENT_TYPES.PATENT],
-        [ff.ScientificStudy, EVENT_TYPES.SCIENTIFIC_STUDY],
-        [ff.Transaction, EVENT_TYPES.TRANSACTION],
-        [ff.Quote, EVENT_TYPES.QUOTE],
-        [ff.Book, EVENT_TYPES.BOOK],
-      ]
-        .map(([enabled, key]: any[]) => (enabled ? key : undefined))
+      const type = (
+        [
+          [ff.Uncategorized, EVENT_TYPES.UNCATEGORIZED],
+          [ff.Death, EVENT_TYPES.DEATH],
+          [ff.Documentary, EVENT_TYPES.DOCUMENTARY],
+          [ff.Patent, EVENT_TYPES.PATENT],
+          [ff.ScientificStudy, EVENT_TYPES.SCIENTIFIC_STUDY],
+          [ff.Transaction, EVENT_TYPES.TRANSACTION],
+          [ff.Quote, EVENT_TYPES.QUOTE],
+          [ff.Book, EVENT_TYPES.BOOK],
+        ] as const
+      )
+        .map(([enabled, key]) => (enabled ? key : undefined))
         .filter((a) => a !== undefined);
 
       onQueryChange({
@@ -238,7 +240,10 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
 
     return {
       events,
-      actors: actors.reduce(
+      actors: actors.reduce<{
+        selected: (Actor.Actor & { selected: boolean })[];
+        unselected: (Actor.Actor & { selected: boolean })[];
+      }>(
         (acc, a) =>
           query.actors?.includes(a.id)
             ? {
@@ -249,9 +254,12 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] },
+        { selected: [], unselected: [] },
       ),
-      groups: groups.reduce(
+      groups: groups.reduce<{
+        selected: (Group.Group & { selected: boolean })[];
+        unselected: (Group.Group & { selected: boolean })[];
+      }>(
         (acc, a) =>
           query.groups?.includes(a.id)
             ? {
@@ -262,9 +270,12 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] },
+        { selected: [], unselected: [] },
       ),
-      keywords: keywords.reduce(
+      keywords: keywords.reduce<{
+        selected: (Keyword.Keyword & { selected: boolean })[];
+        unselected: (Keyword.Keyword & { selected: boolean })[];
+      }>(
         (acc, a) =>
           query.keywords?.includes(a.id)
             ? {
@@ -275,7 +286,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] },
+        { selected: [], unselected: [] },
       ),
     };
   }, [query, actors, groups, keywords, groupsMembers]);
@@ -379,7 +390,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     </Box>
   ) : null;
 
-  const handleActorClick = (e: any): void => {
+  const handleActorClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     showPopover("Filter actors", e.currentTarget, (onClose) => {
       return (
         <AutocompleteActorInput
@@ -422,7 +433,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     />
   );
 
-  const handleGroupClick = (e: any): void => {
+  const handleGroupClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     showPopover("Filter groups", e.currentTarget, (onClose) => {
       return (
         <AutocompleteGroupInput
@@ -450,7 +461,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     });
   };
 
-  const handleKeywordClick = (e: any): void => {
+  const handleKeywordClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     showPopover("Filter keywords", e.currentTarget, (onClose) => {
       return (
         <AutocompleteKeywordInput
