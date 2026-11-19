@@ -1,11 +1,16 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { ctxHelper } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { type LoggerContext } from "../../context/logger.context.js";
+import { type RedisContext } from "../../context/redis.context.js";
 import {
   RedisPubSub,
   type RedisPubSub as RedisPubSubType,
 } from "./RedisPubSub.js";
+
+type TestCtx = LoggerContext & RedisContext;
 
 const createMockContext = () => {
   const logger = {
@@ -85,7 +90,7 @@ describe("RedisPubSub", () => {
 
     it("should publish message to correct channel", async () => {
       const { redis, logger } = createMockContext();
-      const ctx = { redis, logger } as any;
+      const ctx = ctxHelper.ctx<TestCtx>({ redis, logger });
       const message = { id: "123" };
 
       await pipe(TestPubSub.publish(message)(ctx), throwTE);
@@ -98,7 +103,7 @@ describe("RedisPubSub", () => {
 
     it("should log debug message on publish", async () => {
       const { redis, logger } = createMockContext();
-      const ctx = { redis, logger } as any;
+      const ctx = ctxHelper.ctx<TestCtx>({ redis, logger });
 
       await pipe(TestPubSub.publish({ id: "456" })(ctx), throwTE);
 
@@ -109,7 +114,7 @@ describe("RedisPubSub", () => {
 
     it("should return number of subscribers", async () => {
       const { redis, logger } = createMockContext();
-      const ctx = { redis, logger } as any;
+      const ctx = ctxHelper.ctx<TestCtx>({ redis, logger });
       redis.client.publish.mockResolvedValueOnce(5);
 
       const result = await pipe(
@@ -122,7 +127,7 @@ describe("RedisPubSub", () => {
 
     it("should return Left when publish fails", async () => {
       const { redis, logger } = createMockContext();
-      const ctx = { redis, logger } as any;
+      const ctx = ctxHelper.ctx<TestCtx>({ redis, logger });
       redis.client.publish.mockRejectedValueOnce(
         new Error("Connection refused"),
       );
@@ -134,7 +139,7 @@ describe("RedisPubSub", () => {
 
     it("should return Left when no subscribers receive message", async () => {
       const { redis, logger } = createMockContext();
-      const ctx = { redis, logger } as any;
+      const ctx = ctxHelper.ctx<TestCtx>({ redis, logger });
       redis.client.publish.mockResolvedValueOnce(0);
 
       const result = await TestPubSub.publish({ id: "no-subs" })(ctx)();
