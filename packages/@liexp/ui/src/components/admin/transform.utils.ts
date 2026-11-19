@@ -46,7 +46,7 @@ export const transformLinks = (links: FormLinkInput[]): FormLinkOutput[] => {
   }, []);
 };
 
-interface FormDraftMedia {
+export interface FormDraftMedia {
   id?: string;
   fromURL?: boolean;
   location?: unknown;
@@ -58,7 +58,7 @@ interface FormRawMedia extends FormDraftMedia {
   type: MediaType;
 }
 
-type FormMediaEntry = string | FormDraftMedia;
+export type FormMediaEntry = string | FormDraftMedia;
 
 const isFormRawMedia = (m: FormMediaEntry): m is FormRawMedia =>
   typeof m === "object" &&
