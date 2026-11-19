@@ -22,7 +22,10 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
 import { EditToolbar } from "@liexp/ui/lib/components/admin/toolbar/index.js";
-import { transformMedia, type FormMediaEntry } from "@liexp/ui/lib/components/admin/transform.utils.js";
+import {
+  transformMedia,
+  type FormMediaEntry,
+} from "@liexp/ui/lib/components/admin/transform.utils.js";
 import { Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";
@@ -36,10 +39,13 @@ const transformArea = ({
   newMediaRef = [],
   newEvents: _newEvents,
   ...area
-}: http.Area.Area & { newMediaRef?: FormMediaEntry[]; newEvents?: unknown[] }): Omit<
-  http.Area.Area,
-  "featuredImage" | "media"
-> & { featuredImage?: string | null; media: FormMediaEntry[] } => {
+}: http.Area.Area & {
+  newMediaRef?: FormMediaEntry[];
+  newEvents?: unknown[];
+}): Omit<http.Area.Area, "featuredImage" | "media"> & {
+  featuredImage?: string | null;
+  media: FormMediaEntry[];
+} => {
   const media = transformMedia(newMediaRef);
   return {
     ...area,
