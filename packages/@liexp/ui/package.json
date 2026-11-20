@@ -130,7 +130,7 @@
     "@types/topojson-specification": "^1.0.5",
     "@typescript/native": "npm:typescript@^7.0.2",
     "axios": "^1.21.0",
-    "effect": "^3.21.3",
+    "effect": "^3.22.1",
     "eslint": "^10.15.0",
     "fp-ts": "^2.16.10",
     "jsdom": "^30.1.3",
