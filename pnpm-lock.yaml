@@ -392,8 +392,8 @@ importers:
         specifier: ^17.4.2
         version: 17.4.2
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       eslint:
         specifier: ^10.15.0
         version: 10.15.0(jiti@2.7.0)(supports-color@8.1.1)
@@ -489,8 +489,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3(supports-color@8.1.1)
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       eslint:
         specifier: ^10.15.0
         version: 10.15.0(jiti@2.7.0)(supports-color@8.1.1)
@@ -569,8 +569,8 @@ importers:
         specifier: npm:typescript@^7.0.2
         version: typescript@7.0.2
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       eslint:
         specifier: ^10.15.0
         version: 10.15.0(jiti@2.7.0)(supports-color@8.1.1)
@@ -675,8 +675,8 @@ importers:
         specifier: ^1.21.0
         version: 1.21.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       eslint:
         specifier: ^10.15.0
         version: 10.15.0(jiti@2.7.0)(supports-color@8.1.1)
@@ -721,8 +721,8 @@ importers:
         specifier: npm:typescript@^7.0.2
         version: typescript@7.0.2
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       eslint:
         specifier: ^10.15.0
         version: 10.15.0(jiti@2.7.0)(supports-color@8.1.1)
@@ -1034,8 +1034,8 @@ importers:
         specifier: ^1.21.0
         version: 1.21.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       eslint:
         specifier: ^10.15.0
         version: 10.15.0(jiti@2.7.0)(supports-color@8.1.1)
@@ -1100,8 +1100,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3(supports-color@8.1.1)
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       express:
         specifier: ^5.2.1
         version: 5.2.1(supports-color@8.1.1)
@@ -1242,8 +1242,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3(supports-color@8.1.1)
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       express:
         specifier: ^5.2.1
         version: 5.2.1(supports-color@8.1.1)
@@ -1354,8 +1354,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3(supports-color@8.1.1)
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       fp-ts:
         specifier: ^2.16.10
         version: 2.16.11
@@ -1436,8 +1436,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3(supports-color@8.1.1)
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       exifreader:
         specifier: ^4.52.0
         version: 4.54.0
@@ -1620,8 +1620,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       fast-check:
         specifier: ^3.23.2
         version: 3.23.2
@@ -1720,8 +1720,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3(supports-color@8.1.1)
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       express:
         specifier: ^5.2.1
         version: 5.2.1(supports-color@8.1.1)
@@ -1835,8 +1835,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3(supports-color@8.1.1)
       effect:
-        specifier: ^3.21.3
-        version: 3.21.3
+        specifier: ^3.22.1
+        version: 3.22.1
       exifreader:
         specifier: ^4.52.0
         version: 4.54.0
@@ -6656,8 +6656,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  effect@3.21.3:
-    resolution: {integrity: sha512-RqwU7WnJ6CqYhyjpOVJA5vh1Sgkn6eVECO6mnD0EjlbWcC2M3LJaPglXXr13Rdo/Y+B+wTEPzGRYFNL2xKxNeQ==}
+  effect@3.22.1:
+    resolution: {integrity: sha512-TNoXushmPOBAjJlthF5d2QwnX2xBPEtcNJr5XKNKbRLbDvBcOYkXlYDfvGfSA0zriwLFuCll5MDtNMAdZL17PQ==}
 
   electron-to-chromium@1.5.422:
     resolution: {integrity: sha512-UvA/32XqrLDdZSn7Jllo1AYNcWji/G0d5M0GTViE7KoGBiMunw3a34Sb2KO4ZZyrSEhqsxFoVhWWJshdyfKqJA==}
@@ -15166,7 +15166,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  effect@3.21.3:
+  effect@3.22.1:
     dependencies:
       '@standard-schema/spec': 1.1.0
       fast-check: 3.23.2
