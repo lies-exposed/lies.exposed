@@ -1,5 +1,5 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
-import type { DataSource, EntityManager } from "typeorm";
+import type { DataSource } from "typeorm";
 import { describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { toDBError, DBError } from "../orm/database.provider.js";
