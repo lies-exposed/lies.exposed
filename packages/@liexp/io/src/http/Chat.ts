@@ -50,6 +50,8 @@ export type AIProvider = typeof AIProvider.Type;
 const LocalAIModels = Schema.Union(
   Schema.Literal("qwen3.6-35b-a3b"),
   Schema.Literal("gemma-4-e4b-it"),
+  // localai-gateway alias (thinking-on coder model, swap-guest)
+  Schema.Literal("rhino-coder"),
 );
 
 // Available model names per provider

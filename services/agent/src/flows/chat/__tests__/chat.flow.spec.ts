@@ -14,6 +14,7 @@ import {
   processStreamEvent,
   sendChatMessage,
   sendChatMessageStream,
+  totalTokens,
   trailingPartialTag,
 } from "../chat.flow.js";
 
@@ -249,8 +250,41 @@ describe("parseThinkContent", () => {
 describe("processStreamEvent", () => {
   const state = () => ({
     contentAccumulator: "",
+    reasoningAccumulator: "",
     tokens: { promptTokens: 0, completionTokens: 0 },
+    completedTokens: { promptTokens: 0, completionTokens: 0 },
     think: emptyThinkState(),
+    sawStreamDelta: false,
+  });
+
+  test("reasoning-only chunk is emitted as a thinking delta, not content", () => {
+    const event = {
+      ...chatModelEvent(""),
+      data: { chunk: { content: "", reasoning: "pondering" } },
+    };
+    const [events, nextState] = processStreamEvent(event, state(), "msg-1");
+    expect(events).toHaveLength(1);
+    expect(events[0].thinking).toBe(true);
+    expect(events[0].content).toBe("pondering");
+    expect(nextState.contentAccumulator).toBe("");
+    expect(nextState.reasoningAccumulator).toBe("pondering");
+  });
+
+  test("on_chat_model_end commits usage so successive model calls add up", () => {
+    const end = (input_tokens: number, output_tokens: number) => ({
+      event: "on_chat_model_end",
+      run_id: "r",
+      data: {
+        output: {
+          content: "",
+          usage_metadata: { input_tokens, output_tokens },
+        },
+      },
+      metadata: {},
+    });
+    const [, s1] = processStreamEvent(end(10, 5), state(), "m");
+    const [, s2] = processStreamEvent(end(20, 7), s1, "m");
+    expect(totalTokens(s2)).toEqual({ promptTokens: 30, completionTokens: 12 });
   });
 
   test("on_chat_model_stream emits content_delta for string content", () => {
@@ -431,8 +465,9 @@ describe("chat.flow", () => {
       }
     });
 
-    test("defaults model to gpt-4o when aiConfig.model is missing", async () => {
+    test("defaults model to the configured LOCALAI_MODEL when aiConfig.model is missing", async () => {
       ctx = createMockContext({
+        env: { LOCALAI_MODEL: "rhino-coder" } as unknown as AgentContext["env"],
         agentFactory: vi.fn().mockReturnValue(
           TE.right({
             invoke: vi
@@ -453,7 +488,7 @@ describe("chat.flow", () => {
 
       expect(result._tag).toBe("Right");
       if (result._tag === "Right") {
-        expect(result.right.usedProvider?.model).toBe("gpt-4o");
+        expect(result.right.usedProvider?.model).toBe("rhino-coder");
       }
     });
 
@@ -921,6 +956,23 @@ describe("chat.flow", () => {
       const input = streamEvents.mock.calls[0][0] as { messages: unknown[] };
       expect(typeof input.messages[0]).toBe("string");
       expect(input.messages[0]).toContain("hello");
+    });
+
+    test("searches and stores memories under the researcher scope for researcher runs", async () => {
+      const searchMemories = vi.fn().mockReturnValue(TE.right([]));
+      const addMemory = vi.fn().mockReturnValue(TE.right(undefined));
+      ctx = createMockContext({ memoryClient: { addMemory, searchMemories } });
+
+      for await (const _ of sendChatMessageStream({
+        message: "hi",
+        conversation_id: null,
+        agent_type: "researcher",
+      })(ctx)) {
+        // drain
+      }
+
+      expect(searchMemories.mock.calls[0][1]).toBe("lies-exposed-researcher");
+      expect(addMemory.mock.calls[0][1]).toBe("lies-exposed-researcher");
     });
 
     test("message_start and message_end include usedProvider when aiConfig is given", async () => {

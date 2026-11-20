@@ -68,7 +68,7 @@ const getLangchainConfig = (env: ENV) => {
         xClientId: "lies-exposed-agent",
         models: {
           chat: model,
-          embeddings: model,
+          embeddings: (env.LOCALAI_EMBEDDING_MODEL ?? model) as AvailableModels,
         },
         cfAccessClientId: env.CF_ACCESS_CLIENT_ID,
         cfAccessClientSecret: env.CF_ACCESS_CLIENT_SECRET,

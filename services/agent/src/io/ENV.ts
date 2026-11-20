@@ -13,6 +13,9 @@ const ENV = Schema.Struct({
   XAI_API_KEY: Schema.optional(Schema.String),
   ANTHROPIC_API_KEY: Schema.optional(Schema.String),
   LOCALAI_MODEL: Schema.String,
+  // Embedding model. Falls back to LOCALAI_MODEL when unset (legacy behaviour);
+  // set it when LOCALAI_MODEL is a chat/coder alias such as `rhino-coder`.
+  LOCALAI_EMBEDDING_MODEL: Schema.optional(Schema.String),
   LOCALAI_MAX_RETRIES: Schema.optional(Schema.NumberFromString),
   // Request timeout for the OpenAI-compatible chat client. The LocalAI
   // gateway serializes/queues incoming requests, so this needs headroom
