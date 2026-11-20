@@ -1,5 +1,5 @@
+import { EventEmitter } from "node:events";
 import { type S3Client } from "@aws-sdk/client-s3";
-import { type Upload } from "@aws-sdk/lib-storage";
 import { vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 
@@ -12,13 +12,18 @@ const defaultUploadResponse = {
   $metadata: {},
 };
 
-// Mock Upload class that works as a constructor
-class MockUpload {
-  done = vi.fn(() => Promise.resolve(defaultUploadResponse));
+/** Shape of an `@aws-sdk/lib-storage` Upload instance used by the space provider. */
+export interface UploadInstanceLike {
+  emitter: EventEmitter;
+  done(): Promise<typeof defaultUploadResponse>;
+}
 
-  constructor() {
-    // Each instance gets its own done method
-  }
+// Mock Upload constructor (callable with `new`) that produces a fresh instance
+class MockUpload {
+  emitter = new EventEmitter();
+  done = vi.fn<() => Promise<typeof defaultUploadResponse>>(() =>
+    Promise.resolve(defaultUploadResponse),
+  );
 }
 
 const s3Mock = {
@@ -36,7 +41,11 @@ const s3Mock = {
     destroy: vi.fn(() => undefined),
   }),
   classes: {
-    Upload: MockUpload as unknown as typeof Upload,
+    Upload: vi.fn(function upload(this: unknown) {
+      return new MockUpload();
+    }) as unknown as (new (options?: unknown) => UploadInstanceLike) & {
+      prototype: UploadInstanceLike;
+    },
   },
   getSignedUrl: vi.fn((): string => {
     throw new Error("Not implemented");

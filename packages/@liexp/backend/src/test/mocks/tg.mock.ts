@@ -1,20 +1,5 @@
-import { vi } from "vitest";
+import { type DeepMockProxy, mockDeep } from "vitest-mock-extended";
+import { type TGBotProvider } from "../../providers/tg/tg.provider.js";
 
-export const tgProviderMock = {
-  api: {
-    onText: vi.fn<() => void>(),
-    getChat: vi.fn<() => void>(),
-    downloadFile: vi.fn<() => void>(),
-    getFileStream: vi.fn<() => void>(),
-  } as any,
-  getFileStream: vi.fn<() => void>(),
-  startPolling: vi.fn<() => void>(),
-  stopPolling: vi.fn<() => void>(),
-  onMessage: vi.fn<() => void>(),
-  post: vi.fn<() => void>(),
-  postPhoto: vi.fn<() => void>(),
-  postVideo: vi.fn<() => void>(),
-  postFile: vi.fn<() => void>(),
-  postMediaGroup: vi.fn<() => void>(),
-  upsertPinnedMessage: vi.fn<() => void>(),
-};
+export const tgProviderMock: DeepMockProxy<TGBotProvider> =
+  mockDeep<TGBotProvider>();

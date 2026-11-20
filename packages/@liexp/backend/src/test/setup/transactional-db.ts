@@ -1,5 +1,6 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { type DataSource, type QueryRunner, type EntityManager } from "typeorm";
+import { type DatabaseClient } from "../../providers/orm/index.js";
 
 /**
  * Per-worker cache for transactional DB state
@@ -20,14 +21,18 @@ const getWorkerId = (): string => {
  * Get the DataSource and DatabaseClient from the global app context
  * This assumes they were already initialized in the global setup
  */
-const getContext = (): { dataSource?: DataSource; db?: any } => {
-  const g = global as unknown as {
-    appContext?: { db?: { manager?: { connection?: DataSource } } };
-    appTest?: { ctx?: { db?: { manager?: { connection?: DataSource } } } };
+const getContext = (): {
+  dataSource?: DataSource;
+  db?: DatabaseClient;
+} => {
+  const g = global as typeof globalThis & {
+    appContext?: { db?: DatabaseClient };
+    appTest?: { ctx?: { db?: DatabaseClient } };
   };
 
   // Try to get from appContext first (set by testSetup.ts)
-  let dataSource = g.appContext?.db?.manager?.connection;
+  let dataSource: DataSource | undefined =
+    g.appContext?.db?.manager?.connection;
   let db = g.appContext?.db;
 
   // If not found, try from appTest (set by individual tests)

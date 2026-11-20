@@ -12,8 +12,8 @@ export const mockTERightOnce = <E, U>(
   });
 
 export const mockTERight = <E, U>(
-  fn: MockInstance<(...args: any[]) => TaskEither<E, U>>,
-  value: (...args: any[]) => U,
+  fn: MockInstance<(...args: unknown[]) => TaskEither<E, U>>,
+  value: (...args: unknown[]) => U,
 ) =>
   fn.mockImplementation((...args) => {
     return fp.TE.right(value(...args));

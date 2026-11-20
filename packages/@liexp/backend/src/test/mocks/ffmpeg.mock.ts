@@ -1,15 +1,16 @@
+import { type ScreenshotsConfig } from "fluent-ffmpeg";
 import type Ffmpeg from "fluent-ffmpeg";
-import { type Mock, vi } from "vitest";
+import { vi } from "vitest";
 import { mock, type MockProxy } from "vitest-mock-extended";
 
 const SCREENSHOTS_DEFAULS = {
   folder: "",
   filename: "",
   count: 0,
-};
+} satisfies ScreenshotsConfig;
 
 export const ffmpegCommandMock: MockProxy<Partial<typeof Ffmpeg>> & {
-  _screenshots: typeof SCREENSHOTS_DEFAULS;
+  _screenshots: ScreenshotsConfig;
 } = mock({
   _screenshots: SCREENSHOTS_DEFAULS,
   on: vi.fn((): void => {
@@ -17,17 +18,22 @@ export const ffmpegCommandMock: MockProxy<Partial<typeof Ffmpeg>> & {
   }),
   inputFormat: vi.fn().mockReturnThis(),
   noAudio: vi.fn().mockReturnThis(),
-  screenshots: vi.fn().mockImplementation(function (this: any, opts) {
-    this._screenshots = opts;
-    return this;
+  screenshots: vi.fn((opts?: number | ScreenshotsConfig) => {
+    ffmpegCommandMock._screenshots =
+      typeof opts === "number"
+        ? { ...SCREENSHOTS_DEFAULS, count: opts }
+        : (opts ?? SCREENSHOTS_DEFAULS);
+    return ffmpegCommandMock;
   }),
 });
 
-const ffmpegMock: Mock<() => typeof ffmpegCommandMock> = vi.fn(
-  () => ffmpegCommandMock,
+export const ffmpegMock = Object.assign(
+  vi.fn(() => ffmpegCommandMock),
+  {
+    ffprobe: vi.fn((): void => {
+      throw new Error("ffprobe not implemented");
+    }),
+  },
 );
-(ffmpegMock as any).ffprobe = vi.fn(() => {
-  throw new Error("ffprobe not implemented");
-});
 
 export default ffmpegMock;

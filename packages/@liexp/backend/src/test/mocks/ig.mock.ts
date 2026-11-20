@@ -1,9 +1,4 @@
-import { vi } from "vitest";
+import { type DeepMockProxy, mockDeep } from "vitest-mock-extended";
+import { type IGProvider } from "../../providers/ig/ig.provider.js";
 
-export const igProviderMock = {
-  ig: {} as any,
-  postPhoto: vi.fn<() => void>(),
-  postVideo: vi.fn<() => void>(),
-  postAlbum: vi.fn<() => void>(),
-  login: vi.fn<() => void>(),
-};
+export const igProviderMock: DeepMockProxy<IGProvider> = mockDeep<IGProvider>();
