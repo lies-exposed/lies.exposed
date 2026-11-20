@@ -27,7 +27,7 @@ export const ffmpegCommandMock: MockProxy<Partial<typeof Ffmpeg>> & {
   }),
 });
 
-export const ffmpegMock = Object.assign(
+const ffmpegMock = Object.assign(
   vi.fn(() => ffmpegCommandMock),
   {
     ffprobe: vi.fn((): void => {

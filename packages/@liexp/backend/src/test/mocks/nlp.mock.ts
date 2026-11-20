@@ -21,7 +21,7 @@ const winkMethods = mock<WinkMethods>(
   { deep: true },
 );
 
-export type NLPMock = ((model: Model) => MockProxy<WinkMethods>) & {
+type NLPMock = ((model: Model) => MockProxy<WinkMethods>) & {
   winkMethods: MockProxy<WinkMethods>;
   doc: MockProxy<Document>;
   sentences: MockProxy<Sentences>;
