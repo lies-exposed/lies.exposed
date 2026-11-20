@@ -22,7 +22,10 @@ export const createTestSetup = <TContext, TAppTest>(
   loadAppContext: (logger: Logger, database: string) => Promise<TContext>,
   initAppTest: (ctx: TContext, database: string) => Promise<TAppTest>,
 ) => {
-  const g = global as unknown as { appContext: TContext; appTest?: TAppTest };
+  const g = global as typeof globalThis & {
+    appContext: TContext;
+    appTest?: TAppTest;
+  };
 
   beforeAll(async () => {
     D.enable(process.env.DEBUG ?? "-");

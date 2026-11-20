@@ -1,16 +1,10 @@
-import type sharp from "sharp";
+import type { Sharp, SharpInput } from "sharp";
 import { vi } from "vitest";
-import { mock } from "vitest-mock-extended";
+import { mock, type MockProxy } from "vitest-mock-extended";
 
-export const sharpInstanceMocks = mock<{
-  composite: (...args: unknown[]) => unknown;
-  keepExif: (...args: unknown[]) => unknown;
-  rotate: (...args: unknown[]) => unknown;
-  resize: (...args: unknown[]) => unknown;
-  sharpen: (...args: unknown[]) => unknown;
-  toFormat: (...args: unknown[]) => unknown;
-  toBuffer: (...args: unknown[]) => Promise<Buffer>;
-}>({
+export type SharpInstanceMocks = MockProxy<Sharp> & Sharp;
+
+export const sharpInstanceMocks: SharpInstanceMocks = mock<Sharp>({
   composite: vi.fn().mockReturnThis(),
   keepExif: vi.fn().mockReturnThis(),
   rotate: vi.fn().mockReturnThis(),
@@ -20,6 +14,10 @@ export const sharpInstanceMocks = mock<{
   toBuffer: vi.fn().mockResolvedValueOnce(Buffer.from([])),
 });
 
-export const sharpInit = (() => sharpInstanceMocks) as unknown as typeof sharp;
+export type SharpInitMock = (input?: SharpInput) => SharpInstanceMocks;
 
-export default { get: sharpInit, mocks: sharpInstanceMocks };
+export const sharpInit: SharpInitMock = vi.fn(() => sharpInstanceMocks);
+
+const sharpMock = { get: sharpInit, mocks: sharpInstanceMocks };
+
+export default sharpMock;

@@ -80,7 +80,7 @@ export const createGlobalSetup = <A extends BACKEND_ENV>(
         moduleLogger.info.log("Global test teardown started");
 
         // Close all connections when tests are complete
-        const g = global as unknown as {
+        const g = global as typeof globalThis & {
           appContext?: { db?: DatabaseClient; redis?: RedisClient };
           appTest?: { ctx?: { db?: DatabaseClient; redis?: RedisClient } };
         };

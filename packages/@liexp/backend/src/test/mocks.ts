@@ -4,8 +4,10 @@ import {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from "axios";
+import { type Metadata } from "page-metadata-parser";
 import { vi } from "vitest";
 import { mock } from "vitest-mock-extended";
+import { type URLMetadataFetchOptions } from "../providers/URLMetadata.provider.js";
 import { dbMock } from "./mocks/db.mock.js";
 import { exifRMock } from "./mocks/exifreader.mock.js";
 import ffmpegMock from "./mocks/ffmpeg.mock.js";
@@ -21,16 +23,20 @@ import { tgProviderMock } from "./mocks/tg.mock.js";
 import { wikipediaProviderMock } from "./mocks/wikipedia.mock.js";
 
 const fetchHTML = vi
-  .fn<(url: string, opts: any) => Promise<string>>()
+  .fn<(url: string, opts: URLMetadataFetchOptions) => Promise<string>>()
   .mockResolvedValue("<html><body><h1>Example Article</h1></body></html>");
 
 const fetchMetadata = vi
-  .fn<(url: string, opts: any) => Promise<any>>()
+  .fn<(url: string, opts: URLMetadataFetchOptions) => Promise<Metadata>>()
   .mockResolvedValue({
     title: "Example Article",
     description: "An example article used in tests",
     url: "https://example.com/article/1",
-    images: [],
+    image: null,
+    keywords: [],
+    icon: "",
+    provider: undefined,
+    type: "article",
   });
 
 export interface DepsMocks {

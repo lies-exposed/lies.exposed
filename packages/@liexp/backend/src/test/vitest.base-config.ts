@@ -67,7 +67,7 @@ export const extendBaseConfig = (
       resolve: {
         tsconfigPaths: true,
       },
-      plugins: [...((config.plugins ?? []) as any[])],
+      plugins: [...(config.plugins ?? [])],
     }),
     config,
   );
