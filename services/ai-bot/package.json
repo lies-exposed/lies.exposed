@@ -47,7 +47,7 @@
     "effect": "^3.21.3",
     "fp-ts": "^2.16.10",
     "openai": "^7.19.0",
-    "pdfjs-dist": "^6.2.108",
+    "pdfjs-dist": "^6.5.438",
     "puppeteer-core": "^25.17.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2"
