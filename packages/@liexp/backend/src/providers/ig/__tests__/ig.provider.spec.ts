@@ -1,4 +1,11 @@
+import { type Logger } from "@liexp/core/lib/logger/index.js";
+import {
+  type AccountRepositoryLoginErrorResponse,
+  type IgResponse,
+} from "instagram-private-api";
 import { describe, expect, it, vi } from "vitest";
+
+type TwoFactorResponse = IgResponse<AccountRepositoryLoginErrorResponse>;
 
 const mockIg = {
   state: { generateDevice: vi.fn() },
@@ -20,8 +27,8 @@ vi.mock("instagram-private-api", () => {
   return {
     IgApiClient,
     IgLoginTwoFactorRequiredError: class IgLoginTwoFactorRequiredError extends Error {
-      response: any;
-      constructor(response: any) {
+      response: TwoFactorResponse;
+      constructor(response: TwoFactorResponse) {
         super("Two factor required");
         this.response = response;
       }
@@ -32,11 +39,13 @@ vi.mock("instagram-private-api", () => {
 const { IGProvider } = await import("../ig.provider.js");
 
 describe("IGProvider", () => {
-  const mockLogger = {
+  const mockLogger: Logger = {
     debug: { log: vi.fn() },
     info: { log: vi.fn() },
+    test: { log: vi.fn() },
     warn: { log: vi.fn() },
     error: { log: vi.fn() },
+    extend: vi.fn(),
   };
 
   const mockCredentials = {
@@ -44,11 +53,11 @@ describe("IGProvider", () => {
     password: "testpass",
   };
 
+  const makeProvider = (): ReturnType<typeof IGProvider> =>
+    IGProvider({ logger: mockLogger, credentials: mockCredentials });
+
   it("creates a provider with ig, login, postPhoto, postVideo, postAlbum", () => {
-    const provider = IGProvider({
-      logger: mockLogger as any,
-      credentials: mockCredentials,
-    });
+    const provider = makeProvider();
 
     expect(provider).toHaveProperty("ig");
     expect(typeof provider.login).toBe("function");
@@ -58,10 +67,7 @@ describe("IGProvider", () => {
   });
 
   it("login returns the logged in user", async () => {
-    const provider = IGProvider({
-      logger: mockLogger as any,
-      credentials: mockCredentials,
-    });
+    const provider = makeProvider();
 
     const result = await provider.login(async () =>
       Promise.resolve({ code: "123456" }),
@@ -70,10 +76,7 @@ describe("IGProvider", () => {
   });
 
   it("login returns cached user on second call", async () => {
-    const provider = IGProvider({
-      logger: mockLogger as any,
-      credentials: mockCredentials,
-    });
+    const provider = makeProvider();
 
     await provider.login(async () => Promise.resolve({ code: "123456" }))();
     await provider.login(async () => Promise.resolve({ code: "123456" }))();
@@ -82,10 +85,7 @@ describe("IGProvider", () => {
   });
 
   it("postPhoto posts an image", async () => {
-    const provider = IGProvider({
-      logger: mockLogger as any,
-      credentials: mockCredentials,
-    });
+    const provider = makeProvider();
 
     const result = await provider.postPhoto(Buffer.from("image"), "caption")();
     expect(result._tag).toBe("Right");
@@ -96,10 +96,7 @@ describe("IGProvider", () => {
   });
 
   it("postVideo posts a video", async () => {
-    const provider = IGProvider({
-      logger: mockLogger as any,
-      credentials: mockCredentials,
-    });
+    const provider = makeProvider();
 
     const result = await provider.postVideo({
       video: Buffer.from("video"),
@@ -110,10 +107,7 @@ describe("IGProvider", () => {
   });
 
   it("postAlbum posts an album", async () => {
-    const provider = IGProvider({
-      logger: mockLogger as any,
-      credentials: mockCredentials,
-    });
+    const provider = makeProvider();
 
     const result = await provider.postAlbum({
       photos: [Buffer.from("photo1")],
@@ -149,8 +143,8 @@ describe("IGProvider", () => {
       return {
         IgApiClient,
         IgLoginTwoFactorRequiredError: class IgLoginTwoFactorRequiredError extends Error {
-          response: any;
-          constructor(response: any) {
+          response: TwoFactorResponse;
+          constructor(response: TwoFactorResponse) {
             super("Two factor required");
             this.response = response;
           }
@@ -161,7 +155,7 @@ describe("IGProvider", () => {
     const { IGProvider: IGProvider2 } = await import("../ig.provider.js");
 
     const provider = IGProvider2({
-      logger: mockLogger as any,
+      logger: mockLogger,
       credentials: mockCredentials,
     });
 

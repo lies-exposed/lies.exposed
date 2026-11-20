@@ -1,4 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
+import type * as fs from "fs";
+import { describe, expect, it } from "vitest";
+import { mockDeep } from "vitest-mock-extended";
 import { FSError, GetFSClient, toFSError } from "./fs.provider.js";
 
 describe("fs.provider", () => {
@@ -43,34 +45,22 @@ describe("fs.provider", () => {
 
   describe("GetFSClient", () => {
     const createMockFs = () => {
-      const existsSync = vi.fn();
-      const mkdirSync = vi.fn();
-      const readFileSync = vi.fn();
-      const writeFileSync = vi.fn();
-      const rmSync = vi.fn();
-
-      const mockFs = {
-        existsSync,
-        mkdirSync,
-        readFileSync,
-        writeFileSync,
-        rmSync,
-      };
+      const mockFs = mockDeep<typeof fs>();
 
       return {
         mockFs,
-        existsSync,
-        mkdirSync,
-        readFileSync,
-        writeFileSync,
-        rmSync,
+        existsSync: mockFs.existsSync,
+        mkdirSync: mockFs.mkdirSync,
+        readFileSync: mockFs.readFileSync,
+        writeFileSync: mockFs.writeFileSync,
+        rmSync: mockFs.rmSync,
       };
     };
 
     describe("resolve", () => {
       it("should resolve path relative to cwd", () => {
         const { mockFs } = createMockFs();
-        const client = GetFSClient({ client: mockFs as any });
+        const client = GetFSClient({ client: mockFs });
 
         const result = client.resolve("./test.txt");
         expect(result).toContain("test.txt");
@@ -81,7 +71,7 @@ describe("fs.provider", () => {
       it("should return true if file exists", async () => {
         const { mockFs, existsSync } = createMockFs();
         existsSync.mockReturnValueOnce(false).mockReturnValueOnce(true);
-        const client = GetFSClient({ client: mockFs as any });
+        const client = GetFSClient({ client: mockFs });
 
         const result = await client.objectExists("/path/to/file.txt")();
 
@@ -94,7 +84,7 @@ describe("fs.provider", () => {
       it("should return false if file does not exist", async () => {
         const { mockFs, existsSync } = createMockFs();
         existsSync.mockReturnValue(false);
-        const client = GetFSClient({ client: mockFs as any });
+        const client = GetFSClient({ client: mockFs });
 
         const result = await client.objectExists("/path/to/file.txt")();
 
@@ -107,7 +97,7 @@ describe("fs.provider", () => {
       it("should create directory if it does not exist", async () => {
         const { mockFs, existsSync, mkdirSync } = createMockFs();
         existsSync.mockReturnValue(false);
-        const client = GetFSClient({ client: mockFs as any });
+        const client = GetFSClient({ client: mockFs });
 
         await client.objectExists("/new/path/file.txt")();
 
@@ -121,7 +111,7 @@ describe("fs.provider", () => {
       it("should return file content on success", async () => {
         const { mockFs, readFileSync } = createMockFs();
         readFileSync.mockReturnValue("file content");
-        const client = GetFSClient({ client: mockFs as any });
+        const client = GetFSClient({ client: mockFs });
 
         const result = await client.getObject("/path/to/file.txt")();
 
@@ -136,7 +126,7 @@ describe("fs.provider", () => {
         readFileSync.mockImplementation(() => {
           throw new Error("ENOENT: no such file");
         });
-        const client = GetFSClient({ client: mockFs as any });
+        const client = GetFSClient({ client: mockFs });
 
         const result = await client.getObject("/nonexistent/file.txt")();
 
@@ -150,7 +140,7 @@ describe("fs.provider", () => {
     describe("writeObject", () => {
       it("should write data to file", async () => {
         const { mockFs, writeFileSync } = createMockFs();
-        const client = GetFSClient({ client: mockFs as any });
+        const client = GetFSClient({ client: mockFs });
 
         const result = await client.writeObject(
           "/path/to/file.txt",
@@ -170,7 +160,7 @@ describe("fs.provider", () => {
         writeFileSync.mockImplementation(() => {
           throw new Error("EACCES: permission denied");
         });
-        const client = GetFSClient({ client: mockFs as any });
+        const client = GetFSClient({ client: mockFs });
 
         const result = await client.writeObject(
           "/path/to/file.txt",
@@ -188,7 +178,7 @@ describe("fs.provider", () => {
       it("should delete file when it exists", async () => {
         const { mockFs, existsSync, rmSync } = createMockFs();
         existsSync.mockReturnValue(true);
-        const client = GetFSClient({ client: mockFs as any });
+        const client = GetFSClient({ client: mockFs });
 
         const result = await client.deleteObject("/path/to/file.txt")();
 
@@ -199,7 +189,7 @@ describe("fs.provider", () => {
       it("should return undefined when file does not exist and throwIfNoExists is false", async () => {
         const { mockFs, existsSync } = createMockFs();
         existsSync.mockReturnValue(false);
-        const client = GetFSClient({ client: mockFs as any });
+        const client = GetFSClient({ client: mockFs });
 
         const result = await client.deleteObject("/path/to/file.txt")();
 
@@ -212,7 +202,7 @@ describe("fs.provider", () => {
       it("should return error when file does not exist and throwIfNoExists is true", async () => {
         const { mockFs, existsSync } = createMockFs();
         existsSync.mockReturnValue(false);
-        const client = GetFSClient({ client: mockFs as any });
+        const client = GetFSClient({ client: mockFs });
 
         const result = await client.deleteObject("/path/to/file.txt", true)();
 

@@ -1,5 +1,5 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
-import type { DataSource, EntityManager } from "typeorm";
+import type { DataSource } from "typeorm";
 import { describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { toDBError, DBError } from "../orm/database.provider.js";
@@ -79,21 +79,16 @@ describe("database.provider", () => {
 });
 
 describe("GetDatabaseClient", () => {
-  const mockLogger = {
+  const mockLogger: logger.Logger = {
     debug: { log: vi.fn() },
     error: { log: vi.fn() },
     info: { log: vi.fn() },
+    test: { log: vi.fn() },
     warn: { log: vi.fn() },
+    extend: vi.fn(),
   };
 
-  const createMockDataSource = () => {
-    const mockManager = mockDeep<EntityManager>();
-    const mockConnection = {
-      manager: mockManager as unknown as EntityManager,
-    } as unknown as DataSource;
-
-    return mockConnection;
-  };
+  const createMockDataSource = (): DataSource => mockDeep<DataSource>();
 
   it("should create a database client with manager", async () => {
     const mockDs = createMockDataSource();
@@ -102,7 +97,7 @@ describe("GetDatabaseClient", () => {
 
     const client = GetDatabaseClient({
       connection: mockDs,
-      logger: mockLogger as Partial<logger.Logger>,
+      logger: mockLogger,
     });
 
     expect(client.manager).toBeDefined();
@@ -115,7 +110,7 @@ describe("GetDatabaseClient", () => {
 
     const client = GetDatabaseClient({
       connection: mockDs,
-      logger: mockLogger as Partial<logger.Logger>,
+      logger: mockLogger,
     });
 
     expect(typeof client.formatQuery).toBe("function");
@@ -128,7 +123,7 @@ describe("GetDatabaseClient", () => {
 
     const client = GetDatabaseClient({
       connection: mockDs,
-      logger: mockLogger as Partial<logger.Logger>,
+      logger: mockLogger,
     });
 
     expect(typeof client.findOne).toBe("function");
