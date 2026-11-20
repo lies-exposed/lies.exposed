@@ -1,16 +1,13 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
 import type { AxiosInstance } from "axios";
 import { describe, expect, it, vi } from "vitest";
+import { mockDeep } from "vitest-mock-extended";
 import { GetLocalSpaceProvider } from "./local-space.provider.js";
 
 describe("local-space.provider", () => {
   const createMockContext = () => {
-    const mockClient = {
-      get: vi.fn(),
-      defaults: {
-        baseURL: "http://data.localhost",
-      },
-    } as unknown as AxiosInstance;
+    const mockClient = mockDeep<AxiosInstance>();
+    mockClient.defaults.baseURL = "http://data.localhost";
     const mockLogger = {
       debug: { log: vi.fn() },
       extend: vi.fn(() => ({
