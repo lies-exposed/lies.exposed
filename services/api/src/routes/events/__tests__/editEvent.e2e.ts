@@ -212,12 +212,7 @@ describe("Edit Event", () => {
     appTest.mocks.urlMetadata.fetchMetadata.mockResolvedValue({
       title: "link title",
       description: "link description",
-      url: "https://example.com/article/1",
-      image: null,
-      icon: "",
       keywords: [],
-      provider: undefined,
-      type: "article",
     });
 
     const linksData = fc

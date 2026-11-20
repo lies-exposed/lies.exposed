@@ -17,11 +17,7 @@ describe("OpenGraph metadata route", () => {
       title: "Example Article",
       description: "An example article used in tests",
       url: "https://example.com/article/1",
-      image: null,
-      icon: "",
-      keywords: [],
-      provider: undefined,
-      type: "article",
+      images: [],
     });
   });
 
