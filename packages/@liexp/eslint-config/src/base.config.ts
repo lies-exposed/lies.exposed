@@ -164,14 +164,6 @@ const config = defineConfig(
     },
   },
 
-  // Test file overrides
-  {
-    files: ["test/**/*.ts", "**/*.spec.ts", "**/*.e2e.ts"],
-    rules: {
-      "@typescript-eslint/no-explicit-any": "off",
-    },
-  },
-
   // Subpath imports (#alias/*) use Node.js "imports" field, not TypeScript
   // path aliases — the import-x resolver can't resolve them. Disable
   // import-x/no-unresolved for these so lint passes.
