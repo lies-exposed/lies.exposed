@@ -18,12 +18,22 @@ export interface UploadInstanceLike {
   done(): Promise<typeof defaultUploadResponse>;
 }
 
-// Mock Upload constructor (callable with `new`) that produces a fresh instance
-class MockUpload {
+// Mock Upload class that works as a constructor (callable with `new`)
+class MockUpload implements UploadInstanceLike {
   emitter = new EventEmitter();
   done = vi.fn<() => Promise<typeof defaultUploadResponse>>(() =>
     Promise.resolve(defaultUploadResponse),
   );
+
+  constructor(_options?: unknown) {}
+}
+
+export interface S3Mock {
+  client: ReturnType<typeof mockDeep<S3Client>>;
+  classes: {
+    Upload: typeof MockUpload;
+  };
+  getSignedUrl: () => string;
 }
 
 const s3Mock = {
@@ -41,11 +51,7 @@ const s3Mock = {
     destroy: vi.fn(() => undefined),
   }),
   classes: {
-    Upload: vi.fn(function upload(this: unknown) {
-      return new MockUpload();
-    }) as unknown as (new (options?: unknown) => UploadInstanceLike) & {
-      prototype: UploadInstanceLike;
-    },
+    Upload: MockUpload,
   },
   getSignedUrl: vi.fn((): string => {
     throw new Error("Not implemented");
