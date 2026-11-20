@@ -7,26 +7,30 @@ vi.mock("axios");
 
 const baseURL = "http://localhost:4010";
 
+const getUri = vi.fn<() => string>();
+const get = vi.fn();
+const post = vi.fn();
+
 const axiosMock = {
   defaults: {
     baseURL,
   },
-  getUri: vi.fn(),
-  get: vi.fn(),
-  post: vi.fn(),
-};
+  getUri,
+  get,
+  post,
+} as unknown as Parameters<typeof GetLocalSpaceProvider>[0]["client"];
 
 describe("LocalSpaceClient", () => {
   const localSpaceClient = GetLocalSpaceProvider({
-    client: axiosMock as any,
+    client: axiosMock,
     logger: logger.GetLogger("FSClient"),
   });
 
   test("Should return the signedUrl for upload", async () => {
     const Key = "actors/actor-id/image.jpg";
     const Location = `${baseURL}/public/${Key}?Content-Type=multipart/form-data;boundary=---test-boundary`;
-    axiosMock.getUri.mockReturnValue(baseURL);
-    axiosMock.get.mockRejectedValue({
+    getUri.mockReturnValue(baseURL);
+    get.mockRejectedValue({
       data: {
         data: {
           Location,
@@ -41,13 +45,15 @@ describe("LocalSpaceClient", () => {
     })();
 
     expect(E.isRight(result)).toBe(true);
-    expect((result as any).right).toEqual(Location);
+    if (E.isRight(result)) {
+      expect(result.right).toEqual(Location);
+    }
   });
 
   test("Should upload the file at the given path", async () => {
     const Key = "/data/media/actors/image.jpg";
     const Location = `${baseURL}/public${Key}`;
-    axiosMock.post.mockResolvedValue({
+    post.mockResolvedValue({
       data: {
         data: {
           Location,
