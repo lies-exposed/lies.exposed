@@ -26,18 +26,22 @@ agents: [auto, platform]
 
 ## 3. Fields per type
 
-`createEvent` takes `type` plus: `date` (YYYY-MM-DD — when it happened, not when it was reported), `excerpt`, `body`, `draft`, `links`, `media`, `keywords` (UUID arrays), and the type-specific fields below. There are no per-type actor/group fields (victim, quote author, from/to, location): put actors and groups in the excerpt text and link the source via `links`; say so to the user.
+`createEvent` takes `type` plus: `date` (YYYY-MM-DD — when it happened, not when it was reported; required), `excerpt`, `body` (plain text is converted to a rich-text document), `draft`, `links`, `media`, `keywords` (UUID arrays), and the type-specific fields below. A missing required field returns an error naming it — ask the user for it.
 
-| Type | Type-specific fields |
+`subject`/`from`/`to`/`publisher` are `{ "type": "Actor" | "Group", "id": "<uuid>" }`; `authors` (Book) is an array of those.
+
+| Type | Type-specific fields (required in **bold**) |
 |---|---|
-| Uncategorized | — |
-| Death | — |
-| Quote | — |
-| Transaction | `amount`, `currency`, `source` |
-| ScientificStudy | `title`, `description`, `summary`, `image` (media UUID) |
-| Book | `publisher`, `authors` (names), `pdf`, `audio` |
-| Patent | `title`, `description`, `summary`, `image`, `publicationDate`, `patentNumber`, `applicant`, `ownerActors`, `ownerGroups` |
-| Documentary | `title`, `description`, `summary`, `image`, `documentaryMedia`, `website`, `authorActors`, `authorGroups`, `subjectActors`, `subjectGroups` |
+| Uncategorized | **`title`**, `actors`, `groups`, `groupsMembers` (UUID arrays), `location` (area UUID), `endDate` |
+| Death | **`victim`** (actor UUID), `location` (area UUID) |
+| Quote | `actor` (actor UUID), `quote` (text), `details`, `subject` |
+| Transaction | **`title`**, **`total`** (number), **`currency`**, **`from`**, **`to`** |
+| ScientificStudy | **`title`**, **`url`** (link UUID), `image` (media UUID), `studyAuthors` (actor UUIDs), `studyPublisher` (group UUID) |
+| Book | **`title`**, **`pdf`** (media UUID), `audio`, `authors`, `publisher` |
+| Patent | **`title`**, **`source`** (link UUID), `ownerActors`, `ownerGroups` |
+| Documentary | **`title`**, **`documentaryMedia`** (single media UUID), `website` (link UUID), `authorActors`, `authorGroups`, `subjectActors`, `subjectGroups` |
+
+`editEvent` accepts the same fields (only the ones you pass change; nested ones like `pdf`/`audio` are merged with the stored values), so an event can be pointed at an area with `location`.
 
 Fields that are UUIDs must be resolved first:
 - actors → `findActors({ "fullName": "..." })` (create via `actor-profile`)
@@ -50,7 +54,7 @@ If a value you need (amount, currency, date, who paid whom) is unknown, **ask th
 ## 4. Create
 
 ```
-createEvent({ "type": "Transaction", "date": "2021-04-02", "amount": "1500000", "currency": "USD", "links": ["<link-uuid>"], "excerpt": "<who paid whom, what for>" })
+createEvent({ "type": "Transaction", "date": "2021-04-02", "title": "<short title>", "total": 1500000, "currency": "USD", "from": { "type": "Group", "id": "<payer-uuid>" }, "to": { "type": "Actor", "id": "<payee-uuid>" }, "links": ["<link-uuid>"], "excerpt": "<who paid whom, what for>" })
 ```
 Write the excerpt as 1–3 factual sentences, citing who reported it when the claim is disputed. Create with `"draft": true` when the facts come from a single unverified source.
 

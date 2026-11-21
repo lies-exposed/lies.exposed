@@ -1,6 +1,11 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { toActorEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
+import { fc } from "@liexp/test/lib/index.js";
 import * as IO from "fp-ts/lib/IO.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";
@@ -117,7 +122,11 @@ async function callMcpTool(
   }
 
   // If the text looks like an error message, handle it gracefully
-  if (text.startsWith("Failed to") || text.startsWith("Error:")) {
+  if (
+    text.startsWith("Failed to") ||
+    text.startsWith("Error:") ||
+    text.startsWith("MCP error")
+  ) {
     throw new Error(`MCP tool ${toolName} returned error: ${text}`);
   }
 
@@ -232,6 +241,30 @@ describe("MCP CRUD Tools E2E Tests", () => {
       ).rejects.toThrow();
     });
 
+    test("createGroup/editGroup - edit applies fields and string body becomes BlockNote", async () => {
+      const suffix = Math.random().toString(36).slice(2, 8);
+      const created = (await callMcpTool(
+        Test,
+        serviceClientToken,
+        "createGroup",
+        {
+          name: `MCP Group ${suffix}`,
+          username: `mcp-group-${suffix}`,
+          color: "ff0000",
+          kind: "Public",
+        },
+      )) as { group: { id: string } };
+
+      const edited = (await callMcpTool(Test, serviceClientToken, "editGroup", {
+        id: created.group.id,
+        name: `MCP Group Edited ${suffix}`,
+        body: "first\nsecond",
+      })) as { group: { name: string; body: unknown } };
+
+      expect(edited.group.name).toBe(`MCP Group Edited ${suffix}`);
+      expect(Array.isArray(edited.group.body)).toBe(true);
+    });
+
     test("editGroup - validates input schema (missing id)", async () => {
       await expect(
         callMcpTool(Test, serviceClientToken, "editGroup", {
@@ -261,6 +294,47 @@ describe("MCP CRUD Tools E2E Tests", () => {
       await expect(
         callMcpTool(Test, serviceClientToken, "createEvent", {}),
       ).rejects.toThrow();
+    });
+
+    test("createEvent - rejects a Death event without victim", async () => {
+      await expect(
+        callMcpTool(Test, serviceClientToken, "createEvent", {
+          type: "Death",
+          date: "2024-01-01",
+        }),
+      ).rejects.toThrow();
+    });
+
+    test("createEvent/editEvent - persist the type-specific payload", async () => {
+      const [victim, other] = fc.sample(ActorArb, 2).map(toActorEntity);
+      await throwTE(Test.ctx.db.save(ActorEntity, [victim, other]));
+
+      const created = (await callMcpTool(
+        Test,
+        serviceClientToken,
+        "createEvent",
+        {
+          type: "Death",
+          date: "2024-01-01",
+          victim: victim.id,
+          excerpt: "line one\nline two",
+        },
+      )) as { event: { id: string; payload: { victim: string } } };
+
+      expect(created.event.payload.victim).toBe(victim.id);
+
+      // the event must be really persisted: fetchable by id
+      const found = (await callMcpTool(Test, serviceClientToken, "findEvents", {
+        ids: [created.event.id],
+      })) as { events: { id: string; payload: { victim: string } }[] };
+      expect(found.events.map((e) => e.id)).toEqual([created.event.id]);
+
+      // payload edits must not be silently dropped
+      const edited = (await callMcpTool(Test, serviceClientToken, "editEvent", {
+        id: created.event.id,
+        victim: other.id,
+      })) as { event: { payload: { victim: string } } };
+      expect(edited.event.payload.victim).toBe(other.id);
     });
 
     test("editEvent - validates input schema (missing id)", async () => {

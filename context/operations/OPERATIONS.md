@@ -56,6 +56,10 @@ pnpm build        # Full build
 
 Always run all five before committing.
 
+### Pre-push hook (docker optional)
+
+`.husky/pre-push` builds changed packages, runs knip, lint and vitest. Docker is **not** required: `scripts/ensure-test-db.sh` only starts `db.liexp.dev` via docker when nothing listens on the test DB port (8432) and docker works; otherwise it warns and continues (API e2e tests then need a Postgres on 8432 provided by you). The docker-based app smoke test (`scripts/healthcheck.sh`) is opt-in: `PREPUSH_HEALTHCHECK=1 git push`. `.husky/post-push` only stops `db-test` when docker is usable.
+
 ## Kubernetes Access
 
 <!-- exodia:section:kubernetes -->

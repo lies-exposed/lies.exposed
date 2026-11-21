@@ -7,6 +7,7 @@ import {
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
@@ -244,8 +245,14 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
           username: input.username,
           color: input.color,
           kind: input.kind ?? "Public",
-          excerpt: input.excerpt ?? undefined,
-          body: input.body ?? undefined,
+          excerpt:
+            typeof input.excerpt === "string"
+              ? toInitialValue(input.excerpt)
+              : (input.excerpt ?? undefined),
+          body:
+            typeof input.body === "string"
+              ? toInitialValue(input.body)
+              : (input.body ?? undefined),
           startDate: input.startDate ? new Date(input.startDate) : undefined,
           endDate: input.endDate ? new Date(input.endDate) : undefined,
           avatar: input.avatar ?? undefined,
@@ -325,6 +332,9 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       body: Schema.UndefinedOr(Schema.Unknown).annotations({
         description: "New full description",
       }),
+      avatar: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New avatar media UUID",
+      }),
       startDate: Schema.UndefinedOr(Schema.String).annotations({
         description: "New start date (ISO 8601 string)",
       }),
@@ -339,24 +349,32 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
     }),
     async (input) => {
       try {
-        // const editBody = { id: input.id };
-        // if (input.name !== undefined) editBody.name = input.name;
-        // if (input.username !== undefined) editBody.username = input.username;
-        // if (input.color !== undefined) editBody.color = input.color;
-        // if (input.kind !== undefined) editBody.kind = input.kind;
-        // if (input.excerpt !== undefined) editBody.excerpt = input.excerpt;
-        // if (input.body !== undefined) editBody.body = input.body;
-        // if (input.startDate !== undefined)
-        //   editBody.startDate = new Date(input.startDate);
-        // if (input.endDate !== undefined)
-        //   editBody.endDate = new Date(input.endDate);
-        // if (input.members !== undefined) editBody.members = input.members;
+        // editGroup expects every optional field wrapped in an effect Option
+        // (O.none() = keep current value). Plain strings become BlockNote docs.
+        const rich = (v: unknown): O.Option<unknown> =>
+          v === undefined
+            ? O.none()
+            : O.some(typeof v === "string" ? toInitialValue(v) : v);
+        const editBody = {
+          id: input.id,
+          name: O.fromNullable(input.name),
+          username: O.fromNullable(input.username),
+          color: O.fromNullable(input.color),
+          kind: O.fromNullable(input.kind),
+          excerpt: rich(input.excerpt),
+          body: rich(input.body),
+          avatar: O.fromNullable(input.avatar),
+          startDate: O.fromNullable(
+            input.startDate ? new Date(input.startDate) : undefined,
+          ),
+          endDate: O.fromNullable(
+            input.endDate ? new Date(input.endDate) : undefined,
+          ),
+          members: O.fromNullable(input.members),
+        } as unknown as Parameters<typeof editGroup>[0];
 
         const result = await pipe(
-          // editGroup returns TEReader<GroupEntity>, decode with GroupIO
-          // Note: We cast to `any` because editGroup expects a different body shape
-          // than what we construct here (partial update vs full body).
-          editGroup(input),
+          editGroup(editBody),
           // GroupIO.decodeSingle expects GroupEntity, but we have the decoded result
           // from editGroup. The cast is safe because the decoder validates at runtime.
 
