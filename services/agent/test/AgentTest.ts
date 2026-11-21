@@ -1,12 +1,12 @@
 import type { AddressInfo } from "net";
 import type { Server } from "node:http";
-import { type ProviderConfigOverride } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import puppeteerMock from "@liexp/backend/lib/test/mocks/puppeteer.mock.js";
 import { type DepsMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { ctxHelper } from "@liexp/test/lib/index.js";
 import { type AxiosInstance } from "axios";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import supertest from "supertest";
@@ -19,6 +19,14 @@ export interface AgentAppTest {
   mocks: DepsMocks;
   req: TestAgent<supertest.Test>;
 }
+
+/**
+ * The axios mock is a `vitest-mock-extended` proxy typed as `Axios`, but at
+ * runtime it satisfies the `AxiosInstance` shape the HTTP provider consumes.
+ * Keeping the same object identity means tests can stub `mocks.axios.get` and
+ * have it take effect in `ctx.http`.
+ */
+const testAxios = ctxHelper.ctx<AxiosInstance>(mocks.axios);
 
 /**
  * Creates a mock compiled agent for testing (the shape the factory returns).
@@ -70,6 +78,7 @@ export const loadAgentContext = async (
       OPENAI_API_KEY: "test-key",
       OPENAI_BASE_URL: "http://test-localai.liexp.test",
       LOCALAI_MAX_RETRIES: 3,
+      LOCALAI_MODEL: "test-model",
       API_TOKEN: "my-token",
       API_BASE_URL: "http://api.liexp.test/v1",
       MCP_URL: "https://api.liexp.test/mcp",
@@ -78,18 +87,25 @@ export const loadAgentContext = async (
     },
     logger,
     jwt: GetJWTProvider({ secret: "test-secret", logger }),
-    http: HTTPProvider(mocks.axios as any as AxiosInstance),
-    puppeteer: GetPuppeteerProvider(
-      puppeteerMock,
-      { headless: "shell" },
-      puppeteerMock.devices,
+    http: HTTPProvider(testAxios),
+    puppeteer: ctxHelper.ctx<AgentContext["puppeteer"]>(
+      GetPuppeteerProvider(
+        ctxHelper.ctx<Parameters<typeof GetPuppeteerProvider>[0]>(
+          puppeteerMock,
+        ),
+        { headless: "shell" },
+        ctxHelper.ctx<Parameters<typeof GetPuppeteerProvider>[2]>(
+          puppeteerMock.devices,
+        ),
+      ),
     ),
-    langchain: {} as any,
-    fs: {
+    langchain: ctxHelper.ctx<AgentContext["langchain"]>({}),
+    fs: ctxHelper.ctx<AgentContext["fs"]>({
       getObject: (_path: string) => TE.right("# Mock AGENTS.md"),
-    } as any,
-    agentFactory: ((_type?: string, _override?: ProviderConfigOverride) =>
-      TE.right(createMockAgent())) as any,
+    }),
+    agentFactory: ctxHelper.ctx<AgentContext["agentFactory"]>(() =>
+      TE.right(createMockAgent()),
+    ),
   };
 
   return Promise.resolve(ctx);
@@ -132,16 +148,16 @@ export const stopAppServer = async (server: Server): Promise<void> =>
     });
   });
 
-const g = global as unknown as {
-  agentTest: AgentAppTest;
-  agentContext: AgentContext;
-};
+declare global {
+  var agentTest: AgentAppTest | undefined;
+  var agentContext: AgentContext | undefined;
+}
 
 export const GetAgentTest = async (): Promise<AgentAppTest> => {
-  if (!g.agentTest) {
+  if (!globalThis.agentTest) {
     throw new Error(
       "Agent test not initialized. Ensure testSetup.ts is loaded.",
     );
   }
-  return Promise.resolve(g.agentTest);
+  return Promise.resolve(globalThis.agentTest);
 };

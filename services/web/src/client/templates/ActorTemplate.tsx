@@ -6,8 +6,40 @@ import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { ActorTemplate } from "@liexp/ui/lib/templates/ActorTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
+import { Schema } from "effect";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils.js";
+
+type RouteQueryValue = string | string[];
+
+const toValues = (v: RouteQueryValue | undefined): readonly string[] =>
+  v === undefined ? [] : Array.isArray(v) ? v : [v];
+
+const toString = (v: RouteQueryValue | undefined): string | undefined =>
+  typeof v === "string" ? v : Array.isArray(v) ? v[0] : undefined;
+
+const toSearchEventsQueryInput = (
+  query: Record<string, RouteQueryValue>,
+): SearchEventsQueryInputNoPagination => ({
+  actors: toValues(query.actors),
+  groups: toValues(query.groups),
+  keywords: toValues(query.keywords),
+  groupsMembers: toValues(query.groupsMembers),
+  media: toValues(query.media),
+  locations: toValues(query.locations),
+  _sort: toString(query._sort),
+  _order:
+    toString(query._order) === "ASC" || toString(query._order) === "DESC"
+      ? (toString(query._order) as "ASC" | "DESC")
+      : undefined,
+  startDate: toString(query.startDate),
+  endDate: toString(query.endDate),
+  eventType: query.eventType
+    ? toValues(query.eventType).filter(Schema.is(EventType))
+    : EventType.members.map((t) => t.literals[0]),
+  q: toString(query.q),
+  hash: toString(query.hash) ?? "",
+});
 
 const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
   // const params = useParams();
@@ -38,27 +70,7 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
             />
             <ActorTemplate
               tab={tab}
-              query={
-                {
-                  actors: query.actors ?? [],
-                  groups: query.groups ?? [],
-                  keywords: query.keywords ?? [],
-                  groupsMembers: query.groupsMembers ?? [],
-                  media: query.media ?? [],
-                  locations: query.locations ?? [],
-                  _start: query._start ?? undefined,
-                  _end: query._end ?? undefined,
-                  _sort: query._sort ?? undefined,
-                  _order: query._order ?? undefined,
-                  startDate: query.startDate ?? undefined,
-                  endDate: query.endDate ?? undefined,
-                  eventType:
-                    query.eventType ??
-                    EventType.members.map((t) => t.literals[0]),
-                  q: query.q ?? undefined,
-                  hash: undefined,
-                } as unknown as SearchEventsQueryInputNoPagination
-              }
+              query={toSearchEventsQueryInput(query)}
               onQueryChange={(q) => {
                 navigateToResource.actors({ id: actor.id }, { ...q, tab });
               }}

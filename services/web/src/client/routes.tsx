@@ -126,7 +126,7 @@ type RouteQueries<P, Q> = (
  */
 const toRouteQueries = <P, Q>(
   queries: RouteQueries<P, Q>,
-): AsyncDataRoute["queries"] => queries as unknown as AsyncDataRoute["queries"];
+): AsyncDataRoute["queries"] => queries as AsyncDataRoute["queries"];
 
 const linkRoute: ServerRoute = {
   path: "/links/:linkId",
@@ -618,17 +618,18 @@ export const routes: ServerRoute[] = [
           q.groups = q.groups ?? [];
           q.groupsMembers = q.groupsMembers ?? [];
 
+          const { hash: _droppedHash, ...searchEventsQuery } = q;
+
           return Promise.resolve([
             ...commonQueries.flatMap((c) => c(Q, conf)),
             {
               queryKey: Q.Event.Custom.SearchEvents.getKey(
                 undefined,
                 {
-                  ...q,
-                  hash: undefined,
-                  _start: 0,
-                  _end: 20,
-                } as unknown as Parameters<
+                  ...searchEventsQuery,
+                  _start: "0",
+                  _end: "20",
+                } satisfies Parameters<
                   typeof Q.Event.Custom.SearchEvents.getKey
                 >[1],
                 false,

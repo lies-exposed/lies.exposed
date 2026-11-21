@@ -9,6 +9,7 @@ import {
   initAgentTest,
   loadAgentEvalTestContext,
 } from "./AgentEvalTest.js";
+import { type AgentContext } from "../src/context/context.type.js";
 
 // Resolve the service root from this file's location (test/evalSetup.ts → services/agent/)
 // rather than process.cwd() which is the monorepo root when run via pnpm --filter.
@@ -19,22 +20,19 @@ loadENV(SERVICE_ROOT, ".env");
 
 const logger = GetLogger("agent-eval-testSetup");
 
-const g = global as unknown as {
-  agentContext: any;
-  agentEvalTest?: AgentEvalTest;
-};
+declare global {
+  var agentContext: AgentContext | undefined;
+  var agentEvalTest: AgentEvalTest | undefined;
+}
 
 beforeAll(async () => {
   D.enable(process.env.DEBUG ?? "-");
 
-  if (!g.agentContext) {
-    logger.debug.log("loading agent context");
-    g.agentContext = await loadAgentEvalTestContext(logger);
-  }
+  globalThis.agentContext ??= await loadAgentEvalTestContext(logger);
 
-  logger.debug.log("agent context initialized", !!g.agentContext);
+  logger.debug.log("agent context initialized", !!globalThis.agentContext);
 
-  g.agentEvalTest = await initAgentTest(g.agentContext);
+  globalThis.agentEvalTest = await initAgentTest(globalThis.agentContext);
 });
 
 beforeEach(() => {

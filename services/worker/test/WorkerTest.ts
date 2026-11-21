@@ -28,6 +28,7 @@ import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { ctxHelper } from "@liexp/test/lib/index.js";
 import { type AxiosInstance } from "axios";
 import { Schema } from "effect";
 import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";
@@ -38,6 +39,14 @@ import { Config } from "../src/config.js";
 import { type WorkerContext } from "#context/context.js";
 import { ENV } from "#io/env.js";
 import { toWorkerError } from "#io/worker.error.js";
+
+/**
+ * The axios mock is a `vitest-mock-extended` proxy typed as `Axios`, but at
+ * runtime it satisfies the `AxiosInstance` shape the HTTP provider consumes.
+ * Keeping the same object identity means tests can stub `mocks.axios.get` and
+ * have it take effect in `ctx.http`.
+ */
+const testAxios = ctxHelper.ctx<AxiosInstance>(mocks.axios);
 
 export interface WorkerTest {
   ctx: WorkerContext;
@@ -81,7 +90,11 @@ export const loadAppContext = async (
       wp: mocks.wiki,
       rw: mocks.wiki,
       urlMetadata: {
-        fetchHTML: <E>(url: string, opts: { timeout?: number }, toError: (e: unknown) => E) => {
+        fetchHTML: <E>(
+          url: string,
+          opts: { timeout?: number },
+          toError: (e: unknown) => E,
+        ) => {
           return TE.tryCatch(
             () => mocks.urlMetadata.fetchHTML(url, opts) as Promise<string>,
             toError,
@@ -98,7 +111,7 @@ export const loadAppContext = async (
           );
         },
       },
-      http: HTTPProvider(mocks.axios as unknown as AxiosInstance),
+      http: HTTPProvider(testAxios),
       imgProc: MakeImgProcClient({
         logger,
         exifR: mocks.exifR,
@@ -113,7 +126,7 @@ export const loadAppContext = async (
       blocknote: editor, // Use real server-side blocknote implementation
       pdf: PDFProvider({ client: mocks.pdf }),
       geo: GeocodeProvider({
-        http: HTTPProvider(mocks.axios as unknown as AxiosInstance),
+        http: HTTPProvider(testAxios),
         apiKey: "fake-geo-api-key",
       }),
       queue: GetQueueProvider,
