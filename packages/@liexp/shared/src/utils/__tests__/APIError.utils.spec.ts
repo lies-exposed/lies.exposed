@@ -1,4 +1,5 @@
-import type { IOError, IOErrorDetails } from "@ts-endpoint/core";
+import { ctxHelper } from "@liexp/test";
+import { IOError, type IOErrorDetails } from "@ts-endpoint/core";
 import { describe, expect, it } from "vitest";
 import {
   fromIOError,
@@ -6,19 +7,18 @@ import {
   decodeIOErrorDetails,
 } from "../APIError.utils.js";
 
+const ioErrorFixture = (
+  message: string,
+  details: IOErrorDetails<never>,
+): IOError => new IOError(message, details);
+
 describe("APIError.utils", () => {
   describe("fromIOError", () => {
     it("should convert a DecodingError IOError to APIError with status 400", () => {
-      const ioError = {
-        name: "IOError",
-        message: "Decoding failed",
-        status: 600,
-        details: {
-          kind: "DecodingError",
-          errors: ["Field 'email' is required"],
-          status: "600",
-        },
-      } as unknown as IOError;
+      const ioError = ioErrorFixture("Decoding failed", {
+        kind: "DecodingError",
+        errors: ["Field 'email' is required"],
+      });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(400);
@@ -28,16 +28,10 @@ describe("APIError.utils", () => {
     });
 
     it("should return undefined details when DecodingError has no errors", () => {
-      const ioError = {
-        name: "IOError",
-        message: "Empty decoding error",
-        status: 600,
-        details: {
+      const ioError = ioErrorFixture("Empty decoding error", {
           kind: "DecodingError",
           errors: [],
-          status: "600",
-        },
-      } as unknown as IOError;
+        });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(400);
@@ -45,16 +39,11 @@ describe("APIError.utils", () => {
     });
 
     it("should handle ClientError with meta object", () => {
-      const ioError = {
-        name: "IOError",
-        message: "Bad request",
-        status: 400,
-        details: {
+      const ioError = ioErrorFixture("Bad request", {
           kind: "ClientError",
           status: "400",
           meta: { field: "email", reason: "invalid" },
-        },
-      } as unknown as IOError;
+        });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(400);
@@ -64,16 +53,11 @@ describe("APIError.utils", () => {
     });
 
     it("should handle ClientError with meta array", () => {
-      const ioError = {
-        name: "IOError",
-        message: "Validation failed",
-        status: 422,
-        details: {
+      const ioError = ioErrorFixture("Validation failed", {
           kind: "ClientError",
           status: "422",
           meta: ["error1", "error2"],
-        },
-      } as unknown as IOError;
+        });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -81,16 +65,11 @@ describe("APIError.utils", () => {
     });
 
     it("should handle ServerError", () => {
-      const ioError = {
-        name: "IOError",
-        message: "Internal error",
-        status: 500,
-        details: {
+      const ioError = ioErrorFixture("Internal error", {
           kind: "ServerError",
           status: "500",
           meta: { code: "INTERNAL" },
-        },
-      } as unknown as IOError;
+        });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -98,16 +77,11 @@ describe("APIError.utils", () => {
     });
 
     it("should handle NetworkError", () => {
-      const ioError = {
-        name: "IOError",
-        message: "Network timeout",
-        status: 500,
-        details: {
+      const ioError = ioErrorFixture("Network timeout", {
           kind: "NetworkError",
           status: "500",
           meta: undefined,
-        },
-      } as unknown as IOError;
+        });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -115,16 +89,11 @@ describe("APIError.utils", () => {
     });
 
     it("should map unknown status codes to 500", () => {
-      const ioError = {
-        name: "IOError",
-        message: "Unknown status",
-        status: 418,
-        details: {
+      const ioError = ioErrorFixture("Unknown status", {
           kind: "ClientError",
           status: "418",
           meta: null,
-        },
-      } as unknown as IOError;
+        });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -132,16 +101,11 @@ describe("APIError.utils", () => {
 
     it("should pass through known status codes", () => {
       for (const status of [200, 201, 400, 401, 403, 404, 500]) {
-        const ioError = {
-          name: "IOError",
-          message: "Test",
-          status,
-          details: {
-            kind: "ClientError",
-            status: String(status),
-            meta: null,
-          },
-        } as unknown as IOError;
+        const ioError = ioErrorFixture("Test", {
+          kind: "ClientError",
+          status: String(status),
+          meta: null,
+        });
 
         const result = fromIOError(ioError);
         expect(result.status).toBe(status);
@@ -149,16 +113,10 @@ describe("APIError.utils", () => {
     });
 
     it("should map DecodingError to status 400 regardless of status code", () => {
-      const ioError = {
-        name: "IOError",
-        message: "Decoding error with 500 status",
-        status: 500,
-        details: {
+      const ioError = ioErrorFixture("Decoding error with 500 status", {
           kind: "DecodingError",
           errors: ["parse error"],
-          status: "500",
-        },
-      } as unknown as IOError;
+        });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(400);
@@ -167,14 +125,14 @@ describe("APIError.utils", () => {
 
   describe("reportIOErrorDetails", () => {
     it("should return empty string for null details", () => {
-      expect(
-        reportIOErrorDetails(null as unknown as IOErrorDetails<never>),
-      ).toBe("");
+      expect(reportIOErrorDetails(ctxHelper.ctx<IOErrorDetails<never>>(null))).toBe(
+        "",
+      );
     });
 
     it("should return empty string for undefined details", () => {
       expect(
-        reportIOErrorDetails(undefined as unknown as IOErrorDetails<never>),
+        reportIOErrorDetails(ctxHelper.ctx<IOErrorDetails<never>>(undefined)),
       ).toBe("");
     });
 
