@@ -1,8 +1,8 @@
 // import chroma from "chroma-js";
 import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import {
-  type SankeyGraph as D3SankeyGraph,
   type SankeyLink as D3SankeyLink,
+  type SankeyNode as D3SankeyNode,
   sankey,
   sankeyLeft,
   // sankeyJustify,
@@ -16,47 +16,46 @@ import { EventIcon, EventTypeColor } from "../Icons/index.js";
 export const nodeWidth = 45;
 export const nodePadding = 10;
 
-export interface SankeyNodeData {
+export interface SankeyNodeInput {
   id: string;
-  x0: number;
-  x1: number;
-  y0: number;
-  y1: number;
   type?: string;
   payload?: Record<string, unknown>;
   avatar?: string;
   fullName?: string;
   name?: string;
   tag?: string;
-  onClick?: (event: unknown) => void;
-  [key: string]: unknown;
 }
 
-export interface SankeyLinkData {
-  source: SankeyNodeData;
-  target: SankeyNodeData;
+export interface SankeyLinkInput {
+  source: string;
+  target: string;
   value: number;
   stroke?: string;
-  path?: string;
-  [key: string]: unknown;
 }
 
-interface SankeyNodeDatum {
-  id: string | number;
-}
-type SankeyLinkDatum = Record<string, never>;
+type SankeyNodeDatum = D3SankeyNode<SankeyNodeInput, SankeyLinkInput>;
+type SankeyLinkDatum = D3SankeyLink<SankeyNodeInput, SankeyLinkInput>;
 
-const SankeyNode: React.FC<SankeyNodeData> = ({
-  x0,
-  x1,
-  y0,
-  y1,
-  type,
-  payload,
-  id,
-  onClick,
-  ...props
-}) => {
+export type SankeyNodeData = SankeyNodeDatum & {
+  x0: number;
+  x1: number;
+  y0: number;
+  y1: number;
+};
+
+export type SankeyLinkData = SankeyLinkDatum & {
+  source: SankeyNodeData;
+  target: SankeyNodeData;
+};
+
+interface SankeyGraphInput {
+  nodes: SankeyNodeInput[];
+  links: SankeyLinkInput[];
+}
+
+const SankeyNode: React.FC<
+  SankeyNodeData & { onClick?: (event: unknown) => void }
+> = ({ x0, x1, y0, y1, type, payload, id, onClick, ...props }) => {
   const width = x1 - x0;
   const rectHeight = y1 - y0;
 
@@ -150,9 +149,7 @@ const SankeyNode: React.FC<SankeyNodeData> = ({
 };
 
 const SankeyLink: React.FC<{ link: SankeyLinkData }> = ({ link }) => {
-  const d = sankeyLinkHorizontal<SankeyNodeDatum, SankeyLinkDatum>()(
-    link as unknown as D3SankeyLink<SankeyNodeDatum, SankeyLinkDatum>,
-  );
+  const d = sankeyLinkHorizontal<SankeyNodeInput, SankeyLinkInput>()(link);
 
   return (
     <path
@@ -170,10 +167,7 @@ const SankeyLink: React.FC<{ link: SankeyLinkData }> = ({ link }) => {
 export interface SankeyGraphProps {
   width: number;
   height: number;
-  graph: {
-    links: SankeyLinkData[];
-    nodes: SankeyNodeData[];
-  };
+  graph: SankeyGraphInput;
   onEventClick: (e: unknown) => void;
 }
 
@@ -201,11 +195,7 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
     nodes: SankeyNodeData[];
     links: SankeyLinkData[];
   } => {
-    const sankeyGraph = props.graph as unknown as D3SankeyGraph<
-      SankeyNodeDatum,
-      SankeyLinkDatum
-    >;
-    const result = sankey<SankeyNodeDatum, SankeyLinkDatum>()
+    const result = sankey<SankeyNodeInput, SankeyLinkInput>()
       .nodeWidth(nodeWidth)
       .nodePadding(nodePadding)
       .nodeId((n) => String(n.id))
@@ -213,13 +203,13 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
       .extent([
         [0, 0],
         [width, height],
-      ])(sankeyGraph);
+      ])(props.graph);
 
     return {
-      nodes: result.nodes as unknown as SankeyNodeData[],
-      links: result.links as unknown as SankeyLinkData[],
+      nodes: result.nodes as SankeyNodeData[],
+      links: result.links as SankeyLinkData[],
     };
-  }, [props.graph.nodes.length, props.graph.links.length, width, height]);
+  }, [props.graph, width, height]);
 
   return (
     <svg width={width} height={height}>
