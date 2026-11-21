@@ -1,7 +1,10 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
-import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import {
+  toActorEntity,
+  toGroupEntity,
+} from "@liexp/backend/lib/test/utils/entities/index.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
@@ -17,42 +20,8 @@ describe("List Groups", () => {
   let appTest: AppTest;
   let authorizationToken: string;
   let totalEvents: number;
-  const actors = FastCheck.sample(ActorArb, 10).map((a) => ({
-    ...a,
-    avatar: a.avatar
-      ? ({
-          ...a.avatar,
-          stories: [],
-          featuredInAreas: [],
-        } as any as MediaEntity)
-      : null,
-    memberIn: [],
-    groups: [],
-    stories: [],
-    events: [],
-    nationalities: [],
-    eventCount: 0,
-    bornOn: a.bornOn ?? null,
-    diedOn: a.diedOn ?? null,
-    death: null,
-    deletedAt: null,
-  }));
-  const groups = FastCheck.sample(GroupArb, 100).map((g) => ({
-    ...g,
-    username: g.username ?? null,
-    avatar: g.avatar
-      ? ({
-          ...g.avatar,
-          stories: [],
-          featuredInAreas: [],
-        } as any as MediaEntity)
-      : null,
-    startDate: g.startDate ?? null,
-    endDate: g.endDate ?? null,
-    members: [],
-    stories: [],
-    deletedAt: null,
-  }));
+  const actors = FastCheck.sample(ActorArb, 10).map(toActorEntity);
+  const groups = FastCheck.sample(GroupArb, 100).map(toGroupEntity);
   let groupMembers: Partial<GroupMemberEntity>[];
 
   beforeAll(async () => {

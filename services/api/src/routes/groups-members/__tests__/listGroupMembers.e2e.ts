@@ -5,6 +5,7 @@ import {
   toActorEntity,
   toGroupEntity,
 } from "@liexp/backend/lib/test/utils/entities/index.js";
+import { type GroupMemberEncoded } from "@liexp/io/lib/http/GroupMember.js";
 import { toParagraph } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
@@ -13,6 +14,7 @@ import { UUIDArb } from "@liexp/test/lib/arbitrary/common/UUID.arbitrary.js";
 import * as tests from "@liexp/test/lib/index.js";
 import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { getUserAuthorization } from "../../../../test/utils/jwt.utils.js";
 
 describe("List Group Member", () => {
   let authorizationToken: string;
@@ -34,9 +36,7 @@ describe("List Group Member", () => {
   beforeAll(async () => {
     Test = await GetAppTest();
 
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
+    authorizationToken = getUserAuthorization(Test.ctx, { id: "1" });
     await throwTE(Test.ctx.db.save(ActorEntity, actors));
     await throwTE(Test.ctx.db.save(GroupEntity, groups));
     await throwTE(Test.ctx.db.save(GroupMemberEntity, groupsMembers));
@@ -53,7 +53,7 @@ describe("List Group Member", () => {
 
     expect(response.status).toEqual(200);
 
-    response.body.data.forEach((d: any, i: number): void => {
+    response.body.data.forEach((d: GroupMemberEncoded, i: number): void => {
       const {
         createdAt: _createdAt,
         updatedAt: _groupMemberUDate,

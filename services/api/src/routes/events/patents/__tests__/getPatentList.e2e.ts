@@ -13,12 +13,13 @@ describe("Get Patent List", () => {
     media: [],
     links: [],
     keywords: [],
+    socialPosts: [],
   }));
 
   beforeAll(async () => {
     appTest = await GetAppTest();
 
-    await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData as any[]));
+    await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData));
   });
 
   test("Should return the patent list", async () => {
