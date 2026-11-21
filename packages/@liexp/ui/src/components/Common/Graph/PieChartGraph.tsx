@@ -110,7 +110,7 @@ interface AnimatedStyles {
   startAngle: number;
   endAngle: number;
   opacity: number;
-  [index: string]: unknown;
+  [index: string]: number;
 }
 
 const fromLeaveTransition = <D,>({
@@ -146,11 +146,17 @@ function AnimatedPie<Datum>({
   getColor,
   onClickDatum,
 }: AnimatedPieProps<Datum>): React.ReactElement {
-  const transitions = useTransition<PieArcDatum<Datum>, AnimatedStyles>(arcs, {
-    from: animate !== null ? fromLeaveTransition : enterUpdateTransition,
-    enter: enterUpdateTransition,
-    update: enterUpdateTransition,
-    leave: animate !== null ? fromLeaveTransition : enterUpdateTransition,
+  const transitions = useTransition(arcs, {
+    from: (item: PieArcDatum<Datum>) =>
+      animate !== null
+        ? fromLeaveTransition(item)
+        : enterUpdateTransition(item),
+    enter: (item: PieArcDatum<Datum>) => enterUpdateTransition(item),
+    update: (item: PieArcDatum<Datum>) => enterUpdateTransition(item),
+    leave: (item: PieArcDatum<Datum>) =>
+      animate !== null
+        ? fromLeaveTransition(item)
+        : enterUpdateTransition(item),
   });
   return (
     <>
