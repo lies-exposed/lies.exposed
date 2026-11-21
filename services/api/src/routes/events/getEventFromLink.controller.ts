@@ -7,6 +7,7 @@ import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEven
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import * as EventSuggestion from "@liexp/io/lib/http/EventSuggestion.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
@@ -87,15 +88,18 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
             fp.O.getOrElse(() => ""),
           );
 
-          const suggestedEventLinks = pipe(
+          const newLinkSuggestion = {
+            fromURL: true as const,
+            url,
+            publishDate: urlDate as Date | null,
+          };
+
+          type SuggestedEventLink = UUID | typeof newLinkSuggestion;
+
+          const suggestedEventLinks: SuggestedEventLink[] = pipe(
             link,
-            fp.O.map((l) => [l.id]),
-            fp.O.getOrElse((): any[] => [
-              {
-                url: metadata.url,
-                publishDate: urlDate.toISOString(),
-              },
-            ]),
+            fp.O.map((l): SuggestedEventLink[] => [l.id]),
+            fp.O.getOrElse((): SuggestedEventLink[] => [newLinkSuggestion]),
           );
 
           const commonSuggestion = {

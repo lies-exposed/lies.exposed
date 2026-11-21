@@ -64,11 +64,6 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
             ...ormOptions,
           }),
         ),
-        // ctx.logger.debug.logInTaskEither((out) => [
-        //   `Book results %O \n %O`,
-        //   out.results,
-        //   (out.results[0].payload as any).authors,
-        // ]),
         fp.RTE.chainEitherK(({ results, totals: { books } }) =>
           pipe(
             results,

@@ -23,10 +23,12 @@ export const makeApp = (ctx: ServerContext): express.Express => {
   // uploads
   MakeUploadFileRoute(app, ctx);
 
-  const jsonMiddleware = express.json({
-    limit: 1024 * 1000,
-  }) as unknown as JsonMiddlewareWithUnless;
-  jsonMiddleware.unless = unless;
+  const jsonMiddleware: JsonMiddlewareWithUnless = Object.assign(
+    express.json({
+      limit: 1024 * 1000,
+    }),
+    { unless },
+  );
   app.use(
     jsonMiddleware.unless({
       path: [{ url: /\/v1\/uploads-multipart\/*/, method: "PUT" }],
