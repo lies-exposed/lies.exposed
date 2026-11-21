@@ -14,7 +14,7 @@ export class EvalCacheReporter {
   onTestCaseResult(testCase: TestCase): void {
     const result = testCase.result();
     // `fullName` includes the parent suite path, e.g.
-    // "actor operations > listing actors calls liexp_cli with actor list"
+    // "actor operations > listing actors calls findActors"
     const key = testCase.fullName;
 
     if (result.state === "passed") {

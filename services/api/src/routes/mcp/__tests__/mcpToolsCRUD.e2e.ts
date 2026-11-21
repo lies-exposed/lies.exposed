@@ -163,6 +163,14 @@ describe("MCP CRUD Tools E2E Tests", () => {
       expect(typeof result.total).toBe("number");
     });
 
+    test("findActors - ids filter restricts results to given UUIDs", async () => {
+      const result = await callMcpTool(Test, serviceClientToken, "findActors", {
+        ids: ["00000000-0000-4000-8000-000000000000"],
+      });
+      expect(result.actors).toEqual([]);
+      expect(result.total).toBe(0);
+    });
+
     test("findActors - validates input schema (invalid sort field)", async () => {
       await expect(
         callMcpTool(Test, serviceClientToken, "findActors", {
@@ -200,6 +208,14 @@ describe("MCP CRUD Tools E2E Tests", () => {
       expect(result).toHaveProperty("groups");
       expect(Array.isArray(result.groups)).toBe(true);
       expect(result).toHaveProperty("total");
+    });
+
+    test("findGroups - ids filter restricts results to given UUIDs", async () => {
+      const result = await callMcpTool(Test, serviceClientToken, "findGroups", {
+        ids: ["00000000-0000-4000-8000-000000000000"],
+      });
+      expect(result.groups).toEqual([]);
+      expect(result.total).toBe(0);
     });
 
     test("findGroups - validates input schema (invalid sort field)", async () => {
@@ -270,6 +286,14 @@ describe("MCP CRUD Tools E2E Tests", () => {
       expect(result).toHaveProperty("links");
       expect(Array.isArray(result.links)).toBe(true);
       expect(result).toHaveProperty("total");
+    });
+
+    test("findLinks - ids filter restricts results to given UUIDs", async () => {
+      const result = await callMcpTool(Test, serviceClientToken, "findLinks", {
+        ids: ["00000000-0000-4000-8000-000000000000"],
+      });
+      expect(result.links).toEqual([]);
+      expect(result.total).toBe(0);
     });
 
     test("findLinks - validates input schema (invalid sort)", async () => {

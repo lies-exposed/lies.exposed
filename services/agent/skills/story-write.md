@@ -9,7 +9,7 @@ agents: [auto, platform]
 
 ## 1. Existing story?
 
-`liexp_cli("story list --query=<title words>")`. Editing → `story get --id=<uuid>` first and keep what the user didn't ask to change.
+`findStories({ "query": "<title words>" })`. Editing → `findStories({ "ids": ["<uuid>"] })` first and keep what the user didn't ask to change.
 
 ## 2. Gather the material
 
@@ -25,10 +25,10 @@ Events, actors and groups the story is about (use `timeline-build` for a chronol
 
 Create as draft unless the user says to publish:
 ```
-liexp_cli("story create --title=<title> --path=<slug> --date=YYYY-MM-DD --draft=true --events=<uuid,...> --actors=<uuid,...> --groups=<uuid,...> --media=<uuid,...>")
-liexp_cli("story edit --id=<uuid> --body=<plain text body>")
+createStory({ "title": "<title>", "path": "<slug>", "date": "YYYY-MM-DD", "draft": true, "events": ["<uuid>"], "actors": ["<uuid>"], "groups": ["<uuid>"], "media": ["<uuid>"] })
+editStory({ "id": "<uuid>", "body": <body> })
 ```
-`path` is a lowercase URL slug of the title. Array flags on `story edit` replace the current lists — merge with existing values.
+`path` is a lowercase URL slug of the title. `createStory` has no body field, so set the body with `editStory` afterwards (the body is a BlockNote document; `blockNoteToText` converts one to plain text). Array fields on `editStory` replace the current lists — merge with existing values.
 
 ## 5. Report
 

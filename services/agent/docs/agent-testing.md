@@ -43,12 +43,12 @@ These use `GetAgentTest()` which loads a real context with mocked agent factory.
 
 ### Eval tests — `*.eval.ts`
 Use when testing **actual LLM behavior** — what the agent does with real prompts:
-- Does the agent call `liexp_cli` with the right command?
-- Does it skip `liexp_cli` for web research requests?
+- Does the agent call the right MCP tool (e.g. `findActors`) with the right arguments?
+- Does it skip platform tools for web research requests?
 - Does the stream shape match expectations?
 
 These hit a real LLM (via `.env.local` credentials) but cache results so passing tests skip on re-run.
-Note: the existing `agent-pipeline.eval.ts` tests write through `liexp_cli` to the **shared dev API/DB**
+Note: the existing `agent-pipeline.eval.ts` tests write through the MCP tools to the **shared dev API/DB**
 (`api.liexp.dev`) — fine for asserting tool-call shape, but not a place to add assertions that
 depend on exact DB state, and cleanup after a failed test is on you.
 
@@ -156,10 +156,10 @@ let ctx: AgentContext;
 beforeAll(async () => { ctx = await loadEvalContext(); });
 
 describe("agent behavior", () => {
-  cachedTest("agent calls liexp_cli for actor queries", async () => {
+  cachedTest("agent calls findActors for actor queries", async () => {
     const events = await collectEvents(ctx, "list actors");
     const cliCalls = events.filter(e => 
-      e.type === "tool_call_start" && e.tool_call?.name === "liexp_cli"
+      e.type === "tool_call_start" && e.tool_call?.name === "findActors"
     );
     expect(cliCalls.length).toBeGreaterThan(0);
   });

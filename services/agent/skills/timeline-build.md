@@ -11,11 +11,11 @@ agents: [auto, platform]
 
 Combine filters to cover the topic:
 ```
-liexp_cli("event list --query=<topic keywords> --end=100")
-liexp_cli("event list --actors=<uuid> --end=100")
-liexp_cli("event list --groups=<uuid> --startDate=YYYY-MM-DD --endDate=YYYY-MM-DD --end=100")
+findEvents({ "query": "<topic keywords>", "end": 100 })
+findEvents({ "actors": ["<uuid>"], "end": 100 })
+findEvents({ "groups": ["<uuid>"], "startDate": "YYYY-MM-DD", "endDate": "YYYY-MM-DD", "end": 100 })
 ```
-Try 2–3 keyword variants. De-duplicate by event UUID. For a story, start from `story get --id=<uuid>` and its linked events.
+Try 2–3 keyword variants. De-duplicate by event UUID. For a story, start from `findStories({ "ids": ["<uuid>"] })` and its linked events.
 
 ## 2. Order and check
 

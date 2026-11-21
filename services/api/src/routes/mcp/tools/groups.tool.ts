@@ -10,6 +10,7 @@ import { type CreateGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
+import * as O from "effect/Option";
 import { defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 import { createGroup } from "#flows/groups/createGroup.flow.js";
@@ -40,6 +41,10 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
         description:
           "Search query string to filter groups by name, excerpt, or body",
       }),
+      ids: Schema.optional(Schema.Array(Schema.String)).annotations({
+        description:
+          "Fetch specific groups by UUID (use this to get a record by id)",
+      }),
       sort: Schema.UndefinedOr(
         Schema.Union(
           Schema.Literal("id"),
@@ -63,23 +68,27 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       }),
     }),
     async (input) => {
-      const { query, sort, order, start, end } = input;
+      const { query, ids, sort, order, start, end } = input;
 
+      // fetchGroups reads effect Options; plain values would be ignored
       const groupQuery: Record<string, unknown> = {};
       if (query) {
-        groupQuery.q = query;
+        groupQuery.q = O.some(query);
+      }
+      if (ids && ids.length > 0) {
+        groupQuery.ids = O.some(ids);
       }
       if (sort) {
-        groupQuery.sort = sort;
+        groupQuery._sort = O.some(sort);
       }
       if (order) {
-        groupQuery.order = order;
+        groupQuery._order = O.some(order);
       }
       if (start !== undefined) {
-        groupQuery.start = Number(start);
+        groupQuery._start = O.some(Number(start));
       }
       if (end !== undefined) {
-        groupQuery.end = Number(end);
+        groupQuery._end = O.some(Number(end));
       }
 
       try {

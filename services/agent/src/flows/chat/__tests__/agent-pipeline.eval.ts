@@ -95,23 +95,16 @@ beforeAll(async () => {
 // ---------------------------------------------------------------------------
 
 describe("actor operations", () => {
-  cachedTest(
-    "actor operations > listing actors calls liexp_cli with actor list",
-    async () => {
-      const events = await collectEvents(
-        ctx.ctx,
-        "list the most recent actors",
-      );
-      const calls = toolCallStarts(events);
+  cachedTest("actor operations > listing actors calls findActors", async () => {
+    const events = await collectEvents(ctx.ctx, "list the most recent actors");
+    const calls = toolCallStarts(events);
 
-      const cliCall = calls.find((e) => e.tool_call.name === "liexp_cli");
-      expect(cliCall, "expected a liexp_cli tool call").toBeDefined();
-      expect(toolArgs(cliCall!)).toMatch(/actor\s+(list|find)/);
-    },
-  );
+    const call = calls.find((e) => e.tool_call.name === "findActors");
+    expect(call, "expected a findActors tool call").toBeDefined();
+  });
 
   cachedTest(
-    "actor operations > getting a specific actor by id calls liexp_cli actor get",
+    "actor operations > getting a specific actor by id calls findActors with ids",
     async () => {
       const actorId = ACTOR_FIXTURE.id;
 
@@ -121,10 +114,12 @@ describe("actor operations", () => {
       );
       const calls = toolCallStarts(events);
 
-      const cliCall = calls.find((e) => e.tool_call.name === "liexp_cli");
-      expect(cliCall).toBeDefined();
-      expect(toolArgs(cliCall!)).toMatch(/actor\s+get/);
-      expect(toolArgs(cliCall!)).toContain(actorId);
+      const call = calls.find(
+        (e) =>
+          e.tool_call.name === "findActors" && toolArgs(e).includes(actorId),
+      );
+      expect(call, "expected findActors with ids: [actorId]").toBeDefined();
+      expect(toolArgs(call!)).toContain("ids");
     },
   );
 });
@@ -134,17 +129,13 @@ describe("actor operations", () => {
 // ---------------------------------------------------------------------------
 
 describe("event operations", () => {
-  cachedTest(
-    "event operations > listing events calls liexp_cli with event list",
-    async () => {
-      const events = await collectEvents(ctx.ctx, "show me the latest events");
-      const calls = toolCallStarts(events);
+  cachedTest("event operations > listing events calls findEvents", async () => {
+    const events = await collectEvents(ctx.ctx, "show me the latest events");
+    const calls = toolCallStarts(events);
 
-      const cliCall = calls.find((e) => e.tool_call.name === "liexp_cli");
-      expect(cliCall).toBeDefined();
-      expect(toolArgs(cliCall!)).toMatch(/event\s+(list|find)/);
-    },
-  );
+    const call = calls.find((e) => e.tool_call.name === "findEvents");
+    expect(call, "expected a findEvents tool call").toBeDefined();
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -152,17 +143,13 @@ describe("event operations", () => {
 // ---------------------------------------------------------------------------
 
 describe("group operations", () => {
-  cachedTest(
-    "group operations > listing groups calls liexp_cli with group list",
-    async () => {
-      const events = await collectEvents(ctx.ctx, "list all groups");
-      const calls = toolCallStarts(events);
+  cachedTest("group operations > listing groups calls findGroups", async () => {
+    const events = await collectEvents(ctx.ctx, "list all groups");
+    const calls = toolCallStarts(events);
 
-      const cliCall = calls.find((e) => e.tool_call.name === "liexp_cli");
-      expect(cliCall).toBeDefined();
-      expect(toolArgs(cliCall!)).toMatch(/group\s+(list|find)/);
-    },
-  );
+    const call = calls.find((e) => e.tool_call.name === "findGroups");
+    expect(call, "expected a findGroups tool call").toBeDefined();
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -185,25 +172,25 @@ describe("multi-agent routing", () => {
 
       expect(content).not.toMatch(/^(platform|researcher)$/i);
 
-      const cliCall = toolCallStarts(events).find(
-        (e) => e.tool_call.name === "liexp_cli",
+      const call = toolCallStarts(events).find(
+        (e) => e.tool_call.name === "findActors",
       );
-      expect(cliCall).toBeDefined();
+      expect(call).toBeDefined();
     },
   );
 
   cachedTest(
-    "multi-agent routing > a web research request does not emit a liexp_cli tool call",
+    "multi-agent routing > a web research request does not emit a platform tool call",
     async () => {
       const events = await collectEvents(
         ctx.ctx,
         "search the web for recent news about climate change",
       );
 
-      const cliCall = toolCallStarts(events).find(
-        (e) => e.tool_call.name === "liexp_cli",
+      const platformCall = toolCallStarts(events).find((e) =>
+        /^(find|create|edit)[A-Z]/.test(e.tool_call.name),
       );
-      expect(cliCall).toBeUndefined();
+      expect(platformCall).toBeUndefined();
     },
   );
 });
@@ -260,13 +247,17 @@ describe.only("full flow with tool execution", () => {
       );
 
       const toolStarts = toolCallStarts(events);
-      const cliCall = toolStarts.find((e) => e.tool_call.name === "liexp_cli");
-      expect(cliCall, "expected liexp_cli tool call").toBeDefined();
+      const findCall = toolStarts.find(
+        (e) => e.tool_call.name === "findActors",
+      );
+      expect(findCall, "expected findActors tool call").toBeDefined();
 
       const toolEnds = toolCallEnds(events);
-      const cliResult = toolEnds.find((e) => e.tool_call.name === "liexp_cli");
+      const findResult = toolEnds.find(
+        (e) => e.tool_call.name === "findActors",
+      );
       expect(
-        cliResult,
+        findResult,
         "expected tool execution (tool_call_end event from on_tool_end)",
       ).toBeDefined();
 

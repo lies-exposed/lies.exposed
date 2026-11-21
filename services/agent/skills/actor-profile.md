@@ -11,8 +11,8 @@ agents: [auto, platform]
 
 Search at least two variants before creating:
 ```
-liexp_cli("actor list --fullName=<full name> --end=10")
-liexp_cli("actor list --fullName=<surname> --end=10")
+findActors({ "fullName": "<full name>", "end": 10 })
+findActors({ "fullName": "<surname>", "end": 10 })
 ```
 Also try the name without middle names/titles and the native spelling. If a match exists, switch to **Enrich** below.
 
@@ -24,27 +24,27 @@ Collect: full name, short excerpt (1–2 neutral sentences: role + why relevant)
 
 ## 3. Avatar
 
-`liexp_cli("actor find-avatar --fullName=<full name>")` → prints created media JSON; the avatar UUID is `.data.id`. If it fails, continue without an avatar — do not block creation.
+`find_wikipedia_image({ "name": "<full name>" })` → `{ imageUrl, type }`. Then `createMedia({ "location": "<imageUrl>", "type": "<type>", "label": "<full name>" })` and use the returned media id as the avatar. If either step fails, continue without an avatar — do not block creation.
 
 ## 4. Nationalities
 
-`liexp_cli("nation list --name=<country>")` → nation UUIDs.
+Nationalities are nation UUIDs. If you have a nation lookup tool (`findNations({ "name": "<country>" })`) use it; otherwise leave `nationalities` empty and say so in the report.
 
 ## 5. Create
 
 `username` is a lowercase slug of the full name (`john-doe`); add a disambiguator if taken.
 ```
-liexp_cli("actor create --username=<slug> --fullName=<Full Name> --excerpt=<text> --avatar=<media-uuid> --bornOn=YYYY-MM-DD --nationalities=<nation-uuid,...>")
+createActor({ "username": "<slug>", "fullName": "<Full Name>", "color": "<hex without #>", "avatar": "<media-uuid>", "bornOn": "YYYY-MM-DD", "nationalities": ["<nation-uuid>"] })
 ```
-Omit flags you have no data for.
+`color` is required (hex without `#`). `excerpt` is a BlockNote document; if unsure of the format, create first and set the text with `editActor`. Omit fields you have no data for.
 
 ## Enrich an existing actor
 
-1. `liexp_cli("actor get --id=<uuid>")` — read current values.
+1. `findActors({ "ids": ["<uuid>"] })` — read current values.
 2. Only change fields that are empty or clearly wrong; tell the user about any value you overwrite.
-3. Group membership: resolve groups with `group list --query=...` (create via `group-profile` only if the user wants), then
-   `liexp_cli("actor edit --id=<uuid> --memberIn=<group-uuid,...>")`.
-   Arrays **replace** the current list — merge with the existing values from `actor get` first.
+3. Group membership: resolve groups with `findGroups({ "query": "..." })` (create via `group-profile` only if the user wants), then
+   `editActor({ "id": "<uuid>", "memberIn": ["<group-uuid>", "..."] })`.
+   Arrays **replace** the current list — merge with the existing values from `findActors` first.
 
 ## Report
 

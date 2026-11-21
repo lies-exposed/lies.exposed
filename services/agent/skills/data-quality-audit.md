@@ -9,8 +9,8 @@ agents: [auto, platform]
 
 ## 1. Scope
 
-- One record → `<resource> get --id=<uuid>`.
-- A batch → e.g. `actor list --sort=createdAt --order=DESC --end=20`, `group list --sort=createdAt --order=DESC --end=20`, `event list --end=20`, `link list --sort=createdAt --order=DESC --end=20`.
+- One record → the matching `find*` tool with `ids: ["<uuid>"]`.
+- A batch → e.g. `findActors({ "sort": "createdAt", "order": "DESC", "end": 20 })`, `findGroups({ "sort": "createdAt", "order": "DESC", "end": 20 })`, `findEvents({ "end": 20 })`, `findLinks({ "sort": "createdAt", "order": "DESC", "end": 20 })`.
 
 ## 2. Checks
 

@@ -37,8 +37,8 @@ pnpm --filter agent cli agent "list the most recent actors"
 4. Loads MCP tools from API (logged as `[agent-cli] Loaded X MCP tools`)
 5. Creates a new conversation UUID
 6. Streams the response via `sendChatMessageStream`
-7. Tool calls logged to stderr: `[tool] liexp_cli {"input":"{\"command\":\"actor list --sort=createdAt --order=DESC --end=10\"}"}`
-8. Tool results logged to debug: `[tool result] liexp_cli: {...}`
+7. Tool calls logged to stderr: `[tool] findActors {"sort":"createdAt","order":"DESC","end":10}`
+8. Tool results logged to debug: `[tool result] findActors: {...}`
 9. Enters interactive loop until you type `exit`
 
 **Observed log format:**
@@ -81,10 +81,10 @@ When you edit prompts (`AGENTS.md`, `RESEARCHER.md`) or agent logic, use the CLI
 
 ### 1. Quick smoke test
 ```bash
-# Should respond with a tool call to liexp_cli
+# Should respond with a findActors tool call
 pnpm --filter agent cli agent "list the most recent actors"
 
-# Should NOT call liexp_cli (web research)
+# Should NOT call platform tools (web research)
 pnpm --filter agent cli agent "search the web for recent climate news"
 
 # Should respond naturally without tools
@@ -93,13 +93,13 @@ pnpm --filter agent cli agent "hello"
 
 ### 2. Test specific tool calls
 ```bash
-# Verify the agent uses the correct CLI commands
+# Verify the agent uses the correct MCP tool
 pnpm --filter agent cli agent "get the actor with ID 00000000-0000-0000-0000-000000000001"
-# Look for: [tool] liexp_cli {"command":"actor get --id=..."}
+# Look for: [tool] findActors {"ids":["00000000-0000-0000-0000-000000000001"]}
 
 # Verify the agent searches before creating
 pnpm --filter agent cli agent "create a new actor named Test Person"
-# Should see liexp_cli find/search first, then create only if no match
+# Should see findActors first, then createActor only if no match
 ```
 
 ### 3. Test prompt changes
@@ -126,15 +126,15 @@ pnpm --filter agent cli agent "here is a link https://example.com/article"
 | Stream | Content |
 |--------|---------|
 | `stdout` | Agent's text response (streamed) |
-| `stderr` | Tool calls: `[tool] liexp_cli {"input":"{\"command\":\"actor list --sort=createdAt --order=DESC --end=10\"}"}` |
-| `stderr` (debug) | Tool results: `[tool result] liexp_cli: {...}` |
+| `stderr` | Tool calls: `[tool] findActors {"sort":"createdAt","order":"DESC","end":10}` |
+| `stderr` (debug) | Tool results: `[tool result] findActors: {...}` |
 | `stderr` (dimmed) | Thinking content: `\x1b[2m<thinking>...\x1b[0m` |
 
 ## Common Test Scenarios
 
 ### Verify tool priority
 ```bash
-# Should use liexp_cli, NOT searchWeb, for platform data
+# Should use findActors, NOT searchWeb, for platform data
 pnpm --filter agent cli agent "find all actors named Obama"
 
 # Should use searchWeb for external information
@@ -152,7 +152,7 @@ pnpm --filter agent cli agent "create an actor named Unique Test Person 12345"
 ```bash
 # Should not fabricate data
 pnpm --filter agent cli agent "tell me about actor 00000000-0000-0000-0000-000000000001"
-# Should call liexp_cli, not make up information
+# Should call findActors, not make up information
 ```
 
 ### Verify multi-step workflows

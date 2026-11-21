@@ -23,6 +23,6 @@ Input shape (from the editor's AI button):
 
 ## When context is needed
 
-If the instruction depends on the record ("make it consistent with the event", "add the date"), read it first with `liexp_cli("<resource> get --id=<resourceId>")` (platform agents only) and use only facts from the record.
+If the instruction depends on the record ("make it consistent with the event", "add the date"), read it first with the matching `find*` tool with `ids: ["<resourceId>"]` (platform agents only) and use only facts from the record.
 
 If the instruction cannot be applied (e.g. it asks for facts that aren't available), return the selection unchanged — do not explain in the output.

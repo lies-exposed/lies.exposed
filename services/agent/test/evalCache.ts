@@ -48,7 +48,7 @@ const isPassed = (fullName: string): boolean =>
  * display name as shown in the vitest output).
  *
  * Example:
- *   cachedTest("listing actors calls liexp_cli with actor list", async () => { ... });
+ *   cachedTest("listing actors calls findActors", async () => { ... });
  */
 export const cachedTest = (
   name: string,

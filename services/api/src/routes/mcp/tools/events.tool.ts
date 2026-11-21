@@ -44,6 +44,10 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
       query: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full-text search query",
       }),
+      ids: Schema.optional(Schema.Array(Schema.String)).annotations({
+        description:
+          "Fetch specific events by UUID (use this to get a record by id)",
+      }),
       actors: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
         description: "Filter by actor UUIDs",
       }),
@@ -68,8 +72,22 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
       }),
     }),
     async (input) => {
-      const { query, actors, groups, type, startDate, endDate, start, end } =
-        input;
+      const {
+        query,
+        ids,
+        actors,
+        groups,
+        type,
+        startDate,
+        endDate,
+        start,
+        end,
+      } = input;
+
+      const idsFilter = pipe(
+        O.fromNullable(ids),
+        O.filter((i) => i.length > 0),
+      );
 
       const typeFilter = pipe(
         O.fromNullable(type),
@@ -99,6 +117,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
             O.fromNullable(query),
             O.filter((q) => q.length > 0),
           ),
+          ids: idsFilter,
           actors: actorsFilter,
           groupsMembers: groupsFilter,
           type: typeFilter,

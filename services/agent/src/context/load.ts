@@ -1,5 +1,4 @@
 import * as fs from "fs";
-import path from "path";
 import { type MCPAdapter } from "@langchain/mcp-adapters";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { GetAgentFactory } from "@liexp/backend/lib/providers/ai/agent.factory.js";
@@ -24,7 +23,7 @@ import { createMcpClient } from "../mcp/mcp.client.js";
 import { createMemoryClient } from "../memory/client.js";
 import { type AgentContext } from "./context.type.js";
 import { ENV } from "#io/ENV.js";
-import { createCliExecutorTool } from "#tools/cli-executor.tool.js";
+import { createWikipediaImageTool } from "#tools/wikipedia-image.tool.js";
 
 const agentLogger = logger.GetLogger("agent");
 
@@ -296,9 +295,7 @@ export const getAgentContext =
         // on-demand per type + provider config (default "auto" included).
         const agentFactory = GetAgentFactory({
           mcpClient,
-          cliTool: createCliExecutorTool(
-            path.resolve(process.cwd(), "build/cli/cli.js"),
-          ),
+          extraTools: [createWikipediaImageTool()],
           apiKeys: {
             openai: env.OPENAI_API_KEY,
             anthropic: env.ANTHROPIC_API_KEY,

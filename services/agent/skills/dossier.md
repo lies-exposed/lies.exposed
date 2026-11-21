@@ -8,13 +8,13 @@ triggers: [dossier, profile, report, who is, background, overview, everything ab
 
 Read-only: do not create or edit records unless the user asks afterwards.
 
-## 1. Platform record (if you have `liexp_cli`)
+## 1. Platform record (if you have the platform MCP tools)
 
 ```
-liexp_cli("actor list --fullName=<name>")          # or group list --query=<name>
-liexp_cli("actor get --id=<uuid>")                 # or group get
-liexp_cli("event list --actors=<uuid> --end=50")   # or --groups=<uuid>
-liexp_cli("event list --actors=<uuid> --type=Transaction --end=50")
+findActors({ "fullName": "<name>" })               // or findGroups({ "query": "<name>" })
+findActors({ "ids": ["<uuid>"] })                  // or findGroups
+findEvents({ "actors": ["<uuid>"], "end": 50 })    // or "groups": [...]
+findEvents({ "actors": ["<uuid>"], "type": "Transaction", "end": 50 })
 ```
 For groups also read the members; for actors, the groups they belong to.
 

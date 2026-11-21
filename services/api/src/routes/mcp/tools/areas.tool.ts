@@ -49,6 +49,10 @@ export const registerAreasTools = (server: McpServer, ctx: ServerContext) => {
       query: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full-text search query",
       }),
+      ids: Schema.optional(Schema.Array(Schema.String)).annotations({
+        description:
+          "Fetch specific areas by UUID (use this to get a record by id)",
+      }),
       sort: Schema.optional(
         Schema.Union(
           Schema.Literal("label"),
@@ -84,11 +88,12 @@ export const registerAreasTools = (server: McpServer, ctx: ServerContext) => {
       inputSchema: findAreasInputSchema,
     },
     async (opts) => {
-      const { query, sort, order, start, end } = opts ?? {};
+      const { query, ids, sort, order, start, end } = opts ?? {};
 
       // Build query matching ListAreaQuery shape expected by fetchAreas
       const areaQuery: Record<string, unknown> = {};
       if (query) areaQuery.q = O.some(query);
+      if (ids && ids.length > 0) areaQuery.ids = O.some(ids);
       if (sort) areaQuery._sort = O.some(sort);
       if (order) areaQuery._order = O.some(order);
       if (start !== undefined) areaQuery._start = O.some(Number(start));
