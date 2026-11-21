@@ -137,27 +137,25 @@ describe("APIError.utils", () => {
     });
 
     it("should join DecodingError errors with newlines", () => {
-      const details = {
+      const details: IOErrorDetails<never> = {
         kind: "DecodingError",
         errors: ["error1", "error2", "error3"],
-        status: "600",
       };
 
       expect(reportIOErrorDetails(details)).toBe("error1\nerror2\nerror3");
     });
 
     it("should return empty string for DecodingError with no errors", () => {
-      const details = {
+      const details: IOErrorDetails<never> = {
         kind: "DecodingError",
         errors: [],
-        status: "600",
       };
 
       expect(reportIOErrorDetails(details)).toBe("");
     });
 
     it("should join CommunicationError meta with newlines", () => {
-      const details = {
+      const details: IOErrorDetails<never> = {
         kind: "ClientError",
         meta: ["meta1", "meta2"],
         status: "400",
@@ -167,7 +165,7 @@ describe("APIError.utils", () => {
     });
 
     it("should return empty string for CommunicationError with no meta", () => {
-      const details = {
+      const details: IOErrorDetails<never> = {
         kind: "ServerError",
         meta: undefined,
         status: "500",
@@ -179,27 +177,25 @@ describe("APIError.utils", () => {
 
   describe("decodeIOErrorDetails", () => {
     it("should return string array for DecodingError", () => {
-      const details = {
+      const details: IOErrorDetails<never> = {
         kind: "DecodingError",
         errors: ["err1", "err2"],
-        status: "600",
       };
 
       expect(decodeIOErrorDetails(details)).toEqual(["err1", "err2"]);
     });
 
     it("should return empty array for DecodingError with no errors", () => {
-      const details = {
+      const details: IOErrorDetails<never> = {
         kind: "DecodingError",
         errors: [],
-        status: "600",
       };
 
       expect(decodeIOErrorDetails(details)).toEqual([]);
     });
 
     it("should return string array for CommunicationError with meta", () => {
-      const details = {
+      const details: IOErrorDetails<never> = {
         kind: "ClientError",
         meta: { reason: "invalid" },
         status: "400",
@@ -209,7 +205,7 @@ describe("APIError.utils", () => {
     });
 
     it("should return empty array for CommunicationError without meta", () => {
-      const details = {
+      const details: IOErrorDetails<never> = {
         kind: "ServerError",
         meta: undefined,
         status: "500",
@@ -219,7 +215,7 @@ describe("APIError.utils", () => {
     });
 
     it("should serialize array meta items", () => {
-      const details = {
+      const details: IOErrorDetails<never> = {
         kind: "NetworkError",
         meta: ["item1", 42, true],
         status: "500",
@@ -229,7 +225,7 @@ describe("APIError.utils", () => {
     });
 
     it("should filter out empty strings but keep serialized null", () => {
-      const details = {
+      const details: IOErrorDetails<never> = {
         kind: "ClientError",
         meta: ["valid", "", null],
         status: "400",
