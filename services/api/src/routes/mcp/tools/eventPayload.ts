@@ -95,7 +95,7 @@ export const EventTypeFieldsSchema = Schema.Struct({
  * database.
  */
 
-export interface SubjectRef {
+interface SubjectRef {
   type: "Actor" | "Group";
   id: string;
 }
