@@ -6,6 +6,7 @@ import { type AgentContext } from "../../../context/context.type.js";
 import {
   buildEnhancedMessage,
   deleteChatConversation,
+  describeModelEnd,
   emptyThinkState,
   getChatConversation,
   isSupervisorEvent,
@@ -991,5 +992,29 @@ describe("chat.flow", () => {
       expect(start?.usedProvider?.model).toBe("claude-sonnet-4-20250514");
       expect(end?.usedProvider?.provider).toBe("anthropic");
     });
+  });
+});
+
+describe("describeModelEnd", () => {
+  test("reports finish reason, tool calls and content tail", () => {
+    const out = describeModelEnd({
+      output: {
+        content: "Now I will create the actor",
+        tool_calls: [],
+        response_metadata: { finish_reason: "length" },
+        usage_metadata: { input_tokens: 1, output_tokens: 2 },
+      },
+    });
+    expect(out).toEqual({
+      finishReason: "length",
+      toolCalls: 0,
+      contentLength: 27,
+      contentTail: "Now I will create the actor",
+    });
+  });
+
+  test("returns null for non-message output", () => {
+    expect(describeModelEnd({ output: null })).toBeNull();
+    expect(describeModelEnd(undefined)).toBeNull();
   });
 });
