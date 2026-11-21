@@ -47,9 +47,17 @@ export const AIProvider = Schema.Literal(
 
 export type AIProvider = typeof AIProvider.Type;
 
+// localai-gateway role aliases (home-lab services/localai-gateway/config/models.yaml
+// `aliases`). Never hardcode concrete model names: the gateway repoints them.
 const LocalAIModels = Schema.Union(
-  Schema.Literal("qwen3.6-35b-a3b"),
-  Schema.Literal("gemma-4-e4b-it"),
+  Schema.Literal("localai/fast"),
+  Schema.Literal("localai/reasoning"),
+  Schema.Literal("localai/small"),
+  Schema.Literal("localai/embed"),
+  Schema.Literal("coder"),
+  // thinking-on coder model, swap-guest
+  Schema.Literal("rhino-coder"),
+  Schema.Literal("fast-coder"),
 );
 
 // Available model names per provider

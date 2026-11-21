@@ -185,9 +185,29 @@ interface TokenUsage {
   completionTokens: number;
 }
 
+const addTokens = (a: TokenUsage, b: TokenUsage): TokenUsage => ({
+  promptTokens: a.promptTokens + b.promptTokens,
+  completionTokens: a.completionTokens + b.completionTokens,
+});
+
+const zeroTokens = (): TokenUsage => ({ promptTokens: 0, completionTokens: 0 });
+
+/** Total usage of a run: finished model calls plus the one in flight. */
+export const totalTokens = (state: StreamState): TokenUsage =>
+  addTokens(state.completedTokens, state.tokens);
+
 interface StreamState {
   contentAccumulator: string;
+  /**
+   * Reasoning-only text (`reasoning` deltas with empty `content`). Emitted as
+   * `thinking` deltas; used as the final answer only when the model produced
+   * no visible content at all.
+   */
+  reasoningAccumulator: string;
+  /** Usage of the model call currently in flight (overwritten per chunk). */
   tokens: TokenUsage;
+  /** Usage summed over model calls already finished in this run. */
+  completedTokens: TokenUsage;
   think: ThinkState;
   /**
    * Whether the current model turn emitted token-by-token content via
@@ -200,7 +220,9 @@ interface StreamState {
 
 const initialStreamState = (): StreamState => ({
   contentAccumulator: "",
-  tokens: { promptTokens: 0, completionTokens: 0 },
+  reasoningAccumulator: "",
+  tokens: zeroTokens(),
+  completedTokens: zeroTokens(),
   think: emptyThinkState(),
   sawStreamDelta: false,
 });
@@ -269,33 +291,41 @@ export const processStreamEvent = (
               .join("")
           : "";
 
-    // Some models (e.g. qwen3.6-35b-a3b) stream all tokens into `reasoning`
-    // and leave `content` empty. Fall back to reasoning when content is empty.
-    const effectiveContent =
-      content ||
-      (typeof rawChunk.reasoning === "string"
+    // Thinking-mode models (rhino-coder, qwen3.6-35b-a3b) stream into
+    // `reasoning` and may leave `content` empty. Reasoning is surfaced as a
+    // `thinking` delta, never as visible answer text; the flow falls back to
+    // the accumulated reasoning only if no visible content shows up at all.
+    const reasoning =
+      typeof rawChunk.reasoning === "string"
         ? rawChunk.reasoning
         : Array.isArray(rawChunk.reasoning)
           ? rawChunk.reasoning
               .filter(isTextContentPart)
               .map((part) => String(part.text ?? ""))
               .join("")
-          : "");
+          : "";
 
     const tokenUpdate = extractTokenUsage(chunk);
-    const tokens = tokenUpdate
-      ? {
-          promptTokens: tokenUpdate.promptTokens,
-          completionTokens: tokenUpdate.completionTokens,
-        }
-      : state.tokens;
+    const tokens = tokenUpdate ?? state.tokens;
 
-    if (!effectiveContent) {
+    if (!content && !reasoning) {
       return [[], { ...state, tokens }];
     }
 
+    if (!content) {
+      return [
+        [makeContentDelta(reasoning, messageId, true)],
+        {
+          ...state,
+          reasoningAccumulator: state.reasoningAccumulator + reasoning,
+          tokens,
+          sawStreamDelta: true,
+        },
+      ];
+    }
+
     const [deltaEvents, nextThink] = parseThinkContent(
-      effectiveContent,
+      content,
       state.think,
       messageId,
     );
@@ -304,7 +334,7 @@ export const processStreamEvent = (
       deltaEvents,
       {
         ...state,
-        contentAccumulator: state.contentAccumulator + effectiveContent,
+        contentAccumulator: state.contentAccumulator + content,
         tokens,
         think: nextThink,
         sawStreamDelta: true,
@@ -324,15 +354,21 @@ export const processStreamEvent = (
       output && isAIMessageLike(output)
         ? extractTokenUsage(output as AIMessage)
         : null;
-    const tokens = tokenUpdate ?? state.tokens;
+    // The model call is over: commit its usage to the run total and reset the
+    // in-flight counter so the next call in the tool loop adds, not overwrites.
+    const completedTokens = addTokens(
+      state.completedTokens,
+      tokenUpdate ?? state.tokens,
+    );
+    const tokens = zeroTokens();
 
     if (state.sawStreamDelta || !output) {
-      return [[], { ...state, tokens, sawStreamDelta: false }];
+      return [[], { ...state, tokens, completedTokens, sawStreamDelta: false }];
     }
 
     const content = extractContentText(output);
     if (!content) {
-      return [[], { ...state, tokens, sawStreamDelta: false }];
+      return [[], { ...state, tokens, completedTokens, sawStreamDelta: false }];
     }
 
     const [deltaEvents, nextThink] = parseThinkContent(
@@ -346,6 +382,7 @@ export const processStreamEvent = (
         ...state,
         contentAccumulator: state.contentAccumulator + content,
         tokens,
+        completedTokens,
         think: nextThink,
         sawStreamDelta: false,
       },
@@ -424,6 +461,7 @@ const agentIdForScope = (agentType?: AgentType): string =>
 const injectMemories = async (
   message: string,
   ctx: AgentContext,
+  agentType?: AgentType,
 ): Promise<string> => {
   const memoryClient = ctx.memoryClient;
   if (!memoryClient) return message;
@@ -431,7 +469,7 @@ const injectMemories = async (
   try {
     const result = await memoryClient.searchMemories(
       message,
-      agentIdForScope(),
+      agentIdForScope(agentType),
       5,
     )();
     if (isRight(result)) {
@@ -446,6 +484,63 @@ const injectMemories = async (
     ctx.logger.warn.log("Memory retrieval failed, continuing without memories");
     return message;
   }
+};
+
+/** Provider/model reported to the client; falls back to the configured model. */
+const usedProviderOf = (
+  ctx: AgentContext,
+  aiConfig?: AIConfig,
+): { provider: AIConfig["provider"]; model: string } | undefined =>
+  aiConfig
+    ? {
+        provider: aiConfig.provider,
+        model: aiConfig.model ?? ctx.env.LOCALAI_MODEL,
+      }
+    : undefined;
+
+/**
+ * Post-turn bookkeeping shared by the blocking and streaming paths: append the
+ * exchange to the in-memory conversation store and fire-and-forget the exchange
+ * to mem0. Memory failures never affect the response.
+ */
+const recordTurn = (
+  ctx: AgentContext,
+  turn: {
+    conversationId: string;
+    agentType?: AgentType;
+    userMessage: ChatMessage;
+    assistantMessage: ChatMessage;
+  },
+): void => {
+  const { conversationId, agentType, userMessage, assistantMessage } = turn;
+  conversations.set(conversationId, [
+    ...(conversations.get(conversationId) ?? []),
+    userMessage,
+    assistantMessage,
+  ]);
+
+  const memoryClient = ctx.memoryClient;
+  if (!memoryClient) return;
+  void pipe(
+    memoryClient.addMemory(
+      `User: ${userMessage.content}\n\nAssistant: ${assistantMessage.content}`,
+      agentIdForScope(agentType),
+    ),
+    TE.match(
+      (e: unknown) => {
+        ctx.logger.debug.log(
+          "Memory storage failed (non-fatal): %s",
+          String(e),
+        );
+      },
+      () => {
+        ctx.logger.debug.log(
+          "Memory stored for conversation %s",
+          conversationId,
+        );
+      },
+    ),
+  )();
 };
 
 const EMPTY_CHOICES_MAX_RETRIES = 2;
@@ -607,7 +702,7 @@ export const sendChatMessage =
     // when memory is not configured or unavailable).
     return pipe(
       TE.tryCatch(
-        () => injectMemories(enhancedMessage, ctx),
+        () => injectMemories(enhancedMessage, ctx, payload.agent_type),
         ServerError.fromUnknown,
       ),
       TE.chain((messageWithMemories) =>
@@ -675,48 +770,17 @@ export const sendChatMessage =
                 : {}),
             };
 
-            conversations.set(conversationId, [
-              ...(conversations.get(conversationId) ?? []),
+            recordTurn(ctx, {
+              conversationId,
+              agentType: payload.agent_type,
               userMessage,
               assistantMessage,
-            ]);
-
-            // Fire-and-forget: store conversation for future memory retrieval.
-            // Errors are silently logged — memory storage must never block the
-            // response or cause the request to fail.
-            const memoryClient = ctx.memoryClient;
-            if (memoryClient) {
-              void pipe(
-                memoryClient.addMemory(
-                  `User: ${payload.message}\n\nAssistant: ${content}`,
-                  agentIdForScope(payload.agent_type),
-                ),
-                TE.match(
-                  (e: unknown) => {
-                    ctx.logger.debug.log(
-                      "Memory storage failed (non-fatal): %s",
-                      String(e),
-                    );
-                  },
-                  () => {
-                    ctx.logger.debug.log(
-                      "Memory stored for conversation %s",
-                      conversationId,
-                    );
-                  },
-                ),
-              )();
-            }
+            });
 
             return {
               message: assistantMessage,
               conversationId,
-              usedProvider: payload.aiConfig
-                ? {
-                    provider: payload.aiConfig.provider,
-                    model: payload.aiConfig.model ?? "gpt-4o",
-                  }
-                : undefined,
+              usedProvider: usedProviderOf(ctx, payload.aiConfig),
             };
           }),
         ),
@@ -797,7 +861,11 @@ export const sendChatMessageStream = (payload: {
       model: payload.aiConfig?.model,
       messageLength: payload.message.length,
     };
-    const messageWithMemories = await injectMemories(enhancedMessage, ctx);
+    const messageWithMemories = await injectMemories(
+      enhancedMessage,
+      ctx,
+      payload.agent_type,
+    );
 
     ctx.logger.debug.log(
       "sendChatMessageStream — agent_type: %s, aiConfig: %O",
@@ -831,12 +899,7 @@ export const sendChatMessageStream = (payload: {
         timestamp: new Date().toISOString(),
         message_id: messageId,
         role: "assistant",
-        usedProvider: payload.aiConfig
-          ? {
-              provider: payload.aiConfig.provider,
-              model: payload.aiConfig.model ?? "gpt-4o",
-            }
-          : undefined,
+        usedProvider: usedProviderOf(ctx, payload.aiConfig),
       } satisfies ChatStreamEvent;
 
       let state = initialStreamState();
@@ -876,7 +939,8 @@ export const sendChatMessageStream = (payload: {
         visibleContent += state.think.buffer;
       }
 
-      const finalContent = visibleContent || "No response generated";
+      const finalContent =
+        visibleContent || state.reasoningAccumulator || "No response generated";
 
       ctx.logger.debug.log(
         "final content: %s (raw accumulator: %s)",
@@ -884,68 +948,37 @@ export const sendChatMessageStream = (payload: {
         state.contentAccumulator,
       );
 
-      conversations.set(conversationId, [
-        ...(conversations.get(conversationId) ?? []),
-        {
+      recordTurn(ctx, {
+        conversationId,
+        agentType: payload.agent_type,
+        userMessage: {
           id: uuid(),
           content: payload.message,
           role: "user",
           timestamp: new Date().toISOString(),
         },
-        {
+        assistantMessage: {
           id: messageId,
           content: finalContent,
           role: "assistant",
           timestamp: new Date().toISOString(),
         },
-      ]);
+      });
 
-      const { promptTokens, completionTokens } = state.tokens;
+      const { promptTokens, completionTokens } = totalTokens(state);
 
       yield {
         type: "message_end",
         timestamp: new Date().toISOString(),
         message_id: messageId,
         content: finalContent,
-        usedProvider: payload.aiConfig
-          ? {
-              provider: payload.aiConfig.provider,
-              model: payload.aiConfig.model ?? "gpt-4o",
-            }
-          : undefined,
+        usedProvider: usedProviderOf(ctx, payload.aiConfig),
         usage: {
           prompt_tokens: promptTokens,
           completion_tokens: completionTokens,
           total_tokens: promptTokens + completionTokens,
         },
       } satisfies ChatStreamEvent;
-
-      // Fire-and-forget: store conversation for future memory retrieval.
-      // Errors are silently logged — memory storage must never block the
-      // response or cause the stream to fail.
-      const memoryClient = ctx.memoryClient;
-      if (memoryClient) {
-        void pipe(
-          memoryClient.addMemory(
-            `User: ${payload.message}\n\nAssistant: ${finalContent}`,
-            agentIdForScope(payload.agent_type),
-          ),
-          TE.match(
-            (e: unknown) => {
-              ctx.logger.debug.log(
-                "Memory storage failed (non-fatal): %s",
-                String(e),
-              );
-            },
-            () => {
-              ctx.logger.debug.log(
-                "Memory stored for conversation %s",
-                conversationId,
-              );
-            },
-          ),
-        )();
-      }
     } catch (error) {
       ctx.logger.error.log("stream error: %O", error);
       captureChatError(ctx, error, errorMeta);

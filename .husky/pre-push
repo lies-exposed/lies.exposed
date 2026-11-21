@@ -6,4 +6,9 @@ docker compose up -d db.liexp.dev
 # @liexp/*/lib, which don't exist yet in a fresh checkout or worktree.
 # @liexp/backend... is always included because every service's vitest config
 # imports @liexp/backend/lib/test/vitest.base-config.js.
-pnpm --filter "@liexp/backend..." --filter=...[HEAD^] build && pnpm knip && pnpm --filter=...[HEAD^] lint --quiet && pnpm vitest --changed=HEAD^ && . "./scripts/healthcheck.sh"
+pnpm --filter "@liexp/backend..." --filter=...[HEAD^] build &&
+# Drop stale ESLint caches: `eslint --cache` doesn't track imported lib/build
+# outputs, so a lint run made before the build existed (fresh worktree, failed
+# earlier push) keeps replaying its unresolved-import errors after the build.
+find packages services -maxdepth 3 -name .eslintcache -not -path "*/node_modules/*" -delete &&
+pnpm knip && pnpm --filter=...[HEAD^] lint --quiet && pnpm vitest --changed=HEAD^ && . "./scripts/healthcheck.sh"

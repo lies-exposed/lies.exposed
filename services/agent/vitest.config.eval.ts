@@ -31,7 +31,8 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     env: {
       NODE_ENV: "test",
       NODE_TLS_REJECT_UNAUTHORIZED: "0",
-      LOCALAI_MODEL: "gemma-4-e4b-it",
+      // Override to eval another model, e.g. `LOCALAI_MODEL=rhino-coder pnpm test:eval`
+      LOCALAI_MODEL: process.env.LOCALAI_MODEL ?? "localai/small",
     },
   },
 }));

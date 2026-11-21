@@ -163,8 +163,15 @@ const PROVIDER_MODELS: Record<
 > = {
   openai: {
     description: "OpenAI GPT models (or LocalAI-compatible)",
-    models: ["qwen3.6-35b-a3b", "gemma-4-e4b-it"],
-    defaultModel: "qwen3.6-35b-a3b",
+    models: [
+      "localai/fast",
+      "localai/reasoning",
+      "localai/small",
+      "coder",
+      "rhino-coder",
+      "fast-coder",
+    ],
+    defaultModel: "localai/fast",
   },
   anthropic: {
     description: "Anthropic Claude models",
