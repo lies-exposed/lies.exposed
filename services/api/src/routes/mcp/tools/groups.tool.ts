@@ -357,8 +357,8 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
           username: wrap(input.username),
           color: wrap(input.color),
           kind: wrap(input.kind),
-          excerpt: wrap(input.excerpt as BlockNoteDocument | null),
-          body: wrap(input.body as BlockNoteDocument | null),
+          excerpt: wrap(toInitialValue(input.excerpt)),
+          body: wrap(toInitialValue(input.body)),
           avatar: wrap(input.avatar as UUID | null),
 
           startDate: wrap(input.startDate),
