@@ -1,3 +1,4 @@
+import { type GetObjectCommandOutput } from "@aws-sdk/client-s3";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import type * as logger from "@liexp/core/lib/logger/index.js";
 import { type AxiosInstance, type AxiosResponse } from "axios";
@@ -36,7 +37,11 @@ const GetLocalSpaceProvider: Reader<LocalSpaceProviderCtx, SpaceProvider> = ({
           return client.get<unknown, AxiosResponse<Body>>(params.Key ?? "");
         }, toError),
         TE.chain((content) =>
-          TE.tryCatch(() => content.data.blob() as Promise<any>, toError),
+          TE.tryCatch(
+            () =>
+              content.data.blob() as Promise<GetObjectCommandOutput["Body"]>,
+            toError,
+          ),
         ),
         TE.map((content) => ({ Body: content, $metadata: {} })),
       );
