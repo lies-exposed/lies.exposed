@@ -10,7 +10,7 @@ interface ListConversationsResponse {
 const getBaseUrl = (): string => {
   if (typeof window !== "undefined") {
     return (
-      (window as unknown as { ENV?: { AGENT_API_URL?: string } }).ENV
+      (window as Window & { ENV?: { AGENT_API_URL?: string } }).ENV
         ?.AGENT_API_URL ?? "/api/proxy/agent"
     );
   }
