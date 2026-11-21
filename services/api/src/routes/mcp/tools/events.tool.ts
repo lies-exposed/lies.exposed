@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import {
   FIND_EVENTS,
@@ -8,7 +9,11 @@ import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.
 import { editEventQuery } from "@liexp/backend/lib/queries/events/editEvent.query.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID } from "@liexp/io/lib/http/Common/index.js";
+import {
+  BlockNoteDocument,
+  type BlockNoteDocument as BlockNoteDoc,
+} from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
+import type { UUID } from "@liexp/io/lib/http/Common/index.js";
 import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
@@ -16,7 +21,9 @@ import * as O from "effect/Option";
 import { defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 
-const eventToOutput = (event: Events.Event): Record<string, unknown> => ({
+const decodeBlockNote = Schema.decodeUnknownSync(BlockNoteDocument);
+
+const eventToOutput = (event: EventV2Entity): Record<string, unknown> => ({
   id: event.id,
   type: event.type,
   date: event.date,
@@ -73,22 +80,30 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
 
       const typeFilter = pipe(
         O.fromNullable(type),
-        O.map((t) => [t] as const),
+        O.map((t) => [t as Events.EventType]),
       );
 
       const actorsFilter = pipe(
         O.fromNullable(actors),
         O.filter((a) => a.length > 0),
+        O.map((a) => a as readonly UUID[]),
       );
 
       const groupsFilter = pipe(
         O.fromNullable(groups),
         O.filter((g) => g.length > 0),
+        O.map((g) => g as readonly UUID[]),
       );
 
-      const startDateFilter = O.fromNullable(startDate);
+      const startDateFilter = pipe(
+        O.fromNullable(startDate),
+        O.map((d) => new Date(d)),
+      );
 
-      const endDateFilter = O.fromNullable(endDate);
+      const endDateFilter = pipe(
+        O.fromNullable(endDate),
+        O.map((d) => new Date(d)),
+      );
 
       const skip = Number(start ?? 0);
       const take = Number(end ?? 20);
@@ -113,7 +128,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
           te,
           fp.TE.map((output) => ({
             events: output.results.map((e) =>
-              eventToOutput(e as unknown as Events.Event),
+              eventToOutput(e),
             ),
             total: output.total,
             totals: output.totals,
@@ -347,7 +362,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
             }),
           ),
           fp.TE.map((event) => ({
-            event: eventToOutput(event as unknown as Events.Event),
+            event: eventToOutput(event),
           })),
         )();
 
@@ -573,28 +588,46 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
           ...unwrappedPayload,
         };
 
-        // Build EditEventBody - type is narrowed by switch in editEventQuery
-        // Cast to EditEventBody since TypeScript can't narrow the union
-        const editBody: Events.EditEventBody = {
-          type: (input.type ?? storedEvent.type) as Events.EventType,
-          body: O.fromNullable(input.body),
-          excerpt: O.fromNullable(input.excerpt),
-          date: input.date
-            ? O.some(new Date(input.date))
-            : (O.none as unknown as O.Option<Date>),
-          draft:
-            input.draft !== undefined
-              ? O.some(input.draft)
-              : (O.none as unknown as O.Option<boolean>),
-          payload: mergedPayload as Record<string, unknown>,
+        const toBlockNoteDocument = (content: string): BlockNoteDoc =>
+          decodeBlockNote([
+            {
+              type: "paragraph",
+              id: randomUUID(),
+              props: {},
+              content: [{ type: "text", text: content }],
+              children: [],
+            },
+          ]);
+
+        // Build EditEventBody - editEventQuery narrows the union by `type` at runtime
+        const commonFields = {
+          body: input.body !== undefined
+            ? O.some(toBlockNoteDocument(input.body))
+            : O.none(),
+          excerpt:
+            input.excerpt !== undefined
+              ? O.some(toBlockNoteDocument(input.excerpt))
+              : O.none(),
+          date: input.date ? O.some(new Date(input.date)) : O.none(),
+          draft: input.draft !== undefined ? O.some(input.draft) : O.none(),
+          payload: mergedPayload,
           links:
-            input.links !== undefined ? O.fromNullable(input.links) : undefined,
+            input.links !== undefined
+              ? O.fromNullable(input.links.map((id) => id as UUID))
+              : undefined,
           media:
-            input.media !== undefined ? O.fromNullable(input.media) : undefined,
+            input.media !== undefined
+              ? O.fromNullable(input.media.map((id) => id as UUID))
+              : undefined,
           keywords:
             input.keywords !== undefined
-              ? O.fromNullable(input.keywords)
+              ? O.fromNullable(input.keywords.map((id) => id as UUID))
               : undefined,
+        };
+
+        const editBody = {
+          ...commonFields,
+          type: input.type ?? storedEvent.type,
         } as Events.EditEventBody;
 
         // Execute the edit event query
@@ -618,7 +651,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
           content: [
             {
               text: JSON.stringify({
-                event: eventToOutput(editedResult.right as Events.Event),
+                event: eventToOutput(editedResult.right),
               }),
               type: "text" as const,
             },

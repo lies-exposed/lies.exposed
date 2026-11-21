@@ -70,25 +70,25 @@ export const registerSocialPostsTools = (
         .from(SocialPostEntity, "sp");
 
       // Apply filters
-      if (fp.O.isSome(type)) {
+      if (type !== undefined) {
         findSocialPostQuery.where('"type" = :type', {
-          type: type.value,
+          type,
         });
       }
-      if (fp.O.isSome(status)) {
+      if (status !== undefined) {
         findSocialPostQuery.andWhere("status = :status", {
-          status: status.value,
+          status,
         });
       }
-      if (fp.O.isSome(entity)) {
+      if (entity !== undefined) {
         findSocialPostQuery.andWhere("entity = :entity", {
-          entity: entity.value,
+          entity,
         });
       }
-      if (fp.O.isSome(q)) {
+      if (q !== undefined) {
         findSocialPostQuery.andWhere(
           `(LOWER("content"->>'title') LIKE LOWER(:q) OR LOWER("content"->>'content') LIKE LOWER(:q))`,
-          { q: `%${q.value}%` },
+          { q: `%${q}%` },
         );
       }
 
@@ -99,9 +99,9 @@ export const registerSocialPostsTools = (
           s.from(SocialPostEntity, "sub_sp")
             .addSelect("count(*)", "publishCount")
             .where('"entity" = "sp"."entity"');
-          if (fp.O.isSome(type)) {
+          if (type !== undefined) {
             s.andWhere('"type" = :type', {
-              type: type.value,
+              type,
             });
           }
           return s;

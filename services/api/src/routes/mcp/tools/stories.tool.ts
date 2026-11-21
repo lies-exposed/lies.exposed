@@ -86,7 +86,7 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
         where.title = Like(`%${query}%`);
       }
       if (draft !== undefined) {
-        where.draft = draft === "true" || draft === true;
+        where.draft = draft;
       }
       if (creator) {
         where.creator = creator;
@@ -215,7 +215,7 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
 
       try {
         const draftValue =
-          draft !== undefined ? draft === "true" || draft === true : true;
+          draft !== undefined ? draft : true;
         const featuredImageValue = featuredImage ? { id: featuredImage } : null;
 
         // Build the story object following createStory.controller.ts logic
@@ -416,9 +416,7 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
               path: path ?? existing.path,
               date: date ? new Date(date) : existing.date,
               draft:
-                draft !== undefined
-                  ? draft === "true" || draft === true
-                  : existing.draft,
+                draft !== undefined ? draft : existing.draft,
               body: body ?? existing.body,
               creator:
                 creator !== undefined

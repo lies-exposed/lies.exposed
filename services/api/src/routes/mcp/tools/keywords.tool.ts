@@ -228,7 +228,7 @@ export const registerKeywordsTools = (
           ctx.db.save(KeywordEntity, [updatePayload]),
           fp.TE.chain(() =>
             ctx.db.findOneOrFail(KeywordEntity, {
-              where: { id },
+              where: { id: id as UUID },
               loadRelationIds: true,
             }),
           ),
