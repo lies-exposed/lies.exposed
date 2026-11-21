@@ -8,7 +8,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
-import { Like } from "typeorm";
+import { In, Like } from "typeorm";
 import { defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 
@@ -60,6 +60,10 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
         description:
           "Full-text search query to filter stories by title or body",
       }),
+      ids: Schema.optional(Schema.Array(Schema.String)).annotations({
+        description:
+          "Fetch specific stories by UUID (use this to get a record by id)",
+      }),
       draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
         description: "Filter by draft status",
       }),
@@ -74,13 +78,16 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
       }),
     }),
     async (input) => {
-      const { query, draft, creator, start, end } = input;
+      const { query, ids, draft, creator, start, end } = input;
 
       const skip = Number(start ?? 0);
       const take = Number(end ?? 20);
 
       // Build query options for ctx.db.find
       const where: Record<string, unknown> = {};
+      if (ids && ids.length > 0) {
+        where.id = In(ids);
+      }
       if (query) {
         // TypeORM ILIKE for full-text search on title
         where.title = Like(`%${query}%`);
