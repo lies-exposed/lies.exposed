@@ -1,8 +1,10 @@
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
-import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
-import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type EditActorBody } from "@liexp/io/lib/http/Actor.js";
+import {
+  BlockNoteDocument,
+  type BlockNoteDocument as BlockNoteDocumentType,
+} from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { Schema } from "effect";
@@ -16,6 +18,12 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 const DocumentSchema = Schema.NullOr(BlockNoteDocument);
 type DocumentType = typeof DocumentSchema.Type;
 type DocumentEncoded = typeof DocumentSchema.Encoded;
+
+type MemberInInputValue = Extract<
+  EditActorBody["memberIn"],
+  { _tag: "Some" }
+>["value"];
+type MemberInInputElement = MemberInInputValue[number];
 
 const decodeOption =
   <A, I>(
@@ -76,7 +84,19 @@ export const MakeEditActorRoute: Route = (r, ctx) => {
             ),
             avatar,
             nationalities,
-            memberIn,
+            memberIn: pipe(
+              memberIn,
+              O.map((members) =>
+                members.map((m): MemberInInputElement =>
+                  typeof m === "string"
+                    ? m
+                    : {
+                        ...m,
+                        body: m.body as BlockNoteDocumentType,
+                      },
+                ),
+              ),
+            ),
           })(ctx),
         ),
         TE.map(({ actor }) => ({
