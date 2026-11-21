@@ -6,8 +6,8 @@ import { type UserEncoded } from "@liexp/io/lib/http/User.js";
  * Builds a full `UserEncoded` payload for `jwt.signUser`.
  *
  * The JWT provider signs a `UserEncoded` and verifies it against the
- * `AuthUser` schema, so the payload must satisfy the user schema instead of
- * being cast with `as any`.
+ * `AuthUser` schema, so the payload must satisfy the user schema rather than
+ * being widened to fit it.
  */
 export const getUserTokenPayload = (
   overrides?: Partial<UserEncoded>,

@@ -304,7 +304,7 @@ describe("MCP CRUD Tools E2E Tests", () => {
         user.id,
       )(Test.ctx)();
 
-      (Test.mocks.axios.get as any).mockResolvedValueOnce({
+      Test.mocks.axios.get.mockResolvedValueOnce({
         status: 200,
         data: {},
       });

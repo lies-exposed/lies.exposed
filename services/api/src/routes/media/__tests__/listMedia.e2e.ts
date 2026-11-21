@@ -7,6 +7,7 @@ import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import { describe, test, expect, beforeAll } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { getUserAuthorization } from "../../../../test/utils/jwt.utils.js";
 
 describe("List Media", () => {
   let Test: AppTest, authorizationToken: string, event: Uncategorized;
@@ -23,9 +24,7 @@ describe("List Media", () => {
   }));
   beforeAll(async () => {
     Test = await GetAppTest();
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
+    authorizationToken = getUserAuthorization(Test.ctx);
 
     await throwTE(Test.ctx.db.save(MediaEntity, media));
 

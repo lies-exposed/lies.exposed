@@ -157,10 +157,13 @@ const getPGliteORMConfig = (workerId: string): DataSourceOptions => {
   return createORMConfig(
     {
       type: "postgres",
-      // Pass PGlite options to the driver so it creates the instance with proper configuration
-      // Type assertion needed due to PGlite internal type resolution issues between packages
-      // The driver and extension work correctly at runtime
-      driver: new PGliteDriver(pgliteOptions as any).driver,
+      // Pass PGlite options to the driver so it creates the instance with proper configuration.
+      // Widened through `unknown` because `typeorm-pglite` resolves a duplicate copy of the
+      // `@electric-sql/pglite` types, so its constructor signature is not structurally
+      // assignable to this package's `PGliteOptions` even though it works at runtime.
+      driver: new PGliteDriver(
+        pgliteOptions as unknown as ConstructorParameters<typeof PGliteDriver>[0],
+      ).driver,
       database: `test-worker-${workerId}`,
       logging: false,
     },

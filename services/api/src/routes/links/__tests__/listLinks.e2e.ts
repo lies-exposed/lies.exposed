@@ -8,6 +8,7 @@ import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import { describe, test, expect, beforeAll } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { getUserAuthorization } from "../../../../test/utils/jwt.utils.js";
 
 describe("List Links", () => {
   let Test: AppTest,
@@ -18,9 +19,7 @@ describe("List Links", () => {
 
   beforeAll(async () => {
     Test = await GetAppTest();
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
+    authorizationToken = getUserAuthorization(Test.ctx);
 
     links = await throwTE(Test.ctx.db.save(LinkEntity, links));
   });
