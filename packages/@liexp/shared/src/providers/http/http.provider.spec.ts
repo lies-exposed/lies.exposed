@@ -1,4 +1,4 @@
-import * as axiosModule from "axios";
+import type * as axiosModule from "axios";
 import {
   AxiosError,
   AxiosHeaders,
@@ -7,9 +7,9 @@ import {
   type InternalAxiosRequestConfig,
 } from "axios";
 import { Schema } from "effect";
+import { type ParseError } from "effect/ParseResult";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type ParseError } from "effect/ParseResult";
 import { describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { throwTE } from "../../utils/fp.utils.js";
@@ -273,7 +273,7 @@ describe("liftFetch", () => {
 
   it("handles decode failure in liftFetch", async () => {
     const lp = vi.fn(() => Promise.resolve(responseFixture({ invalid: true })));
-    const decode = vi.fn((d: { invalid: boolean }) =>
+    const decode = vi.fn((_d: { invalid: boolean }) =>
       E.left<ParseError, unknown>(parseErrorFixture()),
     );
 

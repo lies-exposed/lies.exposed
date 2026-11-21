@@ -1,5 +1,5 @@
-import { IOError } from "@ts-endpoint/core";
 import { ctxHelper } from "@liexp/test";
+import { IOError } from "@ts-endpoint/core";
 import { pipe } from "fp-ts/lib/function.js";
 import { describe, test, expect, vi } from "vitest";
 import { throwTE } from "../../utils/fp.utils.js";
@@ -12,8 +12,14 @@ import {
 
 const emptyClient = ctxHelper.ctx<PDFProviderContext["client"]>({});
 
-type PageFixture = { getTextContent: () => Promise<unknown> };
-type DocFixture = { numPages: number; getPage: ReturnType<typeof vi.fn> };
+interface PageFixture {
+  getTextContent: () => Promise<unknown>;
+}
+
+interface DocFixture {
+  numPages: number;
+  getPage: ReturnType<typeof vi.fn>;
+}
 
 const mockPdfDoc = (pages: string[]): DocFixture => {
   return {

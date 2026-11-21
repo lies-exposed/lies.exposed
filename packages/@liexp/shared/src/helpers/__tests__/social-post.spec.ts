@@ -24,7 +24,9 @@ const G2 = uuid();
  * SocialPost fixtures only exercise the relation fields; the helpers under
  * test never read the remaining post fields.
  */
-type RelationRefFixture = { id: ReturnType<typeof uuid> };
+interface RelationRefFixture {
+  id: ReturnType<typeof uuid>;
+}
 type RelationsFixture = Partial<
   Record<
     "keywords" | "media" | "actors" | "groups",
