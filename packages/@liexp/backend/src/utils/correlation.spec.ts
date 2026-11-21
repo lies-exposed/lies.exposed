@@ -33,24 +33,24 @@ describe("correlation utils", () => {
 
   describe("getCorrelationId", () => {
     it("should return correlation ID from request headers", () => {
-      const mockReq = {
+      const mockReq: Partial<Request> = {
         headers: { "x-correlation-id": "test-id-123" },
-      } as unknown as Request;
-      expect(getCorrelationId(mockReq)).toBe("test-id-123");
+      };
+      expect(getCorrelationId(mockReq as Request)).toBe("test-id-123");
     });
 
     it("should return first element when header is an array", () => {
-      const mockReq = {
+      const mockReq: Partial<Request> = {
         headers: { "x-correlation-id": ["first-id", "second-id"] },
-      } as unknown as Request;
-      expect(getCorrelationId(mockReq)).toBe("first-id");
+      };
+      expect(getCorrelationId(mockReq as Request)).toBe("first-id");
     });
 
     it("should return undefined when correlation ID header is missing", () => {
-      const mockReq = {
+      const mockReq: Partial<Request> = {
         headers: {},
-      } as unknown as Request;
-      expect(getCorrelationId(mockReq)).toBeUndefined();
+      };
+      expect(getCorrelationId(mockReq as Request)).toBeUndefined();
     });
   });
 
@@ -78,13 +78,13 @@ describe("correlation utils", () => {
   describe("correlationMiddleware", () => {
     it("should add correlation ID to response and call next", () => {
       const middleware = correlationMiddleware();
-      const mockReq = { headers: {} } as unknown as Request;
-      const mockRes = {
-        setHeader: vi.fn(),
-      } as unknown as Response;
+      const mockReq: Partial<Request> & { correlationId?: string } = {
+        headers: {},
+      };
+      const mockRes: Partial<Response> = { setHeader: vi.fn() };
       const mockNext: NextFunction = vi.fn();
 
-      middleware(mockReq, mockRes, mockNext);
+      middleware(mockReq as Request, mockRes as Response, mockNext);
 
       expect(mockRes.setHeader).toHaveBeenCalledWith(
         CORRELATION_ID_HEADER,
@@ -95,13 +95,14 @@ describe("correlation utils", () => {
 
     it("should generate a new correlation ID when not present", () => {
       const middleware = correlationMiddleware();
-      const mockReq = { headers: {} } as unknown as Request;
-      const mockRes = { setHeader: vi.fn() } as unknown as Response;
+      const mockReq: Partial<Request> = { headers: {} };
+      const mockRes: Partial<Response> = { setHeader: vi.fn() };
+      const setHeaderMock = mockRes.setHeader as ReturnType<typeof vi.fn>;
       const mockNext: NextFunction = vi.fn();
 
-      middleware(mockReq, mockRes, mockNext);
+      middleware(mockReq as Request, mockRes as Response, mockNext);
 
-      const setHeaderCall = mockRes.setHeader.mock.calls[0];
+      const setHeaderCall = setHeaderMock.mock.calls[0];
       expect(setHeaderCall[0]).toBe(CORRELATION_ID_HEADER);
       expect(typeof setHeaderCall[1]).toBe("string");
       expect(setHeaderCall[1].length).toBeGreaterThan(0);
@@ -110,13 +111,13 @@ describe("correlation utils", () => {
     it("should preserve existing correlation ID from request headers", () => {
       const existingId = "existing-correlation-id";
       const middleware = correlationMiddleware();
-      const mockReq = {
+      const mockReq: Partial<Request> = {
         headers: { [CORRELATION_ID_HEADER]: existingId },
-      } as unknown as Request;
-      const mockRes = { setHeader: vi.fn() } as unknown as Response;
+      };
+      const mockRes: Partial<Response> = { setHeader: vi.fn() };
       const mockNext: NextFunction = vi.fn();
 
-      middleware(mockReq, mockRes, mockNext);
+      middleware(mockReq as Request, mockRes as Response, mockNext);
 
       expect(mockRes.setHeader).toHaveBeenCalledWith(
         CORRELATION_ID_HEADER,
@@ -126,11 +127,13 @@ describe("correlation utils", () => {
 
     it("should store generated correlation ID on the request object", () => {
       const middleware = correlationMiddleware();
-      const mockReq = { headers: {} } as unknown as Request;
-      const mockRes = { setHeader: vi.fn() } as unknown as Response;
+      const mockReq: Partial<Request> & { correlationId?: string } = {
+        headers: {},
+      };
+      const mockRes: Partial<Response> = { setHeader: vi.fn() };
       const mockNext: NextFunction = vi.fn();
 
-      middleware(mockReq, mockRes, mockNext);
+      middleware(mockReq as Request, mockRes as Response, mockNext);
 
       expect(mockReq.correlationId).toBeDefined();
       expect(typeof mockReq.correlationId).toBe("string");

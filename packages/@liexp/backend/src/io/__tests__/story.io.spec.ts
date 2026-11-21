@@ -1,19 +1,22 @@
+import { type Story } from "@liexp/io/lib/http/Story.js";
 import { StoryArb } from "@liexp/test/lib/arbitrary/Story.arbitrary.js";
 import fc from "fast-check";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
+import { type StoryEntity } from "../../entities/Story.entity.js";
 import { StoryIO } from "../story.io.js";
 
-const toStoryEntity = (story: any) => ({
+const toStoryEntity = (story: Story): StoryEntity => ({
   ...story,
   date: story.date ? new Date(story.date) : null,
   createdAt: new Date(story.createdAt),
   updatedAt: new Date(story.updatedAt),
-  deletedAt: story.deletedAt ? new Date(story.deletedAt) : null,
+  deletedAt: story.deletedAt ?? null,
   draft: false,
   featuredImage: null,
   creator: null,
   body: null,
+  excerpt: null,
   keywords: [],
   links: [],
   media: [],
@@ -75,7 +78,7 @@ describe("StoryIO", () => {
     it("should return Left since encode is not implemented", () => {
       const story = fc.sample(StoryArb, 1)[0];
       const entity = toStoryEntity(story);
-      const result = StoryIO.encodeSingle(entity as never);
+      const result = StoryIO.encodeSingle(entity);
       expect(E.isLeft(result)).toBe(true);
     });
   });

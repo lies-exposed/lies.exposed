@@ -1,5 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import { type DocumentaryPayload } from "@liexp/io/lib/http/Events/Documentary.js";
 import * as io from "@liexp/io/lib/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
@@ -10,13 +11,13 @@ import { IOCodec } from "../DomainCodec.js";
 const toDocumentaryIO = (
   event: EventV2Entity,
 ): E.Either<DecodeError, io.http.Events.Documentary.Documentary> => {
-  const p: any = event.payload;
+  const payload = event.payload as DocumentaryPayload;
   return pipe(
     {
       ...event,
       payload: {
-        ...p,
-        website: p?.website ?? undefined,
+        ...payload,
+        website: payload.website ?? undefined,
       },
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,
