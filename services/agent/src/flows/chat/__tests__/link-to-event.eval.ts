@@ -135,10 +135,7 @@ describe("link-to-event (skill-driven)", () => {
       ).toBeDefined();
 
       const linkCreateStart = toolCallsNamed(linkTurnEvents, "createLink")[0];
-      expect(
-        linkCreateStart,
-        "expected a createLink tool call",
-      ).toBeDefined();
+      expect(linkCreateStart, "expected a createLink tool call").toBeDefined();
       expect(toolArgs(linkCreateStart)).toContain(TEST_URL);
 
       const linkCreateEnd = toolCallEnds(linkTurnEvents).find(

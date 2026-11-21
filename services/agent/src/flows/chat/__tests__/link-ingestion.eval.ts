@@ -119,10 +119,7 @@ describe("link ingestion (skill-driven)", () => {
       const linkCreateStart = toolCallStarts(events).find(
         (e) => e.tool_call.name === "createLink",
       );
-      expect(
-        linkCreateStart,
-        "expected a createLink tool call",
-      ).toBeDefined();
+      expect(linkCreateStart, "expected a createLink tool call").toBeDefined();
       expect(toolArgs(linkCreateStart!)).toContain(TEST_URL);
 
       const linkCreateEnd = toolCallEnds(events).find(

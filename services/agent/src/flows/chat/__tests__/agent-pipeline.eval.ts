@@ -95,19 +95,13 @@ beforeAll(async () => {
 // ---------------------------------------------------------------------------
 
 describe("actor operations", () => {
-  cachedTest(
-    "actor operations > listing actors calls findActors",
-    async () => {
-      const events = await collectEvents(
-        ctx.ctx,
-        "list the most recent actors",
-      );
-      const calls = toolCallStarts(events);
+  cachedTest("actor operations > listing actors calls findActors", async () => {
+    const events = await collectEvents(ctx.ctx, "list the most recent actors");
+    const calls = toolCallStarts(events);
 
-      const call = calls.find((e) => e.tool_call.name === "findActors");
-      expect(call, "expected a findActors tool call").toBeDefined();
-    },
-  );
+    const call = calls.find((e) => e.tool_call.name === "findActors");
+    expect(call, "expected a findActors tool call").toBeDefined();
+  });
 
   cachedTest(
     "actor operations > getting a specific actor by id calls findActors with ids",
@@ -135,16 +129,13 @@ describe("actor operations", () => {
 // ---------------------------------------------------------------------------
 
 describe("event operations", () => {
-  cachedTest(
-    "event operations > listing events calls findEvents",
-    async () => {
-      const events = await collectEvents(ctx.ctx, "show me the latest events");
-      const calls = toolCallStarts(events);
+  cachedTest("event operations > listing events calls findEvents", async () => {
+    const events = await collectEvents(ctx.ctx, "show me the latest events");
+    const calls = toolCallStarts(events);
 
-      const call = calls.find((e) => e.tool_call.name === "findEvents");
-      expect(call, "expected a findEvents tool call").toBeDefined();
-    },
-  );
+    const call = calls.find((e) => e.tool_call.name === "findEvents");
+    expect(call, "expected a findEvents tool call").toBeDefined();
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -152,16 +143,13 @@ describe("event operations", () => {
 // ---------------------------------------------------------------------------
 
 describe("group operations", () => {
-  cachedTest(
-    "group operations > listing groups calls findGroups",
-    async () => {
-      const events = await collectEvents(ctx.ctx, "list all groups");
-      const calls = toolCallStarts(events);
+  cachedTest("group operations > listing groups calls findGroups", async () => {
+    const events = await collectEvents(ctx.ctx, "list all groups");
+    const calls = toolCallStarts(events);
 
-      const call = calls.find((e) => e.tool_call.name === "findGroups");
-      expect(call, "expected a findGroups tool call").toBeDefined();
-    },
-  );
+    const call = calls.find((e) => e.tool_call.name === "findGroups");
+    expect(call, "expected a findGroups tool call").toBeDefined();
+  });
 });
 
 // ---------------------------------------------------------------------------
