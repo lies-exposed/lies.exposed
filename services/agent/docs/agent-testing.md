@@ -221,7 +221,7 @@ message_start → content_delta* → tool_call_start → tool_call_end* → mess
 | `REPLAY_EVAL=1` | Replay recorded fixtures, skip real LLM | Eval tests |
 | `AI_PROVIDER` | `openai` / `anthropic` / `xai` | Eval context |
 | `LOCALAI_MODEL` | Model name for eval (e.g. `rhino-coder` — thinking-on gateway alias, first request pays a ~1 min swap load; keep `LOCALAI_TIMEOUT_MS` above it) | Eval context |
-| `LOCALAI_EMBEDDING_MODEL` | Embedding model; defaults to `LOCALAI_MODEL` when unset | Eval context |
+| `LOCALAI_EMBEDDING_MODEL` | Embedding model; defaults to `localai/embed` (gateway alias pinned to nomic-embed-text; mem0 vectors live in that space) | Eval context |
 | `.env.local` | API keys and endpoints | Eval tests |
 
 ## Common Pitfalls

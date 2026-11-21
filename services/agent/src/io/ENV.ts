@@ -13,8 +13,8 @@ const ENV = Schema.Struct({
   XAI_API_KEY: Schema.optional(Schema.String),
   ANTHROPIC_API_KEY: Schema.optional(Schema.String),
   LOCALAI_MODEL: Schema.String,
-  // Embedding model. Falls back to LOCALAI_MODEL when unset (legacy behaviour);
-  // set it when LOCALAI_MODEL is a chat/coder alias such as `rhino-coder`.
+  // Embedding model. Defaults to the gateway alias `localai/embed` (pinned to
+  // nomic-embed-text: mem0's pgvector rows live in that space, never repoint).
   LOCALAI_EMBEDDING_MODEL: Schema.optional(Schema.String),
   LOCALAI_MAX_RETRIES: Schema.optional(Schema.NumberFromString),
   // Request timeout for the OpenAI-compatible chat client. The LocalAI
