@@ -1,7 +1,7 @@
 import { IOError } from "@ts-endpoint/core";
+import { ctxHelper } from "@liexp/test";
 import { pipe } from "fp-ts/lib/function.js";
 import { describe, test, expect, vi } from "vitest";
-import { mock } from "vitest-mock-extended";
 import { throwTE } from "../../utils/fp.utils.js";
 import {
   PDFProvider,
@@ -10,10 +10,15 @@ import {
   type PDFProviderContext,
 } from "../pdf/pdf.provider.js";
 
-const mockPdfDoc = (pages: string[]) => {
+const emptyClient = ctxHelper.ctx<PDFProviderContext["client"]>({});
+
+type PageFixture = { getTextContent: () => Promise<unknown> };
+type DocFixture = { numPages: number; getPage: ReturnType<typeof vi.fn> };
+
+const mockPdfDoc = (pages: string[]): DocFixture => {
   return {
     numPages: pages.length,
-    getPage: vi.fn((i: number) =>
+    getPage: vi.fn((i: number): Promise<PageFixture> =>
       Promise.resolve({
         getTextContent: () =>
           Promise.resolve({
@@ -24,9 +29,12 @@ const mockPdfDoc = (pages: string[]) => {
   };
 };
 
+const docProxy = (doc: DocFixture): PDFDocumentProxy =>
+  ctxHelper.ctx<PDFDocumentProxy>(doc);
+
 describe("PDFProvider", () => {
   test("getDocument returns PDFDocumentProxy", async () => {
-    const client = mock<PDFProviderContext["client"]>({
+    const client = ctxHelper.ctx<PDFProviderContext["client"]>({
       getDocument: vi.fn(() => ({ promise: Promise.resolve("doc") })),
     });
     const provider = PDFProvider({ client });
@@ -36,22 +44,20 @@ describe("PDFProvider", () => {
 
   test("getAllTextContents returns joined text", async () => {
     const doc = mockPdfDoc(["Hello", "World"]);
-    const provider = PDFProvider({
-      client: {} as PDFProviderContext["client"],
-    });
+    const provider = PDFProvider({ client: emptyClient });
     const result = await pipe(
-      provider.getAllTextContents(doc as unknown as PDFDocumentProxy),
+      provider.getAllTextContents(docProxy(doc)),
       throwTE,
     );
     expect(result).toBe("HelloWorld");
   });
 
   test("getDocument handles error", async () => {
-    const client = {
+    const client = ctxHelper.ctx<PDFProviderContext["client"]>({
       getDocument: vi.fn(() => {
         throw new Error("fail");
       }),
-    } as PDFProviderContext["client"];
+    });
     const provider = PDFProvider({ client });
     await expect(
       pipe(provider.getDocument(new Uint16Array()), throwTE),
@@ -59,25 +65,20 @@ describe("PDFProvider", () => {
   });
 
   test("getAllTextContents handles error", async () => {
-    const doc = {
+    const doc: DocFixture = {
       numPages: 1,
-      getPage: vi.fn(() => {
+      getPage: vi.fn((): Promise<PageFixture> => {
         throw new Error("fail");
       }),
     };
-    const provider = PDFProvider({
-      client: {} as PDFProviderContext["client"],
-    });
+    const provider = PDFProvider({ client: emptyClient });
     await expect(
-      pipe(
-        provider.getAllTextContents(doc as unknown as PDFDocumentProxy),
-        throwTE,
-      ),
+      pipe(provider.getAllTextContents(docProxy(doc)), throwTE),
     ).rejects.toBeInstanceOf(PDFError);
   });
 
   test("getDocument passes cMap options to client", async () => {
-    const client = mock<PDFProviderContext["client"]>({
+    const client = ctxHelper.ctx<PDFProviderContext["client"]>({
       getDocument: vi.fn(() => ({ promise: Promise.resolve("doc") })),
     });
     const provider = PDFProvider({
@@ -96,24 +97,22 @@ describe("PDFProvider", () => {
   });
 
   test("getAllTextContents handles empty PDF (0 pages)", async () => {
-    const doc = {
+    const doc: DocFixture = {
       numPages: 0,
       getPage: vi.fn(),
     };
-    const provider = PDFProvider({
-      client: {} as PDFProviderContext["client"],
-    });
+    const provider = PDFProvider({ client: emptyClient });
     const result = await pipe(
-      provider.getAllTextContents(doc as unknown as PDFDocumentProxy),
+      provider.getAllTextContents(docProxy(doc)),
       throwTE,
     );
     expect(result).toBe("");
   });
 
   test("getAllTextContents filters items without str property", async () => {
-    const doc = {
+    const doc: DocFixture = {
       numPages: 1,
-      getPage: vi.fn(() =>
+      getPage: vi.fn((): Promise<PageFixture> =>
         Promise.resolve({
           getTextContent: () =>
             Promise.resolve({
@@ -127,11 +126,9 @@ describe("PDFProvider", () => {
         }),
       ),
     };
-    const provider = PDFProvider({
-      client: {} as PDFProviderContext["client"],
-    });
+    const provider = PDFProvider({ client: emptyClient });
     const result = await pipe(
-      provider.getAllTextContents(doc as unknown as PDFDocumentProxy),
+      provider.getAllTextContents(docProxy(doc)),
       throwTE,
     );
     expect(result).toBe("valid textmore text");
@@ -140,11 +137,9 @@ describe("PDFProvider", () => {
   test("getAllTextContents handles multiple pages correctly", async () => {
     const pages = ["Page1", "Page2", "Page3"];
     const doc = mockPdfDoc(pages);
-    const provider = PDFProvider({
-      client: {} as PDFProviderContext["client"],
-    });
+    const provider = PDFProvider({ client: emptyClient });
     const result = await pipe(
-      provider.getAllTextContents(doc as unknown as PDFDocumentProxy),
+      provider.getAllTextContents(docProxy(doc)),
       throwTE,
     );
     expect(result).toBe("Page1Page2Page3");
