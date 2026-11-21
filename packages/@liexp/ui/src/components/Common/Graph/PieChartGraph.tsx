@@ -178,8 +178,7 @@ function AnimatedPie<Datum>({
               }}
             />
             {hasSpaceForLabel && (
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any -- PieArcDatum doesn't have opacity property but original code used it
-              <animated.g style={{ opacity: (item as any).opacity }}>
+              <animated.g style={{ opacity: values.opacity }}>
                 <text
                   fill="white"
                   x={centroidX}
