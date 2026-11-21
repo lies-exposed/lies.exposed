@@ -40,11 +40,42 @@ import {
 } from "../../theme/styleUtils.js";
 import { type NetworkScale } from "../Common/Graph/Network/Network.js";
 import SankeyGraph, {
-  type SankeyGraphProps,
+  type SankeyNodeInput,
 } from "../Common/Graph/SankeyGraph.js";
 import { Box, Grid } from "../mui/index.js";
 
 type GroupByItem = Actor.Actor | Group.Group | Keyword.Keyword;
+
+type NetworkGraphNodeDatum = EventNetworkDatum | GroupByItem;
+
+const isEventNetworkDatum = (e: unknown): e is EventNetworkDatum =>
+  typeof e === "object" &&
+  e !== null &&
+  "image" in e &&
+  "date" in e &&
+  "title" in e;
+
+const toSankeyNodeInput = (node: NetworkGraphNodeDatum): SankeyNodeInput => {
+  if ("image" in node) {
+    return {
+      id: node.id,
+      type: node.type,
+      payload: node,
+      avatar: node.image,
+    };
+  }
+  if ("tag" in node) {
+    return { id: node.id, tag: node.tag };
+  }
+  if ("fullName" in node) {
+    return {
+      id: node.id,
+      fullName: node.fullName,
+      avatar: node.avatar?.location,
+    };
+  }
+  return { id: node.id, name: node.name, avatar: node.avatar?.location };
+};
 
 export interface EventsSankeyGraphProps {
   events: SearchEvent[];
@@ -134,8 +165,22 @@ export const EventsSankeyGraph: React.FC<EventsSankeyGraphProps> = (props) => {
               <Grid size={{ md: 12 }}>
                 <div style={{ width: "100%" }}>
                   <SankeyGraph
-                    {...(networkProps as unknown as SankeyGraphProps)}
-                    onEventClick={props.onEventClick as (e: unknown) => void}
+                    width={networkProps.width}
+                    height={networkProps.height}
+                    graph={{
+                      nodes: networkProps.graph.nodes.map(toSankeyNodeInput),
+                      links: networkProps.graph.links.map((link) => ({
+                        source: link.source,
+                        target: link.target,
+                        value: link.value,
+                        stroke: link.stroke,
+                      })),
+                    }}
+                    onEventClick={(e) => {
+                      if (isEventNetworkDatum(e)) {
+                        props.onEventClick(e);
+                      }
+                    }}
                   />
                   {/* <Network<NetworkLink, EventNetworkDatum>
                     onDoubleClick={() => {}}
@@ -471,7 +516,7 @@ export interface EventsNetworkGraphDataProps {
   scale: NetworkScale;
   groupBy: "actor" | "group" | "keyword";
   graph: {
-    nodes: EventNetworkDatum[];
+    nodes: NetworkGraphNodeDatum[];
     links: NetworkLink[];
   };
   selectedEvents: SearchEvent[];
@@ -741,11 +786,11 @@ export function createEventNetworkGraphProps({
   // const groupingByLinks = groupBy === "group" ? groupLinks : actorLinks;
 
   // console.log("group by nodes", groupingByNodes);
-  const nodes = [
+  const nodes: NetworkGraphNodeDatum[] = [
     ...actorsArray,
     ...groupsArray,
     ...eventNodes,
-  ] as unknown as EventNetworkDatum[];
+  ];
   // console.log("all nodes", nodes);
 
   const links = [

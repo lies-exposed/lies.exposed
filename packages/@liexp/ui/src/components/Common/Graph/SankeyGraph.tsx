@@ -19,7 +19,7 @@ export const nodePadding = 10;
 export interface SankeyNodeInput {
   id: string;
   type?: string;
-  payload?: Record<string, unknown>;
+  payload?: unknown;
   avatar?: string;
   fullName?: string;
   name?: string;
