@@ -107,8 +107,7 @@ export const RegisterLinkFormattingButton: React.FC = () => {
               url: `/links/${link.id}`,
               title: link.title ?? link.url ?? "",
             },
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } as any,
+          },
         ],
       });
     } catch (_e) {

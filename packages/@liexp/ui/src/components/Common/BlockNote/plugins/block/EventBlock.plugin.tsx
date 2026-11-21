@@ -164,9 +164,7 @@ export const eventBlock = createReactBlockSpec(eventBlockSpecs, {
 
     return (
       <EditMenu
-        // BlockNote's createReactBlockSpec render callback returns an opaque internal editor type.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        editor={editor as unknown as any}
+        editor={editor}
         onClick={() => {
           onChange(DEFAULT_ID);
         }}
