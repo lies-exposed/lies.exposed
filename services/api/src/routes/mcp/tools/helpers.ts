@@ -53,3 +53,12 @@ export const defineMcpTool = <A extends Schema.Struct.Fields>(
     },
   };
 };
+
+/**
+ * Flow-input boundary: MCP tool arguments arrive as plain decoded JSON whose
+ * shape is a relaxed version of the branded (UUID, BlockNoteDocument) and
+ * Option-wrapped body types that flows expect. The flows validate those leaves
+ * at runtime, so instead of per-callsite `as unknown as` double casts we
+ * re-type once against the flow's input type here.
+ */
+export const asFlowInput = <T>(input: unknown): T => input as T;

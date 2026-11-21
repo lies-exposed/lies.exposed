@@ -8,6 +8,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { Equal } from "typeorm";
+import { asFlowInput } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 import { createMediaFlow } from "#flows/media/createMedia.flow.js";
 import { editMedia } from "#flows/media/editMedia.flow.js";
@@ -386,7 +387,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
         // Call editMedia flow with context
         const te = editMedia(
           id as UUID,
-          flowInput as unknown as Parameters<typeof editMedia>[1],
+          asFlowInput<Parameters<typeof editMedia>[1]>(flowInput),
         )(ctx);
         const result = await pipe(
           te,

@@ -18,7 +18,7 @@ import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
-import { defineMcpTool } from "./helpers.js";
+import { asFlowInput, defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 
 const decodeBlockNote = Schema.decodeUnknownSync(BlockNoteDocument);
@@ -624,10 +624,11 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
               : undefined,
         };
 
-        const editBody = {
+        // The union member is narrowed by `type` at runtime in editEventQuery
+        const editBody = asFlowInput<Events.EditEventBody>({
           ...commonFields,
           type: input.type ?? storedEvent.type,
-        } as unknown as Events.EditEventBody;
+        });
 
         // Execute the edit event query
         const editTE = editEventQuery(storedEvent, editBody)(ctx);
