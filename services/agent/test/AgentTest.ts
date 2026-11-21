@@ -21,12 +21,12 @@ export interface AgentAppTest {
 }
 
 /**
- * The axios mock is a `vitest-mock-extended` proxy of the `Axios` type, which
- * is structurally callable like an `AxiosInstance` at runtime. Widening
- * through `unknown` keeps the same object identity so tests can stub
- * `mocks.axios.get` and have it take effect in `ctx.http`.
+ * The axios mock is a `vitest-mock-extended` proxy typed as `Axios`, but at
+ * runtime it satisfies the `AxiosInstance` shape the HTTP provider consumes.
+ * Keeping the same object identity means tests can stub `mocks.axios.get` and
+ * have it take effect in `ctx.http`.
  */
-const testAxios = mocks.axios as unknown as AxiosInstance;
+const testAxios = ctxHelper.ctx<AxiosInstance>(mocks.axios);
 
 /**
  * Creates a mock compiled agent for testing (the shape the factory returns).
@@ -90,7 +90,9 @@ export const loadAgentContext = async (
     http: HTTPProvider(testAxios),
     puppeteer: ctxHelper.ctx<AgentContext["puppeteer"]>(
       GetPuppeteerProvider(
-        ctxHelper.ctx<Parameters<typeof GetPuppeteerProvider>[0]>(puppeteerMock),
+        ctxHelper.ctx<Parameters<typeof GetPuppeteerProvider>[0]>(
+          puppeteerMock,
+        ),
         { headless: "shell" },
         ctxHelper.ctx<Parameters<typeof GetPuppeteerProvider>[2]>(
           puppeteerMock.devices,
@@ -101,8 +103,8 @@ export const loadAgentContext = async (
     fs: ctxHelper.ctx<AgentContext["fs"]>({
       getObject: (_path: string) => TE.right("# Mock AGENTS.md"),
     }),
-    agentFactory: ctxHelper.ctx<AgentContext["agentFactory"]>(
-      () => TE.right(createMockAgent()),
+    agentFactory: ctxHelper.ctx<AgentContext["agentFactory"]>(() =>
+      TE.right(createMockAgent()),
     ),
   };
 
