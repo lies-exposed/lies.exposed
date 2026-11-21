@@ -1,5 +1,5 @@
 import { type JWTProviderContext } from "@liexp/backend/lib/context/jwt.context.js";
-import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { type UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   AdminRead,
   MCPToolsAccess,
@@ -35,13 +35,13 @@ export const createServiceClientTokenWithUserId =
   <C extends JWTProviderContext>(
     serviceName: string,
     permissions: AuthPermission[],
-    userId: string,
+    userId: UUID,
   ) =>
   (ctx: C): IO.IO<{ serviceClient: ServiceClient; token: string }> => {
     return pipe(
       IO.of({
         id: uuid(),
-        userId: userId as any,
+        userId,
         email: `${serviceName}@lies.exposed`,
         permissions,
       } as ServiceClient),

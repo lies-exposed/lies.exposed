@@ -2,15 +2,33 @@ import { upload } from "@liexp/backend/lib/flows/space/upload.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import {
+  ValidContentType,
+  type ValidContentType as ValidContentTypeT,
+} from "@liexp/io/lib/http/Media/MediaType.js";
 import { UploadResource } from "@liexp/shared/lib/endpoints/api/upload.endpoints.js";
-import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
+import {
+  contentTypeFromFileExt,
+  extensionFromURL,
+  getMediaKey,
+} from "@liexp/shared/lib/utils/media.utils.js";
 import { Schema } from "effect";
+import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as T from "fp-ts/lib/Task.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import multer, { memoryStorage } from "multer";
 import { toControllerError } from "#io/ControllerError.js";
 import { type Route } from "#routes/route.types.js";
+
+const uploadContentType = (
+  mimetype: string,
+  originalname: string,
+): ValidContentTypeT =>
+  pipe(
+    Schema.decodeUnknownOption(ValidContentType)(mimetype),
+    O.getOrElse(() => contentTypeFromFileExt(extensionFromURL(originalname))),
+  );
 
 const UploadFileData = Schema.Struct({
   key: Schema.String,
@@ -59,7 +77,7 @@ export const MakeUploadMultipartFileRoute: Route = (r, ctx): void => {
               body.resource,
               body.key,
               body.key,
-              file.mimetype as any,
+              uploadContentType(file.mimetype, file.originalname),
             ),
             ACL: "public-read",
             Body: file.buffer,

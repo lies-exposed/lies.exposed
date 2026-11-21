@@ -3,6 +3,7 @@
 
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   AdminCreate,
   AdminDelete,
@@ -15,6 +16,8 @@ import {
   type AuthPermission,
 } from "@liexp/io/lib/http/auth/permissions/index.js";
 import dotenv from "dotenv";
+import { Schema } from "effect";
+import * as O from "effect/Option";
 import {
   createServiceClientToken,
   createServiceClientTokenWithUserId,
@@ -154,9 +157,24 @@ const generateServiceToken = () => {
 
   logger.info.log("JWT provider initialized successfully");
 
-  const result = userId
-    ? createServiceClientTokenWithUserId("api", permissions, userId)(ctx)()
-    : createServiceClientToken("api", permissions)(ctx)();
+  const decodedUserId = userId
+    ? Schema.decodeUnknownOption(UUID)(userId)
+    : O.none();
+
+  if (userId !== undefined && O.isNone(decodedUserId)) {
+    console.error("Error: --user-id must be a valid UUID");
+    process.exit(1);
+    return;
+  }
+
+  const result =
+    userId !== undefined && decodedUserId._tag === "Some"
+      ? createServiceClientTokenWithUserId(
+          "api",
+          permissions,
+          decodedUserId.value,
+        )(ctx)()
+      : createServiceClientToken("api", permissions)(ctx)();
 
   logger.info.log("Generated service client:");
   logger.info.log("ID:", result.serviceClient.id);

@@ -43,8 +43,6 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
                 body: O.fromNullable(body.event.body),
                 payload: {
                   ...body.event.payload,
-                  // location: O.fromNullable((body.event.payload as any).location),
-                  // endDate: O.fromNullable((body.event.payload as any).endDate),
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 } as any,
                 media: O.fromNullable(body.event.media),
