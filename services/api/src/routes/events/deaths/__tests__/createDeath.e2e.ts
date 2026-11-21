@@ -1,5 +1,8 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
-import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import {
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
@@ -11,7 +14,7 @@ import { loginUser } from "../../../../../test/utils/user.utils.js";
 
 describe("Create Death Event", () => {
   let appTest: AppTest;
-  const users: any[] = [];
+  const users: UserTest[] = [];
   const [actor] = fc.sample(ActorArb, 1).map((actor) => ({
     ...actor,
     memberIn: [],

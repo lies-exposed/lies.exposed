@@ -38,9 +38,8 @@ describe("List Events", () => {
     media: [],
     links: [],
     keywords: [],
+    socialPosts: [],
   }));
-
-  let events: any[];
 
   beforeEach(async () => {
     appTest = await GetAppTest();
@@ -97,7 +96,7 @@ describe("List Events", () => {
       })),
     );
 
-    events = [
+    const events = [
       ...groupMemberEvents,
       ...firstActorEvents,
       ...secondActorEvents,

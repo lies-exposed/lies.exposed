@@ -42,9 +42,8 @@ describe("Search Events", () => {
     media: [],
     links: [],
     keywords: [],
+    socialPosts: [],
   }));
-
-  let events: any[];
 
   beforeEach(async () => {
     appTest = await GetAppTest();
@@ -114,7 +113,7 @@ describe("Search Events", () => {
       })),
     );
 
-    events = [
+    const events = [
       ...groupMemberEvents,
       ...firstActorEvents,
       ...secondActorEvents,

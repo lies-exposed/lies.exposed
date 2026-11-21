@@ -46,21 +46,46 @@ describe("Edit Event", () => {
     body: undefined,
   };
 
-  let [event] = fc.sample(UncategorizedArb, 1).map((e) => ({
+  const [eventFixture] = fc.sample(UncategorizedArb, 1).map((e) => ({
     ...e,
     draft: true,
     payload: {
-      ...e.payload,
+      title: e.payload.title,
+      endDate: undefined,
       location: undefined,
       groups: [],
       actors: [],
       groupsMembers: [],
     },
+    deletedAt: null,
     media: [],
     links: [],
     keywords: [],
     socialPosts: [],
   }));
+
+  type TestEventPayload = Partial<
+    Events.Uncategorized.Uncategorized["payload"]
+  >;
+
+  interface TestEvent {
+    id: string;
+    type: "Uncategorized";
+    draft: boolean;
+    excerpt: unknown;
+    body: unknown;
+    date: Date | string;
+    media: string[];
+    links: string[];
+    keywords: string[];
+    socialPosts?: string[];
+    createdAt: Date | string;
+    updatedAt: Date | string;
+    deletedAt?: Date | null;
+    payload: TestEventPayload;
+  }
+
+  let event: TestEvent = eventFixture;
 
   beforeAll(async () => {
     appTest = await GetAppTest();
@@ -71,23 +96,24 @@ describe("Edit Event", () => {
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
     await throwTE(appTest.ctx.db.save(GroupEntity, [group]));
     await throwTE(appTest.ctx.db.save(GroupMemberEntity, [groupMember]));
-    const result = await throwTE(appTest.ctx.db.save(EventV2Entity, [event]));
+    const result = await throwTE(
+      appTest.ctx.db.save(EventV2Entity, [eventFixture]),
+    );
+
+    expect(result[0].id).toEqual(eventFixture.id);
 
     const eventExcerpt = toInitialValue("Death of an actor");
     const eventBody = toInitialValue("Death of an actor extended");
     event = {
       ...event,
-      ...(result[0] as any),
+      draft: true,
       excerpt: eventExcerpt,
       body: eventBody,
-      date: event.date.toISOString(),
-      createdAt: event.createdAt.toISOString(),
-      updatedAt: event.updatedAt.toISOString(),
+      date: eventFixture.date.toISOString(),
+      createdAt: eventFixture.createdAt.toISOString(),
+      updatedAt: eventFixture.updatedAt.toISOString(),
     };
-    delete event.payload.endDate;
-    delete event.payload.location;
     delete event.deletedAt;
-
     adminUser = await saveUser(appTest.ctx, [
       Auth.Permissions.AdminDelete.literals[0],
     ]);
