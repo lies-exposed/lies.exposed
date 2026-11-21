@@ -165,9 +165,7 @@ Output: ${output}
  * same schema as helpFromSchema, so the summary can never drift from the
  * full --help text or from the command's actual accepted flags.
  *
- * Used to build the aggregate command-reference table fed to the AI agent's
- * CLI tool description (see tools/cli-executor.tool.ts) without hand-typing
- * and re-maintaining it separately from each command's schema.
+ * Shown in the CLI help output; kept in sync with the schema.
  */
 export const summaryFromSchema = <Fields extends Schema.Struct.Fields>(
   schema: Schema.Struct<Fields>,

@@ -13,12 +13,12 @@ import { sendChatMessageStream } from "../chat.flow.js";
  * Full round trip verified in Postgres, not just in the tool call output.
  *
  * The user message here is deliberately vague — it does not say "call
- * liexp_cli", "create a link record", or anything about how to do the work.
+ * createLink", "create a link record", or anything about how to do the work.
  * It only hands the agent a URL, the same way a real user would. Getting
  * from that to a persisted `link` row depends entirely on the agent (a) loading
  * the `link-ingest` skill (skills/link-ingest.md) via the `load_skill`
  * tool and (b) following its workflow. That's what's under test here, not
- * whether liexp_cli works — the earlier version of this test told the agent
+ * whether the createLink MCP tool works — the earlier version of this test told the agent
  * exactly which tool to call, which meant it never actually exercised skill
  * discovery.
  *
@@ -117,21 +117,20 @@ describe("link ingestion (skill-driven)", () => {
       ).toBeDefined();
 
       const linkCreateStart = toolCallStarts(events).find(
-        (e) =>
-          e.tool_call.name === "liexp_cli" && /link\s+create/.test(toolArgs(e)),
+        (e) => e.tool_call.name === "createLink",
       );
       expect(
         linkCreateStart,
-        "expected a liexp_cli link create tool call",
+        "expected a createLink tool call",
       ).toBeDefined();
       expect(toolArgs(linkCreateStart!)).toContain(TEST_URL);
 
       const linkCreateEnd = toolCallEnds(events).find(
-        (e) => e.tool_call.name === "liexp_cli",
+        (e) => e.tool_call.name === "createLink",
       );
       expect(
         linkCreateEnd,
-        "expected the liexp_cli call to finish executing",
+        "expected the createLink call to finish executing",
       ).toBeDefined();
     },
   );

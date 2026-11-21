@@ -1,5 +1,5 @@
 import { type ChatMessage } from "@liexp/io/lib/http/Chat.js";
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { createPortal } from "react-dom";
 import { styled } from "../../theme/index.js";
 import {
@@ -13,6 +13,7 @@ import {
 import { AgentSelector, type AgentType } from "./AgentSelector.js";
 import { ChatHeader } from "./ChatHeader.js";
 import { ChatInput } from "./ChatInput.js";
+import { JumpToLatest, RegenerateButton } from "./ChatTail.js";
 import { ContentMessage } from "./ContentMessage.js";
 import { ErrorDisplay } from "./ErrorDisplay.js";
 import { LoadingMessage } from "./LoadingMessage.js";
@@ -21,6 +22,7 @@ import { StreamingMessage } from "./StreamingMessage.js";
 import { SystemMessage } from "./SystemMessage.js";
 import { ToolMessage } from "./ToolMessage.js";
 import { WelcomeMessage } from "./WelcomeMessage.js";
+import { useStickToBottom } from "./useStickToBottom.js";
 
 // Styled components
 const FloatingButton = styled(Paper)(({ theme }) => ({
@@ -118,7 +120,7 @@ export interface ChatUIProps {
   onKeyPress: (event: React.KeyboardEvent) => void;
   /** Function to format timestamp */
   formatTime?: (timestamp: string) => string;
-  /** Callback when retry button is clicked */
+  /** Callback to re-send the last user message (error retry and "Regenerate") */
   onRetry?: () => void;
   /** Whether the chat is in full-size mode */
   isFullSize?: boolean;
@@ -235,11 +237,22 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   conversations,
   onSelectConversation,
 }) => {
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const {
+    containerRef,
+    endRef: messagesEndRef,
+    isAtBottom,
+    onScroll,
+    scrollToBottom,
+  } = useStickToBottom([messages, streamingMessage]);
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, streamingMessage]);
+  // Offer "Regenerate" once the assistant has answered the last user message
+  const lastMessage = messages[messages.length - 1];
+  const showRegenerate =
+    !!onRetry &&
+    !error &&
+    !isLoading &&
+    !streamingMessage &&
+    lastMessage?.role === "assistant";
 
   // Shared panel content (used in both inline and portal rendering)
   const panelContent = (
@@ -255,7 +268,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
         onSelectConversation={onSelectConversation}
       />
 
-      <MessagesContainer>
+      <MessagesContainer ref={containerRef} onScroll={onScroll}>
         {messages.length === 0 && <WelcomeMessage message={welcomeMessage} />}
 
         {messages.flatMap((message) => {
@@ -340,7 +353,10 @@ export const ChatUI: React.FC<ChatUIProps> = ({
 
         {isLoading && !streamingMessage?.content && <LoadingMessage />}
 
+        {showRegenerate && <RegenerateButton onClick={() => onRetry?.()} />}
+
         <div ref={messagesEndRef} />
+        {!isAtBottom && <JumpToLatest onClick={scrollToBottom} />}
       </MessagesContainer>
 
       {error && <ErrorDisplay error={error} onRetry={onRetry} />}
@@ -475,7 +491,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               onSelectConversation={onSelectConversation}
             />
 
-            <MessagesContainer>
+            <MessagesContainer ref={containerRef} onScroll={onScroll}>
               {messages.length === 0 && (
                 <WelcomeMessage message={welcomeMessage} />
               )}
@@ -554,7 +570,12 @@ export const ChatUI: React.FC<ChatUIProps> = ({
 
               {isLoading && !streamingMessage?.content && <LoadingMessage />}
 
+              {showRegenerate && (
+                <RegenerateButton onClick={() => onRetry?.()} />
+              )}
+
               <div ref={messagesEndRef} />
+              {!isAtBottom && <JumpToLatest onClick={scrollToBottom} />}
             </MessagesContainer>
 
             {error && <ErrorDisplay error={error} onRetry={onRetry} />}

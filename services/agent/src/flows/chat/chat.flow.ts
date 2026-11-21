@@ -76,13 +76,13 @@ export const buildEnhancedMessage = (
   // The user is acting on a specific record. Spell out that references like
   // "the given article", "this link", or "the current record" point to it, and
   // that the agent must fetch the record itself rather than asking the user for
-  // data it can resolve via the CLI / scraper.
+  // data it can resolve via the MCP tools / scraper.
   return [
     message,
     "",
     `[Context: User is currently ${action} ${resource} with ID ${recordId}.`,
     `References such as "the given/current record", "this ${resource}", "the article", "the link", or "it" mean ${resource} record ${recordId}.`,
-    `Resolve it yourself with liexp_cli ("${resource} get --id=${recordId}") — and for links, scrape the URL it returns — instead of asking the user to paste the content.]`,
+    `Resolve it yourself with the matching find MCP tool (e.g. findLinks, findActors) passing ids: ["${recordId}"] — and for links, scrape the URL it returns — instead of asking the user to paste the content.]`,
   ].join("\n");
 };
 

@@ -8,7 +8,7 @@ triggers: [summarize, summary, summarise, excerpt, tldr, tl;dr, brief, short des
 
 ## 1. Get the content
 
-- Platform record → `liexp_cli("<resource> get --id=<uuid>")`; for links also `webScraping` the URL.
+- Platform record → the matching `find*` tool with `ids: ["<uuid>"]`; for links also `webScraping` the URL.
 - URL only → `webScraping(<url>)`.
 
 ## 2. Write
@@ -23,9 +23,9 @@ triggers: [summarize, summary, summarise, excerpt, tldr, tl;dr, brief, short des
 
 Use the record's excerpt field as plain text:
 ```
-liexp_cli("actor edit --id=<uuid> --excerpt=<summary>")
-liexp_cli("group edit --id=<uuid> --excerpt=<summary>")
-liexp_cli("event <type> edit --id=<uuid> --excerpt=<summary>")
-liexp_cli("link edit --id=<uuid> --description=<summary>")
+editActor({ "id": "<uuid>", "excerpt": "<summary>" })
+editGroup({ "id": "<uuid>", "excerpt": "<summary>" })
+editEvent({ "id": "<uuid>", "excerpt": "<summary>" })
+editLink({ "id": "<uuid>", "description": "<summary>" })
 ```
 Show the summary before saving if it replaces an existing non-empty excerpt.

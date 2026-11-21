@@ -18,7 +18,7 @@ import { sendChatMessageStream } from "../chat.flow.js";
  * then a persisted `event` row linked to it is the agent itself loading
  * skills/link-ingest.md via `load_skill` and following it. That's the
  * thing under test: input -> load skills -> call tools -> final response,
- * not a scripted sequence of liexp_cli calls dictated by the test.
+ * not a scripted sequence of MCP tool calls dictated by the test.
  *
  * Both turns share one conversation_id so the second message can refer to
  * "the link you just created" — agent.factory.ts caches the compiled agent
@@ -79,11 +79,14 @@ const toolCallEnds = (events: ChatStreamEvent[]): ToolCallEndEvent[] =>
 const toolArgs = (event: ToolCallStartEvent): string =>
   event.tool_call.arguments ?? "{}";
 
-const liexpCliCalls = (events: ChatStreamEvent[]): ToolCallStartEvent[] =>
-  toolCallStarts(events).filter((e) => e.tool_call.name === "liexp_cli");
+const toolCallsNamed = (
+  events: ChatStreamEvent[],
+  name: string,
+): ToolCallStartEvent[] =>
+  toolCallStarts(events).filter((e) => e.tool_call.name === name);
 
-const EVENT_SUBCOMMAND =
-  /event\s+(death|transaction|quote|scientific-study|book|patent|documentary|uncategorized)\s+create/;
+const EVENT_TYPE_ARG =
+  /"type"\s*:\s*"(Death|Transaction|Quote|ScientificStudy|Book|Patent|Documentary|Uncategorized)"/;
 
 // ---------------------------------------------------------------------------
 // Fixtures
@@ -120,7 +123,7 @@ describe("link-to-event (skill-driven)", () => {
       );
 
       // Proves the link-ingest skill actually ran, not that the model
-      // happened to guess the right liexp_cli invocation on its own.
+      // happened to guess the right createLink invocation on its own.
       const skillLoad = toolCallStarts(linkTurnEvents).find(
         (e) =>
           e.tool_call.name === "load_skill" &&
@@ -131,21 +134,19 @@ describe("link-to-event (skill-driven)", () => {
         "expected the agent to call load_skill(link-ingest) for a bare URL",
       ).toBeDefined();
 
-      const linkCreateStart = liexpCliCalls(linkTurnEvents).find((e) =>
-        /link\s+create/.test(toolArgs(e)),
-      );
+      const linkCreateStart = toolCallsNamed(linkTurnEvents, "createLink")[0];
       expect(
         linkCreateStart,
-        "expected a liexp_cli link create tool call",
+        "expected a createLink tool call",
       ).toBeDefined();
-      expect(toolArgs(linkCreateStart!)).toContain(TEST_URL);
+      expect(toolArgs(linkCreateStart)).toContain(TEST_URL);
 
       const linkCreateEnd = toolCallEnds(linkTurnEvents).find(
-        (e) => e.tool_call.name === "liexp_cli",
+        (e) => e.tool_call.name === "createLink",
       );
       expect(
         linkCreateEnd,
-        "expected the liexp_cli link create call to finish executing",
+        "expected the createLink call to finish executing",
       ).toBeDefined();
 
       const eventTurnEvents = await collectEvents(
@@ -154,20 +155,21 @@ describe("link-to-event (skill-driven)", () => {
         conversationId,
       );
 
-      const eventCreateStart = liexpCliCalls(eventTurnEvents).find((e) =>
-        EVENT_SUBCOMMAND.test(toolArgs(e)),
-      );
+      const eventCreateStart = toolCallsNamed(
+        eventTurnEvents,
+        "createEvent",
+      ).find((e) => EVENT_TYPE_ARG.test(toolArgs(e)));
       expect(
         eventCreateStart,
-        "expected a liexp_cli event <type> create tool call",
+        "expected a createEvent tool call with an event type",
       ).toBeDefined();
 
       const eventCreateEnd = toolCallEnds(eventTurnEvents).find(
-        (e) => e.tool_call.name === "liexp_cli",
+        (e) => e.tool_call.name === "createEvent",
       );
       expect(
         eventCreateEnd,
-        "expected the liexp_cli event create call to finish executing",
+        "expected the createEvent call to finish executing",
       ).toBeDefined();
     },
   );

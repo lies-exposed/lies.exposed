@@ -10,8 +10,8 @@ agents: [auto, platform]
 ## 1. Dedupe first — always
 
 ```
-liexp_cli("group list --query=<name> --end=10")
-liexp_cli("group list --query=<acronym or short name> --end=10")
+findGroups({ "query": "<name>", "end": 10 })
+findGroups({ "query": "<acronym or short name>", "end": 10 })
 ```
 Try acronym ↔ full name ("WHO" / "World Health Organization"), with/without legal suffix (Inc, Ltd, GmbH, S.p.A.). If found, go to **Enrich**.
 
@@ -25,20 +25,23 @@ If kind is genuinely unclear, ask the user.
 
 ## 3. Avatar
 
-`liexp_cli("group find-avatar --name=<name>")` → created media JSON; avatar UUID is `.data.id`. Continue without it on failure.
+`find_wikipedia_image({ "name": "<name>" })` → `{ imageUrl, type }`, then `createMedia({ "location": "<imageUrl>", "type": "<type>", "label": "<name>" })`; the returned media id is the avatar. Continue without it on failure.
 
 ## 4. Create
 
 `username` is a lowercase slug (`world-health-organization`).
 ```
-liexp_cli("group create --name=<Name> --username=<slug> --kind=Public|Private --excerpt=<text> --avatar=<media-uuid> --startDate=YYYY-MM-DD")
+createGroup({ "name": "<Name>", "username": "<slug>", "color": "<hex without #>", "kind": "Public" | "Private", "avatar": "<media-uuid>", "startDate": "YYYY-MM-DD" })
+```
+`color` is required (hex without `#`). `excerpt`/`body` are BlockNote documents; omit them if unsure. `editGroup` has no avatar field, so set the avatar at creation.
+```
 ```
 
 ## Enrich / members
 
-1. `liexp_cli("group get --id=<uuid>")` — read current values and members.
-2. Resolve each member with `actor list --fullName=...` (create through `actor-profile` if the user wants).
-3. `liexp_cli("group edit --id=<uuid> --members=<actor-uuid,...>")` — the list **replaces** current members, so merge with the existing ones first.
+1. `findGroups({ "ids": ["<uuid>"] })` — read current values and members.
+2. Resolve each member with `findActors({ "fullName": "..." })` (create through `actor-profile` if the user wants).
+3. `editGroup({ "id": "<uuid>", "members": ["<actor-uuid>", "..."] })` — the list **replaces** current members, so merge with the existing ones first.
 
 ## Report
 

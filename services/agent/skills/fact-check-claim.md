@@ -10,13 +10,13 @@ triggers: [fact check, factcheck, verify, true, false, claim, is it true, debunk
 
 Restate it as one checkable sentence: who, did what, when, how much. If it is vague or an opinion, say which part is checkable and check that part.
 
-## 2. Platform first (if you have `liexp_cli`)
+## 2. Platform first (if you have the platform MCP tools)
 
 ```
-liexp_cli("event list --query=<keywords> --end=20")
-liexp_cli("actor list --fullName=<name>")  /  liexp_cli("group list --query=<name>")
+findEvents({ "query": "<keywords>", "end": 20 })
+findActors({ "fullName": "<name>" })  /  findGroups({ "query": "<name>" })
 ```
-Curated platform events are the baseline. Researcher agents without the CLI: skip this step and say platform data was not checked.
+Curated platform events are the baseline. Researcher agents without these tools: skip this step and say platform data was not checked.
 
 ## 3. Search both directions
 
@@ -38,4 +38,4 @@ One of: **Supported**, **Partly supported**, **Unsupported**, **Contradicted**, 
 
 ## 6. Store (only if asked, platform agents only)
 
-Save sources with `link create`, and if the claim is a dated fact worth recording use `event-create` (Quote for statements, Uncategorized otherwise), as draft unless primary-sourced.
+Save sources with `createLink`, and if the claim is a dated fact worth recording use `event-create` (Quote for statements, Uncategorized otherwise), as draft unless primary-sourced.

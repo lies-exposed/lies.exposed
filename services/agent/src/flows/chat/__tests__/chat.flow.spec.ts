@@ -318,19 +318,19 @@ describe("processStreamEvent", () => {
   });
 
   test("on_tool_start emits tool_call_start with serialized input", () => {
-    const event = toolStartEvent("liexp_cli", {
-      command: "actor list --_start 0",
+    const event = toolStartEvent("findActors", {
+      fullName: "Test Actor",
     });
     const [events] = processStreamEvent(event, state(), "msg-1");
     expect(events).toHaveLength(1);
     expect(events[0].type).toBe("tool_call_start");
-    expect(events[0].tool_call?.name).toBe("liexp_cli");
+    expect(events[0].tool_call?.name).toBe("findActors");
     expect(events[0].tool_call?.id).toBe("run-tool-1");
-    expect(events[0].tool_call?.arguments).toContain("actor list");
+    expect(events[0].tool_call?.arguments).toContain("Test Actor");
   });
 
   test("on_tool_end emits tool_call_end with string output", () => {
-    const event = toolEndEvent("liexp_cli", "actor results here");
+    const event = toolEndEvent("findActors", "actor results here");
     const [events] = processStreamEvent(event, state(), "msg-1");
     expect(events).toHaveLength(1);
     expect(events[0].type).toBe("tool_call_end");
@@ -338,7 +338,7 @@ describe("processStreamEvent", () => {
   });
 
   test("on_tool_end serializes non-string output", () => {
-    const event = toolEndEvent("liexp_cli", [{ id: "1", name: "Actor A" }]);
+    const event = toolEndEvent("findActors", [{ id: "1", name: "Actor A" }]);
     const [events] = processStreamEvent(event, state(), "msg-1");
     expect(typeof events[0].tool_call?.result).toBe("string");
     expect(events[0].tool_call?.result).toContain("Actor A");
@@ -746,8 +746,8 @@ describe("chat.flow", () => {
             invoke: vi.fn(),
             streamEvents: vi.fn().mockImplementation(() =>
               asyncEvents([
-                toolStartEvent("liexp_cli", {
-                  command: "actor list --_start 0",
+                toolStartEvent("findActors", {
+                  fullName: "Test Actor",
                 }),
                 chatModelEvent("Here are the actors."),
               ]),
@@ -759,8 +759,8 @@ describe("chat.flow", () => {
       const events = await collect(ctx);
       const toolStart = events.find((e) => e.type === "tool_call_start");
       expect(toolStart).toBeDefined();
-      expect(toolStart.tool_call.name).toBe("liexp_cli");
-      expect(toolStart.tool_call.arguments).toContain("actor list");
+      expect(toolStart.tool_call.name).toBe("findActors");
+      expect(toolStart.tool_call.arguments).toContain("Test Actor");
     });
 
     test("on_tool_end emits tool_call_end with result", async () => {
@@ -772,9 +772,9 @@ describe("chat.flow", () => {
               .fn()
               .mockImplementation(() =>
                 asyncEvents([
-                  toolStartEvent("liexp_cli", { command: "actor get 123" }),
+                  toolStartEvent("findActors", { ids: ["123"] }),
                   toolEndEvent(
-                    "liexp_cli",
+                    "findActors",
                     JSON.stringify({ id: "123", fullName: "Test" }),
                   ),
                   chatModelEvent("Found the actor."),
@@ -787,7 +787,7 @@ describe("chat.flow", () => {
       const events = await collect(ctx);
       const toolEnd = events.find((e) => e.type === "tool_call_end");
       expect(toolEnd).toBeDefined();
-      expect(toolEnd.tool_call.name).toBe("liexp_cli");
+      expect(toolEnd.tool_call.name).toBe("findActors");
       expect(toolEnd.tool_call.result).toContain("Test");
     });
 

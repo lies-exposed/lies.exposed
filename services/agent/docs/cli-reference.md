@@ -1,12 +1,10 @@
-# liexp_cli Command Reference
+# `agent` CLI Command Reference
 
-All commands output JSON to stdout on success.
+Reference for the human-run `agent` CLI binary (`pnpm --filter agent cli ...`). All commands output JSON to stdout on success.
 
-When a command fails, the tool returns a string starting with `ERROR (exit 1):` followed by the error description. **Do not ignore this.** When you see an error:
-- **Report it to the user** — explain what went wrong in plain language
-- **Do not retry the same failing command** with the same arguments
-- Only retry if you can fix the root cause (e.g. wrong flag, missing required argument, invalid UUID)
-- If the error is unrecoverable (e.g. server error, permission denied), stop and tell the user
+> The AI agent does **not** use this CLI. It calls the API's MCP tools directly (`findActors`, `createActor`, `editActor`, and the same trio for groups, events, links, media, areas, stories, keywords and settings), plus `blockNoteToText` and the local `find_wikipedia_image` tool. To get a record by id, pass `ids: ["<uuid>"]` to the matching `find*` tool. Tool schemas live in `services/api/src/routes/mcp/tools/*.tool.ts`.
+
+When a command fails, report the error and do not retry the same command with the same arguments; only retry once you have fixed the root cause (wrong flag, missing argument, invalid UUID).
 
 ## Actor commands
 
@@ -99,38 +97,38 @@ Common flags for every `event <type> create`: `--date=YYYY-MM-DD` (req), `--draf
 
 ```
 # Find the 5 most recently created actors
-liexp_cli("actor list --sort=createdAt --order=DESC --start=0 --end=5")
+agent actor list --sort=createdAt --order=DESC --start=0 --end=5
 
 # Find groups matching a query
-liexp_cli("group list --query=Party --end=10")
+agent group list --query=Party --end=10
 
 # Get a specific group
-liexp_cli("group get --id=550e8400-e29b-41d4-a716-446655440000")
+agent group get --id=550e8400-e29b-41d4-a716-446655440000
 
 # Search events about vaccines
-liexp_cli("event list --query=vaccine --end=10")
+agent event list --query=vaccine --end=10
 
 # Find events for a specific actor
-liexp_cli("event list --actors=550e8400-e29b-41d4-a716-446655440000 --end=20")
+agent event list --actors=550e8400-e29b-41d4-a716-446655440000 --end=20
 
 # Save a link from a URL
-liexp_cli("link create --url=https://example.com/article")
+agent link create --url=https://example.com/article
 
 # Create a Death event
-liexp_cli("event death create --date=2024-03-15 --victim=<actor-uuid> --links=<link-uuid>")
+agent event death create --date=2024-03-15 --victim=<actor-uuid> --links=<link-uuid>
 
 # Edit a link's status and title
-liexp_cli("link edit --id=<uuid> --title=Updated Title --status=APPROVED")
+agent link edit --id=<uuid> --title=Updated Title --status=APPROVED
 
 # Upload a media entry
-liexp_cli("media create --location=https://example.com/image.jpg --type=image/jpeg --label=My Image")
+agent media create --location=https://example.com/image.jpg --type=image/jpeg --label=My Image
 
 # Find an actor avatar on Wikipedia
-liexp_cli("actor find-avatar --fullName=Elon Musk")
+agent actor find-avatar --fullName=Elon Musk
 
 # Find a group avatar on Wikipedia
-liexp_cli("group find-avatar --name=Greenpeace")
+agent group find-avatar --name=Greenpeace
 
 # Create a new geographic area
-liexp_cli("area create --label=Kyiv Oblast --slug=kyiv-oblast")
+agent area create --label=Kyiv Oblast --slug=kyiv-oblast
 ```

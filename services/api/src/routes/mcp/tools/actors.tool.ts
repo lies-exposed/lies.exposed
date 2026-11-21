@@ -85,7 +85,9 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       // fetchActors expects effect Options for every query field
       const actorQuery: Partial<GetListActorQuery> = {
         ...(fullName ? { q: O.some(fullName) } : {}),
-        ...(ids && ids.length > 0 ? { ids: O.some(ids as readonly UUID[]) } : {}),
+        ...(ids && ids.length > 0
+          ? { ids: O.some(ids as readonly UUID[]) }
+          : {}),
         ...(memberIn && memberIn.length > 0
           ? {
               memberIn: O.some(memberIn as readonly UUID[]),

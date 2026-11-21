@@ -18,9 +18,9 @@ export interface CommandModule {
   help: string;
   /**
    * One-line usage + flags summary, e.g. "actor create --username --fullName
-   * [--excerpt]". Concatenated across all commands to build the AI agent's
-   * CLI tool description (see tools/cli-executor.tool.ts) — required so that
-   * description can never silently omit a command.
+   * [--excerpt]". Shown in the CLI command list —
+   * required so that
+   * the list can never silently omit a command.
    */
   summary: string;
 }
