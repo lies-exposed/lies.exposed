@@ -9,6 +9,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { type CreateGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
@@ -45,6 +46,10 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
         description:
           "Search query string to filter groups by name, excerpt, or body",
       }),
+      ids: Schema.optional(Schema.Array(Schema.String)).annotations({
+        description:
+          "Fetch specific groups by UUID (use this to get a record by id)",
+      }),
       sort: Schema.UndefinedOr(
         Schema.Union(
           Schema.Literal("id"),
@@ -68,23 +73,27 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       }),
     }),
     async (input) => {
-      const { query, sort, order, start, end } = input;
+      const { query, ids, sort, order, start, end } = input;
 
+      // fetchGroups reads effect Options; plain values would be ignored
       const groupQuery: Record<string, unknown> = {};
       if (query) {
-        groupQuery.q = query;
+        groupQuery.q = O.some(query);
+      }
+      if (ids && ids.length > 0) {
+        groupQuery.ids = O.some(ids);
       }
       if (sort) {
-        groupQuery.sort = sort;
+        groupQuery._sort = O.some(sort);
       }
       if (order) {
-        groupQuery.order = order;
+        groupQuery._order = O.some(order);
       }
       if (start !== undefined) {
-        groupQuery.start = Number(start);
+        groupQuery._start = O.some(Number(start));
       }
       if (end !== undefined) {
-        groupQuery.end = Number(end);
+        groupQuery._end = O.some(Number(end));
       }
 
       try {
@@ -240,8 +249,8 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
           username: input.username,
           color: input.color,
           kind: input.kind ?? "Public",
-          excerpt: input.excerpt as BlockNoteDocument | undefined,
-          body: input.body as BlockNoteDocument | undefined,
+          excerpt: toInitialValue(input.excerpt),
+          body: toInitialValue(input.body),
           startDate: input.startDate ? new Date(input.startDate) : undefined,
           endDate: input.endDate ? new Date(input.endDate) : undefined,
           avatar: input.avatar as UUID | undefined,
@@ -321,6 +330,9 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       body: Schema.UndefinedOr(Schema.Unknown).annotations({
         description: "New full description",
       }),
+      avatar: Schema.UndefinedOr(Schema.String).annotations({
+        description: "New avatar media UUID",
+      }),
       startDate: Schema.UndefinedOr(Schema.String).annotations({
         description: "New start date (ISO 8601 string)",
       }),
@@ -347,7 +359,8 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
           kind: wrap(input.kind),
           excerpt: wrap(input.excerpt as BlockNoteDocument | null),
           body: wrap(input.body as BlockNoteDocument | null),
-          avatar: O.none(),
+          avatar: wrap(input.avatar as UUID | null),
+
           startDate: wrap(input.startDate),
           endDate: wrap(input.endDate),
           members: wrap(

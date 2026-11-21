@@ -71,6 +71,8 @@ const extractStructuredContentFromHTML = (
   return { title, headings, content, links, listItems };
 };
 
+type JsonLdNode = Record<string, unknown>;
+
 /**
  * Extract comprehensive metadata from HTML optimized for LLM context
  */
@@ -80,7 +82,7 @@ const extractComprehensiveMetadata = (
   basic: Record<string, string>;
   openGraph: Record<string, string>;
   twitterCard: Record<string, string>;
-  jsonLd: any[];
+  jsonLd: JsonLdNode[];
   lang: string;
   canonicalUrl?: string;
 } => {
@@ -89,7 +91,7 @@ const extractComprehensiveMetadata = (
   const basic: Record<string, string> = {};
   const openGraph: Record<string, string> = {};
   const twitterCard: Record<string, string> = {};
-  const jsonLd: any[] = [];
+  const jsonLd: JsonLdNode[] = [];
 
   const title = document.querySelector("title")?.textContent?.trim();
   if (title) basic.title = title;
@@ -214,10 +216,12 @@ const formatForLLM = (
     if (metadata.jsonLd.length > 0) {
       sections.push("**Structured Data:**");
       metadata.jsonLd.forEach((data) => {
-        if (data["@type"]) {
-          sections.push(`  - Type: ${data["@type"]}`);
-          if (data.name) sections.push(`    Name: ${data.name}`);
-          if (data.description)
+        const type = data["@type"];
+        if (typeof type === "string") {
+          sections.push(`  - Type: ${type}`);
+          if (typeof data.name === "string")
+            sections.push(`    Name: ${data.name}`);
+          if (typeof data.description === "string")
             sections.push(`    Description: ${data.description}`);
         }
       });
@@ -497,11 +501,11 @@ export const createWebScrapingTool = <
     return task();
   };
 
-  const scrapeTool = tool<any, any, any, any>(scrapeFunction, {
+  const scrapeTool = tool(scrapeFunction, {
     name: "scrapeWebPage",
     description:
       "Navigate to an EXTERNAL URL and extract page content for LLM analysis. " +
-      "Use ONLY for external web pages. NEVER use this for lies.exposed platform data (actors, groups, events, links, media, areas, nations) — use the `liexp_cli` tool instead.",
+      "Use ONLY for external web pages. NEVER use this for lies.exposed platform data (actors, groups, events, links, media, areas, nations) — use the platform MCP tools (findActors, findEvents, ...) instead.",
     schema: scrapeWebPageInput,
   });
 

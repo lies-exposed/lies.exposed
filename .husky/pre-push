@@ -1,6 +1,8 @@
 #!/bin/sh
 
-docker compose up -d db.liexp.dev
+# Docker is optional (agent VMs may not have it): only start the db when nothing
+# is listening on the test DB port, and skip silently-with-a-warning otherwise.
+bash ./scripts/ensure-test-db.sh
 
 # Build first: knip and lint load vitest/vite configs and imports from
 # @liexp/*/lib, which don't exist yet in a fresh checkout or worktree.
@@ -11,4 +13,6 @@ pnpm --filter "@liexp/backend..." --filter=...[HEAD^] build &&
 # outputs, so a lint run made before the build existed (fresh worktree, failed
 # earlier push) keeps replaying its unresolved-import errors after the build.
 find packages services -maxdepth 3 -name .eslintcache -not -path "*/node_modules/*" -delete &&
-pnpm knip && pnpm --filter=...[HEAD^] lint --quiet && pnpm vitest --changed=HEAD^ && . "./scripts/healthcheck.sh"
+pnpm knip && pnpm --filter=...[HEAD^] lint --quiet && pnpm vitest --changed=HEAD^ &&
+# The docker-based app smoke test is opt-in: PREPUSH_HEALTHCHECK=1 git push
+if [ "${PREPUSH_HEALTHCHECK:-0}" = "1" ]; then . "./scripts/healthcheck.sh"; fi

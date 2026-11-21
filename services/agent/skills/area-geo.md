@@ -9,7 +9,7 @@ agents: [auto, platform]
 
 ## 1. Dedupe
 
-`liexp_cli("area list --query=<name>")` — also try the local-language name. Countries are **nations** (`nation list --name=...`), not areas: don't create an area for a whole country unless the user insists.
+`findAreas({ "query": "<name>" })` — also try the local-language name. Countries are **nations** (`findNations`), not areas: don't create an area for a whole country unless the user insists.
 
 ## 2. Geometry
 
@@ -20,15 +20,15 @@ agents: [auto, platform]
 ## 3. Create
 
 ```
-liexp_cli("area create --label=<Name> --slug=<name-slug> --geometry={\"type\":\"Point\",\"coordinates\":[30.52,50.45]}")
+createArea({ "label": "<Name>", "slug": "<name-slug>", "draft": false, "geometry": { "type": "Point", "coordinates": [30.52, 50.45] } })
 ```
 
 ## 4. Connect
 
 ```
-liexp_cli("area edit --id=<uuid> --events=<uuid,...> --media=<uuid,...> --featuredImage=<media-uuid>")
+editArea({ "id": "<uuid>", "events": ["<uuid>"], "media": ["<uuid>"], "featuredImage": "<media-uuid>" })
 ```
-Lists replace current values — merge with existing ones from `area get`. Events with a `--location` flag (Death, Uncategorized) can also point to the area via their own edit command.
+Lists replace current values — merge with existing ones from `findAreas({ "ids": ["<uuid>"] })`. Point an event at an area with `editEvent({ "id": "<uuid>", "location": "<area-uuid>" })` (Uncategorized and Death events).
 
 ## 5. Report
 

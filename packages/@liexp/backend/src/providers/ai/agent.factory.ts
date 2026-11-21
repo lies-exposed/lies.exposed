@@ -110,7 +110,7 @@ export const AGENT_CONFIGS: Record<
   platform: {
     label: "Platform Manager",
     description:
-      "Manages platform resources (actors, events, groups, links) via the CLI",
+      "Manages platform resources (actors, events, groups, links) via the API MCP tools",
     systemPromptFile: "AGENTS.md",
   },
   researcher: {
@@ -123,8 +123,8 @@ export const AGENT_CONFIGS: Record<
 
 interface AgentFactoryOptions {
   mcpClient: MCPAdapter | null;
-  /** CLI executor tool used exclusively by the platform agent */
-  cliTool: StructuredToolInterface;
+  /** Extra local tools for the platform agent (e.g. Wikipedia image lookup) */
+  extraTools?: StructuredToolInterface[];
   /** Per-provider API keys — used when an override switches to a different provider */
   apiKeys?: Partial<Record<AIProvider, string>>;
   /** Path to the skills directory (defaults to <cwd>/skills) */
@@ -232,10 +232,10 @@ export const GetAgentFactory =
             let tools: StructuredToolInterface[];
 
             if (type === "researcher") {
-              // Researcher: web tools + skills only — no MCP, no CLI
+              // Researcher: web tools + skills only — no MCP
               tools = [searchWeb, webScraping, loadSkill];
             } else {
-              // Platform (default): CLI + MCP + web tools + skills + documentation reader
+              // Platform (default): MCP + extra + web tools + skills + documentation reader
               let mcpTools: StructuredToolInterface[] = [];
               if (opts.mcpClient) {
                 mcpTools = await opts.mcpClient.getTools();
@@ -245,7 +245,7 @@ export const GetAgentFactory =
               }
               const readDoc = createReadDocumentationTool(ctx, process.cwd());
               tools = [
-                opts.cliTool,
+                ...(opts.extraTools ?? []),
                 readDoc,
                 loadSkill,
                 ...mcpTools,
@@ -382,9 +382,9 @@ export const GetAgentFactory =
     /**
      * Create (or return the cached) agent for the given type and provider override.
      *
-     * There is a single full-capability agent (tools: CLI + MCP + web + docs +
+     * There is a single full-capability agent (tools: MCP + web + docs +
      * skills) used for "auto" and "platform". "researcher" is an optional
-     * read-only variant (web + skills, no CLI) selected explicitly by the user.
+     * read-only variant (web + skills, no MCP) selected explicitly by the user.
      * Domain workflows live in skills (loaded on demand), not the base prompt.
      */
     return (agentType?: AgentType, override?: ProviderConfigOverride) => {

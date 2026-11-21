@@ -1,10 +1,6 @@
 import { actorGroup } from "./actors/index.js";
 import { areaGroup } from "./areas/index.js";
-import {
-  isCommandGroup,
-  type CommandGroup,
-  type CommandModule,
-} from "./command.type.js";
+import { type CommandGroup } from "./command.type.js";
 import { eventGroup } from "./events/index.js";
 import { graphGroup } from "./graphs/index.js";
 import { groupGroup } from "./groups/index.js";
@@ -21,9 +17,7 @@ import { storyGroup } from "./stories/index.js";
  * Usage: agent <group> <subcommand> [--flags]
  * Example: agent actor list --fullName=Obama
  *
- * Single source of truth for the CLI's dispatch table (cli.ts) and for the
- * AI agent's CLI tool description (tools/cli-executor.tool.ts) — see
- * describeCommandTree below.
+ * Single source of truth for the CLI's dispatch table (cli.ts).
  */
 export const groups: Record<string, CommandGroup> = {
   actor: actorGroup,
@@ -38,25 +32,4 @@ export const groups: Record<string, CommandGroup> = {
   keywords: keywordGroup,
   graphs: graphGroup,
   settings: settingGroup,
-};
-
-/**
- * Flattens the command-group tree into the compact one-line-per-command
- * summary table used by the AI agent's CLI tool description. Recurses into
- * nested groups (e.g. event's per-type subgroups) so newly added command
- * types are picked up automatically — no hand-maintained list to fall out of
- * sync with the actual dispatch table.
- */
-export const describeCommandTree = (
-  tree: Record<string, CommandGroup | CommandModule> = groups,
-): string => {
-  const lines: string[] = [];
-  for (const node of Object.values(tree)) {
-    if (isCommandGroup(node)) {
-      lines.push(describeCommandTree(node.commands));
-    } else {
-      lines.push(`  ${node.summary}`);
-    }
-  }
-  return lines.join("\n");
 };

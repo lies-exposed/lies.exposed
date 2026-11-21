@@ -40,7 +40,7 @@ export type Criteria = UUID[] | ObjectLiteral;
 
 interface DatabaseClient {
   manager: EntityManager;
-  formatQuery: (sql: SQLQuery) => { text: string; values: any };
+  formatQuery: (sql: SQLQuery) => { text: string; values: unknown[] };
   execSQL: <T>(sql: SQLQuery) => TE.TaskEither<DBError, T>;
   execQuery: <T>(
     q: (em: EntityManager) => Promise<T>,
@@ -131,7 +131,7 @@ const pgFormat: FormatConfig = {
   formatValue: (value, index) => ({ placeholder: `$${index + 1}`, value }),
 };
 
-const getEntityName = (entity: EntityTarget<any>): string => {
+const getEntityName = (entity: EntityTarget<ObjectLiteral>): string => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-base-to-string
     const entityName = entity.toString();

@@ -271,6 +271,33 @@ export const AdminChat: React.FC<ChatProps> = ({
     await sendMessage(request, aiConfig);
   };
 
+  // Retry / regenerate: resend the most recent user message
+  const handleRetry = async (): Promise<void> => {
+    if (isLoading) return;
+    const lastUserMessage = [...messages]
+      .reverse()
+      .find((m) => m.role === "user");
+    if (!lastUserMessage) return;
+
+    streamingStartTimeRef.current = new Date().toISOString();
+
+    const aiConfig = selectedProvider
+      ? {
+          provider: selectedProvider,
+          ...(selectedModel && { model: selectedModel }),
+        }
+      : undefined;
+
+    await sendMessage(
+      {
+        message: lastUserMessage.content,
+        conversation_id: conversationId,
+        resource_context: isContextEnabled ? context : undefined,
+      },
+      aiConfig,
+    );
+  };
+
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
@@ -321,6 +348,7 @@ export const AdminChat: React.FC<ChatProps> = ({
       onInputChange={setInputValue}
       onSendMessage={() => void handleSendMessage()}
       onKeyPress={handleKeyPress}
+      onRetry={() => void handleRetry()}
       isFullSize={isFullSize}
       onToggleFullSize={handleToggleFullSize}
       isContextEnabled={isContextEnabled}

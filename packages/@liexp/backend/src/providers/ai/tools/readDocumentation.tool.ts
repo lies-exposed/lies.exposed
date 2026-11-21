@@ -45,7 +45,7 @@ export const createReadDocumentationTool = <
       description:
         "Read a markdown documentation file from the agent working directory. " +
         "Use this to fetch command references, workflows, or guides on demand instead of relying on memory. " +
-        "Available files: 'docs/cli-reference.md' (full liexp_cli command reference with flags and examples).",
+        "Available files: 'docs/cli-reference.md' (reference for the human-run `agent` CLI; prefer the MCP tools for platform data).",
       schema: effectToZod(ReadDocumentationInputSchema),
     },
   );

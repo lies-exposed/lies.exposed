@@ -91,11 +91,15 @@ export const searchWithGoogle =
           const nextPage = p + 1;
           const pageLinkSelector = `a[aria-label="Page ${nextPage}"]`;
           ctx.logger.debug.log("Searching for a %s", pageLinkSelector);
-          const pageLink: any = await page.waitForSelector(pageLinkSelector);
+          const pageLink = await page.waitForSelector(pageLinkSelector);
 
-          await pageLink.click();
+          if (pageLink) {
+            await pageLink.click();
 
-          await page.waitForNavigation();
+            await page.waitForNavigation();
+          } else {
+            ctx.logger.debug.log("No link found for %s", pageLinkSelector);
+          }
 
           return walkPage(nextPage, ll);
         };

@@ -42,15 +42,15 @@ const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
   );
 
   const features = data.map(({ geometry, ...datum }) => {
-    const geom = geoJSONFormat.readGeometry(geometry);
-    const feature = new Feature(geom);
+    const geom = geoJSONFormat.readGeometry(geometry) ?? undefined;
+    const feature = new Feature({ geometry: geom });
     feature.setProperties(datum);
     return feature;
   });
 
   const deathFeatures = deathsData.map(({ geometry, ...datum }) => {
-    const geom = geoJSONFormat.readGeometry(geometry);
-    const feature = new Feature(geom);
+    const geom = geoJSONFormat.readGeometry(geometry) ?? undefined;
+    const feature = new Feature({ geometry: geom });
     feature.setProperties(datum);
     return feature;
   });

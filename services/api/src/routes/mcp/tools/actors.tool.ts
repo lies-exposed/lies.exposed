@@ -76,6 +76,10 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       fullName: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full name to search for (partial match supported)",
       }),
+      ids: Schema.optional(Schema.Array(Schema.String)).annotations({
+        description:
+          "Fetch specific actors by UUID (use this to get a record by id)",
+      }),
       memberIn: Schema.optional(Schema.Array(Schema.String)).annotations({
         description: "Array of group UUIDs the actor is a member of",
       }),
@@ -106,12 +110,15 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       }),
     }),
     async (input) => {
-      const { fullName, memberIn, withDeleted, sort, order, start, end } =
+      const { fullName, ids, memberIn, withDeleted, sort, order, start, end } =
         input;
 
       // fetchActors expects effect Options for every query field
       const actorQuery: Partial<GetListActorQuery> = {
         ...(fullName ? { q: O.some(fullName) } : {}),
+        ...(ids && ids.length > 0
+          ? { ids: O.some(ids as readonly UUID[]) }
+          : {}),
         ...(memberIn && memberIn.length > 0
           ? {
               memberIn: O.some(memberIn as readonly UUID[]),

@@ -6,9 +6,10 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
-import { Like } from "typeorm";
+import { In, Like } from "typeorm";
 import { defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 
@@ -60,6 +61,10 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
         description:
           "Full-text search query to filter stories by title or body",
       }),
+      ids: Schema.optional(Schema.Array(Schema.String)).annotations({
+        description:
+          "Fetch specific stories by UUID (use this to get a record by id)",
+      }),
       draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
         description: "Filter by draft status",
       }),
@@ -74,13 +79,16 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
       }),
     }),
     async (input) => {
-      const { query, draft, creator, start, end } = input;
+      const { query, ids, draft, creator, start, end } = input;
 
       const skip = Number(start ?? 0);
       const take = Number(end ?? 20);
 
       // Build query options for ctx.db.find
       const where: Record<string, unknown> = {};
+      if (ids && ids.length > 0) {
+        where.id = In(ids);
+      }
       if (query) {
         // TypeORM ILIKE for full-text search on title
         where.title = Like(`%${query}%`);
@@ -182,6 +190,10 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
       featuredImage: Schema.UndefinedOr(UUID).annotations({
         description: "Featured image media UUID",
       }),
+      body: Schema.UndefinedOr(Schema.Any).annotations({
+        description:
+          "Story body: plain text (converted to a BlockNote document, one paragraph per line) or a BlockNote document (array of blocks)",
+      }),
       keywords: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
         description: "Keyword UUIDs to associate",
       }),
@@ -204,6 +216,7 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
         path,
         date,
         draft,
+        body,
         creator,
         featuredImage,
         keywords,
@@ -231,7 +244,8 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
           events: (events ?? []).map((e: string) => ({ id: e })),
           media: (media ?? []).map((m: string) => ({ id: m })),
           links: [],
-          body: null,
+          body:
+            typeof body === "string" ? toInitialValue(body) : (body ?? null),
         };
 
         // Save the story

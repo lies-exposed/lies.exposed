@@ -12,6 +12,7 @@ import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { URL } from "@liexp/io/lib/http/Common/index.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
+import * as O from "effect/Option";
 import { defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 
@@ -44,6 +45,10 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
       query: Schema.UndefinedOr(Schema.String).annotations({
         description: "Search query string to filter links by title or URL",
       }),
+      ids: Schema.optional(Schema.Array(Schema.String)).annotations({
+        description:
+          "Fetch specific links by UUID (use this to get a record by id)",
+      }),
       sort: Schema.UndefinedOr(
         Schema.Union(
           Schema.Literal("createdAt"),
@@ -66,23 +71,27 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
       }),
     }),
     async (input) => {
-      const { query, sort, order, start, end } = input;
+      const { query, ids, sort, order, start, end } = input;
 
+      // fetchLinks reads effect Options; plain values would be ignored
       const linkQuery: Record<string, unknown> = {};
       if (query) {
-        linkQuery.q = query;
+        linkQuery.q = O.some(query);
+      }
+      if (ids && ids.length > 0) {
+        linkQuery.ids = O.some(ids);
       }
       if (sort) {
-        linkQuery.sort = sort;
+        linkQuery._sort = O.some(sort);
       }
       if (order) {
-        linkQuery.order = order;
+        linkQuery._order = O.some(order);
       }
       if (start !== undefined) {
-        linkQuery.start = Number(start);
+        linkQuery._start = O.some(Number(start));
       }
       if (end !== undefined) {
-        linkQuery.end = Number(end);
+        linkQuery._end = O.some(Number(end));
       }
 
       try {

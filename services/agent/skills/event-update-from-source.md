@@ -9,11 +9,11 @@ agents: [auto, platform]
 
 ## 1. Load the current event
 
-`liexp_cli("event get --id=<uuid>")`. Note its `type` — edits use the typed command: `event <death|quote|transaction|scientific-study|book|patent|documentary|uncategorized> edit --id=<uuid> ...`.
+`findEvents({ "ids": ["<uuid>"] })`. Note its `type`; type-specific fields (see `event-create`) are edited through the same `editEvent` tool.
 
 ## 2. Read the new source
 
-Save/reuse the link (`link list --query=...` / `link create --url=...`), then `webScraping` it.
+Save/reuse the link (`findLinks({ "query": "..." })` / `createLink({ "url": "..." })`), then `webScraping` it.
 
 ## 3. Diff
 
@@ -24,12 +24,12 @@ List each field where the source differs from or adds to the event: date, title,
 
 ## 4. Apply
 
-Edit semantics: omitted flags keep current values; array flags (`--links`, `--media`, `--keywords`, `--actors`, `--groups`, …) **replace** the list — always pass existing UUIDs **plus** the new ones.
+Edit semantics: omitted fields keep current values; array fields (`links`, `media`, `keywords`, …) **replace** the list — always pass existing UUIDs **plus** the new ones.
 ```
-liexp_cli("event uncategorized edit --id=<uuid> --links=<existing...>,<new-link-uuid> --excerpt=<updated text>")
+editEvent({ "id": "<uuid>", "links": ["<existing...>", "<new-link-uuid>"], "excerpt": "<updated text>" })
 ```
 
-Participants that are new to the platform → `actor-profile` / `group-profile`. Their own records (bio, dates) may be updated the same way with `actor edit` / `group edit`.
+Participants that are new to the platform → `actor-profile` / `group-profile`. Their own records (bio, dates) may be updated the same way with `editActor` / `editGroup`.
 
 ## 5. Report
 

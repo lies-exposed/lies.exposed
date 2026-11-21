@@ -8,12 +8,12 @@ triggers: [money, funding, funded, funder, paid, payment, donation, donor, grant
 
 ## 1. Resolve the subject
 
-`actor list --fullName=...` or `group list --query=...` → UUID. Several matches → ask which one.
+`findActors({ "fullName": "..." })` or `findGroups({ "query": "..." })` → UUID. Several matches → ask which one.
 
 ## 2. Direct transactions (platform)
 
 ```
-liexp_cli("event list --actors=<uuid> --type=Transaction --end=100")   # or --groups=<uuid>
+findEvents({ "actors": ["<uuid>"], "type": "Transaction", "end": 100 })   // or "groups": ["<uuid>"]
 ```
 For each: date, from (type + id), to (type + id), total, currency, links. Split into **incoming** and **outgoing**.
 

@@ -76,13 +76,13 @@ export const buildEnhancedMessage = (
   // The user is acting on a specific record. Spell out that references like
   // "the given article", "this link", or "the current record" point to it, and
   // that the agent must fetch the record itself rather than asking the user for
-  // data it can resolve via the CLI / scraper.
+  // data it can resolve via the MCP tools / scraper.
   return [
     message,
     "",
     `[Context: User is currently ${action} ${resource} with ID ${recordId}.`,
     `References such as "the given/current record", "this ${resource}", "the article", "the link", or "it" mean ${resource} record ${recordId}.`,
-    `Resolve it yourself with liexp_cli ("${resource} get --id=${recordId}") — and for links, scrape the URL it returns — instead of asking the user to paste the content.]`,
+    `Resolve it yourself with the matching find MCP tool (e.g. findLinks, findActors) passing ids: ["${recordId}"] — and for links, scrape the URL it returns — instead of asking the user to paste the content.]`,
   ].join("\n");
 };
 
@@ -248,6 +248,35 @@ const extractTokenUsage = (chunk: AIMessage): TokenUsage | null => {
   return {
     promptTokens: u.input_tokens ?? 0,
     completionTokens: u.output_tokens ?? 0,
+  };
+};
+
+/**
+ * Summarise how a model call finished (finish reason, tool-call count, text
+ * length and tail). Returns null when the payload is not an AI message.
+ */
+export const describeModelEnd = (
+  data: unknown,
+): {
+  finishReason: string | null;
+  toolCalls: number;
+  contentLength: number;
+  contentTail: string;
+} | null => {
+  const output = (data as { output?: unknown } | undefined)?.output;
+  if (!output || !isAIMessageLike(output)) return null;
+  const msg = output as {
+    content?: unknown;
+    tool_calls?: unknown[];
+    response_metadata?: { finish_reason?: unknown };
+  };
+  const content = extractContentText(msg);
+  const finish = msg.response_metadata?.finish_reason;
+  return {
+    finishReason: typeof finish === "string" ? finish : null,
+    toolCalls: Array.isArray(msg.tool_calls) ? msg.tool_calls.length : 0,
+    contentLength: content.length,
+    contentTail: content.slice(-120),
   };
 };
 
@@ -922,6 +951,15 @@ export const sendChatMessageStream = (payload: {
         ctx.logger.debug.log("stream event [%s]: %O", event.event, event.data);
 
         payload.onRawEvent?.(event);
+
+        if (event.event === "on_chat_model_end") {
+          // Diagnose turns that end "midflight": a model call that returns no
+          // tool calls ends the agent loop, so record why it stopped.
+          const diag = describeModelEnd(event.data);
+          if (diag) {
+            ctx.logger.info.log("model call ended: %O", diag);
+          }
+        }
 
         const [events, nextState] = processStreamEvent(event, state, messageId);
         state = nextState;

@@ -46,6 +46,10 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       query: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full-text search query (matches label or description)",
       }),
+      ids: Schema.optional(Schema.Array(Schema.String)).annotations({
+        description:
+          "Fetch specific media by UUID (use this to get a record by id)",
+      }),
       sort: Schema.optional(
         Schema.Union(
           Schema.Literal("createdAt"),
@@ -81,11 +85,12 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       inputSchema: findMediaInputSchema,
     },
     async (opts) => {
-      const { query, sort, order, start, end } = opts ?? {};
+      const { query, ids, sort, order, start, end } = opts ?? {};
 
       // fetchManyMedia expects effect Options for every query field
       const mediaQuery: Record<string, unknown> = {
         ...(query ? { q: O.some(query) } : {}),
+        ...(ids && ids.length > 0 ? { ids: O.some(ids) } : {}),
         ...(sort ? { _sort: O.some(sort) } : {}),
         ...(order ? { _order: O.some(order) } : {}),
         ...(start !== undefined ? { _start: O.some(Number(start)) } : {}),
