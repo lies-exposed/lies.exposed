@@ -1,8 +1,12 @@
 import * as path from "path";
+import { type URLMetadataFetchOptions } from "@liexp/backend/lib/providers/URLMetadata.provider.js";
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
-import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
+import {
+  MakeImgProcClient,
+  type ImgProcClientImpl,
+} from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import {
@@ -11,9 +15,13 @@ import {
 } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
-import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
+import {
+  MakeSpaceProvider,
+  type MakeSpaceProviderConfig,
+} from "@liexp/backend/lib/providers/space/space.provider.js";
 import { type DepsMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
 import { GetLogger, type Logger } from "@liexp/core/lib/logger/index.js";
+import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type AxiosInstance } from "axios";
@@ -34,6 +42,18 @@ export interface AppTest {
   mocks: DepsMocks;
   req: TestAgent<supertest.Test>;
 }
+
+/**
+ * The axios mock is a `vitest-mock-extended` proxy of the `Axios` type, which is
+ * structurally callable like an `AxiosInstance` at runtime. Widening through
+ * `unknown` keeps the same object identity so e2e tests can stub
+ * `Test.mocks.axios.get` and have it take effect in `ctx.http`.
+ */
+const testAxios = mocks.axios as unknown as AxiosInstance;
+
+/** Stand-in for the S3 presigner: the space provider only needs its signature. */
+const testGetSignedUrl: MakeSpaceProviderConfig["getSignedUrl"] = () =>
+  Promise.reject(new Error("Not implemented in tests"));
 
 const loadAppContext = (
   logger: Logger,
@@ -56,11 +76,9 @@ const loadAppContext = (
         ? TE.right(dbOverride)
         : pipe(
             getInitializedPGliteDataSource(database),
-            TE.tap((source) => {
-              // Mark the datasource that will be used by ctx.db
-              (source as any).__usedByCtxDb = true;
+            TE.tap(() => {
               console.log(
-                `🔍 [APPTEST] DataSource created for ctx.db, marked as __usedByCtxDb`,
+                `🔍 [APPTEST] DataSource created for ctx.db (worker ${database})`,
               );
               return TE.right(undefined);
             }),
@@ -83,42 +101,48 @@ const loadAppContext = (
         config,
         jwt: GetJWTProvider({ secret: env.JWT_SECRET, logger }),
         ffmpeg: GetFFMPEGProvider(mocks.ffmpeg),
-        s3: MakeSpaceProvider(mocks.s3 as any),
+        s3: MakeSpaceProvider({
+          client: mocks.s3.client,
+          getSignedUrl: testGetSignedUrl,
+          classes: mocks.s3
+            .classes as unknown as MakeSpaceProviderConfig["classes"],
+        }),
         fs: GetFSClient({ client: mocks.fs }),
         wp: mocks.wiki,
         rw: mocks.wiki,
         urlMetadata: {
-          fetchHTML: (url: string, opts: any) => {
-            return TE.tryCatch(
-              () => mocks.urlMetadata.fetchHTML(url, opts) as Promise<any>,
-              (e) => e as any,
-            );
-          },
-          fetchMetadata: (url: string, opts: any) => {
-            return TE.tryCatch(
-              () => {
-                return mocks.urlMetadata.fetchMetadata(url, opts);
-              },
-              (e) => e as any,
-            );
-          },
+          fetchHTML: <E>(
+            url: string,
+            opts: URLMetadataFetchOptions,
+            toError: (e: unknown) => E,
+          ) =>
+            TE.tryCatch(() => mocks.urlMetadata.fetchHTML(url, opts), toError),
+          fetchMetadata: <E>(
+            url: string,
+            opts: URLMetadataFetchOptions,
+            toError: (e: unknown) => E,
+          ) =>
+            TE.tryCatch(
+              () => mocks.urlMetadata.fetchMetadata(url, opts),
+              toError,
+            ),
         },
-        http: HTTPProvider(mocks.axios as any as AxiosInstance),
+        http: HTTPProvider(testAxios),
         ner: GetNERProvider({
           logger,
           entitiesFile: path.resolve(config.dirs.config.nlp, "entities.json"),
           nlp: mocks.ner,
         }),
-        blocknote: {} as any,
+        blocknote: editor,
         redis,
         geo: GeocodeProvider({
-          http: HTTPProvider(mocks.axios as any),
+          http: HTTPProvider(testAxios),
           apiKey: "fake-geo-api-key",
         }),
         queue: GetQueueProvider,
         imgProc: MakeImgProcClient({
           logger,
-          client: mocks.sharp.get as any,
+          client: mocks.sharp.get as unknown as ImgProcClientImpl,
           exifR: mocks.exifR,
         }),
       };

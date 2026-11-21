@@ -6,7 +6,7 @@ import {
 } from "axios";
 import { type Metadata } from "page-metadata-parser";
 import { vi } from "vitest";
-import { mock } from "vitest-mock-extended";
+import { mock, type MockProxy } from "vitest-mock-extended";
 import { type URLMetadataFetchOptions } from "../providers/URLMetadata.provider.js";
 import { dbMock } from "./mocks/db.mock.js";
 import { exifRMock } from "./mocks/exifreader.mock.js";
@@ -60,7 +60,7 @@ export interface DepsMocks {
   pdf: typeof pdfJsMock;
 }
 
-export const axiosMock: Axios = mock<Axios>({
+export const axiosMock: MockProxy<Axios> & Axios = mock<Axios>({
   get: vi.fn(),
   interceptors: mock({
     request: mock<AxiosInterceptorManager<InternalAxiosRequestConfig>>(),
