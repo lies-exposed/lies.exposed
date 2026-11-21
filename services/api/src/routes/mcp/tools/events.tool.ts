@@ -1,4 +1,3 @@
-import { randomUUID } from "node:crypto";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import {
   FIND_EVENTS,
@@ -9,10 +8,6 @@ import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.
 import { editEventQuery } from "@liexp/backend/lib/queries/events/editEvent.query.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  BlockNoteDocument,
-  type BlockNoteDocument as BlockNoteDoc,
-} from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import type { UUID } from "@liexp/io/lib/http/Common/index.js";
 import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
@@ -27,8 +22,6 @@ import {
 } from "./eventPayload.js";
 import { asFlowInput, defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
-
-const decodeBlockNote = Schema.decodeUnknownSync(BlockNoteDocument);
 
 const eventToOutput = (event: EventV2Entity): Record<string, unknown> => ({
   id: event.id,
@@ -101,6 +94,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
       const idsFilter = pipe(
         O.fromNullable(ids),
         O.filter((i) => i.length > 0),
+        O.map((i) => i as readonly UUID[]),
       );
 
       const typeFilter = pipe(
@@ -245,7 +239,9 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
           payload,
         };
 
-        const te = createEventQuery(asFlowInput<Events.CreateEventPlainBody>(baseBody))(ctx);
+        const te = createEventQuery(
+          asFlowInput<Events.CreateEventPlainBody>(baseBody),
+        )(ctx);
 
         const result = await pipe(
           te,
