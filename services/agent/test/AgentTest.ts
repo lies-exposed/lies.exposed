@@ -148,16 +148,16 @@ export const stopAppServer = async (server: Server): Promise<void> =>
     });
   });
 
-const g = global as unknown as {
-  agentTest: AgentAppTest;
-  agentContext: AgentContext;
-};
+declare global {
+  var agentTest: AgentAppTest | undefined;
+  var agentContext: AgentContext | undefined;
+}
 
 export const GetAgentTest = async (): Promise<AgentAppTest> => {
-  if (!g.agentTest) {
+  if (!globalThis.agentTest) {
     throw new Error(
       "Agent test not initialized. Ensure testSetup.ts is loaded.",
     );
   }
-  return Promise.resolve(g.agentTest);
+  return Promise.resolve(globalThis.agentTest);
 };
