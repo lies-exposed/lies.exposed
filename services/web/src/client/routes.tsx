@@ -126,8 +126,7 @@ type RouteQueries<P, Q> = (
  */
 const toRouteQueries = <P, Q>(
   queries: RouteQueries<P, Q>,
-): AsyncDataRoute["queries"] =>
-  queries as AsyncDataRoute["queries"];
+): AsyncDataRoute["queries"] => queries as AsyncDataRoute["queries"];
 
 const linkRoute: ServerRoute = {
   path: "/links/:linkId",
