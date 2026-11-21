@@ -1,7 +1,15 @@
-import type { AxiosInstance } from "axios";
-import type * as axiosModule from "axios";
+import * as axiosModule from "axios";
+import {
+  AxiosError,
+  AxiosHeaders,
+  type AxiosInstance,
+  type AxiosResponse,
+  type InternalAxiosRequestConfig,
+} from "axios";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { type ParseError } from "effect/ParseResult";
 import { describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { throwTE } from "../../utils/fp.utils.js";
@@ -12,6 +20,37 @@ import {
   fromValidationErrors,
   liftFetch,
 } from "./http.provider.js";
+
+const requestConfig = (): InternalAxiosRequestConfig => ({
+  url: "/resource/1",
+  headers: new AxiosHeaders(),
+});
+
+const responseFixture = <T>(data: T, status = 200): AxiosResponse<T> => ({
+  data,
+  status,
+  statusText: "OK",
+  headers: new AxiosHeaders(),
+  config: requestConfig(),
+});
+
+const axiosErrorFixture = (message: string, status?: number): AxiosError => {
+  const error = new AxiosError(message, undefined, requestConfig());
+  if (status !== undefined) {
+    error.response = responseFixture(undefined, status);
+  }
+  return error;
+};
+
+const parseErrorFixture = (): ParseError => {
+  const result = Schema.decodeUnknownEither(Schema.String)(123, {
+    errors: "all",
+  });
+  if (result._tag === "Right") {
+    throw new Error("Expected a decode failure");
+  }
+  return result.left;
+};
 
 // Mock axios
 vi.mock("axios", async (importOriginal) => {
@@ -101,12 +140,7 @@ describe("HttpProvider", () => {
   });
 
   it("should handle get error", async () => {
-    const axiosError = new Error(
-      "Network Error",
-    ) as unknown as axiosModule.AxiosError;
-    axiosError.isAxiosError = true;
-    axiosError.message = "Network Error";
-    axiosError.response = { status: 404 };
+    const axiosError = axiosErrorFixture("Network Error", 404);
     axiosMock.get.mockRejectedValue(axiosError);
     await expect(
       pipe(httpProvider.get("/resource/1"), throwTE),
@@ -114,12 +148,7 @@ describe("HttpProvider", () => {
   });
 
   it("should handle post error", async () => {
-    const axiosError = new Error(
-      "Server Error",
-    ) as unknown as axiosModule.AxiosError;
-    axiosError.isAxiosError = true;
-    axiosError.message = "Server Error";
-    axiosError.response = { status: 500 };
+    const axiosError = axiosErrorFixture("Server Error", 500);
     axiosMock.post.mockRejectedValue(axiosError);
     await expect(
       pipe(httpProvider.post("/resource"), throwTE),
@@ -127,12 +156,7 @@ describe("HttpProvider", () => {
   });
 
   it("should handle put error", async () => {
-    const axiosError = new Error(
-      "Not Found",
-    ) as unknown as axiosModule.AxiosError;
-    axiosError.isAxiosError = true;
-    axiosError.message = "Not Found";
-    axiosError.response = { status: 404 };
+    const axiosError = axiosErrorFixture("Not Found", 404);
     axiosMock.put.mockRejectedValue(axiosError);
     await expect(
       pipe(httpProvider.put("/resource/1"), throwTE),
@@ -142,14 +166,9 @@ describe("HttpProvider", () => {
 
 describe("toHTTPError", () => {
   it("handles axios error with response", () => {
-    const axiosError = new Error(
-      "Network Error",
-    ) as unknown as axiosModule.AxiosError;
-    axiosError.isAxiosError = true;
-    axiosError.message = "Network Error";
-    axiosError.response = { status: 404 };
+    const axiosError = axiosErrorFixture("Network Error", 404);
     axiosError.stack = "Error: Network Error\n    at ...";
-    axiosError.cause = { reason: "timeout" };
+    axiosError.cause = new Error("timeout");
 
     const error = toHTTPError(axiosError);
     expect(error).toBeInstanceOf(HTTPError);
@@ -157,11 +176,7 @@ describe("toHTTPError", () => {
   });
 
   it("handles axios error without response (defaults to 500)", () => {
-    const axiosError = new Error(
-      "Network Error",
-    ) as unknown as axiosModule.AxiosError;
-    axiosError.isAxiosError = true;
-    axiosError.message = "Network Error";
+    const axiosError = axiosErrorFixture("Network Error");
     axiosError.stack = "Error: Network Error\n    at ...";
 
     const error = toHTTPError(axiosError);
@@ -204,13 +219,7 @@ describe("toHTTPError", () => {
 
 describe("fromValidationErrors", () => {
   it("maps ParseError to HTTPError", () => {
-    const mockParseError = {
-      _tag: "Type",
-      path: [],
-      message: "Expected string",
-    } as unknown as { _tag: string; path: unknown[]; message: string };
-
-    const result = fromValidationErrors(E.left(mockParseError));
+    const result = fromValidationErrors(E.left(parseErrorFixture()));
     expect(E.isLeft(result)).toBe(true);
     if (E.isLeft(result)) {
       expect(result.left.message).toBe("Validation failed.");
@@ -228,9 +237,12 @@ describe("fromValidationErrors", () => {
 
 describe("liftFetch", () => {
   it("lifts successful fetch with decode", async () => {
-    const mockResponse = { data: { id: "1", name: "test" } };
-    const lp = vi.fn(() => Promise.resolve(mockResponse));
-    const decode = vi.fn((d: unknown) => E.right(d));
+    const lp = vi.fn(() =>
+      Promise.resolve(responseFixture({ id: "1", name: "test" })),
+    );
+    const decode = vi.fn((d: { id: string; name: string }) =>
+      E.right<ParseError, { id: string; name: string }>(d),
+    );
 
     const result = await pipe(liftFetch(lp, decode), throwTE);
     expect(result).toEqual({ id: "1", name: "test" });
@@ -239,22 +251,20 @@ describe("liftFetch", () => {
   });
 
   it("lifts successful fetch with decode that transforms", async () => {
-    const mockResponse = { data: { name: "test" } };
-    const lp = vi.fn(() => Promise.resolve(mockResponse));
-    const decode = vi.fn((d: unknown) => E.right({ id: "1", ...d }));
+    const lp = vi.fn(() => Promise.resolve(responseFixture({ name: "test" })));
+    const decode = vi.fn((d: { name: string }) =>
+      E.right<ParseError, { id: string; name: string }>({ id: "1", ...d }),
+    );
 
     const result = await pipe(liftFetch(lp, decode), throwTE);
     expect(result).toEqual({ id: "1", name: "test" });
   });
 
   it("handles axios error in liftFetch", async () => {
-    const axiosError = new Error(
-      "Network Error",
-    ) as unknown as axiosModule.AxiosError;
-    axiosError.isAxiosError = true;
-    axiosError.response = { status: 500 };
-    const lp = vi.fn(() => Promise.reject(new Error("Network Error")));
-    const decode = vi.fn();
+    const lp = vi.fn((): Promise<AxiosResponse<unknown>> =>
+      Promise.reject(new Error("Network Error")),
+    );
+    const decode = vi.fn((d: unknown) => E.right<ParseError, unknown>(d));
 
     await expect(pipe(liftFetch(lp, decode), throwTE)).rejects.toBeInstanceOf(
       HTTPError,
@@ -262,16 +272,10 @@ describe("liftFetch", () => {
   });
 
   it("handles decode failure in liftFetch", async () => {
-    const mockResponse = { data: { invalid: true } };
-    const lp = vi.fn(() => Promise.resolve(mockResponse));
-    const decode = vi.fn(() => {
-      const parseError = {
-        _tag: "Type",
-        path: ["id"],
-        message: "Expected string",
-      };
-      return E.left(parseError);
-    });
+    const lp = vi.fn(() => Promise.resolve(responseFixture({ invalid: true })));
+    const decode = vi.fn((d: { invalid: boolean }) =>
+      E.left<ParseError, unknown>(parseErrorFixture()),
+    );
 
     await expect(pipe(liftFetch(lp, decode), throwTE)).rejects.toBeInstanceOf(
       HTTPError,
@@ -279,8 +283,10 @@ describe("liftFetch", () => {
   });
 
   it("handles non-axios error in liftFetch", async () => {
-    const lp = vi.fn(() => Promise.reject(new Error("Random error")));
-    const decode = vi.fn();
+    const lp = vi.fn((): Promise<AxiosResponse<unknown>> =>
+      Promise.reject(new Error("Random error")),
+    );
+    const decode = vi.fn((d: unknown) => E.right<ParseError, unknown>(d));
 
     await expect(pipe(liftFetch(lp, decode), throwTE)).rejects.toBeInstanceOf(
       HTTPError,
