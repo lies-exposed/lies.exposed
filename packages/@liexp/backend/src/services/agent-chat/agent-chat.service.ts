@@ -38,7 +38,7 @@ interface ChatMessageWithStructuredOutput {
 /**
  * Options for structured output requests
  */
-interface StructuredOutputOptions<T, I = unknown> {
+interface StructuredOutputOptions<T> {
   /**
    * The message to send to the agent
    */
@@ -62,7 +62,7 @@ interface StructuredOutputOptions<T, I = unknown> {
    * and the parsed response is decoded with it: a response that does not
    * match fails the request instead of propagating malformed data.
    */
-  schema?: Schema.Schema<T, I, never>;
+  schema?: Schema.Schema.AnyNoContext & { readonly Type: T };
   /**
    * Optional flag to extract JSON from markdown code blocks
    * @default false
@@ -196,9 +196,8 @@ export const AgentChatService = {
   getStructuredOutput: <
     C extends LoggerContext & { agent: API<AgentEndpoints> },
     T,
-    I = unknown,
   >(
-    options: StructuredOutputOptions<T, I>,
+    options: StructuredOutputOptions<T>,
   ): ReaderTaskEither<C, ServerError, T> => {
     return (ctx) =>
       pipe(
