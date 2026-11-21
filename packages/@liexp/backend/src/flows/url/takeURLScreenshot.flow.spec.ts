@@ -1,13 +1,44 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import type * as puppeteer from "puppeteer-core";
+import {
+  type Browser,
+  type ElementHandle,
+  type JSHandle,
+  type Page,
+} from "puppeteer-core";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { mock } from "vitest-mock-extended";
+import { mock, type MockProxy } from "vitest-mock-extended";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { mockedContext } from "../../test/context.js";
 import { takeURLScreenshot } from "./takeURLScreenshot.flow.js";
 
 type TakeURLScreenshotContext = PuppeteerProviderContext;
+
+const makeMockBrowser = (): MockProxy<Browser> => {
+  const browser = mock<Browser>();
+  browser.close.mockResolvedValue(undefined);
+  return browser;
+};
+
+const makeMockPage = (browser: Browser): MockProxy<Page> => {
+  const page = mock<Page>();
+  page.emulate.mockResolvedValue(undefined);
+  page.browser.mockReturnValue(browser);
+  page.$$.mockResolvedValue([]);
+  return page;
+};
+
+const makeMockButtonHandle = (
+  innerText: string,
+): ElementHandle<HTMLButtonElement> => {
+  const valueHandle = mock<JSHandle<string>>();
+  valueHandle.jsonValue.mockResolvedValue(innerText);
+
+  const handle = mock<ElementHandle<HTMLButtonElement>>();
+  handle.getProperty.mockResolvedValue(valueHandle);
+  handle.click.mockResolvedValue(undefined);
+  return handle;
+};
 
 describe(takeURLScreenshot.name, () => {
   const appTest = {
@@ -24,23 +55,13 @@ describe(takeURLScreenshot.name, () => {
     const url = "https://example.com";
     const screenshotData = Buffer.from("fake-screenshot-data");
 
-    const mockBrowser = {
-      close: vi.fn().mockResolvedValue(undefined),
-    } as unknown as puppeteer.Browser;
-
-    const mockPage = {
-      emulate: vi.fn().mockResolvedValue(undefined),
-      screenshot: vi.fn().mockResolvedValue(screenshotData),
-      browser: vi.fn().mockReturnValue(mockBrowser),
-      $$: vi.fn().mockResolvedValue([]), // no cookie buttons
-    } as unknown as puppeteer.Page;
+    const mockBrowser = makeMockBrowser();
+    const mockPage = makeMockPage(mockBrowser);
+    mockPage.screenshot.mockResolvedValue(screenshotData);
 
     appTest.ctx.puppeteer.getBrowserFirstPage.mockReturnValueOnce(
       fp.TE.right(mockPage),
     );
-    appTest.ctx.puppeteer.devices = {
-      "iPhone 13 Pro": { viewport: { width: 390, height: 844 } },
-    } as unknown as typeof appTest.ctx.puppeteer.devices;
 
     const result = await pipe(takeURLScreenshot(url)(appTest.ctx), throwTE);
 
@@ -79,23 +100,13 @@ describe(takeURLScreenshot.name, () => {
     const url = "https://example.com/page";
     const screenshotData = Buffer.from("screenshot");
 
-    const mockBrowser = {
-      close: vi.fn().mockResolvedValue(undefined),
-    } as unknown as puppeteer.Browser;
-
-    const mockPage = {
-      emulate: vi.fn().mockResolvedValue(undefined),
-      screenshot: vi.fn().mockResolvedValue(screenshotData),
-      browser: vi.fn().mockReturnValue(mockBrowser),
-      $$: vi.fn().mockResolvedValue([]),
-    } as unknown as puppeteer.Page;
+    const mockBrowser = makeMockBrowser();
+    const mockPage = makeMockPage(mockBrowser);
+    mockPage.screenshot.mockResolvedValue(screenshotData);
 
     appTest.ctx.puppeteer.getBrowserFirstPage.mockReturnValueOnce(
       fp.TE.right(mockPage),
     );
-    appTest.ctx.puppeteer.devices = {
-      "iPhone 13 Pro": { viewport: { width: 390, height: 844 } },
-    } as unknown as typeof appTest.ctx.puppeteer.devices;
 
     await pipe(takeURLScreenshot(url)(appTest.ctx), throwTE);
 
@@ -105,23 +116,13 @@ describe(takeURLScreenshot.name, () => {
   it("should return a PuppeteerError when screenshot throws", async () => {
     const url = "https://example.com";
 
-    const mockBrowser = {
-      close: vi.fn().mockResolvedValue(undefined),
-    } as unknown as puppeteer.Browser;
-
-    const mockPage = {
-      emulate: vi.fn().mockResolvedValue(undefined),
-      screenshot: vi.fn().mockRejectedValue(new Error("Screenshot failed")),
-      browser: vi.fn().mockReturnValue(mockBrowser),
-      $$: vi.fn().mockResolvedValue([]),
-    } as unknown as puppeteer.Page;
+    const mockBrowser = makeMockBrowser();
+    const mockPage = makeMockPage(mockBrowser);
+    mockPage.screenshot.mockRejectedValue(new Error("Screenshot failed"));
 
     appTest.ctx.puppeteer.getBrowserFirstPage.mockReturnValueOnce(
       fp.TE.right(mockPage),
     );
-    appTest.ctx.puppeteer.devices = {
-      "iPhone 13 Pro": { viewport: { width: 390, height: 844 } },
-    } as unknown as typeof appTest.ctx.puppeteer.devices;
 
     const either = await pipe(takeURLScreenshot(url)(appTest.ctx))();
 
@@ -135,31 +136,17 @@ describe(takeURLScreenshot.name, () => {
     const url = "https://cookiebanner.example.com";
     const screenshotData = Buffer.from("screenshot");
 
-    const mockBrowser = {
-      close: vi.fn().mockResolvedValue(undefined),
-    } as unknown as puppeteer.Browser;
+    const mockBrowser = makeMockBrowser();
+    const mockPage = makeMockPage(mockBrowser);
+    mockPage.screenshot.mockResolvedValue(screenshotData);
 
     // Simulate a cookie-reject button with matching text
-    const mockButtonHandle = {
-      getProperty: vi.fn().mockResolvedValue({
-        jsonValue: vi.fn().mockResolvedValue("Reject All"),
-      }),
-      click: vi.fn().mockResolvedValue(undefined),
-    };
-
-    const mockPage = {
-      emulate: vi.fn().mockResolvedValue(undefined),
-      screenshot: vi.fn().mockResolvedValue(screenshotData),
-      browser: vi.fn().mockReturnValue(mockBrowser),
-      $$: vi.fn().mockResolvedValue([mockButtonHandle]),
-    } as unknown as puppeteer.Page;
+    const mockButtonHandle = makeMockButtonHandle("Reject All");
+    mockPage.$$.mockResolvedValue([mockButtonHandle]);
 
     appTest.ctx.puppeteer.getBrowserFirstPage.mockReturnValueOnce(
       fp.TE.right(mockPage),
     );
-    appTest.ctx.puppeteer.devices = {
-      "iPhone 13 Pro": { viewport: { width: 390, height: 844 } },
-    } as unknown as typeof appTest.ctx.puppeteer.devices;
 
     const result = await pipe(takeURLScreenshot(url)(appTest.ctx), throwTE);
 

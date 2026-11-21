@@ -4,6 +4,10 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type ImgProcClientContext } from "../../../context/index.js";
+import {
+  type ImgProcClient,
+  type ImgProcError,
+} from "../../../providers/imgproc/imgproc.provider.js";
 import { resizeThumbnailFlow } from "./thumbnailResize.flow.js";
 
 const createMockContext = () => {
@@ -21,9 +25,11 @@ const createMockContext = () => {
   };
 
   const imgProc = {
-    run: vi.fn().mockImplementation((_fn: (s: any) => Promise<Buffer>) => {
-      return TE.right(Buffer.from("resized"));
-    }),
+    run: vi
+      .fn<Parameters<ImgProcClient["run"]>, ReturnType<ImgProcClient["run"]>>()
+      .mockImplementation(() =>
+        TE.right<ImgProcError, Buffer>(Buffer.from("resized")),
+      ),
     readExif: vi.fn(),
   };
 

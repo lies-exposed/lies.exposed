@@ -1,4 +1,4 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -8,10 +8,25 @@ import { type ENVContext } from "../../context/env.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { SocialPostEntity } from "../../entities/SocialPost.entity.js";
 import { mockedContext } from "../../test/context.js";
-import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
+import { TEST_BACKEND_ENV } from "../../test/env.js";
 import { getSocialPostById } from "./getSocialPostById.flow.js";
 
 type GetSocialPostByIdContext = DatabaseContext & ENVContext & LoggerContext;
+
+const makeSocialPostContent = (
+  overrides: Partial<SocialPostEntity["content"]>,
+): SocialPostEntity["content"] => ({
+  title: "Test Post",
+  date: new Date().toISOString(),
+  content: "Post content",
+  useReply: false,
+  platforms: { IG: false, TG: true },
+  media: [],
+  actors: [],
+  groups: [],
+  keywords: [],
+  ...overrides,
+});
 
 describe(getSocialPostById.name, () => {
   const mockDb = mockDeep<DatabaseContext["db"]>();
@@ -21,7 +36,7 @@ describe(getSocialPostById.name, () => {
       ...mockedContext<GetSocialPostByIdContext>({
         db: mockDb,
       }),
-      env: {} as unknown as ENVContext["env"],
+      env: TEST_BACKEND_ENV,
     },
   };
 
@@ -34,19 +49,11 @@ describe(getSocialPostById.name, () => {
 
     const socialPost = new SocialPostEntity();
     socialPost.id = postId;
-    socialPost.content = {
-      title: "Test Post",
-      body: "Post content",
-      media: [],
-      actors: [],
-      groups: [],
-      keywords: [],
-      type: "text",
-    } as unknown as SocialPostEntity["content"];
+    socialPost.content = makeSocialPostContent({ title: "Test Post" });
     socialPost.createdAt = new Date();
     socialPost.updatedAt = new Date();
 
-    mockTERightOnce(appTest.ctx.db.findOneOrFail, () => socialPost);
+    appTest.ctx.db.findOneOrFail.mockReturnValueOnce(fp.TE.right(socialPost));
 
     // Mock the query builder chain for fetchRelations - with empty arrays, no queries are made
     const result = await pipe(getSocialPostById(postId)(appTest.ctx), throwTE);
@@ -67,17 +74,9 @@ describe(getSocialPostById.name, () => {
 
     const socialPost = new SocialPostEntity();
     socialPost.id = postId;
-    socialPost.content = {
-      title: "Media Post",
-      body: "Post with media",
-      media: [],
-      actors: [],
-      groups: [],
-      keywords: [],
-      type: "text",
-    } as unknown as SocialPostEntity["content"];
+    socialPost.content = makeSocialPostContent({ title: "Media Post" });
 
-    mockTERightOnce(appTest.ctx.db.findOneOrFail, () => socialPost);
+    appTest.ctx.db.findOneOrFail.mockReturnValueOnce(fp.TE.right(socialPost));
 
     const result = await pipe(getSocialPostById(postId)(appTest.ctx), throwTE);
 

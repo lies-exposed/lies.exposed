@@ -2,7 +2,8 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "fp-ts/lib/Option.js";
-import type { Message } from "node-telegram-bot-api";
+import type { Chat, Message } from "node-telegram-bot-api";
+import { type Page } from "puppeteer-core";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { type ConfigContext } from "../../../context/config.context.js";
@@ -22,6 +23,7 @@ import { type RedisContext } from "../../../context/redis.context.js";
 import { type SpaceContext } from "../../../context/space.context.js";
 import { type URLMetadataContext } from "../../../context/urlMetadata.context.js";
 import { UserEntity } from "../../../entities/User.entity.js";
+import { ServerError } from "../../../errors/ServerError.js";
 import { mockedContext } from "../../../test/context.js";
 import { parseDocument } from "../parseDocument.flow.js";
 import { parsePDFURLs } from "../parsePDFURL.flow.js";
@@ -71,6 +73,15 @@ type MessageParserContext = DatabaseContext &
   FFMPEGProviderContext &
   ImgProcClientContext;
 
+const TEST_TG_CHAT: Chat = { id: 1, type: "private" };
+
+const makeTGMessage = (message: Partial<Message>): Message => ({
+  message_id: 1,
+  date: 123,
+  chat: TEST_TG_CHAT,
+  ...message,
+});
+
 describe("MessageParser", () => {
   const appTest = {
     ctx: mockedContext<MessageParserContext>({
@@ -89,7 +100,7 @@ describe("MessageParser", () => {
     }),
   };
 
-  const mockPage = {} as ReturnType<typeof vi.fn>;
+  const mockPage = mock<Page>();
   const testUser = Object.assign(new UserEntity(), { id: uuid() });
 
   beforeEach(() => {
@@ -105,11 +116,11 @@ describe("MessageParser", () => {
 
   describe("parseDocument", () => {
     it("should return empty array when message has no document", async () => {
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: "no document",
         date: 123,
-      } as Message;
+      });
 
       const parser = MessageParser(message);
 
@@ -128,11 +139,11 @@ describe("MessageParser", () => {
         mime_type: "application/pdf",
       };
 
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         date: 123,
         document,
-      } as Message;
+      });
 
       vi.mocked(parseDocument).mockReturnValue(() => fp.TE.right([docId]));
 
@@ -146,12 +157,12 @@ describe("MessageParser", () => {
 
   describe("parsePhoto", () => {
     it("should return empty array when message has no photos", async () => {
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: "no photos",
         date: 123,
         photo: [],
-      } as Message;
+      });
 
       const parser = MessageParser(message);
       const result = await pipe(parser.parsePhoto(appTest.ctx), throwTE);
@@ -176,12 +187,12 @@ describe("MessageParser", () => {
         },
       ];
 
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         date: 123,
         caption: "Test caption",
         photo,
-      } as Message;
+      });
 
       vi.mocked(parsePhoto).mockReturnValue(() => fp.TE.right([photoId]));
 
@@ -214,11 +225,11 @@ describe("MessageParser", () => {
         },
       ];
 
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         date: 123,
         photo,
-      } as Message;
+      });
 
       vi.mocked(parsePhoto).mockReturnValue(() => fp.TE.right([uuid()]));
 
@@ -246,11 +257,11 @@ describe("MessageParser", () => {
         },
       ];
 
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         date: 123,
         photo,
-      } as Message;
+      });
 
       vi.mocked(parsePhoto).mockReturnValue(() =>
         fp.TE.left({
@@ -269,11 +280,11 @@ describe("MessageParser", () => {
 
   describe("parseVideo", () => {
     it("should return empty array when message has no video", async () => {
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: "no video",
         date: 123,
-      } as Message;
+      });
 
       const parser = MessageParser(message);
       const result = await pipe(parser.parseVideo(appTest.ctx), throwTE);
@@ -292,12 +303,12 @@ describe("MessageParser", () => {
         duration: 60,
       };
 
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         date: 123,
         caption: "My video caption",
         video,
-      } as Message;
+      });
 
       vi.mocked(parseVideo).mockReturnValue(() => fp.TE.right([videoId]));
 
@@ -318,12 +329,12 @@ describe("MessageParser", () => {
         duration: 60,
       };
 
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         date: 123,
         video,
         // No caption or text
-      } as Message;
+      });
 
       vi.mocked(parseVideo).mockReturnValue(() => fp.TE.right([videoId]));
 
@@ -340,12 +351,12 @@ describe("MessageParser", () => {
 
   describe("parseURLs", () => {
     it("should return empty array when message has no URL entities", async () => {
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: "plain text no URLs",
         date: 123,
         entities: [],
-      } as Message;
+      });
 
       vi.mocked(parseURLs).mockImplementation((_urls) => () => fp.TE.right([]));
 
@@ -362,12 +373,12 @@ describe("MessageParser", () => {
 
     it("should extract URL from url-type entity", async () => {
       const linkId = uuid();
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: "Check https://example.com/article",
         date: 123,
         entities: [{ type: "url", offset: 6, length: 27 }],
-      } as any;
+      });
 
       vi.mocked(parseURLs).mockImplementation(
         () => () => fp.TE.right([linkId]),
@@ -389,7 +400,7 @@ describe("MessageParser", () => {
 
     it("should extract URL from text_link entity", async () => {
       const linkId = uuid();
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: "Click here",
         date: 123,
@@ -401,7 +412,7 @@ describe("MessageParser", () => {
             url: "https://example.com/linked",
           },
         ],
-      } as any;
+      });
 
       vi.mocked(parseURLs).mockImplementation(
         () => () => fp.TE.right([linkId]),
@@ -424,12 +435,12 @@ describe("MessageParser", () => {
 
   describe("parsePDFURLs", () => {
     it("should return empty array when no PDF URLs in message", async () => {
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: "no PDF here",
         date: 123,
         entities: [],
-      } as any;
+      });
 
       vi.mocked(parsePDFURLs).mockReturnValue(() => fp.TE.right([]));
 
@@ -444,12 +455,12 @@ describe("MessageParser", () => {
 
     it("should extract and parse PDF URL from entities", async () => {
       const pdfId = uuid();
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: "Download https://example.com/file.pdf",
         date: 123,
         entities: [{ type: "url", offset: 9, length: 28 }],
-      } as any;
+      });
 
       vi.mocked(parsePDFURLs).mockReturnValue(() => fp.TE.right([pdfId]));
 
@@ -469,12 +480,12 @@ describe("MessageParser", () => {
 
   describe("parsePlatformMedia", () => {
     it("should return empty array when no platform media URLs in message", async () => {
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: "no video links",
         date: 123,
         entities: [],
-      } as any;
+      });
 
       const parser = MessageParser(message);
       const result = await pipe(
@@ -489,12 +500,12 @@ describe("MessageParser", () => {
     it("should parse YouTube URL from message entity", async () => {
       const mediaId = uuid();
       const youtubeUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: `Watch this: ${youtubeUrl}`,
         date: 123,
         entities: [{ type: "url", offset: 12, length: youtubeUrl.length }],
-      } as any;
+      });
 
       vi.mocked(parsePlatformMedia).mockReturnValue(() =>
         fp.TE.right([mediaId]),
@@ -521,7 +532,7 @@ describe("MessageParser", () => {
       const yt1 = "https://www.youtube.com/watch?v=video001";
       const yt2 = "https://www.youtube.com/watch?v=video002";
 
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: `Watch ${yt1} and ${yt2}`,
         date: 123,
@@ -529,7 +540,7 @@ describe("MessageParser", () => {
           { type: "url", offset: 6, length: yt1.length },
           { type: "url", offset: 6 + yt1.length + 5, length: yt2.length },
         ],
-      } as any;
+      });
 
       vi.mocked(parsePlatformMedia)
         .mockReturnValueOnce(() => fp.TE.right([mediaId1]))
@@ -549,14 +560,14 @@ describe("MessageParser", () => {
       const mediaId = uuid();
       const youtubeUrl = "https://www.youtube.com/watch?v=abc12345";
 
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         date: 123,
         caption: `Video: ${youtubeUrl}`,
         caption_entities: [
           { type: "url", offset: 7, length: youtubeUrl.length },
         ],
-      } as any;
+      });
 
       vi.mocked(parsePlatformMedia).mockReturnValue(() =>
         fp.TE.right([mediaId]),
@@ -579,15 +590,21 @@ describe("MessageParser", () => {
 
     it("should return Left when parsePlatformMedia flow fails", async () => {
       const youtubeUrl = "https://www.youtube.com/watch?v=failtest";
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: `Watch ${youtubeUrl}`,
         date: 123,
         entities: [{ type: "url", offset: 6, length: youtubeUrl.length }],
-      } as any;
+      });
 
       vi.mocked(parsePlatformMedia).mockReturnValue(() =>
-        fp.TE.left({ name: "ServerError", message: "platform failed" } as any),
+        fp.TE.left(
+          new ServerError("platform failed", {
+            kind: "ServerError",
+            status: "500",
+            meta: [],
+          }),
+        ),
       );
 
       const parser = MessageParser(message);
@@ -600,12 +617,12 @@ describe("MessageParser", () => {
 
   describe("URL categorization", () => {
     it("should exclude telegram profile URLs", async () => {
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: "https://t.me/some_channel",
         date: 123,
         entities: [{ type: "url", offset: 0, length: 25 }],
-      } as any;
+      });
 
       vi.mocked(parseURLs).mockImplementation((_urls) => () => fp.TE.right([]));
 
@@ -618,12 +635,12 @@ describe("MessageParser", () => {
 
     it("should put PDF URL into pdf bucket, not url bucket", async () => {
       const pdfUrl = "https://example.com/document.pdf";
-      const message = {
+      const message = makeTGMessage({
         message_id: 1,
         text: `Report: ${pdfUrl}`,
         date: 123,
         entities: [{ type: "url", offset: 8, length: pdfUrl.length }],
-      } as any;
+      });
 
       vi.mocked(parseURLs).mockImplementation((_urls) => () => fp.TE.right([]));
       vi.mocked(parsePDFURLs).mockReturnValue(() => fp.TE.right([uuid()]));

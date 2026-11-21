@@ -15,7 +15,7 @@ const createMockContext = () => ({
   },
 });
 
-const makeAsyncIterable = (chunks: any[]) => ({
+const makeAsyncIterable = (chunks: readonly unknown[]) => ({
   [Symbol.asyncIterator]: function* () {
     for (const chunk of chunks) yield chunk;
   },

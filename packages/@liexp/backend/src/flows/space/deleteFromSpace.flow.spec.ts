@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -8,21 +9,20 @@ import { type LoggerContext } from "../../context/logger.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { MediaEntity } from "../../entities/Media.entity.js";
 import { mockedContext } from "../../test/context.js";
+import { TEST_BACKEND_ENV } from "../../test/env.js";
 import { deleteFromSpace } from "./deleteFromSpace.flow.js";
 
 type DeleteFromSpaceContext = LoggerContext & SpaceContext & ENVContext;
 
 describe(deleteFromSpace.name, () => {
-  const SPACE_BUCKET = "test-bucket";
+  const SPACE_BUCKET = TEST_BACKEND_ENV.SPACE_BUCKET;
 
   const appTest = {
     ctx: {
       ...mockedContext<DeleteFromSpaceContext>({
         s3: mock(),
       }),
-      env: {
-        SPACE_BUCKET,
-      } as any,
+      env: TEST_BACKEND_ENV,
     },
   };
 
@@ -33,10 +33,11 @@ describe(deleteFromSpace.name, () => {
   it("should delete media location from space when in bucket", async () => {
     const media = new MediaEntity();
     media.id = uuid();
-    media.location = `https://${SPACE_BUCKET}.s3.amazonaws.com/media/image.jpg`;
+    media.location =
+      `https://${SPACE_BUCKET}.s3.amazonaws.com/media/image.jpg` as URL;
     media.thumbnail = null;
 
-    appTest.ctx.s3.deleteObject.mockReturnValue(fp.TE.right({}));
+    appTest.ctx.s3.deleteObject.mockReturnValue(fp.TE.right({ $metadata: {} }));
 
     const result = await pipe(deleteFromSpace(media)(appTest.ctx), throwTE);
 
@@ -46,10 +47,12 @@ describe(deleteFromSpace.name, () => {
   it("should delete both location and thumbnail when both are in bucket", async () => {
     const media = new MediaEntity();
     media.id = uuid();
-    media.location = `https://${SPACE_BUCKET}.s3.amazonaws.com/media/image.jpg`;
-    media.thumbnail = `https://${SPACE_BUCKET}.s3.amazonaws.com/media/thumb.jpg`;
+    media.location =
+      `https://${SPACE_BUCKET}.s3.amazonaws.com/media/image.jpg` as URL;
+    media.thumbnail =
+      `https://${SPACE_BUCKET}.s3.amazonaws.com/media/thumb.jpg` as URL;
 
-    appTest.ctx.s3.deleteObject.mockReturnValue(fp.TE.right({}));
+    appTest.ctx.s3.deleteObject.mockReturnValue(fp.TE.right({ $metadata: {} }));
 
     const result = await pipe(deleteFromSpace(media)(appTest.ctx), throwTE);
 
@@ -60,7 +63,7 @@ describe(deleteFromSpace.name, () => {
   it("should skip deletion when location is not in bucket", async () => {
     const media = new MediaEntity();
     media.id = uuid();
-    media.location = "https://external-site.com/image.jpg";
+    media.location = "https://external-site.com/image.jpg" as URL;
     media.thumbnail = null;
 
     const result = await pipe(deleteFromSpace(media)(appTest.ctx), throwTE);
@@ -72,10 +75,11 @@ describe(deleteFromSpace.name, () => {
     const media = new MediaEntity();
     media.id = uuid();
     media.label = "Test Media";
-    media.location = `https://${SPACE_BUCKET}.s3.amazonaws.com/media/test.jpg`;
+    media.location =
+      `https://${SPACE_BUCKET}.s3.amazonaws.com/media/test.jpg` as URL;
     media.thumbnail = null;
 
-    appTest.ctx.s3.deleteObject.mockReturnValue(fp.TE.right({}));
+    appTest.ctx.s3.deleteObject.mockReturnValue(fp.TE.right({ $metadata: {} }));
 
     const result = await pipe(deleteFromSpace(media)(appTest.ctx), throwTE);
 

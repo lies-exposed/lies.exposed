@@ -9,7 +9,10 @@ import { QueueIO } from "../io/queue.io.js";
 import { QueueRepository } from "../services/entity-repository.service.js";
 import { type DBError } from "./orm/database.provider.js";
 
-interface QueueProvider<J extends Queue.Queue, C extends DatabaseContext> {
+export interface QueueProvider<
+  J extends Queue.Queue,
+  C extends DatabaseContext,
+> {
   addJob: (
     job: Omit<J, "createdAt" | "updatedAt" | "deletedAt">,
   ) => ReaderTaskEither<C, ServerError, J>;
