@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/eslint-config@0.9.0) (2026-11-21)
+
+
+### Miscellaneous
+
+* **eslint-config:** warn for 'as any' in test files ([#4145](https://github.com/lies-exposed/lies.exposed/issues/4145)) ([beff45b](https://github.com/lies-exposed/lies.exposed/commit/beff45b917f407bc8b7788366b0e062be4855a96))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...@liexp/eslint-config@0.8.0) (2026-11-07)
 
 
