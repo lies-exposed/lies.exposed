@@ -45,7 +45,9 @@ export const MapField: React.FC<MapFieldProps> = (props) => {
   React.useEffect(() => {
     if (document.querySelector(`.${mapClassName}`)?.innerHTML === "") {
       const format = getDefaultFormat();
-      const features = value ? [new Feature(format.readGeometry(value))] : [];
+      const features = value
+        ? [new Feature(format.readGeometry(value) ?? undefined)]
+        : [];
 
       // console.log(features);
       const featuresSource = new VectorSource({ features });
