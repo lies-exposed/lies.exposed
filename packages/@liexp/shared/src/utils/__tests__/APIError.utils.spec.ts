@@ -29,9 +29,9 @@ describe("APIError.utils", () => {
 
     it("should return undefined details when DecodingError has no errors", () => {
       const ioError = ioErrorFixture("Empty decoding error", {
-          kind: "DecodingError",
-          errors: [],
-        });
+        kind: "DecodingError",
+        errors: [],
+      });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(400);
@@ -40,10 +40,10 @@ describe("APIError.utils", () => {
 
     it("should handle ClientError with meta object", () => {
       const ioError = ioErrorFixture("Bad request", {
-          kind: "ClientError",
-          status: "400",
-          meta: { field: "email", reason: "invalid" },
-        });
+        kind: "ClientError",
+        status: "400",
+        meta: { field: "email", reason: "invalid" },
+      });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(400);
@@ -54,10 +54,10 @@ describe("APIError.utils", () => {
 
     it("should handle ClientError with meta array", () => {
       const ioError = ioErrorFixture("Validation failed", {
-          kind: "ClientError",
-          status: "422",
-          meta: ["error1", "error2"],
-        });
+        kind: "ClientError",
+        status: "422",
+        meta: ["error1", "error2"],
+      });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -66,10 +66,10 @@ describe("APIError.utils", () => {
 
     it("should handle ServerError", () => {
       const ioError = ioErrorFixture("Internal error", {
-          kind: "ServerError",
-          status: "500",
-          meta: { code: "INTERNAL" },
-        });
+        kind: "ServerError",
+        status: "500",
+        meta: { code: "INTERNAL" },
+      });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -78,10 +78,10 @@ describe("APIError.utils", () => {
 
     it("should handle NetworkError", () => {
       const ioError = ioErrorFixture("Network timeout", {
-          kind: "NetworkError",
-          status: "500",
-          meta: undefined,
-        });
+        kind: "NetworkError",
+        status: "500",
+        meta: undefined,
+      });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -90,10 +90,10 @@ describe("APIError.utils", () => {
 
     it("should map unknown status codes to 500", () => {
       const ioError = ioErrorFixture("Unknown status", {
-          kind: "ClientError",
-          status: "418",
-          meta: null,
-        });
+        kind: "ClientError",
+        status: "418",
+        meta: null,
+      });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(500);
@@ -114,9 +114,9 @@ describe("APIError.utils", () => {
 
     it("should map DecodingError to status 400 regardless of status code", () => {
       const ioError = ioErrorFixture("Decoding error with 500 status", {
-          kind: "DecodingError",
-          errors: ["parse error"],
-        });
+        kind: "DecodingError",
+        errors: ["parse error"],
+      });
 
       const result = fromIOError(ioError);
       expect(result.status).toBe(400);
@@ -125,9 +125,9 @@ describe("APIError.utils", () => {
 
   describe("reportIOErrorDetails", () => {
     it("should return empty string for null details", () => {
-      expect(reportIOErrorDetails(ctxHelper.ctx<IOErrorDetails<never>>(null))).toBe(
-        "",
-      );
+      expect(
+        reportIOErrorDetails(ctxHelper.ctx<IOErrorDetails<never>>(null)),
+      ).toBe("");
     });
 
     it("should return empty string for undefined details", () => {
