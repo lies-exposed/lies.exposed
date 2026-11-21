@@ -251,6 +251,35 @@ const extractTokenUsage = (chunk: AIMessage): TokenUsage | null => {
   };
 };
 
+/**
+ * Summarise how a model call finished (finish reason, tool-call count, text
+ * length and tail). Returns null when the payload is not an AI message.
+ */
+export const describeModelEnd = (
+  data: unknown,
+): {
+  finishReason: string | null;
+  toolCalls: number;
+  contentLength: number;
+  contentTail: string;
+} | null => {
+  const output = (data as { output?: unknown } | undefined)?.output;
+  if (!output || !isAIMessageLike(output)) return null;
+  const msg = output as {
+    content?: unknown;
+    tool_calls?: unknown[];
+    response_metadata?: { finish_reason?: unknown };
+  };
+  const content = extractContentText(msg);
+  const finish = msg.response_metadata?.finish_reason;
+  return {
+    finishReason: typeof finish === "string" ? finish : null,
+    toolCalls: Array.isArray(msg.tool_calls) ? msg.tool_calls.length : 0,
+    contentLength: content.length,
+    contentTail: content.slice(-120),
+  };
+};
+
 export const isSupervisorEvent = (event: { metadata?: unknown }): boolean =>
   (event.metadata as { langgraph_node?: string } | undefined)
     ?.langgraph_node === "supervisor";
@@ -922,6 +951,15 @@ export const sendChatMessageStream = (payload: {
         ctx.logger.debug.log("stream event [%s]: %O", event.event, event.data);
 
         payload.onRawEvent?.(event);
+
+        if (event.event === "on_chat_model_end") {
+          // Diagnose turns that end "midflight": a model call that returns no
+          // tool calls ends the agent loop, so record why it stopped.
+          const diag = describeModelEnd(event.data);
+          if (diag) {
+            ctx.logger.info.log("model call ended: %O", diag);
+          }
+        }
 
         const [events, nextState] = processStreamEvent(event, state, messageId);
         state = nextState;
