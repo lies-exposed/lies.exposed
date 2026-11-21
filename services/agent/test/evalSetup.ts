@@ -9,6 +9,7 @@ import {
   initAgentTest,
   loadAgentEvalTestContext,
 } from "./AgentEvalTest.js";
+import { type AgentContext } from "../src/context/context.type.js";
 
 // Resolve the service root from this file's location (test/evalSetup.ts → services/agent/)
 // rather than process.cwd() which is the monorepo root when run via pnpm --filter.
@@ -20,7 +21,7 @@ loadENV(SERVICE_ROOT, ".env");
 const logger = GetLogger("agent-eval-testSetup");
 
 const g = global as unknown as {
-  agentContext: any;
+  agentContext: AgentContext;
   agentEvalTest?: AgentEvalTest;
 };
 
