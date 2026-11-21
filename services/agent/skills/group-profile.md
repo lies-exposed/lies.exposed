@@ -33,7 +33,7 @@ If kind is genuinely unclear, ask the user.
 ```
 createGroup({ "name": "<Name>", "username": "<slug>", "color": "<hex without #>", "kind": "Public" | "Private", "avatar": "<media-uuid>", "startDate": "YYYY-MM-DD" })
 ```
-`color` is required (hex without `#`). `excerpt`/`body` are BlockNote documents; omit them if unsure. `editGroup` has no avatar field, so set the avatar at creation.
+`color` is required (hex without `#`). `excerpt`/`body` accept plain text (converted to a rich-text document) or a BlockNote document. The avatar (media UUID) can be set at creation or later with `editGroup`.
 ```
 ```
 

@@ -6,6 +6,7 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import { In, Like } from "typeorm";
@@ -189,6 +190,10 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
       featuredImage: Schema.UndefinedOr(UUID).annotations({
         description: "Featured image media UUID",
       }),
+      body: Schema.UndefinedOr(Schema.Any).annotations({
+        description:
+          "Story body: plain text (converted to a BlockNote document, one paragraph per line) or a BlockNote document (array of blocks)",
+      }),
       keywords: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
         description: "Keyword UUIDs to associate",
       }),
@@ -211,6 +216,7 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
         path,
         date,
         draft,
+        body,
         creator,
         featuredImage,
         keywords,
@@ -239,7 +245,8 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
           events: (events ?? []).map((e: string) => ({ id: e })),
           media: (media ?? []).map((m: string) => ({ id: m })),
           links: [],
-          body: null,
+          body:
+            typeof body === "string" ? toInitialValue(body) : (body ?? null),
         };
 
         // Save the story

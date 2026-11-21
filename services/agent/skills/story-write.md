@@ -28,7 +28,7 @@ Create as draft unless the user says to publish:
 createStory({ "title": "<title>", "path": "<slug>", "date": "YYYY-MM-DD", "draft": true, "events": ["<uuid>"], "actors": ["<uuid>"], "groups": ["<uuid>"], "media": ["<uuid>"] })
 editStory({ "id": "<uuid>", "body": <body> })
 ```
-`path` is a lowercase URL slug of the title. `createStory` has no body field, so set the body with `editStory` afterwards (the body is a BlockNote document; `blockNoteToText` converts one to plain text). Array fields on `editStory` replace the current lists — merge with existing values.
+`path` is a lowercase URL slug of the title. `createStory` takes `body` as plain text (converted to a rich-text document, one paragraph per line) or a BlockNote document; `blockNoteToText` converts a stored body back to plain text. Array fields on `editStory` replace the current lists — merge with existing values.
 
 ## 5. Report
 

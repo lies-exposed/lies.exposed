@@ -28,7 +28,7 @@ createArea({ "label": "<Name>", "slug": "<name-slug>", "draft": false, "geometry
 ```
 editArea({ "id": "<uuid>", "events": ["<uuid>"], "media": ["<uuid>"], "featuredImage": "<media-uuid>" })
 ```
-Lists replace current values — merge with existing ones from `findAreas({ "ids": ["<uuid>"] })`. `editEvent` has no location field, so events cannot be pointed at an area from the event side.
+Lists replace current values — merge with existing ones from `findAreas({ "ids": ["<uuid>"] })`. Point an event at an area with `editEvent({ "id": "<uuid>", "location": "<area-uuid>" })` (Uncategorized and Death events).
 
 ## 5. Report
 

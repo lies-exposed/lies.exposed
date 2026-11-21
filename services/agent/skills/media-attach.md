@@ -39,7 +39,7 @@ If it errors with an accessibility/URL failure, the URL is not publicly fetchabl
 ## 4. Avatars and logos
 
 - Actor: `find_wikipedia_image({ "name": "<name>" })` → `{ imageUrl, type }`, then `createMedia` with `location=imageUrl` and that `type`, then `editActor({ "id": "<uuid>", "avatar": "<media-uuid>" })` (or pass `avatar` to `createActor`).
-- Group: same lookup, then pass `avatar` to `createGroup`. `editGroup` has no avatar field, so an existing group's avatar cannot be changed.
+- Group: same lookup, then pass `avatar` to `createGroup`. For an existing group use `editGroup({ "id": "<uuid>", "avatar": "<media-uuid>" })`.
 - No Wikipedia page (or wrong image)? Find an official/portrait image URL via `searchWeb`/`webScraping` (official site, press kit, Wikimedia Commons), then `createMedia` with a label like `<Name> Avatar` and attach as above. Square, face/logo-centred images are best.
 - Check before attaching: the image must clearly be that person/organisation (not a namesake). If unsure, tell the user instead of attaching.
 - Existing avatar: `findActors({ "ids": [...] })` first; only overwrite if empty or clearly wrong, and say so.
