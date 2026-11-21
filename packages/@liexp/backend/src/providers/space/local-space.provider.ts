@@ -38,7 +38,8 @@ const GetLocalSpaceProvider: Reader<LocalSpaceProviderCtx, SpaceProvider> = ({
         }, toError),
         TE.chain((content) =>
           TE.tryCatch(
-            () => content.data.blob() as Promise<GetObjectCommandOutput["Body"]>,
+            () =>
+              content.data.blob() as Promise<GetObjectCommandOutput["Body"]>,
             toError,
           ),
         ),

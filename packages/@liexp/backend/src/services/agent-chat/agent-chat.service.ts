@@ -157,7 +157,9 @@ export interface AgentChatServiceTestContext {
   logger: LoggerContext;
   agent: {
     Chat: {
-      Create: (body?: AgentChatRequestBody) => TaskEither<unknown, AgentChatResponseBody>;
+      Create: (
+        body?: AgentChatRequestBody,
+      ) => TaskEither<unknown, AgentChatResponseBody>;
     };
   };
 }
