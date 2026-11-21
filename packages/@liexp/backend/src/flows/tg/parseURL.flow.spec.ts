@@ -1,7 +1,9 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { type URL } from "@liexp/io/lib/http/Common/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "fp-ts/lib/Option.js";
+import { type Page } from "puppeteer-core";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -12,14 +14,19 @@ import { type QueuesProviderContext } from "../../context/queue.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { LinkEntity } from "../../entities/Link.entity.js";
-import { type MediaEntity } from "../../entities/Media.entity.js";
+import { MediaEntity } from "../../entities/Media.entity.js";
+import { type QueueEntity } from "../../entities/Queue.entity.js";
 import { type UserEntity } from "../../entities/User.entity.js";
 import { fromURL } from "../../flows/links/link.flow.js";
 import { takeLinkScreenshot } from "../../flows/links/takeLinkScreenshot.flow.js";
-import { type DBError } from "../../providers/orm/index.js";
-import { GetQueueProvider } from "../../providers/queue.provider.js";
+import { DBError } from "../../providers/orm/database.provider.js";
+import {
+  GetQueueProvider,
+  type QueueProvider,
+} from "../../providers/queue.provider.js";
 import { LinkRepository } from "../../services/entity-repository.service.js";
 import { mockedContext } from "../../test/context.js";
+import { TEST_BACKEND_ENV } from "../../test/env.js";
 import { parseURLs } from "./parseURL.flow.js";
 
 // Mock heavy module-level dependencies that cannot be satisfied through ctx
@@ -53,8 +60,19 @@ type TestContext = LoggerContext &
   SpaceContext &
   ENVContext;
 
+const queueProviderMock = mock<QueueProvider<QueueEntity, DatabaseContext>>();
+
+queueProviderMock.addJob.mockReturnValue(() => fp.TE.right({} as QueueEntity));
+
+const makeLinkImage = (thumbnail: string | null): MediaEntity =>
+  Object.assign(new MediaEntity(), {
+    id: uuid(),
+    thumbnail: thumbnail === null ? null : (`${thumbnail}` as URL),
+    location: `https://example.com/media/image.jpg` as URL,
+  });
+
 describe(parseURLs.name, () => {
-  const mockPage = {} as unknown as puppeteer.Page;
+  const mockPage = mock<Page>();
 
   const appTest = {
     ctx: {
@@ -65,7 +83,7 @@ describe(parseURLs.name, () => {
         puppeteer: mock(),
         space: mock(),
       }),
-      env: { DEFAULT_PAGE_SIZE: 20 } as unknown as ENVContext["env"],
+      env: TEST_BACKEND_ENV,
     },
   };
 
@@ -149,7 +167,7 @@ describe(parseURLs.name, () => {
     const newLink = new LinkEntity();
     newLink.id = linkId;
     newLink.url = "https://example.com/news" as string;
-    newLink.image = { thumbnail: "thumb.jpg" } as unknown as MediaEntity;
+    newLink.image = makeLinkImage("thumb.jpg");
 
     const validUrl = "https://example.com/news" as string;
 
@@ -160,9 +178,7 @@ describe(parseURLs.name, () => {
     vi.mocked(fromURL).mockReturnValue(() => fp.TE.right(newLink));
 
     // Queue addJob resolves successfully
-    vi.mocked(GetQueueProvider.queue).mockReturnValue({
-      addJob: vi.fn().mockReturnValue(() => fp.TE.right({})),
-    } as unknown as ReturnType<typeof GetQueueProvider.queue>);
+    vi.mocked(GetQueueProvider.queue).mockReturnValue(queueProviderMock);
 
     vi.mocked(LinkRepository.save).mockReturnValue(() =>
       fp.TE.right([newLink]),
@@ -183,12 +199,12 @@ describe(parseURLs.name, () => {
     newLink.id = linkId;
     newLink.url = "https://example.com/no-thumb" as string;
     // No thumbnail on image
-    newLink.image = { thumbnail: null } as unknown as MediaEntity;
+    newLink.image = makeLinkImage(null);
 
-    const screenshotLink = {
+    const screenshotLink = Object.assign(new LinkEntity(), {
       ...newLink,
-      image: { thumbnail: "new-thumb.jpg" },
-    };
+      image: makeLinkImage("new-thumb.jpg"),
+    });
 
     const validUrl = "https://example.com/no-thumb" as string;
 
@@ -196,15 +212,13 @@ describe(parseURLs.name, () => {
 
     vi.mocked(fromURL).mockReturnValue(() => fp.TE.right(newLink));
     vi.mocked(takeLinkScreenshot).mockReturnValue(() =>
-      fp.TE.right(screenshotLink as unknown as LinkEntity),
+      fp.TE.right(screenshotLink),
     );
 
-    vi.mocked(GetQueueProvider.queue).mockReturnValue({
-      addJob: vi.fn().mockReturnValue(() => fp.TE.right({})),
-    } as unknown as ReturnType<typeof GetQueueProvider.queue>);
+    vi.mocked(GetQueueProvider.queue).mockReturnValue(queueProviderMock);
 
     vi.mocked(LinkRepository.save).mockReturnValue(() =>
-      fp.TE.right([screenshotLink as unknown as LinkEntity]),
+      fp.TE.right([screenshotLink]),
     );
 
     const result = await pipe(
@@ -232,9 +246,7 @@ describe(parseURLs.name, () => {
       fp.TE.left({ name: "PuppeteerError", message: "timeout" }),
     );
 
-    vi.mocked(GetQueueProvider.queue).mockReturnValue({
-      addJob: vi.fn().mockReturnValue(() => fp.TE.right({})),
-    } as unknown as ReturnType<typeof GetQueueProvider.queue>);
+    vi.mocked(GetQueueProvider.queue).mockReturnValue(queueProviderMock);
 
     vi.mocked(LinkRepository.save).mockReturnValue(() =>
       fp.TE.right([newLink]),
@@ -250,12 +262,14 @@ describe(parseURLs.name, () => {
   });
 
   it("should return a Left when db.findOne fails", async () => {
-    const dbError = { name: "DBError", message: "db error" };
+    const dbError = new DBError("db error", {
+      kind: "ServerError",
+      status: "500",
+      meta: [],
+    });
     const validUrl = "https://example.com/db-fail" as string;
 
-    appTest.ctx.db.findOne.mockReturnValueOnce(
-      fp.TE.left(dbError as unknown as DBError),
-    );
+    appTest.ctx.db.findOne.mockReturnValueOnce(fp.TE.left(dbError));
 
     const te = parseURLs(O.some([validUrl]), testUser, mockPage)(appTest.ctx);
     const outcome = await te();
