@@ -38,7 +38,7 @@ interface ChatMessageWithStructuredOutput {
 /**
  * Options for structured output requests
  */
-interface StructuredOutputOptions<T> {
+interface StructuredOutputOptions<T, I = unknown> {
   /**
    * The message to send to the agent
    */
@@ -62,7 +62,7 @@ interface StructuredOutputOptions<T> {
    * and the parsed response is decoded with it: a response that does not
    * match fails the request instead of propagating malformed data.
    */
-  schema?: Schema.Schema<T, any, never>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  schema?: Schema.Schema<T, I, never>;
   /**
    * Optional flag to extract JSON from markdown code blocks
    * @default false
@@ -139,11 +139,25 @@ export const defaultParser = <T>(
 /**
  * Service for making agent chat requests with structured output parsing
  */
+interface AgentChatRequestBody {
+  message: string;
+  conversation_id?: string | null;
+  model?: string | undefined;
+  agent_type?: AgentType;
+  output_schema?: Record<string, unknown> | undefined;
+}
+
+interface AgentChatResponseBody {
+  data: {
+    message: ChatMessageWithStructuredOutput;
+  };
+}
+
 export interface AgentChatServiceTestContext {
   logger: LoggerContext;
   agent: {
     Chat: {
-      Create: () => TaskEither<any, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+      Create: (body?: AgentChatRequestBody) => TaskEither<unknown, AgentChatResponseBody>;
     };
   };
 }
@@ -180,8 +194,9 @@ export const AgentChatService = {
   getStructuredOutput: <
     C extends LoggerContext & { agent: API<AgentEndpoints> },
     T,
+    I = unknown,
   >(
-    options: StructuredOutputOptions<T>,
+    options: StructuredOutputOptions<T, I>,
   ): ReaderTaskEither<C, ServerError, T> => {
     return (ctx) =>
       pipe(
