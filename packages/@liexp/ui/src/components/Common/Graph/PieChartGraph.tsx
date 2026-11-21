@@ -110,7 +110,7 @@ interface AnimatedStyles {
   startAngle: number;
   endAngle: number;
   opacity: number;
-  [index: string]: unknown;
+  [index: string]: number;
 }
 
 const fromLeaveTransition = <D,>({
@@ -146,11 +146,17 @@ function AnimatedPie<Datum>({
   getColor,
   onClickDatum,
 }: AnimatedPieProps<Datum>): React.ReactElement {
-  const transitions = useTransition<PieArcDatum<Datum>, AnimatedStyles>(arcs, {
-    from: animate !== null ? fromLeaveTransition : enterUpdateTransition,
-    enter: enterUpdateTransition,
-    update: enterUpdateTransition,
-    leave: animate !== null ? fromLeaveTransition : enterUpdateTransition,
+  const transitions = useTransition(arcs, {
+    from: (item: PieArcDatum<Datum>) =>
+      animate !== null
+        ? fromLeaveTransition(item)
+        : enterUpdateTransition(item),
+    enter: (item: PieArcDatum<Datum>) => enterUpdateTransition(item),
+    update: (item: PieArcDatum<Datum>) => enterUpdateTransition(item),
+    leave: (item: PieArcDatum<Datum>) =>
+      animate !== null
+        ? fromLeaveTransition(item)
+        : enterUpdateTransition(item),
   });
   return (
     <>
@@ -178,8 +184,7 @@ function AnimatedPie<Datum>({
               }}
             />
             {hasSpaceForLabel && (
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any -- PieArcDatum doesn't have opacity property but original code used it
-              <animated.g style={{ opacity: (item as any).opacity }}>
+              <animated.g style={{ opacity: values.opacity }}>
                 <text
                   fill="white"
                   x={centroidX}

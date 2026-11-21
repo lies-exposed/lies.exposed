@@ -1,7 +1,4 @@
-import {
-  type NetworkNodeDatum,
-  type NetworkPointNode,
-} from "@liexp/io/lib/http/Network/Network.js";
+import { type NetworkNodeDatum } from "@liexp/io/lib/http/Network/Network.js";
 import { AxisBottom } from "@visx/axis";
 import { localPoint } from "@visx/event";
 import { Group } from "@visx/group";
@@ -27,11 +24,16 @@ function numTicksForWidth(width: number): number {
 
 export type NetworkScale = "all" | "year" | "month" | "week" | "day";
 
-export type NetworkGraphType<L, N extends NetworkNodeDatum> = GraphType<L, N>;
+export interface NetworkPointDatum extends NetworkNodeDatum {
+  x: number;
+  y: number;
+}
+
+export type NetworkGraphType<L, N extends NetworkPointDatum> = GraphType<L, N>;
 
 export interface NetworkBaseProps<
   L extends NetworkLinkProps<N>,
-  N extends NetworkNodeDatum,
+  N extends NetworkPointDatum,
 > {
   width: number;
   height: number;
@@ -41,25 +43,25 @@ export interface NetworkBaseProps<
   graph: NetworkGraphType<L, N>;
   tooltipRenderer: (tooltipData: N) => React.ReactElement;
   onEventLabelClick: (event: string) => void;
-  onNodeClick: (event: NetworkPointNode<N>) => void;
-  onDoubleClick: (event: NetworkPointNode<N>, scale: NetworkScale) => void;
+  onNodeClick: (event: N) => void;
+  onDoubleClick: (event: N, scale: NetworkScale) => void;
 }
 
 export type NetworkProps<
   L extends NetworkLinkProps<N>,
-  N extends NetworkNodeDatum,
+  N extends NetworkPointDatum,
 > = NetworkBaseProps<L, N> & WithTooltipProvidedProps<N>;
 
-const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
+const Network = <L extends NetworkLinkProps<N>, N extends NetworkPointDatum>(
   props: NetworkProps<L, N>,
 ): React.ReactElement => {
   const handleMouseOver = (
-    event: React.MouseEvent<SVGRectElement>,
+    event: React.MouseEvent<SVGElement, React.MouseEvent>,
     datum: N,
   ): void => {
     const svgElement = (event.target as SVGElement).ownerSVGElement;
     if (svgElement === null) return;
-    const coords = localPoint(svgElement, event);
+    const coords = localPoint(svgElement, event.nativeEvent);
     if (coords !== null) {
       if (
         props.showTooltip !== undefined &&
@@ -115,20 +117,18 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
             onDoubleClick={(event) => {
               const point = localPoint(event);
               if (point !== null) {
-                const [first, last] = A.splitAt(1)(
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- visx network Graph type uses any[] for nodes
-                  graph.nodes as any[],
+                const [head, last] = A.splitAt(1)(graph.nodes);
+                const first = head[0];
+                if (first === undefined) return;
+                const nearestPoint = last.reduce<N>(
+                  (acc, n) =>
+                    Math.abs(acc.x - point.x) < Math.abs(n.x - point.x)
+                      ? acc
+                      : n,
+                  first,
                 );
-                const nearestPoint = last.reduce((acc, n) => {
-                  if (Math.abs(acc.x - point.x) < Math.abs(n.x - point.x)) {
-                    return acc;
-                  }
-                  return n;
-                }, first[0]);
 
-                if (nearestPoint !== undefined) {
-                  props.onDoubleClick(nearestPoint, props.scale);
-                }
+                props.onDoubleClick(nearestPoint, props.scale);
               }
             }}
           />
@@ -165,8 +165,7 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
             linkComponent={(props) => NetworkLink(props.link)}
             nodeComponent={(props) =>
               NetworkNode({
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any -- visx Graph node props type is incompatible with our NetworkNode props
-                ...(props as any),
+                node: props.node,
                 onMouseOver: handleMouseOver,
                 onMouseOut: hideTooltip,
                 onClick: onNodeClick,
@@ -197,7 +196,7 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
   );
 };
 
-export default <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
+export default <L extends NetworkLinkProps<N>, N extends NetworkPointDatum>(
   props: NetworkBaseProps<L, N>,
 ): React.ReactElement<NetworkBaseProps<L, N>> | React.ReactNode | null =>
   withTooltip<NetworkBaseProps<L, N>, N>(Network)(props);

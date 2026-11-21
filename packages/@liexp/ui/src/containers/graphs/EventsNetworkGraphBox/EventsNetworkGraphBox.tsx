@@ -293,21 +293,19 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   onQueryChange,
   ...props
 }) => {
-  const state = React.useMemo(
-    () => ({
+  const state = React.useMemo(() => {
+    const allEventTypes = EventType.members.map((t) => t.literals[0]);
+    return {
       startDate: query.startDate,
       eventType:
         query.eventType ??
-        (EventType.members.map(
-          (t) => t.literals[0],
-        ) as unknown as NonEmptyArray<EventType>),
+        (isNonEmpty(allEventTypes) ? allEventTypes : ["Uncategorized"]),
       endDate: query.endDate,
       selectedActorIds: props.selectedActorIds ?? [],
       selectedGroupIds: props.selectedGroupIds ?? [],
       selectedKeywordIds: props.selectedKeywordIds ?? [],
-    }),
-    [query],
-  );
+    };
+  }, [query]);
 
   return (
     <Box
