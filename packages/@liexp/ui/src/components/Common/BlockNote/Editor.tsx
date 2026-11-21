@@ -106,10 +106,13 @@ export const BNEditor: React.FC<BNEditorProps> = ({
   const { resolvedMode } = useThemeMode();
   const initialContent = toInitialContent(content);
 
+  // useCreateBlockNote infers BlockNote's own generic schema types from the
+  // specs object; retie them to the app's declared BNESchemaEditor alias
+  // (the two derivations differ structurally at the spec level).
   const editor = useCreateBlockNote({
     schema,
     initialContent: initialContent.initialContent ?? undefined,
-  }) as unknown as BNESchemaEditor & { isEditable: boolean; document: unknown };
+  }) as unknown as BNESchemaEditor;
 
   const slashMenuItems = React.useMemo(() => {
     if (editor.isEditable) {
@@ -127,9 +130,11 @@ export const BNEditor: React.FC<BNEditorProps> = ({
     <div style={{ height: "100%", width: "100%" }}>
       <BlockNoteEditorContext.Provider value={editor}>
         <StyledBlockNoteView
-          // BlockNote's BlockNoteView expects an opaque internal editor type from useCreateBlockNote.
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          editor={editor as unknown as any}
+          editor={
+            editor as unknown as React.ComponentProps<
+              typeof BlockNoteView
+            >["editor"]
+          }
           editable={!readOnly}
           slashMenu={false}
           formattingToolbar={false}

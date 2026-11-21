@@ -42,7 +42,9 @@ const EventInlineContentComponent: React.FC<{
 
   const removeItem = React.useCallback(() => {
     const pos = editor.getTextCursorPosition();
-    const blockContent = Array.isArray(pos.block.content) ? pos.block.content : [];
+    const blockContent = Array.isArray(pos.block.content)
+      ? pos.block.content
+      : [];
     const updatedBlockContent = blockContent.flatMap((t) =>
       t.type === "event-inline" && t.props.id === id ? [] : [t],
     );

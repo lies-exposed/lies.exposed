@@ -219,14 +219,14 @@ export const RelationInlineContentComponent: React.FC<{
                 (t.props.id === undefined || t.props.id === "")) ||
                 (t.type === _relation && t.props.id === _id) ||
                 (t.type === relation && t.props.id === id)))
-                ? {
-                    type: relation as "actor" | "group" | "keyword" | "area",
-                    props: {
-                      ...relationProps,
-                      id: a[0].id,
-                    },
-                  }
-                : t,
+              ? {
+                  type: relation as "actor" | "group" | "keyword" | "area",
+                  props: {
+                    ...relationProps,
+                    id: a[0].id,
+                  },
+                }
+              : t,
           );
 
           editor.updateBlock(currentBlock, {
