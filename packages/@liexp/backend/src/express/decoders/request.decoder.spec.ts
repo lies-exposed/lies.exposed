@@ -1,4 +1,5 @@
 import * as logger from "@liexp/core/lib/logger/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import type { UserEncoded } from "@liexp/io/lib/http/User.js";
 import type { ServiceClient } from "@liexp/io/lib/http/auth/service-client/ServiceClient.js";
 import type { Request } from "express";
@@ -11,35 +12,45 @@ const testSecret = "test-request-decoder-secret";
 const testLogger = logger.GetLogger("test");
 const jwtProvider = GetJWTProvider({ secret: testSecret, logger: testLogger });
 
-const testUser = {
-  id: "00000001-0001-1000-8000-000000000001",
+const testUser: UserEncoded = {
+  id: uuid(),
+  firstName: "Test",
+  lastName: "User",
   username: "testuser",
   email: "test@example.com",
-  permissions: ["admin:create" as const],
-} as unknown as UserEncoded;
+  status: "Approved",
+  permissions: ["admin:create"],
+  telegramId: null,
+  telegramToken: null,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  deletedAt: null,
+};
 
-const testClient = {
-  id: "00000001-0001-1000-8000-000000000002",
-  userId: "00000001-0001-1000-8000-000000000003",
-  permissions: ["admin:create" as const],
-} as unknown as ServiceClient;
+const testClient: ServiceClient = {
+  id: uuid(),
+  userId: uuid(),
+  permissions: ["admin:create"],
+};
 
 const makeCtx = () => ({
   logger: testLogger,
   jwt: jwtProvider,
 });
 
-const makeReqWithToken = (token: string): Request =>
-  ({
+const makeReqWithToken = (token: string): Request => {
+  const req: Partial<Request> = {
     headers: {
       authorization: token,
     },
-  }) as unknown as Request;
+  };
+  return req as Request;
+};
 
-const makeReqWithoutToken = (): Request =>
-  ({
-    headers: {},
-  }) as unknown as Request;
+const makeReqWithoutToken = (): Request => {
+  const req: Partial<Request> = { headers: {} };
+  return req as Request;
+};
 
 describe("RequestDecoder", () => {
   describe("decodeUserFromRequest", () => {

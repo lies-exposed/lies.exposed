@@ -1,18 +1,23 @@
 import * as fs from "fs";
 import * as path from "path";
 import type { Logger } from "@liexp/core/lib/logger/index.js";
+import type { NextFunction, Request, Response, RequestHandler } from "express";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { type ServerHelperConfig } from "../vite/types.js";
 import { createViteServerHelper } from "../vite-server-helper.js";
 
 // Mock external dependencies
+const mockMiddlewareHandler =
+  (): RequestHandler => (_req: Request, _res: Response, next: NextFunction) =>
+    next();
+
 vi.mock("compression", () => ({
-  default: vi.fn(() => (req: any, res: any, next: any) => next()),
+  default: vi.fn((): RequestHandler => mockMiddlewareHandler()),
 }));
 
 vi.mock("sirv", () => ({
-  default: vi.fn(() => (req: any, res: any, next: any) => next()),
+  default: vi.fn((): RequestHandler => mockMiddlewareHandler()),
 }));
 
 vi.mock("express", () => {
@@ -22,9 +27,13 @@ vi.mock("express", () => {
     listen: vi.fn(),
   };
 
-  const mockExpress: any = vi.fn(() => mockApp);
-  mockExpress.json = vi.fn(() => vi.fn());
-  mockExpress.urlencoded = vi.fn(() => vi.fn());
+  const mockExpress = Object.assign(
+    vi.fn(() => mockApp),
+    {
+      json: vi.fn(() => vi.fn()),
+      urlencoded: vi.fn(() => vi.fn()),
+    },
+  );
 
   return {
     default: mockExpress,

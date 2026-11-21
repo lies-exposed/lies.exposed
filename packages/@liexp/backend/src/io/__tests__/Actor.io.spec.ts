@@ -1,19 +1,21 @@
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import fc from "fast-check";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
+import { type ActorEntity } from "../../entities/Actor.entity.js";
 import { toActorEntity } from "../../test/utils/entities/index.js";
 import { ActorIO } from "../Actor.io.js";
 
-// ActorIO.decodeSingle spreads the entity into the Actor HTTP schema,
-// which requires death: UUID | undefined (not null).
+// ActorIO spreads the entity into the Actor HTTP schema, whose `death` field
+// only accepts a UUID (the entity's null would fail decoding), so fixtures
+// give each actor a death event id.
 const makeActorEntity = (
   actor: ReturnType<typeof fc.sample<typeof ActorArb>>[0],
-) =>
-  ({
-    ...toActorEntity(actor),
-    death: undefined,
-  }) as unknown as ReturnType<typeof toActorEntity>;
+): ActorEntity => ({
+  ...toActorEntity(actor),
+  death: uuid(),
+});
 
 describe("ActorIO", () => {
   describe("decodeSingle", () => {

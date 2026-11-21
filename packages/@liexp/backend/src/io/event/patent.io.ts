@@ -1,5 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import { type PatentPayload } from "@liexp/io/lib/http/Events/Patent.js";
 import * as io from "@liexp/io/lib/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
@@ -7,16 +8,18 @@ import * as E from "fp-ts/lib/Either.js";
 import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { IOCodec } from "../DomainCodec.js";
 
+type StoredPatentPayload = PatentPayload & { website?: string };
+
 const decodePatent = (
   event: EventV2Entity,
 ): E.Either<DecodeError, io.http.Events.Patent.Patent> => {
-  const p: any = event.payload;
+  const payload = event.payload as StoredPatentPayload;
   return pipe(
     {
       ...event,
       payload: {
-        ...p,
-        website: p?.website ?? undefined,
+        ...payload,
+        website: payload.website ?? undefined,
       },
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,

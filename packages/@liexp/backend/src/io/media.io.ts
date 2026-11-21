@@ -4,6 +4,8 @@ import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import {
   MediaExtraMonoid,
   VideoExtraMonoid,
+  type MediaExtra,
+  type VideoExtra,
 } from "@liexp/io/lib/http/Media/MediaExtra.js";
 import { type MediaType } from "@liexp/io/lib/http/Media/MediaType.js";
 import * as io from "@liexp/io/lib/index.js";
@@ -20,12 +22,13 @@ export type SimpleMedia<T extends MediaType = MediaType> = Pick<
   type: T;
 };
 
-const getExtraWithDefaults = (media: MediaEntity) => {
-  if (!media.extra) return undefined;
-  const monoid =
-    media.type === "video/mp4" ? VideoExtraMonoid : MediaExtraMonoid;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return monoid.concat(monoid.empty as any, media.extra as any);
+const getExtraWithDefaults = (media: MediaEntity): MediaExtra | undefined => {
+  const extra = media.extra;
+  if (!extra) return undefined;
+  if (media.type === "video/mp4") {
+    return VideoExtraMonoid.concat(VideoExtraMonoid.empty, extra as VideoExtra);
+  }
+  return MediaExtraMonoid.concat(MediaExtraMonoid.empty, extra);
 };
 
 const encodeMedia = (

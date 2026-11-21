@@ -3,19 +3,20 @@ import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import fc from "fast-check";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
+import { type ActorEntity } from "../../entities/Actor.entity.js";
 import { type ActorRelationEntity } from "../../entities/ActorRelation.entity.js";
 import { toActorEntity } from "../../test/utils/entities/index.js";
 import { ActorRelationIO } from "../actorRelation.io.js";
 
 // ActorIO uses ActorIO.encodeSingle which calls encodeActor for both actor fields.
-// ActorIO internals require death: undefined (not null) for schema compatibility.
+// encodeActor maps the entity's `death` (null in the fixture) into a UUID-only
+// HTTP field, so fixtures give each actor a death event id.
 const makeActorEntity = (
   actor: ReturnType<typeof fc.sample<typeof ActorArb>>[0],
-) =>
-  ({
-    ...toActorEntity(actor),
-    death: undefined,
-  }) as unknown as ReturnType<typeof toActorEntity>;
+): ActorEntity => ({
+  ...toActorEntity(actor),
+  death: uuid(),
+});
 
 const makeActorRelationEntity = (
   overrides: Partial<ActorRelationEntity> = {},
