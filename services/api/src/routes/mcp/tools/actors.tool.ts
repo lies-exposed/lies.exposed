@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import type { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import {
   FIND_ACTORS,
@@ -6,11 +7,13 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchActors } from "@liexp/backend/lib/queries/actors/fetchActors.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import type { Actor, CreateActorBody } from "@liexp/io/lib/http/Actor.js";
+import type {
+  Actor,
+  CreateActorBody,
+  GetListActorQuery,
+} from "@liexp/io/lib/http/Actor.js";
 import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
-import type { GetListActorQuery } from "@liexp/io/lib/http/Actor.js";
 import type { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { randomUUID } from "node:crypto";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
@@ -52,9 +55,7 @@ const actorToOutput = (actor: ActorEntity | Actor) => ({
   fullName: actor.fullName,
   color: actor.color ?? undefined,
   excerpt: actor.excerpt ?? undefined,
-  nationalities: toIds(
-    actor.nationalities as readonly ActorRelation[] | null | undefined,
-  ),
+  nationalities: toIds(actor.nationalities),
   body: actor.body ?? undefined,
   avatar: actor.avatar
     ? typeof actor.avatar === "string"
@@ -63,9 +64,7 @@ const actorToOutput = (actor: ActorEntity | Actor) => ({
     : undefined,
   bornOn: actor.bornOn ?? undefined,
   diedOn: actor.diedOn ?? undefined,
-  memberIn: toIds(
-    actor.memberIn as readonly ActorRelation[] | null | undefined,
-  ),
+  memberIn: toIds(actor.memberIn),
   createdAt: actor.createdAt.toISOString(),
   updatedAt: actor.updatedAt.toISOString(),
 });
@@ -221,16 +220,16 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
           nationalities: (input.nationalities ?? []) as readonly UUID[],
           body: input.body,
           avatar: input.avatar as UUID | undefined,
-          bornOn: input.bornOn !== undefined ? new Date(input.bornOn) : undefined,
-          diedOn: input.diedOn !== undefined ? new Date(input.diedOn) : undefined,
-        } as CreateActorBody;
+          bornOn:
+            input.bornOn !== undefined ? new Date(input.bornOn) : undefined,
+          diedOn:
+            input.diedOn !== undefined ? new Date(input.diedOn) : undefined,
+        };
 
         const te = createActor(createBody)(ctx);
         const result = await pipe(
           te,
-          fp.TE.map((r) =>
-            "success" in r ? r : actorToOutput(r),
-          ),
+          fp.TE.map((r) => ("success" in r ? r : actorToOutput(r))),
         )();
 
         if (fp.E.isLeft(result)) {

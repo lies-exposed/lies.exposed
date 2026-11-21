@@ -214,8 +214,7 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
       } = input;
 
       try {
-        const draftValue =
-          draft !== undefined ? draft : true;
+        const draftValue = draft ?? true;
         const featuredImageValue = featuredImage ? { id: featuredImage } : null;
 
         // Build the story object following createStory.controller.ts logic
@@ -415,8 +414,7 @@ export const registerStoriesTools = (server: McpServer, ctx: ServerContext) => {
               title: title ?? existing.title,
               path: path ?? existing.path,
               date: date ? new Date(date) : existing.date,
-              draft:
-                draft !== undefined ? draft : existing.draft,
+              draft: draft ?? existing.draft,
               body: body ?? existing.body,
               creator:
                 creator !== undefined

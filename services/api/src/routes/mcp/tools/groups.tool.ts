@@ -6,9 +6,9 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type CreateGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
 import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type CreateGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";

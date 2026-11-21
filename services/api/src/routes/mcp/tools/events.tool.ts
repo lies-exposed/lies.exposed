@@ -127,9 +127,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
         const result = await pipe(
           te,
           fp.TE.map((output) => ({
-            events: output.results.map((e) =>
-              eventToOutput(e),
-            ),
+            events: output.results.map((e) => eventToOutput(e)),
             total: output.total,
             totals: output.totals,
             firstDate: output.firstDate,
@@ -341,7 +339,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
         // Build the event body based on type
         // Cast to CreateEventPlainBody since TypeScript can't narrow the union
         const baseBody: Events.CreateEventPlainBody = {
-          type: input.type as Events.EventType,
+          type: input.type,
           excerpt: input.excerpt ?? undefined,
           body: input.body ?? undefined,
           date: input.date ? new Date(input.date) : undefined,
@@ -601,9 +599,10 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
 
         // Build EditEventBody - editEventQuery narrows the union by `type` at runtime
         const commonFields = {
-          body: input.body !== undefined
-            ? O.some(toBlockNoteDocument(input.body))
-            : O.none(),
+          body:
+            input.body !== undefined
+              ? O.some(toBlockNoteDocument(input.body))
+              : O.none(),
           excerpt:
             input.excerpt !== undefined
               ? O.some(toBlockNoteDocument(input.excerpt))
