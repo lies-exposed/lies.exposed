@@ -7,9 +7,12 @@ import {
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
+import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
+import * as O from "effect/Option";
 import { defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 import { createGroup } from "#flows/groups/createGroup.flow.js";
@@ -31,6 +34,8 @@ const groupToOutput = (group: Group): Record<string, unknown> => ({
   createdAt: group.createdAt,
   updatedAt: group.updatedAt,
 });
+
+const wrap = <A>(a: A | undefined): O.Option<A> => O.fromNullable(a);
 
 export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
   // --- findGroups ---
@@ -230,18 +235,18 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
         }
 
         // Direct creation mode
-        const createBody: CreateGroupBody = {
+        const createBody = {
           name: input.name,
           username: input.username,
           color: input.color,
           kind: input.kind ?? "Public",
-          excerpt: input.excerpt ?? undefined,
-          body: input.body ?? undefined,
+          excerpt: input.excerpt as BlockNoteDocument | undefined,
+          body: input.body as BlockNoteDocument | undefined,
           startDate: input.startDate ? new Date(input.startDate) : undefined,
           endDate: input.endDate ? new Date(input.endDate) : undefined,
-          avatar: input.avatar ?? undefined,
+          avatar: input.avatar as UUID | undefined,
           members: input.members ?? [],
-        };
+        } satisfies CreateGroupBody;
 
         const te = createGroup(createBody)(ctx);
         const result = await pipe(
@@ -330,33 +335,36 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
     }),
     async (input) => {
       try {
-        // const editBody = { id: input.id };
-        // if (input.name !== undefined) editBody.name = input.name;
-        // if (input.username !== undefined) editBody.username = input.username;
-        // if (input.color !== undefined) editBody.color = input.color;
-        // if (input.kind !== undefined) editBody.kind = input.kind;
-        // if (input.excerpt !== undefined) editBody.excerpt = input.excerpt;
-        // if (input.body !== undefined) editBody.body = input.body;
-        // if (input.startDate !== undefined)
-        //   editBody.startDate = new Date(input.startDate);
-        // if (input.endDate !== undefined)
-        //   editBody.endDate = new Date(input.endDate);
-        // if (input.members !== undefined) editBody.members = input.members;
+        // Build EditGroupInput for the editGroup flow. MCP input uses plain
+        // optional fields while the flow takes Option-wrapped, branded fields;
+        // each value is wrapped and leaf-cast (no `any`, no double cast) and the
+        // flow validates member/date/document shapes at runtime.
+        const editBody = {
+          id: input.id as UUID,
+          name: wrap(input.name),
+          username: wrap(input.username),
+          color: wrap(input.color),
+          kind: wrap(input.kind),
+          excerpt: wrap(input.excerpt as BlockNoteDocument | null),
+          body: wrap(input.body as BlockNoteDocument | null),
+          avatar: O.none(),
+          startDate: wrap(input.startDate),
+          endDate: wrap(input.endDate),
+          members: wrap(
+            input.members as readonly (
+              | UUID
+              | {
+                  actor: UUID;
+                  body: O.Option<BlockNoteDocument | null>;
+                  startDate: Date;
+                  endDate: O.Option<Date | null>;
+                }
+            )[],
+          ),
+        };
 
         const result = await pipe(
-          // editGroup returns TEReader<GroupEntity>, decode with GroupIO
-          // Note: We cast to `any` because editGroup expects a different body shape
-          // than what we construct here (partial update vs full body).
-          editGroup(input),
-          // GroupIO.decodeSingle expects GroupEntity, but we have the decoded result
-          // from editGroup. The cast is safe because the decoder validates at runtime.
-
-          // fp.TE.chainEitherK((g) =>
-          //   GroupIO.decodeSingle({
-          //     stories: [],
-          //     ...g,
-          //   } as any),
-          // ),
+          editGroup(editBody),
           fp.RTE.mapLeft((err) => {
             ctx.logger.error.log("editGroup error: %O", err);
             return err;

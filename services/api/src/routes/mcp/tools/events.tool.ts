@@ -527,7 +527,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
       try {
         // Find the existing event
         const foundEither = await ctx.db.findOneOrFail(EventV2Entity, {
-          where: { id: input.id },
+          where: { id: input.id as UUID },
           relations: { media: true, links: true, keywords: true },
         })();
 
@@ -583,8 +583,8 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
           }
         }
 
-        const mergedPayload = {
-          ...storedEvent.payload,
+        const mergedPayload: Record<string, unknown> = {
+          ...(storedEvent.payload as Record<string, unknown>),
           ...unwrappedPayload,
         };
 
@@ -628,7 +628,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
         const editBody = {
           ...commonFields,
           type: input.type ?? storedEvent.type,
-        } as Events.EditEventBody;
+        } as unknown as Events.EditEventBody;
 
         // Execute the edit event query
         const editTE = editEventQuery(storedEvent, editBody)(ctx);
