@@ -4,7 +4,7 @@ import { type CellRendererProps } from "./InfiniteMasonry.js";
 export const CellRenderer = (
   children: (props: CellRendererProps) => React.JSX.Element,
 ) =>
-  React.forwardRef<any, CellRendererProps>(
+  React.forwardRef<HTMLDivElement, CellRendererProps>(
     (
       { item, measure, index, style, columnWidth, onRowInvalidate, ...others },
       ref,

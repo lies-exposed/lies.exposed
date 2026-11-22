@@ -61,7 +61,7 @@ type MediaListItemProps = ListItemProps<Media> &
   Omit<MediaElementProps, "media">;
 
 export const MediaListItem: React.ForwardRefRenderFunction<
-  any,
+  HTMLDivElement,
   MediaListItemProps
 > = (
   { style, onClick, item, enableDescription, disableZoom, onLoad, itemStyle },
@@ -87,7 +87,7 @@ export const MediaListItem: React.ForwardRefRenderFunction<
           itemStyle={itemStyle}
           onClick={
             onClick
-              ? (e: any) => {
+              ? (e: React.MouseEvent) => {
                   onClick?.(item, e);
                 }
               : undefined
@@ -167,7 +167,7 @@ const StyledMasonry = styled(Masonry)(() => ({
   },
 }));
 
-export const MediaList = React.forwardRef<any, MediaListProps>(
+export const MediaList = React.forwardRef<HTMLDivElement, MediaListProps>(
   (
     {
       className,

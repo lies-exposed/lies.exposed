@@ -155,7 +155,7 @@ export type SearchEventsQueryInputNoPagination = Omit<
 
 export const getSearchEventsQueryKey = (
   p: Partial<SearchEventQueryInput>,
-): [string, any, any, boolean] => {
+): [string, Partial<SearchEventQueryInput>, unknown, boolean] => {
   return ["events-search", { _start: 0, _end: 20, ...p }, undefined, false];
 };
 
@@ -206,7 +206,11 @@ export const searchEventsInfiniteQuery =
 
 export const getEventsFromLinkQuery =
   (api: API<Endpoints>) =>
-  ({ url }: { url: string }): UseQueryResult<any, IOError> => {
+  ({
+    url,
+  }: {
+    url: string;
+  }): UseQueryResult<readonly Events.SearchEvent.SearchEvent[], IOError> => {
     return useQuery({
       queryKey: ["events-from-link", url, api],
       queryFn: async () => {

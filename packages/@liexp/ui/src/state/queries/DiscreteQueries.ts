@@ -14,7 +14,10 @@ export const jsonData =
   <A>(decode: (u: unknown) => Either<ParseError, { readonly data: A }>) =>
   ({ id }: { id: string }): Promise<{ data: A }> =>
     pipe(
-      dataProviderRequestLift(() => jsonClient.get<any>(id, {}), decode),
+      dataProviderRequestLift(
+        () => jsonClient.get<{ data: A }>(id, {}),
+        decode,
+      ),
       throwTE,
     );
 
