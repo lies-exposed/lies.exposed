@@ -1,15 +1,22 @@
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { DocumentaryEventArb } from "@liexp/test/lib/arbitrary/events/DocumentaryEvent.arbitrary.js";
 import fc from "fast-check";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
+import { type EventV2Entity } from "../../../entities/Event.v2.entity.js";
 import { DocumentaryIO } from "../documentary.io.js";
 
-const toEventEntity = (event: any) => ({
+const toEventEntity = (event: Event): EventV2Entity => ({
   ...event,
   date: new Date(event.date),
   createdAt: new Date(event.createdAt),
   updatedAt: new Date(event.updatedAt),
   deletedAt: event.deletedAt ? new Date(event.deletedAt) : null,
+  excerpt: event.excerpt ?? null,
+  body: event.body ?? null,
+  links: [...event.links],
+  media: [...event.media],
+  keywords: [...event.keywords],
   socialPosts: [],
   actors: [],
   groups: [],
@@ -74,7 +81,7 @@ describe("DocumentaryIO", () => {
     it("should return Left since encode is not implemented", () => {
       const event = fc.sample(DocumentaryEventArb, 1)[0];
       const entity = toEventEntity(event);
-      const result = DocumentaryIO.encodeSingle(entity as never);
+      const result = DocumentaryIO.encodeSingle(entity);
       expect(E.isLeft(result)).toBe(true);
     });
   });

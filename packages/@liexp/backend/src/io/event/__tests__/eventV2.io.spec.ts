@@ -1,3 +1,4 @@
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { BookEventArb } from "@liexp/test/lib/arbitrary/events/BookEvent.arbitrary.js";
 import { DeathEventArb } from "@liexp/test/lib/arbitrary/events/DeathEvent.arbitrary.js";
 import { DocumentaryEventArb } from "@liexp/test/lib/arbitrary/events/DocumentaryEvent.arbitrary.js";
@@ -6,14 +7,20 @@ import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized
 import fc from "fast-check";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
+import { type EventV2Entity } from "../../../entities/Event.v2.entity.js";
 import { EventV2IO } from "../eventV2.io.js";
 
-const toEventEntity = (event: any) => ({
+const toEventEntity = (event: Event): EventV2Entity => ({
   ...event,
   date: new Date(event.date),
   createdAt: new Date(event.createdAt),
   updatedAt: new Date(event.updatedAt),
   deletedAt: event.deletedAt ? new Date(event.deletedAt) : null,
+  excerpt: event.excerpt ?? null,
+  body: event.body ?? null,
+  links: [...event.links],
+  media: [...event.media],
+  keywords: [...event.keywords],
   socialPosts: [],
   actors: [],
   groups: [],
@@ -125,7 +132,7 @@ describe("EventV2IO", () => {
     it("should return Left since encode is not implemented", () => {
       const event = fc.sample(BookEventArb, 1)[0];
       const entity = toEventEntity(event);
-      const result = EventV2IO.encodeSingle(entity as never);
+      const result = EventV2IO.encodeSingle(entity);
       expect(E.isLeft(result)).toBe(true);
     });
   });
