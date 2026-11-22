@@ -131,7 +131,7 @@ const config = defineConfig(
 
       // TypeScript ESLint rules - enabled
       "@typescript-eslint/return-await": ["error"],
-      "@typescript-eslint/no-explicit-any": ["warn"],
+      "@typescript-eslint/no-explicit-any": ["error"],
       "@typescript-eslint/consistent-type-imports": [
         "error",
         {
