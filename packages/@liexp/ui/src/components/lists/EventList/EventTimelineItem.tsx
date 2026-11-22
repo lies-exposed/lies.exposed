@@ -107,7 +107,6 @@ const Root = styled("div")(({ theme }) => ({
 }));
 
 export interface EventTimelineItemProps extends EventListItemProps {
-  ref?: (el: Element | undefined) => void;
   isLast: boolean;
 }
 
