@@ -20,6 +20,12 @@ import {
   captureChatError,
   toChatErrorEvent,
 } from "./chat.errors.js";
+import {
+  appendTurn,
+  deleteConversation,
+  getConversation,
+  listConversations,
+} from "./conversation.store.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -55,7 +61,39 @@ const isAIMessageLike = (
 // In-memory conversation store
 // ---------------------------------------------------------------------------
 
-const conversations = new Map<string, ChatMessage[]>();
+/**
+ * Conversations live in Postgres (see conversation.store.ts). The LangGraph
+ * checkpointer is still in-process, so ids whose thread was already fed to the
+ * agent in this process are tracked here; any other stored conversation is
+ * rehydrated from the DB on its first message after a restart.
+ */
+const warmConversations = new Set<string>();
+
+/** Stored history to prepend to the agent input when the thread is cold. */
+const loadHistoryForRehydrate = async (
+  ctx: AgentContext,
+  userId: string | null,
+  conversationId: string,
+): Promise<{ role: "user" | "assistant"; content: string }[]> => {
+  if (warmConversations.has(conversationId)) return [];
+  warmConversations.add(conversationId);
+  const stored = await getConversation(userId, conversationId)(ctx)();
+  if (stored._tag === "Left") {
+    ctx.logger.warn.log(
+      "Could not load conversation %s for rehydrate: %s",
+      conversationId,
+      stored.left.message,
+    );
+    return [];
+  }
+  if (stored.right._tag === "None") return [];
+  return stored.right.value.messages
+    .filter(
+      (m): m is ChatMessage & { role: "user" | "assistant" } =>
+        m.role === "user" || m.role === "assistant",
+    )
+    .map((m) => ({ role: m.role, content: m.content }));
+};
 
 // ---------------------------------------------------------------------------
 // Pure helpers
@@ -535,18 +573,30 @@ const usedProviderOf = (
 const recordTurn = (
   ctx: AgentContext,
   turn: {
+    userId: string | null;
     conversationId: string;
     agentType?: AgentType;
     userMessage: ChatMessage;
     assistantMessage: ChatMessage;
   },
 ): void => {
-  const { conversationId, agentType, userMessage, assistantMessage } = turn;
-  conversations.set(conversationId, [
-    ...(conversations.get(conversationId) ?? []),
-    userMessage,
-    assistantMessage,
-  ]);
+  const { userId, conversationId, agentType, userMessage, assistantMessage } =
+    turn;
+  warmConversations.add(conversationId);
+  void pipe(
+    appendTurn(userId, {
+      conversationId,
+      agentType,
+      messages: [userMessage, assistantMessage],
+    })(ctx),
+    TE.mapLeft((e) => {
+      ctx.logger.error.log(
+        "Persisting conversation %s failed (non-fatal): %s",
+        conversationId,
+        e.message,
+      );
+    }),
+  )();
 
   const memoryClient = ctx.memoryClient;
   if (!memoryClient) return;
@@ -713,6 +763,7 @@ const summarizeToolTrace = (
 
 export const sendChatMessage =
   (payload: {
+    userId?: string | null;
     message: string;
     conversation_id: string | null;
     resource_context?: ResourceContext;
@@ -739,10 +790,19 @@ export const sendChatMessage =
           getOrCreateAgent(payload.agent_type, payload.aiConfig)(ctx),
           TE.chain((agent) =>
             TE.tryCatch(
-              () =>
+              async () =>
                 invokeAgentWithEmptyChoicesRetry(
                   agent,
-                  { messages: [messageWithMemories] },
+                  {
+                    messages: [
+                      ...(await loadHistoryForRehydrate(
+                        ctx,
+                        payload.userId ?? null,
+                        conversationId,
+                      )),
+                      messageWithMemories,
+                    ],
+                  },
                   {
                     configurable: { thread_id: conversationId },
                     recursionLimit: 50,
@@ -800,6 +860,7 @@ export const sendChatMessage =
             };
 
             recordTurn(ctx, {
+              userId: payload.userId ?? null,
               conversationId,
               agentType: payload.agent_type,
               userMessage,
@@ -827,44 +888,29 @@ export const sendChatMessage =
     );
   };
 
-export const getChatConversation =
-  (conversationId: string) =>
-  (_ctx: AgentContext): TE.TaskEither<Error, ChatMessage[]> =>
-    TE.right(conversations.get(conversationId) ?? []);
+export const getChatConversation = (
+  userId: string | null,
+  conversationId: string,
+) => getConversation(userId, conversationId);
 
-export const listChatConversations =
-  (_query: { limit?: number; offset?: number }) =>
-  (
-    _ctx: AgentContext,
-  ): TE.TaskEither<
-    Error,
-    {
-      total: number;
-      data: {
-        id: string;
-        messages: ChatMessage[];
-        created_at: string;
-        updated_at: string;
-      }[];
-    }
-  > =>
-    TE.right({
-      total: conversations.size,
-      data: Array.from(conversations.entries()).map(([id, messages]) => ({
-        id,
-        messages,
-        created_at: messages[0]?.timestamp ?? new Date().toISOString(),
-        updated_at:
-          messages[messages.length - 1]?.timestamp ?? new Date().toISOString(),
-      })),
-    });
+export const listChatConversations = (
+  userId: string | null,
+  query: { limit?: number; offset?: number },
+) => listConversations(userId, query);
 
 export const deleteChatConversation =
-  (conversationId: string) =>
-  (_ctx: AgentContext): TE.TaskEither<Error, boolean> =>
-    TE.right(conversations.delete(conversationId));
+  (userId: string | null, conversationId: string) =>
+  (ctx: AgentContext): TE.TaskEither<Error, boolean> =>
+    pipe(
+      deleteConversation(userId, conversationId)(ctx),
+      TE.map((deleted) => {
+        warmConversations.delete(conversationId);
+        return deleted;
+      }),
+    );
 
 export const sendChatMessageStream = (payload: {
+  userId?: string | null;
   message: string;
   conversation_id: string | null;
   resource_context?: ResourceContext;
@@ -938,8 +984,14 @@ export const sendChatMessageStream = (payload: {
       // AND a final "summary" chunk that replays the full response.
       let visibleContent = "";
 
+      const history = await loadHistoryForRehydrate(
+        ctx,
+        payload.userId ?? null,
+        conversationId,
+      );
+
       for await (const event of agent.streamEvents(
-        { messages: [messageWithMemories] },
+        { messages: [...history, messageWithMemories] },
         {
           version: "v2",
           configurable: { thread_id: conversationId },
@@ -987,6 +1039,7 @@ export const sendChatMessageStream = (payload: {
       );
 
       recordTurn(ctx, {
+        userId: payload.userId ?? null,
         conversationId,
         agentType: payload.agent_type,
         userMessage: {

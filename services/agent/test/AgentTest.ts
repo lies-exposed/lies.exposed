@@ -13,6 +13,7 @@ import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
 import { makeApp } from "../src/app/make.js";
 import { type AgentContext } from "../src/context/context.type.js";
+import { createFakeDb } from "./fakeDb.js";
 
 export interface AgentAppTest {
   ctx: AgentContext;
@@ -71,6 +72,12 @@ export const loadAgentContext = async (
   const ctx: AgentContext = {
     env: {
       NODE_ENV: "test",
+      DB_USERNAME: "test",
+      DB_PASSWORD: "test",
+      DB_HOST: "localhost",
+      DB_PORT: 5432,
+      DB_DATABASE: "test",
+      DB_SSL_MODE: "off",
       SERVER_HOST: "localhost",
       SERVER_PORT: 4000,
       JWT_SECRET: "test-secret",
@@ -85,6 +92,7 @@ export const loadAgentContext = async (
       BRAVE_API_KEY: "null",
       SENTRY_DSN: null,
     },
+    db: ctxHelper.ctx<AgentContext["db"]>(createFakeDb()),
     logger,
     jwt: GetJWTProvider({ secret: "test-secret", logger }),
     http: HTTPProvider(testAxios),

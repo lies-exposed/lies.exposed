@@ -20,6 +20,12 @@ export const loadAgentEvalTestContext = async (
   // Create a minimal agent context with mocked dependencies
   const env = {
     NODE_ENV: "test",
+    DB_USERNAME: process.env.DB_USERNAME ?? "test",
+    DB_PASSWORD: process.env.DB_PASSWORD ?? "test",
+    DB_HOST: process.env.DB_HOST ?? "localhost",
+    DB_PORT: Number(process.env.DB_PORT ?? 5432),
+    DB_DATABASE: process.env.DB_DATABASE ?? "test",
+    DB_SSL_MODE: "off" as const,
     SERVER_HOST: "localhost",
     SERVER_PORT: 4000,
     JWT_SECRET: "test-secret",

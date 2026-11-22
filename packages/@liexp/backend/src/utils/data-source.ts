@@ -8,6 +8,7 @@ import { DataSource, type DataSourceOptions, type EntityTarget } from "typeorm";
 import { ActorEntity } from "../entities/Actor.entity.js";
 import { ActorRelationEntity } from "../entities/ActorRelation.entity.js";
 import { AreaEntity } from "../entities/Area.entity.js";
+import { ChatConversationEntity } from "../entities/ChatConversation.entity.js";
 import { EventV2Entity } from "../entities/Event.v2.entity.js";
 import { EventSuggestionEntity } from "../entities/EventSuggestion.entity.js";
 import { GraphEntity } from "../entities/Graph.entity.js";
@@ -23,7 +24,7 @@ import { SettingEntity } from "../entities/Setting.entity.js";
 import { SocialPostEntity } from "../entities/SocialPost.entity.js";
 import { StoryEntity } from "../entities/Story.entity.js";
 import { UserEntity } from "../entities/User.entity.js";
-import { type BACKEND_ENV } from "../io/ENV.js";
+import { type DATABASE_ENV } from "../io/ENV.js";
 import { toDBError, type DBError } from "../providers/orm/database.provider.js";
 
 /**
@@ -49,6 +50,7 @@ export const ALL_ENTITIES: EntityTarget<unknown>[] = [
   GraphEntity,
   SettingEntity,
   QueueEntity,
+  ChatConversationEntity,
 ];
 
 /**
@@ -68,7 +70,9 @@ export const createORMConfig = (
   } as DataSourceOptions;
 };
 
-export const getORMConfig = (env: BACKEND_ENV): DataSourceOptions => {
+export const getORMConfig = (
+  env: DATABASE_ENV & { readonly NODE_ENV: string },
+): DataSourceOptions => {
   const ssl =
     env.DB_SSL_MODE === "require"
       ? {

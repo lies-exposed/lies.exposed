@@ -6,7 +6,12 @@ import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.
 import { GetBraveProvider } from "@liexp/backend/lib/providers/brave.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
+import {
+  getDataSource,
+  getORMConfig,
+} from "@liexp/backend/lib/utils/data-source.js";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
@@ -22,7 +27,7 @@ import { type VanillaPuppeteer } from "puppeteer-extra";
 import { createMcpClient } from "../mcp/mcp.client.js";
 import { createMemoryClient } from "../memory/client.js";
 import { type AgentContext } from "./context.type.js";
-import { ENV } from "#io/ENV.js";
+import { type ENV, SERVER_ENV } from "#io/ENV.js";
 import { createWikipediaImageTool } from "#tools/wikipedia-image.tool.js";
 
 const agentLogger = logger.GetLogger("agent");
@@ -105,7 +110,7 @@ const getLangchainConfig = (env: ENV) => {
 
 export const getAgentContext =
   (agentLogger: logger.Logger) =>
-  (env: ENV): TE.TaskEither<Error, AgentContext> => {
+  (env: SERVER_ENV): TE.TaskEither<Error, AgentContext> => {
     agentLogger.debug.log("Environment loaded");
     agentLogger.debug.log("API_BASE_URL:", env.API_BASE_URL);
 
@@ -249,79 +254,93 @@ export const getAgentContext =
         ),
       );
 
+    // Postgres client (chat conversations persistence). The agent never runs
+    // migrations: the api service owns the schema.
+    const db = pipe(
+      getDataSource(getORMConfig(env)),
+      TE.chain(GetTypeORMClient),
+      TE.mapLeft((e): Error => e),
+    );
+
     return pipe(
-      TE.right(createMcpClient(env)),
-      TE.chain((mcpClient) =>
+      db,
+      TE.chainW((dbClient) =>
         pipe(
-          retryConnect(mcpClient),
-          TE.map(() => {
-            agentLogger.info.log("MCP client connected successfully");
-            return mcpClient;
-          }),
-          TE.mapLeft((error) => {
-            agentLogger.error.log(
-              "Failed to initialize MCP connections:",
-              error,
-            );
-            return ServerError.fromUnknown({
-              details: `MCP connection initialization failed: ${error}`,
-              status: 500,
-              stack: error instanceof Error ? error.stack : undefined,
+          TE.right(createMcpClient(env)),
+          TE.chain((mcpClient) =>
+            pipe(
+              retryConnect(mcpClient),
+              TE.map(() => {
+                agentLogger.info.log("MCP client connected successfully");
+                return mcpClient;
+              }),
+              TE.mapLeft((error) => {
+                agentLogger.error.log(
+                  "Failed to initialize MCP connections:",
+                  error,
+                );
+                return ServerError.fromUnknown({
+                  details: `MCP connection initialization failed: ${error}`,
+                  status: 500,
+                  stack: error instanceof Error ? error.stack : undefined,
+                });
+              }),
+            ),
+          ),
+          TE.map((mcpClient) => {
+            agentLogger.info.log("MCP client ready, creating agent factory");
+
+            const fsClient = GetFSClient({ client: fs });
+
+            // Initialize memory client if MEM0_API_URL is configured.
+            // When not configured, memory features are silently disabled
+            // (graceful degradation — the agent works normally without it).
+            const memoryClient = env.MEM0_API_URL
+              ? createMemoryClient(env.MEM0_API_URL)
+              : undefined;
+
+            if (memoryClient) {
+              agentLogger.info.log("Memory client initialized");
+            } else {
+              agentLogger.debug.log(
+                "MEM0_API_URL not set — persistent memory disabled",
+              );
+            }
+
+            // Single source for agents: the factory creates and caches agents
+            // on-demand per type + provider config (default "auto" included).
+            const agentFactory = GetAgentFactory({
+              mcpClient,
+              extraTools: [createWikipediaImageTool()],
+              apiKeys: {
+                openai: env.OPENAI_API_KEY,
+                anthropic: env.ANTHROPIC_API_KEY,
+                xai: env.XAI_API_KEY,
+              },
+            })({
+              langchain,
+              logger: agentLogger,
+              puppeteer: puppeteerProvider,
+              brave: braveProvider,
+              fs: fsClient,
             });
+
+            return {
+              env,
+              db: dbClient,
+              logger: agentLogger,
+              jwt,
+              http,
+              langchain,
+              puppeteer: puppeteerProvider,
+              brave: braveProvider,
+              fs: fsClient,
+              agentFactory,
+              ...(memoryClient ? { memoryClient } : {}),
+            };
           }),
         ),
       ),
-      TE.map((mcpClient) => {
-        agentLogger.info.log("MCP client ready, creating agent factory");
-
-        const fsClient = GetFSClient({ client: fs });
-
-        // Initialize memory client if MEM0_API_URL is configured.
-        // When not configured, memory features are silently disabled
-        // (graceful degradation — the agent works normally without it).
-        const memoryClient = env.MEM0_API_URL
-          ? createMemoryClient(env.MEM0_API_URL)
-          : undefined;
-
-        if (memoryClient) {
-          agentLogger.info.log("Memory client initialized");
-        } else {
-          agentLogger.debug.log(
-            "MEM0_API_URL not set — persistent memory disabled",
-          );
-        }
-
-        // Single source for agents: the factory creates and caches agents
-        // on-demand per type + provider config (default "auto" included).
-        const agentFactory = GetAgentFactory({
-          mcpClient,
-          extraTools: [createWikipediaImageTool()],
-          apiKeys: {
-            openai: env.OPENAI_API_KEY,
-            anthropic: env.ANTHROPIC_API_KEY,
-            xai: env.XAI_API_KEY,
-          },
-        })({
-          langchain,
-          logger: agentLogger,
-          puppeteer: puppeteerProvider,
-          brave: braveProvider,
-          fs: fsClient,
-        });
-
-        return {
-          env,
-          logger: agentLogger,
-          jwt,
-          http,
-          langchain,
-          puppeteer: puppeteerProvider,
-          brave: braveProvider,
-          fs: fsClient,
-          agentFactory,
-          ...(memoryClient ? { memoryClient } : {}),
-        };
-      }),
     );
   };
 
@@ -330,7 +349,9 @@ export const loadAgentContext = (
 ): TE.TaskEither<Error, AgentContext> => {
   const agentLogger = logger.GetLogger(namespace);
   return pipe(
-    loadAndParseENV(ENVParser(Schema.decodeUnknownEither(ENV)))(process.cwd()),
+    loadAndParseENV(ENVParser(Schema.decodeUnknownEither(SERVER_ENV)))(
+      process.cwd(),
+    ),
     TE.fromEither,
     TE.chain(getAgentContext(agentLogger)),
   );

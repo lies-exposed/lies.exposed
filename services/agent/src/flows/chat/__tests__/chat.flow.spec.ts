@@ -1,7 +1,9 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
+import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { beforeEach, describe, expect, test, vi } from "vitest";
+import { createFakeDb } from "../../../../test/fakeDb.js";
 import { type AgentContext } from "../../../context/context.type.js";
 import {
   buildEnhancedMessage,
@@ -99,9 +101,13 @@ const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
       }),
     ),
     fs: {} as unknown,
+    db: createFakeDb() as unknown,
     ...overrides,
   };
 };
+
+/** recordTurn persists fire-and-forget; let the microtask queue drain. */
+const flushPersistence = () => new Promise((r) => setTimeout(r, 0));
 
 // ---------------------------------------------------------------------------
 // Pure function unit tests
@@ -419,22 +425,28 @@ describe("chat.flow", () => {
 
     test("stores user + assistant message in conversation", async () => {
       const sendResult = await pipe(
-        sendChatMessage({ message: "First message", conversation_id: null })(
-          ctx,
-        ),
+        sendChatMessage({
+          message: "First message",
+          conversation_id: null,
+          userId: "u1",
+        })(ctx),
       )();
 
       expect(sendResult._tag).toBe("Right");
       if (sendResult._tag === "Right") {
+        await flushPersistence();
         const convResult = await pipe(
-          getChatConversation(sendResult.right.conversationId)(ctx),
+          getChatConversation("u1", sendResult.right.conversationId)(ctx),
         )();
         expect(convResult._tag).toBe("Right");
-        if (convResult._tag === "Right") {
-          expect(convResult.right).toHaveLength(2);
-          expect(convResult.right[0].role).toBe("user");
-          expect(convResult.right[0].content).toBe("First message");
-          expect(convResult.right[1].role).toBe("assistant");
+        if (convResult._tag === "Right" && O.isSome(convResult.right)) {
+          const { messages } = convResult.right.value;
+          expect(messages).toHaveLength(2);
+          expect(messages[0].role).toBe("user");
+          expect(messages[0].content).toBe("First message");
+          expect(messages[1].role).toBe("assistant");
+        } else {
+          throw new Error("conversation not persisted");
         }
       }
     });
@@ -593,69 +605,119 @@ describe("chat.flow", () => {
   // getChatConversation / listChatConversations / deleteChatConversation
   // -------------------------------------------------------------------------
 
-  describe("getChatConversation", () => {
-    test("returns empty array for unknown conversation", async () => {
-      const result = await pipe(getChatConversation("nonexistent")(ctx))();
-      expect(result._tag).toBe("Right");
-      if (result._tag === "Right") expect(result.right).toEqual([]);
-    });
-
-    test("returns stored messages for existing conversation", async () => {
-      const send = await pipe(
-        sendChatMessage({ message: "Hi", conversation_id: null })(ctx),
+  describe("conversation persistence", () => {
+    const send = async (message: string, userId: string, id?: string) => {
+      const r = await pipe(
+        sendChatMessage({
+          message,
+          conversation_id: id ?? null,
+          userId,
+        })(ctx),
       )();
-      expect(send._tag).toBe("Right");
-      if (send._tag === "Right") {
-        const get = await pipe(
-          getChatConversation(send.right.conversationId)(ctx),
-        )();
-        expect(get._tag).toBe("Right");
-        if (get._tag === "Right") expect(get.right.length).toBeGreaterThan(0);
-      }
-    });
-  });
+      if (r._tag === "Left") throw new Error("send failed");
+      await flushPersistence();
+      return r.right.conversationId;
+    };
 
-  describe("listChatConversations", () => {
-    test("returns all conversations with metadata", async () => {
-      await pipe(
-        sendChatMessage({ message: "List test", conversation_id: null })(ctx),
-      )();
-
-      const result = await pipe(listChatConversations({})(ctx))();
-      expect(result._tag).toBe("Right");
-      if (result._tag === "Right") {
-        expect(result.right.total).toBeGreaterThan(0);
-        expect(result.right.data[0]).toHaveProperty("id");
-        expect(result.right.data[0]).toHaveProperty("messages");
-        expect(result.right.data[0]).toHaveProperty("created_at");
-        expect(result.right.data[0]).toHaveProperty("updated_at");
-      }
-    });
-  });
-
-  describe("deleteChatConversation", () => {
-    test("returns false for non-existent conversation", async () => {
-      const result = await pipe(deleteChatConversation("ghost")(ctx))();
-      expect(result._tag).toBe("Right");
-      if (result._tag === "Right") expect(result.right).toBe(false);
+    test("get returns none for unknown conversation", async () => {
+      const result = await getChatConversation("u1", "nonexistent")(ctx)();
+      expect(result).toEqual({ _tag: "Right", right: O.none });
     });
 
-    test("deletes existing conversation and clears it", async () => {
-      const send = await pipe(
-        sendChatMessage({ message: "To delete", conversation_id: null })(ctx),
-      )();
-      expect(send._tag).toBe("Right");
-      if (send._tag === "Right") {
-        const convId = send.right.conversationId;
+    test("appends later turns to the same conversation", async () => {
+      const id = await send("one", "u1");
+      await send("two", "u1", id);
+      const got = await getChatConversation("u1", id)(ctx)();
+      if (got._tag !== "Right" || O.isNone(got.right)) throw new Error("none");
+      expect(got.right.value.messages).toHaveLength(4);
+    });
 
-        const del = await pipe(deleteChatConversation(convId)(ctx))();
-        expect(del._tag).toBe("Right");
-        if (del._tag === "Right") expect(del.right).toBe(true);
+    test("conversations are scoped to their owner", async () => {
+      const id = await send("private", "u1");
 
-        const get = await pipe(getChatConversation(convId)(ctx))();
-        expect(get._tag).toBe("Right");
-        if (get._tag === "Right") expect(get.right).toEqual([]);
-      }
+      const other = await getChatConversation("u2", id)(ctx)();
+      expect(other).toEqual({ _tag: "Right", right: O.none });
+
+      const listOther = await listChatConversations("u2", {})(ctx)();
+      if (listOther._tag !== "Right") throw new Error("list failed");
+      expect(listOther.right.total).toBe(0);
+
+      const listOwner = await listChatConversations("u1", {})(ctx)();
+      if (listOwner._tag !== "Right") throw new Error("list failed");
+      expect(listOwner.right.total).toBe(1);
+      expect(listOwner.right.data[0]).toMatchObject({ id });
+      expect(listOwner.right.data[0]).toHaveProperty("created_at");
+      expect(listOwner.right.data[0]).toHaveProperty("updated_at");
+
+      const delOther = await deleteChatConversation("u2", id)(ctx)();
+      expect(delOther).toEqual({ _tag: "Right", right: false });
+    });
+
+    test("delete removes the conversation", async () => {
+      const id = await send("to delete", "u1");
+      const del = await deleteChatConversation("u1", id)(ctx)();
+      expect(del).toEqual({ _tag: "Right", right: true });
+      const got = await getChatConversation("u1", id)(ctx)();
+      expect(got).toEqual({ _tag: "Right", right: O.none });
+    });
+
+    test("rehydrates agent thread from stored history after restart", async () => {
+      const seed = createFakeDb();
+      seed.rows.set("11111111-1111-4111-8111-111111111111", {
+        id: "11111111-1111-4111-8111-111111111111",
+        userId: "u1",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        messages: [
+          { id: "1", role: "user", content: "my name is Ada", timestamp: "t" },
+          { id: "2", role: "assistant", content: "hi Ada", timestamp: "t" },
+        ],
+      });
+      const invoke = vi.fn().mockResolvedValue({
+        messages: [{ id: "m", content: "ok" }],
+      });
+      const rctx = createMockContext({
+        db: seed as unknown as AgentContext["db"],
+        agentFactory: vi
+          .fn()
+          .mockReturnValue(TE.right({ invoke, streamEvents: vi.fn() })),
+      });
+
+      await sendChatMessage({
+        message: "what is my name?",
+        conversation_id: "11111111-1111-4111-8111-111111111111",
+        userId: "u1",
+      })(rctx)();
+
+      const input = invoke.mock.calls[0][0] as { messages: unknown[] };
+      expect(input.messages).toHaveLength(3);
+      expect(input.messages[0]).toEqual({
+        role: "user",
+        content: "my name is Ada",
+      });
+
+      // second turn: thread is warm, no re-injection
+      await sendChatMessage({
+        message: "and now?",
+        conversation_id: "11111111-1111-4111-8111-111111111111",
+        userId: "u1",
+      })(rctx)();
+      const second = invoke.mock.calls[1][0] as { messages: unknown[] };
+      expect(second.messages).toHaveLength(1);
+    });
+
+    test("persistence failure does not fail the reply", async () => {
+      const bad = createFakeDb();
+      bad.save.mockReturnValue(TE.left(new Error("db down")));
+      const bctx = createMockContext({
+        db: bad as unknown as AgentContext["db"],
+      });
+      const r = await sendChatMessage({
+        message: "hi",
+        conversation_id: null,
+        userId: "u1",
+      })(bctx)();
+      expect(r._tag).toBe("Right");
     });
   });
 
@@ -671,6 +733,7 @@ describe("chat.flow", () => {
     ) => {
       const events: unknown[] = [];
       for await (const e of sendChatMessageStream({
+        userId: "u1",
         message: msg,
         conversation_id: conversationId,
       })(ctx)) {
@@ -924,13 +987,23 @@ describe("chat.flow", () => {
     });
 
     test("uses provided conversation_id and stores messages", async () => {
-      const events = await collect(ctx, "stream msg", "conv-stream-123");
+      const events = await collect(
+        ctx,
+        "stream msg",
+        "11111111-1111-4111-8111-222222222222",
+      );
 
       expect(events[0].type).toBe("message_start");
 
-      const get = await pipe(getChatConversation("conv-stream-123")(ctx))();
+      await flushPersistence();
+      const get = await getChatConversation(
+        "u1",
+        "11111111-1111-4111-8111-222222222222",
+      )(ctx)();
       expect(get._tag).toBe("Right");
-      if (get._tag === "Right") expect(get.right.length).toBeGreaterThan(0);
+      if (get._tag === "Right" && O.isSome(get.right))
+        expect(get.right.value.messages.length).toBeGreaterThan(0);
+      else throw new Error("stream turn not persisted");
     });
 
     test("passes a resolved string (not a Promise) to streamEvents when memory is configured", async () => {

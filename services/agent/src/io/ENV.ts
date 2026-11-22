@@ -1,3 +1,4 @@
+import { DATABASE_ENV } from "@liexp/backend/lib/io/ENV.js";
 import { Schema } from "effect";
 
 const ENV = Schema.Struct({
@@ -45,4 +46,13 @@ const ENV = Schema.Struct({
 
 type ENV = typeof ENV.Type;
 
-export { ENV };
+// The HTTP server also persists chat conversations in Postgres (the api service
+// owns the schema/migrations). The CLI doesn't need a database, so DB_* lives
+// only in the server env.
+const SERVER_ENV = Schema.extend(DATABASE_ENV, ENV).annotations({
+  title: "AGENT_SERVER_ENV",
+});
+
+type SERVER_ENV = typeof SERVER_ENV.Type;
+
+export { ENV, SERVER_ENV };
