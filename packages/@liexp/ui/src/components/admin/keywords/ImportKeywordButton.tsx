@@ -3,10 +3,11 @@ import get from "lodash/get";
 import set from "lodash/set";
 import * as React from "react";
 import {
+  Button,
+  type RaRecord,
   useDataProvider,
   useRecordContext,
   useRefresh,
-  Button,
 } from "react-admin";
 
 export const ImportKeywordButton: React.FC<{
@@ -27,8 +28,8 @@ export const ImportKeywordButton: React.FC<{
         })
         .then((results) => {
           const media = results.data
-            .reduce((acc, c) => acc.concat(c.data), [])
-            .map((r: any) => r.id);
+            .reduce<RaRecord[]>((acc, c) => acc.concat(c.data), [])
+            .map((r) => r.id);
           const currentSource = get(event, source) ?? [];
           const data = set(event, source, currentSource.concat(media));
           return apiProvider

@@ -189,8 +189,8 @@ export const BuildImageButton: React.FC<
 
   const handleClick = (): void => {
     setLoading(true);
-    void apiProvider
-      .request({
+    void (
+      apiProvider.request({
         method: "POST",
         url: "/admins/images/build",
         data: {
@@ -200,9 +200,10 @@ export const BuildImageButton: React.FC<
             watermark,
           },
         },
-      })
-      .then((response: any) => {
-        const base64 = response.data as string;
+      }) as Promise<{ data: string }>
+    )
+      .then((response) => {
+        const base64 = response.data;
         const src = toBase64SourceImg(base64);
         setPreview(src);
         onBuild(base64, src);

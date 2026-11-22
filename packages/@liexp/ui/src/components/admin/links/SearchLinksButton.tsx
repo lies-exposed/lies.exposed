@@ -22,6 +22,10 @@ interface SearchLinksButtonProps {
   date?: string;
 }
 
+type SearchableLinkRow = Omit<Link, "selected" | "publishDate"> & {
+  publishDate?: string;
+};
+
 export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
   query,
   date: _date,
@@ -37,7 +41,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
   const [p, setP] = React.useState(1);
   const [providers, setProviders] = React.useState(Object.keys(defaultSites));
   const [keywords, setKeywords] = React.useState("");
-  const [links, setLinks] = React.useState<any[]>([]);
+  const [links, setLinks] = React.useState<Link[]>([]);
 
   const selectedLinks = React.useMemo(
     () => links.filter((l) => l.selected),
@@ -57,7 +61,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
       })
       .then((r) => {
         setLinks(
-          r.data.map((ll: any) => ({
+          r.data.map((ll: SearchableLinkRow) => ({
             ...ll,
             selected: false,
             events: [],
