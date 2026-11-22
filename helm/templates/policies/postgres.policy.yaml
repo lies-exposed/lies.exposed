@@ -26,6 +26,10 @@ spec:
 
       - podSelector:
           matchLabels:
+            app.kubernetes.io/component: agent
+
+      - podSelector:
+          matchLabels:
             app.kubernetes.io/component: cache
   egress:
     - to:
@@ -36,6 +40,10 @@ spec:
       - podSelector:
           matchLabels:
             app.kubernetes.io/component: worker
+
+      - podSelector:
+          matchLabels:
+            app.kubernetes.io/component: agent
 
       - podSelector:
           matchLabels:
