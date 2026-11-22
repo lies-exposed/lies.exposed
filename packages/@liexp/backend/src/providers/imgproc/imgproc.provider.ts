@@ -13,12 +13,12 @@ export class ImgProcError extends IOError {
 export const decodeExifTag = (
   tag:
     | ExifReader.XmpTag
-    | ExifReader.TypedTag<any>
+    | ExifReader.TypedTag<number>
     | ExifReader.ValueTag
     | { description: string; value: number }
     | undefined,
 ): number | undefined => {
-  if (tag?.value) {
+  if (typeof tag?.value === "number") {
     return tag.value;
   }
 

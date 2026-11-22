@@ -64,10 +64,10 @@ export const WikipediaProvider = ({
 }: WikipediaProviderOpts): WikipediaProvider => {
   logger.debug.log("Wikipedia provider created");
 
-  const restClientTask = <R, C = any>(params: AxiosRequestConfig<C>) =>
+  const restClientTask = <R>(params: AxiosRequestConfig) =>
     pipe(
       TE.tryCatch(
-        () => restClient<any, AxiosResponse<R, C>, C>(params),
+        () => restClient.request<R, AxiosResponse<R>>(params),
         toMWError,
       ),
       TE.map((res) => res.data),

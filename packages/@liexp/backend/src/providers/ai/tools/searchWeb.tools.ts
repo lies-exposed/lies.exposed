@@ -82,7 +82,7 @@ export const createSearchWebTool = <
     return task();
   };
 
-  const searchWebTool = tool<any, string, never, "searchWeb">(searchFunction, {
+  const searchWebTool = tool(searchFunction, {
     name: "searchWeb",
     description:
       "Search the EXTERNAL WEB (news, Wikipedia, public sources) for information. " +

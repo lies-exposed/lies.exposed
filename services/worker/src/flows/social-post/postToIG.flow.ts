@@ -9,14 +9,18 @@ import {
 } from "@liexp/io/lib/http/SocialPost.js";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type MediaRepositoryConfigureResponseRootObject } from "instagram-private-api";
+import {
+  type MediaRepositoryConfigureResponseRootObject,
+  type MediaRepositoryConfigureSidecarResponseRootObject,
+} from "instagram-private-api";
 import { type RTE } from "../../types.js";
 
+type PostIGResult =
+  | MediaRepositoryConfigureResponseRootObject
+  | MediaRepositoryConfigureSidecarResponseRootObject;
+
 export const postToIG =
-  (
-    body: CreateSocialPost,
-    onError: OnLoginErrorFn,
-  ): RTE<MediaRepositoryConfigureResponseRootObject> =>
+  (body: CreateSocialPost, onError: OnLoginErrorFn): RTE<PostIGResult> =>
   (ctx) => {
     ctx.logger.debug.log(
       "Posting %O on IG account %s",
@@ -63,7 +67,7 @@ export const postToIG =
           TE.map((media) => ({ media, text })),
         );
       }),
-      TE.chain(({ text, media }) => {
+      TE.chain(({ text, media }): TE.TaskEither<Error, PostIGResult> => {
         if (media.length === 1) {
           const m = media[0];
 

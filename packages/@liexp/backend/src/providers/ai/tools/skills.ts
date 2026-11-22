@@ -275,10 +275,8 @@ const LoadSkillInputSchema = z.object({
  * Accepts either an exact skill name or a short task description; the latter is
  * matched against the catalog (name, triggers, description).
  */
-export function createLoadSkillTool(
-  skills: Skill[],
-): ReturnType<typeof tool<any, string, never, "load_skill">> {
-  return tool<any, string, never, "load_skill">(
+export function createLoadSkillTool(skills: Skill[]) {
+  return tool(
     (input: { skill_name: string }) => {
       const result = resolveSkill(skills, input.skill_name);
       if (result._tag === "Loaded") {
