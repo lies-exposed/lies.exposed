@@ -1,8 +1,12 @@
+import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import fc from "fast-check";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
-import { toMediaEntity } from "../../test/utils/entities/index.js";
+import {
+  toKeywordEntity,
+  toMediaEntity,
+} from "../../test/utils/entities/index.js";
 import { MediaIO } from "../media.io.js";
 
 describe("MediaIO", () => {
@@ -31,6 +35,19 @@ describe("MediaIO", () => {
       expect(E.isRight(result)).toBe(true);
       if (E.isRight(result)) {
         expect(result.right.id).toBe(media.id);
+      }
+    });
+  });
+
+  describe("decodeSingle with joined relations", () => {
+    it("should decode keywords loaded as entities into UUIDs", () => {
+      const media = fc.sample(MediaArb, 1)[0];
+      const keywords = fc.sample(KeywordArb, 2).map(toKeywordEntity);
+      const entity = { ...toMediaEntity(media), keywords };
+      const result = MediaIO.decodeSingle(entity);
+      expect(E.isRight(result)).toBe(true);
+      if (E.isRight(result)) {
+        expect(result.right.keywords).toEqual(keywords.map((k) => k.id));
       }
     });
   });

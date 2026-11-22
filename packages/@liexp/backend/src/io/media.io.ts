@@ -82,7 +82,9 @@ const decodeMedia = (
       extra,
       links: (media.links ?? []).map((e) => (Schema.is(UUID)(e) ? e : e.id)),
       events: (media.events ?? []).map((e) => (Schema.is(UUID)(e) ? e : e.id)),
-      keywords: media.keywords ?? [],
+      keywords: (media.keywords ?? []).map((k) =>
+        Schema.is(UUID)(k) ? k : k.id,
+      ),
       areas: (media.areas ?? []).map((a) => (Schema.is(UUID)(a) ? a : a.id)),
       featuredInStories: media.featuredInStories ?? [],
       socialPosts: media.socialPosts ?? [],
