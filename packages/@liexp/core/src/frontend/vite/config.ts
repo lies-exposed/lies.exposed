@@ -87,7 +87,7 @@ const buildMonorepoAliases = (
 };
 
 // https://vitejs.dev/config/
-export const defineViteConfig = <A extends Record<string, any>>(
+export const defineViteConfig = <A extends Schema.Struct.Fields>(
   config: GetViteConfigParams<A>,
 ): ((env: ConfigEnv) => UserConfig) => {
   return ({ mode: _mode, isSsrBuild }) => {

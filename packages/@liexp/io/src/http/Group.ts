@@ -36,8 +36,8 @@ export interface GroupC {
   body: Schema.Union<[typeof BlockNoteDocument, typeof Schema.Undefined]>;
 }
 
-// export type GroupType = t.RecursiveType<t.ExactC<t.TypeC<GroupC>>>;
-export type GroupType = any;
+// legacy io-ts era alias: recursive group type. Effect Schema's `Group` below is the current representation.
+export type GroupType = Group;
 
 export const GetGroupListQuery = Schema.Struct({
   ...GetListQuery.fields,
