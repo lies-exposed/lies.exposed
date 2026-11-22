@@ -5,4 +5,4 @@ export const Loader: () => React.ReactElement = () => {
   return <CircularProgress />;
 };
 
-export const LazyLoader = (): React.ReactElement<any, any> => <Loader />;
+export const LazyLoader = (): React.ReactElement => <Loader />;

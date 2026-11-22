@@ -21,7 +21,7 @@ const red = "#f33d15";
 const bg = "#28272c";
 
 // utils
-const min = (data: any, f: (d: any) => number): number =>
+const min = <A,>(data: A[], f: (d: A) => number): number =>
   Math.min(...data.map(f));
 
 interface TooltipData {

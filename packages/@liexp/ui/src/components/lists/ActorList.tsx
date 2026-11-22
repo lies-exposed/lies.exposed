@@ -73,7 +73,7 @@ export const ActorListItem: React.FC<ActorListItemProps> = ({
 export interface ActorListProps {
   className?: string;
   actors: ActorItem[];
-  onActorClick: (actor: ActorItem, e: any) => void;
+  onActorClick: (actor: ActorItem, e: React.MouseEvent) => void;
   avatarSize?: AvatarSize;
   displayFullName?: boolean;
   style?: React.CSSProperties;
