@@ -6,6 +6,7 @@ export default defineConfig({
     name: "@liexp/ui",
     root: import.meta.dirname,
     globals: true,
+    env: { NODE_ENV: "test" },
     pool: "forks",
     watch: false,
     environment: "jsdom",

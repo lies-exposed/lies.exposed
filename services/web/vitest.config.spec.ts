@@ -11,6 +11,7 @@ export default defineProject({
   test: {
     name: "web-spec",
     globals: true,
+    env: { NODE_ENV: "test" },
     pool: "vmForks",
     watch: false,
     environment: "node",
