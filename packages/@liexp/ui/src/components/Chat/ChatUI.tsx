@@ -192,6 +192,12 @@ export interface ChatUIProps {
   }[];
   /** Callback when a conversation is selected */
   onSelectConversation?: (conversationId: string) => void;
+  /** Id of the conversation currently shown */
+  activeConversationId?: string | null;
+  /** Callback to start a fresh conversation */
+  onNewConversation?: () => void;
+  /** Callback to delete a conversation from history */
+  onDeleteConversation?: (conversationId: string) => void;
 }
 
 const defaultFormatTime = (timestamp: string) => {
@@ -236,6 +242,9 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   usedProvider,
   conversations,
   onSelectConversation,
+  activeConversationId,
+  onNewConversation,
+  onDeleteConversation,
 }) => {
   const {
     containerRef,
@@ -266,6 +275,9 @@ export const ChatUI: React.FC<ChatUIProps> = ({
         isCompacting={isCompacting}
         conversations={conversations}
         onSelectConversation={onSelectConversation}
+        activeConversationId={activeConversationId}
+        onNewConversation={onNewConversation}
+        onDeleteConversation={onDeleteConversation}
       />
 
       <MessagesContainer ref={containerRef} onScroll={onScroll}>
@@ -489,6 +501,9 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               isCompacting={isCompacting}
               conversations={conversations}
               onSelectConversation={onSelectConversation}
+              activeConversationId={activeConversationId}
+              onNewConversation={onNewConversation}
+              onDeleteConversation={onDeleteConversation}
             />
 
             <MessagesContainer ref={containerRef} onScroll={onScroll}>

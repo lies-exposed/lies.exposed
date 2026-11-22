@@ -98,6 +98,7 @@ export const AdminChat: React.FC<ChatProps> = ({
     context: contextInfo,
     sendMessage,
     loadConversation,
+    clearMessages,
     compact,
     autoCompact,
     toggleAutoCompact,
@@ -112,7 +113,18 @@ export const AdminChat: React.FC<ChatProps> = ({
   >(null);
 
   // Get conversations for history
-  const { conversations: chatConversations } = useChatConversations();
+  const {
+    conversations: chatConversations,
+    refetch: refetchConversations,
+    deleteConversation,
+  } = useChatConversations();
+
+  // Refresh history once a turn completes so new/updated conversations show up
+  useEffect(() => {
+    if (!isLoading && conversationId) {
+      void refetchConversations();
+    }
+  }, [isLoading, conversationId, refetchConversations]);
 
   // Fetch the selected conversation's messages
   const { messages: conversationMessages, loading: conversationLoading } =
@@ -147,10 +159,11 @@ export const AdminChat: React.FC<ChatProps> = ({
     () =>
       chatConversations.map((conv) => ({
         id: conv.id,
-        title:
-          conv.messages
-            .find((m) => m.role === "user")
-            ?.content.substring(0, 30) + "..." || "Untitled",
+        title: (() => {
+          const first = conv.messages.find((m) => m.role === "user")?.content;
+          if (!first) return "Untitled";
+          return first.length > 40 ? `${first.substring(0, 40)}...` : first;
+        })(),
         updatedAt: conv.updated_at,
       })),
     [chatConversations],
@@ -158,6 +171,20 @@ export const AdminChat: React.FC<ChatProps> = ({
 
   const handleSelectConversation = (id: string) => {
     setPendingConversationId(id);
+  };
+
+  const handleNewConversation = () => {
+    setPendingConversationId(null);
+    setInputValue("");
+    clearMessages();
+  };
+
+  const handleDeleteConversation = (id: string) => {
+    void deleteConversation(id).then((ok) => {
+      if (ok && id === conversationId) {
+        clearMessages();
+      }
+    });
   };
 
   // Use react-admin hooks to get resource context
@@ -363,6 +390,9 @@ export const AdminChat: React.FC<ChatProps> = ({
       context={contextInfo ?? undefined}
       conversations={mappedConversations}
       onSelectConversation={handleSelectConversation}
+      activeConversationId={conversationId}
+      onNewConversation={handleNewConversation}
+      onDeleteConversation={handleDeleteConversation}
       providerSelector={{
         selectedProvider,
         onProviderChange: (provider: string) => {
