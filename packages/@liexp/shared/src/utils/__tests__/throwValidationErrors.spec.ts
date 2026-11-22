@@ -1,6 +1,17 @@
-import type { ParseError } from "effect/ParseResult";
+import { Schema } from "effect";
+import { type ParseError } from "effect/ParseResult";
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { throwValidationErrors } from "../throwValidationErrors.js";
+
+const decodeFailure = (input: unknown): ParseError => {
+  const result = Schema.decodeUnknownEither(Schema.String)(input, {
+    errors: "all",
+  });
+  if (result._tag === "Right") {
+    throw new Error("Expected a decode failure");
+  }
+  return result.left;
+};
 
 describe("throwValidationErrors", () => {
   let consoleLogSpy: ReturnType<typeof vi.spyOn>;
@@ -14,53 +25,40 @@ describe("throwValidationErrors", () => {
   });
 
   it("should log the error details to console", () => {
-    const mockErrors = {
-      issues: [{ path: ["field"], message: "invalid" }],
-      message: "Validation failed",
-      toJSON: () => ({ issues: [{ path: ["field"], message: "invalid" }] }),
-    } as unknown as ParseError;
+    const parseErrors = decodeFailure({ field: "invalid" });
 
-    const result = throwValidationErrors(mockErrors);
+    const result = throwValidationErrors(parseErrors);
 
     expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-    expect(consoleLogSpy).toHaveBeenCalledWith({
-      issues: [{ path: ["field"], message: "invalid" }],
-    });
+    expect(consoleLogSpy).toHaveBeenCalledWith(parseErrors.toJSON());
     expect(result).toBeNull();
   });
 
   it("should return null", () => {
-    const mockErrors = {
-      issues: [],
-      message: "ok",
-      toJSON: () => ({ issues: [] }),
-    } as unknown as ParseError;
+    const parseErrors = decodeFailure(123);
 
-    const result = throwValidationErrors(mockErrors);
+    const result = throwValidationErrors(parseErrors);
     expect(result).toBeNull();
   });
 
   it("should handle empty parse errors", () => {
-    const mockErrors = {
-      issues: [],
-      message: "",
-      toJSON: () => ({ issues: [], message: "" }),
-    } as unknown as ParseError;
+    const parseErrors = decodeFailure(123);
 
-    const result = throwValidationErrors(mockErrors);
+    const result = throwValidationErrors(parseErrors);
 
     expect(result).toBeNull();
-    expect(consoleLogSpy).toHaveBeenCalledWith({ issues: [], message: "" });
+    expect(consoleLogSpy).toHaveBeenCalledWith(parseErrors.toJSON());
   });
 
   it("should call toJSON on the parse errors", () => {
-    const mockErrors = {
-      toJSON: vi.fn().mockReturnValue({ custom: "output" }),
-    } as unknown as ParseError;
+    const parseErrors = decodeFailure(123);
+    const expected = { _id: "ParseError", message: "custom output" };
+    const toJSONSpy = vi.fn((): ReturnType<ParseError["toJSON"]> => expected);
+    parseErrors.toJSON = toJSONSpy;
 
-    throwValidationErrors(mockErrors);
+    throwValidationErrors(parseErrors);
 
-    expect(mockErrors.toJSON).toHaveBeenCalled();
-    expect(consoleLogSpy).toHaveBeenCalledWith({ custom: "output" });
+    expect(toJSONSpy).toHaveBeenCalled();
+    expect(consoleLogSpy).toHaveBeenCalledWith(expected);
   });
 });

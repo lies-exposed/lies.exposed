@@ -32,7 +32,7 @@ const toError = (e: unknown): IOError => {
   });
 };
 
-interface PDFProviderContext {
+export interface PDFProviderContext {
   client: typeof pdf;
   cMapUrl?: string;
   cMapPacked?: boolean;
