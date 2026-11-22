@@ -1,8 +1,12 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Logger } from "@liexp/core/lib/logger/index.js";
+import { type AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { type API } from "@ts-endpoint/resource-client";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi, type Mock } from "vitest";
+import { type LoggerContext } from "../../context/logger.context.js";
 import {
   AgentChatService,
   extractJsonFromMarkdown,
@@ -10,16 +14,54 @@ import {
   type AgentChatServiceTestContext,
 } from "./agent-chat.service.js";
 
-const createMockContext = (): AgentChatServiceTestContext => {
-  const logger = {
+type ChatCreateFn = AgentChatServiceTestContext["agent"]["Chat"]["Create"];
+
+// Local fixture context: the service's own AgentChatServiceTestContext types
+// `logger` as LoggerContext (the whole context) instead of Logger, so the spec
+// defines a correctly typed local equivalent instead of relying on it.
+interface MockAgentChatContext {
+  logger: Logger;
+  agent: {
+    Chat: {
+      Create: ChatCreateFn;
+    };
+  };
+}
+
+type MockCtx = LoggerContext & {
+  agent: API<AgentEndpoints>;
+};
+
+const mockChatContext = (ctx: MockAgentChatContext): MockCtx =>
+  ctx as unknown as MockCtx;
+
+interface ChatMessageFixture {
+  id: string;
+  role: "user" | "assistant" | "system" | "tool";
+  content: string;
+  timestamp: string;
+  structured_output?: unknown;
+}
+
+interface ChatResponseFixture {
+  data: { message: ChatMessageFixture };
+}
+
+interface ChatCallArgs {
+  Body?: { output_schema?: Record<string, unknown> & { $schema?: string } };
+}
+
+const createMockContext = (): MockAgentChatContext => {
+  const logger: Logger = {
     info: { log: vi.fn() },
     debug: { log: vi.fn() },
     warn: { log: vi.fn() },
     error: { log: vi.fn() },
+    test: { log: vi.fn() },
     extend: vi.fn().mockReturnThis(),
   };
 
-  const chatCreate = vi.fn<() => TE.TaskEither<any, any>>();
+  const chatCreate = vi.fn<ChatCreateFn>();
 
   const agent = {
     Chat: {
@@ -28,13 +70,16 @@ const createMockContext = (): AgentChatServiceTestContext => {
   };
 
   return {
-    logger: logger as any,
-    agent: agent,
+    logger,
+    agent,
   };
 };
 
-const mockChatCreate = (ctx: AgentChatServiceTestContext, response: any) => {
-  ctx.agent.Chat.Create = vi.fn().mockImplementation(() => TE.right(response));
+const mockChatCreate = (
+  ctx: MockAgentChatContext,
+  response: ChatResponseFixture,
+) => {
+  ctx.agent.Chat.Create = vi.fn<ChatCreateFn>(() => TE.right(response));
 };
 
 describe("AgentChatService", () => {
@@ -118,7 +163,7 @@ describe("AgentChatService", () => {
   });
 
   describe("getStructuredOutput", () => {
-    let ctx: AgentChatServiceTestContext;
+    let ctx: MockAgentChatContext;
 
     beforeEach(() => {
       ctx = createMockContext();
@@ -142,7 +187,7 @@ describe("AgentChatService", () => {
         AgentChatService.getStructuredOutput({
           message: "Extract actor information",
         }),
-        (fn) => fn(ctx as any),
+        (fn) => fn(mockChatContext(ctx)),
         throwTE,
       );
 
@@ -172,7 +217,7 @@ describe("AgentChatService", () => {
         AgentChatService.getStructuredOutput({
           message: "Extract actor information",
         }),
-        (fn) => fn(ctx as any),
+        (fn) => fn(mockChatContext(ctx)),
         throwTE,
       );
 
@@ -197,7 +242,7 @@ describe("AgentChatService", () => {
           message: "Extract actor",
           extractFromMarkdown: true,
         }),
-        (fn) => fn(ctx as any),
+        (fn) => fn(mockChatContext(ctx)),
         throwTE,
       );
 
@@ -222,7 +267,7 @@ describe("AgentChatService", () => {
           message: "Test",
           customParser,
         }),
-        (fn) => fn(ctx as any),
+        (fn) => fn(mockChatContext(ctx)),
         throwTE,
       );
 
@@ -249,7 +294,7 @@ describe("AgentChatService", () => {
           message: "Test",
           conversationId,
         }),
-        (fn) => fn(ctx as any),
+        (fn) => fn(mockChatContext(ctx)),
         throwTE,
       );
 
@@ -277,7 +322,7 @@ describe("AgentChatService", () => {
         AgentChatService.getStructuredOutput({
           message: "Test",
         }),
-        (fn) => fn(ctx as any),
+        (fn) => fn(mockChatContext(ctx)),
         (task) => task(),
       );
 
@@ -291,7 +336,7 @@ describe("AgentChatService", () => {
       bornOn: Schema.NullOr(Schema.String),
     });
 
-    let ctx: AgentChatServiceTestContext;
+    let ctx: MockAgentChatContext;
 
     beforeEach(() => {
       ctx = createMockContext();
@@ -318,17 +363,22 @@ describe("AgentChatService", () => {
           message: "Extract",
           schema: TestSchema,
         }),
-        (fn) => fn(ctx as any),
+        (fn) => fn(mockChatContext(ctx)),
         throwTE,
       );
 
       expect(result).toEqual({ name: "Ada", bornOn: null });
-      const body = (ctx.agent.Chat.Create as any).mock.calls[0][0].Body;
-      expect(body.output_schema).toMatchObject({
+      const [call] = (
+        ctx.agent.Chat.Create as unknown as Mock<
+          (...args: unknown[]) => unknown
+        >
+      ).mock.calls;
+      const { Body } = (call?.[0] ?? {}) as ChatCallArgs;
+      expect(Body?.output_schema).toMatchObject({
         type: "object",
         required: ["name", "bornOn"],
       });
-      expect(body.output_schema.$schema).toBeUndefined();
+      expect(Body?.output_schema?.$schema).toBeUndefined();
     });
 
     it("returns Left when the response does not match the schema", async () => {
@@ -339,7 +389,7 @@ describe("AgentChatService", () => {
           message: "Extract",
           schema: TestSchema,
         }),
-        (fn) => fn(ctx as any),
+        (fn) => fn(mockChatContext(ctx)),
         (task) => task(),
       );
 
@@ -348,7 +398,7 @@ describe("AgentChatService", () => {
   });
 
   describe("getRawOutput", () => {
-    let ctx: AgentChatServiceTestContext;
+    let ctx: MockAgentChatContext;
 
     beforeEach(() => {
       ctx = createMockContext();
@@ -371,7 +421,7 @@ describe("AgentChatService", () => {
         AgentChatService.getRawOutput({
           message: "Give me a summary",
         }),
-        (fn) => fn(ctx as any),
+        (fn) => fn(mockChatContext(ctx)),
         throwTE,
       );
 
@@ -395,7 +445,7 @@ describe("AgentChatService", () => {
           message: "Test",
           conversationId: "conv-456",
         }),
-        (fn) => fn(ctx as any),
+        (fn) => fn(mockChatContext(ctx)),
         throwTE,
       );
 
@@ -423,7 +473,7 @@ describe("AgentChatService", () => {
         AgentChatService.getRawOutput({
           message: "Test",
         }),
-        (fn) => fn(ctx as any),
+        (fn) => fn(mockChatContext(ctx)),
         throwTE,
       );
 

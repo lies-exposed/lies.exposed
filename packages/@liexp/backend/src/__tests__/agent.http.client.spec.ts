@@ -1,6 +1,7 @@
 import type { Logger } from "@liexp/core/lib/logger/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
+import { type ServiceClient } from "@liexp/io/lib/http/auth/service-client/ServiceClient.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { makeAgentClient } from "../clients/agent.http.client.js";
 import type { JWTProvider } from "../providers/jwt/jwt.provider.js";
@@ -17,7 +18,7 @@ describe("agent.http.client", () => {
   const userId = uuid();
 
   const mockJWT: JWTProvider = {
-    signClient: vi.fn((_payload: any) => () => "agent-token-789"),
+    signClient: vi.fn((_client: ServiceClient) => () => "agent-token-789"),
     signUser: vi.fn(),
     verifyClient: vi.fn(),
     verifyUser: vi.fn(),
@@ -85,10 +86,10 @@ describe("agent.http.client", () => {
         baseURL: "https://agent.example.com/v1",
         jwt: mockJWT,
         logger: mockLogger,
-        getPayload: () => ({
-          id: "service-id" as string,
-          userId: "user-id" as string,
-          permissions: ["AdminRead"] as string[],
+        getPayload: (): ServiceClient => ({
+          id: uuid(),
+          userId: uuid(),
+          permissions: [AdminRead.literals[0]],
         }),
       });
 

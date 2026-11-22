@@ -23,8 +23,10 @@ describe("database.provider", () => {
       const error = new Error("Test error");
       const result = toDBError()(error);
 
-      const details = (result as any).details;
-      expect(details).toBeDefined();
+      expect(result.details).toBeDefined();
+      if (result.details.kind !== "DecodingError") {
+        expect(result.details.meta).toEqual([error.name, error.stack]);
+      }
     });
 
     it("should use custom status from override", () => {
