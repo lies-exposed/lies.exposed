@@ -17,6 +17,7 @@
   "files": [
     "build",
     "skills",
+    "docs",
     "AGENTS.md",
     "RESEARCHER.md"
   ],

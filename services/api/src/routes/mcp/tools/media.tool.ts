@@ -3,6 +3,7 @@ import { type UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EditMediaBody } from "@liexp/io/lib/http/Media/index.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
@@ -362,37 +363,58 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       }
 
       try {
-        // First, fetch the existing media to get its type
+        // Fetch the existing media: the flow requires type/location/label and
+        // full relation arrays, and saves relations as given, so omitted fields
+        // must default to the current values (never to [] which would wipe them).
         const existingMedia = await ctx.db.manager.findOne(MediaEntity, {
           where: { id: Equal(id as UUID) },
-          relations: { creator: true },
+          loadRelationIds: {
+            relations: ["creator", "keywords", "links", "events", "areas"],
+          },
         });
 
         if (!existingMedia) {
           throw new Error(`Media with id ${id} not found`);
         }
 
-        const currentType = existingMedia.type;
+        const relationIds = (
+          xs: readonly (string | { id: string })[] | undefined,
+        ): string[] =>
+          (xs ?? []).map((x) => (typeof x === "string" ? x : x.id));
 
-        // Build EditMediaBody for the flow (following actors.tool.ts pattern)
-        const flowInput: Record<string, unknown> = {
-          type: currentType,
-          thumbnail: thumbnail ?? undefined,
-          location: location ?? undefined,
-          label: label ?? undefined,
-          description: description ?? undefined,
-          extra: extra ?? undefined,
-          events: events ?? [],
-          links: links ?? [],
-          keywords: keywords ?? [],
-          areas: areas ?? [],
-          creator: creator !== undefined ? creator : undefined,
-          overrideThumbnail: overrideThumbnail,
-          overrideExtra: overrideExtra,
-          transfer: transfer,
-          transferThumbnail: transferThumbnail,
-          restore: restore,
-        };
+        // Decode through the flow's body schema so every optional field becomes
+        // an Option and arrays/dates are validated. Location stays a plain
+        // string: locally stored media use non-URL paths.
+        const decodeBody = Schema.decodeUnknownEither(
+          Schema.Struct({
+            ...EditMediaBody.fields,
+            location: Schema.String,
+          }),
+        );
+        const decoded = decodeBody({
+          type: existingMedia.type,
+          thumbnail,
+          location: location ?? existingMedia.location,
+          label: label ?? existingMedia.label ?? existingMedia.location,
+          description,
+          extra,
+          events: events ?? relationIds(existingMedia.events),
+          links: links ?? relationIds(existingMedia.links),
+          keywords: keywords ?? relationIds(existingMedia.keywords),
+          areas: areas ?? relationIds(existingMedia.areas),
+          creator,
+          overrideThumbnail,
+          overrideExtra,
+          transfer,
+          transferThumbnail,
+          restore,
+        });
+
+        if (fp.E.isLeft(decoded)) {
+          throw new Error(`Invalid editMedia input: ${decoded.left.message}`);
+        }
+
+        const flowInput = decoded.right;
 
         // Call editMedia flow with context
         const te = editMedia(
