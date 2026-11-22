@@ -4,6 +4,7 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
   root: toAlias("./"),
   test: {
     name: "admin-spec",
+    env: { NODE_ENV: "test" },
     root: toAlias("./"),
     globals: true,
     watch: false,
