@@ -41,7 +41,7 @@ createGroup({ "name": "<Name>", "username": "<slug>", "color": "<hex without #>"
 
 1. `findGroups({ "ids": ["<uuid>"] })` — read current values and members.
 2. Resolve each member with `findActors({ "fullName": "..." })` (create through `actor-profile` if the user wants).
-3. `editGroup({ "id": "<uuid>", "members": ["<actor-uuid>", "..."] })` — the list **replaces** current members, so merge with the existing ones first.
+3. `createGroupMember({ "group": "<group-uuid>", "actor": "<actor-uuid>", "startDate": "YYYY-MM-DD", "endDate": "YYYY-MM-DD", "body": "<role>" })` — one call per member (`endDate`/`body` optional). Do **not** pass actor or group UUIDs to `editGroup.members` / `editActor.memberIn`: strings there are existing group-member row ids.
 
 ## Report
 
