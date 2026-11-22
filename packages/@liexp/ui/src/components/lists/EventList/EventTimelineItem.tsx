@@ -107,55 +107,55 @@ const Root = styled("div")(({ theme }) => ({
 }));
 
 export interface EventTimelineItemProps extends EventListItemProps {
-  ref?: (el: Element | undefined) => void;
   isLast: boolean;
 }
 
-const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
-  ({ event: e, isLast, style, ...props }, ref) => {
-    return (
-      <Root
-        key={`event-list-item-${e.id}`}
-        ref={ref}
-        className={classes.root}
-        style={{
-          ...style,
-          marginBottom: isLast ? 100 : style?.marginBottom,
-        }}
-      >
-        <TimelineItem classes={{ root: classes.timelineItem }}>
-          <TimelineOppositeContent classes={{ root: classes.oppositeContent }}>
-            <Typography variant="subtitle1" color="primary">
-              {formatDate(e.date)}
-            </Typography>
-            <TimelineEventSubjects
-              event={e}
-              onActorClick={props.onActorClick}
-              onGroupClick={props.onGroupClick}
-              onGroupMemberClick={props.onGroupMemberClick}
-            />
+const EventTimelineItem = React.forwardRef<
+  HTMLDivElement,
+  EventTimelineItemProps
+>(({ event: e, isLast, style, ...props }, ref) => {
+  return (
+    <Root
+      key={`event-list-item-${e.id}`}
+      ref={ref}
+      className={classes.root}
+      style={{
+        ...style,
+        marginBottom: isLast ? 100 : style?.marginBottom,
+      }}
+    >
+      <TimelineItem classes={{ root: classes.timelineItem }}>
+        <TimelineOppositeContent classes={{ root: classes.oppositeContent }}>
+          <Typography variant="subtitle1" color="primary">
+            {formatDate(e.date)}
+          </Typography>
+          <TimelineEventSubjects
+            event={e}
+            onActorClick={props.onActorClick}
+            onGroupClick={props.onGroupClick}
+            onGroupMemberClick={props.onGroupMemberClick}
+          />
 
-            <Box className={classes.editButtonBox}>
-              <EditEventButton id={e.id} />
-            </Box>
-          </TimelineOppositeContent>
-          <TimelineSeparator classes={{ root: classes.separator }}>
-            <TimelineDot
-              classes={{ root: classes.dot }}
-              variant="outlined"
-              color="inherit"
-            >
-              <EventIcon type={e.type} size="2x" />
-            </TimelineDot>
-            {!isLast ? <TimelineConnector /> : null}
-          </TimelineSeparator>
-          <TimelineContent classes={{ root: classes.content }}>
-            <EventListItem event={e} {...props} />
-          </TimelineContent>
-        </TimelineItem>
-      </Root>
-    );
-  },
-);
+          <Box className={classes.editButtonBox}>
+            <EditEventButton id={e.id} />
+          </Box>
+        </TimelineOppositeContent>
+        <TimelineSeparator classes={{ root: classes.separator }}>
+          <TimelineDot
+            classes={{ root: classes.dot }}
+            variant="outlined"
+            color="inherit"
+          >
+            <EventIcon type={e.type} size="2x" />
+          </TimelineDot>
+          {!isLast ? <TimelineConnector /> : null}
+        </TimelineSeparator>
+        <TimelineContent classes={{ root: classes.content }}>
+          <EventListItem event={e} {...props} />
+        </TimelineContent>
+      </TimelineItem>
+    </Root>
+  );
+});
 
 export default EventTimelineItem;

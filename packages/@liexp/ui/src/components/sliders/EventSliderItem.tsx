@@ -26,7 +26,7 @@ export interface EventSliderItemBaseProps extends Omit<
   type: EventType;
   title: string;
   date: Date;
-  excerpt: any;
+  excerpt: unknown;
   url?: string;
   actors: readonly http.Actor.Actor[];
   groups: readonly http.Group.Group[];
