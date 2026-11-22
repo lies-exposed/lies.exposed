@@ -25,7 +25,7 @@ export const relationItem = (editor: BNESchemaEditor) => ({
 
 export const EditMenu: React.FC<
   React.PropsWithChildren<{
-    editor: BNESchemaEditor;
+    editor: Pick<BNESchemaEditor, "isEditable">;
     relation?: string;
     onClick: () => void;
   }>

@@ -69,12 +69,14 @@ export const RelationInlineContentComponent: React.FC<{
 
   const removeItem = React.useCallback(() => {
     const pos = editor.getTextCursorPosition();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const blockContent = pos.block.content as any[];
+    const blockContent = Array.isArray(pos.block.content)
+      ? pos.block.content
+      : [];
 
     const updatedBlockContent = blockContent.flatMap((t) => {
       const isRelationType = t.type === "relation";
-      const isSamePluginRelation = t.type === relation && t.props.id === id;
+      const isSamePluginRelation =
+        t.type === relation && "props" in t && t.props.id === id;
       return isRelationType || isSamePluginRelation ? [] : [t];
     });
 
@@ -208,22 +210,23 @@ export const RelationInlineContentComponent: React.FC<{
           }) ?? editor.getTextCursorPosition().block;
 
         if (currentBlock) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const updatedBlockContent = (currentBlock.content as any[]).map(
-            (t) =>
-              t.type === "relation" ||
-              (t.type === relation &&
+          const updatedBlockContent = (
+            Array.isArray(currentBlock.content) ? currentBlock.content : []
+          ).map((t) =>
+            t.type === "relation" ||
+            ("props" in t &&
+              ((t.type === relation &&
                 (t.props.id === undefined || t.props.id === "")) ||
-              (t.type === _relation && t.props.id === _id) ||
-              (t.type === relation && t.props.id === id)
-                ? {
-                    type: relation as "actor" | "group" | "keyword" | "area",
-                    props: {
-                      ...relationProps,
-                      id: a[0].id,
-                    },
-                  }
-                : t,
+                (t.type === _relation && t.props.id === _id) ||
+                (t.type === relation && t.props.id === id)))
+              ? {
+                  type: relation as "actor" | "group" | "keyword" | "area",
+                  props: {
+                    ...relationProps,
+                    id: a[0].id,
+                  },
+                }
+              : t,
           );
 
           editor.updateBlock(currentBlock, {
