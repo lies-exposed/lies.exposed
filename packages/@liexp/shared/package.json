@@ -70,7 +70,7 @@
     "fp-ts": "^2",
     "langchain": "^1",
     "openai": "^7",
-    "pdfjs-dist": "^5",
+    "pdfjs-dist": "^6",
     "react": "^18",
     "react-admin": "^5",
     "react-dom": "^18",

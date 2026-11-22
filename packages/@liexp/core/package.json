@@ -46,7 +46,7 @@
     "effect": "^3",
     "fp-ts": "^2",
     "vite": "^8",
-    "vite-plugin-css-injected-by-js": "^4",
+    "vite-plugin-css-injected-by-js": "^5",
     "vite-plugin-optimizer": "^1"
   }
 }

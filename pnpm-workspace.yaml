@@ -28,6 +28,9 @@ syncInjectedDepsAfterScripts:
 
 autoDedupe: true
 
+lockfile:
+  includeResolutionSettings: true
+
 supportedArchitectures:
   os:
     - linux
