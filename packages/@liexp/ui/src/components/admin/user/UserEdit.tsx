@@ -1,4 +1,4 @@
-import { UserStatus } from "@liexp/io/lib/http/User.js";
+import { type User, UserStatus } from "@liexp/io/lib/http/User.js";
 import * as React from "react";
 // import { AvatarField } from "../common/AvatarField.js";
 // import { MediaField } from "../media/MediaField.js";
@@ -20,10 +20,11 @@ import {
 } from "../react-admin.js";
 import { EditTitle } from "./EditTitle.js";
 
-const UserTGTokenBox: React.FC<{ record?: any }> = ({ record: _record }) => {
-  const record = _record ?? useRecordContext();
+const UserTGTokenBox: React.FC<{ record?: User }> = ({ record }) => {
+  const contextRecord = useRecordContext<User>();
+  const currentRecord = record ?? contextRecord;
   const refresh = useRefresh();
-  const dataProvider: any = useDataProvider();
+  const dataProvider = useDataProvider();
   const [generating, setGenerating] = React.useState(false);
 
   const onTokenGenerate = (): void => {
@@ -40,14 +41,14 @@ const UserTGTokenBox: React.FC<{ record?: any }> = ({ record: _record }) => {
 
   return (
     <Stack direction={"column"}>
-      {record.telegramId ? (
+      {currentRecord?.telegramId ? (
         <TextInput
           source="telegramId"
           label="telegram id"
           contentEditable={false}
         />
       ) : (
-        record.telegramToken && (
+        currentRecord?.telegramToken && (
           <div>
             <TextInput
               source="telegramToken"
@@ -59,7 +60,7 @@ const UserTGTokenBox: React.FC<{ record?: any }> = ({ record: _record }) => {
       )}
       {generating ? (
         <Loader />
-      ) : !record.telegramToken ? (
+      ) : !currentRecord?.telegramToken ? (
         <Button
           label="generate TG token"
           variant="outlined"

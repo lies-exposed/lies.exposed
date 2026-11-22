@@ -5,10 +5,10 @@ import * as React from "react";
 export interface NetworkNodeProps<Datum extends NetworkNodeDatum> {
   node: Datum;
   onMouseOver?: (
-    event: React.MouseEvent<SVGElement, React.MouseEvent>,
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
     data: Datum,
   ) => void;
-  onMouseOut?: (event: React.MouseEvent<SVGElement, React.MouseEvent>) => void;
+  onMouseOut?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onClick: (event: Datum) => void;
 }
 
@@ -18,12 +18,13 @@ export const NetworkNode = <D extends NetworkNodeDatum>({
   onMouseOver,
   onMouseOut,
 }: NetworkNodeProps<D>): React.ReactElement => {
-  const groupProps = {
+  const groupProps: Pick<
+    React.SVGProps<SVGGElement>,
+    "onMouseOver" | "onMouseOut"
+  > = {
     ...(onMouseOver !== undefined
       ? {
-          onMouseOver: (
-            event: React.MouseEvent<SVGElement, React.MouseEvent>,
-          ) => {
+          onMouseOver: (event) => {
             onMouseOver(event, node);
           },
         }
@@ -40,8 +41,7 @@ export const NetworkNode = <D extends NetworkNodeDatum>({
 
   return (
     <Group
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- visx Group spread props type is incompatible with our conditional groupProps type
-      {...(groupProps as any)}
+      {...groupProps}
       onClick={() => {
         onClick(node);
       }}

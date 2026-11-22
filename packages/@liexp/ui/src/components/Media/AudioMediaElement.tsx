@@ -2,13 +2,10 @@ import { type Media } from "@liexp/io/lib/http/index.js";
 import { ParentSize } from "@visx/responsive";
 import { clsx } from "clsx";
 import * as React from "react";
-import _ReactAudioPlayer from "react-audio-player";
+import ReactAudioPlayer from "react-audio-player";
 import { styled } from "../../theme/index.js";
 import { Box } from "../mui/index.js";
 import { WaveformThumbnail } from "./WaveformThumbnail.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- react-audio-player is a CommonJS module without proper TypeScript types
-const ReactAudioPlayer: any = _ReactAudioPlayer;
 
 const PREFIX = "AudioMediaElement";
 
@@ -43,7 +40,7 @@ const AudioMediaElement: React.FC<AudioMediaElementProps> = ({
   style: _style,
   ...props
 }) => {
-  const ref = React.createRef<_ReactAudioPlayer>();
+  const ref = React.createRef<ReactAudioPlayer>();
 
   React.useEffect(() => {
     onLoad?.(new DOMRect(0, 0, 300, 100));

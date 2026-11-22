@@ -39,7 +39,7 @@ export type SearchOption =
     };
 
 interface SearchInputProps extends Omit<
-  AutocompleteProps<any, true, undefined, true>,
+  AutocompleteProps<SearchOption, true, undefined, true>,
   "renderInput" | "options"
 > {
   query: SearchEventsQueryInputNoPagination;
@@ -87,7 +87,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
 
   const handleSearchChange = React.useCallback(
     (
-      e: React.ChangeEvent<any>,
+      _e: React.SyntheticEvent<Element, Event>,
       value: string,
       _reason: AutocompleteInputChangeReason,
     ): void => {
@@ -156,7 +156,9 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
       options={searchOptions}
       inputValue={search}
       onInputChange={handleSearchChange}
-      getOptionLabel={(o) => (o.type === "Search" ? o.item : o.item.id)}
+      getOptionLabel={(o) =>
+        typeof o === "string" ? o : o.type === "Search" ? o.item : o.item.id
+      }
       filterOptions={(options) => options}
       renderInput={(params) => (
         <TextField
@@ -209,12 +211,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
               py: 5,
             }}
           >
-            <KeywordListItem
-              item={{ ...option.item, selected: true }}
-              // onClick={(a) => {
-              //   (props.onChange as any)?.(null, {...a, selected: false });
-              // }}
-            />
+            <KeywordListItem item={{ ...option.item, selected: true }} />
           </Box>
         );
       }}

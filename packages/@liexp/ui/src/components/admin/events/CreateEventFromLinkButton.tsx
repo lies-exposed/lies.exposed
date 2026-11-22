@@ -17,14 +17,41 @@ import { EventFieldsFromType } from "../common/EventFieldsFromType.js";
 import { EventTypeInput } from "../common/inputs/EventTypeInput.js";
 import { Button, useRecordContext } from "../react-admin.js";
 
+interface LinkEventPayload {
+  title?: string;
+  url?: string;
+  actors?: readonly unknown[];
+  groups?: readonly unknown[];
+  groupsMembers?: readonly unknown[];
+  location?: unknown;
+  endDate?: unknown;
+  authors?:
+    | readonly unknown[]
+    | { actors: readonly unknown[]; groups: readonly unknown[] };
+  publisher?: string;
+  image?: string;
+  media?: string;
+  website?: string;
+  subjects?: { actors: readonly unknown[]; groups: readonly unknown[] };
+  actor?: unknown;
+  subject?: unknown;
+  quote?: string;
+  details?: string;
+  total?: number;
+  currency?: string;
+  from?: unknown;
+  to?: unknown;
+  victim?: unknown;
+}
+
 /**
  * Maps link values to event payload based on event type
  */
 const getPayloadFromLink = (
   link: Link,
   eventType: EventType,
-  currentPayload?: any,
-): any => {
+  currentPayload?: LinkEventPayload,
+): LinkEventPayload => {
   switch (eventType) {
     case EVENT_TYPES.UNCATEGORIZED:
       return {
