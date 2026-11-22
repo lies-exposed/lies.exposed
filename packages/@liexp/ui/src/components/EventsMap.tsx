@@ -2,9 +2,10 @@ import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { Events } from "@liexp/io/lib/http/index.js";
 import { ParentSize } from "@visx/responsive";
 import { Schema } from "effect";
-import Feature from "ol/Feature.js";
+import Feature, { type FeatureLike } from "ol/Feature.js";
 import * as React from "react";
 import { geoJSONFormat } from "../utils/map.utils.js";
+import * as O from "fp-ts/lib/Option.js";
 import Map from "./Map.js";
 import QueriesRenderer from "./QueriesRenderer.js";
 
@@ -12,7 +13,7 @@ interface EventsMapComponentProps {
   events: readonly Events.Event[];
   center?: [number, number];
   zoom?: number;
-  onMapClick: (features: any[]) => void;
+  onMapClick: (features: FeatureLike[]) => void;
 }
 
 const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
@@ -89,8 +90,14 @@ const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
   );
 };
 
+interface EventsMapFilter {
+  title?: O.Option<string>;
+  startDate?: O.Option<Date>;
+  endDate?: O.Option<Date>;
+}
+
 interface EventsMapProps extends Omit<EventsMapComponentProps, "events"> {
-  filter: any;
+  filter: EventsMapFilter;
 }
 
 const EventsMap: React.FC<EventsMapProps> = (props) => {
@@ -104,10 +111,10 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
         events: Q.Event.list.useQuery(
           undefined,
           {
-            _end: 100,
-            _field: "startDate",
+            _end: "100",
+            _sort: "startDate",
             _order: "DESC",
-            title: pipe(title ?? fp.O.none, fp.O.toUndefined),
+            q: pipe(title ?? fp.O.none, fp.O.toUndefined),
             startDate:
               startDate?._tag === "Some"
                 ? startDate.value.toISOString()
