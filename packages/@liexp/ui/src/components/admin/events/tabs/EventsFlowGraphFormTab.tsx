@@ -1,3 +1,4 @@
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { type FlowGraphType } from "@liexp/io/lib/http/graphs/FlowGraph.js";
 import { type Network } from "@liexp/io/lib/http/index.js";
@@ -33,7 +34,7 @@ export const EventsFlowGraphFormTab: React.FC<{ type: FlowGraphType }> = ({
     return <LoadingIndicator />;
   }
 
-  const id: any = record.id;
+  const id = String(record.id) as UUID;
 
   const query: Network.GetNetworkQuerySerialized =
     type === "events"
