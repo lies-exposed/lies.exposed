@@ -2,10 +2,10 @@ import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { Events } from "@liexp/io/lib/http/index.js";
 import { ParentSize } from "@visx/responsive";
 import { Schema } from "effect";
+import type * as O from "fp-ts/lib/Option.js";
 import Feature, { type FeatureLike } from "ol/Feature.js";
 import * as React from "react";
 import { geoJSONFormat } from "../utils/map.utils.js";
-import * as O from "fp-ts/lib/Option.js";
 import Map from "./Map.js";
 import QueriesRenderer from "./QueriesRenderer.js";
 

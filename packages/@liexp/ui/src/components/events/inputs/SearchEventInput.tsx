@@ -157,11 +157,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
       inputValue={search}
       onInputChange={handleSearchChange}
       getOptionLabel={(o) =>
-        typeof o === "string"
-          ? o
-          : o.type === "Search"
-            ? o.item
-            : o.item.id
+        typeof o === "string" ? o : o.type === "Search" ? o.item : o.item.id
       }
       filterOptions={(options) => options}
       renderInput={(params) => (
@@ -215,9 +211,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
               py: 5,
             }}
           >
-            <KeywordListItem
-              item={{ ...option.item, selected: true }}
-            />
+            <KeywordListItem item={{ ...option.item, selected: true }} />
           </Box>
         );
       }}

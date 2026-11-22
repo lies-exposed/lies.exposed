@@ -49,15 +49,15 @@ interface SocialPostFormValue {
   updatedAt?: EditSocialPost["updatedAt"];
   platforms?: Partial<Record<SocialPlatform, boolean>>;
   media?: string | SocialPostFormMediaValue[];
-  keywords?: Array<{ id: string }>;
-  groups?: Array<{ id: string }>;
-  actors?: Array<{ id: string }>;
+  keywords?: { id: string }[];
+  groups?: { id: string }[];
+  actors?: { id: string }[];
   _content: {
     platforms?: Partial<Record<SocialPlatform, boolean>>;
     media?: string | SocialPostFormMediaValue[];
-    keywords?: Array<{ id: string }>;
-    groups?: Array<{ id: string }>;
-    actors?: Array<{ id: string }>;
+    keywords?: { id: string }[];
+    groups?: { id: string }[];
+    actors?: { id: string }[];
     useReply?: boolean;
     title?: string;
     url?: string;
@@ -116,20 +116,19 @@ const SocialPostEditFormTabTelegram: React.FC = () => {
 
   const tgResult = (record?.result?.tg ?? {}) as TGPublishResult;
 
-  const tg = React.useMemo<Omit<TGPublishResult, "date"> & { date?: string }>(
-    () => {
-      let tgDate: string | undefined;
-      try {
-        tgDate = formatDate(new Date(tgResult.date! * 1000));
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn(e);
-      }
+  const tg = React.useMemo<
+    Omit<TGPublishResult, "date"> & { date?: string }
+  >(() => {
+    let tgDate: string | undefined;
+    try {
+      tgDate = formatDate(new Date(tgResult.date! * 1000));
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn(e);
+    }
 
-      return { ...tgResult, date: tgDate };
-    },
-    [record?.result?.tg],
-  );
+    return { ...tgResult, date: tgDate };
+  }, [record?.result?.tg]);
 
   if (!record) {
     return <LoadingIndicator />;
