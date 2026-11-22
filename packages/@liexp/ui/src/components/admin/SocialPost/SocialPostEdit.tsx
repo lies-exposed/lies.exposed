@@ -2,12 +2,7 @@ import {
   type EditSocialPost,
   type SocialPlatform,
 } from "@liexp/io/lib/http/SocialPost.js";
-import {
-  type Actor,
-  type Group,
-  type Keyword,
-  type Media,
-} from "@liexp/io/lib/http/index.js";
+import { type Media } from "@liexp/io/lib/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
 import { Box, Stack, Typography } from "../../mui/index.js";
@@ -28,9 +23,49 @@ import { SocialPostPlatformIcon } from "./SocialPostPlatformIcon.js";
 import { SocialPostStatus } from "./SocialPostStatus.js";
 
 export const SocialPostEditTitle: React.FC = () => {
-  const record: any = useRecordContext();
-  return <Box>Social Post: {record?.content?.title}</Box>;
+  const record = useRecordContext<EditSocialPost>();
+  return <Box>Social Post: {record?.title}</Box>;
 };
+
+interface SocialPostFormMediaValue {
+  id?: string;
+  type?: string;
+  thumbnail?: string;
+}
+
+interface SocialPostFormValue {
+  id?: string;
+  title?: string;
+  url?: string;
+  date?: string;
+  content?: string;
+  status?: EditSocialPost["status"];
+  type?: EditSocialPost["type"];
+  entity?: EditSocialPost["entity"];
+  publishCount?: number;
+  result?: EditSocialPost["result"];
+  scheduledAt?: EditSocialPost["scheduledAt"];
+  createdAt?: EditSocialPost["createdAt"];
+  updatedAt?: EditSocialPost["updatedAt"];
+  platforms?: Partial<Record<SocialPlatform, boolean>>;
+  media?: string | SocialPostFormMediaValue[];
+  keywords?: Array<{ id: string }>;
+  groups?: Array<{ id: string }>;
+  actors?: Array<{ id: string }>;
+  _content: {
+    platforms?: Partial<Record<SocialPlatform, boolean>>;
+    media?: string | SocialPostFormMediaValue[];
+    keywords?: Array<{ id: string }>;
+    groups?: Array<{ id: string }>;
+    actors?: Array<{ id: string }>;
+    useReply?: boolean;
+    title?: string;
+    url?: string;
+    date?: string;
+    content?: string;
+    schedule?: number;
+  };
+}
 
 const transformSocialPost = ({
   _content: {
@@ -43,11 +78,11 @@ const transformSocialPost = ({
     ...content
   },
   ...r
-}: any): EditSocialPost => {
-  const media = _media as Media.Media[];
-  const keywords = _keywords as Keyword.Keyword[];
-  const groups = _groups as Group.Group[];
-  const actors = _actors as Actor.Actor[];
+}: SocialPostFormValue): EditSocialPost => {
+  const media = _media as string | Media.Media[];
+  const keywords = _keywords ?? [];
+  const groups = _groups ?? [];
+  const actors = _actors ?? [];
   return {
     ...r,
     ...content,
@@ -56,30 +91,45 @@ const transformSocialPost = ({
     media:
       typeof media === "string"
         ? [{ media, type: "photo", thumbnail: media }]
-        : media.map((m) => ({ ...m, thumbnail: m.thumbnail ?? "" })),
+        : (media ?? []).map((m) => ({ ...m, thumbnail: m.thumbnail ?? "" })),
     keywords: keywords.map((k) => k.id),
     groups: groups.map((g) => g.id),
     actors: actors.map((a) => a.id),
-    publishCount: content.publishCount ?? 0,
-  } as EditSocialPost;
+    publishCount: r.publishCount ?? 0,
+  } as unknown as EditSocialPost;
 };
+
+interface TGPublishResult {
+  date?: number;
+  message_id?: number;
+  caption?: string;
+}
+
+interface IGPublishResult {
+  upload_id?: string;
+  date?: number;
+  media?: { taken_at?: number };
+}
 
 const SocialPostEditFormTabTelegram: React.FC = () => {
   const record = useRecordContext<EditSocialPost>();
 
-  const { result } = record ?? { result: null };
+  const tgResult = (record?.result?.tg ?? {}) as TGPublishResult;
 
-  const tg = React.useMemo((): any => {
-    let tgDate: string | undefined;
-    try {
-      tgDate = formatDate(new Date(result!.tg.date * 1000));
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.warn(e);
-    }
+  const tg = React.useMemo<Omit<TGPublishResult, "date"> & { date?: string }>(
+    () => {
+      let tgDate: string | undefined;
+      try {
+        tgDate = formatDate(new Date(tgResult.date! * 1000));
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn(e);
+      }
 
-    return { ...(result?.tg ?? {}), date: tgDate };
-  }, [result?.tg]);
+      return { ...tgResult, date: tgDate };
+    },
+    [record?.result?.tg],
+  );
 
   if (!record) {
     return <LoadingIndicator />;
@@ -107,19 +157,21 @@ const SocialPostEditFormTabTelegram: React.FC = () => {
 const SocialPostEditFormTabInstagram: React.FC = () => {
   const record = useRecordContext<EditSocialPost>();
 
-  const { result } = record ?? { result: null };
+  const igResult = (record?.result?.ig ?? {}) as IGPublishResult;
 
-  const ig = React.useMemo((): any => {
+  const ig = React.useMemo<
+    Omit<IGPublishResult, "date"> & { date?: string }
+  >(() => {
     let igDate: string | undefined;
     try {
-      igDate = formatDate(new Date(result!.ig.media.taken_at * 1000));
+      igDate = formatDate(new Date(igResult.media!.taken_at! * 1000));
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn(e);
     }
 
-    return { ...(result?.ig ?? {}), date: igDate };
-  }, [result?.ig]);
+    return { ...igResult, date: igDate };
+  }, [record?.result?.ig]);
 
   if (!record) {
     return <LoadingIndicator />;
