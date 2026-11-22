@@ -13,6 +13,20 @@ interface KeywordsBoxWrapperProps {
   children: (data: Keyword.ListKeywordOutput) => React.ReactElement;
 }
 
+const toKeywordListQuery = (
+  params: Partial<GetListParams>,
+): {
+  ids?: readonly string[];
+  events?: readonly string[];
+  q?: string;
+} => ({
+  ...(params.filter?.ids !== undefined ? { ids: params.filter.ids } : {}),
+  ...(params.filter?.events !== undefined
+    ? { events: params.filter.events }
+    : {}),
+  ...(typeof params.filter?.q === "string" ? { q: params.filter.q } : {}),
+});
+
 export const KeywordsBoxWrapper: React.FC<KeywordsBoxWrapperProps> = ({
   params,
   children,
@@ -21,10 +35,8 @@ export const KeywordsBoxWrapper: React.FC<KeywordsBoxWrapperProps> = ({
     <QueriesRenderer
       queries={(Q) => ({
         keywords: Q.Keyword.list.useQuery(
-          {
-            ...(params as any),
-          },
           undefined,
+          toKeywordListQuery(params),
           true,
         ),
       })}
