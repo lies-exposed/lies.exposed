@@ -56,7 +56,7 @@ import { transformLink } from "./transformLink.js";
 
 const SetMeAsAuthorButton: React.FC = () => {
   const { identity, isLoading: isLoadingIdentity } = useGetIdentity();
-  const record = useRecordContext();
+  const record = useRecordContext<Link.Link>();
   const { setValue } = useFormContext();
   const [update, { isPending }] = useUpdate();
   const notify = useNotify();
@@ -76,7 +76,7 @@ const SetMeAsAuthorButton: React.FC = () => {
         id: record.id,
         data: {
           ...record,
-          image: (record.image as any)?.id,
+          image: record.image?.id,
           creator: identity.id,
         },
         previousData: record,

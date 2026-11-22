@@ -1,4 +1,5 @@
 import { type SocialPlatform } from "@liexp/io/lib/http/SocialPost.js";
+import type * as SocialPost from "@liexp/io/lib/http/SocialPost.js";
 import { useRecordContext } from "ra-core";
 import * as React from "react";
 import { LoadingIndicator } from "react-admin";
@@ -6,9 +7,9 @@ import { InstagramIcon, TelegramIcon } from "../../Common/Icons/index.js";
 
 export const SocialPostPlatformIcon: React.FC<{
   platform: SocialPlatform;
-  record?: any;
+  record?: SocialPost.SocialPost;
 }> = ({ platform, record: _record }) => {
-  const record = _record ?? useRecordContext();
+  const record = _record ?? useRecordContext<SocialPost.SocialPost>();
   if (!record) {
     return <LoadingIndicator />;
   }

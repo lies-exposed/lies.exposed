@@ -89,10 +89,14 @@ export const transformMedia = (
   }, []);
 };
 
-type TransformEventFn<D = any> = (
+type TransformEventResult = http.Events.CreateEventBody & {
+  id: http.Common.UUID;
+};
+
+type TransformEventFn<D = RaRecord> = (
   data: D,
   relations: http.Events.EventRelationIds,
-) => http.Events.CreateEventBody & { id: http.Common.UUID };
+) => TransformEventResult;
 
 export const transformDeath: TransformEventFn = (data, _relations) => {
   return {
@@ -102,7 +106,7 @@ export const transformDeath: TransformEventFn = (data, _relations) => {
       location:
         data.payload.location === "" ? undefined : data.payload.location,
     },
-  };
+  } as TransformEventResult;
 };
 
 export const transformUncategorized: TransformEventFn = (data, relations) => {
@@ -132,7 +136,7 @@ export const transformUncategorized: TransformEventFn = (data, relations) => {
       endDate:
         data.payload.endDate?.length > 0 ? data.payload.endDate : undefined,
     },
-  };
+  } as TransformEventResult;
 };
 
 export const transformScientificStudy: TransformEventFn = (data) => {
@@ -143,7 +147,7 @@ export const transformScientificStudy: TransformEventFn = (data) => {
       publisher:
         data.payload.publisher === "" ? undefined : data.payload.publisher,
     },
-  };
+  } as TransformEventResult;
 };
 
 export const transformQuote: TransformEventFn = (data) => {
@@ -155,7 +159,7 @@ export const transformQuote: TransformEventFn = (data) => {
         ? getTextContents(data.excerpt).concat("\n\n")
         : "",
     },
-  };
+  } as TransformEventResult;
 };
 
 const transformBook: TransformEventFn = (data) => {
@@ -167,7 +171,7 @@ const transformBook: TransformEventFn = (data) => {
         ? data.payload.publisher
         : undefined,
     },
-  };
+  } as TransformEventResult;
 };
 
 const transformByType = (
