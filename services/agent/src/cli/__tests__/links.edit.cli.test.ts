@@ -13,7 +13,7 @@ const encodeLink = Schema.encodeSync(LinkIO.Link);
 
 const [_, linkB] = fc.sample(LinkArbs.LinkArb, 2).map((a) => encodeLink(a));
 
-let lastPutBody: any = null;
+let lastPutBody: unknown = null;
 
 const handlers = [
   http.put(

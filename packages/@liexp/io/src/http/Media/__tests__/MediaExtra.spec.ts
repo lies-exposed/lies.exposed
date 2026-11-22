@@ -92,12 +92,18 @@ describe("MediaExtraMonoid", () => {
   });
 
   test("Should return y when x is falsy", () => {
-    const result = MediaExtraMonoid.concat(null as any, validImageExtra);
+    const result = MediaExtraMonoid.concat(
+      null as unknown as MediaExtra,
+      validImageExtra,
+    );
     expect(result).toBe(validImageExtra);
   });
 
   test("Should return x when y is falsy", () => {
-    const result = MediaExtraMonoid.concat(validImageExtra, null as any);
+    const result = MediaExtraMonoid.concat(
+      validImageExtra,
+      null as unknown as MediaExtra,
+    );
     expect(result).toBe(validImageExtra);
   });
 });

@@ -5,8 +5,8 @@ import { describe, expect, test } from "vitest";
 import { BlockNoteDocument } from "../BlockNoteDocument.js";
 import { uuid } from "../UUID.js";
 
-const expectDecodeResult = <E extends ParseError>(
-  result: _E.Either<E, any>,
+const expectDecodeResult = (
+  result: _E.Either<ParseError, unknown>,
   r: "Right" | "Left" = "Right",
 ): void => {
   const isExpected = result._tag === r;
@@ -28,7 +28,7 @@ describe("BlockNoteDocument codec", () => {
   });
 
   test("Should failed to decode given input", () => {
-    const tags: any[] = [];
+    const tags: unknown[] = [];
 
     expectDecodeResult(
       Schema.decodeUnknownEither(BlockNoteDocument)(tags),
