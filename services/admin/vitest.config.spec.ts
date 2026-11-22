@@ -14,6 +14,9 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     // MSW's SSE handler uses WritableStream (web stream API) which is not
     // available inside a V8 VM realm used by vmForks workers.
     pool: "forks",
+    env: {
+      NODE_ENV: "test",
+    },
     include: [
       toAlias("./src/**/*.spec.ts"),
       toAlias("./src/**/*.spec.tsx"),

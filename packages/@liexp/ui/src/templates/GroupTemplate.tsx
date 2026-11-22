@@ -153,13 +153,13 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
               />
 
               <EventNetworkGraphBoxWithFilters
-                type={Group.GROUPS.Type}
+                type={Group.GROUPS.literals[0]}
                 query={{
                   ids: [group.id],
                   startDate: formatDate(subYears(new Date(), 2)),
                   endDate: formatDate(new Date()),
                 }}
-                relations={[Keyword.KEYWORDS.Type]}
+                relations={[Keyword.KEYWORDS.literals[0]]}
                 onActorClick={onActorClick}
                 onGroupClick={onGroupClick}
                 onKeywordClick={onKeywordClick}

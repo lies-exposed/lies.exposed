@@ -1,6 +1,9 @@
 import path from "path";
 import { defineConfig } from "vitest/config";
 
+// React's production build does not support act(...), which testing-library needs.
+process.env.NODE_ENV = "test";
+
 export default defineConfig({
   test: {
     name: "@liexp/ui",

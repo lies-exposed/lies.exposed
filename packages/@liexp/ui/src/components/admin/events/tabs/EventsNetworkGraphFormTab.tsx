@@ -28,15 +28,18 @@ export const EventsNetworkGraphFormTab: React.FC<{
     return <LoadingIndicator />;
   }
 
+  const id = record.id;
+
   const handleRegenerateFlow = (): void => {
+    if (id === undefined) {
+      return;
+    }
     void apiProvider
       .put(`networks/${type}/${id}`, { regenerate: true })
       .then(() => {
         refresh();
       });
   };
-
-  const id = record.id;
   const query: GetNetworkQuerySerialized =
     type === "events"
       ? toGetNetworkQuery(getRelationIds(record as Event))
