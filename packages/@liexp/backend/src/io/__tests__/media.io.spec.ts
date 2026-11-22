@@ -97,4 +97,92 @@ describe("MediaIO", () => {
       }
     });
   });
+
+  describe("date columns returned by the driver", () => {
+    const baseEntity = () => toMediaEntity(fc.sample(MediaArb, 1)[0]);
+
+    it("should decode string dates instead of throwing on .toISOString()", () => {
+      const entity = {
+        ...baseEntity(),
+        createdAt: "2026-11-14 16:01:00.000",
+        updatedAt: "2026-11-14 16:01:00.000",
+      };
+      const result = MediaIO.decodeSingle(entity);
+      expect(E.isRight(result)).toBe(true);
+      if (E.isRight(result)) {
+        expect(result.right.createdAt).toBeInstanceOf(Date);
+        expect(result.right.createdAt.toISOString()).toBe(
+          new Date("2026-11-14T16:01:00.000Z").toISOString(),
+        );
+      }
+    });
+
+    it("should decode NaT deletedAt as a Left, not a throw", () => {
+      const entity = { ...baseEntity(), deletedAt: new Date(NaN) };
+      const result = MediaIO.decodeSingle(entity);
+      expect(E.isLeft(result)).toBe(true);
+      if (E.isLeft(result)) {
+        expect(result.left.name).toBe("DecodeError");
+        expect(result.left.message).toContain(`media (${entity.id})`);
+        expect(result.left.message).toContain("deletedAt=NaT");
+      }
+    });
+
+    it("should decode a required date column that came back null as a Left", () => {
+      const entity = { ...baseEntity(), createdAt: null as unknown as Date };
+      const result = MediaIO.decodeSingle(entity);
+      expect(E.isLeft(result)).toBe(true);
+      if (E.isLeft(result)) {
+        expect(result.left.message).toContain("createdAt=null");
+      }
+    });
+
+    it("should decode an unparseable date string as a Left naming the field", () => {
+      const entity = { ...baseEntity(), updatedAt: "0000-00-00 00:00:00" };
+      const result = MediaIO.decodeSingle(entity);
+      expect(E.isLeft(result)).toBe(true);
+      if (E.isLeft(result)) {
+        expect(result.left.message).toContain(
+          'updatedAt="0000-00-00 00:00:00"',
+        );
+      }
+    });
+
+    it("should return a Left from decodeMany instead of escaping the Either", () => {
+      const entities = [
+        baseEntity(),
+        { ...baseEntity(), updatedAt: new Date(NaN) },
+      ];
+      const result = MediaIO.decodeMany(entities);
+      expect(E.isLeft(result)).toBe(true);
+    });
+
+    it("should encode string dates instead of throwing on .toISOString()", () => {
+      const entity = {
+        ...baseEntity(),
+        createdAt: "2026-11-14 16:01:00.000",
+        updatedAt: "2026-11-14 16:01:00.000",
+      };
+      const result = MediaIO.encodeSingle(entity);
+      expect(E.isRight(result)).toBe(true);
+      if (E.isRight(result)) {
+        expect(typeof result.right.createdAt).toBe("string");
+      }
+    });
+
+    it("should encode a NaT date as a Left, not a throw", () => {
+      const entity = { ...baseEntity(), createdAt: new Date(NaN) };
+      const result = MediaIO.encodeSingle(entity);
+      expect(E.isLeft(result)).toBe(true);
+      if (E.isLeft(result)) {
+        expect(result.left.message).toContain("createdAt=NaT");
+      }
+    });
+
+    it("should round-trip normal Date rows", () => {
+      const entity = baseEntity();
+      expect(E.isRight(MediaIO.decodeSingle(entity))).toBe(true);
+      expect(E.isRight(MediaIO.encodeSingle(entity))).toBe(true);
+    });
+  });
 });

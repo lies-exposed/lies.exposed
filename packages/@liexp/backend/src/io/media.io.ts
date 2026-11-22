@@ -13,7 +13,19 @@ import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type MediaEntity } from "../entities/Media.entity.js";
+import {
+  type DateFieldSpec,
+  dateToISOOrRaw,
+  dateToDateOrRaw,
+  describeInvalidDateFields,
+} from "../utils/date.utils.js";
 import { IOCodec } from "./DomainCodec.js";
+
+const MEDIA_DATE_FIELDS: readonly DateFieldSpec[] = [
+  { field: "createdAt" },
+  { field: "updatedAt" },
+  { field: "deletedAt", allowNullish: true },
+];
 
 export type SimpleMedia<T extends MediaType = MediaType> = Pick<
   MediaEntity,
@@ -60,9 +72,19 @@ const encodeMedia = (
         media.keywords?.map((k) => (Schema.is(UUID)(k) ? k : k.id)) ?? [],
       areas: media.areas?.map((a) => (Schema.is(UUID)(a) ? a : a.id)) ?? [],
       links: media.links?.map((l) => (Schema.is(UUID)(l) ? l : l.id)) ?? [],
-      deletedAt: media.deletedAt ?? undefined,
+      createdAt: dateToDateOrRaw(media.createdAt),
+      updatedAt: dateToDateOrRaw(media.updatedAt),
+      deletedAt: dateToDateOrRaw(media.deletedAt) ?? undefined,
     }),
-    E.mapLeft((e) => DecodeError.of(`Failed to encode media (${media.id})`, e)),
+    E.mapLeft((e) =>
+      DecodeError.of(
+        `Failed to encode media (${media.id})${describeInvalidDateFields(
+          media,
+          MEDIA_DATE_FIELDS,
+        )}`,
+        e,
+      ),
+    ),
   );
 };
 const decodeMedia = (
@@ -92,12 +114,20 @@ const decodeMedia = (
         ? ensureHTTPProtocol(media.thumbnail)
         : undefined,
       transferable: !media.location.startsWith("/"),
-      createdAt: media.createdAt.toISOString(),
-      updatedAt: media.updatedAt.toISOString(),
-      deletedAt: media.deletedAt?.toISOString() ?? undefined,
+      createdAt: dateToISOOrRaw(media.createdAt),
+      updatedAt: dateToISOOrRaw(media.updatedAt),
+      deletedAt: dateToISOOrRaw(media.deletedAt) ?? undefined,
     },
     Schema.decodeUnknownEither(io.http.Media.AdminMedia),
-    E.mapLeft((e) => DecodeError.of(`Failed to decode media (${media.id})`, e)),
+    E.mapLeft((e) =>
+      DecodeError.of(
+        `Failed to decode media (${media.id})${describeInvalidDateFields(
+          media,
+          MEDIA_DATE_FIELDS,
+        )}`,
+        e,
+      ),
+    ),
   );
 };
 
