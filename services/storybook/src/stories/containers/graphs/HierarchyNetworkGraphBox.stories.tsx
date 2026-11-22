@@ -1,7 +1,10 @@
-import { ACTORS } from "@liexp/io/lib/http/Actor.js";
-import { GROUPS } from "@liexp/io/lib/http/Group.js";
-import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
+import { ACTORS, type Actor } from "@liexp/io/lib/http/Actor.js";
+import { GROUPS, type Group } from "@liexp/io/lib/http/Group.js";
+import { KEYWORDS, type Keyword } from "@liexp/io/lib/http/Keyword.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
+import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
+import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
+import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput.js";
 import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput.js";
 import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput.js";
@@ -10,49 +13,58 @@ import {
   HierarchyNetworkGraphBox,
   type HierarchyNetworkGraphBoxProps,
 } from "@liexp/ui/lib/containers/graphs/HierarchyNetworkGraphBox.js";
-import { type Meta, type StoryFn } from "@storybook/react-vite";
+import { type Meta, type StoryObj } from "@storybook/react-vite";
 import { subWeeks } from "date-fns";
+import fc from "fast-check";
 import * as React from "react";
 
-const meta: Meta = {
+const meta = {
   title: "Containers/Graphs/HierarchyNetworkGraphBox",
   component: HierarchyNetworkGraphBox,
-  argTypes: {
-    groupBy: {
-      control: {
-        type: "select",
-        labels: ["actor", "group", "keyword"],
-      },
-    },
-  },
-};
+} satisfies Meta<HierarchyNetworkGraphBoxProps>;
 
 export default meta;
 
-const Template: StoryFn<HierarchyNetworkGraphBoxProps> = ({
-  id,
-  query,
-  ...props
-}) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [items, setItem] = React.useState<any[]>([id]);
+type Story = StoryObj<typeof meta>;
 
-  const inputProps = {
-    style: { width: "100%" },
-    selectedItems: items,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onChange: (items: any[]) => {
-      setItem(items);
-    },
-  };
+const seedItems = {
+  [KEYWORDS.literals[0]]: fc.sample(KeywordArb, 1),
+  [ACTORS.literals[0]]: fc.sample(ActorArb, 1),
+  [GROUPS.literals[0]]: fc.sample(GroupArb, 1),
+};
+
+const Template = (props: HierarchyNetworkGraphBoxProps): React.ReactElement => {
+  const { id, query } = props;
+
   const input =
     props.type === KEYWORDS.literals[0] ? (
-      <AutocompleteKeywordInput {...inputProps} />
+      <KeywordInput />
     ) : props.type === ACTORS.literals[0] ? (
-      <AutocompleteActorInput {...inputProps} />
+      <ActorInput />
     ) : (
-      <AutocompleteGroupInput {...inputProps} />
+      <GroupInput />
     );
+
+  function KeywordInput(): React.ReactElement {
+    const [items, setItems] = React.useState<Keyword[]>(
+      seedItems[KEYWORDS.literals[0]],
+    );
+    return (
+      <AutocompleteKeywordInput selectedItems={items} onChange={setItems} />
+    );
+  }
+  function ActorInput(): React.ReactElement {
+    const [items, setItems] = React.useState<Actor[]>(
+      seedItems[ACTORS.literals[0]],
+    );
+    return <AutocompleteActorInput selectedItems={items} onChange={setItems} />;
+  }
+  function GroupInput(): React.ReactElement {
+    const [items, setItems] = React.useState<Group[]>(
+      seedItems[GROUPS.literals[0]],
+    );
+    return <AutocompleteGroupInput selectedItems={items} onChange={setItems} />;
+  }
 
   return (
     <>
@@ -74,60 +86,48 @@ const Template: StoryFn<HierarchyNetworkGraphBoxProps> = ({
   );
 };
 
-const EventsByActors = Template.bind({});
-
 const commonQuery = {
   startDate: formatDate(subWeeks(new Date(), 10)),
   endDate: formatDate(new Date()),
 };
 
-EventsByActors.args = {
-  count: 20,
-  type: ACTORS.literals[0],
-  id: "4163db78-67ca-4243-80fe-05ff920e70e1",
-  relations: [ACTORS.literals[0]],
-  query: {
-    ...commonQuery,
+const EventsByActors: Story = {
+  render: Template,
+  args: {
+    count: 20,
+    type: ACTORS.literals[0],
+    id: "4163db78-67ca-4243-80fe-05ff920e70e1",
+    relations: [ACTORS.literals[0]],
+    query: {
+      ...commonQuery,
+    },
   },
 };
 
-const EventsByKeywords = Template.bind({});
-
-EventsByKeywords.args = {
-  count: 10,
-  type: KEYWORDS.literals[0],
-  relations: [GROUPS.literals[0]],
-  query: {
-    ...commonQuery,
-  },
-  id: "fe502631-ef4e-4dfc-a1ff-c2cd04f3ff6d",
-};
-
-const EventsByGroups = Template.bind({});
-
-EventsByGroups.args = {
-  count: 10,
-  type: GROUPS.literals[0],
-  id: "3879feae-a4f8-4f12-ad8d-3f199050afcd",
-  relations: [GROUPS.literals[0]],
-  query: {
-    ...commonQuery,
+const EventsByKeywords: Story = {
+  render: Template,
+  args: {
+    count: 10,
+    type: KEYWORDS.literals[0],
+    relations: [GROUPS.literals[0]],
+    query: {
+      ...commonQuery,
+    },
+    id: "fe502631-ef4e-4dfc-a1ff-c2cd04f3ff6d",
   },
 };
 
-// const OneHierarchyNetwork = Template.bind({});
-// OneHierarchyNetwork.args = {
-//   type: "events" as const,
-//   relations: [GROUPS.Type],
-//   id: "c82575ea-120e-467b-8d75-cbf7e49d721a",
-//   query: {
-//     ...commonQuery,
-//   },
-// };
-
-export {
-  EventsByActors,
-  EventsByKeywords,
-  EventsByGroups,
-  // OneHierarchyNetwork,
+const EventsByGroups: Story = {
+  render: Template,
+  args: {
+    count: 10,
+    type: GROUPS.literals[0],
+    id: "3879feae-a4f8-4f12-ad8d-3f199050afcd",
+    relations: [GROUPS.literals[0]],
+    query: {
+      ...commonQuery,
+    },
+  },
 };
+
+export { EventsByActors, EventsByKeywords, EventsByGroups };
