@@ -170,7 +170,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
               </Box>
 
               <EventNetworkGraphBoxWithFilters
-                type={ACTORS.Type}
+                type={ACTORS.literals[0]}
                 query={{
                   ...query,
                   relations: ["actors", "groups", "keywords"],

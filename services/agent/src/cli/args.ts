@@ -64,12 +64,35 @@ const isOptionalField = (ast: SchemaAST.AST): boolean => {
 };
 
 /**
+ * Parses a raw CLI value for an array-typed field. A value that looks like a
+ * JSON array (`[...]`) is decoded as JSON so nested objects and quotes survive;
+ * anything else falls back to the existing comma-splitting behaviour.
+ */
+const parseArrayValue = (rawValue: string): unknown => {
+  const trimmed = rawValue.trim();
+  if (trimmed.startsWith("[")) {
+    try {
+      const parsed: unknown = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) return parsed;
+    } catch {
+      // not valid JSON — fall back to comma-splitting
+    }
+  }
+  return trimmed
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+};
+
+/**
  * Derives a raw CLI input object from a Schema.Struct definition and a
  * string[] argv array.
  *
  * For each field in the schema:
  * - Reads --fieldName=value from args
- * - If the field is an array type (Schema.Array(...)), splits the value by comma.
+ * - If the field is an array type (Schema.Array(...)), the value is parsed by
+ *   parseArrayValue: a JSON-looking value (`[...]`) is decoded as JSON, anything
+ *   else is split by comma.
  *   - Required arrays (not optional/UndefinedOr) default to [] when no arg given.
  *   - Optional arrays remain undefined when no arg is given.
  * - Otherwise passes the raw string (or undefined) — the schema decoder handles
@@ -88,10 +111,7 @@ export const parseArgsFromSchema = <Fields extends Schema.Struct.Fields>(
     const rawValue = getArg(args, key);
     if (isArrayAst(ast)) {
       if (rawValue !== undefined) {
-        result[key] = rawValue
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean);
+        result[key] = parseArrayValue(rawValue);
       } else if (isOptionalArrayAst(ast)) {
         // optional/UndefinedOr array: leave as undefined when no arg
         result[key] = undefined;
