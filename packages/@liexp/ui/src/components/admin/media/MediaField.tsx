@@ -7,9 +7,7 @@ import {
   UrlField,
   useRecordContext,
 } from "react-admin";
-import _ReactAudioPlayer from "react-audio-player";
-
-const ReactAudioPlayer: any = _ReactAudioPlayer;
+import ReactAudioPlayer from "react-audio-player";
 
 interface MediaFieldProps extends FieldProps {
   type?: string;
@@ -58,7 +56,7 @@ export const MediaField: React.FC<MediaFieldProps> = ({
       );
     case MediaType.members[4].literals[0]:
     case MediaType.members[3].literals[0]:
-      return <ReactAudioPlayer src={src} />;
+      return <ReactAudioPlayer src={src} volume={1} />;
     default:
       return (
         <ImageField

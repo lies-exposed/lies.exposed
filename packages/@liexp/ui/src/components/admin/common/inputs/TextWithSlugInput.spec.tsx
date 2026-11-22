@@ -7,7 +7,7 @@ import { TextInput } from "../../../admin/react-admin.js";
 import { TextWithSlugInput } from "./TextWithSlugInput.js";
 
 const FormWrapper: React.FC<
-  React.PropsWithChildren<{ defaultValues?: any }>
+  React.PropsWithChildren<{ defaultValues?: Record<string, unknown> }>
 > = ({ children, defaultValues = {} }) => {
   const formState = useForm({ defaultValues });
   return (

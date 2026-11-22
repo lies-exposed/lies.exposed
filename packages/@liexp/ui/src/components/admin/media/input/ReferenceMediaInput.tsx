@@ -69,8 +69,8 @@ const ReferenceMediaInput: React.FC<
       </ReferenceInput>
       <FunctionField
         source={props.source}
-        render={(record: any, source: any) => {
-          const media = get(record, source);
+        render={(record, source) => {
+          const media = get(record as object, source ?? props.source);
           return record?.id && <Link to={`/media/${media}`}>Open Media</Link>;
         }}
       />

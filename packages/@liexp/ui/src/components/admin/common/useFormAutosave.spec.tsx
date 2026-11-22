@@ -54,7 +54,9 @@ const Harness: React.FC<{
   );
 };
 
-const readKey = (key: string): { savedAt: number; values: any } | null => {
+const readKey = (
+  key: string,
+): { savedAt: number; values: Record<string, unknown> } | null => {
   const raw = window.localStorage.getItem(key);
   return raw ? JSON.parse(raw) : null;
 };
