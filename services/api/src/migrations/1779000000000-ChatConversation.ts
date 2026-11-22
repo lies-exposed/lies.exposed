@@ -13,7 +13,9 @@ export class ChatConversation1779000000000 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP INDEX "public"."IDX_chat_conversation_userId"`);
+    await queryRunner.query(
+      `DROP INDEX "public"."IDX_chat_conversation_userId"`,
+    );
     await queryRunner.query(`DROP TABLE "chat_conversation"`);
   }
 }
