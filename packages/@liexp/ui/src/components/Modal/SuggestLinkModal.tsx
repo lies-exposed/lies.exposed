@@ -1,3 +1,4 @@
+import { type Link } from "@liexp/io/lib/http/Link.js";
 import * as React from "react";
 import { useDataProvider } from "../../hooks/useDataProvider.js";
 import { styled } from "../../theme/index.js";
@@ -43,12 +44,12 @@ export const SuggestLinkModal: React.FC<SuggestLinkModalProps> = ({
   ..._props
 }) => {
   const [url, setUrl] = React.useState("");
-  const [link, setLink] = React.useState<any>(undefined);
+  const [link, setLink] = React.useState<Link | undefined>(undefined);
   const apiProvider = useDataProvider();
 
   const handleURLSubmission = (): void => {
     void apiProvider
-      .create("/links/submit", { data: { url } })
+      .create<Link>("/links/submit", { data: { url } })
       .then(({ data }) => {
         setLink(data);
       });
