@@ -20,12 +20,12 @@ const TITLE_MAX_LENGTH = 80;
 // simply not matching anything.
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-export const isConversationId = (id: string): boolean => UUID_RE.test(id);
+const isConversationId = (id: string): boolean => UUID_RE.test(id);
 
 const ownerWhere = (userId: string | null) =>
   userId ? { userId: Equal(userId as UUID) } : { userId: IsNull() };
 
-export const makeTitle = (messages: ChatMessage[]): string => {
+const makeTitle = (messages: ChatMessage[]): string => {
   const first = messages.find((m) => m.role === "user")?.content ?? "";
   const oneLine = first.replace(/\s+/g, " ").trim();
   return oneLine.length > TITLE_MAX_LENGTH
