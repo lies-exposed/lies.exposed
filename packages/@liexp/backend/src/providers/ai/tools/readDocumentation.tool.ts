@@ -23,7 +23,7 @@ export const createReadDocumentationTool = <
   ctx: C,
   cwd: string,
 ) => {
-  return tool<any, any, any, any>(
+  return tool(
     async ({ doc }: { doc: string }): Promise<string> => {
       // Resolve and sanitize: must stay within cwd
       const resolved = path.resolve(cwd, doc);

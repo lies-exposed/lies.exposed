@@ -4,6 +4,7 @@ import {
   IgApiClient,
   IgLoginTwoFactorRequiredError,
   type MediaRepositoryConfigureResponseRootObject,
+  type MediaRepositoryConfigureSidecarResponseRootObject,
   type PostingVideoOptions,
   type AccountRepositoryLoginErrorResponse,
   type AccountRepositoryLoginResponseLogged_in_user,
@@ -27,7 +28,9 @@ export interface IGProvider {
   postVideo: (
     options: PostingVideoOptions,
   ) => TE.TaskEither<Error, MediaRepositoryConfigureResponseRootObject>;
-  postAlbum: (options: PostingAlbumOptions) => TE.TaskEither<Error, any>;
+  postAlbum: (
+    options: PostingAlbumOptions,
+  ) => TE.TaskEither<Error, MediaRepositoryConfigureSidecarResponseRootObject>;
 }
 
 interface IGProviderOpts {
