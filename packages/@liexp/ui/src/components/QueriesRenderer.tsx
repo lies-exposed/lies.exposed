@@ -13,7 +13,10 @@ import { ErrorBox } from "./Common/ErrorBox.js";
 import { FullSizeLoader } from "./Common/FullSizeLoader.js";
 import { Loader } from "./Common/Loader.js";
 
-type QueriesRecord = Record<string, UseQueryResult<any, IOError | ParseError>>;
+type QueriesRecord = Record<
+  string,
+  UseQueryResult<unknown, IOError | ParseError>
+>;
 type QueriesProp =
   | QueriesRecord
   | ((
@@ -26,7 +29,7 @@ type RenderFnData<Q extends QueriesProp> = Q extends QueriesRecord
         ? NonNullable<QueryObserverSuccessResult<A, IOError>["data"]>
         : never;
     }
-  : Q extends (...args: any[]) => QueriesRecord
+  : Q extends (...args: never[]) => QueriesRecord
     ? {
         [K in keyof ReturnType<Q>]: ReturnType<Q>[K] extends UseQueryResult<
           infer A,
@@ -55,7 +58,14 @@ const QueriesRenderer = <Q extends QueriesProp>({
   loader = "default",
   ...props
 }: QueriesRendererProps<Q>): React.ReactNode => {
-  const initialErrors: Record<string, IOError> = {};
+  const initialErrors: Record<string, IOError | ParseError> = {};
+
+  interface QueryAcc {
+    isLoading: boolean;
+    isError: boolean;
+    errors: Record<string, IOError | ParseError>;
+    data: RenderFnData<Q>;
+  }
   const endpointsQueryProvider = useEndpointQueries();
   const queriesObject =
     typeof queries === "function" ? queries(endpointsQueryProvider) : queries;
@@ -65,8 +75,8 @@ const QueriesRenderer = <Q extends QueriesProp>({
     isError,
     data,
     errors: errorsMap,
-  } = Object.entries(queriesObject).reduce(
-    (acc, [key, value]: [string, UseQueryResult<any, IOError>]) => {
+  } = Object.entries(queriesObject).reduce<QueryAcc>(
+    (acc, [key, value]) => {
       // if (!value.isSuccess) {
       //   // eslint-disable-next-line no-console
       // console.log(`query ${key}`, value);

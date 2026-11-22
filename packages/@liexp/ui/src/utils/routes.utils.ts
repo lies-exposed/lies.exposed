@@ -21,7 +21,9 @@ export const toQueryParams = (params: ParsedQuery): string => {
  *
  * @param query parsed query
  */
-const stripInvalid = (query: Record<string, any>): querystring.ParsedQuery => {
+const stripInvalid = (
+  query: querystring.ParsedQuery,
+): querystring.ParsedQuery => {
   return R.Filterable.filter(query, (r) => {
     const isUndefined = Schema.is(Schema.Undefined)(r);
     const isEmptyString = typeof r === "string" && S.Eq.equals(r, "");

@@ -1,4 +1,3 @@
-import { type APIError } from "@liexp/io/lib/http/Error/APIError.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -47,14 +46,14 @@ export interface InfiniteListBoxProps<
     >,
   ) => ResourceQuery<
     EndpointParamsType<E>,
-    any,
+    Partial<EndpointQueryType<E>>,
     Partial<EndpointQueryType<E>>,
     EndpointOutputType<E>
   >;
   params: EndpointParamsType<E>;
   filter: Partial<EndpointQueryType<E>>;
   /** Receives a whole page, i.e. the endpoint output (`{ data, total }`), not just `data`. */
-  toItems?: (page: EndpointOutputType<E>) => any[];
+  toItems?: (page: EndpointOutputType<E>) => unknown[];
   getTotal?: (page: EndpointOutputType<E>) => number;
 }
 
@@ -86,27 +85,18 @@ export const InfiniteListBox = <
     fetchNextPage,
     isRefetching,
     isError,
-  } = useInfiniteQuery<
-    any,
-    APIError,
-    {
-      pages: EndpointOutputType<E>[];
-      pageParams: { _start: number; _end: number }[];
-    },
-    any,
-    { _start: number; _end: number }
-  >({
+  } = useInfiniteQuery({
     initialPageParam: { _start: 0, _end: 20 },
     queryKey,
     // key layout from getKey: [name, params, query, discrete]
-    queryFn: ({ queryKey, pageParam }) => {
+    queryFn: ({ pageParam }) => {
       return query.fetch(
-        queryKey[1],
+        params,
         {
-          ...queryKey[2],
+          ...filter,
           _start: pageParam._start,
           _end: pageParam._end,
-        },
+        } as Partial<EndpointQueryType<E>>,
         false,
       );
     },
