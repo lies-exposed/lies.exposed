@@ -10,7 +10,6 @@ import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextCo
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { toRecord } from "fp-ts/lib/ReadonlyRecord.js";
 import { Equal } from "typeorm";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type DatabaseContext } from "../../../context/db.context.js";
@@ -171,8 +170,8 @@ const extractEntitiesFromAny = <
   );
 };
 
-const entitiesHashEncoder = GetEncodeUtils<any>((r) =>
-  toRecord<string, string>(r),
+const entitiesHashEncoder = GetEncodeUtils<ExtractEntitiesWithNLPInput>((r) =>
+  "uuid" in r ? { resource: r.resource, uuid: r.uuid } : r,
 );
 
 export const extractEntitiesFromAnyCached = <

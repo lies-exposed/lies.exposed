@@ -7,7 +7,7 @@ import { pipe } from "fp-ts/lib/function.js";
 
 type EitherE<A> = E.Either<DecodeError, A>;
 
-export interface IOCodec<A, I, D, E, Args extends any[]> {
+export interface IOCodec<A, I, D, E, Args extends readonly unknown[]> {
   decodeSingle: (a: D, ...args: Args) => EitherE<A>;
   decodeMany: (a: readonly D[], ...args: Args) => EitherE<readonly A[]>;
 
@@ -24,7 +24,7 @@ const toIOCodecError =
     return e;
   };
 
-export const IOCodec = <A, I, D, E, Args extends any[]>(
+export const IOCodec = <A, I, D, E, Args extends readonly unknown[]>(
   codec: Schema.Schema<A, I, never>,
   {
     decode,
