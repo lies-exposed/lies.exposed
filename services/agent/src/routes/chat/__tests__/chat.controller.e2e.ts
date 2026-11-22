@@ -39,6 +39,9 @@ const createTestUser = (): UserEncoded => ({
   deletedAt: null,
 });
 
+/** recordTurn persists fire-and-forget; let it settle. */
+const flush = () => new Promise((r) => setTimeout(r, 20));
+
 describe("Chat Controller E2E", () => {
   let Test: AgentAppTest;
   let authToken: string;
@@ -125,9 +128,45 @@ describe("Chat Controller E2E", () => {
     });
   });
 
+  describe("auth on conversation routes", () => {
+    it("returns 401 when listing, getting or deleting unauthenticated", async () => {
+      const id = uuid();
+      expect((await Test.req.get("/v1/chat/conversations")).status).toBe(401);
+      expect((await Test.req.get(`/v1/chat/conversations/${id}`)).status).toBe(
+        401,
+      );
+      expect(
+        (await Test.req.delete(`/v1/chat/conversations/${id}`)).status,
+      ).toBe(401);
+    });
+
+    it("does not expose another user's conversation", async () => {
+      const created = await Test.req
+        .post("/v1/chat/message")
+        .set("authorization", `Bearer ${authToken}`)
+        .send({ message: "private", conversation_id: null });
+      const id = created.body.data.conversationId;
+      await flush();
+
+      const otherToken = Test.ctx.jwt.signUser(createTestUser())();
+      const res = await Test.req
+        .get(`/v1/chat/conversations/${id}`)
+        .set("authorization", `Bearer ${otherToken}`);
+      expect(res.status).toBe(200);
+      expect(res.body.data.messages).toEqual([]);
+
+      const list = await Test.req
+        .get("/v1/chat/conversations")
+        .set("authorization", `Bearer ${otherToken}`);
+      expect(list.body.total).toBe(0);
+    });
+  });
+
   describe("GET /v1/chat/conversations", () => {
     it("should return list of conversations", async () => {
-      const response = await Test.req.get("/v1/chat/conversations");
+      const response = await Test.req
+        .get("/v1/chat/conversations")
+        .set("authorization", `Bearer ${authToken}`);
 
       expect(response.status).toBe(200);
       expect(response.body.data).toBeDefined();
@@ -138,6 +177,7 @@ describe("Chat Controller E2E", () => {
     it("should accept limit and offset query params", async () => {
       const response = await Test.req
         .get("/v1/chat/conversations")
+        .set("authorization", `Bearer ${authToken}`)
         .query({ limit: 10, offset: 0 });
 
       expect(response.status).toBe(200);
@@ -158,10 +198,11 @@ describe("Chat Controller E2E", () => {
 
       const conversationId = createResponse.body.data.conversationId;
 
+      await flush();
       // Then get it
-      const response = await Test.req.get(
-        `/v1/chat/conversations/${conversationId}`,
-      );
+      const response = await Test.req
+        .get(`/v1/chat/conversations/${conversationId}`)
+        .set("authorization", `Bearer ${authToken}`);
 
       expect(response.status).toBe(200);
       expect(response.body.data).toBeDefined();
@@ -171,9 +212,9 @@ describe("Chat Controller E2E", () => {
     });
 
     it("should return empty messages for non-existent conversation", async () => {
-      const response = await Test.req.get(
-        "/v1/chat/conversations/non-existent-id",
-      );
+      const response = await Test.req
+        .get(`/v1/chat/conversations/${uuid()}`)
+        .set("authorization", `Bearer ${authToken}`);
 
       expect(response.status).toBe(200);
       expect(response.body.data.messages).toEqual([]);
@@ -193,26 +234,27 @@ describe("Chat Controller E2E", () => {
 
       const conversationId = createResponse.body.data.conversationId;
 
+      await flush();
       // Delete it
-      const deleteResponse = await Test.req.delete(
-        `/v1/chat/conversations/${conversationId}`,
-      );
+      const deleteResponse = await Test.req
+        .delete(`/v1/chat/conversations/${conversationId}`)
+        .set("authorization", `Bearer ${authToken}`);
 
       expect(deleteResponse.status).toBe(200);
       expect(deleteResponse.body.data).toBe(true);
 
       // Verify it's gone
-      const getResponse = await Test.req.get(
-        `/v1/chat/conversations/${conversationId}`,
-      );
+      const getResponse = await Test.req
+        .get(`/v1/chat/conversations/${conversationId}`)
+        .set("authorization", `Bearer ${authToken}`);
 
       expect(getResponse.body.data.messages).toEqual([]);
     });
 
     it("should return false for non-existent conversation", async () => {
-      const response = await Test.req.delete(
-        "/v1/chat/conversations/non-existent-id",
-      );
+      const response = await Test.req
+        .delete(`/v1/chat/conversations/${uuid()}`)
+        .set("authorization", `Bearer ${authToken}`);
 
       expect(response.status).toBe(200);
       expect(response.body.data).toBe(false);
@@ -306,7 +348,7 @@ describe("Chat Controller E2E", () => {
     });
 
     it("should use provided conversation_id", async () => {
-      const conversationId = "stream-test-conv-123";
+      const conversationId = uuid();
 
       const response = await Test.req
         .post("/v1/chat/message/stream")
@@ -318,10 +360,11 @@ describe("Chat Controller E2E", () => {
 
       expect(response.status).toBe(200);
 
+      await flush();
       // Verify conversation was created
-      const getResponse = await Test.req.get(
-        `/v1/chat/conversations/${conversationId}`,
-      );
+      const getResponse = await Test.req
+        .get(`/v1/chat/conversations/${conversationId}`)
+        .set("authorization", `Bearer ${authToken}`);
 
       expect(getResponse.body.data.messages.length).toBeGreaterThan(0);
     });

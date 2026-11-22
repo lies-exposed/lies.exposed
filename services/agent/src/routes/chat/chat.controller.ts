@@ -8,9 +8,12 @@ import {
   type AIProvider,
   type ProviderInfo,
 } from "@liexp/io/lib/http/Chat.js";
+import { type AuthUser } from "@liexp/io/lib/http/auth/AuthUser.js";
 import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { type HTTPStreamResponse } from "@ts-endpoint/express/lib/HTTPResponse.js";
+import type * as express from "express";
+import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { captureChatError, toChatErrorEvent } from "#flows/chat/chat.errors.js";
 import {
@@ -24,12 +27,16 @@ import { compactConversation } from "#flows/chat/compact.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
+/** Id of the authenticated user set by `authenticationHandler`. */
+const userIdOf = (req: express.Request): string | null =>
+  (req as express.Request & { user?: AuthUser }).user?.id ?? null;
+
 export const MakeSendChatMessageRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
     AgentEndpoints.Chat.Create,
-    ({ body }) => {
+    ({ body }, req) => {
       return pipe(
-        sendChatMessage(body)(ctx),
+        sendChatMessage({ ...body, userId: userIdOf(req) })(ctx),
         TE.mapLeft(ServerError.fromUnknown),
         TE.map((data) => ({
           body: {
@@ -43,69 +50,79 @@ export const MakeSendChatMessageRoute: Route = (r, ctx) => {
 };
 
 export const MakeListChatConversationsRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(AgentEndpoints.Chat.List, ({ query }) => {
-    return pipe(
-      listChatConversations(query)(ctx),
-      TE.mapLeft(ServerError.fromUnknown),
-      TE.map(({ data, total }) => ({
-        body: {
-          data,
-          total,
-        },
-        statusCode: 200,
-      })),
-    );
-  });
+  AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
+    AgentEndpoints.Chat.List,
+    ({ query }, req) => {
+      return pipe(
+        listChatConversations(userIdOf(req), query)(ctx),
+        TE.mapLeft(ServerError.fromUnknown),
+        TE.map(({ data, total }) => ({
+          body: {
+            data,
+            total,
+          },
+          statusCode: 200,
+        })),
+      );
+    },
+  );
 };
 
 export const MakeGetChatConversationRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(AgentEndpoints.Chat.Get, ({ params: { id } }) => {
-    return pipe(
-      getChatConversation(id)(ctx),
-      TE.mapLeft(ServerError.fromUnknown),
-      TE.map((messages) => ({
-        body: {
-          data: {
-            id,
-            messages,
-            created_at: messages[0]?.timestamp ?? new Date().toISOString(),
-            updated_at:
-              messages[messages.length - 1]?.timestamp ??
-              new Date().toISOString(),
-          },
-        },
-        statusCode: 200,
-      })),
-    );
-  });
+  AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
+    AgentEndpoints.Chat.Get,
+    ({ params: { id } }, req) => {
+      return pipe(
+        getChatConversation(userIdOf(req), id)(ctx),
+        TE.mapLeft(ServerError.fromUnknown),
+        TE.map((stored) => {
+          const now = new Date().toISOString();
+          return {
+            body: {
+              data: O.isSome(stored)
+                ? stored.value
+                : { id, messages: [], created_at: now, updated_at: now },
+            },
+            statusCode: 200,
+          };
+        }),
+      );
+    },
+  );
 };
 
 export const MakeDeleteChatConversationRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(AgentEndpoints.Chat.Delete, ({ params: { id } }) => {
-    return pipe(
-      deleteChatConversation(id)(ctx),
-      TE.mapLeft(ServerError.fromUnknown),
-      TE.map((deleted) => ({
-        body: {
-          data: deleted,
-        },
-        statusCode: 200,
-      })),
-    );
-  });
+  AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
+    AgentEndpoints.Chat.Delete,
+    ({ params: { id } }, req) => {
+      return pipe(
+        deleteChatConversation(userIdOf(req), id)(ctx),
+        TE.mapLeft(ServerError.fromUnknown),
+        TE.map((deleted) => ({
+          body: {
+            data: deleted,
+          },
+          statusCode: 200,
+        })),
+      );
+    },
+  );
 };
 
 export const MakeSendChatMessageStreamRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
     AgentEndpoints.Chat.Custom.Stream,
-    ({ body }) => {
+    ({ body }, req) => {
       return TE.tryCatch(() => {
         ctx.logger.info.log(
           "Starting streaming chat for message: %s",
           body.message.substring(0, 50),
         );
 
-        const streamGenerator = sendChatMessageStream(body)(ctx);
+        const streamGenerator = sendChatMessageStream({
+          ...body,
+          userId: userIdOf(req),
+        })(ctx);
 
         // Convert async generator to ReadableStream with SSE formatting
         const stream = Readable.from(

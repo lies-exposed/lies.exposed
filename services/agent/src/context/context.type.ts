@@ -1,3 +1,4 @@
+import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
 import { type FSClientContext } from "@liexp/backend/lib/context/fs.context.js";
 import { type JWTProviderContext } from "@liexp/backend/lib/context/jwt.context.js";
 import { type LangchainContext } from "@liexp/backend/lib/context/langchain.context.js";
@@ -11,11 +12,11 @@ import {
 import { type AgentType } from "@liexp/io/lib/http/Chat.js";
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { type ENV } from "#io/ENV.js";
+import { type SERVER_ENV } from "#io/ENV.js";
 import { type MemoryClient } from "#memory/client.js";
 
 interface ENVContext {
-  env: ENV;
+  env: SERVER_ENV;
 }
 
 interface HTTPProviderContext {
@@ -44,6 +45,7 @@ interface MemoryClientContext {
 }
 
 export type AgentContext = ENVContext &
+  DatabaseContext &
   LoggerContext &
   JWTProviderContext &
   HTTPProviderContext &
