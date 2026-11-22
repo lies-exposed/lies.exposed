@@ -47,7 +47,7 @@ const runRunnableSequence = <C extends LoggerContext = LoggerContext>(
   messages: Messages,
   chain: Agent,
   mode: "stream" | "invoke" = "stream",
-): ReaderTaskEither<C, APIError, any> =>
+): ReaderTaskEither<C, APIError, string> =>
   pipe(
     fp.RTE.Do,
     fp.RTE.chainFirst(() =>
@@ -90,10 +90,10 @@ const runRunnableSequence = <C extends LoggerContext = LoggerContext>(
     ),
   );
 
-export const runAgent = <R = string, C extends LoggerContext = LoggerContext>(
+export const runAgent = <C extends LoggerContext = LoggerContext>(
   inputs: Messages,
   chain: Agent,
   mode: "stream" | "invoke" = "stream",
-): ReaderTaskEither<C, APIError, R> => {
+): ReaderTaskEither<C, APIError, string> => {
   return runRunnableSequence(inputs, chain, mode);
 };

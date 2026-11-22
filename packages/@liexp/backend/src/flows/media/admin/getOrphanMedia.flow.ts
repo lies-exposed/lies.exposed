@@ -8,6 +8,7 @@ import { type Option } from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { Equal, Like } from "typeorm";
+import { type ConfigContext } from "../../../context/config.context.js";
 import { type DatabaseContext } from "../../../context/db.context.js";
 import { type ENVContext } from "../../../context/env.context.js";
 import { type FSClientContext } from "../../../context/fs.context.js";
@@ -30,7 +31,9 @@ type ItemObject = ActorEntity | GroupEntity | MediaEntity;
 type ObjectMediaPair = [_Object, Option<ItemObject>];
 
 export const getOrphanMediaFlow = <
-  C extends SpaceContext & { config: Record<string, any> } & DatabaseContext &
+  C extends SpaceContext &
+    ConfigContext &
+    DatabaseContext &
     FSClientContext &
     LoggerContext &
     ENVContext,

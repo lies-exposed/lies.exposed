@@ -73,8 +73,8 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
   ): TE.TaskEither<Error, A[]> => {
     return pipe(
       TE.tryCatch(() => {
-        return new Promise<any[]>((resolve, reject) => {
-          const data: A[] = [];
+        return new Promise<csv.ParserRow[]>((resolve, reject) => {
+          const data: csv.ParserRow[] = [];
           csv
             .parseString(content, { headers: true, ignoreEmpty: true })
             .on("error", (e) => {
@@ -92,7 +92,7 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
         const r = pipe(
           results,
           A.map((v) =>
-            Schema.decodeUnknownEither(decoder)(mapper ? mapper(v) : v),
+            Schema.decodeUnknownEither(decoder)(mapper ? mapper(v as I) : v),
           ),
           A.sequence(E.Applicative),
           E.mapLeft((errs) => {
