@@ -5,7 +5,7 @@ import { Breadcrumbs, Link, Typography } from "../mui/index.js";
 interface BreadCrumbProps {
   view: {
     view: string;
-    [key: string]: any;
+    [key: string]: string;
   };
   segments: Record<string, string[]>;
 }

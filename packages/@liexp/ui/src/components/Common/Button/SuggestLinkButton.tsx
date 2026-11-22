@@ -4,7 +4,7 @@ import { Box, IconButton, Icons } from "../../mui/index.js";
 
 export interface SuggestLinkButtonProps {
   className?: string;
-  color?: any;
+  color?: React.ComponentProps<typeof Icons.AddCircle>["color"];
 }
 
 const SuggestLinkButton: React.FC<SuggestLinkButtonProps> = ({
