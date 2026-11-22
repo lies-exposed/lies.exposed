@@ -2,7 +2,7 @@ import { Link, fc } from "@liexp/test/lib/index.js";
 import { LinkEdit } from "@liexp/ui/lib/components/admin/links/LinkEdit.js";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, vi, expect } from "vitest";
+import { describe, expect } from "vitest";
 import { adminTest } from "../../../test/adminTest.js";
 
 // ---------------------------------------------------------------------------
@@ -31,21 +31,26 @@ describe("LinkEdit", () => {
     adminTest(
       "renders LoadingPage while permissions are loading",
       async ({ render, mocks }) => {
-        // Use fake timers so Loading's 1-second delay fires immediately
-        vi.useFakeTimers();
-
-        // Make getPermissions never resolve so isLoadingPermissions stays true
+        // Make getPermissions never resolve so isLoadingPermissions stays true.
+        // Use real timers: react-admin's Loading shows its spinner after a
+        // ~1s delay via setTimeout, but under vitest fake timers React 19's
+        // scheduler doesn't flush the update inside act(), leaving the tree
+        // empty and (on assertion failure) leaving fake timers installed,
+        // which makes every later test in the file hit its 5000ms timeout.
         mocks.authProvider.getPermissions.mockReturnValue(
           new Promise(() => {}),
         );
 
         await render(<LinkEdit />);
 
-        // Advance timers past the 1-second Loading threshold
-        await vi.advanceTimersByTimeAsync(1100);
-
-        expect(screen.getByRole("progressbar")).toBeInTheDocument();
-        vi.useRealTimers();
+        const progressbar = await screen.findByRole(
+          "progressbar",
+          {},
+          {
+            timeout: 3000,
+          },
+        );
+        expect(progressbar).toBeInTheDocument();
       },
     );
 
