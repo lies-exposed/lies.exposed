@@ -2,7 +2,7 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { toActorEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
-import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { fc } from "@liexp/test/lib/index.js";
@@ -264,6 +264,37 @@ describe("MCP CRUD Tools E2E Tests", () => {
       expect(Array.isArray(edited.group.body)).toBe(true);
     });
 
+    test("editGroup - adds a member given as a plain object", async () => {
+      const suffix = Math.random().toString(36).slice(2, 8);
+      const actor = await pipe(
+        fc.sample(ActorArb, 1)[0],
+        toActorEntity,
+        (a) => ({ ...a, id: uuid() }),
+        (a) => Test.ctx.db.save(ActorEntity, [a]),
+        throwTE,
+      );
+      const created = (await callMcpTool(
+        Test,
+        serviceClientToken,
+        "createGroup",
+        {
+          name: `MCP Group ${suffix}`,
+          username: `mcp-group-m-${suffix}`,
+          color: "ff0000",
+          kind: "Public",
+        },
+      )) as { group: { id: string } };
+
+      const edited = (await callMcpTool(Test, serviceClientToken, "editGroup", {
+        id: created.group.id,
+        members: [
+          { actor: actor[0].id, startDate: "2020-01-01", body: "founder" },
+        ],
+      })) as { group: { members: unknown[] } };
+
+      expect(edited.group.members).toHaveLength(1);
+    });
+
     test("editGroup - validates input schema (missing id)", async () => {
       await expect(
         callMcpTool(Test, serviceClientToken, "editGroup", {
@@ -389,6 +420,36 @@ describe("MCP CRUD Tools E2E Tests", () => {
           title: "No ID link",
         }),
       ).rejects.toThrow();
+    });
+  });
+
+  describe("Media edit", () => {
+    test("editMedia - updates description and keeps location/label", async () => {
+      const user = await saveUser(Test.ctx, ["admin:create"]);
+      const { token } = createServiceClientTokenWithUserId(
+        "agent",
+        ["admin:read", "mcp:tools"],
+        user.id,
+      )(Test.ctx)();
+
+      Test.mocks.axios.get.mockResolvedValueOnce({ status: 200, data: {} });
+      Test.mocks.redis.publish.mockResolvedValue(1);
+
+      const id = Math.random().toString(36).slice(2);
+      const created = await callMcpTool(Test, token, "createMedia", {
+        location: `https://www.youtube.com/watch?v=${id}`,
+        type: "iframe/video",
+        label: `mcp-${id}`,
+      });
+      const [{ id: mediaId }] = (created.media ?? created) as { id: string }[];
+
+      const edited = (await callMcpTool(Test, token, "editMedia", {
+        id: mediaId,
+        description: "edited by agent",
+      })) as { description?: string; label?: string };
+
+      expect(edited.description).toBe("edited by agent");
+      expect(edited.label).toBe(`mcp-${id}`);
     });
   });
 

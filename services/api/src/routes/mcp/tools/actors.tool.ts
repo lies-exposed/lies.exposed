@@ -314,7 +314,7 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       }),
       memberIn: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
         description:
-          "Array of group memberships as UUIDs or undefined to keep current",
+          "Group memberships. Strings are EXISTING group-member row UUIDs (NOT group ids; passing a group id fails). To add a membership use editGroup with members [{ actor, startDate }]. Omit to keep current.",
       }),
     }),
     async (input) => {

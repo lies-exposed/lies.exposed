@@ -6,9 +6,12 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { type CreateGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
+import {
+  EditGroupBody,
+  type CreateGroupBody,
+  type Group,
+} from "@liexp/io/lib/http/Group.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -35,8 +38,6 @@ const groupToOutput = (group: Group): Record<string, unknown> => ({
   createdAt: group.createdAt,
   updatedAt: group.updatedAt,
 });
-
-const wrap = <A>(a: A | undefined): O.Option<A> => O.fromNullable(a);
 
 export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
   // --- findGroups ---
@@ -342,39 +343,42 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       members: Schema.UndefinedOr(
         Schema.Array(Schema.Union(Schema.String, Schema.Unknown)),
       ).annotations({
-        description: "New member list (array of actor UUIDs or member objects)",
+        description:
+          "New member list. Strings are EXISTING group-member row UUIDs (not actor ids). To add a member pass { actor: <actor UUID>, startDate: YYYY-MM-DD, endDate?: YYYY-MM-DD | null, body?: text }. Omit to keep current.",
       }),
     }),
     async (input) => {
       try {
-        // Build EditGroupInput for the editGroup flow. MCP input uses plain
-        // optional fields while the flow takes Option-wrapped, branded fields;
-        // each value is wrapped and leaf-cast (no `any`, no double cast) and the
-        // flow validates member/date/document shapes at runtime.
-        const editBody = {
-          id: input.id as UUID,
-          name: wrap(input.name),
-          username: wrap(input.username),
-          color: wrap(input.color),
-          kind: wrap(input.kind),
-          excerpt: wrap(toInitialValue(input.excerpt)),
-          body: wrap(toInitialValue(input.body)),
-          avatar: wrap(input.avatar as UUID | null),
+        // Decode through the flow's body schema so every optional field becomes
+        // an Option and member objects get Option-wrapped body/endDate and Date
+        // startDate. String members are existing group-member row UUIDs.
+        const members = input.members?.map((m) =>
+          typeof m === "string" || typeof m !== "object" || m === null
+            ? m
+            : {
+                ...m,
+                body: toInitialValue((m as { body?: unknown }).body),
+              },
+        );
 
-          startDate: wrap(input.startDate),
-          endDate: wrap(input.endDate),
-          members: wrap(
-            input.members as readonly (
-              | UUID
-              | {
-                  actor: UUID;
-                  body: O.Option<BlockNoteDocument | null>;
-                  startDate: Date;
-                  endDate: O.Option<Date | null>;
-                }
-            )[],
-          ),
-        };
+        const decoded = Schema.decodeUnknownEither(EditGroupBody)({
+          name: input.name,
+          username: input.username,
+          color: input.color,
+          kind: input.kind,
+          excerpt: toInitialValue(input.excerpt),
+          body: toInitialValue(input.body),
+          avatar: input.avatar,
+          startDate: input.startDate,
+          endDate: input.endDate,
+          members,
+        });
+
+        if (fp.E.isLeft(decoded)) {
+          throw new Error(`Invalid editGroup input: ${decoded.left.message}`);
+        }
+
+        const editBody = { ...decoded.right, id: input.id as UUID };
 
         const result = await pipe(
           editGroup(editBody),
