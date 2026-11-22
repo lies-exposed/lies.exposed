@@ -74,9 +74,7 @@ describe("EventsNetworkGraphFormTab", () => {
   test("never issues a request when the record has no id", async () => {
     const { putCalls } = setup(undefined);
 
-    expect(
-      screen.queryByRole("button", { name: /regenerate/i }),
-    ).toBeNull();
+    expect(screen.queryByRole("button", { name: /regenerate/i })).toBeNull();
 
     await userEvent.click(document.body);
 
