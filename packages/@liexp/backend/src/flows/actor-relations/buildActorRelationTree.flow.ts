@@ -27,6 +27,19 @@ export interface ActorNode {
 export type TreeMap = Record<string, ActorNode>;
 
 /**
+ * `bornOn`/`diedOn` are Postgres `date` columns: depending on the driver they
+ * come back as a `Date` or as a plain `YYYY-MM-DD` string, regardless of the
+ * `Date | null` entity typing.
+ */
+const dateToISOString = (
+  d: Date | string | null | undefined,
+): string | null => {
+  if (d === null || d === undefined) return null;
+  const date = d instanceof Date ? d : new Date(d);
+  return Number.isNaN(date.getTime()) ? null : date.toISOString();
+};
+
+/**
  * Builds a flat actor relation tree map using breadth-first traversal so that
  * all actors at the same depth are fetched in a single batch.  This reduces
  * the total number of DB queries from O(N) to O(depth) — typically 9 queries
@@ -206,8 +219,8 @@ export const buildActorRelationTree = <
                     "location" in actor.avatar
                       ? actor.avatar.location
                       : null,
-                  bornOn: actor.bornOn?.toISOString() ?? null,
-                  diedOn: actor.diedOn?.toISOString() ?? null,
+                  bornOn: dateToISOString(actor.bornOn),
+                  diedOn: dateToISOString(actor.diedOn),
                   children: childrenFiltered,
                   parents: nr.parents.filter(
                     (pId) => !visited.has(pId) && !childrenSet.has(pId),
