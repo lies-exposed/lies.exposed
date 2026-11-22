@@ -58,6 +58,35 @@ describe(buildActorRelationTree.name, () => {
     expect(result[actorId].siblings).toEqual([]);
   });
 
+  it.each([
+    ["Date", new Date("1950-03-04"), new Date("2020-01-02")],
+    // Postgres `date` columns can be returned as plain strings by the driver
+    [
+      "string",
+      "1950-03-04" as unknown as Date,
+      "2020-01-02" as unknown as Date,
+    ],
+  ])("should serialize bornOn/diedOn given as %s", async (_, born, died) => {
+    const actorId = uuid();
+
+    const actor = new ActorEntity();
+    actor.id = actorId;
+    actor.username = "dated";
+    actor.fullName = "Dated Actor";
+    actor.avatar = null;
+    actor.bornOn = born;
+    actor.diedOn = died;
+
+    mockTERightOnce(mockDb.findOneOrFail, () => actor);
+    mockTERightOnce(mockDb.find, () => [actor]);
+    mockTERightOnce(mockDb.find, () => []);
+
+    const result = await pipe(buildActorRelationTree(actorId, 0)(ctx), throwTE);
+
+    expect(result[actorId].bornOn).toBe("1950-03-04T00:00:00.000Z");
+    expect(result[actorId].diedOn).toBe("2020-01-02T00:00:00.000Z");
+  });
+
   it("should include actor avatar location in the tree node", async () => {
     const actorId = uuid();
 
