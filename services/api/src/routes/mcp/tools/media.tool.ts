@@ -230,6 +230,11 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
         )();
 
         if (fp.E.isLeft(result)) {
+          if ((result.left as { status?: number }).status === 429) {
+            throw new Error(
+              `The source host rate-limited the request (HTTP 429) for ${location}. Retry later or use a different source URL.`,
+            );
+          }
           throw new Error(
             (result.left as Error).message ?? "Failed to create media",
           );

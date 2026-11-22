@@ -1,7 +1,9 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { HTTPError } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { type HTTPProviderContext } from "../../context/http.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
@@ -81,5 +83,79 @@ describe(checkMediaAccessibility.name, () => {
         }),
       }),
     );
+  });
+
+  it("should request only the first byte and destroy the stream", async () => {
+    const url = "https://example.com/big.mp4" as URL;
+    const destroy = vi.fn();
+    mockTERightOnce(mockHttp.get, () => ({ destroy }));
+
+    await pipe(checkMediaAccessibility(url)(ctx), throwTE);
+
+    expect(mockHttp.get).toHaveBeenCalledWith(
+      url,
+      expect.objectContaining({
+        headers: expect.objectContaining({ Range: "bytes=0-0" }),
+      }),
+    );
+    expect(destroy).toHaveBeenCalledOnce();
+  });
+
+  describe("429 handling", () => {
+    const httpError = (status: number) =>
+      new HTTPError(`${status}`, {
+        kind: "ClientError",
+        status: `${status}`,
+        meta: [],
+      });
+    const rateLimited = httpError(429);
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("should retry with backoff and succeed", async () => {
+      const url = "https://upload.example.org/a.jpg" as URL;
+      mockHttp.get
+        .mockImplementationOnce(() => TE.left(rateLimited))
+        .mockImplementationOnce(() => TE.right({}));
+
+      const promise = checkMediaAccessibility(url)(ctx)();
+      await vi.advanceTimersByTimeAsync(1000);
+      const result = await promise;
+
+      expect(result._tag).toBe("Right");
+      expect(mockHttp.get).toHaveBeenCalledTimes(2);
+    });
+
+    it("should give up after max attempts and keep the 429 status", async () => {
+      const url = "https://upload.example.org/b.jpg" as URL;
+      mockHttp.get.mockImplementation(() => TE.left(rateLimited));
+
+      const promise = checkMediaAccessibility(url)(ctx)();
+      await vi.advanceTimersByTimeAsync(1000 + 2000);
+      const result = await promise;
+
+      expect(mockHttp.get).toHaveBeenCalledTimes(3);
+      expect(result._tag).toBe("Left");
+      if (result._tag === "Left") {
+        expect(result.left.status).toBe(429);
+      }
+      mockHttp.get.mockReset();
+    });
+
+    it("should not retry non-429 errors", async () => {
+      const url = "https://example.com/gone.jpg" as URL;
+      mockHttp.get.mockImplementationOnce(() => TE.left(httpError(404)));
+
+      const result = await checkMediaAccessibility(url)(ctx)();
+
+      expect(mockHttp.get).toHaveBeenCalledTimes(1);
+      expect(result._tag === "Left" && result.left.status).toBe(404);
+    });
   });
 });
