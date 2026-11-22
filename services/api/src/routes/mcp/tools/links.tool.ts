@@ -8,7 +8,7 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchLinks } from "@liexp/backend/lib/queries/links/fetchLinks.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { URL } from "@liexp/io/lib/http/Common/index.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
@@ -153,7 +153,7 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
       try {
         // Check for existing link with same URL
         const existingEither = await ctx.db.findOne(LinkEntity, {
-          where: { url },
+          where: { url: url as URL },
         })();
 
         if (fp.E.isRight(existingEither) && fp.O.isSome(existingEither.right)) {
@@ -264,7 +264,7 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
       try {
         // Find the existing link
         const foundEither = await ctx.db.findOneOrFail(LinkEntity, {
-          where: { id },
+          where: { id: id as UUID },
           relations: { image: true },
         })();
 
@@ -302,7 +302,7 @@ export const registerLinksTools = (server: McpServer, ctx: ServerContext) => {
 
         // Reload the link with relations
         const updatedEither = await ctx.db.findOneOrFail(LinkEntity, {
-          where: { id },
+          where: { id: id as UUID },
           relations: { image: true, events: true, keywords: true },
         })();
 

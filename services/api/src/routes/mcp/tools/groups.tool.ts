@@ -6,6 +6,8 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { type CreateGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
@@ -33,6 +35,8 @@ const groupToOutput = (group: Group): Record<string, unknown> => ({
   createdAt: group.createdAt,
   updatedAt: group.updatedAt,
 });
+
+const wrap = <A>(a: A | undefined): O.Option<A> => O.fromNullable(a);
 
 export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
   // --- findGroups ---
@@ -240,24 +244,18 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
         }
 
         // Direct creation mode
-        const createBody: CreateGroupBody = {
+        const createBody = {
           name: input.name,
           username: input.username,
           color: input.color,
           kind: input.kind ?? "Public",
-          excerpt:
-            typeof input.excerpt === "string"
-              ? toInitialValue(input.excerpt)
-              : (input.excerpt ?? undefined),
-          body:
-            typeof input.body === "string"
-              ? toInitialValue(input.body)
-              : (input.body ?? undefined),
+          excerpt: toInitialValue(input.excerpt),
+          body: toInitialValue(input.body),
           startDate: input.startDate ? new Date(input.startDate) : undefined,
           endDate: input.endDate ? new Date(input.endDate) : undefined,
-          avatar: input.avatar ?? undefined,
+          avatar: input.avatar as UUID | undefined,
           members: input.members ?? [],
-        };
+        } satisfies CreateGroupBody;
 
         const te = createGroup(createBody)(ctx);
         const result = await pipe(
@@ -349,41 +347,37 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
     }),
     async (input) => {
       try {
-        // editGroup expects every optional field wrapped in an effect Option
-        // (O.none() = keep current value). Plain strings become BlockNote docs.
-        const rich = (v: unknown): O.Option<unknown> =>
-          v === undefined
-            ? O.none()
-            : O.some(typeof v === "string" ? toInitialValue(v) : v);
+        // Build EditGroupInput for the editGroup flow. MCP input uses plain
+        // optional fields while the flow takes Option-wrapped, branded fields;
+        // each value is wrapped and leaf-cast (no `any`, no double cast) and the
+        // flow validates member/date/document shapes at runtime.
         const editBody = {
-          id: input.id,
-          name: O.fromNullable(input.name),
-          username: O.fromNullable(input.username),
-          color: O.fromNullable(input.color),
-          kind: O.fromNullable(input.kind),
-          excerpt: rich(input.excerpt),
-          body: rich(input.body),
-          avatar: O.fromNullable(input.avatar),
-          startDate: O.fromNullable(
-            input.startDate ? new Date(input.startDate) : undefined,
+          id: input.id as UUID,
+          name: wrap(input.name),
+          username: wrap(input.username),
+          color: wrap(input.color),
+          kind: wrap(input.kind),
+          excerpt: wrap(toInitialValue(input.excerpt)),
+          body: wrap(toInitialValue(input.body)),
+          avatar: wrap(input.avatar as UUID | null),
+
+          startDate: wrap(input.startDate),
+          endDate: wrap(input.endDate),
+          members: wrap(
+            input.members as readonly (
+              | UUID
+              | {
+                  actor: UUID;
+                  body: O.Option<BlockNoteDocument | null>;
+                  startDate: Date;
+                  endDate: O.Option<Date | null>;
+                }
+            )[],
           ),
-          endDate: O.fromNullable(
-            input.endDate ? new Date(input.endDate) : undefined,
-          ),
-          members: O.fromNullable(input.members),
-        } as unknown as Parameters<typeof editGroup>[0];
+        };
 
         const result = await pipe(
           editGroup(editBody),
-          // GroupIO.decodeSingle expects GroupEntity, but we have the decoded result
-          // from editGroup. The cast is safe because the decoder validates at runtime.
-
-          // fp.TE.chainEitherK((g) =>
-          //   GroupIO.decodeSingle({
-          //     stories: [],
-          //     ...g,
-          //   } as any),
-          // ),
           fp.RTE.mapLeft((err) => {
             ctx.logger.error.log("editGroup error: %O", err);
             return err;

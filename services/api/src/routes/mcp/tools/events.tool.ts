@@ -8,6 +8,7 @@ import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.
 import { editEventQuery } from "@liexp/backend/lib/queries/events/editEvent.query.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import type { UUID } from "@liexp/io/lib/http/Common/index.js";
 import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -19,10 +20,10 @@ import {
   EventTypeFieldsSchema,
   EventTypeSchema,
 } from "./eventPayload.js";
-import { defineMcpTool } from "./helpers.js";
+import { asFlowInput, defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 
-const eventToOutput = (event: Events.Event): Record<string, unknown> => ({
+const eventToOutput = (event: EventV2Entity): Record<string, unknown> => ({
   id: event.id,
   type: event.type,
   date: event.date,
@@ -93,26 +94,35 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
       const idsFilter = pipe(
         O.fromNullable(ids),
         O.filter((i) => i.length > 0),
+        O.map((i) => i as readonly UUID[]),
       );
 
       const typeFilter = pipe(
         O.fromNullable(type),
-        O.map((t) => [t] as const),
+        O.map((t) => [t as Events.EventType]),
       );
 
       const actorsFilter = pipe(
         O.fromNullable(actors),
         O.filter((a) => a.length > 0),
+        O.map((a) => a as readonly UUID[]),
       );
 
       const groupsFilter = pipe(
         O.fromNullable(groups),
         O.filter((g) => g.length > 0),
+        O.map((g) => g as readonly UUID[]),
       );
 
-      const startDateFilter = O.fromNullable(startDate);
+      const startDateFilter = pipe(
+        O.fromNullable(startDate),
+        O.map((d) => new Date(d)),
+      );
 
-      const endDateFilter = O.fromNullable(endDate);
+      const endDateFilter = pipe(
+        O.fromNullable(endDate),
+        O.map((d) => new Date(d)),
+      );
 
       const skip = Number(start ?? 0);
       const take = Number(end ?? 20);
@@ -137,9 +147,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
         const result = await pipe(
           te,
           fp.TE.map((output) => ({
-            events: output.results.map((e) =>
-              eventToOutput(e as unknown as Events.Event),
-            ),
+            events: output.results.map((e) => eventToOutput(e)),
             total: output.total,
             totals: output.totals,
             firstDate: output.firstDate,
@@ -229,9 +237,12 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
           media: input.media ?? [],
           keywords: input.keywords ?? [],
           payload,
-        } as unknown as Events.CreateEventPlainBody;
+        };
 
-        const te = createEventQuery(baseBody)(ctx);
+        const te = createEventQuery(
+          asFlowInput<Events.CreateEventPlainBody>(baseBody),
+        )(ctx);
+
         const result = await pipe(
           te,
           // createEventQuery only builds the entity: persist it first
@@ -243,7 +254,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
             }),
           ),
           fp.TE.map((event) => ({
-            event: eventToOutput(event as unknown as Events.Event),
+            event: eventToOutput(event),
           })),
         )();
 
@@ -320,7 +331,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
       try {
         // Find the existing event
         const foundEither = await ctx.db.findOneOrFail(EventV2Entity, {
-          where: { id: input.id },
+          where: { id: input.id as UUID },
           relations: { media: true, links: true, keywords: true },
         })();
 
@@ -346,10 +357,13 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
           links: O.fromNullable(input.links),
           media: O.fromNullable(input.media),
           keywords: O.fromNullable(input.keywords),
-        } as unknown as Events.EditEventBody;
+        };
+
+        // The union member is narrowed by `type` at runtime in editEventQuery
+        const flowEditBody = asFlowInput<Events.EditEventBody>(editBody);
 
         // Execute the edit event query
-        const editTE = editEventQuery(storedEvent, editBody)(ctx);
+        const editTE = editEventQuery(storedEvent, flowEditBody)(ctx);
         const editedResult = await pipe(
           editTE,
           fp.TE.chain((edited) => ctx.db.save(EventV2Entity, [edited])),
@@ -369,7 +383,7 @@ export const registerEventsTools = (server: McpServer, ctx: ServerContext) => {
           content: [
             {
               text: JSON.stringify({
-                event: eventToOutput(editedResult.right as Events.Event),
+                event: eventToOutput(editedResult.right),
               }),
               type: "text" as const,
             },

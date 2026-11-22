@@ -7,6 +7,7 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchAreas } from "@liexp/backend/lib/queries/areas/fetchAreas.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Area } from "@liexp/io/lib/http/Area.js";
 import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -14,9 +15,10 @@ import { Schema } from "effect";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
+import { asFlowInput } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 
-const areaToOutput = (area: AreaEntity): Record<string, unknown> => ({
+const areaToOutput = (area: AreaEntity | Area): Record<string, unknown> => ({
   id: area.id,
   label: area.label,
   slug: area.slug,
@@ -367,11 +369,11 @@ export const registerAreasTools = (server: McpServer, ctx: ServerContext) => {
 
         // Call editArea flow with context
         const te = editArea(
-          flowInput as unknown as Parameters<typeof editArea>[0],
+          asFlowInput<Parameters<typeof editArea>[0]>(flowInput),
         )(ctx);
         const result = await pipe(
           te,
-          fp.TE.map((a) => areaToOutput(a as unknown as AreaEntity)),
+          fp.TE.map((a) => areaToOutput(a)),
         )();
 
         if (fp.E.isLeft(result)) {

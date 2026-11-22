@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import type { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import {
   FIND_ACTORS,
@@ -6,7 +7,12 @@ import {
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchActors } from "@liexp/backend/lib/queries/actors/fetchActors.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import type { GetListActorQuery } from "@liexp/io/lib/http/Actor.js";
+import type {
+  Actor,
+  CreateActorBody,
+  GetListActorQuery,
+} from "@liexp/io/lib/http/Actor.js";
+import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import type { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
@@ -16,24 +22,49 @@ import type { ServerContext } from "#context/context.type.js";
 import { createActor } from "#flows/actors/createActor.flow.js";
 import { editActor } from "#flows/actors/editActor.flow.js";
 
-const actorToOutput = (actor: ActorEntity) => ({
+const wrap = <A>(a: A | undefined): O.Option<A> => O.fromNullable(a);
+
+const decodeBlockNote = Schema.decodeUnknownSync(BlockNoteDocument);
+
+const toParagraphBlocks = (
+  content: string | undefined,
+): O.Option<BlockNoteDocument> =>
+  content === undefined
+    ? O.none()
+    : O.some(
+        decodeBlockNote([
+          {
+            type: "paragraph",
+            id: randomUUID(),
+            props: {},
+            content: [{ type: "text", text: content }],
+            children: [],
+          },
+        ]),
+      );
+
+const toIds = (relations: readonly ActorRelation[] | null | undefined) =>
+  (relations ?? []).map((r) => (typeof r === "string" ? r : r.id));
+
+/** Accepts both the TypeORM entity and the decoded `Actor` IO type */
+type ActorRelation = { id: string } | string;
+
+const actorToOutput = (actor: ActorEntity | Actor) => ({
   id: actor.id,
   username: actor.username,
   fullName: actor.fullName,
   color: actor.color ?? undefined,
   excerpt: actor.excerpt ?? undefined,
-  nationalities: ((actor.nationalities ?? []) as { id: string }[]).map(
-    (n) => n.id,
-  ),
+  nationalities: toIds(actor.nationalities),
   body: actor.body ?? undefined,
   avatar: actor.avatar
     ? typeof actor.avatar === "string"
       ? actor.avatar
-      : actor.avatar.id
+      : (actor.avatar as { id: string }).id
     : undefined,
   bornOn: actor.bornOn ?? undefined,
   diedOn: actor.diedOn ?? undefined,
-  memberIn: ((actor.memberIn ?? []) as { id: string }[]).map((m) => m.id),
+  memberIn: toIds(actor.memberIn),
   createdAt: actor.createdAt.toISOString(),
   updatedAt: actor.updatedAt.toISOString(),
 });
@@ -186,25 +217,26 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
     }),
     async (input) => {
       try {
-        const createBody = {
+        // MCP input carries unbranded strings/dates; the createActor flow
+        // validates them at runtime via its own schema guard.
+        const createBody: CreateActorBody = {
           username: input.username,
           fullName: input.fullName,
-          color: input.color ?? undefined,
-          excerpt: input.excerpt ?? undefined,
-          nationalities: input.nationalities ?? [],
-          body: input.body ?? undefined,
-          avatar: input.avatar ?? undefined,
-          bornOn: input.bornOn ?? undefined,
-          diedOn: input.diedOn ?? undefined,
-          memberIn: input.memberIn ?? [],
+          color: input.color,
+          excerpt: input.excerpt,
+          nationalities: (input.nationalities ?? []) as readonly UUID[],
+          body: input.body,
+          avatar: input.avatar as UUID | undefined,
+          bornOn:
+            input.bornOn !== undefined ? new Date(input.bornOn) : undefined,
+          diedOn:
+            input.diedOn !== undefined ? new Date(input.diedOn) : undefined,
         };
 
         const te = createActor(createBody)(ctx);
         const result = await pipe(
           te,
-          fp.TE.map((r) =>
-            "success" in r ? r : actorToOutput(r as unknown as ActorEntity),
-          ),
+          fp.TE.map((r) => ("success" in r ? r : actorToOutput(r))),
         )();
 
         if (fp.E.isLeft(result)) {
@@ -305,27 +337,32 @@ export const registerActorsTools = (server: McpServer, ctx: ServerContext) => {
       }
 
       try {
-        // Build EditActorInput for the flow
-        const flowInput: Record<string, unknown> = { id };
-        if (username !== undefined) flowInput.username = username;
-        if (fullName !== undefined) flowInput.fullName = fullName;
-        if (color !== undefined) flowInput.color = color;
-        if (excerpt !== undefined) flowInput.excerpt = excerpt;
-        if (nationalities !== undefined)
-          flowInput.nationalities = nationalities;
-        if (body !== undefined) flowInput.body = body;
-        if (avatar !== undefined) flowInput.avatar = avatar;
-        if (bornOn !== undefined) flowInput.bornOn = bornOn;
-        if (diedOn !== undefined) flowInput.diedOn = diedOn;
-        if (memberIn !== undefined) flowInput.memberIn = memberIn;
+        // Build EditActorInput for the flow. The MCP tool takes plain strings
+        // (BlockNote documents are passed as raw text, dates as ISO strings);
+        // `as` casts adapt them to the flow's branded/Option input shape, which
+        // the flow validates at runtime.
+        const excerptDoc = toParagraphBlocks(excerpt);
+        const bodyDoc = toParagraphBlocks(body);
+
+        const flowInput = {
+          id: id as UUID,
+          username: wrap(username),
+          fullName: wrap(fullName),
+          color: wrap(color),
+          excerpt: excerptDoc,
+          nationalities: wrap(nationalities?.map((n) => n as UUID)),
+          body: bodyDoc,
+          avatar: wrap(avatar as UUID | undefined),
+          bornOn: wrap(bornOn),
+          diedOn: wrap(diedOn),
+          memberIn: wrap(memberIn as never),
+        };
 
         // Call editActor flow with context
-        const te = editActor(
-          flowInput as unknown as Parameters<typeof editActor>[0],
-        )(ctx);
+        const te = editActor(flowInput)(ctx);
         const result = await pipe(
           te,
-          fp.TE.map((r) => actorToOutput(r as unknown as ActorEntity)),
+          fp.TE.map((r) => actorToOutput(r)),
         )();
 
         if (fp.E.isLeft(result)) {
