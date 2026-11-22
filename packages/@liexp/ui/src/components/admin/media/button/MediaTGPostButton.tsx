@@ -1,13 +1,17 @@
-import { type Keyword } from "@liexp/io/lib/http/index.js";
-import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
+import { type Keyword, type Media } from "@liexp/io/lib/http/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
 import { useConfiguration } from "../../../../context/ConfigurationContext.js";
 import { CircularProgress } from "../../../mui/index.js";
 import { SocialPostButton } from "../../common/SocialPostButton.js";
 
+interface MediaRecord extends Media.Media {
+  schedule?: number;
+}
+
 export const MediaTGPostButton: React.FC = () => {
-  const record = useRecordContext();
+  const record = useRecordContext<MediaRecord>();
   const apiProvider = useDataProvider();
   const conf = useConfiguration();
 
@@ -32,12 +36,12 @@ export const MediaTGPostButton: React.FC = () => {
                 .then((data) => data.data)
             : await Promise.resolve([]);
 
-        const date = formatDate(parseISO(record.createdAt));
+        const date = formatDate(record.createdAt);
 
         return {
           title: record.label ?? record.description,
           keywords,
-          media: [record as any],
+          media: [record],
           date,
           content: record.description,
           actors: [],
@@ -45,7 +49,7 @@ export const MediaTGPostButton: React.FC = () => {
           url,
           platforms: { TG: true, IG: false },
           useReply: false,
-          schedule: record.schedule,
+          schedule: record.schedule ?? undefined,
         };
       }}
     />
