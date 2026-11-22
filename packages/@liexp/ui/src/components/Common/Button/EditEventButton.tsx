@@ -52,7 +52,7 @@ const EditEventButton: React.FC<EditEventButtonProps> = ({ admin, id }) => {
         target: "_self",
         rel: "noreferrer",
         href: "#",
-        onClick: (e: any) => {
+        onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
           e.preventDefault();
         },
       };

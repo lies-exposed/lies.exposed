@@ -24,7 +24,7 @@ export interface NavigationItem {
 }
 
 interface ContentWithSideNavigationProps {
-  items: any[];
+  items: NavigationItem[];
 }
 
 export const ContentWithSideNavigation: React.FC<

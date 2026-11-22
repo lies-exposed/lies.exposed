@@ -198,7 +198,7 @@ const Header: React.FC<HeaderProps> = ({
               onResultClick={onSearchResultClick}
             />
           ) : null}
-          <SuggestLinkButton className={classes.menuItem} color={"white"} />
+          <SuggestLinkButton className={classes.menuItem} color={"inherit"} />
 
           <HeaderMenu
             menu={menu}

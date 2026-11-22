@@ -17,6 +17,8 @@ const StyledReactTOC = styled(ReactTOC)(({ theme }) => ({
   },
 }));
 
+type CustomMatchers = Record<string, string>;
+
 interface TOCProps {
   markdownText: string;
   titleLimit?: number;
@@ -24,7 +26,7 @@ interface TOCProps {
   lowestHeadingLevel?: number;
   className?: string;
   type?: "default" | "raw";
-  customMatchers?: any;
+  customMatchers?: CustomMatchers;
 }
 export const TOC: React.FC<TOCProps> = (props) => {
   return <StyledReactTOC className={classes.root} {...props} />;
