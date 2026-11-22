@@ -2,15 +2,19 @@ import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { type ObjectLiteral, type SelectQueryBuilder } from "typeorm";
 import { SocialPostEntity } from "../../entities/SocialPost.entity.js";
 
+type SocialPostRawRow = {
+  socialPosts_ids?: UUID[] | null;
+} & Record<string, unknown>;
+
 export const aggregateSocialPostsPerEntry = (
   key: string,
-  list: { socialPosts_ids: UUID[]; [index: string]: any }[],
+  list: SocialPostRawRow[],
   e: { id: string },
 ): UUID[] => {
   return list
     .filter((r) => r[key] === e.id && !!r.socialPosts_ids)
     .reduce<UUID[]>((acc, r) => {
-      r.socialPosts_ids.forEach((id: UUID) => {
+      (r.socialPosts_ids ?? []).forEach((id) => {
         if (!acc.includes(id)) {
           acc.push(id);
         }

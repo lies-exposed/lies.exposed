@@ -4,7 +4,8 @@ import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 
-type LogFn<A> = ((r: A) => [string, ...any[]]) | any[] | string;
+type LogFn<A> =
+  ((r: A) => [string, ...unknown[]]) | [string, ...unknown[]] | string;
 
 const logA =
   <A>(f: LogFn<A>, a: A) =>
@@ -13,7 +14,7 @@ const logA =
       typeof f === "function"
         ? f(a)
         : typeof f === "string"
-          ? ([f, a] as string[])
+          ? ([f, a] as [string, ...unknown[]])
           : f;
 
     logger.log(msg, ...args);
