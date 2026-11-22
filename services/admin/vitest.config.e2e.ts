@@ -4,6 +4,7 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
   test: {
     name: "e2e",
     globals: true,
+    env: { NODE_ENV: "test" },
     watch: false,
     environment: "node",
     // Must use forks (child process), not vmForks (V8 VM context):
