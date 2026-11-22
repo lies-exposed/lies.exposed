@@ -242,10 +242,10 @@ export const buildCreatePayload = (
   }
 };
 
-type StoredPayload = Record<string, any> | null | undefined;
+type StoredPayload = Record<string, unknown> | null | undefined;
 
-const nested = (stored: StoredPayload, key: string): Record<string, any> =>
-  (stored?.[key] as Record<string, any> | undefined) ?? {};
+const nested = (stored: StoredPayload, key: string): Record<string, unknown> =>
+  (stored?.[key] as Record<string, unknown> | undefined) ?? {};
 
 /**
  * Payload for `editEventQuery`: only provided fields, each wrapped in an
