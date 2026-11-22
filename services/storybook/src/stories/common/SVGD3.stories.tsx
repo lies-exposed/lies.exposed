@@ -3,10 +3,10 @@ import { type Meta, type StoryObj } from "@storybook/react-vite";
 import * as d3 from "d3";
 import * as React from "react";
 
-type SVGD3Props = {
+interface SVGD3Props {
   width: number;
   height: number;
-};
+}
 
 type SimulationNode = d3.SimulationNodeDatum & {
   id: number;
