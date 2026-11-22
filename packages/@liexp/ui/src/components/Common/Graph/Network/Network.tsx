@@ -56,7 +56,7 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkPointDatum>(
   props: NetworkProps<L, N>,
 ): React.ReactElement => {
   const handleMouseOver = (
-    event: React.MouseEvent<SVGElement, React.MouseEvent>,
+    event: React.MouseEvent<SVGElement, MouseEvent>,
     datum: N,
   ): void => {
     const svgElement = (event.target as SVGElement).ownerSVGElement;
