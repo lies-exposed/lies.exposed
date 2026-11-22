@@ -11,6 +11,7 @@ export const EDIT_LINK = "editLink";
 export const FIND_GROUPS = "findGroups";
 export const CREATE_GROUP = "createGroup";
 export const EDIT_GROUP = "editGroup";
+export const CREATE_GROUP_MEMBER = "createGroupMember";
 
 export const FIND_EVENTS = "findEvents";
 export const CREATE_EVENT = "createEvent";

@@ -401,11 +401,12 @@ All tools return structured responses:
 - **createActor** - Create new person
 - **editActor** - Update person details
 
-### Groups (4 tools)
+### Groups (5 tools)
 - **getGroup** - Retrieve by ID
 - **findGroups** - Search with filters
 - **createGroup** - Create new organization
 - **editGroup** - Update organization details
+- **createGroupMember** - Add an actor to a group (membership with start/end date and role)
 
 ### Events (11 tools)
 - **getEvent** - Retrieve by ID

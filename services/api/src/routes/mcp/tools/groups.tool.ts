@@ -1,6 +1,9 @@
+import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
+import { GroupMemberIO } from "@liexp/backend/lib/io/groupMember.io.js";
 import {
   CREATE_GROUP,
+  CREATE_GROUP_MEMBER,
   EDIT_GROUP,
   FIND_GROUPS,
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
@@ -17,6 +20,7 @@ import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
+import { Equal } from "typeorm";
 import { defineMcpTool } from "./helpers.js";
 import type { ServerContext } from "#context/context.type.js";
 import { createGroup } from "#flows/groups/createGroup.flow.js";
@@ -418,5 +422,101 @@ export const registerGroupsTools = (server: McpServer, ctx: ServerContext) => {
       inputSchema: editGroupTool.inputSchema,
     },
     editGroupTool.handler,
+  );
+
+  // --- createGroupMember ---
+  const createGroupMemberTool = defineMcpTool(
+    Schema.Struct({
+      group: Schema.String.annotations({
+        description: "Group UUID (required)",
+      }),
+      actor: Schema.String.annotations({
+        description: "Actor UUID of the member (required)",
+      }),
+      startDate: Schema.String.annotations({
+        description: "Membership start date, ISO 8601 (YYYY-MM-DD) (required)",
+      }),
+      endDate: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Membership end date, ISO 8601; omit if still active",
+      }),
+      body: Schema.UndefinedOr(Schema.Unknown).annotations({
+        description:
+          "Description of the membership (e.g. role). Plain text or a BlockNote document",
+      }),
+    }),
+    async (input) => {
+      try {
+        const startDate = new Date(input.startDate);
+        const endDate = input.endDate ? new Date(input.endDate) : null;
+        if (
+          Number.isNaN(startDate.getTime()) ||
+          (endDate !== null && Number.isNaN(endDate.getTime()))
+        ) {
+          throw new Error("startDate/endDate must be valid ISO 8601 dates");
+        }
+
+        const result = await pipe(
+          ctx.db.save(GroupMemberEntity, [
+            {
+              group: { id: input.group },
+              actor: { id: input.actor },
+              startDate,
+              endDate,
+              body: toInitialValue(input.body) ?? null,
+            },
+          ]),
+          fp.TE.chain(([m]) =>
+            ctx.db.findOneOrFail(GroupMemberEntity, {
+              where: { id: Equal(m.id) },
+              relations: { actor: true, group: true },
+            }),
+          ),
+          fp.TE.chainEitherK((m) => GroupMemberIO.decodeSingle(m)),
+        )();
+
+        if (fp.E.isLeft(result)) {
+          throw new Error(
+            (result.left as Error).message ?? "Failed to create group member",
+          );
+        }
+
+        const m = result.right;
+        return {
+          content: [
+            {
+              text: JSON.stringify({
+                groupMember: {
+                  id: m.id,
+                  group: m.group.id,
+                  actor: m.actor.id,
+                  startDate: m.startDate,
+                  endDate: m.endDate,
+                  body: m.body,
+                },
+              }),
+              type: "text" as const,
+            },
+          ],
+        };
+      } catch (err) {
+        ctx.logger.error.log("createGroupMember error: %O", err);
+        throw new Error(
+          `Failed to create group member: ${err instanceof Error ? err.message : String(err)}`,
+          { cause: err },
+        );
+      }
+    },
+  );
+
+  server.registerTool(
+    CREATE_GROUP_MEMBER,
+    {
+      title: "Create group member",
+      description:
+        "Add an actor to a group as a member (creates the membership). Provide the group UUID, actor UUID and start date; optionally end date and a body describing the role.",
+      annotations: { title: "Create group member", destructiveHint: false },
+      inputSchema: createGroupMemberTool.inputSchema,
+    },
+    createGroupMemberTool.handler,
   );
 };

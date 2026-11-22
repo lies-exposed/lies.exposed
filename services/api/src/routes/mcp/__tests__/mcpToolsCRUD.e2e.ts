@@ -295,6 +295,57 @@ describe("MCP CRUD Tools E2E Tests", () => {
       expect(edited.group.members).toHaveLength(1);
     });
 
+    test("createGroupMember - adds actor to group with role body", async () => {
+      const suffix = Math.random().toString(36).slice(2, 8);
+      const created = (await callMcpTool(
+        Test,
+        serviceClientToken,
+        "createGroup",
+        {
+          name: `MCP Members ${suffix}`,
+          username: `mcp-members-${suffix}`,
+          color: "00ff00",
+          kind: "Public",
+        },
+      )) as { group: { id: string } };
+
+      const [actor] = fc.sample(ActorArb, 1).map(toActorEntity);
+      await throwTE(Test.ctx.db.save(ActorEntity, [actor]));
+
+      const result = (await callMcpTool(
+        Test,
+        serviceClientToken,
+        "createGroupMember",
+        {
+          group: created.group.id,
+          actor: actor.id,
+          startDate: "2020-01-02",
+          body: "President",
+        },
+      )) as {
+        groupMember: {
+          id: string;
+          group: string;
+          actor: string;
+          body: unknown;
+        };
+      };
+
+      expect(result.groupMember.group).toBe(created.group.id);
+      expect(result.groupMember.actor).toBe(actor.id);
+      expect(Array.isArray(result.groupMember.body)).toBe(true);
+    });
+
+    test("createGroupMember - rejects invalid start date", async () => {
+      await expect(
+        callMcpTool(Test, serviceClientToken, "createGroupMember", {
+          group: "00000000-0000-4000-8000-000000000000",
+          actor: "00000000-0000-4000-8000-000000000001",
+          startDate: "not-a-date",
+        }),
+      ).rejects.toThrow();
+    });
+
     test("editGroup - validates input schema (missing id)", async () => {
       await expect(
         callMcpTool(Test, serviceClientToken, "editGroup", {
