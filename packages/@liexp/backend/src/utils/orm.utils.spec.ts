@@ -1,9 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { type ObjectLiteral, type SelectQueryBuilder } from "typeorm";
+import { beforeEach, describe, expect, it } from "vitest";
+import { mockDeep } from "vitest-mock-extended";
 import { addOrder } from "./orm.utils.js";
 
-const mockQ = {
-  addOrderBy: vi.fn().mockReturnThis(),
-} as any;
+const mockQ = mockDeep<SelectQueryBuilder<ObjectLiteral>>();
 
 describe("orm.utils - addOrder", () => {
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe("orm.utils - addOrder", () => {
   });
 
   it("should handle random order with seeder_random", () => {
-    addOrder({ random: true } as Record<string, any>, mockQ);
+    addOrder({ random: "DESC" }, mockQ);
     expect(mockQ.addOrderBy).toHaveBeenCalledWith("seeder_random", "DESC");
   });
 
@@ -36,12 +36,12 @@ describe("orm.utils - addOrder", () => {
   });
 
   it("should handle prefix with random", () => {
-    addOrder({ random: true } as Record<string, any>, mockQ, "test");
+    addOrder({ random: "DESC" }, mockQ, "test");
     expect(mockQ.addOrderBy).toHaveBeenCalledWith("seeder_random", "DESC");
   });
 
   it("should handle multiple random keys", () => {
-    addOrder({ random: true, name: "ASC" } as Record<string, any>, mockQ);
+    addOrder({ random: "DESC", name: "ASC" }, mockQ);
     expect(mockQ.addOrderBy).toHaveBeenCalledTimes(2);
   });
 });
