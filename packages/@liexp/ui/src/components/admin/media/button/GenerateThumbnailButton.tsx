@@ -6,6 +6,7 @@ import { Schema } from "effect";
 import * as React from "react";
 import {
   useRecordContext,
+  useNotify,
   useRefresh,
   type FieldProps,
   Button,
@@ -117,8 +118,10 @@ const SelectThumbnailModalContent: React.FC<{
 export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   const record = useRecordContext(props);
   const refresh = useRefresh();
+  const notify = useNotify();
   const apiProvider = useDataProvider();
   const [modal, showModal] = useModal();
+  const [generating, setGenerating] = React.useState(false);
 
   const handleThumbnailUpdate = React.useCallback(
     (thumbnail: string) => {
@@ -141,7 +144,11 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
             previousData: record,
           })
           .then(() => {
+            notify("Thumbnail updated", { type: "success" });
             refresh();
+          })
+          .catch((e: Error) => {
+            notify(`Thumbnail update failed: ${e.message}`, { type: "error" });
           });
       }
     },
@@ -150,11 +157,32 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
 
   const handleThumbnailsGenerate = React.useCallback(() => {
     if (record?.id) {
-      void apiProvider.post(`media/${record.id}/thumbnails`).then(() => {
-        refresh();
-      });
+      setGenerating(true);
+      void apiProvider
+        .post(`media/${record.id}/thumbnails`)
+        .then(() => {
+          notify(
+            "Thumbnail generation queued. Refresh in a few seconds to see the result.",
+            { type: "info" },
+          );
+          refresh();
+        })
+        .catch((e: Error) => {
+          notify(`Thumbnail generation failed: ${e.message}`, {
+            type: "error",
+          });
+        })
+        .finally(() => {
+          setGenerating(false);
+        });
     }
   }, [record?.id]);
+
+  const thumbnailsError = Schema.is(ThumbnailsExtraError)(
+    record?.extra?.thumbnails,
+  )
+    ? record?.extra?.thumbnails.error
+    : undefined;
 
   const handleThumbnailPick = React.useCallback(() => {
     showModal("Pick the thumbnail", (onClose) => {
@@ -208,10 +236,16 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   return (
     <Stack direction="column" spacing={2}>
       {thumbnailExtra}
+      {thumbnailsError ? (
+        <Typography color="error" variant="body2">
+          Last generation failed: {thumbnailsError}
+        </Typography>
+      ) : null}
       <Button
         onClick={handleThumbnailsGenerate}
-        label="Generate Thumbnail"
+        label={generating ? "Queueing..." : "Generate Thumbnail"}
         variant="contained"
+        disabled={generating}
       />
       {modal}
     </Stack>

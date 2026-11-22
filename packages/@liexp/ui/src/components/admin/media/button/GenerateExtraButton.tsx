@@ -7,6 +7,7 @@ import {
   BooleanInput,
   NumberInput,
   useDataProvider,
+  useNotify,
   useRecordContext,
   useRefresh,
   type FieldProps,
@@ -23,9 +24,12 @@ export const GenerateExtraButton: React.FC<FieldProps<Media.Media>> = ({
 
   const extra = get<Media.Media, "extra">(record, source as "extra");
   const refresh = useRefresh();
+  const notify = useNotify();
   const apiProvider = useDataProvider();
+  const [generating, setGenerating] = React.useState(false);
 
   const handleExtraUpdate = React.useCallback((media: Media.Media) => {
+    setGenerating(true);
     void apiProvider
       .update(`media`, {
         id: media.id,
@@ -33,7 +37,17 @@ export const GenerateExtraButton: React.FC<FieldProps<Media.Media>> = ({
         previousData: media,
       })
       .then(() => {
+        notify(
+          "Extra generation queued. Refresh in a few seconds to see the result.",
+          { type: "info" },
+        );
         refresh();
+      })
+      .catch((e: Error) => {
+        notify(`Extra generation failed: ${e.message}`, { type: "error" });
+      })
+      .finally(() => {
+        setGenerating(false);
       });
   }, []);
 
@@ -90,11 +104,12 @@ export const GenerateExtraButton: React.FC<FieldProps<Media.Media>> = ({
     <Stack spacing={2} padding={2}>
       {extraFields}
       <Button
+        disabled={generating}
         onClick={() => {
           handleExtraUpdate(record);
         }}
       >
-        Generate Extra
+        {generating ? "Queueing..." : "Generate Extra"}
       </Button>
     </Stack>
   );

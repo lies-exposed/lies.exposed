@@ -66,7 +66,12 @@ export const loadImplementation = (
         }),
       },
       http: {
-        client: axios.create(),
+        // Wikimedia (and others) reject the default axios User-Agent with 403.
+        client: axios.create({
+          headers: {
+            "User-Agent": "lies-exposed/0.3.0 (mailto:info@lies.exposed)",
+          },
+        }),
       },
       geo: {
         client: axios.create({ baseURL: env.GEO_CODE_BASE_URL }),
