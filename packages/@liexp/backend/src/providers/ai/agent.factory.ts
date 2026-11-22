@@ -20,6 +20,7 @@ import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { ServerError } from "../../errors/index.js";
 import { GetLangchainProvider, type AIProvider } from "./langchain.provider.js";
+import { type AgentMCPError, loadMcpTools } from "./mcp.failure.js";
 import { createReadDocumentationTool } from "./tools/readDocumentation.tool.js";
 import { createSearchWebTool } from "./tools/searchWeb.tools.js";
 import {
@@ -121,6 +122,9 @@ export const AGENT_CONFIGS: Record<
   },
 };
 
+/** Default minimum gap between MCP re-handshake attempts while tools are degraded. */
+const DEFAULT_MCP_RETRY_COOLDOWN_MS = 30_000;
+
 interface AgentFactoryOptions {
   mcpClient: MCPAdapter | null;
   /** Extra local tools for the platform agent (e.g. Wikipedia image lookup) */
@@ -129,6 +133,18 @@ interface AgentFactoryOptions {
   apiKeys?: Partial<Record<AIProvider, string>>;
   /** Path to the skills directory (defaults to <cwd>/skills) */
   skillsDir?: string;
+  /**
+   * Notified whenever an MCP tool load fails even after the fresh-session
+   * retry, so the caller can report the outage (Bugsink/Sentry fingerprint)
+   * while the chat turn itself continues on the non-MCP tools.
+   */
+  onMcpDegraded?: (failure: AgentMCPError) => void;
+  /**
+   * Minimum ms between MCP re-handshake attempts while tools are degraded.
+   * Keeps a down `/mcp` endpoint from adding the adapter's full reconnect
+   * churn (~50s) to every chat request. Default 30_000.
+   */
+  mcpRetryCooldownMs?: number;
 }
 
 /**
@@ -191,6 +207,13 @@ export const GetAgentFactory =
     // Compiled-agent cache keyed by type + resolved provider config. Keeps the
     // checkpointer alive across requests so conversation history persists.
     const agentCache = new Map<string, Agent>();
+    // Agent types whose last tool load degraded (MCP unavailable). Their
+    // compiled agents are not cached either, so the next request retries MCP
+    // with a fresh session instead of reusing an agent compiled without
+    // platform tools.
+    const degradedToolTypes = new Set<AgentType>();
+    // Timestamp until which MCP re-handshakes are skipped while degraded.
+    let mcpRetryCooldownUntil = 0;
 
     /**
      * Load skills from the skills directory (cached).
@@ -230,6 +253,10 @@ export const GetAgentFactory =
             const loadSkill = createLoadSkillTool(agentSkills);
 
             let tools: StructuredToolInterface[];
+            // ok / degraded / cooldown / no_client / not_needed (researcher)
+            let mcpLoadState:
+              "ok" | "degraded" | "cooldown" | "no_client" | "not_needed" =
+              type === "researcher" ? "not_needed" : "no_client";
 
             if (type === "researcher") {
               // Researcher: web tools + skills only — no MCP
@@ -238,8 +265,48 @@ export const GetAgentFactory =
               // Platform (default): MCP + extra + web tools + skills + documentation reader
               let mcpTools: StructuredToolInterface[] = [];
               if (opts.mcpClient) {
-                mcpTools = await opts.mcpClient.getTools();
-                ctx.logger.info.log("Loaded %d MCP tools", mcpTools.length);
+                const cooldownUntil = mcpRetryCooldownUntil;
+                if (degradedToolTypes.has(type) && cooldownUntil > Date.now()) {
+                  // The MCP endpoint is known-down: serve this request from the
+                  // non-MCP tools immediately instead of re-running a handshake
+                  // that would spend the adapter's reconnect budget and fail.
+                  mcpLoadState = "cooldown";
+                  ctx.logger.warn.log(
+                    `Skipping MCP re-handshake — degraded, retrying in ${Math.ceil(
+                      (cooldownUntil - Date.now()) / 1000,
+                    )}s`,
+                  );
+                } else {
+                  // Fresh-session recovery inside loadMcpTools: close the dead
+                  // session and re-handshake before giving up. On failure, degrade
+                  // to the non-MCP tool set instead of failing the whole chat turn
+                  // (HOM-1599); the typed MCP_TOOLS_UNAVAILABLE code is reported via
+                  // onMcpDegraded so Bugsink fingerprints the outage separately.
+                  const loaded = await loadMcpTools({
+                    client: opts.mcpClient,
+                    log: ctx.logger,
+                  });
+                  if (loaded.ok) {
+                    mcpTools = loaded.tools;
+                    mcpLoadState = "ok";
+                    mcpRetryCooldownUntil = 0;
+                    ctx.logger.info.log("Loaded %d MCP tools", mcpTools.length);
+                  } else {
+                    mcpLoadState = "degraded";
+                    mcpRetryCooldownUntil =
+                      Date.now() +
+                      (opts.mcpRetryCooldownMs ??
+                        DEFAULT_MCP_RETRY_COOLDOWN_MS);
+                    ctx.logger.warn.log(
+                      `MCP tools unavailable (${loaded.error.code}) — degrading to non-MCP tools`,
+                      {
+                        error_code: loaded.error.code,
+                        stack: loaded.error.stack,
+                      },
+                    );
+                    opts.onMcpDegraded?.(loaded.error);
+                  }
+                }
               } else {
                 ctx.logger.warn.log("MCP client not available");
               }
@@ -264,7 +331,19 @@ export const GetAgentFactory =
               ),
             );
 
-            toolsCache.set(type, tools);
+            // Only a healthy MCP tool load is cached. A degraded (MCP-less) set,
+            // and the cooldown path that reuses it, are deliberately NOT cached:
+            // the next chat request re-runs this task and retries with a fresh MCP
+            // session once the api recovers. Caching them would strand the agent
+            // without platform tools until the pod restarts. A missing client is a
+            // static config state (nothing to retry), so it is cached as before.
+            if (mcpLoadState === "degraded" || mcpLoadState === "cooldown") {
+              degradedToolTypes.add(type);
+              toolsTaskCache.delete(type);
+            } else {
+              degradedToolTypes.delete(type);
+              toolsCache.set(type, tools);
+            }
             return tools;
           }, toAgentError),
         ),
@@ -391,13 +470,17 @@ export const GetAgentFactory =
       const type: AgentType = agentType ?? "auto";
       const key = agentCacheKey(type, override);
 
-      const cached = agentCache.get(key);
-      if (cached) return fp.TE.right(cached);
+      // While a type is degraded, bypass the compiled-agent cache too so every
+      // request gets a chance to re-handshake with the MCP server.
+      if (!degradedToolTypes.has(type)) {
+        const cached = agentCache.get(key);
+        if (cached) return fp.TE.right(cached);
+      }
 
       return pipe(
         buildSingleAgent(type, override),
         fp.TE.map((agent) => {
-          agentCache.set(key, agent);
+          if (!degradedToolTypes.has(type)) agentCache.set(key, agent);
           return agent;
         }),
       );

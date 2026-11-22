@@ -3,6 +3,11 @@ import { type MCPAdapter } from "@langchain/mcp-adapters";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { GetAgentFactory } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
+import {
+  isRecoverableMcpFailure,
+  MCP_INITIALIZATION_FAILED,
+  tagMcpFailure,
+} from "@liexp/backend/lib/providers/ai/mcp.failure.js";
 import { GetBraveProvider } from "@liexp/backend/lib/providers/brave.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
@@ -24,6 +29,7 @@ import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
+import { captureMcpDegraded } from "../flows/chat/chat.errors.js";
 import { createMcpClient } from "../mcp/mcp.client.js";
 import { createMemoryClient } from "../memory/client.js";
 import { type AgentContext } from "./context.type.js";
@@ -193,6 +199,13 @@ export const getAgentContext =
      * Retries only the listToolsets() call, keeping the client instance alive.
      * The MCPAdapter handles runtime reconnections separately (maxAttempts: 5,
      * delayMs: 10s). This retryConnect handles initial startup failures.
+     *
+     * On a recoverable transport/session failure ("Server not initialized",
+     * CLIENT_HTTP_NOT_IMPLEMENTED, connection errors) each attempt is preceded by
+     * `close()`, which tears down every connection and clears the discovery
+     * caches: the next listToolsets() re-handshakes from scratch instead of
+     * replaying against the dead session id (HOM-1599). The adapter stays usable
+     * after close(), so no new client instance is needed.
      */
     const retryConnect = (
       mcpClient: MCPAdapter,
@@ -233,11 +246,29 @@ export const getAgentContext =
               );
             }
 
+            const resetSession: TE.TaskEither<Error, void> =
+              isRecoverableMcpFailure(error)
+                ? TE.tryCatch(
+                    async () => {
+                      await mcpClient.close();
+                      agentLogger.debug.log(
+                        "MCP session torn down — next attempt will re-handshake from scratch",
+                      );
+                    },
+                    (e) => (e instanceof Error ? e : new Error(String(e))),
+                  )
+                : TE.right(undefined);
+
             return pipe(
-              TE.tryCatch(
-                () =>
-                  new Promise<void>((resolve) => setTimeout(resolve, delayMs)),
-                (e) => (e instanceof Error ? e : new Error(String(e))),
+              resetSession,
+              TE.chain(() =>
+                TE.tryCatch(
+                  () =>
+                    new Promise<void>((resolve) =>
+                      setTimeout(resolve, delayMs),
+                    ),
+                  (e) => (e instanceof Error ? e : new Error(String(e))),
+                ),
               ),
               TE.chain(() =>
                 retryConnect(
@@ -279,11 +310,16 @@ export const getAgentContext =
                   "Failed to initialize MCP connections:",
                   error,
                 );
-                return ServerError.fromUnknown({
-                  details: `MCP connection initialization failed: ${error}`,
-                  status: 500,
-                  stack: error instanceof Error ? error.stack : undefined,
-                });
+                // Typed failure code so Bugsink/Sentry fingerprint startup MCP
+                // outages separately from generic agent errors (HOM-1599).
+                return tagMcpFailure(
+                  MCP_INITIALIZATION_FAILED,
+                  ServerError.fromUnknown({
+                    details: `MCP connection initialization failed: ${error}`,
+                    status: 500,
+                    stack: error instanceof Error ? error.stack : undefined,
+                  }),
+                );
               }),
             ),
           ),
@@ -317,6 +353,10 @@ export const getAgentContext =
                 anthropic: env.ANTHROPIC_API_KEY,
                 xai: env.XAI_API_KEY,
               },
+              // The factory now degrades around an MCP outage instead of failing
+              // the request; report the outage here so it stays visible in Bugsink.
+              onMcpDegraded: (failure) =>
+                captureMcpDegraded(failure.toTypedError(), {}),
             })({
               langchain,
               logger: agentLogger,

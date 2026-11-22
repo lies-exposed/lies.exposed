@@ -12,9 +12,14 @@ export interface ChatErrorMeta {
 
 /**
  * Extract a machine-readable code from an unknown error. LangChain errors
- * carry `lc_error_code` (e.g. MESSAGE_COERCION_FAILURE).
+ * carry `lc_error_code` (e.g. MESSAGE_COERCION_FAILURE). MCP transport/session
+ * failures carry our own typed `error_code` (e.g. MCP_TOOLS_UNAVAILABLE, set by
+ * AgentMCPError/toMcpFailure in @liexp/backend) so Bugsink fingerprints the
+ * outage separately instead of lumping it under UNKNOWN (HOM-1599).
  */
 export const getErrorCode = (error: unknown): string => {
+  const tagged = (error as { error_code?: unknown } | null)?.error_code;
+  if (typeof tagged === "string" && tagged.length > 0) return tagged;
   const code = (error as { lc_error_code?: unknown } | null)?.lc_error_code;
   return typeof code === "string" && code.length > 0 ? code : "UNKNOWN";
 };
@@ -58,5 +63,31 @@ export const captureChatError = (
       message_length: meta.messageLength ?? null,
     },
     fingerprint: ["ai-chat", errorCode, getErrorName(error)],
+  });
+};
+
+/**
+ * Report an MCP outage the agent degraded around (HOM-1599): the tool load
+ * failed even after a fresh-session retry, so the chat turn continued on the
+ * non-MCP tools instead of erroring. Reported as its own event — fingerprinted
+ * `mcp-degraded` + the typed code — so it keeps showing up in Bugsink without
+ * being masked by the removed failure event or grouped with generic
+ * `UNKNOWN` agent failures.
+ */
+export const captureMcpDegraded = (
+  error: unknown,
+  meta: ChatErrorMeta,
+): void => {
+  if (!Sentry.isInitialized()) return;
+  const errorCode = getErrorCode(error);
+  Sentry.captureException(error, {
+    tags: {
+      feature: "ai-chat",
+      error_code: errorCode,
+      failure_kind: "mcp-degraded",
+      ...(meta.agentType ? { agent_type: meta.agentType } : {}),
+    },
+    extra: { conversation_id: meta.conversationId ?? null },
+    fingerprint: ["ai-chat", "mcp-degraded", errorCode],
   });
 };
