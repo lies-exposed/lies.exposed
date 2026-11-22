@@ -23,6 +23,9 @@ interface ChatHeaderProps {
     updatedAt: string;
   }[];
   onSelectConversation?: (conversationId: string) => void;
+  activeConversationId?: string | null;
+  onNewConversation?: () => void;
+  onDeleteConversation?: (conversationId: string) => void;
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({
@@ -34,6 +37,9 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   isCompacting,
   conversations = [],
   onSelectConversation,
+  activeConversationId,
+  onNewConversation,
+  onDeleteConversation,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -68,6 +74,16 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           <Typography variant="h6" component="div">
             {title}
           </Typography>
+          {onNewConversation && (
+            <IconButton
+              size="small"
+              color="inherit"
+              onClick={onNewConversation}
+              title="New conversation"
+            >
+              <Icons.AddIcon />
+            </IconButton>
+          )}
           {conversations.length > 0 && (
             <>
               <IconButton
@@ -90,6 +106,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
                 {conversations.map((conv) => (
                   <MenuItem
                     key={conv.id}
+                    selected={conv.id === activeConversationId}
                     onClick={() => handleSelectConversation(conv.id)}
                   >
                     <ListItemText
@@ -98,6 +115,18 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
                       primaryTypographyProps={{ noWrap: true }}
                       secondaryTypographyProps={{ noWrap: true }}
                     />
+                    {onDeleteConversation && (
+                      <IconButton
+                        size="small"
+                        title="Delete conversation"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDeleteConversation(conv.id);
+                        }}
+                      >
+                        <Icons.DeleteIcon fontSize="small" />
+                      </IconButton>
+                    )}
                   </MenuItem>
                 ))}
               </Menu>
