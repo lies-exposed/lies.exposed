@@ -26,7 +26,7 @@ export const PublishNowButton: React.FC<
       .then(() => {
         refresh();
       })
-      .catch((e: any) => {
+      .catch((e: unknown) => {
         // eslint-disable-next-line no-console
         console.error(e);
         // return Promise.reject(new HttpError(e.message, e.status, e.response.data));

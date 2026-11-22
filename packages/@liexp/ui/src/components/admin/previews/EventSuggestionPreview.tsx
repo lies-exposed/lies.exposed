@@ -11,6 +11,8 @@ import { HelmetProvider } from "../../SEO.js";
 import { ValidationErrorsLayout } from "../../ValidationErrorsLayout.js";
 import { ThemeProvider } from "../../mui/index.js";
 
+type SuggestionPreviewEvent = http.Events.SearchEvent.SearchEvent;
+
 export const EventSuggestionPreview: React.FC = () => {
   const { record } = useEditContext();
   const qc = useQueryClient();
@@ -37,11 +39,10 @@ export const EventSuggestionPreview: React.FC = () => {
           <QueryClientProvider client={qc}>
             <EventPageContent
               event={{
-                ...(p.event as any),
+                ...(p.event as unknown as SuggestionPreviewEvent),
                 media: [],
                 keywords: [],
                 links: [],
-                areas: [],
               }}
               relations={{
                 media: [],

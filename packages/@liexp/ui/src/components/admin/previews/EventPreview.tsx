@@ -8,7 +8,7 @@ import { type ParseError } from "effect/ParseResult";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { LoadingIndicator, useEditContext } from "react-admin";
+import { LoadingIndicator, type RaRecord, useEditContext } from "react-admin";
 import { EventTemplateUI } from "../../../templates/EventTemplate.js";
 import { ECOTheme } from "../../../theme/index.js";
 import { HelmetProvider } from "../../SEO.js";
@@ -16,11 +16,18 @@ import { ValidationErrorsLayout } from "../../ValidationErrorsLayout.js";
 import { ThemeProvider } from "../../mui/index.js";
 
 interface EventPreviewProps {
-  event?: any;
+  event?: RaRecord;
 }
 
+type EventPreviewInput = RaRecord & {
+  payload?: Partial<http.Events.Uncategorized.EditUncategorizedPayload> & {
+    location?: http.Common.UUID | "" | null;
+  };
+};
+
 const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
-  const record = event ?? useEditContext().record;
+  const record: EventPreviewInput | undefined =
+    event ?? useEditContext<EventPreviewInput>().record;
   const qc = useQueryClient();
 
   const result = React.useMemo(
