@@ -34,10 +34,8 @@ export interface BarStackGraphProps<D, K extends StackKey> {
   yScale: ScaleLinear<number, number>;
   colorScale: ScaleOrdinal<K, string>;
   getX: (d: D) => string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- visx AxisProps uses any internally
-  axisBottom?: AxisProps<any>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- visx AxisProps uses any internally
-  axisLeft?: AxisProps<any>;
+  axisBottom?: AxisProps<ScaleBand<string>>;
+  axisLeft?: AxisProps<ScaleLinear<number, number>>;
   tooltipRenderer: (d: TooltipData<D, K>) => React.ReactNode;
 }
 

@@ -34,10 +34,8 @@ export interface BarStackHorizontalGraphProps<D, K extends StackKey> {
   yScale: ScaleBand<string>;
   colorScale: ScaleOrdinal<K, string>;
   getY: (d: D) => string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- visx AxisProps uses any internally
-  axisBottom?: AxisProps<any>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- visx AxisProps uses any internally
-  axisLeft?: AxisProps<any>;
+  axisBottom?: AxisProps<ScaleLinear<number, number>>;
+  axisLeft?: AxisProps<ScaleBand<string>>;
   tooltipRenderer: (d: TooltipData<D, K>) => React.ReactNode;
 }
 
@@ -110,8 +108,7 @@ export const BarStackHorizontalGraph = <D, K extends StackKey>({
         <Group top={margin.top} left={margin.left}>
           <BarStackHorizontal<D, K>
             data={data}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- visx BarStackHorizontal expects StackKey[] but K extends StackKey doesn't satisfy the generic
-            keys={keys as any}
+            keys={keys}
             y={getY}
             xScale={xScale}
             yScale={yScale}

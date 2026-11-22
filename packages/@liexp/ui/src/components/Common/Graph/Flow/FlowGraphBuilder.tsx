@@ -15,10 +15,8 @@ import React, { useCallback } from "react";
 import { AutocompleteActorInput } from "../../../Input/AutocompleteActorInput.js";
 import { AutocompleteGroupInput } from "../../../Input/AutocompleteGroupInput.js";
 import { FormControlLabel, Stack, Switch } from "../../../mui/index.js";
-import {
-  NodeContextMenu,
-  type NodeContextMenuProps,
-} from "./ContextMenu/Node/NodeContextMenu.js";
+import { type ContextMenuProps } from "./ContextMenu/ContextMenu.js";
+import { NodeContextMenu } from "./ContextMenu/Node/NodeContextMenu.js";
 import { PaneContextMenu } from "./ContextMenu/PaneContextMenu.js";
 import { FlowGraph } from "./FlowGraph.js";
 import { type EdgeType, edgeTypes } from "./links/index.js";
@@ -31,6 +29,11 @@ interface FlowGraphBuilderProps extends ReactFlowProps<NodeType, EdgeType> {
   onGraphChange: (data: { nodes: NodeType[]; edges: EdgeType[] }) => void;
   onOptionsChange: (options: Record<string, string | boolean>) => void;
 }
+
+type MenuState = ContextMenuProps & {
+  id?: string;
+  type?: string;
+};
 
 const contextMenuPositioner = (
   event: React.MouseEvent | MouseEvent,
@@ -69,11 +72,8 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
   );
   const [edges, setEdges, onEdgesChange] =
     useEdgesState<EdgeType>(initialEdges);
-  const [menu, setMenu] = React.useState<Omit<
-    NodeContextMenuProps,
-    "onClick"
-  > | null>(null);
-  const ref = React.useRef<HTMLElement | null>(null);
+  const [menu, setMenu] = React.useState<MenuState | null>(null);
+  const ref = React.useRef<HTMLDivElement | null>(null);
   // this ref stores the current dragged node
 
   const dragRef = React.useRef<NodeType | null>(null);
@@ -162,8 +162,6 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
       if (pane) {
         const { top, left, right, bottom } = contextMenuPositioner(event, pane);
         setMenu({
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Node.id is optional but TypeScript doesn't narrow undefined
-          id: undefined as any,
           top,
           left,
           right,
@@ -342,8 +340,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
         style={{ flexGrow: 1, height: 600, width: "70%", position: "relative" }}
       >
         <FlowGraph
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- FlowGraph uses a different ref type than HTMLElement
-          ref={ref as any}
+          ref={ref}
           nodes={nodes}
           edges={edges}
           onNodesChange={onNodesChange}
@@ -377,7 +374,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
           }}
         >
           {menu?.id ? (
-            <NodeContextMenu onClick={onPaneClick} {...menu} />
+            <NodeContextMenu {...menu} id={menu.id} onClick={onPaneClick} />
           ) : menu ? (
             <PaneContextMenu onClick={onPaneClick} {...menu} />
           ) : null}
