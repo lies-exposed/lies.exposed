@@ -29,7 +29,11 @@ export const KeywordTGPostButton: React.FC = () => {
           })
           .then((data) => data.data);
 
-        const date = formatDate(parseISO(record.createdAt as any));
+        const date = formatDate(
+          typeof record.createdAt === "string"
+            ? parseISO(record.createdAt)
+            : record.createdAt,
+        );
 
         return {
           title: record.tag,
