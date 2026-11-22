@@ -7,7 +7,7 @@ import * as R from "fp-ts/lib/Record.js";
  * None fields are stripped entirely from the result — useful for building
  * TypeORM partial-update payloads where absent keys mean "no change".
  */
-export const foldOptionals = <T extends Record<string, O.Option<any>>>(
+export const foldOptionals = <T extends Record<string, O.Option<unknown>>>(
   obj: T,
 ): { [K in keyof T]: T[K] extends O.Option<infer A> ? A : never } =>
   pipe(

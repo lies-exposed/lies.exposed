@@ -7,7 +7,7 @@ export interface AuditConfig {
    * Optional function to extract user context from request
    * Useful for logging authenticated user details
    */
-  getUserContext?: (req: Request) => Record<string, any> | undefined;
+  getUserContext?: (req: Request) => Record<string, unknown> | undefined;
 }
 
 /**

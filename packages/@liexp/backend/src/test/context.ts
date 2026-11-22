@@ -34,18 +34,18 @@ export type TestContext = PDFProviderContext &
   QueuesProviderContext &
   FFMPEGProviderContext;
 
-export type MockedContext<C extends Record<string, any>> = {
+export type MockedContext<C extends object> = {
   [K in keyof C]: DeepMockProxy<C[K]>;
 };
 
-export const mockedContext = <C extends Record<string, any>>(
+export const mockedContext = <C extends object>(
   ctx: MockedContext<Omit<C, "logger" | "config" | "env">>,
 ): MockedContext<Omit<C, "logger" | "config" | "env">> &
   LoggerContext &
   ConfigContext &
-  ENVContext<any> => ({
+  ENVContext => ({
   ...ctx,
-  env: process.env,
+  env: process.env as unknown as ENVContext["env"],
   logger: GetLogger("test"),
   config: testConfig,
 });
