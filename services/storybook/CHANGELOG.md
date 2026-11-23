@@ -1,5 +1,39 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/storybook@0.9.0) (2026-11-23)
+
+
+### Features
+
+* **react:** migrate monorepo to React 19 ([#4183](https://github.com/lies-exposed/lies.exposed/issues/4183)) ([b00e204](https://github.com/lies-exposed/lies.exposed/commit/b00e2042d4215efb07872a444754cb14764fa711))
+
+
+### Bug Fixes
+
+* **storybook:** reduce any casts in graph and page stories ([#4080](https://github.com/lies-exposed/lies.exposed/issues/4080)) ([bd5720e](https://github.com/lies-exposed/lies.exposed/commit/bd5720e636781a960874f83de96c6b8c7c734510))
+* **storybook:** type story args in 5 story files (HOM-1546) ([#4163](https://github.com/lies-exposed/lies.exposed/issues/4163)) ([20dd728](https://github.com/lies-exposed/lies.exposed/commit/20dd72806174004c86c6784a9962dec285048527))
+* **ui:** replace any casts in WealthDistributionGraph and HeaderMenu types ([#4101](https://github.com/lies-exposed/lies.exposed/issues/4101)) ([d8a19b1](https://github.com/lies-exposed/lies.exposed/commit/d8a19b1d52056ce8f44fb96a5e58f74ed8a844a0))
+
+
+### Miscellaneous
+
+* **api:** solved some 'as any' errors ([#4104](https://github.com/lies-exposed/lies.exposed/issues/4104)) ([767b21c](https://github.com/lies-exposed/lies.exposed/commit/767b21c917cc67fb7159720a7c1499a0da285b8b))
+* **eslint-config:** enable no-explicit-any as error (no suppressions) ([#4165](https://github.com/lies-exposed/lies.exposed/issues/4165)) ([20106a5](https://github.com/lies-exposed/lies.exposed/commit/20106a5c946e2745f1089e9510a4cc1e06dc877e))
+* solved 'as any' errors ([#4105](https://github.com/lies-exposed/lies.exposed/issues/4105)) ([6cba6f3](https://github.com/lies-exposed/lies.exposed/commit/6cba6f31fbe74ea1569f956051d807674485a10a))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.9.0
+    * @liexp/shared bumped to 0.9.0
+    * @liexp/test bumped to 0.9.0
+    * @liexp/ui bumped to 0.9.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.9.0
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...@liexp/storybook@0.8.0) (2026-11-07)
 
 

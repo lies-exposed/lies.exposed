@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/core@0.9.0) (2026-11-23)
+
+
+### Bug Fixes
+
+* **core,admin,web,worker,ai-bot:** replace any with specific types across 22 files ([#4033](https://github.com/lies-exposed/lies.exposed/issues/4033)) ([fa982da](https://github.com/lies-exposed/lies.exposed/commit/fa982da449f43e23eead3f1d6494b79c748516de))
+* **io,core,test,agent:** type remaining any casts (HOM-1578 WS71) ([#4182](https://github.com/lies-exposed/lies.exposed/issues/4182)) ([b341f96](https://github.com/lies-exposed/lies.exposed/commit/b341f96c24f5c52002fd3dcf8eb0f115150d8245))
+
+
+### Miscellaneous
+
+* addressed errors reported by 'pnpm peers check' ([#4166](https://github.com/lies-exposed/lies.exposed/issues/4166)) ([b97fc8e](https://github.com/lies-exposed/lies.exposed/commit/b97fc8eb1529d79602c6e376ccdfcf40fc4d5153))
+* fix build and lint errors from [#4032](https://github.com/lies-exposed/lies.exposed/issues/4032)/[#4033](https://github.com/lies-exposed/lies.exposed/issues/4033) ([#4059](https://github.com/lies-exposed/lies.exposed/issues/4059)) ([ae56e7d](https://github.com/lies-exposed/lies.exposed/commit/ae56e7d85cf545d523109c6885d942345d464594))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.9.0
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...@liexp/core@0.8.0) (2026-11-07)
 
 

@@ -1,5 +1,52 @@
 # Changelog
 
+## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...agent@0.9.0) (2026-11-23)
+
+
+### Features
+
+* **agent,admin:** report AI chat errors to Sentry ([#4017](https://github.com/lies-exposed/lies.exposed/issues/4017)) ([3867eb6](https://github.com/lies-exposed/lies.exposed/commit/3867eb6acaec6c3a5f3b350c213b83bfbb564e5f))
+* **agent:** persist admin chat conversations in Postgres ([#4185](https://github.com/lies-exposed/lies.exposed/issues/4185)) ([5182e84](https://github.com/lies-exposed/lies.exposed/commit/5182e84576f634ab659a4ef36d739350d1b557bf))
+* **agent:** target rhino-coder, fix memory scope and reasoning/token handling ([#4151](https://github.com/lies-exposed/lies.exposed/issues/4151)) ([b64f0ca](https://github.com/lies-exposed/lies.exposed/commit/b64f0ca8639e14dd7cac2babecb2056dac4eb0b2))
+* **agent:** use API MCP tools, drop liexp_cli; chat UI sticky scroll + regenerate ([#4154](https://github.com/lies-exposed/lies.exposed/issues/4154)) ([f2e81dd](https://github.com/lies-exposed/lies.exposed/commit/f2e81dd4a9a704cd59412adfd8a954463fce76e1))
+* **api:** add createGroupMember MCP tool ([#4180](https://github.com/lies-exposed/lies.exposed/issues/4180)) ([9a014d1](https://github.com/lies-exposed/lies.exposed/commit/9a014d1bd4899e8e2692680db5c37fe85de3fa7f))
+
+
+### Bug Fixes
+
+* **agent,backend:** replace any casts with typed generics and type guards ([#4029](https://github.com/lies-exposed/lies.exposed/issues/4029)) ([2cde5a5](https://github.com/lies-exposed/lies.exposed/commit/2cde5a5f4ed8fd6830cafd8846490c6196667205))
+* **agent:** await injectMemories in streaming chat flow ([#4015](https://github.com/lies-exposed/lies.exposed/issues/4015)) ([4205257](https://github.com/lies-exposed/lies.exposed/commit/4205257bc724d9893992984ee5cb7950dd5ee547))
+* **agent:** log model finish reason, tell model to finish turn ([#4158](https://github.com/lies-exposed/lies.exposed/issues/4158)) ([1471d44](https://github.com/lies-exposed/lies.exposed/commit/1471d4452aac9ac432ce4910c58a6afe6570fc95))
+* **agent:** recover MCP sessions & degrade chat turns instead of UNKNOWN errors (HOM-1599) ([#4192](https://github.com/lies-exposed/lies.exposed/issues/4192)) ([a959bb5](https://github.com/lies-exposed/lies.exposed/commit/a959bb56fe2970af8c83772d1853e1cd2d98f496))
+* **agent:** replace any casts with proper types in chat flows and CLI executor ([#4109](https://github.com/lies-exposed/lies.exposed/issues/4109)) ([85ba490](https://github.com/lies-exposed/lies.exposed/commit/85ba49079c2756bb22a302ae36cc25ff076958a6))
+* **agent:** teach media upload/avatar flow ([#4087](https://github.com/lies-exposed/lies.exposed/issues/4087)) ([be15d00](https://github.com/lies-exposed/lies.exposed/commit/be15d008416ad085127a7e1ec0a8d48ca4ecfe91))
+* **api:** close MCP tool gaps; make pre-push docker-optional ([#4155](https://github.com/lies-exposed/lies.exposed/issues/4155)) ([ba79b50](https://github.com/lies-exposed/lies.exposed/commit/ba79b50383eb098eba158330c1e8e1fc5a54ccc7))
+* **api:** decode editMedia/editGroup MCP input via flow schemas ([#4178](https://github.com/lies-exposed/lies.exposed/issues/4178)) ([6590a51](https://github.com/lies-exposed/lies.exposed/commit/6590a516f3d8373a9b59b623fe79ae34d3edce30))
+* **io,core,test,agent:** type remaining any casts (HOM-1578 WS71) ([#4182](https://github.com/lies-exposed/lies.exposed/issues/4182)) ([b341f96](https://github.com/lies-exposed/lies.exposed/commit/b341f96c24f5c52002fd3dcf8eb0f115150d8245))
+* **services:** remove any casts in web/agent/admin/worker tail (HOM-1547) ([#4161](https://github.com/lies-exposed/lies.exposed/issues/4161)) ([857f27d](https://github.com/lies-exposed/lies.exposed/commit/857f27d51af9901520725caa6ae1bd6ab85e5ffe))
+* **ui,agent:** stop sending undefined network type/id and double-encoded member arrays (HOM-1598) ([#4194](https://github.com/lies-exposed/lies.exposed/issues/4194)) ([d34d3d4](https://github.com/lies-exposed/lies.exposed/commit/d34d3d484ca5546d0dec9b1ef2456a40c777ae0e))
+
+
+### Miscellaneous
+
+* **agent:** track services/agent/.env dev defaults ([#4074](https://github.com/lies-exposed/lies.exposed/issues/4074)) ([570c2b8](https://github.com/lies-exposed/lies.exposed/commit/570c2b8498743c863a2a0664f3a62f09435d6aaf))
+* **deps:** update msw from v2 to v3 ([#4007](https://github.com/lies-exposed/lies.exposed/issues/4007)) ([164e025](https://github.com/lies-exposed/lies.exposed/commit/164e02570ff4f7f609eb64bf189421e63643deb7))
+* enable vitest fsModuleCache and tune isolation ([#4006](https://github.com/lies-exposed/lies.exposed/issues/4006)) ([06cada1](https://github.com/lies-exposed/lies.exposed/commit/06cada1a3c0e5eaa979e00776e8a967812f604b8))
+* update dev dependencies and remove eslint-disable comments ([#4110](https://github.com/lies-exposed/lies.exposed/issues/4110)) ([7beb247](https://github.com/lies-exposed/lies.exposed/commit/7beb2472dc06a4260ce3c474921ee3ed401fdd83))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.9.0
+    * @liexp/core bumped to 0.9.0
+    * @liexp/io bumped to 0.9.0
+    * @liexp/shared bumped to 0.9.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.9.0
+    * @liexp/test bumped to 0.9.0
+
 ## [0.8.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.7.0...agent@0.8.0) (2026-11-07)
 
 
