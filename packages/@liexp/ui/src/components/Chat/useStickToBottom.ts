@@ -11,8 +11,8 @@ const BOTTOM_THRESHOLD = 80;
 export const useStickToBottom = (
   deps: React.DependencyList,
 ): {
-  containerRef: React.RefObject<HTMLDivElement>;
-  endRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  endRef: React.RefObject<HTMLDivElement | null>;
   isAtBottom: boolean;
   onScroll: () => void;
   scrollToBottom: () => void;
