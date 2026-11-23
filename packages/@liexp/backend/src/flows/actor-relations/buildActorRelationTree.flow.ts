@@ -7,6 +7,7 @@ import { type LoggerContext } from "../../context/logger.context.js";
 import { ActorEntity } from "../../entities/Actor.entity.js";
 import { ActorRelationEntity } from "../../entities/ActorRelation.entity.js";
 import { type ServerError } from "../../errors/ServerError.js";
+import { dateToISOString } from "../../utils/date.utils.js";
 
 export interface ActorNode {
   id: string;
@@ -25,19 +26,6 @@ export interface ActorNode {
 }
 
 export type TreeMap = Record<string, ActorNode>;
-
-/**
- * `bornOn`/`diedOn` are Postgres `date` columns: depending on the driver they
- * come back as a `Date` or as a plain `YYYY-MM-DD` string, regardless of the
- * `Date | null` entity typing.
- */
-const dateToISOString = (
-  d: Date | string | null | undefined,
-): string | null => {
-  if (d === null || d === undefined) return null;
-  const date = d instanceof Date ? d : new Date(d);
-  return Number.isNaN(date.getTime()) ? null : date.toISOString();
-};
 
 /**
  * Builds a flat actor relation tree map using breadth-first traversal so that
