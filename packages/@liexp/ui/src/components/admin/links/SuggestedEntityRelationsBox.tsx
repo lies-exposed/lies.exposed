@@ -1,6 +1,6 @@
 import { type ExtractEntitiesWithNLPOutput } from "@liexp/io/lib/http/admin/ExtractNLPEntities.js";
 import type * as http from "@liexp/io/lib/http/index.js";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { ActorChip } from "../../actors/ActorChip.js";
