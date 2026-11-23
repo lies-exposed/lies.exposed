@@ -39,7 +39,7 @@ const qc = new QueryClient();
 
 const cache = createCache({ key: "css", prepend: true });
 
-const withThemeProvider = (Story: any, context: any) => {
+const withThemeProvider: Decorator = (Story, context) => {
   return (
     <ConfigurationContext.Provider
       value={{
