@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.975.1",
-    "@electric-sql/pglite": "^0.5.8",
+    "@electric-sql/pglite": "^0.5.17",
     "@langchain/anthropic": "^1.6.5",
     "@langchain/core": "^1.4.1",
     "@langchain/mcp-adapters": "^2.0.3",
