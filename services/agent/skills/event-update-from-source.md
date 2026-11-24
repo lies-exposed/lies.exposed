@@ -29,8 +29,12 @@ Edit semantics: omitted fields keep current values; array fields (`links`, `medi
 editEvent({ "id": "<uuid>", "links": ["<existing...>", "<new-link-uuid>"], "excerpt": "<updated text>" })
 ```
 
-Participants that are new to the platform → `actor-profile` / `group-profile`. Their own records (bio, dates) may be updated the same way with `editActor` / `editGroup`.
+### Scope — do only what was asked
+
+- Resolve each participant once with its full name (`findActors` / `findGroups`); do not retry with partial names or surnames. Not found → **report it, do not create it**.
+- Do **not** load `actor-profile` / `group-profile`, create actors/groups/media, or look up avatars unless the user explicitly asks for it in this request.
+- Only touch the event (and attach the source link). Edit an actor/group record only if the user named it.
 
 ## 5. Report
 
-A before → after list of changed fields, conflicts left untouched, and the attached link UUID.
+A before → after list of changed fields, conflicts left untouched, the attached link UUID, and participants found in the source but missing from the platform (names only, not created).

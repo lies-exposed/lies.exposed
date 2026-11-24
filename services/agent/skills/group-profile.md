@@ -1,11 +1,13 @@
 ---
 name: group-profile
-description: Create a new group (organization, company, party, agency, NGO) or enrich an existing one — dedupe, avatar, kind, dates, members
-triggers: [group, organization, organisation, company, corporation, party, agency, ngo, foundation, institution, members, founded]
+description: Create or enrich a group (organization, company, party, agency, NGO) — only when the user explicitly asks to create, profile or enrich a group; never as a side effect of another task
+triggers: [create group, new group, add group, create organization, create company, new organization, new company, group profile, profile this group, enrich group, add members, group members]
 agents: [auto, platform]
 ---
 
 # Group Profile
+
+Load only when the user explicitly asked to create, profile or enrich a group. A group that is merely missing while doing another task (updating an event, summarizing a source) is **reported**, not created — and no avatar lookup (`find_wikipedia_image`) happens.
 
 ## 1. Dedupe first — always
 
