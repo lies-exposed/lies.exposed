@@ -27,17 +27,37 @@ export const getErrorCode = (error: unknown): string => {
 const getErrorName = (error: unknown): string =>
   error instanceof Error ? error.name : typeof error;
 
+/**
+ * LangGraph aborts a run with `GraphRecursionError` (lc_error_code
+ * GRAPH_RECURSION_LIMIT) when the agent loop exceeds `recursionLimit` steps —
+ * i.e. the model kept calling tools without ever producing a final answer.
+ */
+export const isRecursionLimitError = (error: unknown): boolean =>
+  getErrorCode(error) === "GRAPH_RECURSION_LIMIT" ||
+  getErrorName(error) === "GraphRecursionError";
+
+const RECURSION_LIMIT_MESSAGE =
+  "The agent reached its step limit before producing an answer (it kept calling tools). " +
+  'Its progress so far is kept — reply "continue" to resume, or narrow the request.';
+
 /** Build an SSE `error` event carrying structured error fields. */
 export const toChatErrorEvent = (
   error: unknown,
   fallbackMessage: string,
-): ChatStreamEvent => ({
-  type: "error",
-  timestamp: new Date().toISOString(),
-  error: error instanceof Error ? error.message : fallbackMessage,
-  error_code: getErrorCode(error),
-  error_name: getErrorName(error),
-});
+): ChatStreamEvent => {
+  const recursion = isRecursionLimitError(error);
+  return {
+    type: "error",
+    timestamp: new Date().toISOString(),
+    error: recursion
+      ? RECURSION_LIMIT_MESSAGE
+      : error instanceof Error
+        ? error.message
+        : fallbackMessage,
+    error_code: recursion ? "GRAPH_RECURSION_LIMIT" : getErrorCode(error),
+    error_name: getErrorName(error),
+  };
+};
 
 /**
  * Report a chat error to Sentry. Never includes message text, API keys or
