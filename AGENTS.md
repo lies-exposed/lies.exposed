@@ -129,10 +129,10 @@ mem0 is the **only** persistent agent memory. Use it via three MCP tools. Memory
 | Tool | Required params | Notes |
 |------|----------------|-------|
 | `memory_search` | `scope`, `query` | Search before answering and before adding |
-| `memory_add` | `scope`, `text` | `infer=True` distills facts; `infer=False` stores verbatim (logs, traces) |
+| `memory_add` | `scope`, `content` (`infer` optional, default `True`) | `infer=True` distills facts; `infer=False` stores verbatim (logs, traces) |
 | `memory_forget` | `memory_id` (from a search result) | Remove stale or wrong memories |
 
-Pass `scope: "<agent ID>"` on **every** call.
+Pass `scope: "<agent ID>"` on **every** call. There is **no `text` alias** for `memory_add` and **no `reflect` tool**: a field the service doesn't know (e.g. `{"text": ...}`) is accepted silently and stores an **empty** memory.
 
 ### Agent IDs
 
