@@ -32,7 +32,7 @@ const getErrorName = (error: unknown): string =>
  * GRAPH_RECURSION_LIMIT) when the agent loop exceeds `recursionLimit` steps —
  * i.e. the model kept calling tools without ever producing a final answer.
  */
-export const isRecursionLimitError = (error: unknown): boolean =>
+const isRecursionLimitError = (error: unknown): boolean =>
   getErrorCode(error) === "GRAPH_RECURSION_LIMIT" ||
   getErrorName(error) === "GraphRecursionError";
 

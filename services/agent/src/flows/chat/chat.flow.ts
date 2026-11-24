@@ -72,7 +72,7 @@ const warmConversations = new Set<string>();
 const DEFAULT_RECURSION_LIMIT = 50;
 
 /** LangGraph step budget per turn (env `AGENT_RECURSION_LIMIT`, default 50). */
-export const recursionLimitOf = (ctx: AgentContext): number => {
+const recursionLimitOf = (ctx: AgentContext): number => {
   const v = ctx.env.AGENT_RECURSION_LIMIT;
   return v !== undefined && Number.isFinite(v) && v > 0
     ? Math.floor(v)
