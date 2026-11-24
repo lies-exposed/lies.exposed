@@ -69,6 +69,16 @@ const isAIMessageLike = (
  */
 const warmConversations = new Set<string>();
 
+const DEFAULT_RECURSION_LIMIT = 50;
+
+/** LangGraph step budget per turn (env `AGENT_RECURSION_LIMIT`, default 50). */
+const recursionLimitOf = (ctx: AgentContext): number => {
+  const v = ctx.env.AGENT_RECURSION_LIMIT;
+  return v !== undefined && Number.isFinite(v) && v > 0
+    ? Math.floor(v)
+    : DEFAULT_RECURSION_LIMIT;
+};
+
 /** Stored history to prepend to the agent input when the thread is cold. */
 const loadHistoryForRehydrate = async (
   ctx: AgentContext,
@@ -805,7 +815,7 @@ export const sendChatMessage =
                   },
                   {
                     configurable: { thread_id: conversationId },
-                    recursionLimit: 50,
+                    recursionLimit: recursionLimitOf(ctx),
                   },
                 ),
               ServerError.fromUnknown,
@@ -995,7 +1005,7 @@ export const sendChatMessageStream = (payload: {
         {
           version: "v2",
           configurable: { thread_id: conversationId },
-          recursionLimit: 50,
+          recursionLimit: recursionLimitOf(ctx),
         },
       )) {
         if (!event) continue;
@@ -1003,6 +1013,18 @@ export const sendChatMessageStream = (payload: {
         ctx.logger.debug.log("stream event [%s]: %O", event.event, event.data);
 
         payload.onRawEvent?.(event);
+
+        if (event.event === "on_tool_start") {
+          const input = (event.data as { input?: unknown } | undefined)?.input;
+          ctx.logger.info.log(
+            "tool call: %s %s",
+            event.name ?? "unknown",
+            (typeof input === "string" ? input : JSON.stringify(input)).slice(
+              0,
+              300,
+            ),
+          );
+        }
 
         if (event.event === "on_chat_model_end") {
           // Diagnose turns that end "midflight": a model call that returns no

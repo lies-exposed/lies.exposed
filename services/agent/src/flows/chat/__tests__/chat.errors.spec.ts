@@ -37,6 +37,20 @@ describe("chat.errors", () => {
     expect(toChatErrorEvent("str", "fallback").error).toBe("fallback");
   });
 
+  test("toChatErrorEvent turns GraphRecursionError into a readable step-limit message", () => {
+    const err = Object.assign(new Error("Recursion limit of 50 reached"), {
+      name: "GraphRecursionError",
+      lc_error_code: "GRAPH_RECURSION_LIMIT",
+    });
+    const e = toChatErrorEvent(err, "fallback");
+    expect(e).toMatchObject({
+      type: "error",
+      error_code: "GRAPH_RECURSION_LIMIT",
+      error_name: "GraphRecursionError",
+    });
+    expect((e as { error: string }).error).toMatch(/step limit/);
+  });
+
   test("getErrorCode prefers the typed error_code (MCP failures) over UNKNOWN", () => {
     // AgentMCPError.toTypedError() from @liexp/backend (HOM-1599): a distinct
     // code so Bugsink fingerprints MCP outages apart from generic agent errors.

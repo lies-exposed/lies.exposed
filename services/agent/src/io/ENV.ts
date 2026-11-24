@@ -22,6 +22,9 @@ const ENV = Schema.Struct({
   // gateway serializes/queues incoming requests, so this needs headroom
   // beyond a single model call's latency.
   LOCALAI_TIMEOUT_MS: Schema.optional(Schema.NumberFromString),
+  // Max LangGraph steps (model call + tool call = 2 steps) per chat turn before
+  // the run is aborted with GraphRecursionError. Defaults to 50.
+  AGENT_RECURSION_LIMIT: Schema.optional(Schema.NumberFromString),
   // Cloudflare Access service token — the LocalAI hostname sits behind a
   // Cloudflare Zero Trust Access application; without these headers every
   // request gets intercepted and answered with an HTML SSO login page

@@ -127,6 +127,7 @@ export const MakeSendChatMessageStreamRoute: Route = (r, ctx) => {
         // Convert async generator to ReadableStream with SSE formatting
         const stream = Readable.from(
           (async function* () {
+            let finished = false;
             try {
               // Send initial comment to establish connection
               yield ": connected\n\n";
@@ -140,8 +141,10 @@ export const MakeSendChatMessageStreamRoute: Route = (r, ctx) => {
 
               // Send completion marker
               yield "data: [DONE]\n\n";
+              finished = true;
               ctx.logger.info.log("Streaming chat completed successfully");
             } catch (error) {
+              finished = true;
               ctx.logger.error.log("Streaming error: %O", error);
               // Send error as SSE event
               captureChatError(ctx, error, {
@@ -153,6 +156,14 @@ export const MakeSendChatMessageStreamRoute: Route = (r, ctx) => {
               });
               const errorEvent = toChatErrorEvent(error, "Unknown error");
               yield `data: ${JSON.stringify(errorEvent)}\n\n`;
+            } finally {
+              // A consumer that disconnects mid-turn closes this generator
+              // without completing or throwing — make that visible.
+              if (!finished) {
+                ctx.logger.warn.log(
+                  "Streaming chat closed before completion (client disconnected or stream aborted)",
+                );
+              }
             }
           })(),
           { encoding: "utf8" },
