@@ -10,6 +10,7 @@ export default defineConfig({
       "./services/web/vitest.config.e2e.ts",
       "./services/web/vitest.config.spec.ts",
       "./services/admin/vitest.config.e2e.ts",
+      "./services/ai-bot/vitest.config.ts",
       "./services/api/vitest.config.e2e.ts",
       "./services/api/vitest.config.spec.ts",
     ],

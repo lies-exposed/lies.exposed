@@ -80,25 +80,25 @@ export interface ZeroClawAdapter {
 
 /**
  * Create a ZeroClaw adapter from environment configuration.
- * Returns `Left(error)` if ZEROCLOW_WEBHOOK_URL is not configured but
- * ZEROCLOW_ENABLED is true.
+ * Returns `Left(error)` if ZEROCLAW_WEBHOOK_URL is not configured but
+ * ZEROCLAW_ENABLED is true.
  */
 export const createZeroClawAdapter = (
   env: AdminProxyENV,
 ): TE.TaskEither<Error, ZeroClawAdapter> => {
-  if (!env.ZEROCLOW_ENABLED) {
+  if (!env.ZEROCLAW_ENABLED) {
     return TE.left(
-      new Error("ZEROCLOW_ENABLED is not set — ZeroClaw adapter is disabled"),
+      new Error("ZEROCLAW_ENABLED is not set — ZeroClaw adapter is disabled"),
     );
   }
 
-  const webhookUrl = env.ZEROCLOW_WEBHOOK_URL;
-  const agentId = env.ZEROCLOW_AGENT_ID ?? "lies_exposed";
+  const webhookUrl = env.ZEROCLAW_WEBHOOK_URL;
+  const agentId = env.ZEROCLAW_AGENT_ID ?? "lies_exposed";
 
   if (!webhookUrl) {
     return TE.left(
       new Error(
-        "ZEROCLOW_ENABLED is true but ZEROCLOW_WEBHOOK_URL is not configured",
+        "ZEROCLAW_ENABLED is true but ZEROCLAW_WEBHOOK_URL is not configured",
       ),
     );
   }

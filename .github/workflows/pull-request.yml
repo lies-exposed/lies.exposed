@@ -61,6 +61,7 @@ jobs:
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/backend/src/**"
               - "services/ai-bot/**"
+              - "helm/templates/services/ai-bot/**"
               - "ai-bot.Dockerfile"
               - "base.Dockerfile"
             api:

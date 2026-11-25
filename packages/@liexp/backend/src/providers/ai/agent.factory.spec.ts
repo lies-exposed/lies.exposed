@@ -74,10 +74,7 @@ const buildContext = () => ({
   brave: {},
 });
 
-const skillsDir = path.resolve(
-  process.cwd(),
-  "src/providers/ai/__fixtures__/skills",
-);
+const skillsDir = path.resolve(import.meta.dirname, "__fixtures__/skills");
 
 describe("GetAgentFactory — MCP tool load & failure mapping", () => {
   it("includes MCP tools when the session is healthy", async () => {
