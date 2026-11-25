@@ -28,10 +28,12 @@ afterEach(() => {
 /** Serve the given NDJSON frames and record the request bodies. */
 const startWebhook = async (frames: object[], status = 200) => {
   const bodies: Record<string, unknown>[] = [];
+  const authorizations: (string | undefined)[] = [];
   server = createServer((req, res) => {
     let body = "";
     req.on("data", (chunk) => (body += chunk));
     req.on("end", () => {
+      authorizations.push(req.headers.authorization);
       bodies.push(JSON.parse(body));
       res.statusCode = status;
       res.end(frames.map((f) => JSON.stringify(f)).join("\n"));
@@ -39,13 +41,18 @@ const startWebhook = async (frames: object[], status = 200) => {
   });
   await new Promise<void>((resolve) => server!.listen(0, resolve));
   const { port } = server.address() as AddressInfo;
-  return { url: `http://127.0.0.1:${port}/paperclip/heartbeat`, bodies };
+  return {
+    url: `http://127.0.0.1:${port}/paperclip/heartbeat`,
+    bodies,
+    authorizations,
+  };
 };
 
-const makeAdapter = async (url: string) => {
+const makeAdapter = async (url: string, token?: string) => {
   const result = await createZeroClawAdapter({
     ZEROCLAW_ENABLED: true,
     ZEROCLAW_WEBHOOK_URL: url,
+    ZEROCLAW_WEBHOOK_TOKEN: token,
   } as Parameters<typeof createZeroClawAdapter>[0])();
   if (E.isLeft(result)) throw result.left;
   return result.right;
@@ -88,6 +95,18 @@ describe("ZeroClaw adapter", () => {
       wakeReason: "manual_chat",
       message: "hi",
     });
+  });
+
+  it.each([
+    ["a-token", "Bearer a-token"],
+    [undefined, undefined],
+  ])("authorizes with token %s", async (token, header) => {
+    const webhook = await startWebhook(completed);
+    const adapter = await makeAdapter(webhook.url, token);
+
+    await adapter.sendMessage({ message: "hi" }, logger)();
+
+    expect(webhook.authorizations).toEqual([header]);
   });
 
   it.each([

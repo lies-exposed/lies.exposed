@@ -112,7 +112,11 @@ export const createZeroClawAdapter = (
   return TE.right({
     agentId,
     webhookUrl,
-    sendMessage: createSendMessage(webhookUrl, agentId),
+    sendMessage: createSendMessage(
+      webhookUrl,
+      agentId,
+      env.ZEROCLAW_WEBHOOK_TOKEN,
+    ),
   });
 };
 
@@ -134,6 +138,7 @@ const postJSON = (
   url: string,
   body: string,
   signal: AbortSignal,
+  token: string | undefined,
 ): Promise<WebhookReply> =>
   new Promise((resolve, reject) => {
     const request = url.startsWith("https:") ? httpsRequest : httpRequest;
@@ -141,7 +146,10 @@ const postJSON = (
       url,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         signal,
       },
       (res) => {
@@ -161,10 +169,10 @@ const postJSON = (
   });
 
 /**
- * Create a sendMessage function bound to a specific webhook URL and agent ID.
+ * Create a sendMessage function bound to a webhook URL, agent ID and token.
  */
 const createSendMessage =
-  (webhookUrl: string, agentId: string) =>
+  (webhookUrl: string, agentId: string, token: string | undefined) =>
   (
     req: ChatRequest,
     logger: Logger,
@@ -178,6 +186,7 @@ const createSendMessage =
             webhookUrl,
             JSON.stringify(buildPayload(req, agentId)),
             signal ? AbortSignal.any([signal, timeout]) : timeout,
+            token,
           );
         },
         (err) =>

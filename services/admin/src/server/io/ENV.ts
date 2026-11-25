@@ -64,6 +64,7 @@ export const AdminProxyENV = Schema.Struct({
   ZEROCLAW_ENABLED: Schema.optional(Schema.BooleanFromString),
   ZEROCLAW_WEBHOOK_URL: Schema.optional(URL),
   ZEROCLAW_AGENT_ID: Schema.optional(Schema.String),
+  ZEROCLAW_WEBHOOK_TOKEN: Schema.optional(Schema.String),
 }).annotations({
   title: "AdminProxyENV",
   description: "Environment variables for admin proxy server",
