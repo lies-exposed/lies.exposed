@@ -39,7 +39,7 @@
     "eslint": "^10.15.0",
     "fp-ts": "^2.16.10",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.1"
   },
   "peerDependencies": {
     "effect": "^3",
