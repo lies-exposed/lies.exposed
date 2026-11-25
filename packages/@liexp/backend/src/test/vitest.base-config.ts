@@ -39,13 +39,6 @@ export const extendBaseConfig = (
           "pdfjs-dist/legacy/build/pdf.js": toBackendAlias(
             "lib/test/mocks/pdfjs.mock.js",
           ),
-          "@blocknote/core": toBackendAlias(
-            "lib/test/mocks/blocknote-core.mock.js",
-          ),
-          "@blocknote/react/**": toBackendAlias(
-            "lib/test/mocks/blocknote-react.mock.js",
-          ),
-
           "@liexp/core/lib/**": toBackendAlias("../core/src/**"),
           "@liexp/shared/lib/**": toBackendAlias("../shared/src/**"),
           "@liexp/backend/lib/**": toBackendAlias("../../src/**"),
