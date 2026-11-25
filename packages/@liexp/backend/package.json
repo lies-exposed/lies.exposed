@@ -43,7 +43,7 @@
     "compression": "^1.8.2",
     "date-fns": "^4.4.0",
     "express-jwt": "^8.5.1",
-    "express-rate-limit": "^8.7.4",
+    "express-rate-limit": "^8.7.5",
     "ip-address": "^10.7.4",
     "jsonwebtoken": "^9.0.2",
     "linkedom": "^0.18.15",
