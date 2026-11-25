@@ -20,10 +20,4 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
       exclude: ["test/**/*.e2e.ts", "test"],
     },
   },
-  poolOptions: {
-    forks: {
-      singleFork: true,
-      isolate: false,
-    },
-  },
 }));
