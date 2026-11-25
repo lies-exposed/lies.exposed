@@ -90,7 +90,12 @@ export const makeAdminProxyContext = (
       pipe(
         createZeroClawAdapter(env),
         TE.map((adapter) => adapter),
-        TE.orElse(() => TE.right(null as ZeroClawAdapter | null)),
+        TE.orElse((error) => {
+          if (env.ZEROCLAW_ENABLED) {
+            logger.error.log("%s; using the agent service", error.message);
+          }
+          return TE.right(null as ZeroClawAdapter | null);
+        }),
       ),
     ),
     TE.map(({ jwt, m2m, agent, zeroclaw }) => ({

@@ -13,6 +13,7 @@ import {
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AdminProxyContext } from "../context/index.js";
 import type { ChatRequest, ChatResponse } from "../zeroclaw/adapter.js";
+import { streamZeroClawReply } from "../zeroclaw/stream.js";
 
 export const registerAgentProxyRoutes = (
   router: Router,
@@ -503,6 +504,11 @@ export const registerAgentProxyRoutes = (
         req.ip,
         req.body.aiConfig?.provider ?? "default",
       );
+
+      if (zeroclaw) {
+        await streamZeroClawReply(zeroclaw, req, res, logger, correlationId);
+        return;
+      }
 
       try {
         // Get M2M token
