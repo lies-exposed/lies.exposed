@@ -5,7 +5,7 @@ import * as E from "fp-ts/lib/Either.js";
 import type { ZeroClawAdapter } from "./adapter.js";
 
 // Well below the 60s activity timeout of the admin chat client.
-export const KEEPALIVE_MS = 15_000;
+const KEEPALIVE_MS = 15_000;
 
 /**
  * Answer a streaming chat request through ZeroClaw.
