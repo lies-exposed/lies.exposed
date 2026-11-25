@@ -26,7 +26,7 @@
     "lint": "eslint --cache src",
     "lint:ci": "eslint src",
     "start": "node build/run.js",
-    "test": "echo 'No tests configured for ai-bot'",
+    "test": "vitest run",
     "pkg": "./scripts/pkg.sh"
   },
   "dependencies": {
@@ -59,6 +59,7 @@
     "esbuild": "^0.28.2",
     "eslint": "^10.15.0",
     "tsx": "^4.23.15",
-    "typescript": "npm:@typescript/typescript6@^6.0.2"
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "vitest": "^5.1.1"
   }
 }

@@ -39,7 +39,7 @@ const DEFAULT_AGENT_REQUEST_TIMEOUT_MS = 30 * 60 * 1000;
 /**
  * ZeroClaw adapter for ai-bot (WS7).
  *
- * When ZEROCLOW_ENABLED is true, the ai-bot forwards agent calls to the
+ * When ZEROCLAW_ENABLED is true, the ai-bot forwards agent calls to the
  * ZeroClaw webhook instead of the legacy agent service. ZeroClaw exposes
  * MCP tools for actor/group/link via its Paperclip webhook; the adapter
  * translates between the agent endpoint format and ZeroClaw's NDJSON stream.
@@ -50,11 +50,11 @@ interface ZeroClawAdapter {
 }
 
 /** Raw ZeroClaw config from schema (all fields optional strings/bools) */
-type RawZeroClawConfig = NonNullable<AIBotConfig["zeroclow"]>;
+type RawZeroClawConfig = NonNullable<AIBotConfig["zeroclaw"]>;
 
 /**
  * Safely extract a ZeroClawAdapter from the optional schema config.
- * Returns None if zeroclow is not configured or enabled is false.
+ * Returns None if zeroclaw is not configured or enabled is false.
  */
 const createZeroClawAdapter = (
   raw: O.Option<RawZeroClawConfig>,
@@ -120,25 +120,25 @@ export const loadContext = (
         }),
       ),
     ),
-    fp.TE.bind("zeroclow", ({ config }) =>
+    fp.TE.bind("zeroclaw", ({ config }) =>
       fp.TE.right(
         createZeroClawAdapter(
-          config.config.zeroclow ? O.some(config.config.zeroclow) : O.none,
+          config.config.zeroclaw ? O.some(config.config.zeroclaw) : O.none,
         ),
       ),
     ),
-    fp.TE.bind("agent", ({ config, env, zeroclow }) => {
+    fp.TE.bind("agent", ({ config, env, zeroclaw }) => {
       // WS7: when ZeroClaw is enabled, use its webhook URL instead of the
       // legacy agent URL. The ZeroClaw webhook accepts the same agent endpoint
       // payloads and returns NDJSON responses.
       const baseURL = pipe(
-        zeroclow,
+        zeroclaw,
         O.map((zc) => zc.webhookUrl),
         O.getOrElse(() => config.config.agent.url.toString()),
       );
 
       const hasZeroClaw = pipe(
-        zeroclow,
+        zeroclaw,
         O.fold(
           () => false,
           () => true,
@@ -194,7 +194,7 @@ export const loadContext = (
         apiRestClient,
         api,
         agent,
-        zeroclow,
+        zeroclaw,
       }) => {
         apiRestClient.interceptors.request.use((req) => {
           const token = getToken();
@@ -205,7 +205,7 @@ export const loadContext = (
         });
 
         const hasZeroClaw = pipe(
-          zeroclow,
+          zeroclaw,
           O.fold(
             () => false,
             () => true,
@@ -214,9 +214,9 @@ export const loadContext = (
 
         logger.info.log("AI BOT config %O", {
           ...config.config,
-          zeroclow: hasZeroClaw
+          zeroclaw: hasZeroClaw
             ? pipe(
-                zeroclow,
+                zeroclaw,
                 O.map((zc) => ({ enabled: true, agentId: zc.agentId })),
                 O.getOrElse(() => ({ enabled: true, agentId: "lies_exposed" })),
               )

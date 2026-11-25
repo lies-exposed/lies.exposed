@@ -12,13 +12,13 @@ import {
 } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AdminProxyContext } from "../context/index.js";
-import type { ChatRequest, ChatResponse } from "../zeroclow/adapter.js";
+import type { ChatRequest, ChatResponse } from "../zeroclaw/adapter.js";
 
 export const registerAgentProxyRoutes = (
   router: Router,
   ctx: AdminProxyContext,
 ): void => {
-  const { logger, m2m, agent, zeroclow, env } = ctx;
+  const { logger, m2m, agent, zeroclaw, env } = ctx;
 
   // Rate limiter (per authenticated user)
   const chatRateLimiter = makeRateLimiter({
@@ -59,16 +59,16 @@ export const registerAgentProxyRoutes = (
       const correlationId = generateCorrelationId();
 
       logger.info.log(
-        "Proxying chat request (correlation: %s, user: %s, ip: %s, provider: %s, zeroclow: %s)",
+        "Proxying chat request (correlation: %s, user: %s, ip: %s, provider: %s, zeroclaw: %s)",
         correlationId,
         req.user?.id ?? "unknown",
         req.ip,
         req.body.aiConfig?.provider ?? "default",
-        zeroclow ? "enabled" : "disabled",
+        zeroclaw ? "enabled" : "disabled",
       );
 
       // ZeroClaw path (WS7) — non-streaming, no conversation tracking
-      if (zeroclow) {
+      if (zeroclaw) {
         const chatReq: ChatRequest = {
           message: req.body.message ?? req.body.text ?? "",
           conversation_id: req.body.conversation_id ?? null,
@@ -78,7 +78,7 @@ export const registerAgentProxyRoutes = (
 
         pipe(
           TE.fromIO(() => m2m.getToken()),
-          TE.chain(() => zeroclow.sendMessage(chatReq, logger)),
+          TE.chain(() => zeroclaw.sendMessage(chatReq, logger)),
           TE.fold(
             (error: unknown) => () => {
               logger.error.log(
@@ -231,7 +231,7 @@ export const registerAgentProxyRoutes = (
       const correlationId = generateCorrelationId();
 
       // ZeroClaw: no conversation tracking
-      if (zeroclow) {
+      if (zeroclaw) {
         logger.info.log(
           "ZeroClaw: returning empty conversations list (correlation: %s)",
           correlationId,
@@ -314,7 +314,7 @@ export const registerAgentProxyRoutes = (
       const { id } = req.params;
 
       // ZeroClaw: no conversation tracking
-      if (zeroclow) {
+      if (zeroclaw) {
         logger.info.log(
           "ZeroClaw: conversation not found (correlation: %s, id: %s)",
           correlationId,
@@ -407,7 +407,7 @@ export const registerAgentProxyRoutes = (
       const { id } = req.params;
 
       // ZeroClaw: no conversation tracking
-      if (zeroclow) {
+      if (zeroclaw) {
         logger.info.log(
           "ZeroClaw: conversation delete is no-op (correlation: %s, id: %s)",
           correlationId,
@@ -733,7 +733,7 @@ export const registerAgentProxyRoutes = (
     res.status(200).json({
       status: "ok",
       service: "admin-proxy",
-      zeroclow: zeroclow ? "enabled" : "disabled",
+      zeroclaw: zeroclaw ? "enabled" : "disabled",
       timestamp: new Date().toISOString(),
     });
   });
@@ -753,7 +753,7 @@ export const registerAgentProxyRoutes = (
       const correlationId = generateCorrelationId();
 
       // ZeroClaw: no provider listing
-      if (zeroclow) {
+      if (zeroclaw) {
         logger.info.log(
           "ZeroClaw: returning empty providers list (correlation: %s)",
           correlationId,

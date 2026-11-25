@@ -10,11 +10,13 @@ export const AIBotConfig = Schema.Struct({
     url: URL,
   }),
   // ZeroClaw adapter (WS7) — feature-flagged replacement for agent
-  zeroclow: Schema.Struct({
-    enabled: Schema.optional(Schema.Boolean),
-    webhookUrl: Schema.optional(URL),
-    agentId: Schema.optional(Schema.String),
-  }).annotations({ title: "ZeroClawConfig" }),
+  zeroclaw: Schema.optional(
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+      webhookUrl: Schema.optional(URL),
+      agentId: Schema.optional(Schema.String),
+    }).annotations({ title: "ZeroClawConfig" }),
+  ),
 }).annotations({
   title: "AIBotConfig",
 });
