@@ -113,8 +113,6 @@ The service uses a JSON configuration file (`AIBotConfig`):
 | `AGENT_MODEL` | Default model to use |
 | `AGENT_API_KEY` | Agent API key |
 | `AGENT_TIMEOUT` | Request timeout |
-| `CF_ACCESS_CLIENT_ID` | Cloudflare Access client ID |
-| `CF_ACCESS_CLIENT_SECRET` | Cloudflare Access secret |
 
 ## Development Commands
 

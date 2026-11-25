@@ -32,6 +32,9 @@ export const loadAgentEvalTestContext = async (
     DEBUG: "-",
     OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
     OPENAI_BASE_URL: "https://ai.ascariandrea.it",
+    // The URL above is behind Cloudflare Access: pass the service token through.
+    CF_ACCESS_CLIENT_ID: process.env.CF_ACCESS_CLIENT_ID,
+    CF_ACCESS_CLIENT_SECRET: process.env.CF_ACCESS_CLIENT_SECRET,
     LOCALAI_MAX_RETRIES: 3,
     LOCALAI_MODEL: process.env.LOCALAI_MODEL ?? "localai/fast",
     LOCALAI_EMBEDDING_MODEL: process.env.LOCALAI_EMBEDDING_MODEL,
