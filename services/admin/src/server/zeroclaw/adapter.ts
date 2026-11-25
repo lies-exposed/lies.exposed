@@ -5,8 +5,8 @@
  * via its Paperclip webhook endpoint, and returns responses in a format
  * compatible with the existing admin-proxy chat endpoints.
  *
- * ZeroClaw does not support streaming or conversation-list, so:
- * - Streaming is dropped (non-blocking HTTP call only)
+ * ZeroClaw does not support token streaming or conversation-list, so:
+ * - The reply arrives in one piece when the run ends (see ./stream.ts)
  * - Conversation history is managed client-side by the admin frontend
  * - Each request is stateless (no conversation_id tracking)
  *
@@ -14,8 +14,11 @@
  * agent service; this adapter only handles actor/group/link queries.
  */
 
+import { request as httpRequest } from "node:http";
+import { request as httpsRequest } from "node:https";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import type { Logger } from "@liexp/core/lib/logger/Logger.js";
+import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type { AdminProxyENV } from "../io/ENV.js";
 
@@ -46,8 +49,9 @@ export interface ChatResponse {
 interface ZeroClawPayload {
   runId: string;
   agentId: string;
+  /** ZeroClaw agent alias; the webhook falls back to its default agent without it */
+  model: string;
   context: {
-    taskId?: string;
     wakeReason: string;
     [key: string]: unknown;
   };
@@ -58,9 +62,10 @@ interface ZeroClawPayload {
 /** ZeroClaw NDJSON stream frame */
 interface ZeroClawFrame {
   type: string;
-  content?: string;
   status?: string;
   result?: string;
+  error?: string;
+  errorCode?: string;
   [key: string]: unknown;
 }
 
@@ -71,6 +76,7 @@ export interface ZeroClawAdapter {
   sendMessage: (
     req: ChatRequest,
     logger: Logger,
+    signal?: AbortSignal,
   ) => TE.TaskEither<Error, ChatResponse>;
 }
 
@@ -110,70 +116,105 @@ export const createZeroClawAdapter = (
   });
 };
 
+// ZeroClaw runs can take several minutes; allow up to 15 min.
+const RUN_TIMEOUT_MS = 15 * 60 * 1000;
+
+interface WebhookReply {
+  status: number;
+  body: string;
+}
+
+/**
+ * POST a JSON body and buffer the whole reply.
+ *
+ * Uses `node:http` instead of `fetch`: the webhook stays silent while the agent
+ * works, and `fetch` drops connections that are idle for 5 minutes.
+ */
+const postJSON = (
+  url: string,
+  body: string,
+  signal: AbortSignal,
+): Promise<WebhookReply> =>
+  new Promise((resolve, reject) => {
+    const request = url.startsWith("https:") ? httpsRequest : httpRequest;
+    const req = request(
+      url,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal,
+      },
+      (res) => {
+        let text = "";
+        res.setEncoding("utf8");
+        res.on("data", (chunk: string) => {
+          text += chunk;
+        });
+        res.on("end", () => {
+          resolve({ status: res.statusCode ?? 0, body: text });
+        });
+        res.on("error", reject);
+      },
+    );
+    req.on("error", reject);
+    req.end(body);
+  });
+
 /**
  * Create a sendMessage function bound to a specific webhook URL and agent ID.
  */
 const createSendMessage =
   (webhookUrl: string, agentId: string) =>
-  (req: ChatRequest, logger: Logger): TE.TaskEither<Error, ChatResponse> =>
+  (
+    req: ChatRequest,
+    logger: Logger,
+    signal?: AbortSignal,
+  ): TE.TaskEither<Error, ChatResponse> =>
     pipe(
       TE.tryCatch(
-        () =>
-          fetch(webhookUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(buildPayload(req, agentId)),
-            // ZeroClaw runs can take several minutes; allow up to 15 min.
-            signal: AbortSignal.timeout(15 * 60 * 1000),
-          }),
+        () => {
+          const timeout = AbortSignal.timeout(RUN_TIMEOUT_MS);
+          return postJSON(
+            webhookUrl,
+            JSON.stringify(buildPayload(req, agentId)),
+            signal ? AbortSignal.any([signal, timeout]) : timeout,
+          );
+        },
         (err) =>
           new Error(
             `ZeroClaw webhook request failed: ${(err as Error).message}`,
           ),
       ),
-      TE.chain((res: Response) =>
-        res.ok
+      TE.chain((res) =>
+        res.status >= 200 && res.status < 300
           ? TE.right(res)
           : TE.left(new Error(`ZeroClaw webhook returned ${res.status}`)),
       ),
-      TE.chain((res: Response) =>
-        TE.tryCatch(
-          async () => {
-            const text = await res.text();
-            const reply = parseNDJSON(text, logger);
-            return {
-              data: {
-                message: reply,
-                // ZeroClaw has no conversation model; return a placeholder.
-                // The admin frontend manages conversation history client-side.
-                conversationId: crypto.randomUUID(),
-              },
-            } as ChatResponse;
-          },
-          (err) =>
-            new Error(
-              `ZeroClaw response parsing failed: ${(err as Error).message}`,
-            ),
-        ),
-      ),
-      TE.orElse((err) =>
-        TE.left(new Error(`ZeroClaw adapter error: ${(err as Error).message}`)),
-      ),
+      TE.chainEitherK((res) => parseNDJSON(res.body, logger)),
+      TE.map((reply): ChatResponse => ({
+        data: {
+          message: reply,
+          // ZeroClaw has no conversation model; return a placeholder.
+          // The admin frontend manages conversation history client-side.
+          conversationId: crypto.randomUUID(),
+        },
+      })),
+      TE.mapLeft((err) => new Error(`ZeroClaw adapter error: ${err.message}`)),
     );
 
 /**
  * Build a minimal Paperclip heartbeat payload from a chat request.
  *
- * The ZeroClaw adapter expects a `runId` and `agentId` at minimum. We
- * generate a synthetic runId and embed the chat message in the context
- * so the agent can process it.
+ * `model` selects the ZeroClaw agent. It comes from configuration only, never
+ * from the request, so chat users cannot pick another agent. No `taskId` is
+ * sent: the webhook treats it as a Paperclip issue id.
  */
-const buildPayload = (req: ChatRequest, _agentId: string): ZeroClawPayload => ({
+const buildPayload = (req: ChatRequest, agentId: string): ZeroClawPayload => ({
   runId: crypto.randomUUID(),
-  agentId: _agentId,
+  agentId,
+  model: agentId,
   context: {
     wakeReason: "manual_chat",
-    taskId: crypto.randomUUID(),
     message: req.message,
   },
 });
@@ -182,25 +223,32 @@ const buildPayload = (req: ChatRequest, _agentId: string): ZeroClawPayload => ({
  * Parse ZeroClaw NDJSON stream and extract the final reply.
  *
  * ZeroClaw sends frames like:
- *   {"type":"content","content":"hello"}
- *   {"type":"result","status":"success","result":"final answer"}
+ *   {"type":"started","queuedMs":0}
+ *   {"type":"stdout","chunk":"hello"}
+ *   {"type":"result","status":"completed","result":"final answer"}
  *
- * We concatenate all `content` frames and fall back to `result` if present.
+ * The terminal `result` frame is authoritative: anything but `completed`, or a
+ * stream that ends without it, is a failed run.
  */
-const parseNDJSON = (body: string, logger: Logger): string => {
+const parseNDJSON = (body: string, logger: Logger): E.Either<Error, string> => {
   const lines = body.split("\n").filter(Boolean);
-  let reply = "";
-  let lastResult: string | undefined;
 
   for (const line of lines) {
     try {
       const frame: ZeroClawFrame = JSON.parse(line);
-      if (frame.type === "content" && frame.content) {
-        reply += frame.content;
+      if (frame.type !== "result") continue;
+
+      if (frame.status !== "completed") {
+        return E.left(
+          new Error(
+            `ZeroClaw run ${frame.status ?? "failed"}: ${frame.error ?? frame.errorCode ?? "no details"}`,
+          ),
+        );
       }
-      if (frame.type === "result" && frame.result) {
-        lastResult = frame.result;
-      }
+
+      return frame.result
+        ? E.right(frame.result)
+        : E.left(new Error("ZeroClaw run completed with an empty reply"));
     } catch {
       // Silently skip malformed frames
       logger.debug.log(
@@ -210,6 +258,5 @@ const parseNDJSON = (body: string, logger: Logger): string => {
     }
   }
 
-  // Prefer explicit result over concatenated content
-  return lastResult ?? reply.trim();
+  return E.left(new Error("ZeroClaw stream ended without a result frame"));
 };
