@@ -46,7 +46,7 @@
     "express-rate-limit": "^8.7.4",
     "ip-address": "^10.7.4",
     "jsonwebtoken": "^9.0.2",
-    "linkedom": "^0.18.13",
+    "linkedom": "^0.18.15",
     "reflect-metadata": "^0.2.2",
     "sirv": "^3.0.2",
     "typeorm": "^1.1.1"
