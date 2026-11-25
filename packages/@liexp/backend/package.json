@@ -78,7 +78,7 @@
     "fp-ts": "^2.16.10",
     "ioredis": "^6.0.0",
     "langchain": "^1.6.6",
-    "msw": "^3.0.6",
+    "msw": "^3.0.7",
     "page-metadata-parser": "^1.1.4",
     "pdfjs-dist": "^6.5.438",
     "puppeteer-core": "^25.17.0",
@@ -90,7 +90,7 @@
     "typeorm-pglite": "^0.3.4",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.3.8",
-    "vitest": "^5.1.0",
+    "vitest": "^5.1.1",
     "vitest-mock-extended": "^6.0.1"
   },
   "peerDependencies": {
