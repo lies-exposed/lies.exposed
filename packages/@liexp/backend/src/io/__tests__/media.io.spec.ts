@@ -111,9 +111,9 @@ describe("MediaIO", () => {
       expect(E.isRight(result)).toBe(true);
       if (E.isRight(result)) {
         expect(result.right.createdAt).toBeInstanceOf(Date);
-        expect(result.right.createdAt.toISOString()).toBe(
-          new Date("2026-11-14T16:01:00.000Z").toISOString(),
-        );
+        // The driver string carries no zone, so it is read as local time, the
+        // same way node-postgres parses `timestamp without time zone`.
+        expect(result.right.createdAt).toEqual(new Date(2026, 10, 14, 16, 1));
       }
     });
 
