@@ -87,5 +87,4 @@ services/data
 services/agent/.eval-cache.json
 services/agent/.eval-debug/
 
-graphify-out/*
 .codegraph
