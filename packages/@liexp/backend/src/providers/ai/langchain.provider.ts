@@ -69,9 +69,9 @@ const installCfAccessFetch = (
 // endpoint path directly to `configuration.baseURL` with no normalization of
 // its own, so a configured `OPENAI_BASE_URL` without a `/v1` suffix silently
 // 404s every request. Normalize once here so every client this provider
-// builds (chat, embeddings) agrees with the convention this repo's own
-// graphify config and `services/agent/.../chat.controller.ts`'s `withV1`
-// already use for `/models`.
+// builds (chat, embeddings) agrees with the convention
+// `services/agent/.../chat.controller.ts`'s `withV1` already uses for
+// `/models`.
 function withV1(baseURL: string): string {
   // anthropic passes `undefined as any` here (no OpenAI-compatible baseURL
   // applies to that provider) — pass through untouched rather than crash.

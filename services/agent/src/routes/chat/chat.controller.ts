@@ -222,7 +222,7 @@ const PROVIDER_MODELS: Record<
 // `/models` doesn't have that alias, so a configured OPENAI_BASE_URL without
 // a `/v1` suffix (e.g. LocalAI's plain host) 404s here even though chat works
 // fine — normalize the base so this call matches the convention every other
-// OpenAI-compatible client (including this repo's own graphify config) uses.
+// OpenAI-compatible client uses.
 function withV1(baseURL: string): string {
   const trimmed = baseURL.replace(/\/+$/, "");
   return trimmed.endsWith("/v1") ? trimmed : `${trimmed}/v1`;
