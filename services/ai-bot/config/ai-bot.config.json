@@ -5,5 +5,14 @@
   },
   "agent": {
     "url": "http://agent.liexp.dev/v1"
+  },
+  "localAi": {
+    "url": "https://ai.ascariandrea.it/as/lies-exposed-ai-bot/v1",
+    "apiKey": "no-key-is-a-good-key",
+    "models": {
+      "summarize": "localai/fast",
+      "chat": "localai/small",
+      "embeddings": "localai/embed"
+    }
   }
 }
