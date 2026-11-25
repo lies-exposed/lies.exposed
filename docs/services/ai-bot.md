@@ -81,17 +81,6 @@ The service uses a JSON configuration file (`AIBotConfig`):
 
 ```typescript
 {
-  localAi: {
-    url: string,        // AI API URL
-    apiKey: string,     // API key
-    timeout?: number,   // Request timeout
-    models?: {          // Model overrides
-      chat?: string,
-      agent?: string,
-      summarization?: string,
-      embeddings?: string
-    }
-  },
   api: {
     url: URL,           // API service URL
     mcp: URL           // MCP endpoint URL

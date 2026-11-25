@@ -83,8 +83,8 @@ function withV1(baseURL: string): string {
 const EMPTY_CHOICES_MAX_RETRIES = 2;
 
 /**
- * Some OpenAI-compatible backends (observed with LocalAI serving
- * qwen3.6-35b-a3b) occasionally answer a non-streaming completion with
+ * Some OpenAI-compatible backends (observed with LocalAI serving the
+ * `localai/fast` model) occasionally answer a non-streaming completion with
  * HTTP 200 and an empty/missing `choices` array — no exception is thrown,
  * so @langchain/openai silently turns it into an empty generations result,
  * and @langchain/core's BaseChatModel.invoke() then crashes reading
@@ -317,7 +317,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
         },
       });
       // Some OpenAI-compatible backends (observed with LocalAI serving
-      // qwen3.6-35b-a3b) mis-merge interleaved streaming chunks when the
+      // the `localai/fast` model) mis-merge interleaved streaming chunks when the
       // model emits 2+ tool calls in one turn: additional_kwargs.tool_calls
       // ends up populated but the normalized top-level AIMessage.tool_calls
       // — the field LangGraph's routing condition actually checks — stays

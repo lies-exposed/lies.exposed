@@ -236,7 +236,7 @@ message_start → content_delta* → tool_call_start → tool_call_end* → mess
 
 5. **Tool results in eval tests** — LangGraph's `createReactAgent` may not emit `on_tool_end` events in all configurations. The `agent-pipeline.eval.ts` has a documented bug about this.
 
-6. **"No response generated" — reasoning mode mismatch** — Some models (e.g. `qwen3.6-35b-a3b`) stream all tokens into `delta.reasoning` (thinking mode) and leave `delta.content` null. LangChain's `delta.content` reader sees empty content → agent returns "No response generated". This is a model/server-side issue, not a code bug. Fix: disable reasoning mode on the model config, or pick a non-reasoning model. Eval tests can catch this — check that `content_delta` events have non-null `content`.
+6. **"No response generated" — reasoning mode mismatch** — Some models (e.g. the one behind `localai/fast`) stream all tokens into `delta.reasoning` (thinking mode) and leave `delta.content` null. LangChain's `delta.content` reader sees empty content → agent returns "No response generated". This is a model/server-side issue, not a code bug. Fix: disable reasoning mode on the model config, or pick a non-reasoning model. Eval tests can catch this — check that `content_delta` events have non-null `content`.
 
  7. **Port 4010 already in use** — `evalDbGlobalSetup.ts` starts `api-test` on port 4010, same port `services/api/.env.test` uses for its own e2e tests. Don't run `pnpm --filter agent test:eval` at the same time as `pnpm --filter api test:e2e` locally.
 

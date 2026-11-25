@@ -368,7 +368,7 @@ export const processStreamEvent = (
               .join("")
           : "";
 
-    // Thinking-mode models (rhino-coder, qwen3.6-35b-a3b) stream into
+    // Thinking-mode models (`rhino-coder`, `localai/fast`) stream into
     // `reasoning` and may leave `content` empty. Reasoning is surfaced as a
     // `thinking` delta, never as visible answer text; the flow falls back to
     // the accumulated reasoning only if no visible content shows up at all.

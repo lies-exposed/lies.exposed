@@ -5,14 +5,5 @@
   },
   "agent": {
     "url": "http://agent.liexp.dev/v1"
-  },
-  "localAi": {
-    "url": "https://ai.ascariandrea.it/v1",
-    "apiKey": "no-key-is-a-good-key",
-    "models": {
-      "summarize": "gpt-4o",
-      "chat": "localai/small",
-      "embeddings": "qwen3-embedding-4b"
-    }
   }
 }
