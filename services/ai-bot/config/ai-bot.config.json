@@ -7,12 +7,12 @@
     "url": "http://agent.liexp.dev/v1"
   },
   "localAi": {
-    "url": "https://ai.ascariandrea.it/v1",
+    "url": "https://ai.ascariandrea.it/as/lies-exposed-ai-bot/v1",
     "apiKey": "no-key-is-a-good-key",
     "models": {
-      "summarize": "gpt-4o",
+      "summarize": "localai/fast",
       "chat": "localai/small",
-      "embeddings": "qwen3-embedding-4b"
+      "embeddings": "localai/embed"
     }
   }
 }
