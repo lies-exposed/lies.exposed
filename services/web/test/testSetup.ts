@@ -15,8 +15,12 @@ beforeAll(async () => {
     VIRTUAL_PORT: "0", // Let system assign port
   });
 
-  // Clean up the test-specific vite cache directory if it exists
-  const testCacheDir = path.resolve(process.cwd(), "node_modules/.vite-test");
+  // Clean up this worker's vite cache directory if it exists. Each worker has
+  // its own, as test files run in parallel (see createApp's `cacheDir`).
+  const testCacheDir = path.resolve(
+    process.cwd(),
+    `node_modules/.vite-test-${process.env.VITEST_POOL_ID}`,
+  );
   try {
     if (fs.existsSync(testCacheDir)) {
       fs.rmSync(testCacheDir, { recursive: true, force: true });

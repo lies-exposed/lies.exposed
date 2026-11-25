@@ -110,7 +110,10 @@ export const createApp = async (
       // Check process.env.VITEST (set by vitest) rather than env.NODE_ENV
       // because AdminAppTest.ts overrides NODE_ENV to "development"/"production".
       cacheDir: process.env.VITEST
-        ? path.resolve(serviceRoot, "node_modules/.vite-test")
+        ? path.resolve(
+            serviceRoot,
+            `node_modules/.vite-test-${process.env.VITEST_POOL_ID}`,
+          )
         : undefined,
       // HMR: browser connects via nginx on port 443; WebSocket is attached
       // to the shared HTTP server so no extra port is exposed.
