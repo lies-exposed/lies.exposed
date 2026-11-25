@@ -138,8 +138,9 @@ const makeTestRouterProvider = (routeId: string) => ({
   RouterWrapper: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
-  // Provide the record id that useEditController looks for
-  useParams: (): { id: string } => ({ id: routeId }),
+  // Provide the record id that useEditController looks for. "*" is the splat
+  // react-admin's TabbedFormTabs reads as the selected tab; "" is the first one.
+  useParams: (): { id: string; "*": string } => ({ id: routeId, "*": "" }),
   // Minimal navigate stub — components that call navigate() won't crash
   useNavigate: () => () => undefined,
   // Minimal location stub
