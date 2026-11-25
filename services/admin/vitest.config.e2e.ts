@@ -22,10 +22,4 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     },
     sequence: { groupOrder: 2 },
   },
-  poolOptions: {
-    forks: {
-      singleFork: true,
-      isolate: false,
-    },
-  },
 }));

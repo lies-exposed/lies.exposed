@@ -21,7 +21,6 @@ export const extendBaseConfig = (
   root: string,
   configFn: (toAlias: ToAlias) => ViteUserConfig,
 ) => {
-  const toBackendAlias = PathnameAlias(import.meta.url);
   const toAlias = PathnameAlias(root);
   const config = configFn(toAlias);
 
@@ -33,17 +32,6 @@ export const extendBaseConfig = (
         pool: "vmForks",
         sequence: { groupOrder: 1 },
         watch: false,
-        alias: {
-          sharp: toBackendAlias("lib/test/mocks/sharp.mock.js"),
-          canvas: toBackendAlias("lib/test/mocks/canvas.mock.js"),
-          "pdfjs-dist/legacy/build/pdf.js": toBackendAlias(
-            "lib/test/mocks/pdfjs.mock.js",
-          ),
-          "@liexp/core/lib/**": toBackendAlias("../core/src/**"),
-          "@liexp/shared/lib/**": toBackendAlias("../shared/src/**"),
-          "@liexp/backend/lib/**": toBackendAlias("../../src/**"),
-          "@liexp/test/lib/**": toBackendAlias("../test/src/**"),
-        },
         coverage: {
           exclude: [
             ...coverageConfigDefaults.exclude,

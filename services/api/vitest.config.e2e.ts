@@ -35,11 +35,4 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
       "#utils": toAlias('./src/utils'),
     }
   },
-  poolOptions: {
-    forks: {
-      maxForks: 5,
-      singleFork: false,
-      isolate: false,
-    },
-  },
 }));
