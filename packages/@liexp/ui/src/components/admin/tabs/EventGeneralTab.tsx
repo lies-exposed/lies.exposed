@@ -1,9 +1,5 @@
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { type Event } from "@liexp/io/lib/http/Events/index.js";
-import { OpenAIEmbeddingQueueType } from "@liexp/io/lib/http/Queue/index.js";
 import { type ExtractEntitiesWithNLPOutput } from "@liexp/io/lib/http/admin/ExtractNLPEntities.js";
-import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import * as React from "react";
 import {
   BooleanInput,
@@ -20,7 +16,6 @@ import BlockNoteInput from "../BlockNoteInput.js";
 import { EventTypeInput } from "../common/inputs/EventTypeInput.js";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
 import { SuggestedKeywordEntityRelationsBox } from "../links/SuggestedEntityRelationsBox.js";
-import { OpenAIEmbeddingJobButton } from "../media/OpenAIJobButton.js";
 
 export interface EventGeneralTabChildrenHandlers {
   onKeywordClick: (keyword: string) => void;
@@ -34,20 +29,6 @@ export interface EventGeneralTabProps {
     handlers: EventGeneralTabChildrenHandlers,
   ) => React.ReactNode;
 }
-
-const getOpenAIPromptText = (event: Event) => {
-  const title = EventHelper.getTitle(event, {
-    actors: [],
-    groups: [],
-    keywords: [],
-    areas: [],
-    media: [],
-    links: [],
-    groupsMembers: [],
-  });
-  const excerpt = getTextContents(event.excerpt);
-  return `${title}\n\n${excerpt}`;
-};
 
 export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
   children,
@@ -158,16 +139,6 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
             onGroupClick: () => {},
           })}
 
-          <OpenAIEmbeddingJobButton<Event>
-            type={OpenAIEmbeddingQueueType.literals[0]}
-            resource="events"
-            label="Generate Event Summary"
-            description="AI will create a professional summary of this event, focusing on key actions, dates, actors and groups involved"
-            transformValue={(event) => ({
-              text: getOpenAIPromptText(event),
-              type: event.type,
-            })}
-          />
           <BlockNoteInput label="excerpt" source="excerpt" onlyText />
           <Box style={{ display: "flex", flexDirection: "column" }}>
             <DateField label="Updated At" source="updatedAt" showTime={true} />
