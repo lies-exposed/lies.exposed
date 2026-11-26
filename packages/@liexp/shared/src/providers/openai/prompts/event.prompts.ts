@@ -125,22 +125,6 @@ export const UPDATE_EVENT_PROMPT: PromptFn<{
   id: UUID;
   type: EventType;
 }> = ({ vars }) => `
-You are an expert in extracting and updating structured JSON from text. Your task is to UPDATE an existing event with new information.
-
-Your job is to analyze this context and update the event JSON object with accurate, relevant information:
-
-IMPORTANT GUIDELINES:
-- Use the proper MCP tools to access data from lies.exposed
-- UPDATE the event information based on the context you elaborate after gathering all the relevant information and current event data
-- PRESERVE the core facts of the event while enriching with new details
-- Extract more precise dates if available in the context
-- Synthesize information from multiple sources for a comprehensive excerpt
-- Focus on factual information from the provided context
-- Do NOT include URLs, links, or references - these are managed separately
-- Do NOT invent or speculate beyond what's in the context
-- For scientific studies: update with publication details, methodology, and key findings
-- For books: update with publication info, author details, and comprehensive summary
-- Incorporate relevant context from actors' and groups' biographies when they add meaningful information
-
-The event to update is the ${vars.id}
-`;
+Call \`load_skill("event-enrich")\` and run it for event ${vars.id} of type ${vars.type}.
+Follow the skill exactly: read the event, scrape only the links already attached to it, resolve names to UUIDs, and answer with the proposed values, missing names, and the changes list.
+This is a proposal only — do not create or edit any record.`;

@@ -1,19 +1,23 @@
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Event } from "@liexp/io/lib/http/Events/index.js";
+import {
+  UpdateEventAgentOutput,
+  type UpdateEventAgentOutput as UpdateEventAgentOutputType,
+} from "@liexp/io/lib/http/Queue/event/UpdateEventQueue.js";
 import { type UpdateEventTypeData } from "@liexp/io/lib/http/Queue/event/index.js";
-import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import {
+  type MergeEventExtractionResult,
+  mergeEventExtraction,
+} from "@liexp/shared/lib/helpers/event/mergeEventExtraction.js";
 import { UPDATE_EVENT_PROMPT } from "@liexp/shared/lib/providers/openai/prompts/event.prompts.js";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-const defaultQuestion =
-  "Can you give me an excerpt of the given documents? Return the response in JSON format following the provided schema.";
-
-export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
-  job,
-) => {
+export const updateEventFlow: JobProcessRTE<
+  UpdateEventTypeData,
+  MergeEventExtractionResult
+> = (job) => {
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind(
@@ -33,37 +37,25 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
       }
       return fp.RTE.right(UPDATE_EVENT_PROMPT);
     }),
-    fp.RTE.bindW("aiEvent", ({ prompt }) =>
+    fp.RTE.bindW("output", ({ prompt }) =>
       pipe(
-        AgentChatService.getStructuredOutput<ClientContext, Event>({
+        AgentChatService.getStructuredOutput<
+          ClientContext,
+          UpdateEventAgentOutputType
+        >({
           message: `${prompt({
             vars: {
               id: job.data.id,
               type: job.data.type,
             },
-          })}\n\n${job.question ?? defaultQuestion}`,
+          })}${job.question ? `\n\n${job.question}` : ""}`,
           conversationId: null,
           model: job.model ?? undefined,
+          schema: UpdateEventAgentOutput,
         }),
         fp.RTE.mapLeft(toAIBotError),
       ),
     ),
-    fp.RTE.map(
-      ({ event, aiEvent }) =>
-        ({
-          ...event,
-          ...aiEvent,
-          payload: {
-            ...event.payload,
-            ...aiEvent.payload,
-          },
-          id: job.data.id,
-          excerpt: aiEvent.excerpt
-            ? toInitialValue(aiEvent.excerpt)
-            : event.excerpt,
-          body: aiEvent.body ? toInitialValue(aiEvent.body) : event.body,
-          draft: true,
-        }) as Event,
-    ),
+    fp.RTE.map(({ event, output }) => mergeEventExtraction(event, output)),
   );
 };
