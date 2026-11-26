@@ -32,6 +32,14 @@ export {
   UpdateEntitiesFromURLQueueData,
 } from "./UpdateEntitiesFromURLQueue.js";
 
+export {
+  OpenAIUpdateEventQueueType,
+  UpdateEventAgentOutput,
+  UpdateEventAgentOutputChange,
+  UpdateEventAgentOutputMissing,
+  UpdateEventQueueData,
+} from "./event/UpdateEventQueue.js";
+
 export const QueueResourceNames = ResourcesNames;
 export type QueueResourceNames = typeof QueueResourceNames.Type;
 
