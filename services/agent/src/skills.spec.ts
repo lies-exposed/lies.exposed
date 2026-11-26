@@ -41,6 +41,7 @@ describe("agent skills catalog", () => {
     ["event-create", "create a death event"],
     ["event-from-sources", "build one event from several articles"],
     ["event-update-from-source", "update event with new source"],
+    ["event-enrich", "enrich event extract relations"],
     ["fact-check-claim", "is it true this claim, fact check"],
     ["dossier", "dossier on this person"],
     ["money-trail", "follow the money who funded"],
