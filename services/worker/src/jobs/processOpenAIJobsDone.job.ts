@@ -27,10 +27,11 @@ import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import {
   DoneStatus,
   OpenAIUpdateEntitiesFromURLType,
+  OpenAIUpdateEventQueueType,
 } from "@liexp/io/lib/http/Queue/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
-import { Equal, In, type FindOptionsWhere } from "typeorm";
+import { Equal, In, Not, type FindOptionsWhere } from "typeorm";
 import { type RTE } from "../types.js";
 import { type CronJobTE } from "./cron-task.type.js";
 import { type WorkerContext } from "#context/context.js";
@@ -195,24 +196,48 @@ const processDoneJobEventResult =
   (dbService: EntityRepository<EventV2Entity>) =>
   (job: Queue.Queue): RTE<Queue.Queue> =>
     pipe(
-      normalizeEventPayload({ id: job.id, draft: true, ...job.result }),
-      fp.RTE.chain((normalizedResult): RTE<Event> => (_ctx) => {
-        const decoded = Schema.decodeUnknownEither(Event)(normalizedResult);
-        if (fp.E.isLeft(decoded)) {
-          return fp.TE.left(DecodeError.of("Event", decoded.left));
+      // Review gate: `openai-update-event` jobs are applied manually (the
+      // "process queue job" action) after an admin has reviewed the agent
+      // result, so they must not flip a published event back to draft. The
+      // create-from-URL/text/links flows have no event yet and keep injecting
+      // `draft: true` as before.
+      fp.RTE.Do,
+      fp.RTE.bind("draft", () => {
+        if (!Schema.is(OpenAIUpdateEventQueueType)(job.type)) {
+          return fp.RTE.of(true);
         }
-        return fp.TE.right(decoded.right);
+        return pipe(
+          dbService.findOne({
+            where: { id: Equal(job.id) },
+          }),
+          fp.RTE.mapLeft(toWorkerError),
+          fp.RTE.map((existing) =>
+            fp.O.isSome(existing) ? existing.value.draft : true,
+          ),
+        );
       }),
-      fp.RTE.chain((event) =>
-        dbService.save([
-          {
-            ...event,
-            links: event.links.map((id) => ({ id })),
-            media: event.media.map((id) => ({ id })),
-            keywords: event.keywords.map((id) => ({ id })),
-            socialPosts: event.socialPosts?.map((id) => ({ id })),
-          },
-        ]),
+      fp.RTE.chain(({ draft }) =>
+        pipe(
+          normalizeEventPayload({ id: job.id, draft, ...job.result }),
+          fp.RTE.chain((normalizedResult): RTE<Event> => (_ctx) => {
+            const decoded = Schema.decodeUnknownEither(Event)(normalizedResult);
+            if (fp.E.isLeft(decoded)) {
+              return fp.TE.left(DecodeError.of("Event", decoded.left));
+            }
+            return fp.TE.right(decoded.right);
+          }),
+          fp.RTE.chain((event) =>
+            dbService.save([
+              {
+                ...event,
+                links: event.links.map((id) => ({ id })),
+                media: event.media.map((id) => ({ id })),
+                keywords: event.keywords.map((id) => ({ id })),
+                socialPosts: event.socialPosts?.map((id) => ({ id })),
+              },
+            ]),
+          ),
+        ),
       ),
       fp.RTE.map(() => job),
     );
@@ -372,8 +397,13 @@ export const processOpenAIJobsDone: CronJobTE = () => {
     fp.RTE.apS(
       "doneJobs",
       pipe(
+        // `openai-update-event` jobs stay in `done` until an admin reviews the
+        // agent result and triggers the manual process action.
         QueueRepository.find({
-          where: { status: In([DoneStatus.literals[0]]) },
+          where: {
+            status: In([DoneStatus.literals[0]]),
+            type: Not(OpenAIUpdateEventQueueType.literals[0]),
+          },
         }),
         fp.RTE.chainEitherK(QueueIO.decodeMany),
         fp.RTE.mapLeft(toWorkerError),
