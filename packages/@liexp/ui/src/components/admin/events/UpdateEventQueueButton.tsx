@@ -10,8 +10,8 @@ export const UpdateEventQueueButton: React.FC = () => {
   return (
     <Stack spacing={2}>
       <OpenAIEmbeddingJobButton
-        label="AI Update from Links"
-        description="AI will analyze the event's links and update the event with new information"
+        label="AI Enrich Event"
+        description="AI will read the event's links, propose field updates and extract actor, group and keyword relations. The result is reviewed in the queue before it is applied."
         type={QUEUE_TYPE}
         resource={EVENTS.literals[0]}
         transformValue={(v) => v}

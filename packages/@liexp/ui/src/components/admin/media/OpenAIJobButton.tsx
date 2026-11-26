@@ -56,9 +56,14 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
     }
 
     void api
-      .post(`queues/${type}/${resource}`, {
+      .post<Queue.Queue>(`queues/${type}/${resource}`, {
         data: { result: undefined, ...value, prompt, question },
         id,
+      })
+      .then((res) => {
+        if (res?.data) {
+          setQueue(res.data);
+        }
       })
       .finally(() => {
         setId(id);
