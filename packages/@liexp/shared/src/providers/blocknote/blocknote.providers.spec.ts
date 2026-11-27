@@ -134,6 +134,38 @@ describe("blocknote providers", () => {
       expect(getTextContents([])).toBe("");
     });
 
+    test("extracts text from links, headings, quotes and nested lists", () => {
+      const text = (value: string) => ({
+        type: "text",
+        text: value,
+        styles: {},
+      });
+      const block = (
+        type: string,
+        content: unknown[],
+        children: unknown[] = [],
+      ) => ({ type, id: type, props: {}, content, children });
+      const doc = [
+        block("heading", [text("Title")]),
+        block("paragraph", [
+          {
+            type: "link",
+            href: "https://example.com",
+            content: [text("Li"), text("nk")],
+          },
+        ]),
+        block("quote", [text("Quote")]),
+        block(
+          "bulletListItem",
+          [text("Item")],
+          [block("numberedListItem", [text("Nested")])],
+        ),
+      ];
+      expect(getTextContents(blocknoteDocFixture(doc))).toBe(
+        "Title\nLink\nQuote\nItem\nNested",
+      );
+    });
+
     test("handles mixed block types", () => {
       const doc = [
         {
