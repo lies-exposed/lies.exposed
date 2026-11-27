@@ -407,6 +407,33 @@ describe("chat.flow", () => {
       }
     });
 
+    test("calls invoke with the agent as receiver", async () => {
+      // Like langchain's ReactAgent, invoke depends on private members, which
+      // a plain vi.fn() mock cannot catch.
+      class PrivateStateAgent {
+        #content = "Private response";
+        invoke() {
+          return Promise.resolve({
+            messages: [{ id: "msg-private", content: this.#content }],
+          });
+        }
+      }
+      ctx = createMockContext({
+        agentFactory: vi
+          .fn()
+          .mockReturnValue(TE.right(new PrivateStateAgent())),
+      });
+
+      const result = await pipe(
+        sendChatMessage({ message: "test", conversation_id: null })(ctx),
+      )();
+
+      expect(result._tag).toBe("Right");
+      if (result._tag === "Right") {
+        expect(result.right.message.content).toBe("Private response");
+      }
+    });
+
     test("returns Left when agent invoke fails", async () => {
       ctx = createMockContext({
         agentFactory: vi.fn().mockReturnValue(
