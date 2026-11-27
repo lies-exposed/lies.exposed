@@ -11,6 +11,7 @@ import { extractEntitiesFromURL } from "./extract-entities-from-url.js";
 import { extractEvents } from "./extract-events.js";
 import { generateMissingThumbnails } from "./generate-missing-thumbnails.js";
 import { importFromKMZ } from "./import-from-kmz.js";
+import { migrateSlateToBlockNote } from "./migrate-slate-to-blocknote.js";
 import { parseTGMessage } from "./parse-tg-message.js";
 import { setDefaultGroupUsernames } from "./set-default-group-usernames.js";
 import { sharePostMessage } from "./share-post-message.js";
@@ -30,6 +31,7 @@ const commands: Record<string, CommandFlow> = {
   "extract-events": extractEvents,
   "generate-missing-thumbnails": generateMissingThumbnails,
   "import-from-kmz": importFromKMZ,
+  "migrate-slate-to-blocknote": migrateSlateToBlockNote,
   "parse-tg-message": parseTGMessage,
   "set-default-group-usernames": setDefaultGroupUsernames,
   "share-post-message": sharePostMessage,

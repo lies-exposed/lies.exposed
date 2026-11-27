@@ -1,37 +1,44 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { transform as transformBNDocument } from "./transform.utils.js";
-import { type BNBlock, type BNEditorDocument } from "./type.js";
+import { isValidValue } from "./isValidValue.js";
+import { type BNEditorDocument } from "./type.js";
 
-/** Content item inside a BlockNote block's content array */
-interface BNContentItem {
+/** Shape shared by blocks and by the items of their content */
+interface BNNode {
+  type?: string;
   text?: string;
-  content?: string;
+  content?: unknown;
+  children?: BNNode[];
 }
 
-/** BlockNote block with type "text" */
-interface BNTextBlock {
-  type: "text";
-  text: string;
-}
+/** Text of an inline item: links hold their text in a nested content array */
+const inlineText = (item: BNNode): string => {
+  if (typeof item.text === "string") {
+    return item.text;
+  }
+  if (typeof item.content === "string") {
+    return item.content;
+  }
+  if (Array.isArray(item.content)) {
+    return (item.content as BNNode[]).map(inlineText).join("");
+  }
+  return "";
+};
+
+const blockTexts = (block: BNNode): string[] => {
+  if (block.type === "text") {
+    return [block.text ?? ""];
+  }
+
+  const content = Array.isArray(block.content)
+    ? (block.content as BNNode[]).map(inlineText)
+    : [];
+
+  return [...content, ...(block.children ?? []).flatMap(blockTexts)];
+};
 
 export const getTextContents = (blocks: BNEditorDocument): string => {
-  return pipe(
-    transformBNDocument<string>(blocks, (p: BNBlock) => {
-      if (p.type === "paragraph") {
-        const textInContent =
-          p.content?.map((c) => {
-            const item = c as BNContentItem;
-            return item.text ?? item.content ?? "";
-          }) ?? [];
+  if (!isValidValue(blocks)) {
+    return "";
+  }
 
-        return fp.O.some([...textInContent]);
-      }
-
-      if (p.type === "text") {
-        return fp.O.some([(p as unknown as BNTextBlock).text ?? ""]);
-      }
-      return fp.O.none;
-    }),
-    (ss) => (ss === null ? "" : ss.join("\n")),
-  );
+  return (blocks as unknown as BNNode[]).flatMap(blockTexts).join("\n");
 };
