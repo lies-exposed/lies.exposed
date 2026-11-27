@@ -662,11 +662,14 @@ const invokeAgentWithEmptyChoicesRetry = async (
   input: unknown,
   config: unknown,
 ): Promise<unknown> => {
-  const invoke = (agent as { invoke: (...args: unknown[]) => Promise<unknown> })
-    .invoke;
+  // Keep the call on the agent object: ReactAgent.invoke uses private members,
+  // so a detached `invoke` reference throws.
+  const runnable = agent as {
+    invoke: (...args: unknown[]) => Promise<unknown>;
+  };
   for (let attempt = 1; attempt <= EMPTY_CHOICES_MAX_RETRIES + 1; attempt++) {
     try {
-      return await invoke(input, config);
+      return await runnable.invoke(input, config);
     } catch (error) {
       if (!isEmptyChoicesError(error) || attempt > EMPTY_CHOICES_MAX_RETRIES) {
         throw error;
