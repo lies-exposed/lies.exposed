@@ -25,6 +25,20 @@ export interface RaBlockNoteInputProps extends Omit<BNEditorProps, "content"> {
   variant?: "plain" | "extended";
 }
 
+// An empty field (`null` from the API, or a cleared `[]`) must still show an
+// editor, otherwise the content can never be written. `BNEditor` treats an empty
+// array as "no initial content". Other invalid values stay hidden, so that they
+// are not overwritten by accident.
+const formatValue = (value: unknown): unknown => {
+  const isEmpty =
+    value === null ||
+    value === undefined ||
+    value === "" ||
+    (Array.isArray(value) && value.length === 0);
+
+  return isEmpty ? [] : toInitialValue(value);
+};
+
 const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
   label = "Content",
   source,
@@ -41,7 +55,7 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
     field: { value, onChange },
   } = useInput({
     source,
-    format: toInitialValue,
+    format: formatValue,
     defaultValue,
   });
 
@@ -53,9 +67,8 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
   };
 
   // Guard: only render the editor once the record is available AND the field
-  // value is a valid array. Rendering before the record loads or with a null/
-  // undefined field value (from OptionFromNullishToNull schemas) causes BlockNote
-  // to initialize with invalid content, leading to TypeError during render.
+  // value is empty or a valid document. Rendering before the record loads or
+  // with invalid content leads to TypeError during render.
   // See: https://github.com/TypeCellOS/BlockNote/issues/1021
   if (!record || !value || !Array.isArray(value)) {
     return null;
