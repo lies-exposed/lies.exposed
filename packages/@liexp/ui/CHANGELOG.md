@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.10.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.9.0...@liexp/ui@0.10.0) (2026-11-28)
+
+
+### Features
+
+* **admin,ui:** single AI Enrich Event button with JSON result review ([#4225](https://github.com/lies-exposed/lies.exposed/issues/4225)) ([e1c66dc](https://github.com/lies-exposed/lies.exposed/commit/e1c66dcf586db9618bce3d32170289c4ffd132a5))
+
+
+### Bug Fixes
+
+* **ui:** show the editor in BlockNoteInput for empty values ([#4228](https://github.com/lies-exposed/lies.exposed/issues/4228)) ([9129540](https://github.com/lies-exposed/lies.exposed/commit/912954042241110139c9d840ffdfd2dafb1ef483))
+
+
+### Miscellaneous
+
+* **ui:** import named clsx ([#4196](https://github.com/lies-exposed/lies.exposed/issues/4196)) ([e61d49a](https://github.com/lies-exposed/lies.exposed/commit/e61d49a453df7889fe7b160e1acf42f46dc71370))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.10.0
+    * @liexp/io bumped to 0.10.0
+    * @liexp/shared bumped to 0.10.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.10.0
+
 ## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/ui@0.9.0) (2026-11-23)
 
 

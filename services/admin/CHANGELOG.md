@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.10.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.9.0...admin@0.10.0) (2026-11-28)
+
+
+### Features
+
+* **admin,ui:** single AI Enrich Event button with JSON result review ([#4225](https://github.com/lies-exposed/lies.exposed/issues/4225)) ([e1c66dc](https://github.com/lies-exposed/lies.exposed/commit/e1c66dcf586db9618bce3d32170289c4ffd132a5))
+
+
+### Bug Fixes
+
+* **admin:** make the ZeroClaw chat adapter usable ([#4219](https://github.com/lies-exposed/lies.exposed/issues/4219)) ([8cab83a](https://github.com/lies-exposed/lies.exposed/commit/8cab83af603ab27ccb5e41dbf962ee0dac88375d))
+* **ai-bot:** make zeroclaw config optional and fix its spelling ([#4214](https://github.com/lies-exposed/lies.exposed/issues/4214)) ([7cfb025](https://github.com/lies-exposed/lies.exposed/commit/7cfb025ea18e27b7541601aa3dfd286894986cf4))
+* **workspace:** clean up leftover test config issues ([#4220](https://github.com/lies-exposed/lies.exposed/issues/4220)) ([151ffde](https://github.com/lies-exposed/lies.exposed/commit/151ffde87dc283a5b2b89feec758f14e361208e0))
+* **workspace:** stabilise e2e vite cache and fix blocknote test imports ([#4218](https://github.com/lies-exposed/lies.exposed/issues/4218)) ([911fb4c](https://github.com/lies-exposed/lies.exposed/commit/911fb4c8cc6448a0d1c58052d19d4de0460536f4))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.10.0
+    * @liexp/core bumped to 0.10.0
+    * @liexp/io bumped to 0.10.0
+    * @liexp/shared bumped to 0.10.0
+    * @liexp/ui bumped to 0.10.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.10.0
+    * @liexp/test bumped to 0.10.0
+
 ## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...admin@0.9.0) (2026-11-23)
 
 

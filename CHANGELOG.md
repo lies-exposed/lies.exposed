@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.10.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.9.0...lies.exposed@0.10.0) (2026-11-28)
+
+
+### Features
+
+* **shared,worker:** migrate slate excerpts and bodies to blocknote ([#4227](https://github.com/lies-exposed/lies.exposed/issues/4227)) ([903928f](https://github.com/lies-exposed/lies.exposed/commit/903928f3cec6477eee385621acb6c2cdfbaea859))
+
+
+### Bug Fixes
+
+* **admin:** make the ZeroClaw chat adapter usable ([#4219](https://github.com/lies-exposed/lies.exposed/issues/4219)) ([8cab83a](https://github.com/lies-exposed/lies.exposed/commit/8cab83af603ab27ccb5e41dbf962ee0dac88375d))
+* **agent:** call invoke on the agent so non-stream chat works ([#4226](https://github.com/lies-exposed/lies.exposed/issues/4226)) ([70be52e](https://github.com/lies-exposed/lies.exposed/commit/70be52ebc3fbf8484e408dbf3fcb1136bb546d34))
+* **ai-bot:** make zeroclaw config optional and fix its spelling ([#4214](https://github.com/lies-exposed/lies.exposed/issues/4214)) ([7cfb025](https://github.com/lies-exposed/lies.exposed/commit/7cfb025ea18e27b7541601aa3dfd286894986cf4))
+* **ui:** show the editor in BlockNoteInput for empty values ([#4228](https://github.com/lies-exposed/lies.exposed/issues/4228)) ([9129540](https://github.com/lies-exposed/lies.exposed/commit/912954042241110139c9d840ffdfd2dafb1ef483))
+* **workspace:** clean up leftover test config issues ([#4220](https://github.com/lies-exposed/lies.exposed/issues/4220)) ([151ffde](https://github.com/lies-exposed/lies.exposed/commit/151ffde87dc283a5b2b89feec758f14e361208e0))
+* **workspace:** stabilise e2e vite cache and fix blocknote test imports ([#4218](https://github.com/lies-exposed/lies.exposed/issues/4218)) ([911fb4c](https://github.com/lies-exposed/lies.exposed/commit/911fb4c8cc6448a0d1c58052d19d4de0460536f4))
+
+
+### Miscellaneous
+
+* **agent:** remove stale CF Access settings from ai-bot ([#4215](https://github.com/lies-exposed/lies.exposed/issues/4215)) ([944e94b](https://github.com/lies-exposed/lies.exposed/commit/944e94ba87315ebad12970590a64ab4854d658d6))
+* **workspace:** remove graphify-out ignore rule ([#4217](https://github.com/lies-exposed/lies.exposed/issues/4217)) ([02d4b75](https://github.com/lies-exposed/lies.exposed/commit/02d4b751b28bf7cd7d79db4bda65cc08c63894c4))
+* **workspace:** use localai-gateway aliases and drop graphify ([#4216](https://github.com/lies-exposed/lies.exposed/issues/4216)) ([ede081d](https://github.com/lies-exposed/lies.exposed/commit/ede081d26582f6ef4effa787cc9597787ff6fe4d))
+
 ## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...lies.exposed@0.9.0) (2026-11-23)
 
 
