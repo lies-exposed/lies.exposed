@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.10.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.9.0...@liexp/shared@0.10.0) (2026-11-28)
+
+
+### Features
+
+* **ai-bot,shared:** update-event flow uses the event-enrich skill and schema ([#4224](https://github.com/lies-exposed/lies.exposed/issues/4224)) ([2ba05ca](https://github.com/lies-exposed/lies.exposed/commit/2ba05ca4a4858bbe586b9f7e8c18253f2623dd51))
+* **io,shared:** event extraction output schema and merge helper ([#4221](https://github.com/lies-exposed/lies.exposed/issues/4221)) ([4b9c989](https://github.com/lies-exposed/lies.exposed/commit/4b9c989d10daf1c4ca0dde8157dcb65d9233a32c))
+* **shared,worker:** migrate slate excerpts and bodies to blocknote ([#4227](https://github.com/lies-exposed/lies.exposed/issues/4227)) ([903928f](https://github.com/lies-exposed/lies.exposed/commit/903928f3cec6477eee385621acb6c2cdfbaea859))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.10.0
+    * @liexp/io bumped to 0.10.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.10.0
+    * @liexp/test bumped to 0.10.0
+
 ## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/shared@0.9.0) (2026-11-23)
 
 

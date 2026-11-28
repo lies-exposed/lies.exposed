@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.10.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.9.0...api@0.10.0) (2026-11-28)
+
+
+### Bug Fixes
+
+* **workspace:** clean up leftover test config issues ([#4220](https://github.com/lies-exposed/lies.exposed/issues/4220)) ([151ffde](https://github.com/lies-exposed/lies.exposed/commit/151ffde87dc283a5b2b89feec758f14e361208e0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.10.0
+    * @liexp/core bumped to 0.10.0
+    * @liexp/io bumped to 0.10.0
+    * @liexp/shared bumped to 0.10.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.10.0
+    * @liexp/test bumped to 0.10.0
+
 ## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...api@0.9.0) (2026-11-23)
 
 

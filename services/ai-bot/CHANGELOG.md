@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.10.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.9.0...ai-bot@0.10.0) (2026-11-28)
+
+
+### Features
+
+* **ai-bot,shared:** update-event flow uses the event-enrich skill and schema ([#4224](https://github.com/lies-exposed/lies.exposed/issues/4224)) ([2ba05ca](https://github.com/lies-exposed/lies.exposed/commit/2ba05ca4a4858bbe586b9f7e8c18253f2623dd51))
+
+
+### Bug Fixes
+
+* **ai-bot:** make zeroclaw config optional and fix its spelling ([#4214](https://github.com/lies-exposed/lies.exposed/issues/4214)) ([7cfb025](https://github.com/lies-exposed/lies.exposed/commit/7cfb025ea18e27b7541601aa3dfd286894986cf4))
+
+
+### Miscellaneous
+
+* **agent:** remove stale CF Access settings from ai-bot ([#4215](https://github.com/lies-exposed/lies.exposed/issues/4215)) ([944e94b](https://github.com/lies-exposed/lies.exposed/commit/944e94ba87315ebad12970590a64ab4854d658d6))
+* **workspace:** use localai-gateway aliases and drop graphify ([#4216](https://github.com/lies-exposed/lies.exposed/issues/4216)) ([ede081d](https://github.com/lies-exposed/lies.exposed/commit/ede081d26582f6ef4effa787cc9597787ff6fe4d))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.10.0
+    * @liexp/core bumped to 0.10.0
+    * @liexp/io bumped to 0.10.0
+    * @liexp/shared bumped to 0.10.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.10.0
+
 ## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...ai-bot@0.9.0) (2026-11-23)
 
 

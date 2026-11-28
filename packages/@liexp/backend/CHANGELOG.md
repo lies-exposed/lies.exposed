@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.10.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.9.0...@liexp/backend@0.10.0) (2026-11-28)
+
+
+### Bug Fixes
+
+* **ai-bot:** make zeroclaw config optional and fix its spelling ([#4214](https://github.com/lies-exposed/lies.exposed/issues/4214)) ([7cfb025](https://github.com/lies-exposed/lies.exposed/commit/7cfb025ea18e27b7541601aa3dfd286894986cf4))
+* **workspace:** clean up leftover test config issues ([#4220](https://github.com/lies-exposed/lies.exposed/issues/4220)) ([151ffde](https://github.com/lies-exposed/lies.exposed/commit/151ffde87dc283a5b2b89feec758f14e361208e0))
+* **workspace:** stabilise e2e vite cache and fix blocknote test imports ([#4218](https://github.com/lies-exposed/lies.exposed/issues/4218)) ([911fb4c](https://github.com/lies-exposed/lies.exposed/commit/911fb4c8cc6448a0d1c58052d19d4de0460536f4))
+
+
+### Miscellaneous
+
+* **workspace:** use localai-gateway aliases and drop graphify ([#4216](https://github.com/lies-exposed/lies.exposed/issues/4216)) ([ede081d](https://github.com/lies-exposed/lies.exposed/commit/ede081d26582f6ef4effa787cc9597787ff6fe4d))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.10.0
+    * @liexp/io bumped to 0.10.0
+    * @liexp/shared bumped to 0.10.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.10.0
+    * @liexp/test bumped to 0.10.0
+
 ## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/backend@0.9.0) (2026-11-23)
 
 

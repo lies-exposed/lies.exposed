@@ -1,5 +1,38 @@
 # Changelog
 
+## [0.10.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.9.0...agent@0.10.0) (2026-11-28)
+
+
+### Features
+
+* **agent:** add read-only event-enrich skill ([#4223](https://github.com/lies-exposed/lies.exposed/issues/4223)) ([79973af](https://github.com/lies-exposed/lies.exposed/commit/79973af1ea45332f70ff690d70c34046fe941153))
+
+
+### Bug Fixes
+
+* **agent:** call invoke on the agent so non-stream chat works ([#4226](https://github.com/lies-exposed/lies.exposed/issues/4226)) ([70be52e](https://github.com/lies-exposed/lies.exposed/commit/70be52ebc3fbf8484e408dbf3fcb1136bb546d34))
+* **agent:** scope skills, surface step-limit stops, log tool calls ([#4210](https://github.com/lies-exposed/lies.exposed/issues/4210)) ([2895921](https://github.com/lies-exposed/lies.exposed/commit/2895921273965ab42694010386414217c1b4fbd0))
+* **workspace:** clean up leftover test config issues ([#4220](https://github.com/lies-exposed/lies.exposed/issues/4220)) ([151ffde](https://github.com/lies-exposed/lies.exposed/commit/151ffde87dc283a5b2b89feec758f14e361208e0))
+
+
+### Miscellaneous
+
+* **agent:** remove stale CF Access settings from ai-bot ([#4215](https://github.com/lies-exposed/lies.exposed/issues/4215)) ([944e94b](https://github.com/lies-exposed/lies.exposed/commit/944e94ba87315ebad12970590a64ab4854d658d6))
+* **workspace:** use localai-gateway aliases and drop graphify ([#4216](https://github.com/lies-exposed/lies.exposed/issues/4216)) ([ede081d](https://github.com/lies-exposed/lies.exposed/commit/ede081d26582f6ef4effa787cc9597787ff6fe4d))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.10.0
+    * @liexp/core bumped to 0.10.0
+    * @liexp/io bumped to 0.10.0
+    * @liexp/shared bumped to 0.10.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.10.0
+    * @liexp/test bumped to 0.10.0
+
 ## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...agent@0.9.0) (2026-11-23)
 
 

@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.10.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.9.0...worker@0.10.0) (2026-11-28)
+
+
+### Features
+
+* **shared,worker:** migrate slate excerpts and bodies to blocknote ([#4227](https://github.com/lies-exposed/lies.exposed/issues/4227)) ([903928f](https://github.com/lies-exposed/lies.exposed/commit/903928f3cec6477eee385621acb6c2cdfbaea859))
+* **worker:** gate openai-update-event jobs behind manual review ([#4222](https://github.com/lies-exposed/lies.exposed/issues/4222)) ([554b57e](https://github.com/lies-exposed/lies.exposed/commit/554b57ea0551c69a0c8746e3d0a29494331f0940))
+
+
+### Bug Fixes
+
+* **workspace:** clean up leftover test config issues ([#4220](https://github.com/lies-exposed/lies.exposed/issues/4220)) ([151ffde](https://github.com/lies-exposed/lies.exposed/commit/151ffde87dc283a5b2b89feec758f14e361208e0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.10.0
+    * @liexp/core bumped to 0.10.0
+    * @liexp/io bumped to 0.10.0
+    * @liexp/shared bumped to 0.10.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.10.0
+    * @liexp/test bumped to 0.10.0
+
 ## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...worker@0.9.0) (2026-11-23)
 
 

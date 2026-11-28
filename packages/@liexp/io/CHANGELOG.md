@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.10.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.9.0...@liexp/io@0.10.0) (2026-11-28)
+
+
+### Features
+
+* **io,shared:** event extraction output schema and merge helper ([#4221](https://github.com/lies-exposed/lies.exposed/issues/4221)) ([4b9c989](https://github.com/lies-exposed/lies.exposed/commit/4b9c989d10daf1c4ca0dde8157dcb65d9233a32c))
+* **worker:** gate openai-update-event jobs behind manual review ([#4222](https://github.com/lies-exposed/lies.exposed/issues/4222)) ([554b57e](https://github.com/lies-exposed/lies.exposed/commit/554b57ea0551c69a0c8746e3d0a29494331f0940))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.10.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.10.0
+
 ## [0.9.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.8.0...@liexp/io@0.9.0) (2026-11-23)
 
 
